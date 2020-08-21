@@ -1,0 +1,6 @@
+pip
+csvs-to-sqlite
+datasette
+pandas
+pdftotext
+python-slugify
