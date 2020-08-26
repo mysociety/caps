@@ -62,12 +62,12 @@ def add_text_to_csv():
     # add a text column to the CSV
     df['text'] = pd.Series([None] * rows, index=df.index)
 
+
     # convert each PDF to text and add the text to the column
     for pdf_path in glob.glob(join(PLANS_DIR, "*.pdf")):
         with open(pdf_path, "rb") as f:
             pdf_filename = basename(pdf_path)
             index = int(pdf_filename.split('-')[0])
-            print(index)
             try:
                 pdf = pdftotext.PDF(f)
                 df.at[index, 'text'] = " ".join(pdf).replace('\n', ' ')
