@@ -105,6 +105,7 @@ def replace_headers():
     df.to_csv(open(PROCESSED_CSV, "w"), index=False, header=True)
 
 def convert_csv_to_sqlite():
+    os.remove(DB)
     os.system(f"csvs-to-sqlite {PROCESSED_CSV} {DB} -f text")
 
 
