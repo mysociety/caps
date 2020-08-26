@@ -1,0 +1,1 @@
+datasette data/plans.db -h 0.0.0.0 --static static:data/plans

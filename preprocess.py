@@ -24,11 +24,17 @@ PROCESSED_CSV = join(DATA_DIR, PROCESSED_CSV_NAME)
 DB_NAME = 'plans.db'
 DB = join(DATA_DIR, DB_NAME)
 PLANS_DIR = join(DATA_DIR, 'plans')
+PUBLISH_URL = 'https://council-climate-action-plans.herokuapp.com/static/'
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
 def get_individual_plans():
     df = pd.read_csv(PROCESSED_CSV)
+    rows = len(df['council'])
+
+    # add a file column to the CSV
+    df['plan_link'] = pd.Series([None] * rows, index=df.index)
+
     rows_with_urls = df['url'].notnull()
     for index, row in df[rows_with_urls].iterrows():
         url = urlparse(row['url'])
@@ -41,9 +47,13 @@ def get_individual_plans():
             local_path = join(PLANS_DIR, new_filename)
             if not os.path.isfile(local_path):
                 urllib.request.urlretrieve(row['url'], local_path)
+            df.at[index, 'plan_link'] = PUBLISH_URL + new_filename
 
         except (urllib.error.HTTPError, urllib.error.URLError) as err:
             print(f"Error with {row['council']} {row['url']}: {err}")
+
+    df.to_csv(open(PROCESSED_CSV, "w"), index=False, header=True)
+
 
 def add_text_to_csv():
     df = pd.read_csv(PROCESSED_CSV)
