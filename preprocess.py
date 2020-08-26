@@ -11,6 +11,9 @@ import pandas as pd
 from slugify import slugify
 import pdftotext
 
+import ssl
+
+
 DATA_DIR = 'data'
 PLANS_CSV_KEY = '1tEnjJRaWsdXtCkMwA25-ZZ8D75zAY6c2GOOeUchZsnU'
 SHEET_NAME = 'Councils'
@@ -21,6 +24,8 @@ PROCESSED_CSV = join(DATA_DIR, PROCESSED_CSV_NAME)
 DB_NAME = 'plans.db'
 DB = join(DATA_DIR, DB_NAME)
 PLANS_DIR = join(DATA_DIR, 'plans')
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 def get_individual_plans():
     df = pd.read_csv(PROCESSED_CSV)
