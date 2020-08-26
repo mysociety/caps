@@ -1,4 +1,4 @@
-from os.path import join, basename, splitext
+from os.path import join, basename, splitext, isfile
 import os
 import sys
 import glob
@@ -33,7 +33,10 @@ def get_individual_plans():
         # row index will change if rows are inserted in original sheet
         new_filename = f"{index}-{slugify(row['council'])}" + extension
         try:
-            urllib.request.urlretrieve(row['url'], join(PLANS_DIR, new_filename))
+            local_path = join(PLANS_DIR, new_filename)
+            if not os.path.isfile(local_path):
+                urllib.request.urlretrieve(row['url'], local_path)
+
         except (urllib.error.HTTPError, urllib.error.URLError) as err:
             print(f"Error with {row['council']} {row['url']}: {err}")
 
