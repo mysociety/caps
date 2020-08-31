@@ -52,6 +52,7 @@ def get_individual_plans():
         try:
             local_path = join(PLANS_DIR, new_filename)
             if not os.path.isfile(local_path):
+                print(f"Trying {row['url']} for {row['council']}")
                 urllib.request.urlretrieve(row['url'], local_path)
             df.at[index, 'plan_link'] = PUBLISH_URL + new_filename
 
@@ -115,9 +116,14 @@ def convert_csv_to_sqlite():
     os.system(f"csvs-to-sqlite {PROCESSED_CSV} {DB} -f text")
 
 
+print("getting the csv")
 get_plans_csv()
+print("replacing headers")
 replace_headers()
+print('getting plans')
 get_individual_plans()
+print("adding text to the csv")
 add_text_to_csv()
+print("converting to sqlite")
 convert_csv_to_sqlite()
 
