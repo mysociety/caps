@@ -2,6 +2,7 @@ from os.path import join, basename, splitext, isfile
 import os
 import sys
 import glob
+import hashlib
 
 import urllib.request
 from urllib.parse import urlparse
@@ -28,6 +29,13 @@ PUBLISH_URL = 'https://council-climate-action-plans.herokuapp.com/static/'
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
+def get_url_hash(url):
+  return hashlib.md5(url.encode('utf-8')).hexdigest()[:7]
+
+
+def get_plan_filename(row):
+  return f"{slugify(row['council'])}-{get_url_hash(row['url'])}"
+
 def get_individual_plans():
     df = pd.read_csv(PROCESSED_CSV)
     rows = len(df['council'])
@@ -40,9 +48,7 @@ def get_individual_plans():
         url = urlparse(row['url'])
         filepath, extension = splitext(url.path)
         filename = basename(url.path)
-        # TODO: Need a solution for multiple rows per council but
-        # row index will change if rows are inserted in original sheet
-        new_filename = f"{index}-{slugify(row['council'])}" + extension
+        new_filename = get_plan_filename(row) + extension
         try:
             local_path = join(PLANS_DIR, new_filename)
             if not os.path.isfile(local_path):
@@ -67,7 +73,7 @@ def add_text_to_csv():
     for pdf_path in glob.glob(join(PLANS_DIR, "*.pdf")):
         with open(pdf_path, "rb") as f:
             pdf_filename = basename(pdf_path)
-            index = int(pdf_filename.split('-')[0])
+            index = df[df['plan_link'] == PUBLISH_URL + pdf_filename].index.values[0]
             try:
                 pdf = pdftotext.PDF(f)
                 df.at[index, 'text'] = " ".join(pdf).replace('\n', ' ')
