@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# abort on any errors
+set -e
+
+# check that we are in the expected directory
+cd `dirname $0`/..
+
+python script/preprocess.py
+python script/add_authority_codes.py
+python script/add_council_websites.py
+python script/add_text.py
+python script/convert_to_sqlite.py
