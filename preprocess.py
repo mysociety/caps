@@ -113,6 +113,7 @@ def replace_headers():
                   'credit',
                   'url',
                   'date_retrieved',
+                  'time_period',
                   'type',
                   'scope',
                   'status',
