@@ -4,3 +4,4 @@ datasette
 pandas
 pdftotext
 python-slugify
+requests

@@ -4,7 +4,7 @@ import sys
 import glob
 import hashlib
 
-import urllib.request
+import requests
 from urllib.parse import urlparse
 
 import pandas as pd
@@ -49,15 +49,24 @@ def get_individual_plans():
         filepath, extension = splitext(url.path)
         filename = basename(url.path)
         new_filename = get_plan_filename(row) + extension
-        try:
-            local_path = join(PLANS_DIR, new_filename)
-            if not os.path.isfile(local_path):
-                print(f"Trying {row['url']} for {row['council']}")
-                urllib.request.urlretrieve(row['url'], local_path)
-            df.at[index, 'plan_link'] = PUBLISH_URL + new_filename
+        local_path = join(PLANS_DIR, new_filename)
+        if not os.path.isfile(local_path):
+            print(f"Trying {row['url']} for {row['council']} {new_filename}")
+            try:
+                headers = {
+                    'User-Agent': 'mySociety Council climate action plans search',
+                }
 
-        except (urllib.error.HTTPError, urllib.error.URLError) as err:
-            print(f"Error with {row['council']} {row['url']}: {err}")
+                r = requests.get(row['url'], headers=headers)
+                r.raise_for_status()
+                with open(local_path, 'wb') as outfile:
+                    outfile.write(r.content)
+            except requests.exceptions.HTTPError as err:
+                print(f"Error with {row['council']} {row['url']}: {err}")
+
+        df.at[index, 'plan_link'] = PUBLISH_URL + new_filename
+
+
 
     df.to_csv(open(PROCESSED_CSV, "w"), index=False, header=True)
 
@@ -87,7 +96,9 @@ def add_text_to_csv():
 def get_plans_csv():
     # Get the google doc as a CSV file
     sheet_url = f"https://docs.google.com/spreadsheets/d/{PLANS_CSV_KEY}/gviz/tq?tqx=out:csv&sheet={SHEET_NAME}"
-    filename, headers = urllib.request.urlretrieve(sheet_url, RAW_CSV)
+    r = requests.get(sheet_url)
+    with open(RAW_CSV, 'wb') as outfile:
+        outfile.write(r.content)
 
 # Replace the column header lines
 def replace_headers():
