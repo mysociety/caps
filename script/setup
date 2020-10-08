@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# abort on any errors
+set -e
+
+# check that we are in the expected directory
+cd `dirname $0`/..
+
+# Set up Python packages in a virtualenv
+script/bootstrap
