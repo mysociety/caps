@@ -19,6 +19,7 @@ Then SSH into the VM, and run the server script:
 
 ```
 vagrant ssh
+source ../venv/bin/activate
 script/server
 ```
 
