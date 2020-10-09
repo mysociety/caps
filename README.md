@@ -1,37 +1,26 @@
 # caps
 
-# Install
+## Viewing the prototype
 
-Clone the repository
+Visit <https://mysociety.github.io/caps>.
 
-```
-git clone git@github.com:crowbot/caps.git
-cd caps
-```
+## Building the prototype locally
 
-A Vagrantfile is included for local development. Assuming you have [Vagrant](https://www.vagrantup.com/) installed, you can create a Vagrant VM with:
+The prototype is built with Jekyll. If you don’t already have Jekyll installed on your computer, you’ll need:
 
-```
-vagrant up
-```
+* a working [Ruby](https://www.ruby-lang.org/en/) environment
+* [Bundler](https://bundler.io/)
 
-Then SSH into the VM, and run the server script:
+You can then install Jekyll (as part of the `github-pages` Gem) by running this, inside the project directory:
 
-```
-vagrant ssh
-source ../venv/bin/activate
-script/server
-```
+    bundle install
 
-The site will be visible at <http://localhost:8001>.
+With Jekyll installed through Bundler, you can build the site with:
 
-# Get and preprocess data
+    bundle exec jekyll serve --baseurl ''
 
-```
-script/update
-```
+If that’s a bit long to type, and you have Make installed (you probably do), then you can use our shortcut:
 
-# Publish
+    make run
 
-```
-script/publish
+Jekyll will process the HTML templates and Sass files, and serve the site locally, at <http://localhost:4000> by default.

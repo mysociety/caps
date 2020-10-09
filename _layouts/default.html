@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+    <!--[if lt IE 9]>
+    <script src="{{ '/vendor/html5shiv/html5shiv.js' | prepend: site.baseurl }}"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@600&display=swap"> 
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+</head>
+<body class="{% if page.bodyclass %}{{ page.bodyclass }}{% endif %}">
+    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
+
+    {{ content }}
+
+    <script src="{{ '/vendor/jquery/jquery-3.5.1.min.js' | relative_url }}"></script>
+    <script src="{{ '/vendor/bootstrap/js/bootstrap.bundle.min.js' | relative_url }}"></script>
+</body>
+</html>

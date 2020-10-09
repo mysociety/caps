@@ -1,0 +1,18 @@
+title: "Data | Declare a Climate Emergency"
+
+description: >
+  Data on climate emergency promises and action plans from district councils, unitary councils, metropolitan boroughs, and county councils, in England, Scotland, and Wales.
+
+host: 0.0.0.0
+
+markdown: kramdown
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+
+sass:
+  load_paths:
+    - _sass
+    - vendor
