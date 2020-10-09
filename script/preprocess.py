@@ -34,20 +34,62 @@ def get_plan_filename(row):
     return f"{slugify(row['council'])}-{get_url_hash(row['url'])}"
 
 def set_file_attributes(df, index, content_type, extension):
-  content_type = content_type.lower()
-  extension = extension.lower()
-  content_type_info = content_type.split(';', 2)
-  file_type = content_type_info[0].strip()
-  if len(content_type_info) > 1:
-    charset = content_type_info[1].replace('charset=', '').strip()
-    df.at[index, 'charset'] = charset
+    content_type = content_type.lower()
+    extension = extension.lower()
+    content_type_info = content_type.split(';', 2)
+    file_type = content_type_info[0].strip()
+    if len(content_type_info) > 1:
+        charset = content_type_info[1].replace('charset=', '').strip()
+        df.at[index, 'charset'] = charset
 
-  if file_type == 'application/pdf' or extension == 'pdf':
-    df.at[index, 'file_type'] = 'pdf'
-  elif file_type == 'text/html':
-    df.at[index, 'file_type'] = 'html'
-  else:
-    print("Unknown content type: " + content_type)
+    if file_type == 'application/pdf' or extension == 'pdf':
+        df.at[index, 'file_type'] = 'pdf'
+    elif file_type == 'text/html':
+        df.at[index, 'file_type'] = 'html'
+    else:
+        print("Unknown content type: " + content_type)
+
+class MissingContentTypeException(Exception):
+    pass
+
+def check_or_get(url, headers, local_path, retry=False):
+    # If we already have a plan, try just checking the headers before getting it again
+    try:
+        if os.path.isfile(local_path) and not retry:
+            method = 'HEAD'
+            r = requests.head(url, headers=headers, verify=False)
+        else:
+            method = 'GET'
+            r = requests.get(url, headers=headers, verify=False)
+        r.raise_for_status()
+        if r.headers.get('content-type') is None:
+            raise MissingContentTypeException
+    except (requests.exceptions.RequestException, MissingContentTypeException) as err:
+        if method == 'HEAD':
+            return check_or_get(url, headers, local_path, retry=True)
+        else:
+            raise err
+    return r
+
+def get_plan(row, index, df):
+    url = row['url']
+    council = row['council']
+    url_parts = urlparse(url)
+    filepath, extension = splitext(url_parts.path)
+    new_filename = get_plan_filename(row)
+    local_path = join(PLANS_DIR, new_filename)
+    headers = {
+            'User-Agent': 'mySociety Council climate action plans search',
+    }
+    try:
+        r = check_or_get(url, headers, local_path)
+        set_file_attributes(df, index, r.headers.get('content-type'), extension)
+        df.at[index, 'plan_link'] = PUBLISH_URL + new_filename
+        if not os.path.isfile(local_path):
+            with open(local_path, 'wb') as outfile:
+                outfile.write(r.content)
+    except (requests.exceptions.RequestException, MissingContentTypeException) as err:
+        print(f"Error {council} {url}: {err}")
 
 def get_individual_plans():
     df = pd.read_csv(PROCESSED_CSV)
@@ -62,31 +104,9 @@ def get_individual_plans():
 
     rows_with_urls = df['url'].notnull()
     for index, row in df[rows_with_urls].iterrows():
-        url = urlparse(row['url'])
-        filepath, extension = splitext(url.path)
-        filename = basename(url.path)
-        new_filename = get_plan_filename(row)
-        local_path = join(PLANS_DIR, new_filename)
-        if not os.path.isfile(local_path):
-          try:
-              headers = {
-                  'User-Agent': 'mySociety Council climate action plans search',
-              }
-
-              r = requests.get(row['url'], headers=headers, verify=False)
-              r.raise_for_status()
-              set_file_attributes(df, index, r.headers.get('content-type'), extension)
-
-              with open(local_path, 'wb') as outfile:
-                  outfile.write(r.content)
-              df.at[index, 'plan_link'] = PUBLISH_URL + new_filename
-          except requests.exceptions.RequestException as err:
-              print(f"Error with {row['council']} {row['url']}: {err}")
-
+        get_plan(row, index, df)
 
     df.to_csv(open(PROCESSED_CSV, "w"), index=False, header=True)
-
-
 
 def get_plans_csv():
     # Get the google doc as a CSV file
