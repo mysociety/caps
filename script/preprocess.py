@@ -28,11 +28,10 @@ ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def get_url_hash(url):
-  return hashlib.md5(url.encode('utf-8')).hexdigest()[:7]
+    return hashlib.md5(url.encode('utf-8')).hexdigest()[:7]
 
 def get_plan_filename(row):
-  return f"{slugify(row['council'])}-{get_url_hash(row['url'])}"
-
+    return f"{slugify(row['council'])}-{get_url_hash(row['url'])}"
 
 def set_file_attributes(df, index, content_type, extension):
   content_type = content_type.lower()
