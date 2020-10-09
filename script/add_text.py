@@ -18,9 +18,11 @@ def add_text_to_csv():
     # add a text column to the CSV
     df['text'] = pd.Series([None] * rows, index=df.index)
 
-
     # convert each PDF to text and add the text to the column
-    for pdf_path in glob.glob(join(PLANS_DIR, "*.pdf")):
+    pdf_rows = df['file_type'] == 'pdf'
+    for index, row in df[pdf_rows].iterrows():
+        filename = basename(row['plan_link'])
+        pdf_path = join(PLANS_DIR, filename)
         with open(pdf_path, "rb") as f:
             pdf_filename = basename(pdf_path)
             index = df[df['plan_link'] == PUBLISH_URL + pdf_filename].index.values[0]

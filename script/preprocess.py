@@ -30,9 +30,25 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def get_url_hash(url):
   return hashlib.md5(url.encode('utf-8')).hexdigest()[:7]
 
-
 def get_plan_filename(row):
   return f"{slugify(row['council'])}-{get_url_hash(row['url'])}"
+
+
+def set_file_attributes(df, index, content_type, extension):
+  content_type = content_type.lower()
+  extension = extension.lower()
+  content_type_info = content_type.split(';', 2)
+  file_type = content_type_info[0].strip()
+  if len(content_type_info) > 1:
+    charset = content_type_info[1].replace('charset=', '').strip()
+    df.at[index, 'charset'] = charset
+
+  if file_type == 'application/pdf' or extension == 'pdf':
+    df.at[index, 'file_type'] = 'pdf'
+  elif file_type == 'text/html':
+    df.at[index, 'file_type'] = 'html'
+  else:
+    print("Unknown content type: " + content_type)
 
 def get_individual_plans():
     df = pd.read_csv(PROCESSED_CSV)
@@ -41,30 +57,32 @@ def get_individual_plans():
     # add a file column to the CSV
     df['plan_link'] = pd.Series([None] * rows, index=df.index)
 
+    # add a file type and charset column to the CSV
+    df['file_type'] = pd.Series([None] * rows, index=df.index)
+    df['charset'] = pd.Series([None] * rows, index=df.index)
+
     rows_with_urls = df['url'].notnull()
     for index, row in df[rows_with_urls].iterrows():
         url = urlparse(row['url'])
         filepath, extension = splitext(url.path)
         filename = basename(url.path)
-        new_filename = get_plan_filename(row) + extension
+        new_filename = get_plan_filename(row)
         local_path = join(PLANS_DIR, new_filename)
         if not os.path.isfile(local_path):
-            print(f"Trying {row['url']} for {row['council']} {new_filename}")
-            try:
-                headers = {
-                    'User-Agent': 'mySociety Council climate action plans search',
-                }
+          try:
+              headers = {
+                  'User-Agent': 'mySociety Council climate action plans search',
+              }
 
-                r = requests.get(row['url'], headers=headers, verify=False)
-                r.raise_for_status()
-                with open(local_path, 'wb') as outfile:
-                    outfile.write(r.content)
-            except requests.exceptions.HTTPError as err:
-                print(f"Error with {row['council']} {row['url']}: {err}")
+              r = requests.get(row['url'], headers=headers, verify=False)
+              r.raise_for_status()
+              set_file_attributes(df, index, r.headers.get('content-type'), extension)
 
-        df.at[index, 'plan_link'] = PUBLISH_URL + new_filename
-
-
+              with open(local_path, 'wb') as outfile:
+                  outfile.write(r.content)
+              df.at[index, 'plan_link'] = PUBLISH_URL + new_filename
+          except requests.exceptions.HTTPError as err:
+              print(f"Error with {row['council']} {row['url']}: {err}")
 
     df.to_csv(open(PROCESSED_CSV, "w"), index=False, header=True)
 
