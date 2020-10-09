@@ -81,8 +81,9 @@ def get_individual_plans():
               with open(local_path, 'wb') as outfile:
                   outfile.write(r.content)
               df.at[index, 'plan_link'] = PUBLISH_URL + new_filename
-          except requests.exceptions.HTTPError as err:
+          except requests.exceptions.RequestException as err:
               print(f"Error with {row['council']} {row['url']}: {err}")
+
 
     df.to_csv(open(PROCESSED_CSV, "w"), index=False, header=True)
 
