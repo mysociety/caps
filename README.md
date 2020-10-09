@@ -25,6 +25,12 @@ script/server
 
 The site will be visible at <http://localhost:8001>.
 
+# Get and preprocess data
+
+```
+script/update
+```
+
 # Publish
 
 ```
