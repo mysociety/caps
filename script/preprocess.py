@@ -5,6 +5,7 @@ import hashlib
 
 import requests
 from urllib.parse import urlparse
+import urllib3
 
 import pandas as pd
 
@@ -24,6 +25,7 @@ PLANS_DIR = join(DATA_DIR, 'plans')
 PUBLISH_URL = 'https://council-climate-action-plans.herokuapp.com/static/'
 
 ssl._create_default_https_context = ssl._create_unverified_context
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def get_url_hash(url):
   return hashlib.md5(url.encode('utf-8')).hexdigest()[:7]
@@ -53,7 +55,7 @@ def get_individual_plans():
                     'User-Agent': 'mySociety Council climate action plans search',
                 }
 
-                r = requests.get(row['url'], headers=headers)
+                r = requests.get(row['url'], headers=headers, verify=False)
                 r.raise_for_status()
                 with open(local_path, 'wb') as outfile:
                     outfile.write(r.content)
