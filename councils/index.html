@@ -1,0 +1,87 @@
+---
+layout: default
+title: "Browse all councils"
+bodyclass: "councils"
+---
+
+<div class="card ceuk-card ceuk-card--orange mb-3 mb-md-4 mb-lg-5">
+    <div class="card-header">
+        <h1>Browse data from all councils</h1>
+    </div>
+    <div class="ceuk-data-table">
+        <div class="ceuk-data-table__filters">
+            <form class="row">
+                <div class="col-auto">
+                    <label for="filter-name">Council name</label>
+                    <input type="text" class="form-control form-control-sm" id="filter-name">
+                </div>
+                <div class="col-auto">
+                    <label for="filter-type">Council type</label>
+                    <select class="form-control form-control-sm" id="filter-type">
+                        <option selected="selected">All</option>
+                        <option value="UA">Unitary</option>
+                        <option value="NMD">District</option>
+                        <option value="MD">Metropolitan Borough</option>
+                        <option value="LBO">London Borough</option>
+                        <option value="CTY">County</option>
+                        <option value="COMB">Combined Authority</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <label for="filter-country">Country</label>
+                    <select class="form-control form-control-sm" id="filter-country">
+                        <option selected="selected">All</option>
+                        <option>England</option>
+                        <option>Scotland</option>
+                        <option>Wales</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <label for="filter-plan">Has plan</label>
+                    <select class="form-control form-control-sm" id="filter-plan">
+                        <option selected="selected">All</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <div class="col-auto d-flex align-items-end">
+                    <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+                </div>
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Council name</th>
+                    <th scope="col">Has plan</th>
+                    <th scope="col">Council emissions</th>
+                    <th scope="col">Area emissions</th>
+                </tr>
+            </thead>
+            <tbody>
+              {% for plan in site.data.plans %}
+                <tr data-council-name="{{ plan.council }}" data-authority-type="{{ plan.authority_type }}" data-has-plan="{% if plan.url %}yes{% else %}no{% endif %}">
+                    <td data-column="council-name"><a href="{{ '/council/' | append: plan.authority_code | relative_url }}">{{ plan.council }}</a></td>
+                    <td data-column="has-plan">
+                      {% if plan.url %}
+                        {% include icons/check-circle-fill.html classes="mr-1" %}
+                        Yes
+                      {% else %}
+                        {% include icons/question-circle.html classes="mr-1" %}
+                        No
+                      {% endif %}
+                    </td>
+                    <td data-column="council-emissions">
+                        (sparkline)
+                        (number)
+                    </td>
+                    <td data-column="area-emissions">
+                        (sparkline)
+                        (number)
+                    </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

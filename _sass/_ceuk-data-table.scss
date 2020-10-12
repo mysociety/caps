@@ -1,0 +1,44 @@
+.ceuk-data-table {
+    position: relative;
+
+    .ceuk-data-table__filters {
+        background-color: $color-ceuk-grey-100;
+        padding: 1.25rem;
+
+        @include media-breakpoint-up('lg') {
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid $border-color;
+            margin-bottom: -1px;
+        }
+    }
+
+    table tr {
+        & > :first-child {
+            padding-left: 1.25rem;
+        }
+
+        & > :last-child {
+            padding-right: 1.25rem;
+        }
+    }
+
+    th, td {
+        .bi {
+            vertical-align: -0.2em;
+        }
+    }
+
+    tr[data-has-plan="yes"] {
+        td[data-column="has-plan"] {
+            color: $success;
+        }
+    }
+
+    tr[data-has-plan="no"] {
+        th, td {
+            background-color: $color-ceuk-grey-100;
+            color: $color-ceuk-grey-600;
+        }
+    }
+}

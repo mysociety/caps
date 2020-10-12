@@ -25,7 +25,7 @@
 // @import "bootstrap/scss/badge";
 // @import "bootstrap/scss/jumbotron";
 // @import "bootstrap/scss/alert";
-// @import "bootstrap/scss/progress";
+@import "bootstrap/scss/progress";
 // @import "bootstrap/scss/media";
 // @import "bootstrap/scss/list-group";
 // @import "bootstrap/scss/close";
@@ -42,4 +42,8 @@
 @import "site-content";
 @import "site-footer";
 
+@import "type";
+@import "icons";
 @import "ceuk-card";
+@import "ceuk-data-table";
+@import "ceuk-tag-cloud";

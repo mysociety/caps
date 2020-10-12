@@ -18,6 +18,16 @@ $purple: $color-ceuk-purple;
 $orange: $color-ceuk-orange;
 $yellow: $color-ceuk-yellow;
 $cyan: $color-ceuk-cyan;
+$light: $color-ceuk-grey-200;
+
+$theme-colors: (
+    'purple': $color-ceuk-purple,
+    'magenta': $color-ceuk-magenta,
+    'orange': $color-ceuk-orange,
+    'yellow': $color-ceuk-yellow,
+    'blue': $color-ceuk-blue,
+    'cyan': $color-ceuk-cyan,
+);
 
 // Options
 

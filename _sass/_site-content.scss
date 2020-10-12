@@ -9,3 +9,11 @@
         padding: 3rem 0 8rem;
     }
 }
+
+.container-fluid {
+    @include media-breakpoint-up('md') {
+        padding-right: 2rem;
+        padding-left: 2rem;
+        max-width: 76rem;
+    }
+}
