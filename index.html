@@ -4,4 +4,36 @@ title: "Home"
 bodyclass: "home"
 ---
 
-<h1>Home</h1>
+<div class="card ceuk-card ceuk-card--blue mb-3 mb-md-4 mb-lg-5">
+    <div class="card-header">
+        <h2>This is some text</h2>
+    </div>
+    <div class="card-body">
+        <p>This is some more text.</p>
+    </div>
+</div>
+
+<div class="card ceuk-card ceuk-card--magenta">
+    <ul class="card-header nav nav-tabs" id="tabTest" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="tabTest-tab1" data-toggle="tab" href="#tabTest-1" role="tab" aria-controls="tabTest-1" aria-selected="true">First tab</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tabTest-tab2" data-toggle="tab" href="#tabTest-2" role="tab" aria-controls="tabTest-1">Second tab</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="tabTest-tab3" data-toggle="tab" href="#tabTest-3" role="tab" aria-controls="tabTest-3">Third tab</a>
+        </li>
+    </ul>
+    <div class="card-body tab-content">
+        <div class="tab-pane active" id="tabTest-1" role="tabpanel" aria-labelledby="tabTest-tab1">
+            <p>This is the first tab.</p>
+        </div>
+        <div class="tab-pane" id="tabTest-2" role="tabpanel" aria-labelledby="tabTest-tab2">
+            <p>This is the second tab.</p>
+        </div>
+        <div class="tab-pane" id="tabTest-3" role="tabpanel" aria-labelledby="tabTest-tab3">
+            <p>This is the third tab.</p>
+        </div>
+    </div>
+</div>
