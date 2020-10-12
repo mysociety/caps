@@ -6,12 +6,22 @@ $color-ceuk-blue: #00a8ff;
 $color-ceuk-cyan: #54d0e2;
 $color-ceuk-grey-100: #f6f9fd;
 $color-ceuk-grey-200: #ecf0f5;
+$color-ceuk-grey-600: #6c757d;
 $color-ceuk-grey-800: #3e5062;
 $color-ceuk-grey-900: #232323;
 
 // Color system
 
+$white: #fff;
+$blue: $color-ceuk-blue;
+$purple: $color-ceuk-purple;
+$orange: $color-ceuk-orange;
+$yellow: $color-ceuk-yellow;
+$cyan: $color-ceuk-cyan;
+
 // Options
+
+$enable-deprecation-messages: false;
 
 // Spacing
 
@@ -54,6 +64,16 @@ $headings-font-family: "Montserrat", sans-serif, "Apple Color Emoji", "Segoe UI 
 // Navs
 
 // Navbar
+
+$navbar-dark-color: $white;
+$navbar-dark-hover-color: rgba($navbar-dark-color, 0.8);
+$navbar-dark-active-color: $navbar-dark-color;
+$navbar-dark-toggler-border-color: rgba($navbar-dark-color, 0.3);
+
+$navbar-light-color: $color-ceuk-grey-600;
+$navbar-light-hover-color: rgba($navbar-light-color, 0.8);
+$navbar-light-active-color: $navbar-light-color;
+$navbar-light-toggler-border-color: rgba($color-ceuk-grey-600, 0.3);
 
 // Dropdowns
 

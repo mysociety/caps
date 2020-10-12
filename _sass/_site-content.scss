@@ -1,0 +1,7 @@
+.site-content {
+    padding: 1rem 0 3rem;
+
+    @include media-breakpoint-up('md') {
+        padding: 2rem 0 6rem;
+    }
+}
