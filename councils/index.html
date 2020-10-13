@@ -61,7 +61,7 @@ bodyclass: "councils"
             <tbody>
               {% for plan in site.data.plans %}
                 <tr data-council-name="{{ plan.council }}" data-authority-type="{{ plan.authority_type }}" data-has-plan="{% if plan.url %}yes{% else %}no{% endif %}">
-                    <td data-column="council-name"><a href="{{ '/council/' | append: plan.authority_code | relative_url }}">{{ plan.council }}</a></td>
+                    <td data-column="council-name"><a href="{% link councils/hertfordshire.html %}">{{ plan.council }}</a></td>
                     <td data-column="has-plan">
                       {% if plan.url %}
                         {% include icons/check-circle-fill.html classes="mr-1" %}

@@ -1,0 +1,11 @@
+.ceuk-scorecards {
+    .card-body {
+        & > :last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .blockquote {
+        font-size: 1rem;
+    }
+}
