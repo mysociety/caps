@@ -13,7 +13,7 @@ bodyclass: "home"
                 <div class="progress mt-3 mb-auto">
                     <div class="progress-bar bg-orange" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <a href="{% link councils/index.html %}" class="d-flex align-items-center mt-3">
+                <a href="{{ 'councils' | relative_url }}" class="d-flex align-items-center mt-3">
                     Browse and compare all 412 councils
                     {% include icons/chevron-right.html classes="ml-1" %}
                 </a>
