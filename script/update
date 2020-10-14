@@ -6,8 +6,11 @@ set -e
 # check that we are in the expected directory
 cd `dirname $0`/..
 
+virtualenv_dir='../venv'
+virtualenv_activate="$virtualenv_dir/bin/activate"
+source $virtualenv_activate
+
 python script/preprocess.py
 python script/add_authority_codes.py
 python script/add_council_websites.py
 python script/add_text.py
-python script/convert_to_sqlite.py
