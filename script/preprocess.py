@@ -1,3 +1,4 @@
+# -*- coding: future_fstrings -*-
 from os.path import join, basename, splitext, isfile
 import os
 import sys

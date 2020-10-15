@@ -1,3 +1,4 @@
+# -*- coding: future_fstrings -*-
 import urllib.request
 import csv
 from os.path import join
