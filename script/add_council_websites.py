@@ -76,6 +76,8 @@ def get_unindexed():
              'url': 'https://www.folkestone-hythe.gov.uk/'},
             {'council': 'Somerset West and Taunton Council',
              'url': 'https://www.somersetwestandtaunton.gov.uk/'},
+            {'council': 'West Suffolk Council',
+             'url': 'https://www.westsuffolk.gov.uk/'}
            ]
 
 def create_council_website_csv():
