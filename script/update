@@ -10,7 +10,9 @@ virtualenv_dir='../venv'
 virtualenv_activate="$virtualenv_dir/bin/activate"
 source $virtualenv_activate
 
-python script/preprocess.py
-python script/add_authority_codes.py
-python script/add_council_websites.py
-python script/add_text.py
+
+"$(dirname "$0")/manage" preprocess
+"$(dirname "$0")/manage" add_authority_codes
+"$(dirname "$0")/manage" add_council_websites
+"$(dirname "$0")/manage" add_text
+"$(dirname "$0")/manage" import_plans

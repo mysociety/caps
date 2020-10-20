@@ -12,6 +12,8 @@ import socket
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+
 DEBUG = True
 
 if DEBUG:
@@ -60,6 +62,16 @@ MEDIA_ROOT = PROJECT_PATH + "/media/"
 STATICFILES_DIRS = (
     os.path.join(PROJECT_PATH, "web"),
 )
+
+DATA_DIR = 'data'
+PLANS_DIR = os.path.join(DATA_DIR, 'plans')
+PLANS_CSV_KEY = '1tEnjJRaWsdXtCkMwA25-ZZ8D75zAY6c2GOOeUchZsnU'
+PLANS_CSV_SHEET_NAME = 'Councils'
+RAW_CSV_NAME = 'raw_plans.csv'
+RAW_CSV = os.path.join(DATA_DIR, RAW_CSV_NAME)
+PROCESSED_CSV_NAME = 'plans.csv'
+PROCESSED_CSV = os.path.join(DATA_DIR, PROCESSED_CSV_NAME)
+
 
 # Application definition
 
