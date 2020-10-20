@@ -1,7 +1,7 @@
 import os
 SITE_SLUG = "caps"
 CORE_APP_NAME = "caps"
-SECRET_KEY = ''
+SECRET_KEY = 'xx'
 SITE_NAME = 'caps'
 LIVE_ROOT = ''
 SHARE_IMAGE = ''

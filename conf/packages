@@ -1,3 +1,4 @@
+build-essential
 python3-dev
 python3-setuptools
 python3-pip
@@ -7,7 +8,9 @@ git
 libjpeg-dev
 libssl-dev
 libffi-dev
+libpoppler-dev
 libpoppler-cpp-dev
+poppler-data
 pkg-config
 python-numpy
 python-scipy
