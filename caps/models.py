@@ -7,6 +7,19 @@ import dateutil.parser
 import pandas as pd
 
 from django.db import models
+from django.utils.text import slugify
+from django.core.files.storage import FileSystemStorage
+
+class OverwriteStorage(FileSystemStorage):
+    """
+    Overwrite an existing file at the name given
+    """
+    def get_available_name(self, name, max_length):
+        if self.exists(name):
+            os.remove(os.path.join(settings.MEDIA_ROOT, name))
+        return name
+
+overwrite_storage = OverwriteStorage()
 
 class Council(models.Model):
     created_at = models.DateField(auto_now_add=True)
