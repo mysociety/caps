@@ -5,8 +5,9 @@
 Clone the repository
 
 ```
-git clone git@github.com:crowbot/caps.git
+git clone git@github.com:mysociety/caps.git
 cd caps
+cp conf/config.py-example conf/config.py
 ```
 
 A Vagrantfile is included for local development. Assuming you have [Vagrant](https://www.vagrantup.com/) installed, you can create a Vagrant VM with:
@@ -19,19 +20,13 @@ Then SSH into the VM, and run the server script:
 
 ```
 vagrant ssh
-source ../venv/bin/activate
 script/server
 ```
 
-The site will be visible at <http://localhost:8001>.
+The site will be visible at <http://localhost:8000>.
 
 # Get and preprocess data
 
 ```
 script/update
 ```
-
-# Publish
-
-```
-script/publish

@@ -1,3 +1,4 @@
+# -*- coding: future_fstrings -*-
 import urllib.request
 import csv
 from os.path import join
@@ -6,11 +7,11 @@ import pandas as pd
 
 from bs4 import BeautifulSoup
 
-DATA_DIR = 'data'
-PROCESSED_CSV_NAME = 'plans.csv'
+from django.core.management.base import BaseCommand, CommandError
+from django.conf import settings
+
 WEBSITES_CSV_NAME = 'council_websites.csv'
-PROCESSED_CSV = join(DATA_DIR, PROCESSED_CSV_NAME)
-WEBSITE_CSV = join(DATA_DIR, WEBSITES_CSV_NAME)
+WEBSITE_CSV = join(settings.DATA_DIR, WEBSITES_CSV_NAME)
 
 
 def get_dom(url):
@@ -75,7 +76,18 @@ def get_unindexed():
              'url': 'https://www.folkestone-hythe.gov.uk/'},
             {'council': 'Somerset West and Taunton Council',
              'url': 'https://www.somersetwestandtaunton.gov.uk/'},
+            {'council': 'West Suffolk Council',
+             'url': 'https://www.westsuffolk.gov.uk/'},
+            {'council': 'Newcastle Upon Tyne, North Tyneside and Northumberland Combined Authority',
+             'url': 'https://www.northoftyne-ca.gov.uk/'}
            ]
+
+def alternative_names(council_name):
+    alternative_mappings = {'Swansea City Council': 'Swansea City and Borough Council'}
+    alternative_names = [council_name, council_name.replace('The ', '')]
+    if alternative_mappings.get(council_name):
+        alternative_names.append(alternative_mappings.get(council_name))
+    return alternative_names
 
 def create_council_website_csv():
 
@@ -104,29 +116,32 @@ def add_website_urls_to_councils():
     for row in reader:
         websites[row[0]] = row[1]
 
-    df = pd.read_csv(PROCESSED_CSV)
+    df = pd.read_csv(settings.PROCESSED_CSV)
     rows = len(df['council'])
     df['website_url'] = pd.Series([None] * rows, index=df.index)
 
     unmatched = []
     for index, row in df.iterrows():
         council_name = row['council']
-
-        if pd.isnull(row['authority_type']):
-            pass
+        alternative_names_set = set(alternative_names(council_name))
+        website_set = set(websites)
+        matches = list(alternative_names_set.intersection(website_set))
+        if matches:
+            website_url = websites.get(matches[0])
+            df.at[index, 'website_url'] = website_url
         else:
-            website_url = websites.get(council_name) or websites.get(council_name.lstrip('The '))
-            if website_url != None:
-                df.at[index, 'website_url'] = website_url
-            else:
-                unmatched.append([council_name, row['authority_type']])
-    df.to_csv(open(PROCESSED_CSV, "w"), index=False, header=True)
+            unmatched.append([council_name, row['authority_type']])
+    df.to_csv(open(settings.PROCESSED_CSV, "w"), index=False, header=True)
 
     if len(unmatched) > 0:
         print(f"{len(unmatched)} councils with no website")
         print(unmatched)
 
+class Command(BaseCommand):
+    help = 'Adds website urls to the csv of plans'
 
-print("adding website urls to councils")
-create_council_website_csv()
-add_website_urls_to_councils()
+    def handle(self, *args, **options):
+
+        print("adding website urls to councils")
+        create_council_website_csv()
+        add_website_urls_to_councils()

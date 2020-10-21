@@ -1,1 +1,0 @@
-datasette publish heroku data/plans.db -n council-climate-action-plans --static static:data/plans
