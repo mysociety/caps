@@ -1,4 +1,5 @@
 # -*- coding: future_fstrings -*-
+import os
 import hashlib
 import re
 import math
@@ -9,6 +10,7 @@ import pandas as pd
 from django.db import models
 from django.utils.text import slugify
 from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 class OverwriteStorage(FileSystemStorage):
     """
