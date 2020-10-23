@@ -24,15 +24,41 @@ class OverwriteStorage(FileSystemStorage):
 overwrite_storage = OverwriteStorage()
 
 class Council(models.Model):
+
+    ENGLAND = 1
+    SCOTLAND = 2
+    WALES = 3
+    NORTHERN_IRELAND = 4
+
+    COUNTRY_CHOICES = [
+        (ENGLAND, 'England'),
+        (SCOTLAND, 'Scotland'),
+        (WALES, 'Wales'),
+        (NORTHERN_IRELAND, 'Northern Ireland')
+    ]
+
+
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
+    country = models.PositiveSmallIntegerField(choices=COUNTRY_CHOICES)
     authority_code = models.CharField(max_length=4)
     authority_type = models.CharField(max_length=4, blank=True)
     whatdotheyknow_id = models.IntegerField(null=True, blank=True)
     mapit_area_code = models.CharField(max_length=3, blank=True)
     website_url = models.URLField()
+
+    @classmethod
+    def country_code(cls, country_entry):
+        """
+        Return a country code given a text description, or None if the description
+        isn't in the country choices
+        """
+        if pd.isnull(country_entry):
+            return None
+        descriptions_to_codes = dict((country.lower(), code) for code, country in Council.COUNTRY_CHOICES)
+        return descriptions_to_codes.get(country_entry.lower().strip())
 
 class PlanDocument(models.Model):
 
