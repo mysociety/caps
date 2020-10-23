@@ -1,0 +1,12 @@
+<h1>Search results</h1>
+
+{% if object_list.count > 1 %}
+{{ object_list.count }} results.
+{% else %}
+{{ object_list.count }} result.
+{% endif %}
+{% for council in object_list %}
+    <li><a href="{% url 'council' council.slug %}">{{ council.name }}</a></li>
+{% empty %}
+    <li>No results.</li>
+{% endfor %}
