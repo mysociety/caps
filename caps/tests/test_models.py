@@ -87,7 +87,7 @@ class PlanDocumentStatusCodeTestCase(TestCase):
         actual = PlanDocument.status_code(' Approved')
         self.assertEqual(expected, actual)
 
-class BooleanFromTextTestCase(TestCase):
+class PlanDocumentBooleanFromTextTestCase(TestCase):
 
     def test_simple_case(self):
         expected = False
