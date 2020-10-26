@@ -4,7 +4,8 @@ from django.http import HttpResponse
 from django.views.generic import DetailView, ListView, TemplateView
 from django.db.models import Q, Count
 
-from caps.models import Council, PlanDocument
+from caps.models import Council, CouncilFilter, PlanDocument
+from django_filters.views import FilterView
 
 class HomePageView(TemplateView):
 
@@ -15,9 +16,9 @@ class CouncilDetailView(DetailView):
     model = Council
     template_name = 'council_detail.html'
 
-class CouncilListView(ListView):
+class CouncilListView(FilterView):
 
-    model = Council
+    filterset_class = CouncilFilter
     template_name = 'council_list.html'
 
     def get_queryset(self):

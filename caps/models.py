@@ -11,6 +11,9 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+from django.forms import Select
+
+import django_filters
 
 class OverwriteStorage(FileSystemStorage):
     """
@@ -37,17 +40,34 @@ class Council(models.Model):
         (NORTHERN_IRELAND, 'Northern Ireland')
     ]
 
+    AUTHORITY_TYPE_CHOICES = [
+        ('CC', 'City of London'),
+        ('COMB', 'Combined Authority'),
+        ('CTY', 'County Council'),
+        ('LBO', 'London Borough'),
+        ('MD', 'Metropolitan District'),
+        ('NMD', 'Non-Metropolitan District'),
+        ('UA', 'Unitary Authority')
+    ]
 
+    PLAN_FILTER_CHOICES = [
+        (None, 'All'),
+        (True, 'Yes'),
+        (False, 'No'),
+    ]
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
     country = models.PositiveSmallIntegerField(choices=COUNTRY_CHOICES)
     authority_code = models.CharField(max_length=4)
-    authority_type = models.CharField(max_length=4, blank=True)
+    authority_type = models.CharField(max_length=4, choices=AUTHORITY_TYPE_CHOICES, blank=True)
     whatdotheyknow_id = models.IntegerField(null=True, blank=True)
     mapit_area_code = models.CharField(max_length=3, blank=True)
     website_url = models.URLField()
+
+    class Meta:
+        ordering = ['name']
 
     @classmethod
     def country_code(cls, country_entry):
@@ -59,6 +79,22 @@ class Council(models.Model):
             return None
         descriptions_to_codes = dict((country.lower(), code) for code, country in Council.COUNTRY_CHOICES)
         return descriptions_to_codes.get(country_entry.lower().strip())
+
+class CouncilFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+    has_plan = django_filters.BooleanFilter(field_name='plandocument',
+                                            lookup_expr='isnull',
+                                            exclude=True,
+                                            label='Has plan',
+                                            widget=Select(choices=Council.PLAN_FILTER_CHOICES))
+    authority_type = django_filters.ChoiceFilter(choices=Council.AUTHORITY_TYPE_CHOICES,
+                                                empty_label='All')
+    country = django_filters.ChoiceFilter(choices=Council.COUNTRY_CHOICES,
+                                          empty_label='All')
+
+    class Meta:
+        model = Council
+        fields = []
 
 class PlanDocument(models.Model):
 
