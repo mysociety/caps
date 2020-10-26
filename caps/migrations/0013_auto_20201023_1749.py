@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='council',
             name='authority_type',
-            field=models.CharField(blank=True, choices=[('CC', 'County council'), ('COMB', 'Combined authority'), ('CTY', 'County'), ('LBO', 'London Borough'), ('MD', 'Metropolitan district'), ('NMD', 'Non-metropolitan district'), ('UA', 'Unitary authority')], max_length=4),
+            field=models.CharField(blank=True, choices=[('CC', 'City of London'), ('COMB', 'Combined Authority'), ('CTY', 'County Council'), ('LBO', 'London Borough'), ('MD', 'Metropolitan District'), ('NMD', 'Non-Metropolitan District'), ('UA', 'Unitary Authority')], max_length=4),
         ),
     ]

@@ -1,6 +1,13 @@
 <h1>Councils</h1>
 <ul>
-{% for council in object_list %}
+
+<form method="get">
+    {{ filter.form.as_p }}
+    <input type="submit" />
+</form>
+
+{{ filter.qs.count }}
+{% for council in filter.qs %}
     <li><a href="{% url 'council' council.slug %}">{{ council.name }}</a>{% if council.num_plans > 0 %}Y{% else %}N{% endif %}</li>
 {% empty %}
     <li>No councils yet.</li>
