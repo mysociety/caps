@@ -1,0 +1,8 @@
+<h1>Homepage</h1>
+
+
+<a href="{% url 'council_list' %}">Browse and compare all councils</a>
+
+<form action="{% url 'search_results' %}" method="get">
+  <input name="q" type="text" placeholder="Search...">
+</form>
