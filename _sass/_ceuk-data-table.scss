@@ -13,6 +13,10 @@
         }
     }
 
+    thead th {
+        vertical-align: top;
+    }
+
     table tr {
         & > :first-child {
             padding-left: 1.25rem;

@@ -54,8 +54,8 @@ bodyclass: "councils"
                 <tr>
                     <th scope="col">Council name</th>
                     <th scope="col">Has plan</th>
-                    <th scope="col">Council emissions</th>
-                    <th scope="col">Area emissions</th>
+                    <th scope="col">Council emissions <small class="d-block">tCO<sub>2</sub>e, scope 1–3</small></th>
+                    <th scope="col">Area emissions <small class="d-block">tCO<sub>2</sub>e per capita</small></th>
                 </tr>
             </thead>
             <tbody>
@@ -72,12 +72,16 @@ bodyclass: "councils"
                       {% endif %}
                     </td>
                     <td data-column="council-emissions">
-                        (sparkline)
-                        (number)
+                      {% if plan.country == 'Scotland' %}
+                        <svg class="sparkline" viewBox="-5 -5 90 24" width="90" height="24"><path d="M0 2.33 L 0 2.33 L 16 0.00 L 32 4.67 L 48 7.00 L 64 11.67 L 80 14.00" fill="none"></path></svg>
+                        19k
+                      {% else %}
+                        –
+                      {% endif %}
                     </td>
                     <td data-column="area-emissions">
-                        (sparkline)
-                        (number)
+                        <svg class="sparkline" viewBox="-5 -5 90 24" width="90" height="24"><path d="M0 2.33 L 0 2.33 L 16 0.00 L 32 4.67 L 48 7.00 L 64 11.67 L 80 14.00" fill="none"></path></svg>
+                        5.1
                     </td>
                 </tr>
               {% endfor %}
