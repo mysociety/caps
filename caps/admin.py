@@ -8,10 +8,9 @@ class CouncilAdmin(admin.ModelAdmin):
                     'slug',
                     'authority_code',
                     'authority_type',
-                    'website_url',
-                    'whatdotheyknow_id',
-                    'mapit_area_code')
-    list_filter = ('authority_type',)
+                    'country',
+                    'website_url')
+    list_filter = ('authority_type', 'country')
     search_fields = ('name', 'authority_code')
 
 class PlanDocumentAdmin(admin.ModelAdmin):

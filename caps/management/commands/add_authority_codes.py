@@ -42,25 +42,44 @@ def add_extra_authority_info():
     plans_df = pd.read_csv(settings.PROCESSED_CSV)
 
     rows = len(plans_df['council'])
-
     plans_df['authority_type'] = pd.Series([None] * rows, index=plans_df.index)
     plans_df['wdtk_id'] = pd.Series([None] * rows, index=plans_df.index)
     plans_df['mapit_area_code'] = pd.Series([None] * rows, index=plans_df.index)
+    plans_df['country'] = pd.Series([None] * rows, index=plans_df.index)
 
     for index, row in plans_df.iterrows():
         authority_code = row['authority_code']
         if not pd.isnull(authority_code):
             authority_match = authority_df[authority_df['local-authority-code'] == authority_code]
+            country = None
+            register = authority_match['register'].values[0]
+            if register == 'principal-local-authority':
+                country = "Wales"
+            elif register == 'local-authority-sct':
+                country = "Scotland"
+            elif register == 'local-authority-eng':
+                country = "England"
+            elif register == 'local-authority-nir':
+                country = "Northern Ireland"
+            else:
+                raise Exception(f'Unknown register type: {register}')
+
             plans_df.at[index, 'authority_type'] = authority_match['local-authority-type'].values[0]
             plans_df.at[index, 'wdtk_id'] = authority_match['wdtk_ids'].values[0]
             plans_df.at[index, 'mapit_area_code'] = authority_match['mapit_area_code'].values[0]
+            plans_df.at[index, 'country'] = country
+
+            # All authorities in Wales, Scotland and Northern Ireland are unitary
+            if country in ['Wales', 'Scotland', 'Northern Ireland']:
+                plans_df.at[index, 'authority_type'] = 'UA'
     plans_df.to_csv(open(settings.PROCESSED_CSV, "w"), index=False, header=True)
 
 def add_missing_authorities():
     plans_df = pd.read_csv(settings.PROCESSED_CSV)
-    manual_codes = { 'West Yorkshire Combined Authority': ['WYCA', 'COMB', '52339'],
-                 'North East Combined Authority': ['NECA', 'COMB', '52428'],
-                 'Newcastle Upon Tyne, North Tyneside and Northumberland Combined Authority': ['NTCA', 'COMB', '91532']}
+    manual_codes = { 'West Yorkshire Combined Authority': ['WYCA', 'COMB', '52339', 'England'],
+                     'North East Combined Authority': ['NECA', 'COMB', '52428', 'England'],
+                     'Newcastle Upon Tyne, North Tyneside and Northumberland Combined Authority': ['NTCA', 'COMB', '91532', 'England']
+                    }
 
     missing_councils = []
     for index, row in plans_df[plans_df['authority_code'].isnull()].iterrows():
@@ -71,6 +90,7 @@ def add_missing_authorities():
             plans_df.at[index, 'authority_code'] = manual_codes[council][0]
             plans_df.at[index, 'authority_type'] = manual_codes[council][1]
             plans_df.at[index, 'wdtk_id'] = manual_codes[council][2]
+            plans_df.at[index, 'country'] = manual_codes[council][3]
         else:
             missing_councils.append(council)
 

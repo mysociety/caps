@@ -24,6 +24,7 @@ class Command(BaseCommand):
                 slug = PlanDocument.council_slug(row['council']),
                 authority_code = PlanDocument.char_from_text(row['authority_code']),
                 authority_type = PlanDocument.char_from_text(row['authority_type']),
+                country = Council.country_code(row['country']),
                 whatdotheyknow_id = PlanDocument.integer_from_text(row['wdtk_id']),
                 mapit_area_code = PlanDocument.char_from_text(row['mapit_area_code']),
                 website_url = PlanDocument.char_from_text(row['website_url']),
