@@ -37,6 +37,15 @@ class Council(models.Model):
         (NORTHERN_IRELAND, 'Northern Ireland')
     ]
 
+    AUTHORITY_TYPE_CHOICES = [
+        ('CC', 'County council'),
+        ('COMB', 'Combined authority'),
+        ('CTY', 'County'),
+        ('LBO', 'London Borough'),
+        ('MD', 'Metropolitan district'),
+        ('NMD', 'Non-metropolitan district'),
+        ('UA', 'Unitary authority')
+    ]
 
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -44,7 +53,7 @@ class Council(models.Model):
     slug = models.SlugField(max_length=100)
     country = models.PositiveSmallIntegerField(choices=COUNTRY_CHOICES)
     authority_code = models.CharField(max_length=4)
-    authority_type = models.CharField(max_length=4, blank=True)
+    authority_type = models.CharField(max_length=4, choices=AUTHORITY_TYPE_CHOICES, blank=True)
     whatdotheyknow_id = models.IntegerField(null=True, blank=True)
     mapit_area_code = models.CharField(max_length=3, blank=True)
     website_url = models.URLField()
