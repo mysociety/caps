@@ -12,6 +12,7 @@ from django.utils.text import slugify
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.forms import Select
+from django.db.models import Count
 
 import django_filters
 
@@ -79,6 +80,15 @@ class Council(models.Model):
             return None
         descriptions_to_codes = dict((country.lower(), code) for code, country in Council.COUNTRY_CHOICES)
         return descriptions_to_codes.get(country_entry.lower().strip())
+
+    @classmethod
+    def percent_with_plan(cls):
+        """
+        Return the percentage of councils that have a plan document
+        """
+        with_plan = cls.objects.annotate(num_plans=Count('plandocument')).filter(num_plans__gt=0).count()
+        total = cls.objects.all().count()
+        return(round(with_plan / total * 100))
 
 class CouncilFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(lookup_expr='icontains')

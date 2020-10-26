@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from caps.models import PlanDocument
+from caps.models import Council, PlanDocument
 
 class PlanDocumentStartEndEndYearsFromTimePeriodTestCase(TestCase):
 
@@ -109,3 +109,21 @@ class PlanDocumentBooleanFromTextTestCase(TestCase):
         actual = PlanDocument.boolean_from_text('yawp')
         self.assertEqual(expected, actual)
 
+class CouncilPercentWithPlanTestCase(TestCase):
+
+
+    def setUp(self):
+        plan_council = Council.objects.create(name='Borsetshire',
+                                              slug='borsetshire',
+                                              country=Council.ENGLAND)
+        plan = PlanDocument.objects.create(council=plan_council,
+                                           url='http://example.com',
+                                           url_hash='xxxxxxx',
+                                           file_type='PDF')
+        no_plan_council = Council.objects.create(name='Setborshire',
+                                              slug='Setborshire',
+                                              country=Council.ENGLAND)
+
+    def test_councils_percent_with_plan(self):
+        actual = Council.percent_with_plan()
+        self.assertEqual(50, actual)

@@ -11,6 +11,11 @@ class HomePageView(TemplateView):
 
     template_name = "home.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['percent_councils_with_plan'] = Council.percent_with_plan()
+        return context
+
 class CouncilDetailView(DetailView):
 
     model = Council
