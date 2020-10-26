@@ -80,6 +80,8 @@ def get_plan(row, index, df):
                 outfile.write(r.content)
     except (requests.exceptions.RequestException, MissingContentTypeException) as err:
         print(f"Error {council} {url}: {err}")
+        # remove problematic url
+        df.at[index, 'url'] = ''
 
 def get_individual_plans():
     df = pd.read_csv(settings.PROCESSED_CSV)
