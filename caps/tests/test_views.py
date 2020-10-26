@@ -8,7 +8,8 @@ class TestPageRenders(TestCase):
     def setUp(self):
         self.client = Client()
         council = Council.objects.create(name='Borsetshire',
-                                         slug='borsetshire')
+                                         slug='borsetshire',
+                                         country=Council.ENGLAND)
 
     def test_home_page(self):
         url = reverse('home')
