@@ -59,6 +59,9 @@ Vagrant.configure(2) do |config|
     # python packages we need, migrate the db and generate the sass etc
     conf/post_deploy_actions.bash
 
+    # Create a superuser
+    script/console -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'password')"
+
 	# give permissions to vagrant user on all the packages
 	sudo chmod -R ugo+rwx /vagrant
   SHELL

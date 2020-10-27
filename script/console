@@ -2,4 +2,4 @@ virtualenv_dir='../venv'
 virtualenv_activate="$virtualenv_dir/bin/activate"
 source $virtualenv_activate
 
-python3 manage.py shell
+python3 manage.py shell "$@"
