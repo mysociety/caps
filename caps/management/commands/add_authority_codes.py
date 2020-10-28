@@ -46,6 +46,7 @@ def add_extra_authority_info():
     plans_df['wdtk_id'] = pd.Series([None] * rows, index=plans_df.index)
     plans_df['mapit_area_code'] = pd.Series([None] * rows, index=plans_df.index)
     plans_df['country'] = pd.Series([None] * rows, index=plans_df.index)
+    plans_df['gss_code'] = pd.Series([None] * rows, index=plans_df.index)
 
     for index, row in plans_df.iterrows():
         authority_code = row['authority_code']
@@ -68,6 +69,7 @@ def add_extra_authority_info():
             plans_df.at[index, 'wdtk_id'] = authority_match['wdtk_ids'].values[0]
             plans_df.at[index, 'mapit_area_code'] = authority_match['mapit_area_code'].values[0]
             plans_df.at[index, 'country'] = country
+            plans_df.at[index, 'gss_code'] = authority_match['gss-code'].values[0]
 
             # All authorities in Wales, Scotland and Northern Ireland are unitary
             if country in ['Wales', 'Scotland', 'Northern Ireland']:
