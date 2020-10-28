@@ -15,17 +15,6 @@ from django.forms import Select
 
 import django_filters
 
-class OverwriteStorage(FileSystemStorage):
-    """
-    Overwrite an existing file at the name given
-    """
-    def get_available_name(self, name, max_length):
-        if self.exists(name):
-            os.remove(os.path.join(settings.MEDIA_ROOT, name))
-        return name
-
-overwrite_storage = OverwriteStorage()
-
 class Council(models.Model):
 
     ENGLAND = 1
@@ -96,6 +85,17 @@ class CouncilFilter(django_filters.FilterSet):
     class Meta:
         model = Council
         fields = []
+
+class OverwriteStorage(FileSystemStorage):
+    """
+    Overwrite an existing file at the name given
+    """
+    def get_available_name(self, name, max_length):
+        if self.exists(name):
+            os.remove(os.path.join(settings.MEDIA_ROOT, name))
+        return name
+
+overwrite_storage = OverwriteStorage()
 
 class PlanDocument(models.Model):
 
