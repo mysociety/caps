@@ -8,6 +8,7 @@ class CouncilAdmin(admin.ModelAdmin):
                     'slug',
                     'authority_code',
                     'authority_type',
+                    'gss_code',
                     'country',
                     'website_url')
     list_filter = ('authority_type', 'country')
