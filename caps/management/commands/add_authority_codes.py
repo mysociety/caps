@@ -12,6 +12,9 @@ AUTHORITY_MAPPING = join(settings.DATA_DIR, AUTHORITY_MAPPING_NAME)
 AUTHORITY_DATA_NAME = 'uk_local_authorities.csv'
 AUTHORITY_DATA = join(settings.DATA_DIR, AUTHORITY_DATA_NAME)
 
+COMBINED_AUTHORITY_DATA_NAME = 'combined_authorities.csv'
+COMBINED_AUTHORITY_DATA = join(settings.DATA_DIR, COMBINED_AUTHORITY_DATA_NAME)
+
 def add_authority_codes():
     mapping_df = pd.read_csv(AUTHORITY_MAPPING)
 
@@ -100,6 +103,28 @@ def add_missing_authorities():
     print(f"Councils without authority codes {len(missing_councils)}")
     print(missing_councils)
 
+def add_combined_authority_gss_codes():
+    plans_df = pd.read_csv(settings.PROCESSED_CSV)
+    combined_authority_df = pd.read_csv(COMBINED_AUTHORITY_DATA)
+
+    aliases = {'newcastle upon tyne, north tyneside and northumberland combined authority': 'north of tyne'}
+
+    names_to_codes = {}
+    for index, row in combined_authority_df.iterrows():
+        names_to_codes[row['CAUTH19NM'].lower()] = row['CAUTH19CD']
+    for index, row in plans_df.iterrows():
+        council = row['council'].lower()
+        if row['authority_type'] == 'COMB':
+            name_versions = [council, council.replace('combined authority', '').strip()]
+            if council in aliases:
+                name_versions.append(aliases[council])
+            for version in name_versions:
+                if version in names_to_codes:
+                    plans_df.at[index, 'gss_code'] = names_to_codes[version]
+                    break
+
+    plans_df.to_csv(open(settings.PROCESSED_CSV, "w"), index=False, header=True)
+
 class Command(BaseCommand):
     help = 'Adds authority codes to the csv of plans'
 
@@ -110,3 +135,5 @@ class Command(BaseCommand):
         add_extra_authority_info()
         print('adding missing authorities')
         add_missing_authorities()
+        print('adding combined authority codes')
+        add_combined_authority_gss_codes()

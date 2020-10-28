@@ -31,3 +31,6 @@ mkdir -p data/plans
 curl -L -s https://raw.githubusercontent.com/ajparsons/uk_local_authority_names_and_codes/master/lookup_name_to_registry.csv > data/lookup_name_to_registry.csv
 
 curl -L -s https://raw.githubusercontent.com/ajparsons/uk_local_authority_names_and_codes/master/uk_local_authorities.csv > data/uk_local_authorities.csv
+
+curl -L -s http://geoportal1-ons.opendata.arcgis.com/datasets/43d30f924b29452b881e1820dcf897f9_0.csv > data/combined_authorities.csv
+
