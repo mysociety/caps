@@ -31,7 +31,7 @@ def add_authority_codes():
     for index, row in plans_df.iterrows():
         council = row['council'].lower()
 
-        name_versions = [council, council.rstrip('council').strip(), council.rstrip('- unitary').rstrip('(unitary)').strip()]
+        name_versions = [council, council.replace('council', '').strip(), council.replace('- unitary', '').replace('(unitary)', '').strip()]
         for version in name_versions:
             if version in names_to_codes:
                 plans_df.at[index, 'authority_code'] = names_to_codes[version]
