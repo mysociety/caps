@@ -49,10 +49,10 @@ class Council(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
     country = models.PositiveSmallIntegerField(choices=COUNTRY_CHOICES)
-    authority_code = models.CharField(max_length=4)
+    authority_code = models.CharField(max_length=4, unique=True)
     authority_type = models.CharField(max_length=4, choices=AUTHORITY_TYPE_CHOICES, blank=True)
-    gss_code = models.CharField(max_length=9, blank=True)
-    whatdotheyknow_id = models.IntegerField(null=True, blank=True)
+    gss_code = models.CharField(max_length=9, blank=True, unique=True)
+    whatdotheyknow_id = models.IntegerField(null=True, blank=True, unique=True)
     mapit_area_code = models.CharField(max_length=3, blank=True)
     website_url = models.URLField()
 
