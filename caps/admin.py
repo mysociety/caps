@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from caps.models import Council, PlanDocument
+from caps.models import Council, PlanDocument, DataType, DataPoint
 
 
 class CouncilAdmin(admin.ModelAdmin):
@@ -26,3 +26,22 @@ class PlanDocumentAdmin(admin.ModelAdmin):
     search_fields = ('council__name',)
 
 admin.site.register(PlanDocument, PlanDocumentAdmin)
+
+class DataTypeAdmin(admin.ModelAdmin):
+    list_display = ('name',
+                    'source_url',
+                    'unit',
+                    'name_in_source')
+
+
+admin.site.register(DataType, DataTypeAdmin)
+
+class DataPointAdmin(admin.ModelAdmin):
+    list_display = ('year',
+                    'value',
+                    'council',
+                    'data_type')
+
+    search_fields = ('council__name', 'data_type__name')
+
+admin.site.register(DataPoint, DataPointAdmin)
