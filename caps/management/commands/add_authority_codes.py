@@ -1,19 +1,35 @@
 # -*- coding: future_fstrings -*-
 from os.path import join, basename, splitext, isfile
 
+import requests
+
 import pandas as pd
 
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
+AUTHORITY_MAPPING_URL = 'https://raw.githubusercontent.com/crowbot/uk_local_authority_names_and_codes/all-fixes/lookup_name_to_registry.csv'
 AUTHORITY_MAPPING_NAME = 'lookup_name_to_registry.csv'
 AUTHORITY_MAPPING = join(settings.DATA_DIR, AUTHORITY_MAPPING_NAME)
 
+AUTHORITY_DATA_URL = 'https://raw.githubusercontent.com/crowbot/uk_local_authority_names_and_codes/master/uk_local_authorities.csv'
 AUTHORITY_DATA_NAME = 'uk_local_authorities.csv'
 AUTHORITY_DATA = join(settings.DATA_DIR, AUTHORITY_DATA_NAME)
 
+COMBINED_AUTHORITY_DATA_URL = 'http://geoportal1-ons.opendata.arcgis.com/datasets/43d30f924b29452b881e1820dcf897f9_0.csv'
 COMBINED_AUTHORITY_DATA_NAME = 'combined_authorities.csv'
 COMBINED_AUTHORITY_DATA = join(settings.DATA_DIR, COMBINED_AUTHORITY_DATA_NAME)
+
+def get_data_files():
+
+    data_files = [(AUTHORITY_MAPPING_URL, AUTHORITY_MAPPING),
+                  (AUTHORITY_DATA_URL, AUTHORITY_DATA),
+                  (COMBINED_AUTHORITY_DATA_URL, COMBINED_AUTHORITY_DATA)]
+
+    for (source, destination) in data_files:
+        r = requests.get(source)
+        with open(destination, 'wb') as outfile:
+            outfile.write(r.content)
 
 def add_authority_codes():
     mapping_df = pd.read_csv(AUTHORITY_MAPPING)
@@ -129,6 +145,8 @@ class Command(BaseCommand):
     help = 'Adds authority codes to the csv of plans'
 
     def handle(self, *args, **options):
+        print('getting data files')
+        get_data_files()
         print('adding authority codes')
         add_authority_codes()
         print('adding authority info')
