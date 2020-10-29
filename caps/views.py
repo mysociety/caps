@@ -19,6 +19,7 @@ class HomePageView(TemplateView):
 class CouncilDetailView(DetailView):
 
     model = Council
+    context_object_name = 'council'
     template_name = 'council_detail.html'
 
 class CouncilListView(FilterView):

@@ -1,2 +1,13 @@
-<h1>{{ object.name }}</h1>
+<h1>{{ council.name }}</h1>
 
+<h2>Plans</h2>
+{% for plandocument in council.plandocument_set.all %}
+  <a href="{{ plandocument.file.url }}">{{ plandocument.file.url }}</a>
+{% empty %}
+  We couldn't find any plans for this council.
+{% endfor %}
+
+<h2>Emissions</h2>
+{% for datapoint in council.datapoint_set.all %}
+  <div>{{ datapoint.year }}  {{ datapoint.value }} {{ datapoint.data_type.name }}</div>
+{% endfor %}
