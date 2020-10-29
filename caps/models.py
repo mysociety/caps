@@ -252,3 +252,24 @@ class PlanDocument(models.Model):
                                      'yes': True,
                                      'no': False }
         return descriptions_to_booleans.get(entry.strip().lower())
+
+class DataType(models.Model):
+
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    name = models.CharField(max_length=100)
+    source_url = models.URLField(max_length=600)
+    name_in_source = models.CharField(max_length=100)
+    unit = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
+
+class DataPoint(models.Model):
+
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    year = models.PositiveSmallIntegerField()
+    value = models.FloatField()
+    council = models.ForeignKey(Council, on_delete=models.CASCADE)
+    data_type = models.ForeignKey(DataType, on_delete=models.CASCADE)
