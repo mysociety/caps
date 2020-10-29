@@ -12,7 +12,9 @@ class CouncilAdmin(admin.ModelAdmin):
                     'country',
                     'website_url')
     list_filter = ('authority_type', 'country')
-    search_fields = ('name', 'authority_code')
+    search_fields = ('name', 'authority_code', 'gss_code')
+
+admin.site.register(Council, CouncilAdmin)
 
 class PlanDocumentAdmin(admin.ModelAdmin):
     list_display = ('get_council_name',
@@ -28,7 +30,5 @@ class PlanDocumentAdmin(admin.ModelAdmin):
 
     get_council_name.short_description = 'Council'
     get_council_name.admin_order_field = 'council__name'
-
-admin.site.register(Council, CouncilAdmin)
 
 admin.site.register(PlanDocument, PlanDocumentAdmin)
