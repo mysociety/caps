@@ -17,18 +17,12 @@ class CouncilAdmin(admin.ModelAdmin):
 admin.site.register(Council, CouncilAdmin)
 
 class PlanDocumentAdmin(admin.ModelAdmin):
-    list_display = ('get_council_name',
+    list_display = ('council',
                     'document_type',
                     'status',
                     'scope',
                     'file_type')
     list_filter = ('document_type', 'status', 'scope', 'file_type')
     search_fields = ('council__name',)
-
-    def get_council_name(self, obj):
-        return obj.council.name
-
-    get_council_name.short_description = 'Council'
-    get_council_name.admin_order_field = 'council__name'
 
 admin.site.register(PlanDocument, PlanDocumentAdmin)

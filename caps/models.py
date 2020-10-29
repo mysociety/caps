@@ -59,6 +59,9 @@ class Council(models.Model):
     class Meta:
         ordering = ['name']
 
+    def __str__(self):
+        return u"%s" % self.name
+
     @classmethod
     def country_code(cls, country_entry):
         """
