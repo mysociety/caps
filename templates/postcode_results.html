@@ -1,0 +1,19 @@
+<h1>Postcode results</h1>
+
+{% if error %}
+  {{ error }}
+{% endif %}
+
+<form action="{% url 'postcode_results' %}">
+  <label for="pc">Enter your postcode</label>
+  <input type="text" name="pc" id="pc" value="{{ postcode }}">
+  <button type="submit">Find</button>
+</form>
+
+{% if councils %}
+<ul>
+{% for council in councils %}
+    <li><a href="{% url 'council' council.slug %}">{{ council.name }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}

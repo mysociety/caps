@@ -7,3 +7,11 @@
 <form action="{% url 'search_results' %}" method="get">
   <input name="q" type="text" placeholder="Search...">
 </form>
+
+
+
+<form action="{% url 'postcode_results' %}">
+  <label for="pc">Enter your postcode</label>
+  <input type="text" name="pc" id="pc">
+  <button type="submit">Find</button>
+</form>
