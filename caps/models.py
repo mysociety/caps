@@ -55,6 +55,7 @@ class Council(models.Model):
     whatdotheyknow_id = models.IntegerField(null=True, blank=True, unique=True)
     mapit_area_code = models.CharField(max_length=3, blank=True)
     website_url = models.URLField()
+    combined_authority = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ['name']
