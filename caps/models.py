@@ -63,6 +63,9 @@ class Council(models.Model):
     def __str__(self):
         return u"%s" % self.name
 
+    def get_absolute_url(self):
+        return "/councils/%s/" % self.slug
+
     @classmethod
     def country_code(cls, country_entry):
         """
