@@ -1,12 +1,15 @@
 <h1>Search results</h1>
 
-{% if object_list.count > 1 %}
-{{ object_list.count }} results.
+{% if object_list.count == 1 %}
+  {{ object_list.count }} result.
 {% else %}
-{{ object_list.count }} result.
+  {{ object_list.count }} results.
 {% endif %}
-{% for council in object_list %}
-    <li><a href="{% url 'council' council.slug %}">{{ council.name }}</a></li>
-{% empty %}
-    <li>No results.</li>
-{% endfor %}
+
+{% if object_list %}
+<ul>
+  {% for council in object_list %}
+      <li><a href="{% url 'council' council.slug %}">{{ council.name }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
