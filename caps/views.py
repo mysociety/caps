@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 
 from caps.models import Council, CouncilFilter, PlanDocument
 from django_filters.views import FilterView
+from django.contrib.postgres.search import SearchVector, SearchQuery
 
 from caps.mapit import MapIt, NotFoundException, BadRequestException
 
@@ -36,7 +37,7 @@ class SearchResultsView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
-        object_list = Council.objects.filter(Q(plandocument__text__icontains=query))
+        object_list = Council.objects.filter(plandocument__text_search = SearchQuery(query, search_type='websearch'))
         return object_list
 
 class PostcodeResultsView(TemplateView):

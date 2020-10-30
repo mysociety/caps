@@ -13,6 +13,9 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from django.forms import Select
 
+from django.contrib.postgres.search import SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
+
 import django_filters
 
 class Council(models.Model):
@@ -153,6 +156,10 @@ class PlanDocument(models.Model):
     charset = models.CharField(max_length=50, blank=True)
     text = models.TextField(blank=True)
     file = models.FileField('plans', storage=overwrite_storage)
+    text_search = SearchVectorField(null=True)
+
+    class Meta:
+        indexes = [GinIndex(fields=["text_search"])]
 
     @classmethod
     def make_url_hash(cls, url):
