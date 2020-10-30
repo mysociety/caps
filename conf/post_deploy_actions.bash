@@ -11,12 +11,9 @@ virtualenv_dir='../venv'
 virtualenv_activate="$virtualenv_dir/bin/activate"
 if [ ! -f "$virtualenv_activate" ]
 then
-    python3 -m venv $virtualenv_dir  --without-pip
+    python3 -m venv $virtualenv_dir
 fi
 source $virtualenv_activate
-
-# Upgrade pip to a secure version
-curl -L -s https://bootstrap.pypa.io/get-pip.py | python3
 
 pip3 install --requirement requirements.txt
 
