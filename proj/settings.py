@@ -85,9 +85,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_filters',
+    'haystack',
     'pipeline',
     'caps',
 ]
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://127.0.0.1:8983/solr/tester',                 # Assuming you created a core named 'tester' as described in installing search engines.
+        'ADMIN_URL': 'http://127.0.0.1:8983/solr/admin/cores'
+        # ...or for multicore...
+        # 'URL': 'http://127.0.0.1:8983/solr/mysite',
+    },
+}
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 

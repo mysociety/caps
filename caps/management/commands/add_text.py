@@ -28,7 +28,9 @@ def add_text_to_csv():
             index = df[df['plan_path'] == pdf_filename].index.values[0]
             try:
                 pdf = pdftotext.PDF(f)
-                df.at[index, 'text'] = " ".join(pdf).replace('\n', ' ')
+                text = " ".join(pdf).replace('\n', ' ')
+                text = " ".join(text.split())
+                df.at[index, 'text'] = text
             except pdftotext.Error as err:
                 print(f"Error getting PDF text for {pdf_filename}")
 
