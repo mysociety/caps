@@ -26,7 +26,8 @@ Vagrant.configure(2) do |config|
 
   # Django dev server
   config.vm.network "forwarded_port", guest: 8000, host: 8000
-  config.vm.network "forwarded_port", guest: 1080, host: 1080
+  # Solr server
+  config.vm.network "forwarded_port", guest: 8983, host: 8983
 
   # Give the VM a bit more power to speed things up
   config.vm.provider "virtualbox" do |v|
@@ -54,6 +55,15 @@ Vagrant.configure(2) do |config|
     sudo -u postgres psql -c "CREATE USER caps SUPERUSER CREATEDB PASSWORD 'caps'"
     # Create a database
     sudo -u postgres psql -c "CREATE DATABASE caps"
+
+    # Get Solr
+    cd /vagrant
+    curl -LO https://archive.apache.org/dist/lucene/solr/6.6.0/solr-6.6.0.tgz
+
+    # Unpack it
+    mkdir solr
+    tar -C solr -xf solr-6.6.0.tgz --strip-components=1
+    cd /vagrant/caps
 
     # Run post-deploy actions script to update the virtualenv, install the
     # python packages we need, migrate the db and generate the sass etc
