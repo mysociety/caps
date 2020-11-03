@@ -5,9 +5,9 @@ from django.views.generic import DetailView, ListView, TemplateView
 from django.db.models import Q, Count
 from django.shortcuts import redirect
 
-from caps.models import Council, CouncilFilter, PlanDocument
 from django_filters.views import FilterView
 
+from caps.models import Council, CouncilFilter, PlanDocument
 from caps.mapit import MapIt, NotFoundException, BadRequestException
 
 class HomePageView(TemplateView):
