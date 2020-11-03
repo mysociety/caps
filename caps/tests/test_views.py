@@ -26,7 +26,8 @@ class TestPageRenders(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'council_detail.html')
 
-    def test_search_results(self):
+    @patch('caps.forms.HighlightedSearchForm.search')
+    def test_search_results(self, search):
         url = reverse('search_results')
         response = self.client.get(url, {'q': 'ev charging'})
         self.assertEqual(response.status_code, 200)

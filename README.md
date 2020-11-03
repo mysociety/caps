@@ -25,14 +25,17 @@ script/server
 
 The site will be visible at <http://localhost:8000>.
 
-# Get and preprocess council and plan data
+# Get and preprocess data (includes setting up a Solr text index for the plan document text)
 
 ```
 script/update
 ```
+
+The Solr server interface will be visible at <http://localhost:8983>
 
 # Get and load emissions data
 
 ```
 script/manage import_emissions_data
 ```
+
