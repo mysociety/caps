@@ -28,4 +28,3 @@ mkdir -p data/plans
 
 # get the database up to speed
 python3 manage.py migrate
-

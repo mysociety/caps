@@ -3,4 +3,9 @@ virtualenv_dir='../venv'
 virtualenv_activate="$virtualenv_dir/bin/activate"
 source $virtualenv_activate
 
+# Run Solr
+cd ../solr
+./bin/solr start
+cd ../caps
+
 python3 manage.py runserver 0.0.0.0:8000
