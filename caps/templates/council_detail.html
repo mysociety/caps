@@ -1,3 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}{{ council.name }}{% endblock %}
+
+{% block content %}
+
 <h1>{{ council.name }}</h1>
 
 <h2>Plans</h2>
@@ -11,3 +17,5 @@
 {% for datapoint in council.datapoint_set.all %}
   <div>{{ datapoint.year }}  {{ datapoint.value }} {{ datapoint.data_type.name }}</div>
 {% endfor %}
+
+{% endblock %}

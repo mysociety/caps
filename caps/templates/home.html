@@ -1,3 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block content %}
+
 <h1>Homepage</h1>
 
 {{ percent_councils_with_plan }}% of councils have a plan
@@ -8,10 +14,10 @@
   <input name="q" type="text" placeholder="Search...">
 </form>
 
-
-
 <form action="{% url 'postcode_results' %}">
   <label for="pc">Enter your postcode</label>
   <input type="text" name="pc" id="pc">
   <button type="submit">Find</button>
 </form>
+
+{% endblock %}
