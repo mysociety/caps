@@ -10,7 +10,12 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 import socket
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
@@ -32,14 +37,11 @@ ALLOWED_HOSTS = ["127.0.0.1",
 
 LANGUAGE_CODE = 'en-uk'
 
-PROJECT_PATH = os.path.dirname(os.path.realpath(os.path.dirname(__file__)))
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-
         'DIRS': [
-            PROJECT_PATH + '/templates/',
+            os.path.join(BASE_DIR, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -57,11 +59,52 @@ TEMPLATES = [
     },
 ]
 
-MEDIA_ROOT = PROJECT_PATH + "/media/"
-
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_PATH, "web"),
+    (
+        "bootstrap",
+        os.path.join(BASE_DIR, "vendor", "bootstrap", "scss"),
+    ),
+    (
+        "bootstrap",
+        os.path.join(BASE_DIR, "vendor", "bootstrap", "js"),
+    ),
+    (
+        "html5shiv",
+        os.path.join(BASE_DIR, "vendor", "html5shiv"),
+    ),
+    (
+        "jquery",
+        os.path.join(BASE_DIR, "vendor", "jquery"),
+    )
 )
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder'
+)
+
+PIPELINE = {
+    'STYLESHEETS': {
+        'main': {
+            'source_filenames': (
+                'scss/main.scss',
+            ),
+            'output_filename': 'css/main.css',
+        },
+    },
+
+    'CSS_COMPRESSOR': 'django_pipeline_csscompressor.CssCompressor',
+    'DISABLE_WRAPPER': True,
+    'COMPILERS': (
+        'pipeline.compilers.sass.SASSCompiler',
+    ),
+    'SHOW_ERRORS_INLINE':False,
+    # Use the libsass commandline tool (that's bundled with libsass) as our
+    # sass compiler, so there's no need to install anything else.
+    'SASS_BINARY': SASSC_LOCATION
+}
 
 DATA_DIR = 'data'
 PLANS_DIR = os.path.join(DATA_DIR, 'plans')
@@ -87,8 +130,6 @@ INSTALLED_APPS = [
     'pipeline',
     'caps',
 ]
-
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 DATABASES = {
     'default': {
@@ -125,35 +166,3 @@ USE_I18N = True
 USE_L10N = False
 
 USE_TZ = True
-
-
-STATIC_URL = '/static/'
-MEDIA_URL = "/media/"
-
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'pipeline.finders.PipelineFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder'
-)
-
-PIPELINE = {
-    'STYLESHEETS': {
-        'main': {
-            'source_filenames': (
-                'sass/global.scss',
-            ),
-            'output_filename': 'css/main.css',
-        },
-    },
-
-    'CSS_COMPRESSOR': 'django_pipeline_csscompressor.CssCompressor',
-    'DISABLE_WRAPPER': True,
-    'COMPILERS': (
-        'pipeline.compilers.sass.SASSCompiler',
-    ),
-    'SHOW_ERRORS_INLINE':False,
-    # Use the libsass commandline tool (that's bundled with libsass) as our
-    # sass compiler, so there's no need to install anything else.
-    'SASS_BINARY': SASSC_LOCATION
-}

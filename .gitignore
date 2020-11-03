@@ -7,7 +7,9 @@ bigenv/
 .vagrant
 _output/
 _dependencies/
-media/
+/media
+/static
+
 #################
 ## Eclipse
 #################
