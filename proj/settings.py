@@ -167,3 +167,7 @@ USE_I18N = True
 USE_L10N = False
 
 USE_TZ = True
+
+BOOTSTRAP4 = {
+    'success_css_class': None,
+}
