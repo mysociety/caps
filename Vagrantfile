@@ -73,9 +73,9 @@ Vagrant.configure(2) do |config|
 
     cd /vagrant/caps
 
-    # Run post-deploy actions script to update the virtualenv, install the
+    # Run bootstrap script to update the virtualenv, install the
     # python packages we need, migrate the db and generate the sass etc
-    conf/post_deploy_actions.bash
+    script/bootstrap
 
     # Create a superuser
     script/console -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'password')"
