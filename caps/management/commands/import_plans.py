@@ -33,8 +33,7 @@ class Command(BaseCommand):
             print(row)
 
             if not pd.isnull(row['url']):
-                plan_filename = PlanDocument.plan_filename(row['council'], row['url'])
-                document_file = open(join(settings.PLANS_DIR, plan_filename), "rb")
+                document_file = open(row['plan_path'], "rb")
                 file_object = File(document_file)
                 (start_year, end_year) = PlanDocument.start_and_end_year_from_time_period(row['time_period'])
                 plan_document = PlanDocument.objects.get_or_create(
