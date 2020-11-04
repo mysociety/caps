@@ -5,27 +5,55 @@
 
 {% block content %}
 
-<h1>Councils</h1>
-
-<form method="get">
-    {% bootstrap_form filter.form %}
-    {% buttons %}
-    <button type="submit" class="btn btn-primary">Filter</button>
-    {% endbuttons %}
-</form>
-
-{% if filter.qs.count == 1 %}
-  {{ filter.qs.count }} result.
-{% else %}
-  {{ filter.qs.count }} results.
-{% endif %}
-
-{% if filter.qs %}
-<ul>
-{% for council in filter.qs %}
-    <li><a href="{% url 'council' council.slug %}">{{ council.name }}</a>{% if council.num_plans > 0 %}Y{% else %}N{% endif %}</li>
-{% endfor %}
-</ul>
-{% endif %}
+<div class="card ceuk-card ceuk-card--orange mb-3 mb-md-4 mb-lg-5">
+    <div class="card-header">
+        <h1>Browse data from all councils</h1>
+    </div>
+    <div class="ceuk-data-table">
+        <div class="ceuk-data-table__filters">
+            <form method="get">
+                {% bootstrap_form filter.form %}
+                {% buttons %}
+                <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+                {% endbuttons %}
+            </form>
+        </div>
+        <div class="p-3">
+          {% if filter.qs.count == 1 %}
+            {{ filter.qs.count }} result.
+          {% else %}
+            {{ filter.qs.count }} results.
+          {% endif %}
+        </div>
+      {% if filter.qs %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Council name</th>
+                    <th scope="col">Has plan</th>
+                </tr>
+            </thead>
+            <tbody>
+              {% for council in filter.qs %}
+                <tr data-has-plan="{% if council.num_plans > 0 %}yes{% else %}no{% endif %}">
+                    <td data-column="council-name">
+                        <a href="{% url 'council' council.slug %}">{{ council.name }}</a>
+                    </td>
+                    <td data-column="has-plan">
+                      {% if council.num_plans > 0 %}
+                        {% include 'icons/check-circle-fill.html' with classes='mr-1' %}
+                        Yes
+                      {% else %}
+                        {% include 'icons/question-circle.html' with classes='mr-1' %}
+                        No
+                      {% endif %}
+                    </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+      {% endif %}
+    </div>
+</div>
 
 {% endblock %}

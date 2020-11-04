@@ -16,6 +16,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['total_councils'] = Council.objects.all().count()
         context['percent_councils_with_plan'] = Council.percent_with_plan()
         return context
 

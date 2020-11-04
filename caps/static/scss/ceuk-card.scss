@@ -1,0 +1,57 @@
+.ceuk-card {
+    border: none;
+    box-shadow: $box-shadow-sm;
+
+    .card-header {
+        background: transparent;
+        border-bottom: 1px solid rgba(#000, 0.1);
+
+        h1, h2, h3, h4 {
+            margin: 0;
+            font-size: 1em;
+            line-height: 1;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+    }
+
+    .card-header.nav-tabs {
+        background-color: $color-ceuk-grey-100;
+        padding: 0;
+
+        .nav-link {
+            padding: $card-spacer-y $card-spacer-x;
+            border-radius: 0;
+            border: none;
+            color: $color-ceuk-grey-600;
+            border-right: 1px solid rgba(#000, 0.1);
+            line-height: 1;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+
+            &.active {
+                background-color: $card-bg;
+            }
+        }
+    }
+}
+
+$ceuk-card-colors: (
+    'purple': $color-ceuk-purple,
+    'magenta': $color-ceuk-magenta,
+    'orange': $color-ceuk-orange,
+    'yellow': $color-ceuk-yellow,
+    'blue': $color-ceuk-blue,
+    'cyan': $color-ceuk-cyan,
+);
+
+@each $name, $color in $ceuk-card-colors {
+    .ceuk-card--#{$name} {
+        border-top: 6px solid $color;
+
+        h1, h2, h3, h4,
+        .card-header.nav-tabs .nav-link.active {
+            color: $color;
+        }
+    }
+}

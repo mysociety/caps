@@ -13,14 +13,23 @@
     <script src="{% static 'html5shiv/html5shiv.js' %}"></script>
     <![endif]-->
     {% stylesheet 'main' %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@600&display=swap">
     {% block extrastylesheets %}{% endblock %}
 </head>
 <body class="{% block bodyclass %}{% endblock %}">
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
-    <div class="container">
-        {% block content %}{% endblock %}
+    {% include 'includes/site-header.html' %}
+
+    {% include 'includes/site-subheader.html' %}
+
+    <div class="site-content">
+        <div class="container-fluid">
+            {% block content %}{% endblock %}
+        </div>
     </div>
+
+    {% include 'includes/site-footer.html' %}
 
     <script src="{% static 'jquery/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
