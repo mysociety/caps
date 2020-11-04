@@ -24,6 +24,6 @@ pip3 install --requirement requirements.txt
 find . -name '*.pyc' -delete
 
 # get the database up to speed
--python3 manage.py migrate
+python3 manage.py migrate
 
 mkdir -p data/plans
