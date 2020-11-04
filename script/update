@@ -18,14 +18,4 @@ source $virtualenv_activate
 "$(dirname "$0")/manage" import_plans
 "$(dirname "$0")/manage" link_combined_authorities
 "$(dirname "$0")/manage" import_emissions_data
-
-# Run Solr
-cd ../solr
-
-cp ../caps/conf/schema.xml server/solr/caps/conf
-cp ../caps/conf/solrconfig.xml server/solr/caps/conf
-./bin/solr restart
-
-cd ../caps
-
 "$(dirname "$0")/manage" rebuild_index

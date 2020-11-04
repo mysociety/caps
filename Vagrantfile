@@ -60,9 +60,16 @@ Vagrant.configure(2) do |config|
     cd /vagrant
     curl -LO https://archive.apache.org/dist/lucene/solr/6.6.0/solr-6.6.0.tgz
 
-    # Unpack it
-    mkdir solr
-    tar -C solr -xf solr-6.6.0.tgz --strip-components=1
+    # Install it as non-root user
+    tar xzf solr-6.6.0.tgz solr-6.6.0/bin/install_solr_service.sh --strip-components=2
+    ./install_solr_service.sh solr-6.6.0.tgz
+
+    # Create caps
+    su solr -c '/opt/solr/bin/solr create -c caps -n basic_config'
+    ln -sf /vagrant/caps/conf/schema.xml /var/solr/data/caps/conf/schema.xml
+    ln -sf /vagrant/caps/conf/solrconfig.xml /var/solr/data/caps/conf/solrconfig.xml
+    /bin/systemctl restart solr
+
     cd /vagrant/caps
 
     # Run post-deploy actions script to update the virtualenv, install the
