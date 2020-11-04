@@ -32,8 +32,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install packages
       run: |
+        xargs sudo apt-get update
         xargs sudo apt-get install -qq -y < conf/packages
-        dpkg -l '*poppler*'
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:

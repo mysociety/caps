@@ -46,6 +46,7 @@ Vagrant.configure(2) do |config|
     export DEBIAN_FRONTEND=noninteractive
 
     # Install the packages from conf/packages
+    xargs sudo apt-get update
     xargs sudo apt-get install -qq -y < conf/packages
 	xargs sudo apt-get install -qq -y < conf/dev_packages
     # Install some of the other things we need that are just for dev
