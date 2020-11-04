@@ -16,4 +16,5 @@ source $virtualenv_activate
 "$(dirname "$0")/manage" add_council_websites
 "$(dirname "$0")/manage" add_text
 "$(dirname "$0")/manage" import_plans
+"$(dirname "$0")/manage" link_combined_authorities
 "$(dirname "$0")/manage" import_emissions_data
