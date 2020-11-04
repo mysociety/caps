@@ -115,6 +115,8 @@ class CouncilPercentWithPlanTestCase(TestCase):
     def setUp(self):
         plan_council = Council.objects.create(name='Borsetshire',
                                               slug='borsetshire',
+                                              authority_code='BORS',
+                                              gss_code='E00000001',
                                               country=Council.ENGLAND)
         plan = PlanDocument.objects.create(council=plan_council,
                                            url='http://example.com',
@@ -122,6 +124,8 @@ class CouncilPercentWithPlanTestCase(TestCase):
                                            file_type='PDF')
         no_plan_council = Council.objects.create(name='Setborshire',
                                               slug='Setborshire',
+                                              gss_code='E00000002',
+                                              authority_code='SBOR',
                                               country=Council.ENGLAND)
 
     def test_councils_percent_with_plan(self):

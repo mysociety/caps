@@ -27,7 +27,3 @@ find . -name '*.pyc' -delete
 python3 manage.py migrate
 
 mkdir -p data/plans
-
-curl -L -s https://raw.githubusercontent.com/ajparsons/uk_local_authority_names_and_codes/master/lookup_name_to_registry.csv > data/lookup_name_to_registry.csv
-
-curl -L -s https://raw.githubusercontent.com/ajparsons/uk_local_authority_names_and_codes/master/uk_local_authorities.csv > data/uk_local_authorities.csv

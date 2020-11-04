@@ -16,17 +16,6 @@ from django.db.models import Count
 
 import django_filters
 
-class OverwriteStorage(FileSystemStorage):
-    """
-    Overwrite an existing file at the name given
-    """
-    def get_available_name(self, name, max_length):
-        if self.exists(name):
-            os.remove(os.path.join(settings.MEDIA_ROOT, name))
-        return name
-
-overwrite_storage = OverwriteStorage()
-
 class Council(models.Model):
 
     ENGLAND = 1
@@ -61,14 +50,18 @@ class Council(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
     country = models.PositiveSmallIntegerField(choices=COUNTRY_CHOICES)
-    authority_code = models.CharField(max_length=4)
+    authority_code = models.CharField(max_length=4, unique=True)
     authority_type = models.CharField(max_length=4, choices=AUTHORITY_TYPE_CHOICES, blank=True)
-    whatdotheyknow_id = models.IntegerField(null=True, blank=True)
+    gss_code = models.CharField(max_length=9, blank=True, unique=True)
+    whatdotheyknow_id = models.IntegerField(null=True, blank=True, unique=True)
     mapit_area_code = models.CharField(max_length=3, blank=True)
     website_url = models.URLField()
 
     class Meta:
         ordering = ['name']
+
+    def __str__(self):
+        return u"%s" % self.name
 
     @classmethod
     def country_code(cls, country_entry):
@@ -105,6 +98,17 @@ class CouncilFilter(django_filters.FilterSet):
     class Meta:
         model = Council
         fields = []
+
+class OverwriteStorage(FileSystemStorage):
+    """
+    Overwrite an existing file at the name given
+    """
+    def get_available_name(self, name, max_length):
+        if self.exists(name):
+            os.remove(os.path.join(settings.MEDIA_ROOT, name))
+        return name
+
+overwrite_storage = OverwriteStorage()
 
 class PlanDocument(models.Model):
 
@@ -261,3 +265,24 @@ class PlanDocument(models.Model):
                                      'yes': True,
                                      'no': False }
         return descriptions_to_booleans.get(entry.strip().lower())
+
+class DataType(models.Model):
+
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    name = models.CharField(max_length=100)
+    source_url = models.URLField(max_length=600)
+    name_in_source = models.CharField(max_length=100)
+    unit = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
+
+class DataPoint(models.Model):
+
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    year = models.PositiveSmallIntegerField()
+    value = models.FloatField()
+    council = models.ForeignKey(Council, on_delete=models.CASCADE)
+    data_type = models.ForeignKey(DataType, on_delete=models.CASCADE)

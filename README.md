@@ -25,8 +25,14 @@ script/server
 
 The site will be visible at <http://localhost:8000>.
 
-# Get and preprocess data
+# Get and preprocess council and plan data
 
 ```
 script/update
+```
+
+# Get and load emissions data
+
+```
+script/manage import_emissions_data
 ```

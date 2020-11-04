@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from caps.models import Council, PlanDocument
+from caps.models import Council, PlanDocument, DataType, DataPoint
 
 
 class CouncilAdmin(admin.ModelAdmin):
@@ -8,13 +8,16 @@ class CouncilAdmin(admin.ModelAdmin):
                     'slug',
                     'authority_code',
                     'authority_type',
+                    'gss_code',
                     'country',
                     'website_url')
     list_filter = ('authority_type', 'country')
-    search_fields = ('name', 'authority_code')
+    search_fields = ('name', 'authority_code', 'gss_code')
+
+admin.site.register(Council, CouncilAdmin)
 
 class PlanDocumentAdmin(admin.ModelAdmin):
-    list_display = ('get_council_name',
+    list_display = ('council',
                     'document_type',
                     'status',
                     'scope',
@@ -22,12 +25,23 @@ class PlanDocumentAdmin(admin.ModelAdmin):
     list_filter = ('document_type', 'status', 'scope', 'file_type')
     search_fields = ('council__name',)
 
-    def get_council_name(self, obj):
-        return obj.council.name
-
-    get_council_name.short_description = 'Council'
-    get_council_name.admin_order_field = 'council__name'
-
-admin.site.register(Council, CouncilAdmin)
-
 admin.site.register(PlanDocument, PlanDocumentAdmin)
+
+class DataTypeAdmin(admin.ModelAdmin):
+    list_display = ('name',
+                    'source_url',
+                    'unit',
+                    'name_in_source')
+
+
+admin.site.register(DataType, DataTypeAdmin)
+
+class DataPointAdmin(admin.ModelAdmin):
+    list_display = ('year',
+                    'value',
+                    'council',
+                    'data_type')
+
+    search_fields = ('council__name', 'data_type__name')
+
+admin.site.register(DataPoint, DataPointAdmin)
