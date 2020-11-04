@@ -23,7 +23,8 @@ pip3 install --requirement requirements.txt
 # make sure that there is no old code (the .py files may have been git deleted)
 find . -name '*.pyc' -delete
 
+# make the data and plans directories
+mkdir -p data/plans
+
 # get the database up to speed
 python3 manage.py migrate
-
-mkdir -p data/plans
