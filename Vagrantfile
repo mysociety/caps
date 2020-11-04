@@ -86,8 +86,6 @@ Vagrant.configure(2) do |config|
     # Create a superuser
     script/console -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'password')"
 
-       # give permissions to vagrant user on all the packages
-	sudo chmod -R ugo+rwx /vagrant
   SHELL
 
 end
