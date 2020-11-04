@@ -9,6 +9,7 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "sagepe/buster"
+  config.vm.box_version = ">= 2.0.0 , < 3.0"
 
   config.vm.synced_folder ".", "/vagrant/caps/"
 
@@ -17,7 +18,6 @@ Vagrant.configure(2) do |config|
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
   end
-
 
   # NFS requires a host-only network
   # This also allows you to test via other devices (e.g. mobiles) on the same
@@ -40,22 +40,21 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     cd /vagrant/caps
 
+    # fix dpkg-preconfigure error
+    export DEBIAN_FRONTEND=noninteractive
+
     # Add Java Repo
     wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
     echo 'deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main' > /etc/apt/sources.list.d/adoptopenjdk.list
 
-    #fix dpkg-preconfigure error
-    export DEBIAN_FRONTEND=noninteractive
-
     # Update Apt
-    sudo apt-get -qq update
+    apt-get -qq update
 
     # Install the packages from conf/packages
-    xargs sudo apt-get update
-    xargs sudo apt-get install -qq -y < conf/packages
+    xargs apt-get install -qq < conf/packages
 
     # Install some of the other things we need that are just for dev
-    xargs sudo apt-get install -qq -y < conf/dev_packages
+    xargs apt-get install -qq < conf/dev_packages
 
     # Create a postgresql user
     sudo -u postgres psql -c "CREATE USER caps SUPERUSER CREATEDB PASSWORD 'caps'"
@@ -82,8 +81,8 @@ Vagrant.configure(2) do |config|
     # Use a new, upstream version of Pip
     curl -L -s https://bootstrap.pypa.io/get-pip.py | python3
 
-    # Run bootstrap script to update the virtualenv, install the
-    # python packages we need, migrate the db and generate the sass etc
+    # Run bootstrap script to install the python packages we need
+    # Then migrate the db, generate the sass, etc
     script/bootstrap
 
     # Create a superuser
