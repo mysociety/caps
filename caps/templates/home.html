@@ -10,14 +10,24 @@
 
 <a href="{% url 'council_list' %}">Browse and compare all councils</a>
 
-<form action="{% url 'search_results' %}" method="get">
-  <input name="q" type="text" placeholder="Search...">
+<form action="{% url 'search_results' %}" class="my-5" style="max-width: 20em">
+    <div class="form-group">
+        <label for="q">Search term</label>
+        <input name="q" id="q" type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
 </form>
 
-<form action="{% url 'postcode_results' %}">
-  <label for="pc">Enter your postcode</label>
-  <input type="text" name="pc" id="pc">
-  <button type="submit">Find</button>
+<form action="{% url 'postcode_results' %}" class="my-5" style="max-width: 20em">
+    <div class="form-group">
+        <label for="pc">Enter your postcode</label>
+        <input type="text" name="pc" id="pc" class="form-control">
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Find</button>
+    </div>
 </form>
 
 {% endblock %}

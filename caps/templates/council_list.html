@@ -1,13 +1,17 @@
 {% extends "base.html" %}
+{% load bootstrap4 %}
 
 {% block title %}Councils{% endblock %}
 
 {% block content %}
 
 <h1>Councils</h1>
+
 <form method="get">
-    {{ filter.form.as_p }}
-    <input type="submit" />
+    {% bootstrap_form filter.form %}
+    {% buttons %}
+    <button type="submit" class="btn btn-primary">Filter</button>
+    {% endbuttons %}
 </form>
 
 {% if filter.qs.count == 1 %}

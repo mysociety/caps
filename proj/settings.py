@@ -128,6 +128,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django_filters',
     'pipeline',
+    'bootstrap4',
     'caps',
 ]
 

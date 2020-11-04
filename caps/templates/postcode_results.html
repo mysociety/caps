@@ -10,10 +10,14 @@
   {{ error }}
 {% endif %}
 
-<form action="{% url 'postcode_results' %}">
-  <label for="pc">Enter your postcode</label>
-  <input type="text" name="pc" id="pc" value="{{ postcode }}">
-  <button type="submit">Find</button>
+<form action="{% url 'postcode_results' %}" class="my-5" style="max-width: 20em">
+    <div class="form-group">
+        <label for="pc">Enter your postcode</label>
+        <input type="text" name="pc" id="pc" value="{{ postcode }}" class="form-control">
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Find</button>
+    </div>
 </form>
 
 {% if councils %}
