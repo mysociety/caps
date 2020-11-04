@@ -6,15 +6,6 @@ set -e
 # check that we are in the expected directory
 cd `dirname $0`/..
 
-virtualenv_args=""
-virtualenv_dir='../venv'
-virtualenv_activate="$virtualenv_dir/bin/activate"
-if [ ! -f "$virtualenv_activate" ]
-then
-    python3 -m venv $virtualenv_dir  --without-pip
-fi
-source $virtualenv_activate
-
 # Upgrade pip to a secure version
 curl -L -s https://bootstrap.pypa.io/get-pip.py | python3
 

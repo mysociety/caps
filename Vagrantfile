@@ -79,6 +79,9 @@ Vagrant.configure(2) do |config|
 
     cd /vagrant/caps
 
+    # Use a new, upstream version of Pip
+    curl -L -s https://bootstrap.pypa.io/get-pip.py | python3
+
     # Run bootstrap script to update the virtualenv, install the
     # python packages we need, migrate the db and generate the sass etc
     script/bootstrap

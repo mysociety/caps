@@ -6,11 +6,6 @@ set -e
 # check that we are in the expected directory
 cd `dirname $0`/..
 
-virtualenv_dir='../venv'
-virtualenv_activate="$virtualenv_dir/bin/activate"
-source $virtualenv_activate
-
-
 "$(dirname "$0")/manage" preprocess
 "$(dirname "$0")/manage" add_authority_codes
 "$(dirname "$0")/manage" add_council_websites
