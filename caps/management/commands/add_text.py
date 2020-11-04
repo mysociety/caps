@@ -9,8 +9,6 @@ import pdftotext
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
-PUBLISH_URL = 'https://council-climate-action-plans.herokuapp.com/static/'
-
 def add_text_to_csv():
     df = pd.read_csv(settings.PROCESSED_CSV)
     rows = len(df['council'])

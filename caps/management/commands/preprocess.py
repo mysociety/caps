@@ -19,8 +19,6 @@ from caps.models import PlanDocument
 import ssl
 
 
-PUBLISH_URL = 'https://council-climate-action-plans.herokuapp.com/static/'
-
 ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
