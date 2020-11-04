@@ -1,0 +1,14 @@
+.git
+.github
+.gitignore
+.gitattributes
+.vagrant
+.env
+media
+static
+data
+src
+conf/config.py
+Vagrantfile
+.dockerignore
+docker-compose.yml
