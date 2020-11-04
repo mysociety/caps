@@ -13,9 +13,6 @@ libpoppler-dev
 libpoppler-cpp-dev
 poppler-data
 pkg-config
-python-numpy
-python-scipy
-python-matplotlib
 libfreetype6
 libfreetype6-dev
 zlib1g-dev
