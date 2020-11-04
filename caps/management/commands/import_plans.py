@@ -30,7 +30,6 @@ class Command(BaseCommand):
                 mapit_area_code = PlanDocument.char_from_text(row['mapit_area_code']),
                 website_url = PlanDocument.char_from_text(row['website_url']),
             )
-            print(row)
 
             if not pd.isnull(row['url']):
                 document_file = open(row['plan_path'], "rb")
@@ -57,7 +56,3 @@ class Command(BaseCommand):
                                 'file': file_object
                                 }
                 )
-
-
-                print(file_object)
-                # plan_document.file.save(plan_filename, file_object, save=True)
