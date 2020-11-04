@@ -1,2 +1,5 @@
 postgresql
 postgresql-contrib
+ruby-dev
+libsqlite3-dev
+adoptopenjdk-8-hotspot-jre

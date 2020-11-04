@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "sagepe/stretch"
+  config.vm.box = "sagepe/buster"
 
   config.vm.synced_folder ".", "/vagrant/caps/"
 
@@ -38,28 +38,34 @@ Vagrant.configure(2) do |config|
   # Provision the vagrant box
   config.vm.provision "shell", path: "conf/provisioner.sh", privileged: false
   config.vm.provision "shell", inline: <<-SHELL
-	sudo apt update
-
     cd /vagrant/caps
+
+    # Add Java Repo
+    wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
+    echo 'deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main' > /etc/apt/sources.list.d/adoptopenjdk.list
 
     #fix dpkg-preconfigure error
     export DEBIAN_FRONTEND=noninteractive
 
+    # Update Apt
+    sudo apt-get -qq update
+
     # Install the packages from conf/packages
     xargs sudo apt-get update
     xargs sudo apt-get install -qq -y < conf/packages
-	xargs sudo apt-get install -qq -y < conf/dev_packages
+
     # Install some of the other things we need that are just for dev
-    sudo apt-get install -qq -y ruby-dev libsqlite3-dev build-essential
+    xargs sudo apt-get install -qq -y < conf/dev_packages
 
     # Create a postgresql user
     sudo -u postgres psql -c "CREATE USER caps SUPERUSER CREATEDB PASSWORD 'caps'"
+
     # Create a database
     sudo -u postgres psql -c "CREATE DATABASE caps"
 
     # Get Solr
     cd /vagrant
-    curl -LO https://archive.apache.org/dist/lucene/solr/6.6.0/solr-6.6.0.tgz
+    curl --silent -LO https://archive.apache.org/dist/lucene/solr/6.6.0/solr-6.6.0.tgz
 
     # Install it as non-root user
     tar xzf solr-6.6.0.tgz solr-6.6.0/bin/install_solr_service.sh --strip-components=2
@@ -80,7 +86,7 @@ Vagrant.configure(2) do |config|
     # Create a superuser
     script/console -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'password')"
 
-	# give permissions to vagrant user on all the packages
+       # give permissions to vagrant user on all the packages
 	sudo chmod -R ugo+rwx /vagrant
   SHELL
 
