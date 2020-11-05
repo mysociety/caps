@@ -9,6 +9,7 @@ from urllib.parse import urlparse
 import urllib3
 
 import pandas as pd
+import numpy
 
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
@@ -80,6 +81,7 @@ def get_plan(row, index, df):
                 outfile.write(r.content)
     except (requests.exceptions.RequestException, MissingContentTypeException) as err:
         print(f"Error {council} {url}: {err}")
+        df.at[index, "url"] = numpy.nan
 
 def get_individual_plans():
     df = pd.read_csv(settings.PROCESSED_CSV)
