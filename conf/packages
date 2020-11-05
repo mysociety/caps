@@ -4,6 +4,7 @@ python3-setuptools
 python3-pip
 python-virtualenv
 libpq-dev
+default-jre
 git
 libjpeg-dev
 libssl-dev

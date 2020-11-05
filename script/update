@@ -18,3 +18,4 @@ source $virtualenv_activate
 "$(dirname "$0")/manage" import_plans
 "$(dirname "$0")/manage" link_combined_authorities
 "$(dirname "$0")/manage" import_emissions_data
+"$(dirname "$0")/manage" rebuild_index

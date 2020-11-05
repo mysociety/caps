@@ -8,6 +8,7 @@ Django==2.2.8
 django-autoslug==1.9.7
 django-bootstrap4==1.1.1
 django-filter==2.4.0
+django-haystack==3.0
 django-htmlmin==0.11.0
 django-import-export==2.0.2
 django-markitup==4.0.0
@@ -31,6 +32,7 @@ pandas==0.25.3
 pdftotext==2.1.5
 Pillow==6.2.0
 psycopg2==2.8.5
+pysolr==3.9.0
 python-dateutil==2.8.1
 python-slugify==4.0.1
 pytz==2020.1

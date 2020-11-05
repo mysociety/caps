@@ -5,9 +5,11 @@ from django.views.generic import DetailView, ListView, TemplateView
 from django.db.models import Q, Count
 from django.shortcuts import redirect
 
-from caps.models import Council, CouncilFilter, PlanDocument
 from django_filters.views import FilterView
+from haystack.generic_views import SearchView as HaystackSearchView
 
+from caps.models import Council, CouncilFilter, PlanDocument
+from caps.forms import HighlightedSearchForm
 from caps.mapit import MapIt, NotFoundException, BadRequestException
 
 class HomePageView(TemplateView):
@@ -34,16 +36,9 @@ class CouncilListView(FilterView):
     def get_queryset(self):
         return Council.objects.annotate(num_plans=Count('plandocument'))
 
-class SearchResultsView(ListView):
-
-    model = Council
+class SearchResultsView(HaystackSearchView):
 
     template_name = 'search_results.html'
-
-    def get_queryset(self):
-        query = self.request.GET.get('q')
-        object_list = Council.objects.filter(Q(plandocument__text__icontains=query))
-        return object_list
 
 class PostcodeResultsView(TemplateView):
 

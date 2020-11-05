@@ -11,3 +11,6 @@ REPOSITORY_DB_PASS = 'caps'
 MAPIT_URL = 'https://mapit.mysociety.org'
 
 CACHE_FILE = 'data/cache'
+
+SOLR_URL = 'http://127.0.0.1:8983/solr/caps'
+SOLR_ADMIN_URL = 'http://127.0.0.1:8983/solr/admin/cores'

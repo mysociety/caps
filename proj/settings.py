@@ -127,10 +127,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django_filters',
+    'haystack',
     'pipeline',
     'bootstrap4',
     'caps',
 ]
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': SOLR_URL,
+        'ADMIN_URL': SOLR_ADMIN_URL
+    },
+}
 
 DATABASES = {
     'default': {

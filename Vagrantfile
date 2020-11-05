@@ -26,7 +26,8 @@ Vagrant.configure(2) do |config|
 
   # Django dev server
   config.vm.network "forwarded_port", guest: 8000, host: 8000
-  config.vm.network "forwarded_port", guest: 1080, host: 1080
+  # Solr server
+  config.vm.network "forwarded_port", guest: 8983, host: 8983
 
   # Give the VM a bit more power to speed things up
   config.vm.provider "virtualbox" do |v|
@@ -45,6 +46,7 @@ Vagrant.configure(2) do |config|
     export DEBIAN_FRONTEND=noninteractive
 
     # Install the packages from conf/packages
+    xargs sudo apt-get update
     xargs sudo apt-get install -qq -y < conf/packages
 	xargs sudo apt-get install -qq -y < conf/dev_packages
     # Install some of the other things we need that are just for dev
@@ -55,9 +57,25 @@ Vagrant.configure(2) do |config|
     # Create a database
     sudo -u postgres psql -c "CREATE DATABASE caps"
 
-    # Run post-deploy actions script to update the virtualenv, install the
+    # Get Solr
+    cd /vagrant
+    curl -LO https://archive.apache.org/dist/lucene/solr/6.6.0/solr-6.6.0.tgz
+
+    # Install it as non-root user
+    tar xzf solr-6.6.0.tgz solr-6.6.0/bin/install_solr_service.sh --strip-components=2
+    ./install_solr_service.sh solr-6.6.0.tgz
+
+    # Create caps
+    su solr -c '/opt/solr/bin/solr create -c caps -n basic_config'
+    ln -sf /vagrant/caps/conf/schema.xml /var/solr/data/caps/conf/schema.xml
+    ln -sf /vagrant/caps/conf/solrconfig.xml /var/solr/data/caps/conf/solrconfig.xml
+    /bin/systemctl restart solr
+
+    cd /vagrant/caps
+
+    # Run bootstrap script to update the virtualenv, install the
     # python packages we need, migrate the db and generate the sass etc
-    conf/post_deploy_actions.bash
+    script/bootstrap
 
     # Create a superuser
     script/console -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'password')"
