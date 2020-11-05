@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  app:
+    image: mysocietyorg/caps:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /usr/src/app/script/server
+    volumes:
+      - ./media:/usr/src/app/media
+      - ./data:/usr/src/app/data
+      - ./conf/config.py.docker:/usr/src/app/conf/config.py
+    ports:
+      - ${PORT:-8000}:8000
+    environment:
+      - REPOSITORY_DB_PASS=${REPOSITORY_DB_PASS:-caps}
+      - SECRET_KEY=${SECRET_KEY:-xx}
+    depends_on:
+      - postgres
+      - solr
+
+  postgres:
+    image: postgres:11
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=${REPOSITORY_DB_USER:-caps}
+      - POSTGRES_PASSWORD=${REPOSITORY_DB_PASS:-caps}
+      - POSTGRES_DB=${REPOSITORY_DB_NAME:-caps}
+
+  solr:
+    image: solr:6
+    volumes:
+      - solr_data:/opt/solr/server/solr/mycores
+      - ./conf/schema.xml:/opt/solr/server/solr/configsets/basic_configs/conf/schema.xml
+      - ./conf/solrconfig.xml:/opt/solr/server/solr/configsets/basic_configs/conf/solrconfig.xml
+    command:
+      - solr-precreate
+      - caps
+      - /opt/solr/server/solr/configsets/basic_configs
+      
+volumes:
+  postgres_data:
+  solr_data:

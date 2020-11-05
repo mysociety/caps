@@ -1,0 +1,16 @@
+import os
+SECRET_KEY = os.environ.get("SECRET_KEY", "xx")
+SASSC_LOCATION  = os.environ.get("SASSC_LOCATION", "sassc")
+
+REPOSITORY_DB_HOST = os.environ.get("REPOSITORY_DB_HOST", "postgres")
+REPOSITORY_DB_PORT = os.environ.get("REPOSITORY_DB_PORT", "5432")
+REPOSITORY_DB_USER = os.environ.get("REPOSITORY_DB_USER", "caps")
+REPOSITORY_DB_NAME = os.environ.get("REPOSITORY_DB_NAME", "caps")
+REPOSITORY_DB_PASS = os.environ.get("REPOSITORY_DB_PASS", "caps")
+
+MAPIT_URL = 'https://mapit.mysociety.org'
+
+CACHE_FILE = 'data/cache'
+
+SOLR_URL = os.environ.get("SOLR_URL", "http://solr:8983/solr/caps")
+SOLR_ADMIN_URL = os.environ.get("SOLR_ADMIN_URL", "http://solr:8983/solr/admin/cores")
