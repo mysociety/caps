@@ -38,6 +38,12 @@
                         </button>
                     </div>
                 </div>
+                <div class="mt-3 js-geolocate d-none">
+                    <a href="{% url 'postcode_results' %}" class="d-flex align-items-center">
+                        {% include 'icons/location.html' with classes="mr-2" %}
+                        Locate me automatically
+                    </a>
+                </div>
             </form>
         </div>
 

@@ -30,6 +30,7 @@ class MapIt(object):
     # MTD (Metropolitan district)
     # UTA (Unitary authority)
     touches_url = '%s/area/%s/intersects?type=CTY,COI,DIS,LBO,LGD,MTD,UTA&api_key=%s'
+    wgs84_url = '%s/point/4326/%s,%s&api_key=%s'
     cache = {}
 
     def __init__(self):
@@ -57,6 +58,17 @@ class MapIt(object):
             if 'gss' in area['codes']:
                 gss_codes.append(area['codes']['gss'])
         return gss_codes
+
+
+    def wgs84_point_to_gss_codes(self, lon, lat):
+        url = self.wgs84_url % (self.base, lon, lat, settings.MAPIT_API_KEY)
+        data = self.get(url)
+        gss_codes = []
+        for area in data.values():
+            if 'gss' in area['codes']:
+                gss_codes.append(area['codes']['gss'])
+        return gss_codes
+
 
     def get(self, url):
         if url not in self.cache:

@@ -94,6 +94,14 @@ PIPELINE = {
             'output_filename': 'css/main.css',
         },
     },
+    'JAVASCRIPT': {
+        'main': {
+            'source_filenames': (
+                'js/main.js',
+            ),
+            'output_filename': 'js/main.js',
+        },
+    },
 
     'CSS_COMPRESSOR': 'django_pipeline_csscompressor.CssCompressor',
     'DISABLE_WRAPPER': True,

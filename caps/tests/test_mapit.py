@@ -22,6 +22,19 @@ class TestMapitResponses(TestCase):
         self.assertEqual(actual, ['E14000111'])
 
     @patch('caps.mapit.session')
+    def test_wgs84_point_to_gss_codes(self, mapit_session):
+        mapit_session.get.return_value.json.return_value = {"11111": {
+            "id": 11111,
+            "codes": {"gss": "E14000111", "unit_id": "11111"},
+            "name": "Borsetshire Council",
+            "country": "E",
+            "type": "CTY"
+        }}
+        mapit = MapIt()
+        actual = mapit.wgs84_point_to_gss_codes(-0.132814, 51.501351)
+        self.assertEqual(actual, ['E14000111'])
+
+    @patch('caps.mapit.session')
     def test_invalid_postcode(self, mapit_session):
         mapit_session.get.return_value.json.return_value = {'code': 400, 'error': 'Postcode invalid'}
         mapit_session.get.return_value.status_code = 400

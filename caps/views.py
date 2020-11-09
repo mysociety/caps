@@ -66,10 +66,15 @@ class PostcodeResultsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         postcode = self.request.GET.get('pc')
+        lon = self.request.GET.get('lon')
+        lat = self.request.GET.get('lat')
         mapit = MapIt()
         context['postcode'] = postcode
         try:
-            gss_codes = mapit.postcode_point_to_gss_codes(postcode)
+            if lon and lat:
+                gss_codes = mapit.wgs84_point_to_gss_codes(lon, lat)
+            else:
+                gss_codes = mapit.postcode_point_to_gss_codes(postcode)
             councils = Council.objects.filter(gss_code__in=gss_codes)
             combined_authorities = [ council.combined_authority for council in councils if council.combined_authority ]
             context['councils'] = list(councils) + combined_authorities
