@@ -11,6 +11,7 @@ urlpatterns = [
     path('search/', views.SearchResultsView.as_view(form_class=HighlightedSearchForm), name='search_results'),
     path('councils/', views.CouncilListView.as_view(), name='council_list'),
     path('postcode/', views.PostcodeResultsView.as_view(), name='postcode_results'),
+    path('about/', views.AboutView.as_view(), name='about'),
     path('admin/', admin.site.urls),
 
 ]

@@ -64,3 +64,7 @@ class PostcodeResultsView(TemplateView):
         except (NotFoundException, BadRequestException) as error:
             context['error'] = error
         return context
+
+class AboutView(TemplateView):
+
+    template_name = "about.html"
