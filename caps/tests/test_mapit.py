@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from caps.models import Council
 
-from caps.mapit import MapIt, NotFoundException, BadRequestException
+from caps.mapit import MapIt, NotFoundException, BadRequestException, ForbiddenException, InternalServerErrorException
 
 class TestMapitResponses(TestCase):
 
@@ -87,3 +87,16 @@ class TestMapitResponses(TestCase):
         actual = mapit.mapit_id_to_touches(2650)
         self.assertCountEqual(actual, ['S13002855', 'S13002859'])
 
+    @patch('caps.mapit.session')
+    def test_403_error(self, mapit_session):
+        mapit_session.get.return_value.status_code = 403
+        mapit = MapIt()
+        with self.assertRaises(ForbiddenException):
+            mapit.mapit_id_to_touches(2430)
+
+    @patch('caps.mapit.session')
+    def test_500_error(self, mapit_session):
+        mapit_session.get.return_value.status_code = 500
+        mapit = MapIt()
+        with self.assertRaises(InternalServerErrorException):
+            mapit.mapit_id_to_touches(2440)

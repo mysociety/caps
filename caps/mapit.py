@@ -12,6 +12,12 @@ class NotFoundException(BaseException):
 class BadRequestException(BaseException):
     pass
 
+class InternalServerErrorException(BaseException):
+    pass
+
+class ForbiddenException(BaseException):
+    pass
+
 class MapIt(object):
     postcode_url = '%s/postcode/%s?api_key=%s'
     gss_code_url = '%s/code/gss/%s?api_key=%s'
@@ -56,6 +62,10 @@ class MapIt(object):
         if url not in self.cache:
             resp = session.get(url)
             data = resp.json()
+            if resp.status_code == 403:
+                raise ForbiddenException(data['error'])
+            if resp.status_code == 500:
+                raise InternalServerErrorException(data['error'])
             if resp.status_code == 404:
                 raise NotFoundException(data['error'])
             if resp.status_code == 400:
