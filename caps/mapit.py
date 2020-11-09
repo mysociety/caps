@@ -13,7 +13,7 @@ class BadRequestException(BaseException):
     pass
 
 class MapIt(object):
-    postcode_url = '%s/postcode/%s'
+    postcode_url = '%s/postcode/%s?api_key=%s'
     cache = {}
 
     def __init__(self):
@@ -21,7 +21,7 @@ class MapIt(object):
 
 
     def postcode_point_to_gss_codes(self, pc):
-        url = self.postcode_url % (self.base, pc)
+        url = self.postcode_url % (self.base, pc, settings.MAPIT_API_KEY)
         data = self.get(url)
         gss_codes = []
         for area in data['areas'].values():
