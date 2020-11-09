@@ -28,6 +28,12 @@ class CouncilDetailView(DetailView):
     context_object_name = 'council'
     template_name = 'council_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council = context.get('council')
+        context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'))
+        return context
+
 class CouncilListView(FilterView):
 
     filterset_class = CouncilFilter
