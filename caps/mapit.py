@@ -14,11 +14,34 @@ class BadRequestException(BaseException):
 
 class MapIt(object):
     postcode_url = '%s/postcode/%s?api_key=%s'
+    gss_code_url = '%s/code/gss/%s?api_key=%s'
+    # From https://mapit.mysociety.org/docs/#api-multiple_areas
+    # CTY (county council)
+    # COI (Isles of Scilly)
+    # DIS (district council)
+    # LBO (London borough)
+    # LGD (NI council)
+    # MTD (Metropolitan district)
+    # UTA (Unitary authority)
+    touches_url = '%s/area/%s/intersects?type=CTY,COI,DIS,LBO,LGD,MTD,UTA&api_key=%s'
     cache = {}
 
     def __init__(self):
         self.base = settings.MAPIT_URL
 
+    def gss_code_to_mapit_id(self, gss_code):
+        url = self.gss_code_url % (self.base, gss_code, settings.MAPIT_API_KEY)
+        data = self.get(url)
+        return data['id']
+
+    def mapit_id_to_touches(self, mapit_id):
+        url = self.touches_url % (self.base, mapit_id, settings.MAPIT_API_KEY)
+        data = self.get(url)
+        gss_codes = []
+        for area in data.values():
+            if area['codes'].get('gss'):
+                gss_codes.append(area['codes']['gss'])
+        return gss_codes
 
     def postcode_point_to_gss_codes(self, pc):
         url = self.postcode_url % (self.base, pc, settings.MAPIT_API_KEY)
