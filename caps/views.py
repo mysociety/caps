@@ -52,16 +52,16 @@ class SearchResultsView(HaystackSearchView):
 
     template_name = 'search_results.html'
 
-class PostcodeResultsView(TemplateView):
+class LocationResultsView(TemplateView):
 
-    template_name = "postcode_results.html"
+    template_name = "location_results.html"
 
     def render_to_response(self, context):
         councils = context.get('councils')
         if councils and len(councils) == 1:
             return redirect(context['councils'] [0])
 
-        return super(PostcodeResultsView, self).render_to_response(context)
+        return super(LocationResultsView, self).render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

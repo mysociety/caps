@@ -82,7 +82,7 @@ class TestPostcodeSearch(TestCase):
                 }
             }
         }
-        response = self.client.get('/postcode/?pc=BO11AD', follow=True)
+        response = self.client.get('/location/?pc=BO11AD', follow=True)
         self.assertRedirects(response, '/councils/borsetshire/')
 
 
@@ -106,8 +106,8 @@ class TestPostcodeSearch(TestCase):
                 }
             }
         }
-        response = self.client.get('/postcode/?pc=BO11AE', follow=True)
-        self.assertTemplateUsed(response, 'postcode_results.html')
+        response = self.client.get('/location/?pc=BO11AE', follow=True)
+        self.assertTemplateUsed(response, 'location_results.html')
 
 
     @patch('caps.mapit.session')
@@ -123,5 +123,5 @@ class TestPostcodeSearch(TestCase):
                 }
             }
         }
-        response = self.client.get('/postcode/?pc=BO11AF', follow=True)
-        self.assertTemplateUsed(response, 'postcode_results.html')
+        response = self.client.get('/location/?pc=BO11AF', follow=True)
+        self.assertTemplateUsed(response, 'location_results.html')
