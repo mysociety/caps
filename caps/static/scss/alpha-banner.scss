@@ -1,0 +1,36 @@
+.alpha-banner {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $gray-400;
+    padding-bottom: $spacer;
+    margin-bottom: $spacer * 1.5;
+    line-height: 1.3;
+
+    @include media-breakpoint-up('md') {
+        margin-top: -0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    @include media-breakpoint-up('lg') {
+        margin-top: -1rem;
+        margin-bottom: 3rem;
+    }
+
+    strong {
+        display: block;
+        flex: 0 0 auto;
+        padding: $badge-padding-y $badge-padding-x;
+        background: $color-ceuk-blue;
+        color: #fff;
+        text-transform: uppercase;
+        font-family: $headings-font-family;
+        font-size: 0.9em;
+        letter-spacing: 0.04em;
+        margin-right: 1rem;
+    }
+
+    p {
+        flex: 1 1 auto;
+        margin-bottom: 0;
+    }
+}
