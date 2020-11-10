@@ -83,7 +83,8 @@ Vagrant.configure(2) do |config|
 
     # Run bootstrap script to install the python packages we need
     # Then migrate the db, generate the sass, etc
-    script/bootstrap
+    script/bootstrap --vagrant
+    script/migrate
 
     # Create a superuser
     script/console -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'password')"
