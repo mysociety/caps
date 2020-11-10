@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+cd $(dirname $0)/..
+
+# Flag we're doing a build.
+export BUILD=true
+
+script/bootstrap
+
+docker build . -t mysocietyorg/caps
+docker-compose pull
