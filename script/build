@@ -5,9 +5,9 @@ set -e
 cd $(dirname $0)/..
 
 # Flag we're doing a build.
-export BUILD=true
+export BUILD_COMMIT=$(git log -1 --pretty=%h)
 
 script/bootstrap
 
-docker build . -t mysocietyorg/caps
+docker build . -t mysocietyorg/caps --build-arg BUILD_COMMIT=$BUILD_COMMIT
 docker-compose pull

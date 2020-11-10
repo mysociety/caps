@@ -13,4 +13,6 @@ RUN pip install --upgrade pip
 COPY --from=base /wheels /wheels
 COPY --from=base requirements.txt .
 RUN pip install --no-cache-dir /wheels/*
+ARG BUILD_COMMIT
+LABEL revision=$BUILD_COMMIT
 COPY . .
