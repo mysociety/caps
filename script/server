@@ -23,6 +23,7 @@ SWARM=${SWARM:-inactive}
 echo "==> Swarm mode is ${SWARM}"
 
 if [ "$SWARM" = "active" ] ; then
+  script/build
   case $ACTION in
     start | --start)
       echo "==> Deploying Swarm stack ${STACK}..."
@@ -33,12 +34,16 @@ if [ "$SWARM" = "active" ] ; then
       docker stack rm ${STACK}
       ;;
     reload | --reload)
-      echo "==> Reloading Swarm service ${STACK}_mediawiki..."
-      docker service update --force ${STACK}_caps
+      echo "==> Reloading Swarm service ${STACK}_app..."
+      docker service update --force ${STACK}_app
       ;;
     restart | --restart)
       echo "==> Full restart of Swarm stack ${STACK}..."
       docker stack rm ${STACK}
+      while  docker network ls | grep ${STACK} ; do
+        echo "==> Waiting for network to clear..."
+        sleep 2
+      done
       docker stack deploy -c ${PWD}/docker-compose.yml ${STACK}
       ;;
     status | --status)
