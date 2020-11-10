@@ -1,6 +1,8 @@
 import os
 SECRET_KEY = os.environ.get("SECRET_KEY", "xx")
 SASSC_LOCATION  = os.environ.get("SASSC_LOCATION", "sassc")
+DEBUG = int(os.environ.get("DEBUG", 1))
+ALLOWED_HOSTS = ["*"]
 
 REPOSITORY_DB_HOST = os.environ.get("REPOSITORY_DB_HOST", "postgres")
 REPOSITORY_DB_PORT = os.environ.get("REPOSITORY_DB_PORT", "5432")

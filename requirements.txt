@@ -18,6 +18,7 @@ et-xmlfile==1.0.1
 feedparser==5.2.1
 future-fstrings==1.2.0
 futures==3.0.5
+gunicorn==20.0.4
 html5lib==1.1
 idna==2.10
 jdcal==1.4.1

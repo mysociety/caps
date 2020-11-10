@@ -55,6 +55,12 @@ if [ "$SWARM" = "active" ] ; then
       exit 1
       ;;
   esac
+elif [ "$ACTION" == "--docker" ]; then
+  script/migrate
+  python3 manage.py collectstatic --noinput
+  mkdir -p static/css
+  sassc --style compressed static/scss/main.scss static/css/main.css
+  gunicorn proj.wsgi:application --bind 0.0.0.0:8000 --worker-tmp-dir /dev/shm --log-file=- --access-logfile=-
 else
   script/migrate
   python3 manage.py runserver 0.0.0.0:8000
