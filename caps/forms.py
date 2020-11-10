@@ -4,8 +4,8 @@ class HighlightedSearchForm(SearchForm):
 
     def search(self):
         kwargs = {
-            'hl.simple.pre': '<span class="highlighted">',
-            'hl.simple.post': '</span>',
+            'hl.simple.pre': '<mark>',
+            'hl.simple.post': '</mark>',
             'hl.fragsize': 400,
             'hl.snippets': 3
         }

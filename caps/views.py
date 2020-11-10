@@ -20,6 +20,12 @@ class HomePageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['total_councils'] = Council.objects.all().count()
         context['percent_councils_with_plan'] = Council.percent_with_plan()
+        context['search_suggestions'] = [
+            '"electric taxis"',
+            '"green homes grant"',
+            '"ground source heat pumps"',
+            '"circular economy"',
+        ]
         return context
 
 class CouncilDetailView(DetailView):
