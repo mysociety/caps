@@ -106,14 +106,25 @@ def convert_emissions_data():
 class Command(BaseCommand):
     help = 'Imports emissions data by council'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--all',
+            action='store_true',
+            help='Update all data (slower but more thorough)',
+        )
+
     def handle(self, *args, **options):
-        print('getting data files')
-        get_data_files()
-        print('converting emissions data')
-        convert_emissions_data()
-        print('creating data types')
-        create_data_types()
-        print('importing emissions data')
-        import_emissions_data()
-        print('checking completeness')
-        check_completeness()
+        get_all = options['all']
+        if not get_all and DataPoint.objects.count() > 0:
+            print("emissions data exists, skipping")
+        else:
+            print('getting data files')
+            get_data_files()
+            print('converting emissions data')
+            convert_emissions_data()
+            print('creating data types')
+            create_data_types()
+            print('importing emissions data')
+            import_emissions_data()
+            print('checking completeness')
+            check_completeness()

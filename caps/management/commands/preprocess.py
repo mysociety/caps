@@ -19,8 +19,6 @@ from caps.models import PlanDocument
 import ssl
 
 
-PUBLISH_URL = 'https://council-climate-action-plans.herokuapp.com/static/'
-
 ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -40,50 +38,49 @@ def set_file_attributes(df, index, content_type, extension):
     else:
         print("Unknown content type: " + content_type)
 
-class MissingContentTypeException(Exception):
-    pass
-
-def check_or_get(url, headers, local_path, retry=False):
-    # If we already have a plan, try just checking the headers before getting it again
-    try:
-        if os.path.isfile(local_path) and not retry:
-            method = 'HEAD'
-            r = requests.head(url, headers=headers, verify=False)
-        else:
-            method = 'GET'
-            r = requests.get(url, headers=headers, verify=False)
-        r.raise_for_status()
-        if r.headers.get('content-type') is None:
-            raise MissingContentTypeException
-    except (requests.exceptions.RequestException, MissingContentTypeException) as err:
-        if method == 'HEAD':
-            return check_or_get(url, headers, local_path, retry=True)
-        else:
-            raise err
-    return r
-
 def get_plan(row, index, df):
     url = row['url']
     council = row['council']
+    new_filename = PlanDocument.plan_filename(council, url)
     url_parts = urlparse(url)
     filepath, extension = splitext(url_parts.path)
-    new_filename = PlanDocument.plan_filename(row['council'], row['url'])
-    local_path = join(settings.PLANS_DIR, new_filename)
     headers = {
             'User-Agent': 'mySociety Council climate action plans search',
     }
     try:
-        r = check_or_get(url, headers, local_path)
+        r = requests.get(url, headers=headers, verify=False)
+        r.raise_for_status()
         set_file_attributes(df, index, r.headers.get('content-type'), extension)
-        df.at[index, 'plan_path'] = new_filename
-        if not os.path.isfile(local_path):
-            with open(local_path, 'wb') as outfile:
-                outfile.write(r.content)
-    except (requests.exceptions.RequestException, MissingContentTypeException) as err:
+        new_filename = new_filename + '.' + df.at[index, 'file_type']
+        local_path = join(settings.PLANS_DIR, new_filename)
+        df.at[index, 'plan_path'] = local_path
+        with open(local_path, 'wb') as outfile:
+            outfile.write(r.content)
+    except requests.exceptions.RequestException as err:
         print(f"Error {council} {url}: {err}")
         df.at[index, "url"] = numpy.nan
 
-def get_individual_plans():
+
+def update_plan(row, index, df, get_all):
+    url = row['url']
+    council = row['council']
+    url_hash = PlanDocument.make_url_hash(url)
+    new_filename = PlanDocument.plan_filename(council, url)
+    if get_all:
+        get_plan(row, index, df)
+    else:
+        # If we've already loaded a document from this URL, don't get the file again
+        try:
+            plan_document = PlanDocument.objects.get(url_hash=url_hash, council__name=council)
+            df.at[index, 'charset'] = plan_document.charset
+            df.at[index, 'file_type'] = plan_document.file_type
+            new_filename = new_filename + '.' + plan_document.file_type
+            local_path = join(settings.PLANS_DIR, new_filename)
+            df.at[index, 'plan_path'] = local_path
+        except PlanDocument.DoesNotExist:
+            get_plan(row, index, df)
+
+def get_individual_plans(get_all):
     df = pd.read_csv(settings.PROCESSED_CSV)
     rows = len(df['council'])
 
@@ -96,7 +93,7 @@ def get_individual_plans():
 
     rows_with_urls = df['url'].notnull()
     for index, row in df[rows_with_urls].iterrows():
-        get_plan(row, index, df)
+        update_plan(row, index, df, get_all)
 
     df.to_csv(open(settings.PROCESSED_CSV, "w"), index=False, header=True)
 
@@ -131,11 +128,18 @@ def replace_headers():
 class Command(BaseCommand):
     help = 'Preprocesses plans csv data'
 
-    def handle(self, *args, **options):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--all',
+            action='store_true',
+            help='Update all data (slower but more thorough)',
+        )
 
+    def handle(self, *args, **options):
+        get_all = options['all']
         print("getting the csv")
         get_plans_csv()
         print("replacing headers")
         replace_headers()
         print('getting plans')
-        get_individual_plans()
+        get_individual_plans(get_all)
