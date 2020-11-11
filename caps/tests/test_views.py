@@ -125,3 +125,7 @@ class TestPostcodeSearch(TestCase):
         }
         response = self.client.get('/location/?pc=BO11AF', follow=True)
         self.assertTemplateUsed(response, 'location_results.html')
+
+    def test_empty_submission_shows_results_page(self):
+        response = self.client.get('/location/?pc=')
+        self.assertTemplateUsed(response, 'location_results.html')

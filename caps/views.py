@@ -73,8 +73,10 @@ class LocationResultsView(TemplateView):
         try:
             if lon and lat:
                 gss_codes = mapit.wgs84_point_to_gss_codes(lon, lat)
-            else:
+            elif postcode:
                 gss_codes = mapit.postcode_point_to_gss_codes(postcode)
+            else:
+                return context
             councils = Council.objects.filter(gss_code__in=gss_codes)
             combined_authorities = [ council.combined_authority for council in councils if council.combined_authority ]
             context['councils'] = list(councils) + combined_authorities
