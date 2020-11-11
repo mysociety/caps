@@ -298,3 +298,6 @@ class DataPoint(models.Model):
     value = models.FloatField()
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
     data_type = models.ForeignKey(DataType, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['data_type', 'year']
