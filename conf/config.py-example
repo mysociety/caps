@@ -14,3 +14,5 @@ CACHE_FILE = 'data/cache'
 
 SOLR_URL = 'http://127.0.0.1:8983/solr/caps'
 SOLR_ADMIN_URL = 'http://127.0.0.1:8983/solr/admin/cores'
+
+MAPIT_API_KEY = 'xxx'

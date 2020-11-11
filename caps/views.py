@@ -10,7 +10,7 @@ from haystack.generic_views import SearchView as HaystackSearchView
 
 from caps.models import Council, CouncilFilter, PlanDocument
 from caps.forms import HighlightedSearchForm
-from caps.mapit import MapIt, NotFoundException, BadRequestException
+from caps.mapit import MapIt, NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException
 
 class HomePageView(TemplateView):
 
@@ -27,6 +27,12 @@ class CouncilDetailView(DetailView):
     model = Council
     context_object_name = 'council'
     template_name = 'council_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council = context.get('council')
+        context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'))
+        return context
 
 class CouncilListView(FilterView):
 
@@ -61,7 +67,7 @@ class PostcodeResultsView(TemplateView):
             councils = Council.objects.filter(gss_code__in=gss_codes)
             combined_authorities = [ council.combined_authority for council in councils if council.combined_authority ]
             context['councils'] = list(councils) + combined_authorities
-        except (NotFoundException, BadRequestException) as error:
+        except (NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException) as error:
             context['error'] = error
         return context
 

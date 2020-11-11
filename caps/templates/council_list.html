@@ -26,32 +26,7 @@
           {% endif %}
         </div>
       {% if filter.qs %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Council name</th>
-                    <th scope="col">Has plan</th>
-                </tr>
-            </thead>
-            <tbody>
-              {% for council in filter.qs %}
-                <tr data-has-plan="{% if council.num_plans > 0 %}yes{% else %}no{% endif %}">
-                    <td data-column="council-name">
-                        <a href="{% url 'council' council.slug %}">{{ council.name }}</a>
-                    </td>
-                    <td data-column="has-plan">
-                      {% if council.num_plans > 0 %}
-                        {% include 'icons/check-circle-fill.html' with classes='mr-1' %}
-                        Yes
-                      {% else %}
-                        {% include 'icons/question-circle.html' with classes='mr-1' %}
-                        No
-                      {% endif %}
-                    </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-        </table>
+        {% include 'includes/council-table.html' with councils=filter.qs %}
       {% endif %}
     </div>
 </div>

@@ -57,6 +57,7 @@ class Council(models.Model):
     mapit_area_code = models.CharField(max_length=3, blank=True)
     website_url = models.URLField()
     combined_authority = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
+    related_councils = models.ManyToManyField("self", blank=True)
 
     class Meta:
         ordering = ['name']
