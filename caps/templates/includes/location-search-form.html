@@ -14,7 +14,10 @@
 </form>
 <div class="mt-3 js-geolocate d-none">
     <a href="{% url 'location_results' %}" class="d-flex align-items-center">
-        {% include 'icons/location.html' with classes="mr-2" %}
+        {% include 'icons/location.html' with classes="mr-2 js-geolocate-icon" %}
+        <div class="spinner-border spinner-border-sm mr-2 js-geolocate-spinner d-none" role="status">
+            <span class="sr-only">Fetching location…</span>
+        </div>
         Locate me automatically
     </a>
 </div>

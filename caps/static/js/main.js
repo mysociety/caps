@@ -4,6 +4,12 @@ $(function() {
         $('.js-geolocate a').on('click', function(e){
             e.preventDefault();
             var $a = $(this);
+            var $icon = $a.find('.js-geolocate-icon');
+            var $spinner = $a.find('.js-geolocate-spinner');
+
+            $icon.addClass('d-none');
+            $spinner.removeClass('d-none');
+
             navigator.geolocation.getCurrentPosition(function(position){
                 var params = {
                     lon: position.coords.longitude.toFixed(6),
