@@ -28,12 +28,12 @@ else:
     IS_LIVE = True
     STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
-from conf.config import *  # stores database and key outside repo
-
 ALLOWED_HOSTS = ["127.0.0.1",
                  "testserver",
                  "0.0.0.0",
                  "localhost"]
+
+from conf.config import *  # stores database and key outside repo
 
 LANGUAGE_CODE = 'en-uk'
 
