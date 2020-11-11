@@ -41,7 +41,11 @@ class CouncilDetailView(DetailView):
             latest_year = council.datapoint_set.aggregate(Max('year'))['year__max']
             context['latest_year'] = latest_year
             latest_year_per_capita_emissions = council.datapoint_set.get(year=latest_year, data_type__name='Per Capita Emissions').value
+            latest_year_per_km2_emissions = council.datapoint_set.get(year=latest_year, data_type__name='Emissions per km2').value
+            latest_year_total_emissions = council.datapoint_set.get(year=latest_year, data_type__name='Total Emissions').value
             context['latest_year_per_capita_emissions'] = latest_year_per_capita_emissions
+            context['latest_year_per_km2_emissions'] = latest_year_per_km2_emissions
+            context['latest_year_total_emissions'] = latest_year_total_emissions
         except DataPoint.DoesNotExist:
             context['no_emissions_data'] = True
         context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'))
