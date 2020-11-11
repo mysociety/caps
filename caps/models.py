@@ -172,6 +172,17 @@ class PlanDocument(models.Model):
                 return choice[1].lower()
         return 'document';
 
+    @property
+    def link(self):
+        """
+        PDFs are the only filetype we can display well locally so link out to
+        the source document for other file types
+        """
+        if self.file_type == 'pdf':
+            return self.file.url
+        else:
+            return self.url
+
     @classmethod
     def make_url_hash(cls, url):
         """

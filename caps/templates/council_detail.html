@@ -72,7 +72,7 @@
         <h2>Plan documents</h2>
     </div>
   {% for plandocument in council.plandocument_set.all %}
-    <a href="{{ plandocument.file.url }}" class="d-flex p-3 align-items-center">
+    <a href="{{ plandocument.link }}" class="d-flex p-3 align-items-center">
         {% include 'icons/file.html' with classes='mr-2 flex-shrink-0' %}
         {{ council.name }} {{ plandocument.document_name|title }} ({{ plandocument.file_type|upper }})
     </a>
