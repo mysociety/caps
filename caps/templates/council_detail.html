@@ -6,7 +6,33 @@
 
 <h1>{{ council.name }}</h1>
 
-<div class="card ceuk-card ceuk-card--blue my-3 my-md-4 my-lg-5">
+<div class="scorecard mb-4 mb-lg-5">
+    <div>
+      {% if council.plandocument_set.all.count > 0 %}
+        {% include 'icons/check-circle-fill.html' with width='2em' height='2em' classes='mb-2 text-success' %}
+        {{ council.plandocument_set.all.count }} plan{{ council.plandocument_set.all.count|pluralize }} found
+      {% else %}
+        {% include 'icons/question-circle.html' with width='2em' height='2em' classes='mb-2 text-muted' %}
+        No plans found
+      {% endif %}
+    </div>
+    <div>
+        <div class="d-flex align-items-end mb-2">
+            <div class="js-sparkline mr-2" style="width: 100px;">
+                <canvas width="100" height="32" data-values="{% for datapoint in council.datapoint_set.all %}{% if datapoint.data_type.name == 'Per Capita Emissions' %} {{ datapoint.value }} {% endif %}{% endfor %}"></canvas>
+            </div>
+            <div>
+                <span class="h3 line-height-1 mb-0"><!-- TODO -->3.2<!-- /TODO --></span>
+                <abbr title="Tonnes of Carbon Dioxide Equivalent">tCO2e</span>
+            </div>
+        </div>
+        <span>
+            <!-- TODO -->2018<!-- /TODO --> emissions per capita
+        </span>
+    </div>
+</div>
+
+<div class="card ceuk-card ceuk-card--blue my-4 my-lg-5">
     <div class="card-header">
         <h2>Plan documents</h2>
     </div>
@@ -23,7 +49,7 @@
 </div>
 
 {% if related_councils %}
-<div class="card ceuk-card ceuk-card--cyan my-3 my-md-4 my-lg-5">
+<div class="card ceuk-card ceuk-card--cyan my-4 my-lg-5">
   <div class="card-header">
     <h2>Other nearby councils</h2>
   </div>
@@ -32,10 +58,5 @@
   </div>
 </div>
 {% endif %}
-
-<h2>Emissions</h2>
-{% for datapoint in council.datapoint_set.all %}
-  <div>{{ datapoint.year }}  {{ datapoint.value }} {{ datapoint.data_type.name }}</div>
-{% endfor %}
 
 {% endblock %}

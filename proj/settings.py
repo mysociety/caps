@@ -75,6 +75,10 @@ STATICFILES_DIRS = (
     (
         "jquery",
         os.path.join(BASE_DIR, "vendor", "jquery"),
+    ),
+    (
+        "chartjs",
+        os.path.join(BASE_DIR, "vendor", "chartjs"),
     )
 )
 
