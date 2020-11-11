@@ -6,12 +6,21 @@
 
 <h1>{{ council.name }}</h1>
 
-<h2>Plans</h2>
-{% for plandocument in council.plandocument_set.all %}
-  <a href="{{ plandocument.file.url }}">{{ plandocument.file.url }}</a>
-{% empty %}
-  We couldn't find any plans for this council.
-{% endfor %}
+<div class="card ceuk-card ceuk-card--blue my-3 my-md-4 my-lg-5">
+    <div class="card-header">
+        <h2>Plan documents</h2>
+    </div>
+  {% for plandocument in council.plandocument_set.all %}
+    <a href="{{ plandocument.file.url }}" class="d-flex p-3 align-items-center">
+        {% include 'icons/file.html' with classes='mr-2 flex-shrink-0' %}
+        {{ council.name }} {{ plandocument.document_name|title }} ({{ plandocument.file_type|upper }})
+    </a>
+  {% empty %}
+    <div class="card-body text-muted">
+        We couldn’t find any climate action plans for this council.
+    </div>
+  {% endfor %}
+</div>
 
 {% if related_councils %}
 <div class="card ceuk-card ceuk-card--cyan my-3 my-md-4 my-lg-5">

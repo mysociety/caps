@@ -165,6 +165,13 @@ class PlanDocument(models.Model):
     text = models.TextField(blank=True)
     file = models.FileField('plans', storage=overwrite_storage)
 
+    @property
+    def document_name(self):
+        for choice in self.DOCUMENT_TYPE_CHOICES:
+            if choice[0] == self.document_type:
+                return choice[1].lower()
+        return 'document';
+
     @classmethod
     def make_url_hash(cls, url):
         """
