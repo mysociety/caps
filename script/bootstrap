@@ -7,8 +7,10 @@ set -e
 cd `dirname $0`/..
 
 # create plans and media dirs
+echo "==> Creating local data directories..."
 mkdir -p data/plans
 mkdir -p media
+mkdir -p static/css
 
 if [ "$1" == "--vagrant" ]; then
 

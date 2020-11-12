@@ -7,6 +7,7 @@ Clone the repository
 ```
 git clone git@github.com:mysociety/caps.git
 cd caps
+script/bootstrap
 ```
 
 You then have two options for a local development environment, [Vagrant](https://www.vagrantup.com/) and [Docker](https://www.docker.com/products/docker-desktop). These instructions don't cover installing and setting up these tools.
