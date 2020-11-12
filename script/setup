@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# script/setup: Set up application for the first time after cloning, or set it
+#               back to the initial first unused state.
+#
 
 # abort on any errors
 set -e
@@ -6,5 +10,27 @@ set -e
 # check that we are in the expected directory
 cd `dirname $0`/..
 
-# Set up Python packages in a virtualenv
+echo "==> Cleaning up any lingering Docker development environments..."
+docker-compose -f development.yml down -v
+
+echo "==> Removing any local data..."
+rm -fr media/
+rm -fr data/
+rm -fr static/
+
+# Run the Bootstrap
 script/bootstrap
+
+# Start the local Docker environment in the background.
+echo "==> Starting development docker environment in the background..."
+docker-compose -f development.yml up -d
+
+# Run the data import
+echo "==> Importing data..."
+docker-compose -f development.yml exec app script/update --all
+
+# Tear it all down
+echo "==> Stopping environment..."
+docker-compose -f development.yml stop
+
+echo '==> Done. You can now start an interactive environment by running `docker-compose -f development.yml up`'

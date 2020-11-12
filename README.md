@@ -27,9 +27,19 @@ nginx reverse proxy, uses the `gunicorn` process manager and uses the code built
 
 If you are using a MapIt API key, add this to your `.env` file, e.g.: `echo 'MAPIT_API_KEY=xxxaaa111222333zzz' >> .env`.
 
+### Using the setup script
+
+*Warning* running `script/setup` will remove all locally cached data and reset the environment to the default state!
+
+Having rest the environment, `script/setup` will perform all the necessary setup steps, including loading all data. Once this has completed, you should have a functional environment.
+
+This may take a long time to run!
+
+### Manual setup
+
 Run `docker-compose -f development.yml up`. This will build an application container and stand-up this, together with PostgreSQL and Solr containers. These will run in the foreground, so you will see console output in the shell from the containers. You can stop the containers by hitting `control-C`. If you'd rather run in the background, add the `-d` switch; if you do this you can stop the environment with `docker-compose -f development.yml down`.
 
-You can then run `docker-compose -f development.yml exec app script/update --all` to perform the initial data load. Run the same command without the `--all` switch to run the short-cut data load.
+You can then run `docker-compose -f development.yml exec app script/update --all` to perform the initial data load. This will take a long time. Run the same command without the `--all` switch to run the short-cut data load.
 
 You can rebuild the application container by running `script/build`. Bear in mind that when running the container in development mode, your local working copy will be included along with any local uncommitted changes.
 
