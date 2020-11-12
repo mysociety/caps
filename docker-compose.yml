@@ -16,6 +16,7 @@ services:
       - REPOSITORY_DB_PASS=${REPOSITORY_DB_PASS:-caps}
       - SECRET_KEY=${SECRET_KEY:-xx}
       - DEBUG=${DEBUG:-0}
+      - MAPIT_API_KEY=${MAPIT_AP_KEY:-xxx}
     depends_on:
       - postgres
       - solr
