@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+# This script can be used in production to run arbitrary commands
+# in the application container.
+#
+
+# abort on any errors
+set -e
+
+# check that we are in the expected directory
+cd `dirname $0`/..
+
+# Get environment variables, if they exist.
+ENV_FILE=${ENV_FILE:-../env.sh}
+if [ -f "$ENV_FILE" ]; then
+  echo "==> Loading environment from ${ENV_FILE}"
+  source $ENV_FILE
+fi
+
+SWARM=$(docker info 2>/dev/null | grep '^ Swarm' | awk '{ print $NF }')
+SWARM=${SWARM:-inactive}
+
+if [ "$SWARM" == "inactive" ] ; then
+  echo "==> Not running in Swarm, exiting."
+  exit 1
+fi
+
+APP_CONTAINER_ID=$(docker container ls | grep ${STACK}_app | awk '{print $1}')
+
+echo "==> running $@ in container ${APP_CONTAINER_ID}..."
+docker exec -it ${APP_CONTAINER_ID} "$@"
