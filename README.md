@@ -1,42 +1,77 @@
-# caps
+# caps - Climate Action Plans
 
-# Install
+# Development Install
 
 Clone the repository
 
 ```
 git clone git@github.com:mysociety/caps.git
 cd caps
+```
+
+You then have two options for a local development environment, [Vagrant](https://www.vagrantup.com/) and [Docker](https://www.docker.com/products/docker-desktop). These instructions don't cover installing and setting up these tools.
+
+This application makes calls to [MapIt](https://mapit.mysociety.org). If you plan on making more than 50 calls a day, you'll [need an API key](https://mapit.mysociety.org/pricing/).
+
+## Loading Data
+
+The first time you stand-up a local development environment, you'll need to pull down the Council, plans and emissions data and import this into the database and search index. The instructions below provide details on how to do this for each environment.
+
+This process can take some time, and a slightly faster update process is also available.
+
+## Docker
+
+There are two compose files included in the respository, `production.yml` and `development.yml`. The production file contains an 
+nginx reverse proxy, uses the `gunicorn` process manager and uses the code built into the container. The development file omits the reverse proxy and uses the development server, enables debug mode and maps the local working copy into the container for testing.
+
+If you are using a MapIt API key, add this to your `.env` file, e.g.: `echo 'MAPIT_API_KEY=xxxaaa111222333zzz' >> .env`.
+
+Run `docker-compose -f development.yml up`. This will build an application container and stand-up this, together with PostgreSQL and Solr containers. These will run in the foreground, so you will see console output in the shell from the containers. You can stop the containers by hitting `control-C`. If you'd rather run in the background, add the `-d` switch; if you do this you can stop the environment with `docker-compose -f development.yml down`.
+
+You can then run `docker-compose -f development.yml exec app script/update --all` to perform the initial data load. Run the same command without the `--all` switch to run the short-cut data load.
+
+You can rebuild the application container by running `script/build`. Bear in mind that when running the container in development mode, your local working copy will be included along with any local uncommitted changes.
+
+The environment will be visible at http://localhost:8000 and the Solr admin interface at http://localhost:8983
+
+## Vagrant
+
+Copy across some basic config. You may need to add a MapIt API key.
+
+```
 cp conf/config.py-example conf/config.py
 ```
 
-A Vagrantfile is included for local development. Assuming you have [Vagrant](https://www.vagrantup.com/) installed, you can create a Vagrant VM with:
+A functional Vagrantfile is included for local development so you can create a Vagrant VM with:
 
 ```
 vagrant up
 ```
 
-Then SSH into the VM, and run the server script:
+Then SSH into the VM, and run subsequent commands from inside.
 
 ```
 vagrant ssh
-script/server
 ```
 
-The site will be visible at <http://localhost:8000>.
+### Importing data
 
-# Get, preprocess and load council, plan, and emissions data (includes setting up a Solr text index for the plan document text)
-
-```
-script/update
-```
-
-The Solr server interface will be visible at <http://localhost:8983>
-
-This will take some shortcuts if you already have some data loaded in order to run reasonably quickly.
-For a comprehensive update, use:
+Before running the development server for the first time, you'll need to import the data and set up the search index:
 
 ```
 script/update --all
 ```
 
+This process will take some time. Once you have done a full import, you can subsequently run `script/update` to take a few shortcuts in future.
+
+### Starting the development server
+
+Then you can start the development server:
+
+```
+script/server
+```
+
+The site will be visible at <http://localhost:8000>.
+
+The Solr server interface will be visible at <http://localhost:8983>

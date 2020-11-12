@@ -12,3 +12,5 @@ conf/config.py
 Vagrantfile
 .dockerignore
 docker-compose.yml
+production.yml
+development.yml

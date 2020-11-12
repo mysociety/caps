@@ -27,7 +27,7 @@ if [ "$SWARM" = "active" ] ; then
   case $ACTION in
     start | --start)
       echo "==> Deploying Swarm stack ${STACK}..."
-      docker stack deploy -c ${PWD}/docker-compose.yml ${STACK}
+      docker stack deploy -c ${PWD}/production.yml ${STACK}
       ;;
     stop | --stop)
       echo "==> Stopping Swarm stack ${STACK}..."
@@ -44,7 +44,7 @@ if [ "$SWARM" = "active" ] ; then
         echo "==> Waiting for network to clear..."
         sleep 2
       done
-      docker stack deploy -c ${PWD}/docker-compose.yml ${STACK}
+      docker stack deploy -c ${PWD}/production.yml ${STACK}
       ;;
     status | --status)
       echo "==> Checking status of stack ${STACK}..."
