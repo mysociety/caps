@@ -53,6 +53,8 @@
 @import "../bootstrap/utilities";
 @import "../bootstrap/print";
 
+@import "../chartjs/Chart";
+
 @import "site-header";
 @import "site-content";
 @import "site-footer";
@@ -63,3 +65,5 @@
 @import "alpha-banner";
 @import "ceuk-card";
 @import "ceuk-data-table";
+@import "sparkline";
+@import "scorecard";

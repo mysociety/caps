@@ -165,6 +165,24 @@ class PlanDocument(models.Model):
     text = models.TextField(blank=True)
     file = models.FileField('plans', storage=overwrite_storage)
 
+    @property
+    def document_name(self):
+        for choice in self.DOCUMENT_TYPE_CHOICES:
+            if choice[0] == self.document_type:
+                return choice[1].lower()
+        return 'document';
+
+    @property
+    def link(self):
+        """
+        PDFs are the only filetype we can display well locally so link out to
+        the source document for other file types
+        """
+        if self.file_type == 'pdf':
+            return self.file.url
+        else:
+            return self.url
+
     @classmethod
     def make_url_hash(cls, url):
         """
@@ -291,3 +309,6 @@ class DataPoint(models.Model):
     value = models.FloatField()
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
     data_type = models.ForeignKey(DataType, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['data_type', 'year']

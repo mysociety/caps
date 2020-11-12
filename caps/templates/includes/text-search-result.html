@@ -3,7 +3,7 @@
         <h2 class="h4"><a href="{% url 'council' result.object.council.slug %}">{{ result.object.council.name }}</a></h2>
         <a class="d-flex align-items-center mb-3" href="{{ result.object.file.url }}">
             {% include 'icons/file.html' with classes='mr-2' %}
-            Direct link to plan document (PDF)
+            Direct link to {{ result.object.document_name }} ({{ result.object.file_type|upper }})
         </a>
       {% for text in result.highlighted.text %}
         <p>…{% autoescape off %}{{ text }}{% endautoescape %}…</p>

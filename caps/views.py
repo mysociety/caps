@@ -2,13 +2,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import DetailView, ListView, TemplateView
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Max
 from django.shortcuts import redirect
 
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
 
-from caps.models import Council, CouncilFilter, PlanDocument
+from caps.models import Council, CouncilFilter, PlanDocument, DataPoint
 from caps.forms import HighlightedSearchForm
 from caps.mapit import MapIt, NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException
 
@@ -37,6 +37,17 @@ class CouncilDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         council = context.get('council')
+        try:
+            latest_year = council.datapoint_set.aggregate(Max('year'))['year__max']
+            context['latest_year'] = latest_year
+            latest_year_per_capita_emissions = council.datapoint_set.get(year=latest_year, data_type__name='Per Capita Emissions').value
+            latest_year_per_km2_emissions = council.datapoint_set.get(year=latest_year, data_type__name='Emissions per km2').value
+            latest_year_total_emissions = council.datapoint_set.get(year=latest_year, data_type__name='Total Emissions').value
+            context['latest_year_per_capita_emissions'] = latest_year_per_capita_emissions
+            context['latest_year_per_km2_emissions'] = latest_year_per_km2_emissions
+            context['latest_year_total_emissions'] = latest_year_total_emissions
+        except DataPoint.DoesNotExist:
+            context['no_emissions_data'] = True
         context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'))
         return context
 

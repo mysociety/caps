@@ -43,5 +43,6 @@ class DataPointAdmin(admin.ModelAdmin):
                     'data_type')
 
     search_fields = ('council__name', 'data_type__name')
+    list_filter = ('data_type__name', 'year')
 
 admin.site.register(DataPoint, DataPointAdmin)
