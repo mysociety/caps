@@ -13,7 +13,7 @@ cd `dirname $0`/..
 "$(dirname "$0")/manage" add_text "$@"
 "$(dirname "$0")/manage" import_plans
 "$(dirname "$0")/manage" link_combined_authorities
-"$(dirname "$0")/manage" add_related_councils
+"$(dirname "$0")/manage" add_related_councils "$@"
 "$(dirname "$0")/manage" rebuild_index --noinput
 "$(dirname "$0")/manage" import_emissions_data "$@"
 
