@@ -30,5 +30,16 @@ class Command(BaseCommand):
     help = 'Adds geographically related authorities for each council using MapIt'
 
     def handle(self, *args, **options):
-        print('adding related authorities')
-        add_related_councils()
+        get_all = options['all']
+        if get_all:
+            print('adding related authorities')
+            add_related_councils()
+        else:
+            print('skipping related authorities')
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--all',
+            action='store_true',
+            help='Update all data (slower but more thorough)',
+        )
