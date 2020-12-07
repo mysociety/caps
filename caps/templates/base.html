@@ -15,6 +15,19 @@
     {% stylesheet 'main' %}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@600&display=swap">
     {% block extrastylesheets %}{% endblock %}
+    {% if GOOGLE_ANALYTICS %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '{{ GOOGLE_ANALYTICS }}', {
+                'client_storage': 'none'
+            });
+        </script>
+    {% endif %}
 </head>
 <body class="{% block bodyclass %}{% endblock %}">
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
