@@ -35,6 +35,8 @@ def set_file_attributes(df, index, content_type, extension):
         df.at[index, 'file_type'] = 'pdf'
     elif file_type == 'text/html':
         df.at[index, 'file_type'] = 'html'
+    elif extension == '.docx':
+        df.at[index, 'file_type'] = 'docx'
     else:
         print("Unknown content type: " + content_type)
 
