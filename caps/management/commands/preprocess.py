@@ -31,7 +31,7 @@ def set_file_attributes(df, index, content_type, extension):
         charset = content_type_info[1].replace('charset=', '').strip()
         df.at[index, 'charset'] = charset
 
-    if file_type == 'application/pdf' or extension == 'pdf':
+    if file_type == 'application/pdf' or extension == '.pdf':
         df.at[index, 'file_type'] = 'pdf'
     elif file_type == 'text/html':
         df.at[index, 'file_type'] = 'html'
