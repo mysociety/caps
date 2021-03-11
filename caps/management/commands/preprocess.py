@@ -121,6 +121,8 @@ def replace_headers():
                   'type',
                   'scope',
                   'status',
+                  'homepage_mention',
+                  'dedicated_page',
                   'well_presented',
                   'baseline_analysis',
                   'notes',
