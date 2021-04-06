@@ -8,7 +8,7 @@ import pandas as pd
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
-AUTHORITY_MAPPING_URL = 'https://raw.githubusercontent.com/crowbot/uk_local_authority_names_and_codes/all-fixes/lookup_name_to_registry.csv'
+AUTHORITY_MAPPING_URL = 'https://raw.githubusercontent.com/crowbot/uk_local_authority_names_and_codes/master/lookup_name_to_registry.csv'
 AUTHORITY_MAPPING_NAME = 'lookup_name_to_registry.csv'
 AUTHORITY_MAPPING = join(settings.DATA_DIR, AUTHORITY_MAPPING_NAME)
 
