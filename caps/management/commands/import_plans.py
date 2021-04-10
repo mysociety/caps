@@ -26,9 +26,11 @@ class Command(BaseCommand):
                 authority_type = PlanDocument.char_from_text(row['authority_type']),
                 gss_code = PlanDocument.char_from_text(row['gss_code']),
                 country = Council.country_code(row['country']),
-                whatdotheyknow_id = PlanDocument.integer_from_text(row['wdtk_id']),
-                mapit_area_code = PlanDocument.char_from_text(row['mapit_area_code']),
-                website_url = PlanDocument.char_from_text(row['website_url']),
+                defaults = {
+                            'whatdotheyknow_id': PlanDocument.integer_from_text(row['wdtk_id']),
+                            'mapit_area_code': PlanDocument.char_from_text(row['mapit_area_code']),
+                            'website_url': PlanDocument.char_from_text(row['website_url'])
+                }
             )
 
             if not pd.isnull(row['url']):
