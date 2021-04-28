@@ -37,6 +37,10 @@ def set_file_attributes(df, index, content_type, extension):
         df.at[index, 'file_type'] = 'html'
     elif extension == '.docx':
         df.at[index, 'file_type'] = 'docx'
+    elif content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        df.at[index, 'file_type'] = 'xlsx'
+    elif content_type == 'application/vnd.ms-excel.sheet.macroenabled.12':
+        df.at[index, 'file_type'] = 'xlsm'
     else:
         print("Unknown content type: " + content_type)
 
