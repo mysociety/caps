@@ -79,7 +79,11 @@ def get_unindexed():
             {'council': 'West Suffolk Council',
              'url': 'https://www.westsuffolk.gov.uk/'},
             {'council': 'Newcastle Upon Tyne, North Tyneside and Northumberland Combined Authority',
-             'url': 'https://www.northoftyne-ca.gov.uk/'}
+             'url': 'https://www.northoftyne-ca.gov.uk/'},
+            {'council': 'North Northamptonshire Council',
+             'url': 'https://www.northnorthants.gov.uk/'},
+            {'council': 'West Northamptonshire Council',
+             'url': 'https://www.westnorthants.gov.uk/'}
            ]
 
 def alternative_names(council_name):

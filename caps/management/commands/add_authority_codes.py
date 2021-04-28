@@ -8,7 +8,7 @@ import pandas as pd
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
-AUTHORITY_MAPPING_URL = 'https://raw.githubusercontent.com/crowbot/uk_local_authority_names_and_codes/all-fixes/lookup_name_to_registry.csv'
+AUTHORITY_MAPPING_URL = 'https://raw.githubusercontent.com/crowbot/uk_local_authority_names_and_codes/master/lookup_name_to_registry.csv'
 AUTHORITY_MAPPING_NAME = 'lookup_name_to_registry.csv'
 AUTHORITY_MAPPING = join(settings.DATA_DIR, AUTHORITY_MAPPING_NAME)
 
@@ -72,18 +72,7 @@ def add_extra_authority_info():
         if not pd.isnull(authority_code):
             authority_match = authority_df[authority_df['local-authority-code'] == authority_code]
             country = None
-            register = authority_match['register'].values[0]
-            if register == 'principal-local-authority':
-                country = "Wales"
-            elif register == 'local-authority-sct':
-                country = "Scotland"
-            elif register == 'local-authority-eng':
-                country = "England"
-            elif register == 'local-authority-nir':
-                country = "Northern Ireland"
-            else:
-                raise Exception(f'Unknown register type: {register}')
-
+            country = authority_match['nation'].values[0]
             plans_df.at[index, 'authority_type'] = authority_match['local-authority-type'].values[0]
             plans_df.at[index, 'wdtk_id'] = authority_match['wdtk_ids'].values[0]
             plans_df.at[index, 'mapit_area_code'] = authority_match['mapit_area_code'].values[0]
