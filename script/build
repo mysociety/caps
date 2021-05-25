@@ -9,5 +9,5 @@ export BUILD_COMMIT=$(git log -1 --pretty=%h)
 
 script/bootstrap
 
-docker build . -t mysocietyorg/caps --build-arg BUILD_COMMIT=$BUILD_COMMIT
+docker build . -t mysocietyorg/caps:latest -t mysocietyorg/caps:${BUILD_COMMIT} --build-arg BUILD_COMMIT=${BUILD_COMMIT}
 docker-compose -f production.yml pull
