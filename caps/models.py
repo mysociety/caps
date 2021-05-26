@@ -263,11 +263,11 @@ class PlanDocument(models.Model):
     def date_from_text(cls, date_entry):
         """
         Return a date object given a text date, or none if there is no parsable
-        date
+        date. This will strip any time information from the parsed date.
         """
         if pd.isnull(date_entry):
             return None
-        return dateutil.parser.parse(date_entry)
+        return dateutil.parser.parse(date_entry).date()
 
     @classmethod
     def integer_from_text(cls, entry):

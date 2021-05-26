@@ -2,11 +2,13 @@ from io import StringIO
 
 from django.test import TestCase
 
+import unittest
 from django.core.management import call_command
 from caps.models import Council, PlanDocument
 
 class ImportPlansTestCase(TestCase):
 
+    processed_output = 'adding new plan for Borsetshire\nadding new council: East Borsetshire\nadding new plan for East Borsetshire\nadding new council: West Borsetshire\n2 councils will be added\n2 plans will be added\n';
     def setUp(self):
         plan_council = Council.objects.get_or_create(name='Borsetshire',
                                               slug='borsetshire',
@@ -29,8 +31,8 @@ class ImportPlansTestCase(TestCase):
 
     def test_import(self):
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
-
-            out = self.call_command()
+            out = self.call_command(verbosity=2)
+            self.assertEquals(out, self.processed_output)
 
             council = Council.objects.get(authority_code='BORS');
             self.assertEqual(council.name, "Borsetshire")
@@ -40,3 +42,115 @@ class ImportPlansTestCase(TestCase):
             self.assertEqual(plan.document_type, PlanDocument.PRE_PLAN);
             self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY);
             self.assertEqual(plan.file_type, "pdf");
+
+            council = Council.objects.get(authority_code='EBRS');
+            self.assertEqual(council.name, "East Borsetshire")
+
+            plan = PlanDocument.objects.get(council=council)
+            self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
+            self.assertEqual(plan.document_type, PlanDocument.PRE_PLAN);
+            self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY);
+            self.assertEqual(plan.file_type, "pdf");
+
+            council = Council.objects.get(authority_code='WBRS');
+            self.assertEqual(council.name, "West Borsetshire")
+
+            plan = PlanDocument.objects.filter(council=council).exists()
+            self.assertFalse(plan)
+
+    def test_basic_changes_message(self):
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
+            out = self.call_command()
+            self.assertEquals(out, '2 councils will be added\n2 plans will be added\n');
+
+            out = self.call_command()
+            self.assertEquals(out, '');
+
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
+            out = self.call_command()
+            self.assertEquals(out, '1 plans will be added\n1 plans will be updated\n');
+
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
+            out = self.call_command()
+            self.assertEquals(out, '1 plans will be added\n');
+
+    def test_detailed_changes_message(self):
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
+            out = self.call_command(verbosity=2)
+            self.assertEquals(out, self.processed_output);
+
+            out = self.call_command(verbosity=2)
+            self.assertEquals(out, '');
+
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
+            out = self.call_command(verbosity=2)
+            self.assertEquals(out, 'updating plan for Borsetshire\nadding new plan for West Borsetshire\n1 plans will be added\n1 plans will be updated\n');
+
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
+            out = self.call_command(verbosity=2)
+            self.assertEquals(out, 'adding new plan for Borsetshire\n1 plans will be added\n');
+
+
+    @unittest.expectedFailure
+    def test_update_properties(self):
+        council = Council.objects.get(authority_code='BORS');
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
+            out = self.call_command()
+
+            plan = PlanDocument.objects.get(council=council)
+            self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
+            self.assertEqual(plan.document_type, PlanDocument.PRE_PLAN);
+            self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY);
+            self.assertEqual(plan.file_type, "pdf");
+
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
+            out = self.call_command()
+
+            plans = PlanDocument.objects.filter(council=council)
+            self.assertEqual(len(plans), 1)
+
+            plan = PlanDocument.objects.get(council=council)
+            self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
+            self.assertEqual(plan.document_type, PlanDocument.ACTION_PLAN);
+            self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY);
+            self.assertEqual(plan.file_type, "pdf");
+
+            new_council = Council.objects.get(authority_code='WBRS');
+            plan = PlanDocument.objects.get(council=new_council)
+            self.assertEqual(plan.url, "https://west-borsetshire.gov.uk/climate_plan.pdf")
+
+
+    @unittest.expectedFailure
+    def test_change_url(self):
+        council = Council.objects.get(authority_code='BORS');
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
+            out = self.call_command()
+
+            plan = PlanDocument.objects.get(council=council)
+            self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
+
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
+            out = self.call_command()
+
+            plans = PlanDocument.objects.filter(council=council)
+            self.assertEqual(len(plans), 1)
+
+            plan = PlanDocument.objects.get(council=council)
+            self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan_updated.pdf")
+
+    @unittest.expectedFailure
+    def test_delete_plan(self):
+        council = Council.objects.get(authority_code='BORS');
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
+
+            out = self.call_command()
+
+            plan = PlanDocument.objects.get(council=council)
+            self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
+
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed_no_plans.csv"):
+
+            out = self.call_command()
+
+            plans = PlanDocument.objects.filter(council=council)
+            self.assertEqual(len(plans), 0)
