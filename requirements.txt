@@ -31,7 +31,7 @@ olefile==0.44
 openpyxl==2.6.4
 pandas==0.25.3
 pdftotext==2.1.5
-Pillow==6.2.0
+Pillow==8.1.1
 psycopg2==2.8.5
 pysolr==3.9.0
 python-dateutil==2.8.1
