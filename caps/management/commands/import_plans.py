@@ -15,11 +15,23 @@ from django.conf import settings
 class Command(BaseCommand):
     help = 'Imports data from data/plans into the database'
 
+    changes = False
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--confirm_changes',
+            action='store_true',
+            help='make updates to database'
+        )
+
     def handle(self, *args, **options):
         self.verbosity = options.get('verbosity')
 
         self.get_changes()
-        self.update_database()
+        if options['confirm_changes'] == True:
+            self.update_database()
+        elif self.changes == True:
+            self.print_change("call with --confirm_changes to update database")
 
     def get_changes(self):
         df = pd.read_csv(settings.PROCESSED_CSV)
@@ -123,6 +135,7 @@ class Command(BaseCommand):
         return defaults;
 
     def print_change(self, text, *args, **kwargs):
+        self.changes = True
         verbosity = kwargs.get('verbosity', 1)
         if self.verbosity >= verbosity:
             self.stdout.write(text % args)

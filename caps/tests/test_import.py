@@ -31,7 +31,7 @@ class ImportPlansTestCase(TestCase):
 
     def test_import(self):
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
-            out = self.call_command(verbosity=2)
+            out = self.call_command(confirm_changes=1,verbosity=2)
             self.assertEquals(out, self.processed_output)
 
             council = Council.objects.get(authority_code='BORS');
@@ -58,36 +58,46 @@ class ImportPlansTestCase(TestCase):
             plan = PlanDocument.objects.filter(council=council).exists()
             self.assertFalse(plan)
 
+
+    def test_without_confirm_changes(self):
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
+            out = self.call_command(verbosity=2)
+            self.assertEquals(out, '%scall with --confirm_changes to update database\n' % self.processed_output);
+
+            council = Council.objects.get(authority_code='BORS');
+            plan = PlanDocument.objects.filter(council=council).exists()
+            self.assertFalse(plan)
+
     def test_basic_changes_message(self):
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
-            out = self.call_command()
+            out = self.call_command(confirm_changes=1)
             self.assertEquals(out, '2 councils will be added\n2 plans will be added\n');
 
             out = self.call_command()
             self.assertEquals(out, '');
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
-            out = self.call_command()
+            out = self.call_command(confirm_changes=1)
             self.assertEquals(out, '1 plans will be added\n1 plans will be updated\n');
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
-            out = self.call_command()
+            out = self.call_command(confirm_changes=1)
             self.assertEquals(out, '1 plans will be added\n');
 
     def test_detailed_changes_message(self):
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
-            out = self.call_command(verbosity=2)
+            out = self.call_command(confirm_changes=1,verbosity=2)
             self.assertEquals(out, self.processed_output);
 
             out = self.call_command(verbosity=2)
             self.assertEquals(out, '');
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
-            out = self.call_command(verbosity=2)
+            out = self.call_command(confirm_changes=1,verbosity=2)
             self.assertEquals(out, 'updating plan for Borsetshire\nadding new plan for West Borsetshire\n1 plans will be added\n1 plans will be updated\n');
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
-            out = self.call_command(verbosity=2)
+            out = self.call_command(confirm_changes=1,verbosity=2)
             self.assertEquals(out, 'adding new plan for Borsetshire\n1 plans will be added\n');
 
 
@@ -95,7 +105,7 @@ class ImportPlansTestCase(TestCase):
     def test_update_properties(self):
         council = Council.objects.get(authority_code='BORS');
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
-            out = self.call_command()
+            out = self.call_command(confirm_changes=1)
 
             plan = PlanDocument.objects.get(council=council)
             self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
@@ -104,7 +114,7 @@ class ImportPlansTestCase(TestCase):
             self.assertEqual(plan.file_type, "pdf");
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
-            out = self.call_command()
+            out = self.call_command(confirm_changes=1)
 
             plans = PlanDocument.objects.filter(council=council)
             self.assertEqual(len(plans), 1)
@@ -124,13 +134,13 @@ class ImportPlansTestCase(TestCase):
     def test_change_url(self):
         council = Council.objects.get(authority_code='BORS');
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
-            out = self.call_command()
+            out = self.call_command(confirm_changes=1)
 
             plan = PlanDocument.objects.get(council=council)
             self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
-            out = self.call_command()
+            out = self.call_command(confirm_changes=1)
 
             plans = PlanDocument.objects.filter(council=council)
             self.assertEqual(len(plans), 1)
@@ -143,14 +153,14 @@ class ImportPlansTestCase(TestCase):
         council = Council.objects.get(authority_code='BORS');
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
 
-            out = self.call_command()
+            out = self.call_command(confirm_changes=1)
 
             plan = PlanDocument.objects.get(council=council)
             self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_no_plans.csv"):
 
-            out = self.call_command()
+            out = self.call_command(confirm_changes=1)
 
             plans = PlanDocument.objects.filter(council=council)
             self.assertEqual(len(plans), 0)

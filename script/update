@@ -11,7 +11,7 @@ cd `dirname $0`/..
 "$(dirname "$0")/manage" add_authority_codes
 "$(dirname "$0")/manage" add_council_websites
 "$(dirname "$0")/manage" add_text "$@"
-"$(dirname "$0")/manage" import_plans
+"$(dirname "$0")/manage" import_plans --confirm_changes
 "$(dirname "$0")/manage" link_combined_authorities
 "$(dirname "$0")/manage" add_related_councils "$@"
 "$(dirname "$0")/manage" rebuild_index --noinput
