@@ -109,7 +109,7 @@ class Command(BaseCommand):
                             }
                 defaults.update(self.get_plan_defaults_from_row(row))
 
-                plan_document = PlanDocument.objects.get_or_create(
+                plan_document = PlanDocument.objects.update_or_create(
                     url=row['url'],
                     url_hash=PlanDocument.make_url_hash(row['url']),
                     council = council,

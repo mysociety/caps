@@ -101,7 +101,6 @@ class ImportPlansTestCase(TestCase):
             self.assertEquals(out, 'adding new plan for Borsetshire\n1 plans will be added\n');
 
 
-    @unittest.expectedFailure
     def test_update_properties(self):
         council = Council.objects.get(authority_code='BORS');
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
