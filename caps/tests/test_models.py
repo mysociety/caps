@@ -5,7 +5,7 @@ from caps.models import Council, PlanDocument
 class PlanDocumentStartEndEndYearsFromTimePeriodTestCase(TestCase):
 
     def test_simple_case(self):
-        expected = ('2020', '2030')
+        expected = (2020, 2030)
         actual = PlanDocument.start_and_end_year_from_time_period('2020-2030')
         self.assertEqual(expected, actual)
 
@@ -15,7 +15,7 @@ class PlanDocumentStartEndEndYearsFromTimePeriodTestCase(TestCase):
         self.assertEqual(expected, actual)
 
     def test_dates_then_text_parsed(self):
-        expected = ('2020', '2030')
+        expected = (2020, 2030)
         actual = PlanDocument.start_and_end_year_from_time_period('2020-2030: "aim to become carbon neutral by 2030, and 80% by 2025."')
         self.assertEqual(expected, actual)
 

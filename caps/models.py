@@ -222,7 +222,7 @@ class PlanDocument(models.Model):
             return (None, None)
         match = re.match(r'(?P<start_year>20\d\d)-(?P<end_year>20\d\d)', time_period.lstrip())
         if match:
-            return (match.group('start_year'), match.group('end_year'))
+            return (int(match.group('start_year')), int(match.group('end_year')))
         else:
             return (None, None)
 
