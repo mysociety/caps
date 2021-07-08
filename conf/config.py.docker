@@ -17,5 +17,6 @@ CACHE_FILE = 'data/cache'
 
 SOLR_URL = os.environ.get("SOLR_URL", "http://solr:8983/solr/caps")
 SOLR_ADMIN_URL = os.environ.get("SOLR_ADMIN_URL", "http://solr:8983/solr/admin/cores")
+SURVEY_URL = os.environ.get("SURVEY_URL", "https://survey.alchemer.com/s3/6421904/Climate-Action-Plans-User-Survey")
 
 GOOGLE_ANALYTICS = os.environ.get("GOOGLE_ANALYTICS", "xxx")

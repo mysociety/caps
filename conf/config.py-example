@@ -15,5 +15,7 @@ CACHE_FILE = 'data/cache'
 SOLR_URL = 'http://127.0.0.1:8983/solr/caps'
 SOLR_ADMIN_URL = 'http://127.0.0.1:8983/solr/admin/cores'
 
+SURVEY_URL = os.environ.get("SURVEY_URL", '')
+
 MAPIT_API_KEY = 'xxx'
 GOOGLE_ANALYTICS = 'xxx'

@@ -67,20 +67,38 @@
     </div>
 </div>
 
-<div class="card ceuk-card ceuk-card--blue my-4 my-lg-5">
-    <div class="card-header">
-        <h2>Plan documents</h2>
+<div class="row">
+    <div class="col-md-6 d-flex">
+
+        <div class="card ceuk-card ceuk-card--blue my-4 my-md-0 flex-grow-1">
+            <div class="card-header">
+                <h2>Plan documents</h2>
+            </div>
+          {% for plandocument in council.plandocument_set.all %}
+            <a href="{{ plandocument.link }}" class="d-flex p-3 align-items-center">
+                {% include 'icons/file.html' with classes='mr-2 flex-shrink-0' %}
+                {{ council.name }} {{ plandocument.document_name|title }} ({{ plandocument.file_type|upper }})
+            </a>
+          {% empty %}
+            <div class="card-body text-muted">
+                We couldn’t find any climate action plans for this council.
+            </div>
+          {% endfor %}
+        </div>
+
     </div>
-  {% for plandocument in council.plandocument_set.all %}
-    <a href="{{ plandocument.link }}" class="d-flex p-3 align-items-center">
-        {% include 'icons/file.html' with classes='mr-2 flex-shrink-0' %}
-        {{ council.name }} {{ plandocument.document_name|title }} ({{ plandocument.file_type|upper }})
-    </a>
-  {% empty %}
-    <div class="card-body text-muted">
-        We couldn’t find any climate action plans for this council.
+    <div class="col-md-6">
+
+        <div class="card ceuk-card ceuk-card--magenta my-4 my-md-0">
+            <div class="card-header">
+                <h2>What do you want from Climate Action Plans?</h2>
+            </div>
+            <div class="card-body">
+                {% include 'includes/survey-email.html' %}
+            </div>
+        </div>
+
     </div>
-  {% endfor %}
 </div>
 
 {% if related_councils %}
