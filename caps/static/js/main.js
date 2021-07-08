@@ -121,4 +121,63 @@ $(function() {
         );
     });
 
+    $('a[data-plan-id]').on("click", function(e) {
+        var link = $(this);
+        var link_url = link.attr('href');
+        var link_text = link.text();
+        var link_ext = "." + link_url.split('.').pop();
+        var file_name = link_url.split('/').pop();
+        var council_slug = link.data("council-slug");
+        var plan_id = link.data("plan-id");
+
+        // Set up callback to open link in current window,
+        // if user hasn't initiated click with modifier keys.
+        var callback;
+        if (
+            e.ctrlKey ||
+            e.shiftKey ||
+            e.metaKey ||
+            (e.button && e.button == 1) // middle mouse button
+        ){
+            callback = function(){}
+        } else {
+            e.preventDefault();
+            callback = function(){
+                window.location.href = link_url;
+            }
+        }
+
+        trackEvent('plan_link_click', {
+            file_extension: link_ext,
+            file_name: file_name,
+            link_url: link_url,
+            link_text: link_text,
+            council_slug: council_slug,
+            plan_id: plan_id
+        }).done(callback);
+    });
 });
+
+var trackEvent = function(eventName, params) {
+    // We'll return a promise, and resolve it when either Gtag handles
+    // our event, or a maximum fallback period elapses. Promises can
+    // only be resolved once, so this also ensures whatever callbacks
+    // are attached to the promise only execute once.
+    var dfd = $.Deferred();
+
+    var callback = function(){
+        dfd.resolve();
+    };
+
+    // Tell Gtag to resolve our promise when it's done.
+    var params = $.extend(params, {
+        event_callback: callback
+    });
+
+    gtag('event', eventName, params);
+
+    // Wait a maximum of 2 seconds for Gtag to resolve promise.
+    setTimeout(callback, 2000);
+
+    return dfd.promise();
+};
