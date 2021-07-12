@@ -15,6 +15,7 @@ services:
       - SECRET_KEY=${SECRET_KEY:-xx}
       - DEBUG=${DEBUG:-1}
       - MAPIT_API_KEY=${MAPIT_API_KEY:-xxx}
+      - MAILCHIMP_KEY=${MAILCHIMP_KEY:-xxx}
     depends_on:
       - postgres
       - solr

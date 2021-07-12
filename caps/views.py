@@ -1,9 +1,12 @@
 # -*- coding: future_fstrings -*-
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.views.generic import DetailView, ListView, TemplateView
+from django.http import HttpResponse, JsonResponse
+from django.views.generic import View, DetailView, ListView, TemplateView
 from django.db.models import Q, Count, Max
 from django.shortcuts import redirect
+from django.conf import settings
+import mailchimp_marketing as MailchimpMarketing
+from mailchimp_marketing.api_client import ApiClientError
 
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
@@ -98,3 +101,35 @@ class LocationResultsView(TemplateView):
 class AboutView(TemplateView):
 
     template_name = "about.html"
+
+
+class MailchimpView(View):
+    """
+    View that accepts a post request of an email address
+    and adds that to the mailchimp list
+    """
+
+    def post(self, request):
+
+        email = request.POST.get("email")
+        client = MailchimpMarketing.Client()
+        client.set_config({
+            "api_key": settings.MAILCHIMP_KEY,
+            "server": settings.MAILCHIMP_SERVER_PREFIX
+        })
+
+        content = {"email_address":email,
+                   "status":"subscribed"}
+        result = None
+        body = {"members":[content],
+                "update_existing": True}
+
+        success = False
+        try:
+            result = client.lists.batch_list_members(settings.MAILCHIMP_LIST_ID, body)
+            success = True
+        except ApiClientError as error:
+            print("Error: {}".format(error.text))
+            success = False
+
+        return JsonResponse({"result":success})

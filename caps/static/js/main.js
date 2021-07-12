@@ -162,6 +162,18 @@ $('#interstitial-modal').on('shown.bs.modal', function(e){
     $('#interstitial-modal [data-toggle="tooltip"]').tooltip();
 }).modal('show');
 
+    $("#survey-submit").on("click", function(e){
+
+        email = $("#interstitial-email").val()
+        csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        if (email != ''){
+            $.post("/ajax/mailchimp_email", {email: email,
+                        csrfmiddlewaretoken: csrftoken
+                        })
+        }
+    })
+
+
 $('.conditional-fields').each(function(){
     var $conditional = $(this);
     var $prevInput = $(this).prev().find('input');
@@ -196,3 +208,5 @@ var trackEvent = function(eventName, params) {
 
     return dfd.promise();
 };
+
+
