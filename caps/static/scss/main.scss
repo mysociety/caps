@@ -45,8 +45,8 @@
 // @import "../bootstrap/list-group";
 // @import "../bootstrap/close";
 // @import "../bootstrap/toasts";
-// @import "../bootstrap/modal";
-// @import "../bootstrap/tooltip";
+@import "../bootstrap/modal";
+@import "../bootstrap/tooltip";
 // @import "../bootstrap/popover";
 // @import "../bootstrap/carousel";
 @import "../bootstrap/spinners";
@@ -67,3 +67,4 @@
 @import "ceuk-data-table";
 @import "sparkline";
 @import "scorecard";
+@import "interstitial-modal";

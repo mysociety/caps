@@ -158,6 +158,21 @@ $(function() {
     });
 });
 
+$('#interstitial-modal').on('shown.bs.modal', function(e){
+    $('#interstitial-modal [data-toggle="tooltip"]').tooltip();
+}).modal('show');
+
+$('.conditional-fields').each(function(){
+    var $conditional = $(this);
+    var $prevInput = $(this).prev().find('input');
+
+    $conditional.parent().on('change', function(){
+        console.log('change', $prevInput[0].checked);
+        $conditional.toggleClass('d-none', ! $prevInput[0].checked);
+        $conditional.find('input').eq(0).focus();
+    });
+});
+
 var trackEvent = function(eventName, params) {
     // We'll return a promise, and resolve it when either Gtag handles
     // our event, or a maximum fallback period elapses. Promises can

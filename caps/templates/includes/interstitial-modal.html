@@ -1,0 +1,95 @@
+{% load static %}
+
+<div class="modal interstitial-modal" tabindex="-1" id="interstitial-modal" aria-labelledby="interstitial-modal-title">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg">
+
+            <div class="modal-header">
+                <h2 class="modal-title" id="interstitial-modal-title">Hello!</h2>
+                <button type="button" class="close" data-dismiss="modal">Skip</button>
+            </div>
+
+            <form class="modal-body">
+                <div class="team-avatars">
+                    <div class="team-avatars__person" data-toggle="tooltip" data-placement="bottom" title="Alex">
+                        <img src="{% static 'img/avatar-alex.jpg' %}" width="100" height="100" alt="">
+                    </div>
+                    <div class="team-avatars__person" data-toggle="tooltip" data-placement="bottom" title="Grace">
+                        <img src="{% static 'img/avatar-grace.jpg' %}" width="100" height="100" alt="">
+                    </div>
+                    <div class="team-avatars__person" data-toggle="tooltip" data-placement="bottom" title="Isaac">
+                        <img src="{% static 'img/avatar-isaac.jpg' %}" width="100" height="100" alt="">
+                    </div>
+                    <div class="team-avatars__person" data-toggle="tooltip" data-placement="bottom" title="Louise">
+                        <img src="{% static 'img/avatar-louise.jpg' %}" width="100" height="100" alt="">
+                    </div>
+                    <div class="team-avatars__person" data-toggle="tooltip" data-placement="bottom" title="Zarino">
+                        <img src="{% static 'img/avatar-zarino.jpg' %}" width="100" height="100" alt="">
+                    </div>
+                </div>
+
+                <p>We’re the team building this site, to help people like you drive more effective climate action. We hope you find it useful!</p>
+
+                <p>While you’re here, <strong>could you help us out by telling us what brought you to the site today?</strong>
+
+                <fieldset class="mb-3">
+                    <legend class="sr-only">What brought you to the site today?</legend>
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="radio" name="interstitial-why" value="citizen" id="interstitial-why-citizen">
+                        <label class="mb-0 ml-2" for="interstitial-why-citizen">
+                            I’m finding out about the place where I live
+                        </label>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="radio" name="interstitial-why" value="climate-officer" id="interstitial-why-climate-officer">
+                        <label class="mb-0 ml-2" for="interstitial-why-climate-officer">
+                            I work in a climate-related role at a council
+                        </label>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="radio" name="interstitial-why" value="climate-professional" id="interstitial-why-climate-professional">
+                        <label class="mb-0 ml-2" for="interstitial-why-climate-professional">
+                            I work in a climate-related role elsewhere
+                        </label>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="radio" name="interstitial-why" value="other" id="interstitial-why-other">
+                        <label class="mb-0 ml-2" for="interstitial-why-other">
+                            Something else
+                        </label>
+                    </div>
+                </fieldset>
+
+                <p>Would it be ok if we <strong>send you a short survey in a few days’ time</strong>, asking you about your experience of the site?</p>
+
+                <fieldset class="mb-3">
+                    <legend class="sr-only">What brought you to the site today?</legend>
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="radio" name="interstitial-signup" value="yes" id="interstitial-signup-yes">
+                        <label class="mb-0 ml-2" for="interstitial-signup-yes">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="conditional-fields d-none">
+                        <div class="form-group">
+                            <label for="interstitial-email">Your email address</label>
+                            <input type="email" class="form-control" id="interstitial-email" name="interstitial-email" aria-describedby="interstitial-email-hint">
+                            <small id="interstitial-email-hint" class="form-text text-muted">We’ll use this to send you one survey email.</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <input type="radio" name="interstitial-signup" value="no" id="interstitial-signup-no">
+                        <label class="mb-0 ml-2" for="interstitial-signup-no">
+                            No
+                        </label>
+                    </div>
+                </fieldset>
+            </form>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary btn-lg">Save answers</button>
+            </div>
+
+        </div>
+    </div>
+</div>
