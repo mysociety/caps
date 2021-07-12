@@ -20,3 +20,7 @@ SOLR_ADMIN_URL = os.environ.get("SOLR_ADMIN_URL", "http://solr:8983/solr/admin/c
 SURVEY_URL = os.environ.get("SURVEY_URL", "https://survey.alchemer.com/s3/6421904/Climate-Action-Plans-User-Survey")
 
 GOOGLE_ANALYTICS = os.environ.get("GOOGLE_ANALYTICS", "xxx")
+
+MAILCHIMP_KEY = os.environ.get("MAILCHIMP_KEY", "")
+MAILCHIMP_SERVER_PREFIX = os.environ.get("MAILCHIMP_SERVER_PREFIX", "us9")
+MAILCHIMP_LIST_ID = os.environ.get("MAILCHIMP_LIST_ID", "48e077419a")

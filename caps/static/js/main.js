@@ -181,6 +181,18 @@ $('.conditional-fields').each(function(){
     });
 });
 
+$('form[data-ajax-submit]').on('submit', function(e){
+    e.preventDefault();
+    var $form = $(this);
+    $form.parents('.modal').modal('hide');
+
+    $.ajax({
+        method: $form.attr('method'),
+        url: $form.attr('action'),
+        data: $form.serialize()
+    });
+});
+
 var trackEvent = function(eventName, params) {
     // We'll return a promise, and resolve it when either Gtag handles
     // our event, or a maximum fallback period elapses. Promises can
@@ -204,3 +216,5 @@ var trackEvent = function(eventName, params) {
 
     return dfd.promise();
 };
+
+

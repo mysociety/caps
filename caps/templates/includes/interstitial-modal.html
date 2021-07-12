@@ -2,14 +2,15 @@
 
 <div class="modal interstitial-modal" tabindex="-1" id="interstitial-modal" aria-labelledby="interstitial-modal-title">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content shadow-lg">
+        <form class="modal-content shadow-lg" data-ajax-submit method="POST" action="{% url 'mailchimp_hook' %}">
+            {% csrf_token %}
 
             <div class="modal-header">
                 <h2 class="modal-title" id="interstitial-modal-title">Hello!</h2>
                 <button type="button" class="close" data-dismiss="modal">Skip</button>
             </div>
 
-            <form class="modal-body">
+            <div class="modal-body">
                 <div class="team-avatars">
                     <div class="team-avatars__person" data-toggle="tooltip" data-placement="bottom" title="Alex">
                         <img src="{% static 'img/avatar-alex.jpg' %}" width="100" height="100" alt="">
@@ -73,7 +74,7 @@
                     <div class="conditional-fields d-none">
                         <div class="form-group">
                             <label for="interstitial-email">Your email address</label>
-                            <input type="email" class="form-control" id="interstitial-email" name="interstitial-email" aria-describedby="interstitial-email-hint">
+                            <input type="email" class="form-control" id="interstitial-email" name="email" aria-describedby="interstitial-email-hint">
                             <small id="interstitial-email-hint" class="form-text text-muted">We’ll use this to send you one survey email.</small>
                         </div>
                     </div>
@@ -84,12 +85,12 @@
                         </label>
                     </div>
                 </fieldset>
-            </form>
-
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary btn-lg">Save answers</button>
             </div>
 
-        </div>
+            <div class="modal-footer">
+                <button id="survey-submit" type="submit" class="btn btn-primary btn-lg">Save answers</button>
+            </div>
+
+        </form>
     </div>
 </div>
