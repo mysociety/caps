@@ -162,6 +162,14 @@ $('#interstitial-modal').on('shown.bs.modal', function(e){
     $('#interstitial-modal [data-toggle="tooltip"]').tooltip();
 }).modal('show');
 
+$('#interstitial-audience-survey').on('change', 'input', function(e){
+    var $label = $('label[for="' + $(this).attr('id') + '"]');
+    trackEvent('survey_response', {
+        survey_question: 'audience',
+        survey_answer: $.trim($label.text())
+    });
+});
+
 $('.conditional-fields').each(function(){
     var $conditional = $(this);
     var $prevInput = $(this).prev().find('input');
