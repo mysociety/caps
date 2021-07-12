@@ -158,9 +158,38 @@ $(function() {
     });
 });
 
-$('#interstitial-modal').on('shown.bs.modal', function(e){
-    $('#interstitial-modal [data-toggle="tooltip"]').tooltip();
-}).modal('show');
+$('form[data-show-interstitial]').on('submit', function(e, data){
+    var data = data || {}
+
+    if ( ! data.bypass ) {
+        if ( window.localStorage ) {
+            e.preventDefault();
+            localStorage.setItem('show-interstitial-on-next-pageload', '1');
+            $(e.currentTarget).trigger(e.type, { bypass: true });
+        }
+    }
+});
+
+$('a[data-show-interstitial]').on('click', function(e, data){
+    var data = data || {}
+
+    if ( ! data.bypass ) {
+        if ( window.localStorage ) {
+            e.preventDefault();
+            localStorage.setItem('show-interstitial-on-next-pageload', '1');
+            $(e.currentTarget).trigger(e.type, { bypass: true });
+        }
+    }
+});
+
+if ( window.localStorage && localStorage.getItem('show-interstitial-on-next-pageload') ) {
+    $('#interstitial-modal').on('shown.bs.modal', function(e){
+        $('#interstitial-modal [data-toggle="tooltip"]').tooltip();
+        if ( window.localStorage ) {
+            localStorage.removeItem('show-interstitial-on-next-pageload');
+        }
+    }).modal('show');
+}
 
 $('#interstitial-audience-survey').on('change', 'input', function(e){
     var $label = $('label[for="' + $(this).attr('id') + '"]');
