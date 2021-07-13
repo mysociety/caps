@@ -158,12 +158,34 @@ $(function() {
     });
 });
 
+var shouldShowInterstitial = function() {
+    if ( ! window.localStorage ) {
+        // Can’t trigger interstitial, because no localStorage support.
+        return false;
+    }
+    if ( localStorage.getItem('submitted-interstitial-timestamp') ) {
+        // Browser has already submitted the interstitial.
+        return false;
+    }
+    if ( localStorage.getItem('skipped-interstitial-timestamp') ) {
+        // Respect skipped interstitials for 7 days.
+        var skippedTimestamp = localStorage.getItem('skipped-interstitial-timestamp');
+        var nowTimestamp = (new Date()).getTime() / 1000;
+        var coolingOffPeriod = 60 * 60 * 24 * 7;
+        if ( nowTimestamp - skippedTimestamp < coolingOffPeriod ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 $('form[data-show-interstitial]').on('submit', function(e, data){
     var data = data || {}
 
     if ( ! data.bypass ) {
-        if ( window.localStorage ) {
+        if ( shouldShowInterstitial() ) {
             e.preventDefault();
+            localStorage.removeItem('skipped-interstitial-timestamp');
             localStorage.setItem('show-interstitial-on-next-pageload', '1');
             $(e.currentTarget).trigger(e.type, { bypass: true });
         }
@@ -174,8 +196,9 @@ $('a[data-show-interstitial]').on('click', function(e, data){
     var data = data || {}
 
     if ( ! data.bypass ) {
-        if ( window.localStorage ) {
+        if ( shouldShowInterstitial() ) {
             e.preventDefault();
+            localStorage.removeItem('skipped-interstitial-timestamp');
             localStorage.setItem('show-interstitial-on-next-pageload', '1');
             $(e.currentTarget).trigger(e.type, { bypass: true });
         }
@@ -187,6 +210,13 @@ if ( window.localStorage && localStorage.getItem('show-interstitial-on-next-page
         $('#interstitial-modal [data-toggle="tooltip"]').tooltip();
         if ( window.localStorage ) {
             localStorage.removeItem('show-interstitial-on-next-pageload');
+        }
+    }).on('hide.bs.modal', function(e){
+        if ( window.localStorage ) {
+            if ( ! localStorage.getItem('submitted-interstitial-timestamp') ) {
+                var timestamp = (new Date()).getTime() / 1000;
+                localStorage.setItem('skipped-interstitial-timestamp', timestamp);
+            }
         }
     }).modal('show');
 }
@@ -213,7 +243,15 @@ $('.conditional-fields').each(function(){
 $('form[data-ajax-submit]').on('submit', function(e){
     e.preventDefault();
     var $form = $(this);
-    $form.parents('.modal').modal('hide');
+
+    if ( $form.parents('.modal').length ) {
+        // Assume we’re in an interstitial. Record submission, then close.
+        if ( window.localStorage ) {
+            var timestamp = (new Date()).getTime() / 1000;
+            localStorage.setItem('submitted-interstitial-timestamp', timestamp);
+        }
+        $form.parents('.modal').modal('hide');
+    }
 
     $.ajax({
         method: $form.attr('method'),
