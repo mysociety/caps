@@ -179,29 +179,17 @@ var shouldShowInterstitial = function() {
     return true;
 }
 
-$('form[data-show-interstitial]').on('submit', function(e, data){
-    var data = data || {}
-
-    if ( ! data.bypass ) {
-        if ( shouldShowInterstitial() ) {
-            e.preventDefault();
-            localStorage.removeItem('skipped-interstitial-timestamp');
-            localStorage.setItem('show-interstitial-on-next-pageload', '1');
-            $(e.currentTarget).trigger(e.type, { bypass: true });
-        }
+$('form[data-show-interstitial]').on('submit', function(){
+    if ( shouldShowInterstitial() ) {
+        localStorage.removeItem('skipped-interstitial-timestamp');
+        localStorage.setItem('show-interstitial-on-next-pageload', '1');
     }
 });
 
-$('a[data-show-interstitial]').on('click', function(e, data){
-    var data = data || {}
-
-    if ( ! data.bypass ) {
-        if ( shouldShowInterstitial() ) {
-            e.preventDefault();
-            localStorage.removeItem('skipped-interstitial-timestamp');
-            localStorage.setItem('show-interstitial-on-next-pageload', '1');
-            $(e.currentTarget).trigger(e.type, { bypass: true });
-        }
+$('a[data-show-interstitial]').on('click', function(e){
+    if ( shouldShowInterstitial() ) {
+        localStorage.removeItem('skipped-interstitial-timestamp');
+        localStorage.setItem('show-interstitial-on-next-pageload', '1');
     }
 });
 
