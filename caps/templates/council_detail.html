@@ -4,92 +4,214 @@
 
 {% block content %}
 
-<h1>{{ council.name }}</h1>
-
-<div class="scorecard mb-4 mb-lg-5">
-    <div>
-      {% if council.plandocument_set.all.count > 0 %}
-        {% include 'icons/check-circle-fill.html' with width='2em' height='2em' classes='mb-2 text-success' %}
-        {{ council.plandocument_set.all.count }} plan{{ council.plandocument_set.all.count|pluralize }} found
-      {% else %}
-        {% include 'icons/question-circle.html' with width='2em' height='2em' classes='mb-2 text-muted' %}
-        No plans found
-      {% endif %}
-    </div>
-    <div>
-      {% if no_emissions_data %}
-      <div class="d-flex align-items-end mb-2 text-muted">
-        We don't have emissions data for this council
-      </div>
-      {% else %}
-        <div class="d-flex align-items-end mb-2">
-            <div class="js-sparkline mr-2" style="width: 100px;">
-                <canvas width="100" height="32" data-values="{% for datapoint in council.datapoint_set.all %}{% if datapoint.data_type.name == 'Per Capita Emissions' %} {{ datapoint.value }} {% endif %}{% endfor %}"></canvas>
-            </div>
-            <div>
-                <span class="h3 line-height-1 mb-0">{{ latest_year_per_capita_emissions|floatformat }}</span>
-                <abbr title="Tonnes of Carbon Dioxide Equivalent">tCO2e</abbr>
-            </div>
-        </div>
-        <span>
-            {{ latest_year }} emissions per capita
-        </span>
-    </div>
-    <div>
-        <div class="d-flex align-items-end mb-2">
-            <div class="js-sparkline mr-2" style="width: 100px;">
-                <canvas width="100" height="32" data-values="{% for datapoint in council.datapoint_set.all %}{% if datapoint.data_type.name == 'Emissions per km2' %} {{ datapoint.value }} {% endif %}{% endfor %}"></canvas>
-            </div>
-            <div>
-                <span class="h3 line-height-1 mb-0">{{ latest_year_per_km2_emissions|floatformat }}</span>
-                <abbr title="Kilotonnes of Carbon Dioxide Equivalent">ktCO2e</abbr>
-            </div>
-        </div>
-      <span>
-          {{ latest_year }} emissions per km2
-      </span>
-    </div>
-    <div>
-        <div class="d-flex align-items-end mb-2">
-            <div class="js-sparkline mr-2" style="width: 100px;">
-                <canvas width="100" height="32" data-values="{% for datapoint in council.datapoint_set.all %}{% if datapoint.data_type.name == 'Total Emissions' %} {{ datapoint.value }} {% endif %}{% endfor %}"></canvas>
-            </div>
-            <div>
-                <span class="h3 line-height-1 mb-0">{{ latest_year_total_emissions|floatformat }}</span>
-                <abbr title="Kilotonnes of Carbon Dioxide Equivalent">ktCO2e</abbr>
-            </div>
-        </div>
-      <span>
-          {{ latest_year }} total emissions
-      </span>
-
-      {% endif %}
-    </div>
-</div>
-
 <div class="row">
-    <div class="col-md-6 d-flex">
+    <div class="col-md-5 col-lg-4">
 
-        <div class="card ceuk-card ceuk-card--blue my-4 my-md-0 flex-grow-1">
-            <div class="card-header">
-                <h2>Plan documents</h2>
+        <div class="card ceuk-card mb-gutter">
+            <div class="card-body">
+                <h1 class="mb-3">{{ council.name }}</h1>
+                <a href="{{ council.website_url }}" class="btn btn-outline-secondary d-inline-flex align-items-center px-3" style="border-radius: 10em; border-color: #ddd;">
+                  {% include 'icons/globe.html' with classes='mr-2' %}
+                  Website
+                </a>
             </div>
-          {% for plandocument in council.plandocument_set.all %}
-                <a href="{{ plandocument.link }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}" class="d-flex p-3 align-items-center">
-                {% include 'icons/file.html' with classes='mr-2 flex-shrink-0' %}
-                {{ council.name }} {{ plandocument.document_name|title }} ({{ plandocument.file_type|upper }})
-            </a>
-          {% empty %}
-            <div class="card-body text-muted">
-                We couldn’t find any climate action plans for this council.
-            </div>
-          {% endfor %}
         </div>
 
-    </div>
-    <div class="col-md-6">
+      {% comment %}
+        <div class="card ceuk-card ceuk-card--purple mb-gutter">
+            <div class="card-header">
+                <h2>Council type</h2>
+            </div>
+            <div class="card-body">
+                <p><strong>Unitary Authority</strong></p>
+                <p>In addition to control over their own direct emissions, authorities of this type usually also have power over the following emissions-related policies in their area:</p>
+                <ul>
+                    <li>Transport &amp; Highways</li>
+                    <li>Planning &amp; Building Control</li>
+                    <li>Waste &amp; Recycling</li>
+                </ul>
+            </div>
+        </div>
+      {% endcomment %}
 
-        <div class="card ceuk-card ceuk-card--magenta my-4 my-md-0">
+      {% if related_councils %}
+        <div class="card ceuk-card ceuk-card--purple mb-gutter">
+            <div class="card-header">
+                <h2>Other nearby councils</h2>
+            </div>
+            <div class="ceuk-data-table">
+                {% include 'includes/council-table.html' with councils=related_councils %}
+            </div>
+        </div>
+      {% endif %}
+
+    </div>
+    <div class="col-md-7 col-lg-8">
+
+      {% comment %}
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--yellow mb-gutter">
+            <div class="card-header">
+                <h2>Headline promises</h2>
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mt-n2">
+                    <p class="mb-0">“carbon neutral for our direct emissions by 2025”</p>
+                    <footer class="blockquote-footer"><cite title="Source Title">Mayor’s Climate Emergency Action Plan, 2019</cite></footer>
+                </blockquote>
+                <blockquote class="blockquote mb-0">
+                    <p class="mb-0">“carbon neutral and climate reslilent by 2030”</p>
+                    <footer class="blockquote-footer"><cite title="Source Title">Bristol One City Climate Policy, 2020</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+      {% endcomment %}
+
+      {% comment %}
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--blue mb-gutter">
+            <div class="card-header">
+                <h2>How good is the plan?</h2>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-9 col-lg-3 mb-2">
+                        <strong>This council</strong>
+                    </div>
+                    <div class="col-3 col-lg-1 mb-2 text-right text-nowrap">
+                        <strong>72%</strong>
+                    </div>
+                    <div class="col-lg-8 mb-2">
+                        <div class="progress">
+                            <div class="progress-bar bg-cyan" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-blue" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-magenta" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-yellow" role="progressbar" style="width: 7%" aria-valuenow="7" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center collapse" id="score-details">
+                    <div class="col-lg-8 offset-lg-4 mb-2">
+                        <div class="row">
+                            <div class="col-9 mb-2">
+                                <a href="#">Governance, development, funding</a>
+                            </div>
+                            <div class="col-3 mb-2 text-right text-nowrap">
+                                65%
+                            </div>
+                            <div class="col-12 mb-2">
+                                <div class="progress" style="height: 0.5rem">
+                                    <div class="progress-bar bg-cyan" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 mb-2">
+                                <a href="#">Community engagement</a>
+                            </div>
+                            <div class="col-3 mb-2 text-right text-nowrap">
+                                74%
+                            </div>
+                            <div class="col-12 mb-2">
+                                <div class="progress" style="height: 0.5rem">
+                                    <div class="progress-bar bg-blue" role="progressbar" style="width: 74%" aria-valuenow="74" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 mb-2">
+                                <a href="#">Communications</a>
+                            </div>
+                            <div class="col-3 mb-2 text-right text-nowrap">
+                                72%
+                            </div>
+                            <div class="col-12 mb-2">
+                                <div class="progress" style="height: 0.5rem">
+                                    <div class="progress-bar bg-magenta" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 mb-2">
+                                <a href="#">Co-benefits</a>
+                            </div>
+                            <div class="col-3 mb-2 text-right text-nowrap">
+                                77%
+                            </div>
+                            <div class="col-12 mb-2">
+                                <div class="progress" style="height: 0.5rem">
+                                    <div class="progress-bar bg-yellow" role="progressbar" style="width: 77%" aria-valuenow="77" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-lg-8 offset-lg-4 mb-2">
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+                                <a href="#score-details" class="d-flex align-items-center" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="score-details">
+                                  {% include 'icons/chevron-down.html' with classes='mr-2' %}
+                                  Show more detail
+                                </a>
+                            </div>
+                            <div class="col-auto">
+                                <a href="#" class="d-flex align-items-center">
+                                    Read full assessment
+                                    {% include 'icons/chevron-right.html' with classes='ml-1' %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3 mb-n2 align-items-center">
+                    <div class="col-9 col-lg-3 mb-2">
+                        Average UK council
+                    </div>
+                    <div class="col-3 col-lg-1 mb-2 text-right text-nowrap">
+                        58%
+                    </div>
+                    <div class="col-lg-8 mb-2">
+                        <div class="progress">
+                            <div class="progress-bar bg-cyan" role="progressbar" style="width: 12%; opacity: 0.5;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-blue" role="progressbar" style="width: 21%; opacity: 0.5;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-magenta" role="progressbar" style="width: 14%; opacity: 0.5;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-yellow" role="progressbar" style="width: 9%; opacity: 0.5;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      {% endcomment %}
+
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--blue mb-gutter">
+            <div class="card-header">
+                <h2>Climate documents</h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-n3">
+                  {% for plandocument in council.plandocument_set.all %}
+                    <a href="{{ plandocument.link }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}" class="d-flex align-items-center mb-3">
+                        {% include 'icons/file.html' with width='3rem' height='3rem' classes='mr-3' %}
+                        <div>
+                            <strong class="d-block">{{ council.name }} {{ plandocument.get_document_type|title }}</strong>
+                            <p class="d-inline-block text-muted mb-0">
+                                {{ plandocument.file_type|upper }}
+                                <span class="mx-2">&middot;</span>
+                                {{ plandocument.get_status|title }}
+                                <span class="mx-2">&middot;</span>
+                                {{ plandocument.get_scope|title }}
+                            </p>
+                        </div>
+                    </a>
+                  {% empty %}
+                    <p class="text-muted mb-3">
+                        We couldn’t find any climate action plans for this council.
+                    </p>
+                  {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card ceuk-card ceuk-card--muted ceuk-card--magenta mb-gutter">
             <div class="card-header">
                 <h2>What do you want from Climate Action Plans?</h2>
             </div>
@@ -98,18 +220,43 @@
             </div>
         </div>
 
+      {% if not no_emissions_data %}
+        <div class="card ceuk-card ceuk-card--orange mb-gutter">
+            <div class="card-header">
+                <h2>Emissions data</h2>
+            </div>
+            <div class="card-body">
+
+                <div class="row justify-content-between pr-lg-3">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="js-sparkline mr-2">
+                            <canvas width="100" height="32" data-values="{% for datapoint in council.datapoint_set.all %}{% if datapoint.data_type.name == 'Per Capita Emissions' %} {{ datapoint.value }} {% endif %}{% endfor %}"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-auto">
+                        <span class="h3 line-height-1 mb-0">{{ latest_year_total_emissions|floatformat }}</span>
+                        <abbr title="Kilotonnes of Carbon Dioxide Equivalent">ktCO2e</abbr>
+                        <p>{{ latest_year }} emissions</p>
+                    </div>
+                    <div class="col-sm-6 col-lg-auto">
+                        <span class="h3 line-height-1 mb-0">{{ latest_year_per_capita_emissions|floatformat }}</span>
+                        <abbr title="Tonnes of Carbon Dioxide Equivalent">tCO2e</abbr>
+                        <p>per capita</p>
+                    </div>
+                    <div class="col-sm-6 col-lg-auto">
+                        <span class="h3 line-height-1 mb-0">{{ latest_year_per_km2_emissions|floatformat }}</span>
+                        <abbr title="Kilotonnes of Carbon Dioxide Equivalent">ktCO2e</abbr>
+                        <p>per km<sup>2</sup></p>
+                    </div>
+                </div>
+
+                <p class="text-muted mb-0"><small>Latest CO<sub>2</sub> estimates from <a href="https://www.gov.uk/government/statistics/uk-local-authority-and-regional-carbon-dioxide-emissions-national-statistics-2005-to-2018">the Department of Business, Energy &amp; Skills</a>.</small></p>
+
+            </div>
+        </div>
+      {% endif %}
+
     </div>
 </div>
-
-{% if related_councils %}
-<div class="card ceuk-card ceuk-card--cyan my-4 my-lg-5">
-  <div class="card-header">
-    <h2>Other nearby councils</h2>
-  </div>
-  <div class="ceuk-data-table">
-    {% include 'includes/council-table.html' with councils=related_councils %}
-  </div>
-</div>
-{% endif %}
 
 {% endblock %}

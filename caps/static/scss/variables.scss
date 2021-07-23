@@ -35,6 +35,12 @@ $enable-deprecation-messages: false;
 
 // Spacing
 
+$grid-gutter-width: 30px;
+
+$spacers: (
+    "gutter": $grid-gutter-width
+);
+
 // Body
 
 $body-bg: $color-ceuk-grey-200;

@@ -33,6 +33,36 @@
                 background-color: $card-bg;
             }
         }
+
+        & > :first-child,
+        & > :first-child > a {
+            @include border-top-left-radius($card-border-radius);
+        }
+    }
+}
+
+.ceuk-card--muted {
+    background-color: $color-ceuk-grey-100;
+    border: 1px solid rgba(#000, 0.1);
+    box-shadow: none;
+
+    .card-header.nav-tabs {
+        background-color: $color-ceuk-grey-200;
+
+        .nav-link.active {
+            background-color: $color-ceuk-grey-100;
+        }
+    }
+}
+
+.ceuk-card--emphasised {
+    border-top: 6px solid currentColor;
+
+    .card-header.nav-tabs {
+        & > :first-child,
+        & > :first-child > a {
+            @include border-top-left-radius(0);
+        }
     }
 }
 
@@ -47,11 +77,13 @@ $ceuk-card-colors: (
 
 @each $name, $color in $ceuk-card-colors {
     .ceuk-card--#{$name} {
-        border-top: 6px solid $color;
-
         h1, h2, h3, h4,
         .card-header.nav-tabs .nav-link.active {
             color: $color;
+        }
+
+        &.ceuk-card--emphasised {
+            border-top-color: $color;
         }
     }
 }

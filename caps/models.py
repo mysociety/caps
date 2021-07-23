@@ -166,11 +166,25 @@ class PlanDocument(models.Model):
     file = models.FileField('plans', storage=overwrite_storage)
 
     @property
-    def document_name(self):
+    def get_document_type(self):
         for choice in self.DOCUMENT_TYPE_CHOICES:
             if choice[0] == self.document_type:
                 return choice[1].lower()
-        return 'document';
+        return 'document'
+
+    @property
+    def get_scope(self):
+        for choice in self.SCOPE_CHOICES:
+            if choice[0] == self.scope:
+                return choice[1].lower()
+        return ''
+
+    @property
+    def get_status(self):
+        for choice in self.STATUS_CHOICES:
+            if choice[0] == self.status:
+                return choice[1].lower()
+        return ''
 
     @property
     def link(self):
