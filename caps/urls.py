@@ -13,6 +13,7 @@ urlpatterns = [
     path('location/', views.LocationResultsView.as_view(), name='location_results'),
     path('about/', views.AboutView.as_view(), name='about'),
     path('ajax/mailchimp_email', views.MailchimpView.as_view(), name='mailchimp_hook'),
+    path('style/', views.StyleView.as_view(), name='style'),
     path('admin/', admin.site.urls),
 
 ]

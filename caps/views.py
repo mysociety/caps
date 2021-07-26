@@ -141,3 +141,8 @@ class MailchimpView(View):
             }
 
         return JsonResponse(response_data, status=http_status)
+
+
+class StyleView(TemplateView):
+
+    template_name = "style.html"
