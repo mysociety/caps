@@ -1,31 +1,42 @@
-$color-ceuk-purple: #7464f2;
-$color-ceuk-magenta: #db509f;
-$color-ceuk-orange: #e8533b;
-$color-ceuk-yellow: #f29e1a;
-$color-ceuk-blue: #00a8ff;
-$color-ceuk-cyan: #54d0e2;
-$color-ceuk-grey-100: #f6f9fd;
+$color-ceuk-blue: #00aeee;
+$color-ceuk-navy: #005cab;
+$color-ceuk-purple: #7360eb;
+$color-ceuk-pink: #d92b85;
+$color-ceuk-red: #e11d21;
+$color-ceuk-orange: #f29e1a;
+$color-ceuk-yellow: #ffd80b;
+$color-ceuk-green: #28cf6b;
+$color-ceuk-cyan: #54d9e2;
+$color-ceuk-grey-100: #f3f6fb;
 $color-ceuk-grey-200: #ecf0f5;
 $color-ceuk-grey-600: #6c757d;
-$color-ceuk-grey-800: #3e5062;
+$color-ceuk-grey-800: #32465a;
 $color-ceuk-grey-900: #232323;
 
 // Color system
 
 $white: #fff;
+
 $blue: $color-ceuk-blue;
 $purple: $color-ceuk-purple;
+$pink: $color-ceuk-pink;
+$red: $color-ceuk-red;
 $orange: $color-ceuk-orange;
 $yellow: $color-ceuk-yellow;
+$green: $color-ceuk-green;
 $cyan: $color-ceuk-cyan;
+
 $light: $color-ceuk-grey-200;
 
 $theme-colors: (
+    'blue': $color-ceuk-blue,
+    'navy': $color-ceuk-navy,
     'purple': $color-ceuk-purple,
-    'magenta': $color-ceuk-magenta,
+    'pink': $color-ceuk-pink,
+    'red': $color-ceuk-red,
     'orange': $color-ceuk-orange,
     'yellow': $color-ceuk-yellow,
-    'blue': $color-ceuk-blue,
+    'green': $color-ceuk-green,
     'cyan': $color-ceuk-cyan,
 );
 

@@ -7,11 +7,11 @@
 <div class="row">
     <div class="col-md-4 d-flex">
 
-        <div class="card ceuk-card ceuk-card--orange mb-4 mb-lg-5 flex-grow-1">
+        <div class="card ceuk-card ceuk-card--red mb-4 mb-lg-5 flex-grow-1">
             <div class="card-body d-flex flex-column">
                 <h2>{{ percent_councils_with_plan }}% of councils have a plan</h2>
                 <div class="progress mt-3 mb-auto">
-                    <div class="progress-bar bg-orange" role="progressbar" style="width: {{ percent_councils_with_plan }}%" aria-valuenow="{{ percent_councils_with_plan }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-red" role="progressbar" style="width: {{ percent_councils_with_plan }}%" aria-valuenow="{{ percent_councils_with_plan }}" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <a href="{% url 'council_list' %}" class="d-flex align-items-center mt-3" data-show-interstitial>
                     Browse and compare all {{ total_councils }} councils
@@ -36,7 +36,7 @@
 <div class="row">
     <div class="col-lg-8 d-flex">
 
-        <div class="card ceuk-card ceuk-card--magenta mb-4 mb-lg-5 flex-grow-1">
+        <div class="card ceuk-card ceuk-card--pink mb-4 mb-lg-5 flex-grow-1">
             <div class="card-body">
                 {% include 'includes/text-search-form.html' %}
                 <h3 class="h-none mt-4 mb-1">Try it out:</h3>
