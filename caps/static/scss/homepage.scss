@@ -1,0 +1,79 @@
+.homepage-hero {
+    background: $color-ceuk-navy;
+    background-image: linear-gradient(45deg, $color-ceuk-navy, $color-ceuk-blue);
+    color: #fff;
+
+    @include media-breakpoint-up('lg') {
+        background-image: url(../img/british-isles.png), linear-gradient(45deg, $color-ceuk-navy, $color-ceuk-blue);
+        background-position: 100% 50%;
+        background-repeat: no-repeat;
+    }
+
+    h1 {
+        @include media-breakpoint-up('md') {
+            font-size: 3rem;
+            max-width: 12em;
+        }
+
+        @include media-breakpoint-up('lg') {
+            font-size: 3.5rem;
+        }
+    }
+
+    h1 + p {
+        font-size: 1.5rem;
+        margin: 1em 0;
+
+        @include media-breakpoint-up('md') {
+            font-size: 2rem;
+        }
+    }
+
+    label, a {
+        font-size: 1.25rem;
+        color: inherit;
+    }
+
+    .form-control {
+        @include media-breakpoint-up('md') {
+            font-size: 1.5rem;
+            padding: 0.75rem 1rem;
+            height: calc(1.5em + 0.75rem + 0.75rem + 2px); // line-height, padding, padding, borders
+        }
+    }
+
+    .btn {
+        font-weight: bold;
+
+        @include media-breakpoint-up('md') {
+            font-size: 1.5rem;
+            padding: 0.75rem 1.5rem;
+        }
+    }
+}
+
+.homepage-stat, .homepage-search-plans {
+    h2 {
+        @include media-breakpoint-up('lg') {
+            font-size: 2.25rem;
+        }
+    }
+}
+
+.homepage-stat {
+    width: 100%;
+}
+
+.homepage-search-plans {
+    .btn {
+        font-weight: bold;
+    }
+
+    label, h3 {
+        font-family: inherit;
+        line-height: 1;
+        color: $text-muted;
+        font-size: 1.125rem;
+        font-weight: bold;
+    }
+}

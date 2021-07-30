@@ -4,7 +4,9 @@
 
 {% block content %}
 
-{% include 'includes/text-search-form.html' with q=query heading_level="h1" %}
+<h1>Search results</h1>
+
+{% include 'includes/text-search-form.html' with q=query %}
 
 {% if query %}
 
