@@ -1,0 +1,32 @@
+{% load static %}
+
+<script src="{% static 'awesomplete/awesomplete.min.js' %}"></script>
+<script>
+
+var councils = {
+  {% for council in all_councils %}
+    "{{ council.name }}": "{% url 'council' council.slug %}",
+  {% endfor %}
+};
+var $pc = $('#pc');
+var ac = new Awesomplete(
+    $pc[0],
+    {
+        list: Object.keys(councils),
+        minChars: 3,
+        autoFirst: true
+    }
+);
+document.addEventListener('awesomplete-select', function(selection){
+    selection.preventDefault();
+    if ( $pc.parents('form[data-show-interstitial]').length ) {
+        handleInterstitialTrigger();
+    }
+    window.location.href = councils[selection.text];
+});
+
+var $label = $('label[for="pc"]');
+$label.text('Your postcode or council name');
+$pc.removeClass('text-uppercase');
+
+</script>

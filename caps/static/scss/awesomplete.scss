@@ -1,0 +1,64 @@
+.awesomplete {
+    display: inline-block;
+    position: relative;
+
+    [hidden] {
+        display: none;
+    }
+
+    .visually-hidden {
+        position: absolute;
+        clip: rect(0, 0, 0, 0);
+    }
+
+    & > input {
+        display: block;
+    }
+
+    & > ul {
+        position: absolute;
+        left: 0;
+        z-index: 1;
+        min-width: 100%;
+        box-sizing: border-box;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background: $white;
+        color: $color-ceuk-grey-600;
+
+        border-radius: $border-radius-lg;
+        box-shadow: $box-shadow-lg;
+        margin-top: 0.25rem;
+        padding: 0.25rem 0;
+
+        &:empty {
+            display: none;
+        }
+
+        li {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+
+            &:hover {
+                background-color: $dropdown-link-hover-bg;
+            }
+
+            &[aria-selected="true"] {
+                color: $dropdown-link-active-color;
+                background-color: $dropdown-link-active-bg;
+
+                mark {
+                    color: inherit;
+                }
+            }
+        }
+
+        mark {
+            color: $color-ceuk-grey-900;
+            font-weight: bold;
+            background: transparent;
+            padding: 0;
+        }
+    }
+}

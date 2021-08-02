@@ -179,19 +179,16 @@ var shouldShowInterstitial = function() {
     return true;
 }
 
-$('form[data-show-interstitial]').on('submit', function(){
+var handleInterstitialTrigger = function(){
     if ( shouldShowInterstitial() ) {
         localStorage.removeItem('skipped-interstitial-timestamp');
         localStorage.setItem('show-interstitial-on-next-pageload', '1');
     }
-});
+};
 
-$('a[data-show-interstitial]').on('click', function(e){
-    if ( shouldShowInterstitial() ) {
-        localStorage.removeItem('skipped-interstitial-timestamp');
-        localStorage.setItem('show-interstitial-on-next-pageload', '1');
-    }
-});
+$('form[data-show-interstitial]').on('submit', handleInterstitialTrigger);
+
+$('a[data-show-interstitial]').on('click', handleInterstitialTrigger);
 
 if ( window.localStorage && localStorage.getItem('show-interstitial-on-next-pageload') ) {
     $('#interstitial-modal').on('shown.bs.modal', function(e){

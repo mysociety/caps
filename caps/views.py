@@ -21,6 +21,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all()
         context['total_councils'] = Council.objects.all().count()
         context['percent_councils_with_plan'] = Council.percent_with_plan()
         context['search_suggestions'] = [
@@ -84,6 +85,7 @@ class LocationResultsView(TemplateView):
         lat = self.request.GET.get('lat')
         mapit = MapIt()
         context['postcode'] = postcode
+        context['all_councils'] = Council.objects.all()
         try:
             if lon and lat:
                 gss_codes = mapit.wgs84_point_to_gss_codes(lon, lat)
