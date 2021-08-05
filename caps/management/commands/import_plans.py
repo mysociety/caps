@@ -16,6 +16,8 @@ class Command(BaseCommand):
     help = 'Imports data from data/plans into the database'
 
     changes = False
+    plans_to_delete = {}
+    councils_in_sheet = set()
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -38,26 +40,34 @@ class Command(BaseCommand):
         council_add_count = 0
         plan_add_count = 0
         plan_update_count = 0
+        plans_to_import = {}
+        councils_in_sheet = set()
         for index, row in df.iterrows():
+            gss_code = PlanDocument.char_from_text(row['gss_code'])
             council_exists = Council.objects.filter(
-                gss_code = PlanDocument.char_from_text(row['gss_code'])
+                gss_code = gss_code
             ).exists()
 
             if not council_exists:
                 council_add_count += 1
                 self.print_change("adding new council: %s", row['council'], verbosity=2)
                 if not pd.isnull(row['url']):
+                    councils_in_sheet.update([gss_code])
                     plan_add_count += 1
                     self.print_change("adding new plan for %s", row['council'], verbosity=2)
             elif not pd.isnull(row['url']):
+                councils_in_sheet.update([gss_code])
                 council = Council.objects.get(
-                    gss_code = PlanDocument.char_from_text(row['gss_code'])
+                    gss_code = gss_code
                 )
                 plan_exists = PlanDocument.objects.filter(
                     council=council,
                     url=row['url']
                 ).exists()
 
+                council_plans = plans_to_import.get(gss_code, set())
+                council_plans.update([row['url']])
+                plans_to_import[gss_code] = council_plans
                 if not plan_exists:
                     plan_add_count += 1
                     self.print_change("adding new plan for %s", row['council'], verbosity=2)
@@ -75,12 +85,48 @@ class Command(BaseCommand):
                         plan_update_count += 1
                         self.print_change("updating plan for %s", row['council'], verbosity=2)
 
+        plans_to_delete = {}
+        plans_to_delete_count = 0
+        for council_code in plans_to_import.keys():
+            council = Council.objects.get(
+                gss_code = council_code
+            )
+            plans = PlanDocument.objects.filter(
+                council=council,
+            ).exclude(
+                url__in=plans_to_import[council_code]
+            )
+            for plan in plans:
+                plans_to_delete_count += 1
+                council_plans = plans_to_delete.get(council_code, set())
+                council_plans.update([plan.url])
+                self.print_change("deleting plan for %s", council.name, verbosity=2)
+                plans_to_delete[council_code] = council_plans
+
+        plans_from_removed_councils = PlanDocument.objects.exclude(
+            council__gss_code__in=councils_in_sheet
+        )
+        plans_from_removed_councils_count = plans_from_removed_councils.count()
+
+        if self.verbosity >= 2:
+            councils = plans_from_removed_councils.distinct('council__gss_code')
+            for council in councils:
+                self.print_change("%s will have all plans removed" % council.council.name)
+
+        self.plans_to_delete = plans_to_delete
+        self.councils_in_sheet = councils_in_sheet
+
         if council_add_count > 0:
             self.print_change("%d councils will be added", council_add_count)
         if plan_add_count > 0:
             self.print_change("%d plans will be added", plan_add_count)
         if plan_update_count > 0:
             self.print_change("%d plans will be updated", plan_update_count)
+        if plans_to_delete_count > 0:
+            self.print_change("%d plans will be deleted", plans_to_delete_count)
+            self.print_change("%d plan%s will be deleted", plans_to_delete_count, pluralize(plans_to_delete_count))
+        if plans_from_removed_councils_count > 0:
+            self.print_change("%d councils will have all plans removed", plans_from_removed_councils_count)
 
 
     def update_database(self):
@@ -115,6 +161,19 @@ class Command(BaseCommand):
                     council = council,
                     defaults = defaults
                 )
+
+        PlanDocument.objects.exclude(
+            council__gss_code__in=self.councils_in_sheet
+        ).delete()
+
+        for council_code in self.plans_to_delete.keys():
+            council = Council.objects.get(
+                gss_code = council_code
+            )
+            plans = PlanDocument.objects.filter(
+                council=council,
+                url__in=self.plans_to_delete[council_code]
+            ).delete()
 
     def get_plan_defaults_from_row(self, row):
         (start_year, end_year) = PlanDocument.start_and_end_year_from_time_period(row['time_period'])
