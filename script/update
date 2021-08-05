@@ -16,4 +16,5 @@ cd `dirname $0`/..
 "$(dirname "$0")/manage" add_related_councils "$@"
 "$(dirname "$0")/manage" rebuild_index --noinput
 "$(dirname "$0")/manage" import_emissions_data "$@"
+"$(dirname "$0")/manage" create_zip_file
 
