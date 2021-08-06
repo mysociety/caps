@@ -53,6 +53,137 @@ class CouncilDetailView(DetailView):
         except DataPoint.DoesNotExist:
             context['no_emissions_data'] = True
         context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'))
+
+        # TODO: Replace these with real figures for this council!
+        context['council_scores'] = [
+            {
+                "section_label": "Governance, Development and Funding",
+                "section_colour": "green",
+                "section_weight_percent": 20,
+                "score_percent": 65
+            },
+            {
+                "section_label": "Mitigation and Adaptation",
+                "section_colour": "cyan",
+                "section_weight_percent": 15,
+                "score_percent": 40
+            },
+            {
+                "section_label": "Commitment and Integration",
+                "section_colour": "blue",
+                "section_weight_percent": 15,
+                "score_percent": 80
+            },
+            {
+                "section_label": "Community Engagement and Communications",
+                "section_colour": "navy",
+                "section_weight_percent": 20,
+                "score_percent": 45
+            },
+            {
+                "section_label": "Measuring and Setting Emissions Targets",
+                "section_colour": "purple",
+                "section_weight_percent": 10,
+                "score_percent": 66
+            },
+            {
+                "section_label": "Co-benefits",
+                "section_colour": "pink",
+                "section_weight_percent": 5,
+                "score_percent": 40
+            },
+            {
+                "section_label": "Diversity and Social Inclusion",
+                "section_colour": "red",
+                "section_weight_percent": 5,
+                "score_percent": 25
+            },
+            {
+                "section_label": "Education, Skills and Training",
+                "section_colour": "orange",
+                "section_weight_percent": 5,
+                "score_percent": 50
+            },
+            {
+                "section_label": "Ecological Emergency",
+                "section_colour": "yellow",
+                "section_weight_percent": 5,
+                "score_percent": 65
+            },
+        ]
+
+        context['council_score_total'] = 0
+
+        # Calculate some totals to avoid doing math in the template.
+        for i, s in enumerate(context['council_scores']):
+            context['council_scores'][i]['score_percent_of_total'] = s['score_percent'] * s['section_weight_percent'] / 100
+            context['council_score_total'] = context['council_score_total'] + context['council_scores'][i]['score_percent_of_total']
+
+        # TODO: Replace these with real figures for this council!
+        context['average_scores'] = [
+            {
+                "section_label": "Governance, Development and Funding",
+                "section_colour": "green",
+                "section_weight_percent": 20,
+                "score_percent": 52
+            },
+            {
+                "section_label": "Mitigation and Adaptation",
+                "section_colour": "cyan",
+                "section_weight_percent": 15,
+                "score_percent": 35
+            },
+            {
+                "section_label": "Commitment and Integration",
+                "section_colour": "blue",
+                "section_weight_percent": 15,
+                "score_percent": 62
+            },
+            {
+                "section_label": "Community Engagement and Communications",
+                "section_colour": "navy",
+                "section_weight_percent": 20,
+                "score_percent": 25
+            },
+            {
+                "section_label": "Measuring and Setting Emissions Targets",
+                "section_colour": "purple",
+                "section_weight_percent": 10,
+                "score_percent": 48
+            },
+            {
+                "section_label": "Co-benefits",
+                "section_colour": "pink",
+                "section_weight_percent": 5,
+                "score_percent": 25
+            },
+            {
+                "section_label": "Diversity and Social Inclusion",
+                "section_colour": "red",
+                "section_weight_percent": 5,
+                "score_percent": 20
+            },
+            {
+                "section_label": "Education, Skills and Training",
+                "section_colour": "orange",
+                "section_weight_percent": 5,
+                "score_percent": 45
+            },
+            {
+                "section_label": "Ecological Emergency",
+                "section_colour": "yellow",
+                "section_weight_percent": 5,
+                "score_percent": 52
+            },
+        ]
+
+        context['average_score_total'] = 0
+
+        # Calculate some totals to avoid doing math in the template.
+        for i, s in enumerate(context['average_scores']):
+            context['average_scores'][i]['score_percent_of_total'] = s['score_percent'] * s['section_weight_percent'] / 100
+            context['average_score_total'] = context['average_score_total'] + context['average_scores'][i]['score_percent_of_total']
+
         return context
 
 class CouncilListView(FilterView):
