@@ -3,6 +3,7 @@
         <tr>
             <th scope="col">Council name</th>
             <th scope="col">Has plan</th>
+            <th scope="col">Plan score</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +19,13 @@
               {% else %}
                 {% include 'icons/question-circle.html' with classes='mr-1' %}
                 No
+              {% endif %}
+            </td>
+            <td data-column="plan-score">
+              {% if council.num_plans > 0 %}
+                {{ fake_scores|random }}%
+              {% else %}
+                0%
               {% endif %}
             </td>
         </tr>

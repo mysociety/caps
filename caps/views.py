@@ -184,6 +184,8 @@ class CouncilDetailView(DetailView):
             context['average_scores'][i]['score_percent_of_total'] = s['score_percent'] * s['section_weight_percent'] / 100
             context['average_score_total'] = context['average_score_total'] + context['average_scores'][i]['score_percent_of_total']
 
+        context['fake_scores'] = list(range(25, 76))
+
         return context
 
 class CouncilListView(FilterView):
@@ -193,6 +195,11 @@ class CouncilListView(FilterView):
 
     def get_queryset(self):
         return Council.objects.annotate(num_plans=Count('plandocument'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['fake_scores'] = list(range(25, 76))
+        return context
 
 class SearchResultsView(HaystackSearchView):
 
