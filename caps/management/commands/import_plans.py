@@ -9,6 +9,7 @@ from caps.models import Council, PlanDocument
 
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files import File
+from django.template.defaultfilters import pluralize
 
 from django.conf import settings
 
@@ -117,16 +118,15 @@ class Command(BaseCommand):
         self.councils_in_sheet = councils_in_sheet
 
         if council_add_count > 0:
-            self.print_change("%d councils will be added", council_add_count)
+            self.print_change("%d council%s will be added", council_add_count, pluralize(council_add_count))
         if plan_add_count > 0:
-            self.print_change("%d plans will be added", plan_add_count)
+            self.print_change("%d plan%s will be added", plan_add_count, pluralize(plan_add_count))
         if plan_update_count > 0:
-            self.print_change("%d plans will be updated", plan_update_count)
+            self.print_change("%d plan%s will be updated", plan_update_count, pluralize(plan_update_count))
         if plans_to_delete_count > 0:
-            self.print_change("%d plans will be deleted", plans_to_delete_count)
             self.print_change("%d plan%s will be deleted", plans_to_delete_count, pluralize(plans_to_delete_count))
         if plans_from_removed_councils_count > 0:
-            self.print_change("%d councils will have all plans removed", plans_from_removed_councils_count)
+            self.print_change("%d council%s will have all plans removed", plans_from_removed_councils_count, pluralize(plans_from_removed_councils_count))
 
 
     def update_database(self):

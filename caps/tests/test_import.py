@@ -78,11 +78,11 @@ class ImportPlansTestCase(TestCase):
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
             out = self.call_command(confirm_changes=1)
-            self.assertEquals(out, '1 plans will be added\n1 plans will be updated\n');
+            self.assertEquals(out, '1 plan will be added\n1 plan will be updated\n');
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
             out = self.call_command(confirm_changes=1)
-            self.assertEquals(out, '1 plans will be added\n1 plans will be deleted\n');
+            self.assertEquals(out, '1 plan will be added\n1 plan will be deleted\n');
 
     def test_detailed_changes_message(self):
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
@@ -94,11 +94,11 @@ class ImportPlansTestCase(TestCase):
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
             out = self.call_command(confirm_changes=1,verbosity=2)
-            self.assertEquals(out, 'updating plan for Borsetshire\nadding new plan for West Borsetshire\n1 plans will be added\n1 plans will be updated\n');
+            self.assertEquals(out, 'updating plan for Borsetshire\nadding new plan for West Borsetshire\n1 plan will be added\n1 plan will be updated\n');
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
             out = self.call_command(confirm_changes=1,verbosity=2)
-            self.assertEquals(out, 'adding new plan for Borsetshire\ndeleting plan for Borsetshire\n1 plans will be added\n1 plans will be deleted\n');
+            self.assertEquals(out, 'adding new plan for Borsetshire\ndeleting plan for Borsetshire\n1 plan will be added\n1 plan will be deleted\n');
 
 
     def test_update_properties(self):
