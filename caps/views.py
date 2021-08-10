@@ -8,12 +8,15 @@ from django.conf import settings
 import mailchimp_marketing as MailchimpMarketing
 from mailchimp_marketing.api_client import ApiClientError
 
+from os.path import join
+
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
 
 from caps.models import Council, CouncilFilter, PlanDocument, DataPoint
 from caps.forms import HighlightedSearchForm
 from caps.mapit import MapIt, NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException
+from caps.utils import file_size
 
 class HomePageView(TemplateView):
 
@@ -23,6 +26,7 @@ class HomePageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['all_councils'] = Council.objects.all()
         context['total_councils'] = Council.objects.all().count()
+        context['total_plans'] = PlanDocument.objects.all().count()
         context['percent_councils_with_plan'] = Council.percent_with_plan()
         context['search_suggestions'] = [
             '"electric taxis"',
@@ -30,6 +34,10 @@ class HomePageView(TemplateView):
             '"ground source heat pumps"',
             '"circular economy"',
         ]
+
+        plan_file = join(settings.MEDIA_ROOT, 'data', 'plans', 'plans.zip')
+        plan_size = file_size(plan_file)
+        context['plan_zip_size'] = plan_size
         return context
 
 class CouncilDetailView(DetailView):

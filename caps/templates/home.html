@@ -14,14 +14,18 @@
     <div class="col-md-5 d-sm-flex">
 
         <div class="card ceuk-card ceuk-card--red mb-gutter homepage-stat">
-            <div class="card-body p-md-4 p-lg-5">
-                <h2>{{ percent_councils_with_plan }}% of councils have a plan</h2>
+            <div class="card-body p-md-4 p-lg-5 d-flex flex-column">
+                <h2 class="mb-0">{{ percent_councils_with_plan }}% of councils have a plan</h2>
                 <div class="progress mt-4 mb-3">
                     <div class="progress-bar bg-red" role="progressbar" style="width: {{ percent_councils_with_plan }}%" aria-valuenow="{{ percent_councils_with_plan }}" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <a href="{% url 'council_list' %}" class="d-flex align-items-center mt-3" data-show-interstitial>
+                <a href="{% url 'council_list' %}" class="d-flex align-items-center mt-auto" data-show-interstitial>
                     Browse and compare all {{ total_councils }} councils
                     {% include 'icons/chevron-right.html' with classes='ml-1' %}
+                </a>
+                <a href="{{ MEDIA_URL }}data/plans/plans.zip" class="d-flex align-items-center mt-3">
+                    Download ZIP archive of {{ total_plans }} plans ({{ plan_zip_size }})
+                    {% include 'icons/download.html' with classes='ml-1' %}
                 </a>
             </div>
         </div>
