@@ -140,7 +140,7 @@ class ImportPlansTestCase(TestCase):
             out = self.call_command(confirm_changes=1)
 
             plans = PlanDocument.objects.filter(council=council)
-            self.assertEqual(len(plans), 1)
+            self.assertEqual(plans.count(), 1)
 
             plan = PlanDocument.objects.get(council=council)
             self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan_updated.pdf")
@@ -158,14 +158,14 @@ class ImportPlansTestCase(TestCase):
             west_bors = Council.objects.get(authority_code='WBRS');
 
             out = self.call_command(verbosity=2)
-            self.assertEquals(out, 'Borsetshire will have all plans removed\nWest Borsetshire will have all plans removed\n2 councils will have all plans removed\ncall with --confirm_changes to update database\n')
+            self.assertEquals(out, 'Borsetshire will be completely removed\nNorth Borsetshire will be completely removed\nWest Borsetshire will have all plans removed\n1 council will have all plans removed\n2 councils will be completely removed\ncall with --confirm_changes to update database\n')
             plans = PlanDocument.objects.filter(council=bors)
             self.assertEqual(len(plans), 1)
 
             out = self.call_command(confirm_changes=1)
-            self.assertEquals(out, '2 councils will have all plans removed\n')
+            self.assertEquals(out, '1 council will have all plans removed\n2 councils will be completely removed\n')
 
-            plans = PlanDocument.objects.filter(council=bors)
-            self.assertEqual(len(plans), 0)
+            bors_exists = Council.objects.filter(authority_code='BORS').exists()
+            self.assertFalse(bors_exists)
             plans = PlanDocument.objects.filter(council=west_bors)
             self.assertEqual(len(plans), 0)

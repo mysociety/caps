@@ -17,8 +17,9 @@ class Command(BaseCommand):
     help = 'Imports data from data/plans into the database'
 
     changes = False
-    plans_to_delete = {}
-    councils_in_sheet = set()
+    plans_to_delete = {} # per council list of plan urls that are no longer in the sheet
+    councils_in_sheet = set() # set of gss codes of councils in sheet
+    councils_with_plan_in_sheet = set() # set of gss codes of councils with at least one plan
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -43,8 +44,12 @@ class Command(BaseCommand):
         plan_update_count = 0
         plans_to_import = {}
         councils_in_sheet = set()
+        councils_with_plan_in_sheet = set()
+
         for index, row in df.iterrows():
             gss_code = PlanDocument.char_from_text(row['gss_code'])
+            councils_in_sheet.update([gss_code])
+
             council_exists = Council.objects.filter(
                 gss_code = gss_code
             ).exists()
@@ -53,11 +58,11 @@ class Command(BaseCommand):
                 council_add_count += 1
                 self.print_change("adding new council: %s", row['council'], verbosity=2)
                 if not pd.isnull(row['url']):
-                    councils_in_sheet.update([gss_code])
+                    councils_with_plan_in_sheet.update([gss_code])
                     plan_add_count += 1
                     self.print_change("adding new plan for %s", row['council'], verbosity=2)
             elif not pd.isnull(row['url']):
-                councils_in_sheet.update([gss_code])
+                councils_with_plan_in_sheet.update([gss_code])
                 council = Council.objects.get(
                     gss_code = gss_code
                 )
@@ -104,18 +109,38 @@ class Command(BaseCommand):
                 self.print_change("deleting plan for %s", council.name, verbosity=2)
                 plans_to_delete[council_code] = council_plans
 
+        # if a council isn't in the sheet we should remove it entirely from the database
+        councils_to_remove = Council.objects.exclude(
+            gss_code__in=councils_in_sheet
+        )
+        councils_to_remove_count = councils_to_remove.count()
+
+        # if a council is going to be removed completely then exclude it from the
+        # list of councils where we're going to remove the plans
+        councils_with_plans_to_remove = set([ council.gss_code for council in councils_to_remove ])
+        if councils_with_plans_to_remove:
+            councils_with_plan_in_sheet.update(councils_with_plans_to_remove)
+
+        # if a council is in the sheet but no longer has a plan we should remove all
+        # their plans
         plans_from_removed_councils = PlanDocument.objects.exclude(
-            council__gss_code__in=councils_in_sheet
+            council__gss_code__in=councils_with_plan_in_sheet
         )
         plans_from_removed_councils_count = plans_from_removed_councils.count()
 
+
         if self.verbosity >= 2:
+            councils = councils_to_remove.all()
+            for council in councils:
+                self.print_change("%s will be completely removed" % council.name)
+
             councils = plans_from_removed_councils.distinct('council__gss_code')
             for council in councils:
                 self.print_change("%s will have all plans removed" % council.council.name)
 
         self.plans_to_delete = plans_to_delete
         self.councils_in_sheet = councils_in_sheet
+        self.councils_with_plan_in_sheet = councils_with_plan_in_sheet
 
         if council_add_count > 0:
             self.print_change("%d council%s will be added", council_add_count, pluralize(council_add_count))
@@ -127,6 +152,8 @@ class Command(BaseCommand):
             self.print_change("%d plan%s will be deleted", plans_to_delete_count, pluralize(plans_to_delete_count))
         if plans_from_removed_councils_count > 0:
             self.print_change("%d council%s will have all plans removed", plans_from_removed_councils_count, pluralize(plans_from_removed_councils_count))
+        if councils_to_remove_count > 0:
+            self.print_change("%d council%s will be completely removed", councils_to_remove_count, pluralize(councils_to_remove_count))
 
 
     def update_database(self):
@@ -163,7 +190,7 @@ class Command(BaseCommand):
                 )
 
         PlanDocument.objects.exclude(
-            council__gss_code__in=self.councils_in_sheet
+            council__gss_code__in=self.councils_with_plan_in_sheet
         ).delete()
 
         for council_code in self.plans_to_delete.keys():
@@ -174,6 +201,10 @@ class Command(BaseCommand):
                 council=council,
                 url__in=self.plans_to_delete[council_code]
             ).delete()
+
+        Council.objects.exclude(
+            gss_code__in=self.councils_in_sheet
+        ).delete()
 
     def get_plan_defaults_from_row(self, row):
         (start_year, end_year) = PlanDocument.start_and_end_year_from_time_period(row['time_period'])
