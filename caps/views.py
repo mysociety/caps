@@ -13,7 +13,7 @@ from os.path import join
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
 
-from caps.models import Council, CouncilFilter, PlanDocument, DataPoint
+from caps.models import Council, CouncilFilter, PlanDocument, DataPoint, SavedSearch
 from caps.forms import HighlightedSearchForm
 from caps.mapit import MapIt, NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException
 from caps.utils import file_size
@@ -74,6 +74,33 @@ class CouncilListView(FilterView):
 class SearchResultsView(HaystackSearchView):
 
     template_name = 'search_results.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        inorganic = self.request.GET.get('inorganic')
+        context['inorganic'] = False
+        if inorganic == '1':
+            context['inorganic'] = True
+
+        return context
+
+    """
+    Following adapted from https://github.com/django-haystack/saved_searches/
+    """
+    def save_search(self, context):
+        if context['query'] and context['page_obj'].number == 1:
+            # Save the search.
+            saved_search = SavedSearch(
+                search_key=self.search_field,
+                user_query=context['query'],
+                result_count=context['paginator'].count,
+                inorganic=context['inorganic']
+            )
+            saved_search.save()
+
+    def render_to_response(self, context):
+        self.save_search(context)
+        return super().render_to_response(context)
 
 class LocationResultsView(TemplateView):
 
