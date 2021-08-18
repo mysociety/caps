@@ -326,3 +326,45 @@ class DataPoint(models.Model):
 
     class Meta:
         ordering = ['data_type', 'year']
+
+"""
+Following adapted from https://github.com/django-haystack/saved_searches/
+
+Both of these limit results to those returning a result partly as a way to
+avoid abuse and also because it's unclear what the point of displaying results
+that return no results are
+"""
+class SavedSearchManager(models.Manager):
+    def most_recent(self, search_key=None, threshold=1):
+        qs = self.get_queryset()
+
+        if search_key is not None:
+            qs = qs.filter(search_key=search_key)
+
+        return qs.values('user_query').filter(result_count__gt=0).annotate(most_recent=models.Max('created'),times_seen=models.Count('user_query')).order_by('-most_recent').filter(times_seen__gte=threshold)
+
+    def most_popular(self, search_key=None, threshold=1):
+        qs = self.get_queryset()
+
+        if search_key is not None:
+            qs = qs.filter(search_key=search_key)
+
+        initial_list = qs.values('user_query').filter(result_count__gt=0).order_by().annotate(times_seen=models.Count('user_query')).order_by('-times_seen').filter(times_seen__gte=threshold)
+        return initial_list.values('user_query', 'times_seen')
+
+
+class SavedSearch(models.Model):
+    search_key = models.SlugField(max_length=100, help_text="A way to arbitrarily group queries. Should be a single word. Example: all-products")
+    user_query = models.CharField(max_length=1000, help_text="The text the user searched on. Useful for display.")
+    full_query = models.CharField(max_length=1000, default='', blank=True, help_text="The full query Haystack generated. Useful for searching again.")
+    result_count = models.PositiveIntegerField(default=0, blank=True)
+    inorganic = models.BooleanField(default=False)
+    created = models.DateTimeField(blank=True, auto_now_add=True)
+
+    objects = SavedSearchManager()
+
+    class Meta:
+        verbose_name_plural = 'Saved Searches'
+
+    def __unicode__(self):
+        return u"'%s...%s" % (self.user_query[:50], self.search_key)

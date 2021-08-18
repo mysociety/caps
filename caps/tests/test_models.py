@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from caps.models import Council, PlanDocument
+from caps.models import Council, PlanDocument, SavedSearch
 
 class PlanDocumentStartEndEndYearsFromTimePeriodTestCase(TestCase):
 
@@ -131,3 +131,42 @@ class CouncilPercentWithPlanTestCase(TestCase):
     def test_councils_percent_with_plan(self):
         actual = Council.percent_with_plan()
         self.assertEqual(50, actual)
+
+
+class SavedSearchesTestCase(TestCase):
+    def setUp(self):
+        search_with_results = SavedSearch.objects.create(user_query="turbines",
+                                                         result_count=12,
+                                                         search_key="q")
+
+        search_with_no_results = SavedSearch.objects.create(user_query="elephants",
+                                                         result_count=0,
+                                                         search_key="q")
+
+    def test_searches_with_no_results_ignored(self):
+        recent_qs = SavedSearch.objects.most_recent()
+        self.assertEqual(recent_qs.count(), 1)
+        recent = [ res['user_query'] for res in recent_qs ]
+        self.assertEqual(recent, ['turbines'])
+
+        popular_qs = SavedSearch.objects.most_popular()
+        self.assertEqual(popular_qs.count(), 1)
+        popular = [ res['user_query'] for res in popular_qs ]
+        self.assertEqual(popular, ['turbines'])
+
+    def test_popular_searches(self):
+        searches = [ "turbines", "gas", "wind", "wind", "ev", "turbines", "solar", "solar" ]
+        for search in searches:
+            SavedSearch.objects.create(user_query=search,
+                                       result_count=12,
+                                       search_key="q")
+
+        popular_qs = SavedSearch.objects.most_popular()
+        self.assertEqual(popular_qs.count(), 5)
+        popular = [ [ res['user_query'], res['times_seen'] ] for res in popular_qs ]
+        self.assertEqual(popular, [ ['turbines', 3], ['wind', 2], ['solar', 2], ['gas', 1], ['ev', 1] ])
+
+        popular_qs = SavedSearch.objects.most_popular(threshold=2)
+        self.assertEqual(popular_qs.count(), 3)
+        popular = [ [ res['user_query'], res['times_seen'] ] for res in popular_qs ]
+        self.assertEqual(popular, [ ['turbines', 3], ['wind', 2], ['solar', 2] ])
