@@ -37,12 +37,14 @@
             <div class="card-body p-md-4 p-lg-5">
                 <h2>The UK’s open database of council climate action plans</h2>
                 {% include 'includes/text-search-form.html' %}
-                <h3 class="mt-4 mb-2">Try it out:</h3>
+              {% if popular_searches %}
+                <h3 class="mt-4 mb-2">Popular searches:</h3>
                 <ul class="list-inline mb-0">
-                  {% for suggestion in search_suggestions %}
-                    <li class="list-inline-item"><a href="{% url 'search_results' %}?q={{ suggestion|urlencode }}" data-show-interstitial>{{ suggestion }}</a></li>
+                  {% for suggestion in popular_searches %}
+                    <li class="list-inline-item mr-3"><a href="{% url 'search_results' %}?q={{ suggestion.user_query }}&inorganic=1" data-show-interstitial>{{ suggestion.user_query }}</a></li>
                   {% endfor %}
                 </ul>
+              {% endif %}
             </div>
         </div>
 

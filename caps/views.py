@@ -1,4 +1,6 @@
 # -*- coding: future_fstrings -*-
+from random import shuffle
+
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import View, DetailView, ListView, TemplateView
@@ -28,16 +30,14 @@ class HomePageView(TemplateView):
         context['total_councils'] = Council.objects.all().count()
         context['total_plans'] = PlanDocument.objects.all().count()
         context['percent_councils_with_plan'] = Council.percent_with_plan()
-        context['search_suggestions'] = [
-            '"electric taxis"',
-            '"green homes grant"',
-            '"ground source heat pumps"',
-            '"circular economy"',
-        ]
+        # can't shuffle querysets because they don't support assignment
+        context['popular_searches'] = [ s for s in SavedSearch.objects.most_popular()[:6] ]
+        shuffle(context['popular_searches'])
 
         plan_file = join(settings.MEDIA_ROOT, 'data', 'plans', 'plans.zip')
         plan_size = file_size(plan_file)
         context['plan_zip_size'] = plan_size
+
         return context
 
 class CouncilDetailView(DetailView):
