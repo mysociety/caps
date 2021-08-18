@@ -147,6 +147,7 @@ INSTALLED_APPS = [
     'haystack',
     'pipeline',
     'bootstrap4',
+    'rest_framework',
     'caps',
 ]
 
