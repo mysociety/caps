@@ -8,6 +8,9 @@ from django.conf import settings
 import mailchimp_marketing as MailchimpMarketing
 from mailchimp_marketing.api_client import ApiClientError
 
+from rest_framework import viewsets
+from rest_framework import permissions
+
 from os.path import join
 
 from django_filters.views import FilterView
@@ -17,6 +20,7 @@ from caps.models import Council, CouncilFilter, PlanDocument, DataPoint
 from caps.forms import HighlightedSearchForm
 from caps.mapit import MapIt, NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException
 from caps.utils import file_size
+from caps.serializers import CouncilSerializer
 
 class HomePageView(TemplateView):
 
@@ -156,3 +160,7 @@ class MailchimpView(View):
 class StyleView(TemplateView):
 
     template_name = "style.html"
+
+class CouncilAPIViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Council.objects.annotate(plan_count=Count('plandocument')).all()
+    serializer_class = CouncilSerializer

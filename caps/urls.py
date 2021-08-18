@@ -1,9 +1,14 @@
 from django.urls import include, path
 from django.contrib import admin
 
+from rest_framework import routers
+
 import haystack.generic_views
 from caps.forms import HighlightedSearchForm
 import caps.views as views
+
+router = routers.DefaultRouter()
+router.register(r'councils', views.CouncilAPIViewSet)
 
 urlpatterns = [
     path('', views.HomePageView.as_view(), name='home'),
@@ -15,5 +20,6 @@ urlpatterns = [
     path('ajax/mailchimp_email', views.MailchimpView.as_view(), name='mailchimp_hook'),
     path('style/', views.StyleView.as_view(), name='style'),
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
 
 ]
