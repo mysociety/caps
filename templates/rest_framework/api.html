@@ -1,0 +1,10 @@
+{% extends "rest_framework/base.html" %}
+
+{% load static %}
+{% load pipeline %}
+
+{% block title %}CAPS API{% endblock %}
+
+{% block branding %}
+<a class="navbar-brand" rel="nofollow" href="/">DATA</a> <span class="navbar-brand">&raquo;</span> <a class="navbar-brand" href="{% url 'api-root' %}">API</a>
+{% endblock %}
