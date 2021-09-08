@@ -121,22 +121,6 @@ class Council(models.Model):
         total = cls.objects.all().count()
         return(round(with_plan / total * 100))
 
-class CouncilFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr='icontains')
-    has_plan = django_filters.BooleanFilter(field_name='plandocument',
-                                            lookup_expr='isnull',
-                                            exclude=True,
-                                            label='Has plan',
-                                            widget=Select(choices=Council.PLAN_FILTER_CHOICES))
-    authority_type = django_filters.ChoiceFilter(choices=Council.AUTHORITY_TYPE_CHOICES,
-                                                empty_label='All')
-    country = django_filters.ChoiceFilter(choices=Council.COUNTRY_CHOICES,
-                                          empty_label='All')
-
-    class Meta:
-        model = Council
-        fields = []
-
 class OverwriteStorage(FileSystemStorage):
     """
     Overwrite an existing file at the name given
@@ -405,13 +389,14 @@ class SavedSearch(models.Model):
 class Promise(models.Model):
 
     PROMISE_FILTER_CHOICES = [
-        (None, 'All'),
         (2025, '2025'),
         (2030, '2030'),
         (2035, '2035'),
         (2040, '2040'),
         (2045, '2045'),
         (2050, '2050'),
+        ('no_target', 'No target'),
+        ('unknown', 'Unknown'),
     ]
 
     created_at = models.DateField(auto_now_add=True)
@@ -424,4 +409,36 @@ class Promise(models.Model):
     source = models.URLField(max_length=600)
     source_name = models.CharField(max_length=200, blank=True)
     notes = models.CharField(max_length=800, blank=True, null=True)
+
+class CouncilFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+    has_plan = django_filters.BooleanFilter(field_name='plandocument',
+                                            lookup_expr='isnull',
+                                            exclude=True,
+                                            label='Has plan',
+                                            widget=Select(choices=Council.PLAN_FILTER_CHOICES))
+    authority_type = django_filters.ChoiceFilter(choices=Council.AUTHORITY_TYPE_CHOICES,
+                                                empty_label='All')
+    country = django_filters.ChoiceFilter(choices=Council.COUNTRY_CHOICES,
+                                          empty_label='All')
+
+    promise_combined = django_filters.ChoiceFilter(method='filter_promise',
+                                            label='Carbon neutral by',
+                                            empty_label='All',
+                                            choices=Promise.PROMISE_FILTER_CHOICES)
+
+    def filter_promise(self, queryset, name, value):
+        if value is None:
+            return queryset
+        elif value == 'unknown':
+            return queryset.filter(**{ 'has_promise': 0 })
+        elif value == 'no_target':
+            return queryset.filter(**{ 'has_promise__gte': 1, 'earliest_promise': None })
+        else:
+            return queryset.filter(**{ 'earliest_promise__lte': value })
+
+
+    class Meta:
+        model = Council
+        fields = []
 
