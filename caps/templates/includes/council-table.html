@@ -23,7 +23,25 @@
             </td>
             <td data-column="plan-score">
               {% if council.num_plans > 0 %}
-                {{ fake_scores|random }}%
+                <div class="d-flex align-items-center">
+                  {% with fake_scores|random as fake_score %}
+                    <span style="width: 3em;">
+                        {{ fake_score }}%
+                    </span>
+                    {% widthratio 11 100 fake_score as fake_segment %}
+                    <div class="progress council-scores-combined-progress-bar" style="width: 15em;">
+                        <div class="progress-bar bg-green" style="width: {{ fake_segment }}%"></div>
+                        <div class="progress-bar bg-cyan" style="width: {{ fake_segment }}%"></div>
+                        <div class="progress-bar bg-blue" style="width: {{ fake_segment }}%"></div>
+                        <div class="progress-bar bg-navy" style="width: {{ fake_segment }}%"></div>
+                        <div class="progress-bar bg-purple" style="width: {{ fake_segment }}%"></div>
+                        <div class="progress-bar bg-pink" style="width: {{ fake_segment }}%"></div>
+                        <div class="progress-bar bg-red" style="width: {{ fake_segment }}%"></div>
+                        <div class="progress-bar bg-orange" style="width: {{ fake_segment }}%"></div>
+                        <div class="progress-bar bg-yellow" style="width: {{ fake_segment }}%"></div>
+                    </div>
+                  {% endwith %}
+                </div>
               {% else %}
                 0%
               {% endif %}
