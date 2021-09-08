@@ -5,29 +5,58 @@
 
 {% block content %}
 
-<div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
-    <div class="card-header">
-        <h1>Browse data from all councils</h1>
+<div class="row">
+    <div class="col-md-4">
+
+        <div class="card ceuk-card mb-gutter position-sticky" style="top: 1rem;">
+            <div class="card-body">
+                <h1 class="mb-3">All councils</h1>
+
+                <form method="get" class="mb-n3">
+                    <div class="form-group">
+                        <label for="id_sort_by">Sort by</label>
+                        <select name="sort_by" class="form-control" title="" id="id_sort_by">
+                            <option value="" selected="">Name, A-Z</option>
+                            <option value="">Plan score: Total</option>
+                            <option value="">Plan score: Governance, Development and Funding</option>
+                            <option value="">Plan score: Mitigation and Adaptation</option>
+                            <option value="">Plan score: Commitment and Integration</option>
+                            <option value="">Plan score: Community Engagement and Communications</option>
+                            <option value="">Plan score: Measuring and Setting Emissions Targets</option>
+                            <option value="">Plan score: Co-benefits</option>
+                            <option value="">Plan score: Diversity and Social Inclusion</option>
+                            <option value="">Plan score: Education, Skills and Training</option>
+                            <option value="">Plan score: Ecological Emergency</option>
+                        </select>
+                    </div>
+                    {% bootstrap_form filter.form %}
+                    {% buttons %}
+                    <button type="submit" class="btn btn-primary btn-block mt-4">Filter list</button>
+                    {% endbuttons %}
+                </form>
+            </div>
+        </div>
+
     </div>
-    <div class="ceuk-data-table">
-        <div class="ceuk-data-table__filters">
-            <form method="get">
-                {% bootstrap_form filter.form %}
-                {% buttons %}
-                <button type="submit" class="btn btn-primary btn-sm">Filter</button>
-                {% endbuttons %}
-            </form>
+    <div class="col-md-8">
+
+        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+            <div class="card-header">
+                <h3>
+                  {% if filter.qs.count == 1 %}
+                    {{ filter.qs.count }} council
+                  {% else %}
+                    {{ filter.qs.count }} councils
+                  {% endif %}
+                </h3>
+            </div>
+            <div class="ceuk-data-table">
+              {% if filter.qs %}
+                {% include 'includes/council-table.html' with councils=filter.qs %}
+              {% endif %}
+            </div>
         </div>
-        <div class="p-3">
-          {% if filter.qs.count == 1 %}
-            {{ filter.qs.count }} result.
-          {% else %}
-            {{ filter.qs.count }} results.
-          {% endif %}
-        </div>
-      {% if filter.qs %}
-        {% include 'includes/council-table.html' with councils=filter.qs %}
-      {% endif %}
+
     </div>
 </div>
 

@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th scope="col">Council name</th>
-            <th scope="col">Has plan</th>
+            <th scope="col">Plan?</th>
             <th scope="col">Plan score</th>
         </tr>
     </thead>
@@ -12,7 +12,7 @@
             <td data-column="council-name">
                 <a href="{% url 'council' council.slug %}">{{ council.name }}</a>
             </td>
-            <td data-column="has-plan">
+            <td data-column="has-plan" class="text-nowrap">
               {% if council.num_plans > 0 %}
                 {% include 'icons/check-circle-fill.html' with classes='mr-1' %}
                 Yes
