@@ -401,3 +401,27 @@ class SavedSearch(models.Model):
 
     def __unicode__(self):
         return u"'%s...%s" % (self.user_query[:50], self.search_key)
+
+class Promise(models.Model):
+
+    PROMISE_FILTER_CHOICES = [
+        (None, 'All'),
+        (2025, '2025'),
+        (2030, '2030'),
+        (2035, '2035'),
+        (2040, '2040'),
+        (2045, '2045'),
+        (2050, '2050'),
+    ]
+
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    council = models.ForeignKey(Council, on_delete=models.CASCADE)
+    has_promise = models.BooleanField(blank=True, null=True)
+    target_year = models.IntegerField(blank=True, null=True)
+    scope = models.PositiveSmallIntegerField(choices=PlanDocument.SCOPE_CHOICES, null=True, blank=True)
+    text = models.TextField(blank=True)
+    source = models.URLField(max_length=600)
+    source_name = models.CharField(max_length=200, blank=True)
+    notes = models.CharField(max_length=800, blank=True, null=True)
+
