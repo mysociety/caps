@@ -3,6 +3,7 @@
         <tr>
             <th scope="col">Council name</th>
             <th scope="col">Has plan</th>
+            <th scope="col">Carbon Neutral target</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +19,13 @@
               {% else %}
                 {% include 'icons/question-circle.html' with classes='mr-1' %}
                 No
+              {% endif %}
+            </td>
+            <td data-column="promise">
+              {% if council.earliest_promise > 0 %}
+                {{ council.earliest_promise }}
+              {% elif council.has_promise %}
+                No target
               {% endif %}
             </td>
         </tr>

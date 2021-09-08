@@ -4,7 +4,7 @@ from random import shuffle
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import View, DetailView, ListView, TemplateView
-from django.db.models import Q, Count, Max
+from django.db.models import Q, Count, Max, Min
 from django.shortcuts import redirect
 from django.conf import settings
 import mailchimp_marketing as MailchimpMarketing
@@ -65,7 +65,9 @@ class CouncilDetailView(DetailView):
             context['latest_year_total_emissions'] = latest_year_total_emissions
         except DataPoint.DoesNotExist:
             context['no_emissions_data'] = True
-        context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'))
+        context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'),has_promise=Count('promise'),earliest_promise=Min('promise__target_year'))
+        context['promises'] = council.promise_set.filter(has_promise=True)
+        context['no_promise'] = council.promise_set.filter(has_promise=False)
         context['last_updated'] = council.plandocument_set.aggregate(last_update=Max('updated_at'),last_found=Max('date_first_found'))
 
         context['page_title'] = council.name
@@ -82,7 +84,7 @@ class CouncilListView(FilterView):
     }
 
     def get_queryset(self):
-        return Council.objects.annotate(num_plans=Count('plandocument')).order_by('name')
+        return Council.objects.annotate(num_plans=Count('plandocument'),has_promise=Count('promise'),earliest_promise=Min('promise__target_year')).order_by('name')
 
 
 class SearchResultsView(HaystackSearchView):

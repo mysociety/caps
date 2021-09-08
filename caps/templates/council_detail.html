@@ -38,23 +38,29 @@
     </div>
     <div class="col-md-7 col-lg-8">
 
-      {% comment %}
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--yellow mb-gutter">
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--orange mb-gutter">
             <div class="card-header">
                 <h2>Headline promises</h2>
             </div>
             <div class="card-body">
-                <blockquote class="blockquote mt-n2">
-                    <p class="mb-0">“carbon neutral for our direct emissions by 2025”</p>
-                    <footer class="blockquote-footer"><cite title="Source Title">Mayor’s Climate Emergency Action Plan, 2019</cite></footer>
-                </blockquote>
-                <blockquote class="blockquote mb-0">
-                    <p class="mb-0">“carbon neutral and climate reslilent by 2030”</p>
-                    <footer class="blockquote-footer"><cite title="Source Title">Bristol One City Climate Policy, 2020</cite></footer>
-                </blockquote>
+                {% if promises %}
+                    {% for promise in promises %}
+                    <blockquote class="blockquote">
+                        <p class="mb-0">“{{ promise.text }}”</p>
+                        <footer class="blockquote-footer"><cite title="{{ promise.source_name }}"><a href="{{ promise.source }}">{{ promise.source_name }}</a></cite></footer>
+                    </blockquote>
+                    {% endfor %}
+                {% elif no_promise %}
+                    <p class="mb-0 mt-n1">
+                        We couldn’t find any climate promises from this council. If you’ve found one, <a href="{% url 'about' %}">let us know!</a>
+                    </p>
+                {% else %}
+                    <p class="mb-0 mt-n1">
+                        We haven’t checked whether this council has made any climate promises yet, but we will soon. If you’ve already found one, <a href="{% url 'about' %}">let us know!</a>
+                    </p>
+                {% endif %}
             </div>
         </div>
-      {% endcomment %}
 
       {% comment %}
         <div class="card ceuk-card ceuk-card--emphasised ceuk-card--blue mb-gutter">

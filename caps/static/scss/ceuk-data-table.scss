@@ -72,4 +72,10 @@
             color: $color-ceuk-grey-600;
         }
     }
+
+    // Prevent icon and "Yes"/"No" breaking onto separate lines
+    // when the table is very narrow.
+    td[data-column="has-plan"] {
+        white-space: nowrap;
+    }
 }

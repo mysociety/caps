@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from django.urls import reverse
 
-from caps.models import Council
+from caps.models import Council, Promise
 
 class TestPageRenders(TestCase):
 
@@ -129,3 +129,47 @@ class TestPostcodeSearch(TestCase):
     def test_empty_submission_shows_results_page(self):
         response = self.client.get('/location/?pc=')
         self.assertTemplateUsed(response, 'location_results.html')
+
+
+class TestCouncilDetailPage(TestCase):
+    promise = None
+
+    def setUp(self):
+        council = Council.objects.create(
+            name='Borsetshire',
+            slug='borsetshire',
+            country=Council.ENGLAND,
+            authority_code='BOS',
+            gss_code='E14000111'
+        )
+
+        self.promise = Promise.objects.create(
+            council=council,
+            has_promise=True,
+            text="this is a promise",
+            source_name="council website",
+            source="http://borsetshire.gov.uk/promise/",
+            target_year="2045"
+        )
+
+
+    def test_council_has_promise(self):
+        url = reverse('council', args=['borsetshire'])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertRegex(response.content, br'this is a promise')
+
+    def test_council_has_no_promise(self):
+        self.promise.has_promise = False
+        self.promise.save()
+        url = reverse('council', args=['borsetshire'])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertRegex(response.content, br'We couldn\xe2\x80\x99t find any climate promises from this council')
+
+    def test_council_no_promise_data(self):
+        self.promise.delete()
+        url = reverse('council', args=['borsetshire'])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertRegex(response.content, br'checked whether this council has made any climate promises')
