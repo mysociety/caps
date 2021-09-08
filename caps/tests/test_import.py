@@ -4,11 +4,9 @@ from django.test import TestCase
 
 import unittest
 from django.core.management import call_command
-from caps.models import Council, PlanDocument
+from caps.models import Council, PlanDocument, Promise
 
-class ImportPlansTestCase(TestCase):
-
-    processed_output = 'adding new plan for Borsetshire\nadding new council: East Borsetshire\nadding new plan for East Borsetshire\nadding new council: West Borsetshire\n2 councils will be added\n2 plans will be added\n';
+class ImportTestCase(TestCase):
     def setUp(self):
         plan_council = Council.objects.get_or_create(name='Borsetshire',
                                               slug='borsetshire',
@@ -21,13 +19,18 @@ class ImportPlansTestCase(TestCase):
     def call_command(self, *args, **kwargs):
         out = StringIO()
         call_command(
-            "import_plans",
+            self.command,
             *args,
             stdout=out,
             stderr=StringIO(),
             **kwargs,
         )
         return out.getvalue()
+
+class ImportPlansTestCase(ImportTestCase):
+
+    command = "import_plans"
+    processed_output = 'adding new plan for Borsetshire\nadding new council: East Borsetshire\nadding new plan for East Borsetshire\nadding new council: West Borsetshire\n2 councils will be added\n2 plans will be added\n';
 
     def test_import(self):
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
@@ -188,3 +191,48 @@ class ImportPlansTestCase(TestCase):
             self.assertFalse(bors_exists)
             plans = PlanDocument.objects.filter(council=west_bors)
             self.assertEqual(len(plans), 0)
+
+class ImportPromisesTestCase(ImportTestCase):
+
+    command = "import_promises"
+
+    def test_import(self):
+        with self.settings(PROMISES_CSV="caps/tests/test_promises.csv"):
+            Council.objects.get_or_create(name='East Borsetshire',
+                                          slug='east-borsetshire',
+                                          authority_code='EBRS',
+                                          authority_type='UA',
+                                          gss_code='E00000003',
+                                          country=Council.ENGLAND,
+                                          whatdotheyknow_id=81)
+
+            Council.objects.get_or_create(name='West Borsetshire',
+                                          slug='west-borsetshire',
+                                          authority_code='WBRS',
+                                          authority_type='UA',
+                                          gss_code='E00000002',
+                                          country=Council.ENGLAND,
+                                          whatdotheyknow_id=82)
+            out = self.call_command()
+
+            council = Council.objects.get(authority_code='BORS');
+            self.assertEqual(council.name, "Borsetshire")
+
+            promise = Promise.objects.get(council=council)
+            self.assertEqual(promise.target_year, 2035)
+            self.assertEqual(promise.text, "carbon neutral by 2035!")
+            self.assertEqual(promise.scope, PlanDocument.COUNCIL_ONLY);
+            self.assertEqual(promise.source, "http://borsetshire.gov.uk/promise.html")
+            self.assertEqual(promise.source_name, "Borsetshire website")
+            self.assertTrue(promise.has_promise)
+
+            council = Council.objects.get(authority_code='WBRS');
+            self.assertEqual(council.name, "West Borsetshire")
+
+            promise = Promise.objects.get(council=council)
+            self.assertFalse(promise.has_promise)
+
+            council = Council.objects.get(authority_code='EBRS');
+            self.assertEqual(council.name, "East Borsetshire")
+
+            self.assertEqual(Promise.objects.filter(council=council).count(), 0)

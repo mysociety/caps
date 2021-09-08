@@ -133,6 +133,10 @@ RAW_CSV = os.path.join(DATA_DIR, RAW_CSV_NAME)
 PROCESSED_CSV_NAME = 'plans.csv'
 PROCESSED_CSV = os.path.join(DATA_DIR, PROCESSED_CSV_NAME)
 
+PROMISES_CSV_KEY = '1dWd8kOT4foXTvju386r1bfvf8jd5MrMaek-4DPNHs-8'
+PROMISES_CSV_SHEET_NAME = 'Sheet1'
+PROMISES_CSV_NAME = 'promises.csv'
+PROMISES_CSV = os.path.join(DATA_DIR, PROMISES_CSV_NAME)
 
 # Application definition
 
