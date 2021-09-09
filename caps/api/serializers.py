@@ -1,4 +1,4 @@
-from caps.models import Council
+from caps.models import Council, SavedSearch
 from rest_framework import serializers
 
 
@@ -11,3 +11,10 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Council
         fields = ['name', 'url', 'website_url', 'gss_code', 'country', 'authority_type', 'plan_count']
+
+class SearchTermSerializer(serializers.HyperlinkedModelSerializer):
+    times_seen = serializers.IntegerField()
+
+    class Meta:
+        model = SavedSearch
+        fields = ['user_query', 'result_count', 'times_seen']

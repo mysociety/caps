@@ -9,6 +9,7 @@ from caps.api import routers
 
 router = routers.Router()
 router.register(r'councils', api_views.CouncilViewSet)
+router.register(r'searchterms', api_views.SearchTermViewSet)
 
 urlpatterns = [
     path('', views.HomePageView.as_view(), name='home'),
