@@ -110,11 +110,16 @@ class SearchTermAPITest(APITestCase):
 
         response = self.client.get('/api/searchterms/')
         self.assertEquals(json.loads(response.content),
-            [ {
-                'user_query': "query",
-                'result_count': 2,
-                'times_seen': 1
-            } ]
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "query",
+                    'result_count': 2,
+                    'times_seen': 1
+                } ]
+            }
         )
 
     def test_term_aggregation(self):
@@ -129,11 +134,16 @@ class SearchTermAPITest(APITestCase):
 
         response = self.client.get('/api/searchterms/')
         self.assertEquals(json.loads(response.content),
-            [ {
-                'user_query': "query",
-                'result_count': 2,
-                'times_seen': 2
-            } ]
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "query",
+                    'result_count': 2,
+                    'times_seen': 2
+                } ]
+            }
         )
 
     def test_result_count_filtering(self):
@@ -152,11 +162,16 @@ class SearchTermAPITest(APITestCase):
 
         response = self.client.get('/api/searchterms/?min_results=2')
         self.assertEquals(json.loads(response.content),
-            [ {
-                'user_query': "query",
-                'result_count': 2,
-                'times_seen': 2
-            } ]
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "query",
+                    'result_count': 2,
+                    'times_seen': 2
+                } ]
+            }
         )
 
     def test_seen_count_filtering(self):
@@ -175,11 +190,16 @@ class SearchTermAPITest(APITestCase):
 
         response = self.client.get('/api/searchterms/?min_count=2')
         self.assertEquals(json.loads(response.content),
-            [ {
-                'user_query': "query",
-                'result_count': 2,
-                'times_seen': 2
-            } ]
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "query",
+                    'result_count': 2,
+                    'times_seen': 2
+                } ]
+            }
         )
 
     def test_date_filtering(self):
@@ -209,29 +229,44 @@ class SearchTermAPITest(APITestCase):
 
         response = self.client.get('/api/searchterms/?start_date=2021-01-03')
         self.assertEquals(json.loads(response.content),
-            [ {
-                'user_query': "query",
-                'result_count': 2,
-                'times_seen': 1
-            } ]
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "query",
+                    'result_count': 2,
+                    'times_seen': 1
+                } ]
+            }
         )
 
         response = self.client.get('/api/searchterms/?end_date=2021-01-01')
         self.assertEquals(json.loads(response.content),
-            [ {
-                'user_query': "query",
-                'result_count': 2,
-                'times_seen': 1
-            } ]
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "query",
+                    'result_count': 2,
+                    'times_seen': 1
+                } ]
+            }
         )
 
         response = self.client.get('/api/searchterms/?start_date=2021-01-02&end_date=2021-01-03')
         self.assertEquals(json.loads(response.content),
-            [ {
-                'user_query': "other",
-                'result_count': 3,
-                'times_seen': 1
-            } ]
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "other",
+                    'result_count': 3,
+                    'times_seen': 1
+                } ]
+            }
         )
 
     def test_errors(self):

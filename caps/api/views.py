@@ -6,6 +6,7 @@ from django.forms import ValidationError
 
 from rest_framework import viewsets, routers
 from rest_framework.exceptions import APIException
+from rest_framework.pagination import PageNumberPagination
 
 from caps.models import Council, SavedSearch
 from caps.api.serializers import CouncilSerializer, SearchTermSerializer
@@ -45,10 +46,13 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Council.objects.annotate(plan_count=Count('plandocument')).all()
     serializer_class = CouncilSerializer
+    # don't paginate this as there's a fixed number of results that doesn't really
+    # change so is very amenable to caching
+    pagination_class = None
 
 class SearchTermViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    List of search terms that returned restults
+    List of search terms that returned results, ordered by most popular terms
 
     * user_query - term searched for
     * result_count - number of results returned from search
@@ -65,11 +69,11 @@ class SearchTermViewSet(viewsets.ReadOnlyModelViewSet):
     searches made on that date.
     """
 
-    queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count').distinct().annotate(times_seen=Count('user_query'))
+    queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count').distinct().annotate(times_seen=Count('user_query')).order_by('-times_seen')
     serializer_class = SearchTermSerializer
 
     def get_queryset(self):
-        queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count').distinct().annotate(times_seen=Count('user_query'))
+        queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count').distinct().annotate(times_seen=Count('user_query')).order_by('-times_seen')
         start_date = self.request.query_params.get('start_date')
         end_date = self.request.query_params.get('end_date')
         min_count = self.request.query_params.get('min_count')
