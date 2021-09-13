@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# script to check what changes and update will make.
+#
+# NB: will downloads plans and update the CSV.
+
+# abort on any errors
+set -e
+
+# check that we are in the expected directory
+cd `dirname $0`/..
+
+
+"$(dirname "$0")/manage" preprocess
+"$(dirname "$0")/manage" add_authority_codes
+"$(dirname "$0")/manage" add_council_websites
+"$(dirname "$0")/manage" add_text
+"$(dirname "$0")/manage" import_plans "$@"
