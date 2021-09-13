@@ -153,7 +153,8 @@ class Command(BaseCommand):
         if plans_from_removed_councils_count > 0:
             self.print_change("%d council%s will have all plans removed", plans_from_removed_councils_count, pluralize(plans_from_removed_councils_count))
         if councils_to_remove_count > 0:
-            self.print_change("%d council%s will be completely removed", councils_to_remove_count, pluralize(councils_to_remove_count))
+            council_list = [ council.name for council in councils_to_remove ]
+            self.print_change("%d council%s will be completely removed: [ %s ]", councils_to_remove_count, pluralize(councils_to_remove_count), ', '.join(council_list))
 
 
     def update_database(self):
