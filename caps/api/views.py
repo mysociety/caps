@@ -47,7 +47,7 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
     * plan_count - number of plans we have details for.
     * plans_last_update - the date of the most recent update to a plan
     """
-    queryset = Council.objects.annotate(plan_count=Count('plandocument'),plans_last_update=Max('plandocument__updated_at')).all()
+    queryset = Council.objects.annotate(plan_count=Count('plandocument'),plans_last_update=Max('plandocument__updated_at')).order_by('name').all()
     serializer_class = CouncilSerializer
     # don't paginate this as there's a fixed number of results that doesn't really
     # change so is very amenable to caching
