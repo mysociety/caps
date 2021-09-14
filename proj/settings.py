@@ -204,3 +204,6 @@ USE_TZ = True
 BOOTSTRAP4 = {
     'success_css_class': None,
 }
+
+# mainting pre 3.2 auto increment field
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
