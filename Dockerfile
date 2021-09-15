@@ -1,10 +1,10 @@
-FROM python:3.7 as base
+FROM python:3.9.7 as base
 COPY ./requirements.txt /
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -qq update && apt-get install -qq -y libpoppler-cpp-dev
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt
 
-FROM python:3.7-slim
+FROM python:3.9.7-slim
 RUN apt-get -qq update && apt-get install -qq libpoppler-cpp-dev && apt-get install -qq libpq5
 WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
