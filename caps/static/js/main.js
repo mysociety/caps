@@ -269,4 +269,6 @@ var trackEvent = function(eventName, params) {
     return dfd.promise();
 };
 
-
+$('.details-accordion').on('click', function(){
+    $(this).siblings('.details-accordion[open]').removeAttr('open');
+});

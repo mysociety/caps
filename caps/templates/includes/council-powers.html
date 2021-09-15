@@ -1,0 +1,135 @@
+{% if council.authority_type == 'CC' %}
+    <p class="mt-n1">{{ council.name }} has powers over:</p>
+{% else %}
+    <p class="mt-n1">{{ council.name }} is a <strong>{{ council.get_authority_type_display }}</strong>, with powers over:</p>
+{% endif %}
+
+    <details class="details details-accordion">
+        <summary class="mb-2">Council buildings and staff</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>making council offices more energy efficient</li>
+                <li>incentivising ‘Active Travel’ or public transport use among employees</li>
+            <ul>
+        </div>
+    </details>
+
+    <details class="details details-accordion">
+        <summary class="mb-2">Spending, procuring, and investing</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>embedding carbon impact assessment as part of the council’s budgeting and financial accountability process</li>
+                <li>utilising Public Works Loan Board loans or the Business Rates Retention Scheme to invest in emissions-reducing capital projects that otherwise wouldn’t get funded</li>
+                <li>specifying low carbon equipment and practices when procuring for relevant services from suppliers</li>
+                <li>prioritising positive environmental impacts during procurement, through the Public Services (Social Value) Act 2012</li>
+            </ul>
+        </div>
+    </details>
+
+{% if council.authority_type != 'COMB' and council.authority_type != 'NMD' %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Transport planning</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>incentivising ‘Active Travel’ like walking and cycling by creating or widening footways and cycleways</li>
+                <li>incentivising Electric Vehicle use by assigning street space to EV charging</li>
+                <li>disincentivising the use of traditional cars through congestion charging or the reduction of parking space</li>
+            </ul>
+        </div>
+    </details>
+{% endif %}
+
+{% if council.authority_type == 'UA' or council.authority_type == 'MD' or council.authority_type == 'CTY' %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Passenger transport</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>encouraging bus and private hire operators to use low-emission vehicles, through licensing requirements or Clean Air Zones</li>
+                <li>incentivising bus use by improving routes, timetables, and ticket prices through ‘Enhanced Partnerships’ with operators</li>
+                <li>proposing to central government the development of light rail / tram networks that integrate, rather than compete, with other modes of transport in the area</li>
+            </ul>
+        </div>
+    </details>
+{% endif %}
+
+{% if council.authority_type != 'COMB' and council.authority_type != 'NMD' %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Schools and libraries</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>reducing the carbon footprint of civic buildings through better insulation and renewable energy use</li>
+                <li>incentivising ‘Active Travel’ or public transport use among employees</li>
+            </ul>
+        </div>
+    </details>
+{% endif %}
+
+{% if council.authority_type != 'COMB' and council.authority_type != 'CTY' %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Environmental health</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>reducing industrial emissions through air quality enforcement</li>
+                <li>bringing up insulation and energy efficiency standards through enforcement of the Housing Health and Safety Rating System (HHSRS) and Decent Homes Standard 2000. for cold and damp conditions in private rental and social housing</li>
+            </ul>
+        </div>
+    </details>
+{% endif %}
+
+{% if council.authority_type != 'COMB' %}
+    <details class="details details-accordion">
+      {% if council.authority_type != 'CTY' and council.authority_type != 'NMD' %}
+        <summary class="mb-2">Waste collection and disposal</summary>
+      {% elif council.authority_type != 'CTY' %}
+        <summary class="mb-2">Waste collection</summary>
+      {% elif council.authority_type != 'NMD' %}
+        <summary class="mb-2">Waste disposal</summary>
+      {% endif %}
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>establishing ‘Joint Waste Solutions’ with neighbouring councils, to get more value out of waste, recycling, and street cleaning contracts</li>
+                <li>running marketing campaigns to encourage residential recycling, reuse, and waste minimisation</li>
+            </ul>
+        </div>
+    </details>
+{% endif %}
+
+{% if council.authority_type != 'COMB' and council.authority_type != 'CTY' %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Social housing</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>prioritising energy efficiency when building new council-operated social housing schemes – for example, through the Passivhaus standard</li>
+                <li>enabling housing associations to improve the energy efficiency of their housing stock, through loans from the local authority</li>
+            </ul>
+        </div>
+    </details>
+{% endif %}
+
+{% if council.authority_type != 'COMB' and council.authority_type != 'CTY' %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Planning and building control</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>imposing reasonable requirements that new developments comply with energy efficiency standards and get a proportion of their energy from local, renewable sources (Planning and Energy Act, 2008)</li>
+                <li>incorporating additional energy performance standards into their Local Plan, for new works that require planning permission</li>
+                <li>using Area Action Plans to guide development proposals towards lower carbon emissions or more cycling and walking routes, for example</li>
+                <li>enforcing legislation that requires private rental properties to be of Energy Efficiency Rating E or above (Energy Efficiency Regulations, 2015)</li>
+                <li>funding energy efficiency improvements on existing homes, through initiatives such as Green Homes Grants</li>
+            </ul>
+        </div>
+    </details>
+{% endif %}
+
+{% if council.country is council.ENGLAND %}
+    <p class="text-muted text-smaller mb-0 mt-3">Read more about English local authority powers in the <a href="https://www.uk100.org/publications/power-shift">UK100 Power Shift report</a>.</p>
+{% endif %}

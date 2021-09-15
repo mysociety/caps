@@ -1,0 +1,60 @@
+$details-inset: 1.3rem;
+$details-triangle-base: 0.7rem;
+
+.details {
+    display: block;
+    margin-bottom: $spacer / 2;
+    padding-left: $details-inset;
+
+    summary {
+        // Remove default list-item styling
+        display: block;
+
+        // So we can position our custom arrow
+        position: relative;
+
+        // Leave space for arrow, but compensate for parent padding
+        padding-left: $details-inset;
+        margin-left: $details-inset * -1;
+
+        // Style it up like a link
+        color: $link-color;
+        text-decoration: $link-decoration;
+        @include hover() {
+            color: $link-hover-color;
+            text-decoration: $link-hover-decoration;
+        }
+
+        &:before {
+            content: "";
+            position: absolute;
+
+            top: 0;
+            bottom: 0;
+            left: 1px;
+
+            margin: auto;
+
+            @include equilateral-triangle("right", $details-triangle-base, $display: inline-block);
+        }
+    }
+
+    // Remove the default details marker
+    summary::-webkit-details-marker {
+        display: none;
+    }
+
+    &[open] summary {
+        &:before {
+            @include equilateral-triangle("down", $details-triangle-base, $display: inline-block);
+        }
+    }
+}
+
+.details-accordion {
+    border-bottom: 1px solid $border-color;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}

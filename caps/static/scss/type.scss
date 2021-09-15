@@ -13,3 +13,7 @@
     color: inherit;
     margin: 0;
 }
+
+.text-smaller {
+    @include font-size(80%);
+}

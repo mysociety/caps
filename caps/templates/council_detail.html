@@ -17,22 +17,14 @@
             </div>
         </div>
 
-      {% comment %}
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
             <div class="card-header">
-                <h2>Council type</h2>
+                <h2>Powers &amp; Responsibilities</h2>
             </div>
             <div class="card-body">
-                <p><strong>Unitary Authority</strong></p>
-                <p>In addition to control over their own direct emissions, authorities of this type usually also have power over the following emissions-related policies in their area:</p>
-                <ul>
-                    <li>Transport &amp; Highways</li>
-                    <li>Planning &amp; Building Control</li>
-                    <li>Waste &amp; Recycling</li>
-                </ul>
+                {% include 'includes/council-powers.html' %}
             </div>
         </div>
-      {% endcomment %}
 
       {% if related_councils %}
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
