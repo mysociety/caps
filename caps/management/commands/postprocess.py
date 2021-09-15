@@ -14,7 +14,7 @@ from caps.models import PlanDocument
 def remove_internal_data():
     out_csv = join(settings.MEDIA_ROOT, 'data', settings.PROCESSED_CSV_NAME)
     df = pd.read_csv(settings.PROCESSED_CSV)
-    df = df.drop(['text', 'unfound', 'charset', 'wdtk_id', 'mapit_area_code', 'credit'], 'columns')
+    df = df.drop(columns=['text', 'unfound', 'charset', 'wdtk_id', 'mapit_area_code', 'credit'])
 
     df.to_csv(open(out_csv, "w"), index=False, header=True)
 

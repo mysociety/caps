@@ -113,7 +113,7 @@ def get_plans_csv():
 # Replace the column header lines
 def replace_headers():
     df = pd.read_csv(settings.RAW_CSV)
-    df = df.dropna('columns', 'all')
+    df = df.dropna(axis='columns', how='all')
 
     df.columns = ['council',
                   'search_link',
