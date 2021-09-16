@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
         plan_count = 0
         zip_path = join(settings.MEDIA_ROOT, 'data', 'plans', 'plans.zip')
-        csv_file = join(settings.PROCESSED_CSV)
+        csv_file = join(settings.MEDIA_ROOT, 'data', settings.PROCESSED_CSV_NAME)
         plans = PlanDocument.objects.all()
         with zipfile.ZipFile(zip_path, 'w') as zip_file:
             zip_file.write(csv_file, arcname=settings.PROCESSED_CSV_NAME)

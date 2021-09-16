@@ -30,6 +30,8 @@ class InvalidDateException(InvalidParamException):
 class APIView(routers.APIRootView):
     """
     API for data about councils and action plans.
+
+    The raw data for action plans is also available <a href="/media/data/plans.csv">as a csv</a>.
     """
     pass
 
