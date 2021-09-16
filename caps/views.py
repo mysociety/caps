@@ -61,6 +61,7 @@ class CouncilDetailView(DetailView):
         except DataPoint.DoesNotExist:
             context['no_emissions_data'] = True
         context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'))
+        context['last_updated'] = council.plandocument_set.aggregate(last_update=Max('updated_at'),last_found=Max('date_first_found'))
         return context
 
 class CouncilListView(FilterView):

@@ -209,6 +209,13 @@
                   {% endfor %}
                 </div>
             </div>
+            {% if last_updated.last_update is not None %}
+            <div class="card-footer">
+                <div>
+                    Last update: {{ last_updated.last_update }}
+                </div>
+            </div>
+            {% endif %}
         </div>
 
         <div class="card ceuk-card ceuk-card--muted ceuk-card--pink mb-gutter">
