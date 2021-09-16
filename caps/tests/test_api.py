@@ -1,6 +1,7 @@
 import json
 from django.utils.timezone import make_aware
-from datetime import datetime
+from datetime import datetime, date
+
 from rest_framework.test import APITestCase
 from caps.models import Council, PlanDocument, SavedSearch
 
@@ -27,6 +28,7 @@ class CouncilsAPITestCase(APITestCase):
                 'country': 'England',
                 'name': 'Borsetshire',
                 'plan_count': 0,
+                'plans_last_update': None,
                 'url': '/councils/borsetshire/',
                 'website_url': '',
             } ]
@@ -49,6 +51,7 @@ class CouncilsAPITestCase(APITestCase):
                 'country': 'England',
                 'name': 'Borsetshire',
                 'plan_count': 1,
+                'plans_last_update': date.today().isoformat(),
                 'url': '/councils/borsetshire/',
                 'website_url': '',
             } ]
@@ -80,6 +83,7 @@ class CouncilsAPITestCase(APITestCase):
                 'country': 'England',
                 'authority_type': '',
                 'plan_count': 0,
+                'plans_last_update': None,
             }, {
                 'name': 'East Borsetshire',
                 'url': '/councils/east-borsetshire/',
@@ -88,6 +92,7 @@ class CouncilsAPITestCase(APITestCase):
                 'country': 'England',
                 'authority_type': '',
                 'plan_count': 0,
+                'plans_last_update': None,
             }, {
                 'name': 'West Borsetshire',
                 'url': '/councils/west-borsetshire/',
@@ -96,6 +101,7 @@ class CouncilsAPITestCase(APITestCase):
                 'country': 'England',
                 'authority_type': 'Unitary Authority',
                 'plan_count': 0,
+                'plans_last_update': None,
             } ]
         )
 

@@ -1,7 +1,7 @@
 # -*- coding: future_fstrings -*-
 from datetime import datetime
 from django.utils.timezone import make_aware
-from django.db.models import Count
+from django.db.models import Count, Max
 from django.forms import ValidationError
 
 from rest_framework import viewsets, routers
@@ -43,8 +43,9 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
     * country - which of the UK home nations the council is located in.
     * authority_type - what type of body (Unitary, District etc) the council is.
     * plan_count - number of plans we have details for.
+    * plans_last_update - the date of the most recent update to a plan
     """
-    queryset = Council.objects.annotate(plan_count=Count('plandocument')).all()
+    queryset = Council.objects.annotate(plan_count=Count('plandocument'),plans_last_update=Max('plandocument__updated_at')).all()
     serializer_class = CouncilSerializer
     # don't paginate this as there's a fixed number of results that doesn't really
     # change so is very amenable to caching
