@@ -112,6 +112,16 @@ class ImportPlansTestCase(TestCase):
             self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY);
             self.assertEqual(plan.file_type, "pdf");
 
+            # use the model manager update as that bypasses auto_now
+            PlanDocument.objects.filter(council=council).update(updated_at='2021-08-01')
+            plan = PlanDocument.objects.get(council=council)
+            self.assertEquals('2021-08-01', plan.updated_at.isoformat())
+
+            ebrs = Council.objects.get(authority_code='EBRS')
+            PlanDocument.objects.filter(council=ebrs).update(updated_at='2021-08-01')
+            plan = PlanDocument.objects.get(council=ebrs)
+            self.assertEquals('2021-08-01', plan.updated_at.isoformat())
+
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
             out = self.call_command(confirm_changes=1)
 
@@ -123,10 +133,15 @@ class ImportPlansTestCase(TestCase):
             self.assertEqual(plan.document_type, PlanDocument.ACTION_PLAN);
             self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY);
             self.assertEqual(plan.file_type, "pdf");
+            self.assertTrue('2021-08-01' != plan.updated_at.isoformat())
 
             new_council = Council.objects.get(authority_code='WBRS');
             plan = PlanDocument.objects.get(council=new_council)
             self.assertEqual(plan.url, "https://west-borsetshire.gov.uk/climate_plan.pdf")
+
+            unchanged_council = Council.objects.get(authority_code='EBRS')
+            plan = PlanDocument.objects.get(council=unchanged_council)
+            self.assertEquals('2021-08-01', plan.updated_at.isoformat())
 
     def test_change_url(self):
         council = Council.objects.get(authority_code='BORS');

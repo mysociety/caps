@@ -20,6 +20,7 @@ class Command(BaseCommand):
     plans_to_delete = {} # per council list of plan urls that are no longer in the sheet
     councils_in_sheet = set() # set of gss codes of councils in sheet
     councils_with_plan_in_sheet = set() # set of gss codes of councils with at least one plan
+    plans_to_process = {}
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -38,6 +39,7 @@ class Command(BaseCommand):
             self.print_change("call with --confirm_changes to update database")
 
     def get_changes(self):
+        self.plans_to_process = {}
         df = pd.read_csv(settings.PROCESSED_CSV)
         council_add_count = 0
         plan_add_count = 0
@@ -58,6 +60,7 @@ class Command(BaseCommand):
                 council_add_count += 1
                 self.print_change("adding new council: %s", row['council'], verbosity=2)
                 if not pd.isnull(row['url']):
+                    self.plans_to_process[index] = 'new_council'
                     councils_with_plan_in_sheet.update([gss_code])
                     plan_add_count += 1
                     self.print_change("adding new plan for %s", row['council'], verbosity=2)
@@ -75,6 +78,7 @@ class Command(BaseCommand):
                 council_plans.update([row['url']])
                 plans_to_import[gss_code] = council_plans
                 if not plan_exists:
+                    self.plans_to_process[index] = 'add'
                     plan_add_count += 1
                     self.print_change("adding new plan for %s", row['council'], verbosity=2)
                 else:
@@ -88,6 +92,7 @@ class Command(BaseCommand):
                             diffs = 1
 
                     if diffs != 0:
+                        self.plans_to_process[index] = 'update'
                         plan_update_count += 1
                         self.print_change("updating plan for %s", row['council'], verbosity=2)
 
@@ -174,7 +179,7 @@ class Command(BaseCommand):
                 }
             )
 
-            if not pd.isnull(row['url']):
+            if not pd.isnull(row['url']) and index in self.plans_to_process:
                 document_file = open(row['plan_path'], "rb")
                 file_object = File(document_file)
                 defaults = {
