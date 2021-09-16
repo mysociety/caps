@@ -183,17 +183,19 @@ class Command(BaseCommand):
                 document_file = open(row['plan_path'], "rb")
                 file_object = File(document_file)
                 defaults = {
-                            'date_last_found': date.today(),
                             'file': file_object
                             }
                 defaults.update(self.get_plan_defaults_from_row(row))
 
-                plan_document = PlanDocument.objects.update_or_create(
+                plan_document, created = PlanDocument.objects.update_or_create(
                     url=row['url'],
                     url_hash=PlanDocument.make_url_hash(row['url']),
                     council = council,
                     defaults = defaults
                 )
+                if created:
+                    plan_document.date_first_found = PlanDocument.date_from_text(row['date_retrieved'])
+                    plan_document.save()
 
         PlanDocument.objects.exclude(
             council__gss_code__in=self.councils_with_plan_in_sheet
@@ -226,7 +228,7 @@ class Command(BaseCommand):
                     'text': PlanDocument.char_from_text(row['text']),
                     'start_year': start_year,
                     'end_year': end_year,
-                    'date_first_found': PlanDocument.date_from_text(row['date_retrieved']),
+                    'date_last_found': PlanDocument.date_from_text(row['date_retrieved']),
                     }
         return defaults;
 

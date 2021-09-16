@@ -111,6 +111,8 @@ class ImportPlansTestCase(TestCase):
             self.assertEqual(plan.document_type, PlanDocument.PRE_PLAN);
             self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY);
             self.assertEqual(plan.file_type, "pdf");
+            self.assertEqual(plan.date_first_found.isoformat(), '2021-02-15')
+            self.assertEqual(plan.date_last_found.isoformat(), '2021-02-15')
 
             # use the model manager update as that bypasses auto_now
             PlanDocument.objects.filter(council=council).update(updated_at='2021-08-01')
@@ -133,6 +135,8 @@ class ImportPlansTestCase(TestCase):
             self.assertEqual(plan.document_type, PlanDocument.ACTION_PLAN);
             self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY);
             self.assertEqual(plan.file_type, "pdf");
+            self.assertEqual(plan.date_first_found.isoformat(), '2021-02-15')
+            self.assertEqual(plan.date_last_found.isoformat(), '2021-02-17')
             self.assertTrue('2021-08-01' != plan.updated_at.isoformat())
 
             new_council = Council.objects.get(authority_code='WBRS');
