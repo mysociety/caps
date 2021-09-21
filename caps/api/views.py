@@ -15,12 +15,12 @@ class InvalidParamException(APIException):
     status_code = 400
     default_status = "bad_request"
 
-    def __init__(self, field):
-        self.default_detail = self.default_detail % field
+    def __init__(self, *args):
+        self.default_detail = self.default_detail % args
         super().__init__()
 
 class InvalidCountException(InvalidParamException):
-    default_detail = "%s must be an integer greater than 0"
+    default_detail = "%s must be an integer greater than or equal to %d"
 
 
 class InvalidDateException(InvalidParamException):
@@ -62,18 +62,18 @@ class SearchTermViewSet(viewsets.ReadOnlyModelViewSet):
 
     * start_date - only include queries made on or after this date in YYYY-MM-DD format
     * end_date - only include queries made on or before this date in YYYY-MM-DD format
-    * min_count - only include queries that have been made at least this number of times
+    * min_count - only include queries that have been made at least this number of times (min 5)
     * min_results - only include queries that have returned at least this many results
 
     NB: all filter terms are inclusive so e.g. a start_date of 2021-08-12 will include
     searches made on that date.
     """
 
-    queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count').distinct().annotate(times_seen=Count('user_query')).order_by('-times_seen')
+    queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count').distinct().annotate(times_seen=Count('user_query')).filter(times_seen__gt=5).order_by('-times_seen')
     serializer_class = SearchTermSerializer
 
     def get_queryset(self):
-        queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count').distinct().annotate(times_seen=Count('user_query')).order_by('-times_seen')
+        queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count').distinct().annotate(times_seen=Count('user_query')).filter(times_seen__gte=5).order_by('-times_seen')
         start_date = self.request.query_params.get('start_date')
         end_date = self.request.query_params.get('end_date')
         min_count = self.request.query_params.get('min_count')
@@ -84,32 +84,32 @@ class SearchTermViewSet(viewsets.ReadOnlyModelViewSet):
                 start_date = datetime.strptime(start_date, "%Y-%m-%d")
                 queryset = queryset.filter(created__date__gte=make_aware(start_date))
             except ValueError:
-                raise InvalidDateException(field='start_date')
+                raise InvalidDateException('start_date')
 
         if end_date is not None:
             try:
                 end_date = datetime.strptime(end_date, "%Y-%m-%d")
                 queryset = queryset.filter(created__date__lte=make_aware(end_date))
             except ValueError:
-                raise InvalidDateException(field='end_date')
+                raise InvalidDateException('end_date')
 
         if min_count is not None:
             try:
                 min_count = int(min_count)
-                if min_count < 1:
-                    raise InvalidCountException(field='min_count')
+                if min_count < 5:
+                    raise InvalidCountException('min_count', 5)
                 queryset = queryset.filter(times_seen__gte=min_count)
             except ValueError as error:
-                raise InvalidCountException(field='min_count')
+                raise InvalidCountException('min_count', 5)
 
         if min_results is not None:
             try:
                 min_results = int(min_results)
                 if min_results < 1:
-                    raise InvalidCountException(field='min_results')
+                    raise InvalidCountException('min_results', 1)
                 queryset = queryset.filter(result_count__gte=min_results)
             except ValueError as error:
-                raise InvalidCountException(field='min_results')
+                raise InvalidCountException('min_results', 1)
 
         return queryset
 

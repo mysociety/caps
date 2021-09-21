@@ -102,7 +102,7 @@ class CouncilsAPITestCase(APITestCase):
 
 class SearchTermAPITest(APITestCase):
 
-    def test_basic_searchterm_api(self):
+    def test_no_results(self):
         SavedSearch.objects.create(
             user_query="query",
             result_count=2
@@ -111,26 +111,19 @@ class SearchTermAPITest(APITestCase):
         response = self.client.get('/api/searchterms/')
         self.assertEquals(json.loads(response.content),
             {
-                'count': 1,
+                'count': 0,
                 'next': None,
                 'previous': None,
-                'results': [ {
-                    'user_query': "query",
-                    'result_count': 2,
-                    'times_seen': 1
-                } ]
+                'results': [ ]
             }
         )
 
     def test_term_aggregation(self):
-        SavedSearch.objects.create(
-            user_query="query",
-            result_count=2
-        )
-        SavedSearch.objects.create(
-            user_query="query",
-            result_count=2
-        )
+        for x in range(7):
+            SavedSearch.objects.create(
+                user_query="query",
+                result_count=2
+            )
 
         response = self.client.get('/api/searchterms/')
         self.assertEquals(json.loads(response.content),
@@ -141,24 +134,22 @@ class SearchTermAPITest(APITestCase):
                 'results': [ {
                     'user_query': "query",
                     'result_count': 2,
-                    'times_seen': 2
+                    'times_seen': 7
                 } ]
             }
         )
 
     def test_result_count_filtering(self):
-        SavedSearch.objects.create(
-            user_query="query",
-            result_count=2
-        )
-        SavedSearch.objects.create(
-            user_query="query",
-            result_count=2
-        )
-        SavedSearch.objects.create(
-            user_query="another query",
-            result_count=1
-        )
+        for x in range(6):
+            SavedSearch.objects.create(
+                user_query="query",
+                result_count=2
+            )
+        for x in range(5):
+            SavedSearch.objects.create(
+                user_query="another query",
+                result_count=1
+            )
 
         response = self.client.get('/api/searchterms/?min_results=2')
         self.assertEquals(json.loads(response.content),
@@ -169,26 +160,24 @@ class SearchTermAPITest(APITestCase):
                 'results': [ {
                     'user_query': "query",
                     'result_count': 2,
-                    'times_seen': 2
+                    'times_seen': 6
                 } ]
             }
         )
 
     def test_seen_count_filtering(self):
-        SavedSearch.objects.create(
-            user_query="query",
-            result_count=2
-        )
-        SavedSearch.objects.create(
-            user_query="query",
-            result_count=2
-        )
-        SavedSearch.objects.create(
-            user_query="another query",
-            result_count=1
-        )
+        for x in range(6):
+            SavedSearch.objects.create(
+                user_query="query",
+                result_count=2
+            )
+        for x in range(5):
+            SavedSearch.objects.create(
+                user_query="another query",
+                result_count=1
+            )
 
-        response = self.client.get('/api/searchterms/?min_count=2')
+        response = self.client.get('/api/searchterms/?min_count=6')
         self.assertEquals(json.loads(response.content),
             {
                 'count': 1,
@@ -197,35 +186,38 @@ class SearchTermAPITest(APITestCase):
                 'results': [ {
                     'user_query': "query",
                     'result_count': 2,
-                    'times_seen': 2
+                    'times_seen': 6
                 } ]
             }
         )
 
     def test_date_filtering(self):
         created = make_aware(datetime(2021, 1, 4))
-        term = SavedSearch.objects.create(
-            user_query="query",
-            result_count=2
-        )
-        term.created = created
-        term.save()
+        for x in range(5):
+            term = SavedSearch.objects.create(
+                user_query="query",
+                result_count=2
+            )
+            term.created = created
+            term.save()
 
         created = make_aware(datetime(2021, 1, 1, 10, 10, 10))
-        term = SavedSearch.objects.create(
-            user_query="query",
-            result_count=2
-        )
-        term.created = created
-        term.save()
+        for x in range(6):
+            term = SavedSearch.objects.create(
+                user_query="query",
+                result_count=2
+            )
+            term.created = created
+            term.save()
 
         created = make_aware(datetime(2021, 1, 2))
-        term = SavedSearch.objects.create(
-            user_query="other",
-            result_count=3
-        )
-        term.created = created
-        term.save()
+        for x in range(5):
+            term = SavedSearch.objects.create(
+                user_query="other",
+                result_count=3
+            )
+            term.created = created
+            term.save()
 
         response = self.client.get('/api/searchterms/?start_date=2021-01-03')
         self.assertEquals(json.loads(response.content),
@@ -236,7 +228,7 @@ class SearchTermAPITest(APITestCase):
                 'results': [ {
                     'user_query': "query",
                     'result_count': 2,
-                    'times_seen': 1
+                    'times_seen': 5
                 } ]
             }
         )
@@ -250,7 +242,7 @@ class SearchTermAPITest(APITestCase):
                 'results': [ {
                     'user_query': "query",
                     'result_count': 2,
-                    'times_seen': 1
+                    'times_seen': 6
                 } ]
             }
         )
@@ -264,10 +256,138 @@ class SearchTermAPITest(APITestCase):
                 'results': [ {
                     'user_query': "other",
                     'result_count': 3,
-                    'times_seen': 1
+                    'times_seen': 5
                 } ]
             }
         )
+
+    def test_combine_filters(self):
+        created = make_aware(datetime(2021, 1, 4))
+        for x in range(8):
+            term = SavedSearch.objects.create(
+                user_query="query",
+                result_count=2
+            )
+            term.created = created
+            term.save()
+
+        for x in range(5):
+            term = SavedSearch.objects.create(
+                user_query="other query",
+                result_count=5
+            )
+            term.created = created
+            term.save()
+
+        created = make_aware(datetime(2021, 1, 1, 10, 10, 10))
+        for x in range(7):
+            term = SavedSearch.objects.create(
+                user_query="query",
+                result_count=2
+            )
+            term.created = created
+            term.save()
+
+        for x in range(6):
+            term = SavedSearch.objects.create(
+                user_query="other query",
+                result_count=5
+            )
+            term.created = created
+            term.save()
+
+        for x in range(5):
+            term = SavedSearch.objects.create(
+                user_query="yet another query",
+                result_count=3
+            )
+            term.created = created
+            term.save()
+
+        response = self.client.get('/api/searchterms/?min_count=7&start_date=2021-01-03')
+        self.assertEquals(json.loads(response.content),
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "query",
+                    'result_count': 2,
+                    'times_seen': 8
+                } ]
+            }
+        )
+
+        response = self.client.get('/api/searchterms/?min_results=3&start_date=2021-01-03')
+        self.assertEquals(json.loads(response.content),
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "other query",
+                    'result_count': 5,
+                    'times_seen': 5
+                } ]
+            }
+        )
+
+        response = self.client.get('/api/searchterms/?min_results=4&min_count=6')
+        self.assertEquals(json.loads(response.content),
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "other query",
+                    'result_count': 5,
+                    'times_seen': 11
+                } ]
+            }
+        )
+
+        response = self.client.get('/api/searchterms/?min_count=7&end_date=2021-01-03')
+        self.assertEquals(json.loads(response.content),
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "query",
+                    'result_count': 2,
+                    'times_seen': 7
+                } ]
+            }
+        )
+
+        response = self.client.get('/api/searchterms/?min_results=4&end_date=2021-01-03')
+        self.assertEquals(json.loads(response.content),
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "other query",
+                    'result_count': 5,
+                    'times_seen': 6
+                } ]
+            }
+        )
+
+        response = self.client.get('/api/searchterms/?min_results=3&min_count=6&end_date=2021-01-03')
+        self.assertEquals(json.loads(response.content),
+            {
+                'count': 1,
+                'next': None,
+                'previous': None,
+                'results': [ {
+                    'user_query': "other query",
+                    'result_count': 5,
+                    'times_seen': 6
+                } ]
+            }
+        )
+
 
     def test_errors(self):
         response = self.client.get('/api/searchterms/?start_date=21-01-02')
@@ -284,30 +404,30 @@ class SearchTermAPITest(APITestCase):
             }
         )
 
-        response = self.client.get('/api/searchterms/?min_count=0')
+        response = self.client.get('/api/searchterms/?min_count=3')
         self.assertEquals(json.loads(response.content),
             {
-                'detail': 'min_count must be an integer greater than 0'
+                'detail': 'min_count must be an integer greater than or equal to 5'
             }
         )
 
         response = self.client.get('/api/searchterms/?min_count=two')
         self.assertEquals(json.loads(response.content),
             {
-                'detail': 'min_count must be an integer greater than 0'
+                'detail': 'min_count must be an integer greater than or equal to 5'
             }
         )
 
         response = self.client.get('/api/searchterms/?min_results=0')
         self.assertEquals(json.loads(response.content),
             {
-                'detail': 'min_results must be an integer greater than 0'
+                'detail': 'min_results must be an integer greater than or equal to 1'
             }
         )
 
         response = self.client.get('/api/searchterms/?min_results=two')
         self.assertEquals(json.loads(response.content),
             {
-                'detail': 'min_results must be an integer greater than 0'
+                'detail': 'min_results must be an integer greater than or equal to 1'
             }
         )
