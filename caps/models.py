@@ -418,6 +418,13 @@ class Promise(models.Model):
                 return choice[1].lower()
         return ''
 
+class EmergencyDeclaration(models.Model):
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    date_declared = models.DateField(null=True, blank=True)
+    source_url = models.URLField(max_length=600)
+    council = models.ForeignKey(Council, on_delete=models.CASCADE)
+
 class CouncilFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(lookup_expr='icontains')
     has_plan = django_filters.BooleanFilter(field_name='plandocument',
@@ -435,17 +442,25 @@ class CouncilFilter(django_filters.FilterSet):
                                             empty_label='All',
                                             choices=Promise.PROMISE_FILTER_CHOICES)
 
+    declared_emergency = django_filters.BooleanFilter(field_name='emergencydeclaration',
+                                                      lookup_expr='isnull',
+                                                      label='Declared emergency',
+                                                      exclude=True,
+                                                      widget=Select(choices=Council.PLAN_FILTER_CHOICES))
+
     sort = DefaultSecondarySortFilter(
         secondary='name',
         label='Sort by',
         empty_label=None,
         fields=(
             ('name', 'name'),
-            ('promise__target_year', 'promise_year')
+            ('promise__target_year', 'promise_year'),
+            ('emergencydeclaration__date_declared', 'declaration_date')
         ),
         field_labels={
             'name': 'Council name',
             'promise__target_year': 'Carbon neutral target',
+            'emergencydeclaration__date_declared': 'Declaration date',
         }
     )
 
@@ -459,14 +474,6 @@ class CouncilFilter(django_filters.FilterSet):
         else:
             return queryset.filter(**{ 'earliest_promise__lte': value })
 
-
     class Meta:
         model = Council
         fields = []
-
-class EmergencyDeclaration(models.Model):
-    created_at = models.DateField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
-    date_declared = models.DateField(null=True, blank=True)
-    source_url = models.URLField(max_length=600)
-    council = models.ForeignKey(Council, on_delete=models.CASCADE)
