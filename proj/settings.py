@@ -138,6 +138,11 @@ PROMISES_CSV_SHEET_NAME = 'Sheet1'
 PROMISES_CSV_NAME = 'promises.csv'
 PROMISES_CSV = os.path.join(DATA_DIR, PROMISES_CSV_NAME)
 
+DECLARATIONS_CSV_KEY = '1fKyDs0TUwjVurpFNNR3-0IkJE-BxS1S7hT0Np8RhVFw'
+DECLARATIONS_CSV_SHEET_NAME = 'Council Adaptation + Ecological Emergency Data'
+DECLARATIONS_CSV_NAME = 'declarations.csv'
+DECLARATIONS_CSV = os.path.join(DATA_DIR, DECLARATIONS_CSV_NAME)
+
 # Application definition
 
 INSTALLED_APPS = [
