@@ -65,13 +65,14 @@ class CouncilDetailView(DetailView):
             context['latest_year_total_emissions'] = latest_year_total_emissions
         except DataPoint.DoesNotExist:
             context['no_emissions_data'] = True
-        context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'),has_promise=Count('promise'),earliest_promise=Min('promise__target_year'))
+        context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'),has_promise=Count('promise'),earliest_promise=Min('promise__target_year'),declared_emergency=Min('emergencydeclaration__date_declared'))
         context['promises'] = council.promise_set.filter(has_promise=True)
         context['no_promise'] = council.promise_set.filter(has_promise=False)
         context['last_updated'] = council.plandocument_set.aggregate(last_update=Max('updated_at'),last_found=Max('date_first_found'))
-
         context['page_title'] = council.name
 
+        if council.emergencydeclaration_set.count() > 0 :
+            context['declared_emergency'] = council.emergencydeclaration_set.all()[0]
         return context
 
 
@@ -84,7 +85,7 @@ class CouncilListView(FilterView):
     }
 
     def get_queryset(self):
-        return Council.objects.annotate(num_plans=Count('plandocument'),has_promise=Count('promise'),earliest_promise=Min('promise__target_year')).order_by('name')
+        return Council.objects.annotate(num_plans=Count('plandocument'),has_promise=Count('promise'),earliest_promise=Min('promise__target_year'),declared_emergency=Min('emergencydeclaration__date_declared')).order_by('name')
 
 
 class SearchResultsView(HaystackSearchView):

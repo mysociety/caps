@@ -40,6 +40,25 @@
 
         <div class="card ceuk-card ceuk-card--emphasised ceuk-card--orange mb-gutter">
             <div class="card-header">
+                <h2>Climate Emergency</h2>
+            </div>
+            <div class="card-body">
+                {% if declared_emergency %}
+                    This council <a href="{{ declared_emergency.source_url }}">declared a climate emergency</a> on {{declared_emergency.date_declared }}.
+                {% else %}
+                    <p>
+                        We don’t think this council has declared a climate emergency.
+                    </p>
+
+                    <p class="text-muted mb-0">
+                        If it has <a href="{% url 'about' %}">let us know!</a>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--orange mb-gutter">
+            <div class="card-header">
                 <h2>Headline promises</h2>
             </div>
             <div class="card-body">

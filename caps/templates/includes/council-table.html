@@ -4,6 +4,7 @@
             <th scope="col">Council name</th>
             <th scope="col">Has plan</th>
             <th scope="col">Carbon Neutral target</th>
+            <th scope="col">Declared emergency</th>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +27,13 @@
                 {{ council.earliest_promise }}
               {% elif council.has_promise %}
                 No target
+              {% endif %}
+            </td>
+            <td data-column="declared-emergency">
+              {% if council.declared_emergency %}
+              {{ council.declared_emergency }}
+              {% else %}
+              No
               {% endif %}
             </td>
         </tr>
