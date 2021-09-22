@@ -464,3 +464,9 @@ class CouncilFilter(django_filters.FilterSet):
         model = Council
         fields = []
 
+class EmergencyDeclaration(models.Model):
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    date_declared = models.DateField(null=True, blank=True)
+    source_url = models.URLField(max_length=600)
+    council = models.ForeignKey(Council, on_delete=models.CASCADE)
