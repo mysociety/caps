@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+cd $(dirname $0)/..
+
+# Flag we're doing a build.
+export BUILD_COMMIT=$(git log -1 --pretty=%h)
+
+echo "==> Building application image..."
+docker build . -t mysocietyorg/caps:latest -t mysocietyorg/caps:${BUILD_COMMIT} --build-arg BUILD_COMMIT=${BUILD_COMMIT}
+
+echo "==> Pulling upstream image dependencies..."
+docker pull solr:6
+docker pull postgres:11
+docker pull nginx:latest
