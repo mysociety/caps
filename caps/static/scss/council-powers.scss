@@ -1,15 +1,12 @@
 .council-powers {
     font-size: 0.875em;
+    margin-bottom: 1rem;
 
-    p {
+    p, ul, li {
         margin-bottom: $spacer * 0.5;
     }
 
     ul {
         padding-left: 1rem;
-    }
-
-    li {
-        margin-bottom: $spacer * 0.5;
     }
 }
