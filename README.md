@@ -22,8 +22,7 @@ This process can take some time, and a slightly faster update process is also av
 
 ## Docker
 
-There are two compose files included in the respository, `production.yml` and `development.yml`. The production file contains an 
-nginx reverse proxy, uses the `gunicorn` process manager and uses the code built into the container. The development file omits the reverse proxy and uses the development server, enables debug mode and maps the local working copy into the container for testing.
+This project contains a Compose file, `development.yml`, that uses the Django development server, enables debug mode and maps the local working copy into the container for testing.
 
 If you are using a MapIt API key, add this to your `.env` file, e.g.: `echo 'MAPIT_API_KEY=xxxaaa111222333zzz' >> .env`.
 

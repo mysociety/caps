@@ -18,44 +18,7 @@ fi
 ACTION=$1
 [ -n "$ACTION" ] || ACTION="start"
 
-SWARM=$(docker info 2>/dev/null | grep '^ Swarm' | awk '{ print $NF }')
-SWARM=${SWARM:-inactive}
-echo "==> Swarm mode is ${SWARM}"
-
-if [ "$SWARM" = "active" ] ; then
-  script/build
-  case $ACTION in
-    start | --start)
-      echo "==> Deploying Swarm stack ${STACK}..."
-      docker stack deploy -c ${PWD}/production.yml ${STACK}
-      ;;
-    stop | --stop)
-      echo "==> Stopping Swarm stack ${STACK}..."
-      docker stack rm ${STACK}
-      ;;
-    reload | --reload)
-      echo "==> Reloading Swarm service ${STACK}_app..."
-      docker service update --force ${STACK}_app
-      ;;
-    restart | --restart)
-      echo "==> Full restart of Swarm stack ${STACK}..."
-      docker stack rm ${STACK}
-      while  docker network ls | grep ${STACK} ; do
-        echo "==> Waiting for network to clear..."
-        sleep 2
-      done
-      docker stack deploy -c ${PWD}/production.yml ${STACK}
-      ;;
-    status | --status)
-      echo "==> Checking status of stack ${STACK}..."
-      docker stack ps ${STACK}
-      ;;
-    *)
-      echo '==> Unknown option in Swarm mode.'
-      exit 1
-      ;;
-  esac
-elif [ "$ACTION" == "--docker" ]; then
+if [ "$ACTION" == "--docker" ]; then
   script/migrate
   python3 manage.py collectstatic --noinput
   mkdir -p static/css
