@@ -36,3 +36,10 @@ DS_Store
 data
 .env
 /src
+
+# Deployment
+conf/env.sh
+conf/env.sh.deployed
+conf/stack.yml
+conf/stack.yml.deployed
+conf/config.py.deployed

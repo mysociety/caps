@@ -9,6 +9,11 @@ static
 data
 src
 conf/config.py
+conf/config.py.deployed
+conf/env.sh
+conf/env.sh.deployed
+conf/stack.yml
+conf/stack.yml.deployed
 Vagrantfile
 .dockerignore
 docker-compose.yml
