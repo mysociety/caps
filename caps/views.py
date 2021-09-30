@@ -101,6 +101,7 @@ class SearchResultsView(HaystackSearchView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         inorganic = self.request.GET.get('inorganic')
+        context['show_council_search'] = True
         context['inorganic'] = False
         if inorganic == '1':
             context['inorganic'] = True

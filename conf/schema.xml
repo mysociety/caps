@@ -45,7 +45,7 @@
     that avoids logging every request
 -->
 
-<schema name="haystack-schema" version="1.6">
+<schema name="haystack-schema" version="1.7">
 
     <!--
     ######################## django-haystack specifics begin ########################
@@ -82,6 +82,7 @@
     <field name="django_id" type="string" indexed="true" stored="true" multiValued="false"/>
     
     <field name="text" type="text_en" indexed="true" stored="true" multiValued="false" />
+    <field name="council_name" type="text_en" indexed="true" stored="true" multiValued="false" />
     
     <uniqueKey>id</uniqueKey>
 

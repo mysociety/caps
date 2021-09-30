@@ -1,6 +1,8 @@
+from django.forms import CharField
 from haystack.forms import SearchForm
 
 class HighlightedSearchForm(SearchForm):
+    council_name=CharField(required=False)
 
     def search(self):
         kwargs = {
@@ -9,4 +11,11 @@ class HighlightedSearchForm(SearchForm):
             'hl.fragsize': 400,
             'hl.snippets': 3
         }
-        return super(HighlightedSearchForm, self).search().highlight(**kwargs)
+        sqs = super(HighlightedSearchForm, self).search()
+
+        if self.cleaned_data['council_name']:
+            # narrow makes use of fq rather than q
+            sqs = sqs.narrow('council_name:%s' % self.cleaned_data['council_name'])
+
+        return sqs.highlight(**kwargs)
+

@@ -22,12 +22,12 @@
   {% if page_obj.has_previous or page_obj.has_next %}
     <div class="d-flex justify-content-center align-items-center mt-5">
       {% if page_obj.has_previous %}
-        <a class="btn btn-outline-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}">
+        <a class="btn btn-outline-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}{% if form.council_name.value %}&council_name={{ form.council_name.value }}{% endif %}">
             Previous results
         </a>
       {% endif %}
       {% if page_obj.has_next %}
-        <a class="btn btn-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}">
+        <a class="btn btn-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}{% if form.council_name.value %}&council_name={{ form.council_name.value }}{% endif %}">
             More results
         </a>
       {% endif %}
