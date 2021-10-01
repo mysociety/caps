@@ -11,7 +11,7 @@ set -e
 cd `dirname $0`/..
 
 echo "==> Cleaning up any lingering Docker development environments..."
-docker-compose -f development.yml down -v
+docker-compose down -v
 
 echo "==> Removing any local data..."
 rm -fr media/
@@ -23,14 +23,14 @@ script/bootstrap
 
 # Start the local Docker environment in the background.
 echo "==> Starting development docker environment in the background..."
-docker-compose -f development.yml up -d
+docker-compose up -d
 
 # Run the data import
 echo "==> Importing data..."
-docker-compose -f development.yml exec app script/update --all
+docker-compose exec app script/update --all
 
 # Tear it all down
 echo "==> Stopping environment..."
-docker-compose -f development.yml stop
+docker-compose stop
 
-echo '==> Done. You can now start an interactive environment by running `docker-compose -f development.yml up`'
+echo '==> Done. You can now start an interactive environment by running `docker-compose up`'

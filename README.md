@@ -22,7 +22,7 @@ This process can take some time, and a slightly faster update process is also av
 
 ## Docker
 
-This project contains a Compose file, `development.yml`, that uses the Django development server, enables debug mode and maps the local working copy into the container for testing.
+This project contains a Docker Compose file that uses the Django development server, enables debug mode and maps the local working copy into the container for testing.
 
 If you are using a MapIt API key, add this to your `.env` file, e.g.: `echo 'MAPIT_API_KEY=xxxaaa111222333zzz' >> .env`.
 
@@ -36,9 +36,9 @@ This may take a long time to run!
 
 ### Manual setup
 
-Run `docker-compose -f development.yml up`. This will build an application container and stand-up this, together with PostgreSQL and Solr containers. These will run in the foreground, so you will see console output in the shell from the containers. You can stop the containers by hitting `control-C`. If you'd rather run in the background, add the `-d` switch; if you do this you can stop the environment with `docker-compose -f development.yml down`.
+Run `docker-compose up`. This will build an application container and stand-up this, together with PostgreSQL and Solr containers. These will run in the foreground, so you will see console output in the shell from the containers. You can stop the containers by hitting `control-C`. If you'd rather run in the background, add the `-d` switch; if you do this you can stop the environment with `docker-compose down`.
 
-You can then run `docker-compose -f development.yml exec app script/update --all` to perform the initial data load. This will take a long time. Run the same command without the `--all` switch to run the short-cut data load.
+You can then run `docker-compose exec app script/update --all` to perform the initial data load. This will take a long time. Run the same command without the `--all` switch to run the short-cut data load.
 
 You can rebuild the application container by running `script/build`. Bear in mind that when running the container in development mode, your local working copy will be included along with any local uncommitted changes.
 
