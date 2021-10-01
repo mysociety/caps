@@ -1,9 +1,12 @@
 {% if council.authority_type == 'CC' %}
     <p class="mt-n1">{{ council.name }} has powers over:</p>
+{% elif council.country == council.NORTHERN_IRELAND %}
+    <p class="mt-n1">{{ council.name }} is a <strong>Northern Irish {{ council.get_authority_type_display }}</strong>, with powers over:</p>
 {% else %}
     <p class="mt-n1">{{ council.name }} is a <strong>{{ council.get_authority_type_display }}</strong>, with powers over:</p>
 {% endif %}
 
+{% if 'staff' in council.powers %}
     <details class="details details-accordion">
         <summary class="mb-2">Council buildings and staff</summary>
         <div class="council-powers">
@@ -15,7 +18,9 @@
             <ul>
         </div>
     </details>
+{% endif %}
 
+{% if 'spending' in council.powers %}
     <details class="details details-accordion">
         <summary class="mb-2">Spending, procuring, and investing</summary>
         <div class="council-powers">
@@ -28,8 +33,9 @@
             </ul>
         </div>
     </details>
+{% endif %}
 
-{% if council.authority_type != 'COMB' and council.authority_type != 'NMD' %}
+{% if 'transport-planning' in council.powers %}
     <details class="details details-accordion">
         <summary class="mb-2">Transport planning</summary>
         <div class="council-powers">
@@ -44,7 +50,7 @@
     </details>
 {% endif %}
 
-{% if council.authority_type == 'UA' or council.authority_type == 'MD' or council.authority_type == 'CTY' %}
+{% if 'passenger-transport' in council.powers %}
     <details class="details details-accordion">
         <summary class="mb-2">Passenger transport</summary>
         <div class="council-powers">
@@ -59,7 +65,7 @@
     </details>
 {% endif %}
 
-{% if council.authority_type != 'COMB' and council.authority_type != 'NMD' %}
+{% if 'schools-libraries' in council.powers %}
     <details class="details details-accordion">
         <summary class="mb-2">Schools and libraries</summary>
         <div class="council-powers">
@@ -76,7 +82,7 @@
     </details>
 {% endif %}
 
-{% if council.authority_type != 'COMB' and council.authority_type != 'CTY' %}
+{% if 'environmental-health' in council.powers %}
     <details class="details details-accordion">
         <summary class="mb-2">Environmental health</summary>
         <div class="council-powers">
@@ -90,13 +96,13 @@
     </details>
 {% endif %}
 
-{% if council.authority_type != 'COMB' %}
+{% if 'waste-collection' in council.powers or 'waste-disposal' in council.powers %}
     <details class="details details-accordion">
-      {% if council.authority_type != 'CTY' and council.authority_type != 'NMD' %}
+      {% if 'waste-collection' in council.powers and 'waste-disposal' in council.powers %}
         <summary class="mb-2">Waste collection and disposal</summary>
-      {% elif council.authority_type != 'CTY' %}
+      {% elif 'waste-collection' in council.powers %}
         <summary class="mb-2">Waste collection</summary>
-      {% elif council.authority_type != 'NMD' %}
+      {% else %}
         <summary class="mb-2">Waste disposal</summary>
       {% endif %}
         <div class="council-powers">
@@ -110,7 +116,7 @@
     </details>
 {% endif %}
 
-{% if council.authority_type != 'COMB' and council.authority_type != 'CTY' %}
+{% if 'social-housing' in council.powers %}
     <details class="details details-accordion">
         <summary class="mb-2">Social housing</summary>
         <div class="council-powers">
@@ -124,7 +130,7 @@
     </details>
 {% endif %}
 
-{% if council.authority_type != 'COMB' and council.authority_type != 'CTY' %}
+{% if 'planning-building' in council.powers %}
     <details class="details details-accordion">
         <summary class="mb-2">Planning and building control</summary>
         <div class="council-powers">

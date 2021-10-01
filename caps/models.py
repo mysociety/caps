@@ -68,6 +68,39 @@ class Council(models.Model):
     def get_absolute_url(self):
         return "/councils/%s/" % self.slug
 
+    @property
+    def powers(self):
+        powers = ['staff', 'spending']
+
+        if self.country != self.NORTHERN_IRELAND and self.authority_type != 'COMB' and self.authority_type != 'NMD':
+            powers.append('transport-planning')
+
+        if self.country != self.NORTHERN_IRELAND and self.authority_type == 'UA' or self.authority_type == 'MD' or self.authority_type == 'CTY':
+            powers.append('passenger-transport')
+
+        if self.country != self.NORTHERN_IRELAND and self.authority_type != 'COMB' and self.authority_type != 'NMD':
+            powers.append('schools-libraries')
+
+        if self.authority_type != 'COMB' and self.authority_type != 'CTY':
+            powers.append('environmental-health')
+
+        if self.authority_type != 'COMB':
+                if self.authority_type != 'CTY' and self.authority_type != 'NMD':
+                    powers.append('waste-collection')
+                    powers.append('waste-disposal')
+                elif self.authority_type == 'CTY':
+                    powers.append('waste-disposal')
+                elif self.authority_type == 'NMD':
+                    powers.append('waste-collection')
+
+        if self.country != self.NORTHERN_IRELAND and self.authority_type != 'COMB' and self.authority_type != 'CTY':
+            powers.append('social-housing')
+
+        if self.authority_type != 'COMB' and self.authority_type != 'CTY':
+            powers.append('planning-building')
+
+        return powers
+
     @classmethod
     def country_code(cls, country_entry):
         """
