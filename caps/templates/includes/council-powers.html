@@ -20,6 +20,83 @@
     </details>
 {% endif %}
 
+{% if 'environmental-health' in council.powers %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Environmental health</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>reducing industrial emissions through air quality enforcement</li>
+                <li>bringing up insulation and energy efficiency standards through enforcement of the Housing Health and Safety Rating System (HHSRS) and Decent Homes Standard 2000. for cold and damp conditions in private rental and social housing</li>
+            </ul>
+            <p>See more in the <a href="https://docs.google.com/document/d/1yJEJ6YMfbzwxZNolvMazaYcd83vfsG7F6ekHc1i3TNo/edit">Climate Emergency UK checklist</a>.</p>
+        </div>
+    </details>
+{% endif %}
+
+{% if 'passenger-transport' in council.powers %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Passenger transport</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>encouraging bus and private hire operators to use low-emission vehicles, through licensing requirements or Clean Air Zones</li>
+                <li>incentivising bus use by improving routes, timetables, and ticket prices through ‘Enhanced Partnerships’ with operators</li>
+                <li>proposing to central government the development of light rail / tram networks that integrate, rather than compete, with other modes of transport in the area</li>
+            </ul>
+            <p>See more in the <a href="https://docs.google.com/document/d/1Oq7ftxT2CCsFpMldPptO3OM07X-pIPVogPbXO6nWx3w/edit">Climate Emergency UK checklist</a>.</p>
+        </div>
+    </details>
+{% endif %}
+
+{% if 'planning-building' in council.powers %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Planning and building control</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>imposing reasonable requirements that new developments comply with energy efficiency standards and get a proportion of their energy from local, renewable sources (Planning and Energy Act, 2008)</li>
+                <li>incorporating additional energy performance standards into their Local Plan, for new works that require planning permission</li>
+                <li>using Area Action Plans to guide development proposals towards lower carbon emissions or more cycling and walking routes, for example</li>
+                <li>enforcing legislation that requires private rental properties to be of Energy Efficiency Rating E or above (Energy Efficiency Regulations, 2015)</li>
+                <li>funding energy efficiency improvements on existing homes, through initiatives such as Green Homes Grants</li>
+            </ul>
+            <p>See more in the <a href="https://docs.google.com/document/d/1oyndExDpsck967MTXRXx__0hkOsKD6Ia6PrntMXoI8I/edit">Climate Emergency UK checklist</a>.</p>
+        </div>
+    </details>
+{% endif %}
+
+{% if 'schools-libraries' in council.powers %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Schools and libraries</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>reducing the carbon footprint of civic buildings through better insulation and renewable energy use</li>
+                <li>incentivising ‘Active Travel’ or public transport use among employees</li>
+                <li>providing carbon literacy training for employees</li>
+                <li>encouraging eco-clubs at schools</li>
+                <li>using school land to plant trees and hedgerows, or to grow food</li>
+            </ul>
+            <p>See more in the <a href="https://docs.google.com/document/d/1Io_0h76hqaf0eIz0jNlmkVxo7JRuOoO1PX4-D4qzA3E/edit">Climate Emergency UK checklist</a>.</p>
+        </div>
+    </details>
+{% endif %}
+
+{% if 'social-housing' in council.powers %}
+    <details class="details details-accordion">
+        <summary class="mb-2">Social housing</summary>
+        <div class="council-powers">
+            <p>Climate actions might include:</p>
+            <ul>
+                <li>prioritising energy efficiency when building new council-operated social housing schemes – for example, through the Passivhaus standard</li>
+                <li>enabling housing associations to improve the energy efficiency of their housing stock, through loans from the local authority</li>
+            </ul>
+            <p>See more in the <a href="https://docs.google.com/document/d/14p0HoBTKVvPT8Tof4DW1FA3DEO9nQtPJ4u-TEI7hSXk/edit">Climate Emergency UK checklist</a>.</p>
+        </div>
+    </details>
+{% endif %}
+
 {% if 'spending' in council.powers %}
     <details class="details details-accordion">
         <summary class="mb-2">Spending, procuring, and investing</summary>
@@ -50,52 +127,6 @@
     </details>
 {% endif %}
 
-{% if 'passenger-transport' in council.powers %}
-    <details class="details details-accordion">
-        <summary class="mb-2">Passenger transport</summary>
-        <div class="council-powers">
-            <p>Climate actions might include:</p>
-            <ul>
-                <li>encouraging bus and private hire operators to use low-emission vehicles, through licensing requirements or Clean Air Zones</li>
-                <li>incentivising bus use by improving routes, timetables, and ticket prices through ‘Enhanced Partnerships’ with operators</li>
-                <li>proposing to central government the development of light rail / tram networks that integrate, rather than compete, with other modes of transport in the area</li>
-            </ul>
-            <p>See more in the <a href="https://docs.google.com/document/d/1Oq7ftxT2CCsFpMldPptO3OM07X-pIPVogPbXO6nWx3w/edit">Climate Emergency UK checklist</a>.</p>
-        </div>
-    </details>
-{% endif %}
-
-{% if 'schools-libraries' in council.powers %}
-    <details class="details details-accordion">
-        <summary class="mb-2">Schools and libraries</summary>
-        <div class="council-powers">
-            <p>Climate actions might include:</p>
-            <ul>
-                <li>reducing the carbon footprint of civic buildings through better insulation and renewable energy use</li>
-                <li>incentivising ‘Active Travel’ or public transport use among employees</li>
-                <li>providing carbon literacy training for employees</li>
-                <li>encouraging eco-clubs at schools</li>
-                <li>using school land to plant trees and hedgerows, or to grow food</li>
-            </ul>
-            <p>See more in the <a href="https://docs.google.com/document/d/1Io_0h76hqaf0eIz0jNlmkVxo7JRuOoO1PX4-D4qzA3E/edit">Climate Emergency UK checklist</a>.</p>
-        </div>
-    </details>
-{% endif %}
-
-{% if 'environmental-health' in council.powers %}
-    <details class="details details-accordion">
-        <summary class="mb-2">Environmental health</summary>
-        <div class="council-powers">
-            <p>Climate actions might include:</p>
-            <ul>
-                <li>reducing industrial emissions through air quality enforcement</li>
-                <li>bringing up insulation and energy efficiency standards through enforcement of the Housing Health and Safety Rating System (HHSRS) and Decent Homes Standard 2000. for cold and damp conditions in private rental and social housing</li>
-            </ul>
-            <p>See more in the <a href="https://docs.google.com/document/d/1yJEJ6YMfbzwxZNolvMazaYcd83vfsG7F6ekHc1i3TNo/edit">Climate Emergency UK checklist</a>.</p>
-        </div>
-    </details>
-{% endif %}
-
 {% if 'waste-collection' in council.powers or 'waste-disposal' in council.powers %}
     <details class="details details-accordion">
       {% if 'waste-collection' in council.powers and 'waste-disposal' in council.powers %}
@@ -112,37 +143,6 @@
                 <li>running marketing campaigns to encourage residential recycling, reuse, and waste minimisation</li>
             </ul>
             <p>See more in the <a href="https://docs.google.com/document/d/1QUKqIJXMMU65mTWWcgmN56gJV_xgTCeqeBZ-UuUCXV4/edit">Climate Emergency UK checklist</a>.</p>
-        </div>
-    </details>
-{% endif %}
-
-{% if 'social-housing' in council.powers %}
-    <details class="details details-accordion">
-        <summary class="mb-2">Social housing</summary>
-        <div class="council-powers">
-            <p>Climate actions might include:</p>
-            <ul>
-                <li>prioritising energy efficiency when building new council-operated social housing schemes – for example, through the Passivhaus standard</li>
-                <li>enabling housing associations to improve the energy efficiency of their housing stock, through loans from the local authority</li>
-            </ul>
-            <p>See more in the <a href="https://docs.google.com/document/d/14p0HoBTKVvPT8Tof4DW1FA3DEO9nQtPJ4u-TEI7hSXk/edit">Climate Emergency UK checklist</a>.</p>
-        </div>
-    </details>
-{% endif %}
-
-{% if 'planning-building' in council.powers %}
-    <details class="details details-accordion">
-        <summary class="mb-2">Planning and building control</summary>
-        <div class="council-powers">
-            <p>Climate actions might include:</p>
-            <ul>
-                <li>imposing reasonable requirements that new developments comply with energy efficiency standards and get a proportion of their energy from local, renewable sources (Planning and Energy Act, 2008)</li>
-                <li>incorporating additional energy performance standards into their Local Plan, for new works that require planning permission</li>
-                <li>using Area Action Plans to guide development proposals towards lower carbon emissions or more cycling and walking routes, for example</li>
-                <li>enforcing legislation that requires private rental properties to be of Energy Efficiency Rating E or above (Energy Efficiency Regulations, 2015)</li>
-                <li>funding energy efficiency improvements on existing homes, through initiatives such as Green Homes Grants</li>
-            </ul>
-            <p>See more in the <a href="https://docs.google.com/document/d/1oyndExDpsck967MTXRXx__0hkOsKD6Ia6PrntMXoI8I/edit">Climate Emergency UK checklist</a>.</p>
         </div>
     </details>
 {% endif %}
