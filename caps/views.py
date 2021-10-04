@@ -102,6 +102,9 @@ class SearchResultsView(HaystackSearchView):
         context = super().get_context_data(**kwargs)
         inorganic = self.request.GET.get('inorganic')
         context['show_council_search'] = True
+        if context['form']['council_name'].value() is not None:
+            context['council_name'] = context['form']['council_name'].value()
+
         context['inorganic'] = False
         if inorganic == '1':
             context['inorganic'] = True
@@ -127,6 +130,8 @@ class SearchResultsView(HaystackSearchView):
                 result_count=context['paginator'].count,
                 inorganic=context['inorganic']
             )
+            if context.get('council_name', '') != '':
+                saved_search.council_restriction = context['council_name']
             saved_search.save()
 
     def render_to_response(self, context):

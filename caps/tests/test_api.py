@@ -336,6 +336,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "query",
+                    'council_restriction': '',
                     'result_count': 2,
                     'times_seen': 7
                 } ]
@@ -362,6 +363,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "query",
+                    'council_restriction': '',
                     'result_count': 2,
                     'times_seen': 6
                 } ]
@@ -388,6 +390,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "query",
+                    'council_restriction': '',
                     'result_count': 2,
                     'times_seen': 6
                 } ]
@@ -430,6 +433,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "query",
+                    'council_restriction': '',
                     'result_count': 2,
                     'times_seen': 5
                 } ]
@@ -444,6 +448,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "query",
+                    'council_restriction': '',
                     'result_count': 2,
                     'times_seen': 6
                 } ]
@@ -458,6 +463,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "other",
+                    'council_restriction': '',
                     'result_count': 3,
                     'times_seen': 5
                 } ]
@@ -515,6 +521,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "query",
+                    'council_restriction': '',
                     'result_count': 2,
                     'times_seen': 8
                 } ]
@@ -529,6 +536,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "other query",
+                    'council_restriction': '',
                     'result_count': 5,
                     'times_seen': 5
                 } ]
@@ -543,6 +551,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "other query",
+                    'council_restriction': '',
                     'result_count': 5,
                     'times_seen': 11
                 } ]
@@ -557,6 +566,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "query",
+                    'council_restriction': '',
                     'result_count': 2,
                     'times_seen': 7
                 } ]
@@ -571,6 +581,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "other query",
+                    'council_restriction': '',
                     'result_count': 5,
                     'times_seen': 6
                 } ]
@@ -585,6 +596,7 @@ class SearchTermAPITest(APITestCase):
                 'previous': None,
                 'results': [ {
                     'user_query': "other query",
+                    'council_restriction': '',
                     'result_count': 5,
                     'times_seen': 6
                 } ]

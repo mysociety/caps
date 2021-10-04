@@ -416,6 +416,7 @@ class SavedSearch(models.Model):
     result_count = models.PositiveIntegerField(default=0, blank=True)
     inorganic = models.BooleanField(default=False)
     created = models.DateTimeField(blank=True, auto_now_add=True)
+    council_restriction = models.CharField(max_length=1000, help_text="The text used to restrict by council", default='')
 
     objects = SavedSearchManager()
 

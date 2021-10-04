@@ -167,11 +167,11 @@ class SearchTermViewSet(viewsets.ReadOnlyModelViewSet):
     searches made on that date.
     """
 
-    queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count').distinct().annotate(times_seen=Count('user_query')).filter(times_seen__gt=5).order_by('-times_seen')
+    queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count', 'council_restriction').distinct().annotate(times_seen=Count('user_query')).filter(times_seen__gt=5).order_by('-times_seen')
     serializer_class = SearchTermSerializer
 
     def get_queryset(self):
-        queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count').distinct().annotate(times_seen=Count('user_query')).filter(times_seen__gte=5).order_by('-times_seen')
+        queryset = SavedSearch.objects.filter(result_count__gt=0).values('user_query', 'result_count', 'council_restriction').distinct().annotate(times_seen=Count('user_query')).filter(times_seen__gte=5).order_by('-times_seen')
         start_date = self.request.query_params.get('start_date')
         end_date = self.request.query_params.get('end_date')
         min_count = self.request.query_params.get('min_count')

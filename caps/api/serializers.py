@@ -71,4 +71,4 @@ class SearchTermSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = SavedSearch
-        fields = ['user_query', 'result_count', 'times_seen']
+        fields = ['user_query', 'result_count', 'times_seen', 'council_restriction']
