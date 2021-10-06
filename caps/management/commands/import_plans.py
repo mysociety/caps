@@ -10,6 +10,7 @@ from caps.models import Council, PlanDocument
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files import File
 from django.template.defaultfilters import pluralize
+from django.db.models import Count
 
 from django.conf import settings
 
@@ -21,6 +22,11 @@ class Command(BaseCommand):
     councils_in_sheet = set() # set of gss codes of councils in sheet
     councils_with_plan_in_sheet = set() # set of gss codes of councils with at least one plan
     plans_to_process = {}
+    start_council_plan_count = 0
+    end_council_plan_count = 0
+    start_plan_count = 0
+    end_plan_count = 0
+
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -35,6 +41,7 @@ class Command(BaseCommand):
         self.get_changes()
         if options['confirm_changes'] == True:
             self.update_database()
+            self.print_summary()
         elif self.changes == True:
             self.print_change("call with --confirm_changes to update database")
 
@@ -47,6 +54,9 @@ class Command(BaseCommand):
         plans_to_import = {}
         councils_in_sheet = set()
         councils_with_plan_in_sheet = set()
+
+        self.start_council_plan_count = Council.objects.annotate(num_plans=Count('plandocument')).filter(num_plans__gt=0).count()
+        self.start_plan_count = PlanDocument.objects.count()
 
         for index, row in df.iterrows():
             gss_code = PlanDocument.char_from_text(row['gss_code'])
@@ -220,6 +230,10 @@ class Command(BaseCommand):
             gss_code__in=self.councils_in_sheet
         ).delete()
 
+        self.end_council_plan_count = Council.objects.annotate(num_plans=Count('plandocument')).filter(num_plans__gt=0).count()
+        self.end_plan_count = PlanDocument.objects.count()
+
+
     def get_plan_defaults_from_row(self, row):
         (start_year, end_year) = PlanDocument.start_and_end_year_from_time_period(row['time_period'])
         defaults = {
@@ -243,3 +257,15 @@ class Command(BaseCommand):
         verbosity = kwargs.get('verbosity', 1)
         if self.verbosity >= verbosity:
             self.stdout.write(text % args)
+
+    def print_summary(self):
+        if ( self.start_council_plan_count == self.end_council_plan_count):
+            self.print_change("Councils with a plan is unchanged at %d", self.end_council_plan_count)
+        else:
+            self.print_change("Councils with a plan went from %d to %d", self.start_council_plan_count, self.end_council_plan_count)
+
+        if ( self.start_plan_count == self.end_plan_count):
+            self.print_change("Number of plans is unchanged at %d", self.end_plan_count)
+        else:
+            self.print_change("Number of plans went from %d to %d", self.start_plan_count, self.end_plan_count)
+

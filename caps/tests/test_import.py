@@ -31,11 +31,13 @@ class ImportPlansTestCase(ImportTestCase):
 
     command = "import_plans"
     processed_output = 'adding new plan for Borsetshire\nadding new council: East Borsetshire\nadding new plan for East Borsetshire\nadding new council: West Borsetshire\n2 councils will be added\n2 plans will be added\n';
+    processed_output = 'adding new plan for Borsetshire\nadding new council: East Borsetshire\nadding new plan for East Borsetshire\nadding new council: West Borsetshire\n2 councils will be added\n2 plans will be added\n';
+    summary_output = 'Councils with a plan went from 0 to 2\nNumber of plans went from 0 to 2\n'
 
     def test_import(self):
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
             out = self.call_command(confirm_changes=1,verbosity=2)
-            self.assertEquals(out, self.processed_output)
+            self.assertEquals(out, '%s%s' % (self.processed_output, self.summary_output))
 
             council = Council.objects.get(authority_code='BORS');
             self.assertEqual(council.name, "Borsetshire")
@@ -74,34 +76,42 @@ class ImportPlansTestCase(ImportTestCase):
     def test_basic_changes_message(self):
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
             out = self.call_command(confirm_changes=1)
-            self.assertEquals(out, '2 councils will be added\n2 plans will be added\n');
+            self.assertEquals(out, '2 councils will be added\n2 plans will be added\n%s' % self.summary_output);
 
             out = self.call_command()
             self.assertEquals(out, '');
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
             out = self.call_command(confirm_changes=1)
-            self.assertEquals(out, '1 plan will be added\n1 plan will be updated\n');
+            self.assertEquals(out, '1 plan will be added\n1 plan will be updated\nCouncils with a plan went from 2 to 3\nNumber of plans went from 2 to 3\n');
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
             out = self.call_command(confirm_changes=1)
-            self.assertEquals(out, '1 plan will be added\n1 plan will be deleted\n');
+            self.assertEquals(out, '1 plan will be added\n1 plan will be deleted\nCouncils with a plan is unchanged at 3\nNumber of plans is unchanged at 3\n');
+
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed_add_plan.csv"):
+            out = self.call_command(confirm_changes=1)
+            self.assertEquals(out, '1 plan will be added\nCouncils with a plan is unchanged at 3\nNumber of plans went from 3 to 4\n');
+
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed_remove_council.csv"):
+            out = self.call_command(confirm_changes=1)
+            self.assertEquals(out, '1 plan will be added\n1 council will be completely removed: [ East Borsetshire ]\nCouncils with a plan went from 3 to 2\nNumber of plans is unchanged at 4\n');
 
     def test_detailed_changes_message(self):
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
             out = self.call_command(confirm_changes=1,verbosity=2)
-            self.assertEquals(out, self.processed_output);
+            self.assertEquals(out, '%s%s' %(self.processed_output, self.summary_output));
 
             out = self.call_command(verbosity=2)
             self.assertEquals(out, '');
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update.csv"):
             out = self.call_command(confirm_changes=1,verbosity=2)
-            self.assertEquals(out, 'updating plan for Borsetshire\nadding new plan for West Borsetshire\n1 plan will be added\n1 plan will be updated\n');
+            self.assertEquals(out, 'updating plan for Borsetshire\nadding new plan for West Borsetshire\n1 plan will be added\n1 plan will be updated\nCouncils with a plan went from 2 to 3\nNumber of plans went from 2 to 3\n');
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
             out = self.call_command(confirm_changes=1,verbosity=2)
-            self.assertEquals(out, 'adding new plan for Borsetshire\ndeleting plan for Borsetshire\n1 plan will be added\n1 plan will be deleted\n');
+            self.assertEquals(out, 'adding new plan for Borsetshire\ndeleting plan for Borsetshire\n1 plan will be added\n1 plan will be deleted\nCouncils with a plan is unchanged at 3\nNumber of plans is unchanged at 3\n');
 
 
     def test_update_properties(self):
@@ -185,7 +195,7 @@ class ImportPlansTestCase(ImportTestCase):
             self.assertEqual(len(plans), 1)
 
             out = self.call_command(confirm_changes=1)
-            self.assertEquals(out, '1 council will have all plans removed\n2 councils will be completely removed: [ Borsetshire, North Borsetshire ]\n')
+            self.assertEquals(out, '1 council will have all plans removed\n2 councils will be completely removed: [ Borsetshire, North Borsetshire ]\nCouncils with a plan went from 3 to 1\nNumber of plans went from 3 to 1\n')
 
             bors_exists = Council.objects.filter(authority_code='BORS').exists()
             self.assertFalse(bors_exists)
