@@ -70,7 +70,7 @@ class CouncilListView(FilterView):
     template_name = 'council_list.html'
 
     def get_queryset(self):
-        return Council.objects.annotate(num_plans=Count('plandocument'))
+        return Council.objects.annotate(num_plans=Count('plandocument')).order_by('name')
 
 class SearchResultsView(HaystackSearchView):
 
