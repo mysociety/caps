@@ -13,8 +13,8 @@ django-haystack==3.0
 django-htmlmin==0.11.0
 django-import-export==2.0.2
 django-markitup==4.0.0
-django-pipeline==2.0.5
 djangorestframework==3.12.4
+-e git+https://github.com/mysociety/django-pipeline@c67514ae828f79454320a37b0aeb154c7359e19c#egg=django_pipeline
 -e git+https://github.com/mysociety/django-pipeline-csscompressor@6a88fde5045d68746f1c7ee816deda86615c5581#egg=django_pipeline_csscompressor
 et-xmlfile==1.0.1
 feedparser==5.2.1
