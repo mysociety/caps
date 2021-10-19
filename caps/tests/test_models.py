@@ -164,9 +164,9 @@ class SavedSearchesTestCase(TestCase):
         popular_qs = SavedSearch.objects.most_popular()
         self.assertEqual(popular_qs.count(), 5)
         popular = [ [ res['user_query'], res['times_seen'] ] for res in popular_qs ]
-        self.assertEqual(popular, [ ['turbines', 3], ['wind', 2], ['solar', 2], ['gas', 1], ['ev', 1] ])
+        self.assertEqual(popular, [ ['turbines', 3], ['solar', 2], ['wind', 2], ['ev', 1], ['gas', 1] ])
 
         popular_qs = SavedSearch.objects.most_popular(threshold=2)
         self.assertEqual(popular_qs.count(), 3)
         popular = [ [ res['user_query'], res['times_seen'] ] for res in popular_qs ]
-        self.assertEqual(popular, [ ['turbines', 3], ['wind', 2], ['solar', 2] ])
+        self.assertEqual(popular, [ ['turbines', 3], ['solar', 2], ['wind', 2] ])

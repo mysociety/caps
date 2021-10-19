@@ -374,7 +374,7 @@ class SavedSearchManager(models.Manager):
         if search_key is not None:
             qs = qs.filter(search_key=search_key)
 
-        return qs.values('user_query').filter(result_count__gt=0).annotate(most_recent=models.Max('created'),times_seen=models.Count('user_query')).order_by('-most_recent').filter(times_seen__gte=threshold)
+        return qs.values('user_query').filter(result_count__gt=0).annotate(most_recent=models.Max('created'),times_seen=models.Count('user_query')).order_by('-most_recent', 'user_query').filter(times_seen__gte=threshold)
 
     def most_popular(self, search_key=None, threshold=1):
         qs = self.get_queryset()
@@ -382,7 +382,7 @@ class SavedSearchManager(models.Manager):
         if search_key is not None:
             qs = qs.filter(search_key=search_key)
 
-        initial_list = qs.values('user_query').filter(result_count__gt=0).order_by().annotate(times_seen=models.Count('user_query')).order_by('-times_seen').filter(times_seen__gte=threshold)
+        initial_list = qs.values('user_query').filter(result_count__gt=0).order_by().annotate(times_seen=models.Count('user_query')).order_by('-times_seen', 'user_query').filter(times_seen__gte=threshold)
         return initial_list.values('user_query', 'times_seen')
 
 
