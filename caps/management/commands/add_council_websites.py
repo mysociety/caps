@@ -83,11 +83,39 @@ def get_unindexed():
             {'council': 'North Northamptonshire Council',
              'url': 'https://www.northnorthants.gov.uk/'},
             {'council': 'West Northamptonshire Council',
-             'url': 'https://www.westnorthants.gov.uk/'}
+             'url': 'https://www.westnorthants.gov.uk/'},
+            {'council': 'Antrim and Newtownabbey Borough Council',
+             'url': 'https://antrimandnewtownabbey.gov.uk/'},
+            {'council': 'Derry City and Strabane District Council',
+             'url': 'https://www.derrystrabane.com/'},
+            {'council': 'Ards and North Down Borough Council',
+             'url': 'http://www.ardsandnorthdown.gov.uk/'},
+            {'council': 'Armagh City, Banbridge and Craigavon Borough Council',
+             'url': 'https://www.armaghbanbridgecraigavon.gov.uk/'},
+            {'council': 'Belfast City Council',
+             'url': 'https://www.belfastcity.gov.uk/'},
+            {'council': 'Causeway Coast and Glens Borough Council',
+             'url': 'https://www.causewaycoastandglens.gov.uk/'},
+            {'council': 'Fermanagh and Omagh District Council',
+             'url': 'https://www.fermanaghomagh.com/'},
+            {'council': 'Lisburn and Castlereagh City Council',
+             'url': 'https://www.lisburncastlereagh.gov.uk/'},
+            {'council': 'Mid and East Antrim Borough Council',
+             'url': 'https://www.midandeastantrim.gov.uk/'},
+            {'council': 'Mid Ulster District Council',
+             'url': 'https://www.midulstercouncil.org/'},
+            {'council': 'Newry, Mourne and Down District Council',
+             'url': 'https://www.newrymournedown.org/'},
            ]
 
 def alternative_names(council_name):
-    alternative_mappings = {'Swansea City Council': 'Swansea City and Borough Council'}
+    alternative_mappings = {
+        'Swansea City Council': 'Swansea City and Borough Council',
+        'Buckinghamshire Council': 'Buckinghamshire County Council',
+        'Dorset Council': 'Dorset County Council',
+        'West Yorkshire Combined Authority': 'West Yorkshire (@WestYorkshireCA) Combined Authority',
+        'Sheffield City Region Combined Authority': 'South Yorkshire (@SheffCityRegion) Combined Authority'
+    }
     alternative_names = [council_name, council_name.replace('The ', '')]
     if alternative_mappings.get(council_name):
         alternative_names.append(alternative_mappings.get(council_name))
