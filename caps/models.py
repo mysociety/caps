@@ -466,12 +466,14 @@ class CouncilFilter(django_filters.FilterSet):
         fields=(
             ('name', 'name'),
             ('promise__target_year', 'promise_year'),
-            ('emergencydeclaration__date_declared', 'declaration_date')
+            ('emergencydeclaration__date_declared', 'declaration_date'),
+            ('plandocument__updated_at', 'last_update')
         ),
         field_labels={
             'name': 'Council name',
             'promise__target_year': 'Carbon neutral target',
             'emergencydeclaration__date_declared': 'Declaration date',
+            'last_update': 'Last update',
         }
     )
 
@@ -488,3 +490,4 @@ class CouncilFilter(django_filters.FilterSet):
     class Meta:
         model = Council
         fields = []
+
