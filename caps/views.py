@@ -85,7 +85,13 @@ class CouncilListView(FilterView):
     }
 
     def get_queryset(self):
-        return Council.objects.annotate(num_plans=Count('plandocument'),has_promise=Count('promise'),earliest_promise=Min('promise__target_year'),declared_emergency=Min('emergencydeclaration__date_declared')).order_by('name')
+        return Council.objects.annotate(
+            num_plans=Count('plandocument'),
+            has_promise=Count('promise'),
+            earliest_promise=Min('promise__target_year'),
+            declared_emergency=Min('emergencydeclaration__date_declared'),
+            last_plan_update=Max('plandocument__updated_at')
+        ).order_by('name')
 
 
 class SearchResultsView(HaystackSearchView):

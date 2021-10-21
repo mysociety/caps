@@ -5,6 +5,9 @@
             <th scope="col">Has plan</th>
             <th scope="col">Carbon Neutral target</th>
             <th scope="col">Declared emergency</th>
+            {% if show_last_updated %}
+            <th scope="col">Last updated</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -36,6 +39,13 @@
               No
               {% endif %}
             </td>
+            {% if show_last_updated %}
+            <td>
+              {% if council.num_plans > 0 %}
+                {{ council.last_plan_update }}
+              {% endif %}
+            </td>
+            {% endif %}
         </tr>
       {% endfor %}
     </tbody>
