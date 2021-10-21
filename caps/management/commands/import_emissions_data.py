@@ -112,9 +112,20 @@ class Command(BaseCommand):
             action='store_true',
             help='Update all data (slower but more thorough)',
         )
+        # useful for when new data comes out and we want to replace it all
+        parser.add_argument(
+            '--replace',
+            action='store_true',
+            help='Remove and replace all data (e.g post new source)',
+        )
 
     def handle(self, *args, **options):
         get_all = options['all']
+        replace = options['replace']
+        if replace:
+            print("removing and replacing all data")
+            DataPoint.objects.all().delete()
+            DataType.objects.all().delete()
         if not get_all and DataPoint.objects.count() > 0:
             print("emissions data exists, skipping")
         else:
