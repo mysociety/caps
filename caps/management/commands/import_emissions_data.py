@@ -12,9 +12,9 @@ from django.db.models import Count
 
 from caps.models import Council, DataType, DataPoint
 
-EMISSIONS_XLS_URL = 'https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/894787/2005-18-uk-local-regional-co2-emissions.xlsx'
+EMISSIONS_XLS_URL = 'https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/996057/2005-19_UK_local_and_regional_CO2_emissions.xlsx'
 
-EMISSIONS_XLS_NAME = '2005-18-uk-local-regional-co2-emissions.xlsx'
+EMISSIONS_XLS_NAME = '2005-19_UK_local_and_regional_CO2_emissions.xlsx'
 EMISSIONS_XLS = join(settings.DATA_DIR, EMISSIONS_XLS_NAME)
 EMISSIONS_SHEET = 'Subset dataset'
 
@@ -33,19 +33,29 @@ def get_data_files():
 
 def columns_to_names_and_units():
     return {
-        'A. Industry and Commercial Electricity': ('Industry and Commercial Electricity', 'kt CO2'),
-        'B. Industry and Commercial Gas': ('Industry and Commercial Gas', 'kt CO2'),
-        'C. Large Industrial Installations': ('Large Industrial Installations', 'kt CO2'),
-        'D. Industrial and Commercial Other Fuels': ('Industrial and Commercial Other Fuels', 'kt CO2'),
-        'E. Agriculture': ('Agriculture', 'kt CO2'),
-        'Industry and Commercial Total': ('Industry and Commercial Total', 'kt CO2'),
-        'F. Domestic Electricity': ('Domestic Electricity', 'kt CO2'),
-        'G. Domestic Gas': ('Domestic Gas', 'kt CO2'),
-        "H. Domestic 'Other Fuels'": ("Domestic Other Fuels", 'kt CO2'),
+        # these headers are sadly specific to a year so may need updated
+        # when new data comes out
+        'Industry Electricity': ('Industry and Commercial Electricity', 'kt CO2'),
+        'Industry Gas ': ('Industry and Commercial Gas', 'kt CO2'),
+        'Large Industrial Installations': ('Large Industrial Installations', 'kt CO2'),
+        "Industry 'Other Fuels'": ('Industrial and Commercial Other Fuels', 'kt CO2'),
+        'Agriculture': ('Agriculture', 'kt CO2'),
+        'Industry Total': ('Industry and Commercial Total', 'kt CO2'),
+        'Commercial Electricity': ('Commercial Electricity', 'kt CO2'),
+        'Commercial Gas ': ('Commercial Gas', 'kt CO2'),
+        "Commercial 'Other Fuels'": ("Commercial Other Fuels", 'kt CO2'),
+        'Commercial Total': ('Commercial Total', 'kt CO2'),
+        'Public Sector Electricity': ('Public Sector Electricity', 'kt CO2'),
+        'Public Sector Gas ': ('Public Sector Gas', 'kt CO2'),
+        "Public Sector 'Other Fuels'": ("Public Sector Other Fuels", 'kt CO2'),
+        'Public Sector Total': ('Public Sector Total', 'kt CO2'),
+        'Domestic Electricity': ('Domestic Electricity', 'kt CO2'),
+        'Domestic Gas': ('Domestic Gas', 'kt CO2'),
+        "Domestic 'Other Fuels'": ("Domestic Other Fuels", 'kt CO2'),
         'Domestic Total': ('Domestic Total', 'kt CO2'),
-        'I. Road Transport (A roads)': ('Road Transport (A roads)', 'kt CO2'),
-        'K. Road Transport (Minor roads)': ('Road Transport (Minor roads)', 'kt CO2'),
-        'M. Transport Other': ('Transport Other', 'kt CO2'),
+        'Road Transport (A roads)': ('Road Transport (A roads)', 'kt CO2'),
+        'Road Transport (Minor roads)': ('Road Transport (Minor roads)', 'kt CO2'),
+        'Transport Other': ('Transport Other', 'kt CO2'),
         'Transport Total': ('Transport Total', 'kt CO2'),
         'Grand Total': ('Total Emissions', 'kt CO2'),
         "Population                                              ('000s, mid-year estimate)": ('Population', '000s'),
@@ -78,7 +88,7 @@ def import_emissions_data():
     emissions_df = pd.read_csv(EMISSIONS_DATA)
     error_list = []
     for index, row in emissions_df.iterrows():
-        name = row['Name']
+        name = row['Local Authority']
         gss_code = row['Code']
         year = row['Year']
         cols_to_names_and_units = columns_to_names_and_units()
@@ -91,7 +101,7 @@ def import_emissions_data():
                         year = year,
                         value = row[column],
                         council = Council.objects.get(gss_code=gss_code),
-                        data_type = DataType.objects.get(name=data_type_name),
+                        data_type = DataType.objects.get(name=data_type_name, source_url=EMISSIONS_XLS_URL),
                     )
                 except ObjectDoesNotExist as err:
                     print(f'{name} {gss_code} {err}')
