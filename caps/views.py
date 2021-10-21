@@ -33,6 +33,7 @@ class HomePageView(TemplateView):
         # can't shuffle querysets because they don't support assignment
         context['popular_searches'] = [ s for s in SavedSearch.objects.most_popular()[:6] ]
         shuffle(context['popular_searches'])
+        context['last_update'] = PlanDocument.objects.aggregate(Max('updated_at'))['updated_at__max']
 
         plan_file = join(settings.MEDIA_ROOT, 'data', 'plans', 'plans.zip')
         plan_size = file_size(plan_file)
