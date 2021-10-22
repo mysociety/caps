@@ -1,8 +1,6 @@
 .site-header,
 .site-subheader {
     .navbar-brand {
-        flex-shrink: 0;
-
         @include media-breakpoint-up('md') {
             margin: 0 1rem;
         }
@@ -53,6 +51,7 @@
     }
 
     .navbar-brand {
+        flex-shrink: 0;
         display: inline-block;
         height: 0;
         padding-top: 40px;
@@ -83,8 +82,14 @@
 
     .navbar-brand {
         font-family: $headings-font-family;
-        font-size: $h2-font-size;
         line-height: 1;
         padding: 0;
+        white-space: normal;
+        flex: 1 1 8em;
+
+        @include media-breakpoint-up('md') {
+            flex: 0 0 auto;
+            font-size: $h4-font-size;
+        }
     }
 }
