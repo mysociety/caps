@@ -1,0 +1,19 @@
+.nzlh-header {
+    background-image: linear-gradient(120deg, rgba(255, 255, 255, 0), rgb(255, 255, 255)), url(../img/nzlh-dots-yellow.svg);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.nzlh-screenshot {
+    padding: 1rem 1rem 0 1rem;
+    background: transparent url(../img/nzlh-stripes-blue.svg) 50% 50% no-repeat;
+    background-size: cover;
+}
+
+.nzlh-map {
+    @include media-breakpoint-up('lg') {
+        background: transparent url(../img/british-isles-blue.png) 100% 50% no-repeat;
+        background-size: contain;
+    }
+}

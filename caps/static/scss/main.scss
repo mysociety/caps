@@ -41,7 +41,7 @@
 @import "../bootstrap/card";
 // @import "../bootstrap/breadcrumb";
 // @import "../bootstrap/pagination";
-// @import "../bootstrap/badge";
+@import "../bootstrap/badge";
 // @import "../bootstrap/jumbotron";
 // @import "../bootstrap/alert";
 @import "../bootstrap/progress";
@@ -67,7 +67,9 @@
 @import "site-footer";
 
 @import "type";
+@import "images";
 @import "icons";
+@import "backgrounds";
 
 @import "alpha-banner";
 @import "ceuk-card";
@@ -78,3 +80,4 @@
 @import "interstitial-modal";
 @import "homepage";
 @import "council-powers";
+@import "net-zero-local-hero";

@@ -17,3 +17,17 @@
 .text-smaller {
     @include font-size(80%);
 }
+
+.strong-link {
+    font-weight: bold;
+    border-bottom: 1px solid rgba($link-color, 0.6);
+    text-decoration: none !important;
+
+    @include hover-focus() {
+        border-bottom-color: currentColor !important;
+    }
+
+    &.text-white {
+        border-bottom-color: rgba(#fff, 0.6);
+    }
+}

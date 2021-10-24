@@ -181,6 +181,11 @@ class MailchimpView(View):
         return JsonResponse(response_data, status=http_status)
 
 
+class NetZeroLocalHeroView(TemplateView):
+
+    template_name = "net_zero_local_hero.html"
+
+
 class StyleView(TemplateView):
 
     template_name = "style.html"
