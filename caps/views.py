@@ -20,6 +20,7 @@ from caps.forms import HighlightedSearchForm
 from caps.mapit import MapIt, NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException
 from caps.utils import file_size
 
+
 class HomePageView(TemplateView):
 
     template_name = "home.html"
@@ -38,7 +39,10 @@ class HomePageView(TemplateView):
         plan_size = file_size(plan_file)
         context['plan_zip_size'] = plan_size
 
+        context['page_title'] = 'Tracking the UK’s journey towards carbon zero'
+
         return context
+
 
 class CouncilDetailView(DetailView):
 
@@ -62,15 +66,23 @@ class CouncilDetailView(DetailView):
             context['no_emissions_data'] = True
         context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'))
         context['last_updated'] = council.plandocument_set.aggregate(last_update=Max('updated_at'),last_found=Max('date_first_found'))
+
+        context['page_title'] = council.name
+
         return context
+
 
 class CouncilListView(FilterView):
 
     filterset_class = CouncilFilter
     template_name = 'council_list.html'
+    extra_context = {
+        'page_title': 'All councils'
+    }
 
     def get_queryset(self):
         return Council.objects.annotate(num_plans=Count('plandocument')).order_by('name')
+
 
 class SearchResultsView(HaystackSearchView):
 
@@ -82,6 +94,13 @@ class SearchResultsView(HaystackSearchView):
         context['inorganic'] = False
         if inorganic == '1':
             context['inorganic'] = True
+
+        if context['query']:
+            context['page_title'] = '{} – Search results'.format(
+                context['query']
+            )
+        else:
+            context['page_title'] = 'Search plans'
 
         return context
 
@@ -102,6 +121,7 @@ class SearchResultsView(HaystackSearchView):
     def render_to_response(self, context):
         self.save_search(context)
         return super().render_to_response(context)
+
 
 class LocationResultsView(TemplateView):
 
@@ -134,11 +154,23 @@ class LocationResultsView(TemplateView):
             context['councils'] = list(councils) + combined_authorities
         except (NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException) as error:
             context['error'] = error
+
+        if postcode:
+            context['page_title'] = '{} – Find your council’s action plan'.format(
+                postcode
+            )
+        else:
+            context['page_title'] = 'Find your council’s action plan'
+
         return context
+
 
 class AboutView(TemplateView):
 
     template_name = "about.html"
+    extra_context = {
+        'page_title': 'About'
+    }
 
 
 class MailchimpView(View):
@@ -184,8 +216,15 @@ class MailchimpView(View):
 class NetZeroLocalHeroView(TemplateView):
 
     template_name = "net_zero_local_hero.html"
+    extra_context = {
+        'page_title': 'Be a Net Zero Local Hero',
+        'og_image_path': '/static/img/og-image-nzlh.jpg'
+    }
 
 
 class StyleView(TemplateView):
 
     template_name = "style.html"
+    extra_context = {
+        'page_title': 'Styles'
+    }
