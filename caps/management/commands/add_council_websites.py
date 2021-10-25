@@ -50,6 +50,24 @@ def get_scotland():
         councils.append({'council': council, 'url': website_url})
     return councils
 
+def get_ni():
+    councils = []
+    base_url = 'https://www.nidirect.gov.uk'
+    index_url = base_url + '/contacts/local-councils-in-northern-ireland'
+    dom = get_dom(index_url)
+    table = dom.find('div', class_='item-list')
+    rows = table.find_all('span', class_='field-content')
+    for row in rows:
+        link = row.find('a')
+        council = link.text
+        contact_url = base_url + link['href']
+        contact_page_dom = get_dom(contact_url)
+        item = contact_page_dom.find('span', class_='url')
+        council_link = item.find('a')['href']
+        councils.append({'council': council, 'url': council_link})
+    return councils
+
+
 def get_combined_authorities():
 
     councils = []
@@ -84,28 +102,6 @@ def get_unindexed():
              'url': 'https://www.northnorthants.gov.uk/'},
             {'council': 'West Northamptonshire Council',
              'url': 'https://www.westnorthants.gov.uk/'},
-            {'council': 'Antrim and Newtownabbey Borough Council',
-             'url': 'https://antrimandnewtownabbey.gov.uk/'},
-            {'council': 'Derry City and Strabane District Council',
-             'url': 'https://www.derrystrabane.com/'},
-            {'council': 'Ards and North Down Borough Council',
-             'url': 'http://www.ardsandnorthdown.gov.uk/'},
-            {'council': 'Armagh City, Banbridge and Craigavon Borough Council',
-             'url': 'https://www.armaghbanbridgecraigavon.gov.uk/'},
-            {'council': 'Belfast City Council',
-             'url': 'https://www.belfastcity.gov.uk/'},
-            {'council': 'Causeway Coast and Glens Borough Council',
-             'url': 'https://www.causewaycoastandglens.gov.uk/'},
-            {'council': 'Fermanagh and Omagh District Council',
-             'url': 'https://www.fermanaghomagh.com/'},
-            {'council': 'Lisburn and Castlereagh City Council',
-             'url': 'https://www.lisburncastlereagh.gov.uk/'},
-            {'council': 'Mid and East Antrim Borough Council',
-             'url': 'https://www.midandeastantrim.gov.uk/'},
-            {'council': 'Mid Ulster District Council',
-             'url': 'https://www.midulstercouncil.org/'},
-            {'council': 'Newry, Mourne and Down District Council',
-             'url': 'https://www.newrymournedown.org/'},
            ]
 
 def alternative_names(council_name):
@@ -114,7 +110,9 @@ def alternative_names(council_name):
         'Buckinghamshire Council': 'Buckinghamshire County Council',
         'Dorset Council': 'Dorset County Council',
         'West Yorkshire Combined Authority': 'West Yorkshire (@WestYorkshireCA) Combined Authority',
-        'Sheffield City Region Combined Authority': 'South Yorkshire (@SheffCityRegion) Combined Authority'
+        'Sheffield City Region Combined Authority': 'South Yorkshire (@SheffCityRegion) Combined Authority',
+        'Mid Ulster District Council': 'Mid Ulster District Council - Dungannon',
+        'Fermanagh and Omagh District Council': 'Fermanagh and Omagh District Council - Enniskillen Office'
     }
     alternative_names = [council_name, council_name.replace('The ', '')]
     if alternative_mappings.get(council_name):
@@ -127,6 +125,7 @@ def create_council_website_csv():
     all_authorities.append(get_england_and_wales())
     all_authorities.append(get_scotland())
     all_authorities.append(get_combined_authorities())
+    all_authorities.append(get_ni())
     all_authorities.append(get_unindexed())
 
     all_authorities = [item for sublist in all_authorities for item in sublist]
