@@ -32,7 +32,7 @@ def get_england_and_wales():
     body = table.find('tbody')
     rows = body.find_all('tr')
     for row in rows:
-        link = row.find('td').find('a')
+        link = row.find('th').find('a')
         council = link.text
         website_url = link['href']
         councils.append({'council': council, 'url': website_url})
