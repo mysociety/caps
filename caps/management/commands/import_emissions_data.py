@@ -11,6 +11,7 @@ from django.conf import settings
 from django.db.models import Count
 
 from caps.models import Council, DataType, DataPoint
+import caps.dataframe.la
 
 EMISSIONS_XLS_URL = 'https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/996057/2005-19_UK_local_and_regional_CO2_emissions.xlsx'
 
@@ -20,6 +21,7 @@ EMISSIONS_SHEET = 'Subset dataset'
 
 EMISSIONS_DATA_NAME = 'emissions.csv'
 EMISSIONS_DATA = join(settings.DATA_DIR, EMISSIONS_DATA_NAME)
+
 
 def get_data_files():
 
@@ -31,7 +33,7 @@ def get_data_files():
             outfile.write(r.content)
 
 
-def columns_to_names_and_units():
+def columns_to_names_and_units() -> dict:
     return {
         # these headers are sadly specific to a year so may need updated
         # when new data comes out
@@ -64,6 +66,7 @@ def columns_to_names_and_units():
         "Emissions per km2 (kt)": ("Emissions per km2", 'kt'),
     }
 
+
 def create_data_types():
     emissions_df = pd.read_csv(EMISSIONS_DATA)
 
@@ -71,47 +74,116 @@ def create_data_types():
     for column in emissions_df.columns[5:]:
         (name, unit) = cols_to_names_and_units[column]
         data_type, created = DataType.objects.get_or_create(
-            name = name,
-            source_url = EMISSIONS_XLS_URL,
-            name_in_source = column,
-            unit = unit
+            name=name,
+            source_url=EMISSIONS_XLS_URL,
+            name_in_source=column,
+            unit=unit
         )
+
 
 def check_completeness():
 
-    authority_types_without_expected_data = ['COMB', 'CTY']
-    councils_with_no_data = Council.objects.exclude(authority_type__in=authority_types_without_expected_data).annotate(num_datapoints=Count('datapoint')).filter(num_datapoints__lt=1)
+    authority_types_without_expected_data = []
+    councils_with_no_data = Council.objects.exclude(authority_type__in=authority_types_without_expected_data).annotate(
+        num_datapoints=Count('datapoint')).filter(num_datapoints__lt=1)
     for council in councils_with_no_data:
         print(f"No data for {council.name} {council.gss_code}")
 
-def import_emissions_data():
-    emissions_df = pd.read_csv(EMISSIONS_DATA)
-    error_list = []
-    for index, row in emissions_df.iterrows():
-        name = row['Local Authority']
-        gss_code = row['Code']
-        year = row['Year']
-        cols_to_names_and_units = columns_to_names_and_units()
 
-        if not name.endswith('Total') and not pd.isnull(row['Code']) and name not in error_list:
-            for column in cols_to_names_and_units:
-                (data_type_name, _) = cols_to_names_and_units[column]
-                try:
-                    data_point, created = DataPoint.objects.get_or_create(
-                        year = year,
-                        value = row[column],
-                        council = Council.objects.get(gss_code=gss_code),
-                        data_type = DataType.objects.get(name=data_type_name, source_url=EMISSIONS_XLS_URL),
-                    )
-                except ObjectDoesNotExist as err:
-                    print(f'{name} {gss_code} {err}')
-                    error_list.append(name)
-                    break
+def import_emissions_data() -> None:
+    """
+    Load information from BEIS data into DataPoints in the database
+    """
+
+    cols_to_names_and_units = columns_to_names_and_units()
+
+    councils = {x.authority_code: x for x in Council.objects.all()}
+    data_types = {x.name: x for x in DataType.objects.filter(
+        source_url=EMISSIONS_XLS_URL)}
+
+    # get df
+    print("loading and reducing")
+    df = pd.read_csv(EMISSIONS_DATA)
+    df = df[~df["Code"].isnull()]
+
+    df = df.rename(columns={x: y[0]
+                   for x, y in cols_to_names_and_units.items()})
+
+    print("getting la codes")
+    df.la.create_code_column(from_type="gss", source_col="Code").drop(
+        columns=["Code", "Local Authority"])
+
+    # BEIS data will rarely be up to date enough to have the correct data for all councils
+    # We need to add up new councils (generally unitaries created from a set of other councils)
+
+    def update_to_modern(df: pd.DataFrame) -> pd.DataFrame:
+        """
+        return the input dataframe with modern councils calculcated from the input
+        """
+
+        # convert to modern lower tier/unitary councils
+        df = (df
+              .la.to_current()
+              .la.just_lower_tier())
+
+        # get higher geographies from lower geographies
+        county_df = df.la.to_higher(aggfunc="sum")
+        combined_df = df.la.to_higher(
+            aggfunc="sum", comparison_column="combined-authority")
+
+        # need to recreate because cannot be calculated from sum
+
+        for hdf in [county_df, combined_df]:
+            hdf["Per Capita Emissions (t)"] = hdf["Total Emissions"] / \
+                hdf["Population"]
+            hdf["Emissions per km2 (kt)"] = hdf["Total Emissions"] / \
+                hdf["Area"]
+
+        return pd.concat([df, county_df, combined_df]).drop(columns=["Year"])
+
+    print("updating to modern councils")
+    df = df.groupby("Year").apply(update_to_modern).reset_index()
+
+    # convert from wide to long format
+    df = df.melt(["local-authority-code", "Year"],
+                 var_name="emissions_type", value_name="value")
+
+    overall_values = ["Per Capita Emissions",
+                   "Emissions per km2", "Total Emissions"]
+
+    # only want the grand total and overall values
+    df = df[df["emissions_type"].str.endswith(
+        "Total") | df["emissions_type"].isin(overall_values)]
+
+    # create column with the council objects and remove any rows without a council in the database
+    df["council_obj"] = df["local-authority-code"].apply(
+        lambda x: councils.get(x, None))
+    df = df[~df["council_obj"].isna()]
+
+    # get the DataType object
+    df["data_type_obj"] = df["emissions_type"].apply(data_types.get)
+
+    # get series with data points
+    def create_data_point(row: pd.Series) -> DataPoint:
+        return DataPoint(year=row["Year"],
+                         value=row["value"],
+                         council=row["council_obj"],
+                         data_type=row["data_type_obj"]
+                         )
+
+    data_points = df.apply(create_data_point, axis="columns")
+
+    # delete and create data points in bulk
+    print("Deleting and creating DataPoints")
+    DataPoint.objects.filter(data_type__source_url=EMISSIONS_XLS_URL).delete()
+    DataPoint.objects.bulk_create(data_points.tolist())
+
 
 def convert_emissions_data():
 
     emissions_df = pd.read_excel(EMISSIONS_XLS, sheet_name=EMISSIONS_SHEET)
-    emissions_df.to_csv(EMISSIONS_DATA, index = False, header=False)
+    emissions_df.to_csv(EMISSIONS_DATA, index=False, header=False)
+
 
 class Command(BaseCommand):
     help = 'Imports emissions data by council'
