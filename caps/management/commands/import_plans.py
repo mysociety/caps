@@ -165,6 +165,7 @@ class Command(BaseCommand):
     def update_database(self):
         df = pd.read_csv(settings.PROCESSED_CSV)
         for index, row in df.iterrows():
+            council_url = PlanDocument.char_from_text(row['website_url'])
             council, created = Council.objects.get_or_create(
                 name = row['council'],
                 slug = PlanDocument.council_slug(row['council']),
@@ -175,9 +176,14 @@ class Command(BaseCommand):
                 defaults = {
                             'whatdotheyknow_id': PlanDocument.integer_from_text(row['wdtk_id']),
                             'mapit_area_code': PlanDocument.char_from_text(row['mapit_area_code']),
-                            'website_url': PlanDocument.char_from_text(row['website_url'])
+                            'website_url': council_url
                 }
             )
+
+            # the url is the only council property that's likely to change
+            if council.website_url != council_url:
+                council.website_url = council_url
+                council.save()
 
             if not pd.isnull(row['url']) and index in self.plans_to_process:
                 document_file = open(row['plan_path'], "rb")
