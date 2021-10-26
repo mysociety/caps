@@ -15,6 +15,7 @@ from django.forms import Select
 from django.db.models import Count
 
 import django_filters
+from caps.filters import NullsAlwaysLastOrderingFilter
 
 class Council(models.Model):
 
@@ -426,6 +427,19 @@ class CouncilFilter(django_filters.FilterSet):
                                             label='Carbon neutral by',
                                             empty_label='All',
                                             choices=Promise.PROMISE_FILTER_CHOICES)
+
+    sort = NullsAlwaysLastOrderingFilter(
+        label='Sort by',
+        empty_label=None,
+        fields=(
+            ('name', 'name'),
+            ('promise__target_year', 'promise_year')
+        ),
+        field_labels={
+            'name': 'Council name',
+            'promise__target_year': 'Carbon neutral target',
+        }
+    )
 
     def filter_promise(self, queryset, name, value):
         if value is None:
