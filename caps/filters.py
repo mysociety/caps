@@ -18,3 +18,22 @@ class NullsAlwaysLastOrderingFilter(filters.OrderingFilter):
             return qs.order_by(*f_ordering)
 
         return qs
+
+class DefaultSecondarySortFilter(NullsAlwaysLastOrderingFilter):
+    def __init__(self, *args, **kwargs):
+        secondary = kwargs.pop('secondary', '')
+        self.secondary = secondary
+        self.rsecondary = '-' + secondary
+
+        super().__init__(*args, **kwargs)
+
+
+    def filter(self, qs, value):
+        qs = super().filter(qs, value)
+        if self.secondary == '':
+            return qs
+
+        if self.secondary not in value and self.rsecondary not in value:
+            qs.order_by(self.secondary)
+
+        return qs
