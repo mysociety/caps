@@ -15,7 +15,7 @@ from django.forms import Select
 from django.db.models import Count
 
 import django_filters
-from caps.filters import NullsAlwaysLastOrderingFilter
+from caps.filters import DefaultSecondarySortFilter
 
 class Council(models.Model):
 
@@ -428,7 +428,8 @@ class CouncilFilter(django_filters.FilterSet):
                                             empty_label='All',
                                             choices=Promise.PROMISE_FILTER_CHOICES)
 
-    sort = NullsAlwaysLastOrderingFilter(
+    sort = DefaultSecondarySortFilter(
+        secondary='name',
         label='Sort by',
         empty_label=None,
         fields=(
