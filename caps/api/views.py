@@ -1,15 +1,16 @@
 # -*- coding: future_fstrings -*-
 from datetime import datetime
 from django.utils.timezone import make_aware
-from django.db.models import Count, Max
+from django.db.models import Count, Max, Min, Subquery, OuterRef, Exists
+
 from django.forms import ValidationError
 
 from rest_framework import viewsets, routers
 from rest_framework.exceptions import APIException
 from rest_framework.pagination import PageNumberPagination
 
-from caps.models import Council, SavedSearch
-from caps.api.serializers import CouncilSerializer, SearchTermSerializer
+from caps.models import Council, SavedSearch, PlanDocument, Promise
+from caps.api.serializers import CouncilSerializer, SearchTermSerializer, PromiseSerializer
 
 class InvalidParamException(APIException):
     status_code = 400
@@ -45,13 +46,67 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
     * country - which of the UK home nations the council is located in.
     * authority_type - what type of body (Unitary, District etc) the council is.
     * plan_count - number of plans we have details for.
-    * plans_last_update - the date of the most recent update to a plan
+    * plans_last_update - the date of the most recent update to a plan (null if no plans)
+    * carbon_reduction_commitment - True if the council has public commitments to reduce emissions
+    * carbon_neutral_date - the earliest date for a carbon neutral target (null if no date)
+    * carbon_neutral_commitments - link to list of commitments made by council
     """
-    queryset = Council.objects.annotate(plan_count=Count('plandocument'),plans_last_update=Max('plandocument__updated_at')).order_by('name').all()
+
+    # need to use subqueries otherwise the joins mean we get bad counts
+    plans = PlanDocument.objects.filter(council=OuterRef("pk")).order_by().values('council').annotate(plan_count=Count('council')).values('plan_count')
+    promised = Promise.objects.filter(council=OuterRef("pk"),has_promise=True)
+    queryset = Council.objects.annotate(
+        plan_count=Subquery(plans),
+        carbon_reduction_commitment=Exists(promised),
+        carbon_neutral_date=Min('promise__target_year'),
+        plans_last_update=Max('plandocument__updated_at'),
+    ).order_by('name')
+
+    queryset = queryset.all()
     serializer_class = CouncilSerializer
     # don't paginate this as there's a fixed number of results that doesn't really
     # change so is very amenable to caching
     pagination_class = None
+
+class CommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Information about the climate commitments made by councils.
+
+    Includes both carbon reduction commitments and net zero ones. If the commitment
+    is for net zero then has_promise will be `true` otherwise `false'
+
+    * council - link to the council making the promise
+    * has_promise - if the promise includes a commitment to net zero
+    * target_year - the year the commitment is targeting
+    * scope - if the commitment is limited to council operations or the whole council area
+    * text - the text of the commitment
+    * source - URL of the document the commitment comes from
+    * source_name - name of the document the commitment comes from
+    """
+    queryset = Promise.objects.order_by('council__name', 'target_year').all()
+    serializer_class = PromiseSerializer
+
+class CouncilCommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Information about a council's climate commitments.
+
+    Includes both carbon reduction commitments and net zero ones. If the commitment
+    is for net zero then has_promise will be `true` otherwise `false'
+
+    * council - link to the council making the promise
+    * has_promise - if the promise includes a commitment to net zero
+    * target_year - the year the commitment is targeting
+    * scope - if the commitment is limited to council operations or the whole council area
+    * text - the text of the commitment
+    * source - URL of the document the commitment comes from
+    * source_name - name of the document the commitment comes from
+    """
+    queryset = Promise.objects.order_by('target_year').all()
+    serializer_class = PromiseSerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        return Promise.objects.filter(council_id=self.kwargs['pk']).order_by('target_year').all()
 
 class SearchTermViewSet(viewsets.ReadOnlyModelViewSet):
     """

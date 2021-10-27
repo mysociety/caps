@@ -10,6 +10,7 @@ from caps.api import routers
 router = routers.Router()
 router.register(r'councils', api_views.CouncilViewSet)
 router.register(r'searchterms', api_views.SearchTermViewSet)
+router.register(r'commitments', api_views.CommitmentsViewSet)
 
 urlpatterns = [
     path('', views.HomePageView.as_view(), name='home'),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('style/', views.StyleView.as_view(), name='style'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/councils/<int:pk>/commitments', api_views.CouncilCommitmentsViewSet.as_view({'get': 'list'}), name='council-commitments')
 
 ]

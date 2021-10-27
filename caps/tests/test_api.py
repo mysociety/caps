@@ -3,7 +3,7 @@ from django.utils.timezone import make_aware
 from datetime import datetime, date
 
 from rest_framework.test import APITestCase
-from caps.models import Council, PlanDocument, SavedSearch
+from caps.models import Council, PlanDocument, SavedSearch, Promise
 
 class CouncilsAPITestCase(APITestCase):
 
@@ -24,6 +24,9 @@ class CouncilsAPITestCase(APITestCase):
         self.assertEquals(json.loads(response.content),
             [ {
                 'authority_type': '',
+                'carbon_neutral_date': None,
+                'carbon_reduction_commitment': False,
+                'carbon_reduction_statements': 'http://testserver/api/councils/1/commitments',
                 'gss_code': 'E14000111',
                 'country': 'England',
                 'name': 'Borsetshire',
@@ -47,6 +50,9 @@ class CouncilsAPITestCase(APITestCase):
         self.assertEquals(json.loads(response.content),
             [ {
                 'authority_type': '',
+                'carbon_neutral_date': None,
+                'carbon_reduction_commitment': False,
+                'carbon_reduction_statements': 'http://testserver/api/councils/2/commitments',
                 'gss_code': 'E14000111',
                 'country': 'England',
                 'name': 'Borsetshire',
@@ -84,6 +90,9 @@ class CouncilsAPITestCase(APITestCase):
                 'authority_type': '',
                 'plan_count': 0,
                 'plans_last_update': None,
+                'carbon_neutral_date': None,
+                'carbon_reduction_commitment': False,
+                'carbon_reduction_statements': 'http://testserver/api/councils/3/commitments',
             }, {
                 'name': 'East Borsetshire',
                 'url': '/councils/east-borsetshire/',
@@ -93,6 +102,9 @@ class CouncilsAPITestCase(APITestCase):
                 'authority_type': '',
                 'plan_count': 0,
                 'plans_last_update': None,
+                'carbon_neutral_date': None,
+                'carbon_reduction_commitment': False,
+                'carbon_reduction_statements': 'http://testserver/api/councils/5/commitments',
             }, {
                 'name': 'West Borsetshire',
                 'url': '/councils/west-borsetshire/',
@@ -102,8 +114,80 @@ class CouncilsAPITestCase(APITestCase):
                 'authority_type': 'Unitary Authority',
                 'plan_count': 0,
                 'plans_last_update': None,
+                'carbon_neutral_date': None,
+                'carbon_reduction_commitment': False,
+                'carbon_reduction_statements': 'http://testserver/api/councils/4/commitments',
             } ]
         )
+
+class PromisesAPITest(APITestCase):
+    def setUp(self):
+        self.council_bors = Council.objects.create(name='Borsetshire',
+                               slug='borsetshire',
+                               country=Council.ENGLAND,
+                               authority_code='BOS',
+                               gss_code='E14000111')
+
+        self.council_wbs = Council.objects.create(name='West Borsetshire',
+                               slug='west-borsetshire',
+                               country=Council.ENGLAND,
+                               authority_type='UA',
+                               authority_code='WBS',
+                               gss_code='E14000112')
+
+    def test_council_with_commitment(self):
+        commitment = Promise.objects.create(
+                        council=self.council_bors,
+                        target_year=2035,
+                        source='https://example.com/promise.pdf',
+                        source_name='Borsetshire Climate Plan',
+                        text="Carbon Neutral by 2035",
+                        scope=1,
+                        has_promise=True)
+
+        response = self.client.get('/api/councils/')
+
+        self.assertEquals(json.loads(response.content),
+            [ {
+                'name': 'Borsetshire',
+                'url': '/councils/borsetshire/',
+                'website_url': '',
+                'gss_code': 'E14000111',
+                'country': 'England',
+                'authority_type': '',
+                'plan_count': 0,
+                'plans_last_update': None,
+                'carbon_neutral_date': 2035,
+                'carbon_reduction_commitment': True,
+                'carbon_reduction_statements': 'http://testserver/api/councils/6/commitments'
+            }, {
+                'name': 'West Borsetshire',
+                'url': '/councils/west-borsetshire/',
+                'website_url': '',
+                'gss_code': 'E14000112',
+                'country': 'England',
+                'authority_type': 'Unitary Authority',
+                'plan_count': 0,
+                'plans_last_update': None,
+                'carbon_neutral_date': None,
+                'carbon_reduction_commitment': False,
+                'carbon_reduction_statements': 'http://testserver/api/councils/7/commitments'
+            } ]
+        )
+
+        response = self.client.get('/api/councils/6/commitments')
+        self.assertEquals(json.loads(response.content),
+            [ {
+                'council': 'http://testserver/api/councils/6/',
+                'has_promise': True,
+                'target_year': 2035,
+                'scope': 'Council only',
+                'text': 'Carbon Neutral by 2035',
+                'source': 'https://example.com/promise.pdf',
+                'source_name' :'Borsetshire Climate Plan',
+            } ]
+        )
+
 
 
 class SearchTermAPITest(APITestCase):
