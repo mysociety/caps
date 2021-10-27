@@ -411,6 +411,13 @@ class Promise(models.Model):
     source_name = models.CharField(max_length=200, blank=True)
     notes = models.CharField(max_length=800, blank=True, null=True)
 
+    @property
+    def get_scope(self):
+        for choice in PlanDocument.SCOPE_CHOICES:
+            if choice[0] == self.scope:
+                return choice[1].lower()
+        return ''
+
 class CouncilFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(lookup_expr='icontains')
     has_plan = django_filters.BooleanFilter(field_name='plandocument',
