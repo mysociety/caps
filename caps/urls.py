@@ -19,6 +19,7 @@ urlpatterns = [
     path('councils/', views.CouncilListView.as_view(), name='council_list'),
     path('location/', views.LocationResultsView.as_view(), name='location_results'),
     path('about/', views.AboutView.as_view(), name='about'),
+    path('about/data/', views.AboutDataView.as_view(), name='about_data'),
     path('ajax/mailchimp_email', views.MailchimpView.as_view(), name='mailchimp_hook'),
     path('net-zero-local-hero/', views.NetZeroLocalHeroView.as_view(), name='net_zero_local_hero'),
     path('style/', views.StyleView.as_view(), name='style'),

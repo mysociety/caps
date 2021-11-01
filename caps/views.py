@@ -182,6 +182,13 @@ class AboutView(TemplateView):
         'page_title': 'About'
     }
 
+class AboutDataView(TemplateView):
+
+    template_name = "about_data.html"
+    extra_context = {
+        'page_title': 'Our data'
+    }
+
 
 class MailchimpView(View):
     """
