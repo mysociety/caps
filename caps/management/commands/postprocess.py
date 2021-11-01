@@ -1,5 +1,6 @@
 # -*- coding: future_fstrings -*-
 from os.path import join, basename, splitext, isfile
+from shutil import copy
 import os
 import sys
 
@@ -32,6 +33,16 @@ def add_last_update():
 
     df.to_csv(open(out_csv, "w"), index=False, header=True)
 
+def copy_files_to_media():
+    files = [
+        settings.PROMISES_CSV
+    ]
+
+    for file in files:
+        file_name = basename(file)
+        dst = join(settings.MEDIA_ROOT, 'data', file_name)
+        copy(file, dst)
+
 
 
 class Command(BaseCommand):
@@ -49,3 +60,5 @@ class Command(BaseCommand):
         remove_internal_data()
         print("add last update to csv file")
         add_last_update()
+        print("copy files to media directory")
+        copy_files_to_media()
