@@ -272,3 +272,31 @@ var trackEvent = function(eventName, params) {
 $('.details-accordion').on('click', function(){
     $(this).siblings('.details-accordion[open]').removeAttr('open');
 });
+
+$('.nzlh-landing-page').on('click', 'a[href]', function(e){
+    var href = $(e.currentTarget).attr('href');
+
+    var callback;
+    if (
+        e.ctrlKey ||
+        e.shiftKey ||
+        e.metaKey ||
+        (e.button && e.button == 1) // middle mouse button
+    ){
+        callback = function() {};
+    } else {
+        e.preventDefault();
+        callback = function() {
+            if (href) {
+                window.location.href = href;
+            }
+        };
+    }
+
+    var text = $(e.currentTarget).text().replace(/\s+/g, ' ').replace(/(^\s+|\s+$)/g, '') || $(e.currentTarget).find('[src]').attr('src');
+
+    trackEvent('nzlh_landing_page_click', {
+        'link_text': text,
+        'destination': href
+    }).done(callback);
+});
