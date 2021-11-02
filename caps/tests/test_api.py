@@ -27,6 +27,7 @@ class CouncilsAPITestCase(APITestCase):
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
                 'carbon_reduction_statements': 'http://testserver/api/councils/1/commitments',
+                'declared_emergency': None,
                 'gss_code': 'E14000111',
                 'country': 'England',
                 'name': 'Borsetshire',
@@ -53,6 +54,7 @@ class CouncilsAPITestCase(APITestCase):
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
                 'carbon_reduction_statements': 'http://testserver/api/councils/2/commitments',
+                'declared_emergency': None,
                 'gss_code': 'E14000111',
                 'country': 'England',
                 'name': 'Borsetshire',
@@ -93,6 +95,7 @@ class CouncilsAPITestCase(APITestCase):
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
                 'carbon_reduction_statements': 'http://testserver/api/councils/3/commitments',
+                'declared_emergency': None,
             }, {
                 'name': 'East Borsetshire',
                 'url': '/councils/east-borsetshire/',
@@ -105,6 +108,7 @@ class CouncilsAPITestCase(APITestCase):
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
                 'carbon_reduction_statements': 'http://testserver/api/councils/5/commitments',
+                'declared_emergency': None,
             }, {
                 'name': 'West Borsetshire',
                 'url': '/councils/west-borsetshire/',
@@ -117,6 +121,7 @@ class CouncilsAPITestCase(APITestCase):
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
                 'carbon_reduction_statements': 'http://testserver/api/councils/4/commitments',
+                'declared_emergency': None,
             } ]
         )
 
@@ -159,7 +164,8 @@ class PromisesAPITest(APITestCase):
                 'plans_last_update': None,
                 'carbon_neutral_date': 2035,
                 'carbon_reduction_commitment': True,
-                'carbon_reduction_statements': 'http://testserver/api/councils/6/commitments'
+                'carbon_reduction_statements': 'http://testserver/api/councils/6/commitments',
+                'declared_emergency': None
             }, {
                 'name': 'West Borsetshire',
                 'url': '/councils/west-borsetshire/',
@@ -171,7 +177,8 @@ class PromisesAPITest(APITestCase):
                 'plans_last_update': None,
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
-                'carbon_reduction_statements': 'http://testserver/api/councils/7/commitments'
+                'carbon_reduction_statements': 'http://testserver/api/councils/7/commitments',
+                'declared_emergency': None
             } ]
         )
 

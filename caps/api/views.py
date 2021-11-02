@@ -50,6 +50,7 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
     * carbon_reduction_commitment - True if the council has public commitments to reduce emissions
     * carbon_neutral_date - the earliest date for a carbon neutral target (null if no date)
     * carbon_neutral_commitments - link to list of commitments made by council
+    * declared_emergency - date, if any, council declared a climate emergency
     """
 
     # need to use subqueries otherwise the joins mean we get bad counts
@@ -59,6 +60,7 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
         plan_count=Subquery(plans),
         carbon_reduction_commitment=Exists(promised),
         carbon_neutral_date=Min('promise__target_year'),
+        declared_emergency=Min('emergencydeclaration__date_declared'),
         plans_last_update=Max('plandocument__updated_at'),
     ).order_by('name')
 

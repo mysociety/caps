@@ -10,6 +10,7 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
     carbon_reduction_commitment = serializers.BooleanField()
     carbon_neutral_date = serializers.IntegerField()
     carbon_reduction_statements = serializers.HyperlinkedIdentityField(view_name='council-commitments')
+    declared_emergency = serializers.DateField()
 
     class Meta:
         model = Council
@@ -25,6 +26,7 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
             'carbon_reduction_commitment',
             'carbon_neutral_date',
             'carbon_reduction_statements',
+            'declared_emergency',
         ]
 
     # we don't get a count where there aren't any plans so force this
