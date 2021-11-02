@@ -19,6 +19,14 @@ def remove_internal_data():
 
     df.to_csv(open(out_csv, "w"), index=False, header=True)
 
+    out_csv = join(settings.MEDIA_ROOT, 'data', settings.DECLARATIONS_CSV_NAME)
+    df = pd.read_csv(settings.DECLARATIONS_CSV)
+    df = df.drop(columns=[
+        'control_at_declaration', 'control_now', 'leader', 'proposer',
+    ])
+
+    df.to_csv(open(out_csv, "w"), index=False, header=True)
+
 def add_last_update():
     out_csv = join(settings.MEDIA_ROOT, 'data', settings.PROCESSED_CSV_NAME)
     df = pd.read_csv(out_csv)
