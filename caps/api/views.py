@@ -1,11 +1,13 @@
 # -*- coding: future_fstrings -*-
+import operator
 from datetime import datetime
+from functools import reduce
 from django.utils.timezone import make_aware
-from django.db.models import Count, Max, Min, Subquery, OuterRef, Exists
+from django.db.models import Q, Count, Max, Min, Subquery, OuterRef, Exists
 
 from django.forms import ValidationError
 
-from rest_framework import viewsets, routers
+from rest_framework import viewsets, routers, generics
 from rest_framework.exceptions import APIException
 from rest_framework.pagination import PageNumberPagination
 
@@ -51,24 +53,60 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
     * carbon_neutral_date - the earliest date for a carbon neutral target (null if no date)
     * carbon_neutral_commitments - link to list of commitments made by council
     * declared_emergency - date, if any, council declared a climate emergency
+
+    ###Filters
+
+    You can filter the list of councils using the following query parameters:
+
+    * country - one of England, Northern Ireland, Scotland, Wales
+    * authority_type - one of City of London, Combined Authority, County Council, London Borough,
+    Metropolitan District, Non-Metropolitan District, Unitary Authority
+
+    Multiple values can be combined with commas.
     """
 
-    # need to use subqueries otherwise the joins mean we get bad counts
-    plans = PlanDocument.objects.filter(council=OuterRef("pk")).order_by().values('council').annotate(plan_count=Count('council')).values('plan_count')
-    promised = Promise.objects.filter(council=OuterRef("pk"),has_promise=True)
-    queryset = Council.objects.annotate(
-        plan_count=Subquery(plans),
-        carbon_reduction_commitment=Exists(promised),
-        carbon_neutral_date=Min('promise__target_year'),
-        declared_emergency=Min('emergencydeclaration__date_declared'),
-        plans_last_update=Max('plandocument__updated_at'),
-    ).order_by('name')
-
-    queryset = queryset.all()
     serializer_class = CouncilSerializer
     # don't paginate this as there's a fixed number of results that doesn't really
     # change so is very amenable to caching
     pagination_class = None
+    lookup_field = 'authority_code'
+
+    def get_queryset(self):
+        # need to use subqueries otherwise the joins mean we get bad counts
+        plans = PlanDocument.objects.filter(council=OuterRef("pk")).order_by().values('council').annotate(plan_count=Count('council')).values('plan_count')
+        promised = Promise.objects.filter(council=OuterRef("pk"),has_promise=True)
+        queryset = Council.objects.annotate(
+            plan_count=Subquery(plans),
+            carbon_reduction_commitment=Exists(promised),
+            carbon_neutral_date=Min('promise__target_year'),
+            declared_emergency=Min('emergencydeclaration__date_declared'),
+            plans_last_update=Max('plandocument__updated_at'),
+        ).order_by('name')
+
+        country = self.request.query_params.get('country')
+        authority_type = self.request.query_params.get('authority_type')
+
+        if country is not None:
+            codes = []
+            for c in country.split(','):
+                code = Council.country_code(c)
+                if code is not None:
+                    codes.append(Q(country=code))
+            if codes:
+                code_filter = reduce(operator.or_, codes)
+                queryset = queryset.filter(code_filter)
+
+        if authority_type is not None:
+            types = []
+            for t in authority_type.split(','):
+                code = Council.authority_type_code(t)
+                if code is not None:
+                    types.append(Q(authority_type=code))
+            if types:
+                type_filter = reduce(operator.or_, types)
+                queryset = queryset.filter(type_filter)
+
+        return queryset
 
 class CommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     """

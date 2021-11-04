@@ -131,6 +131,104 @@ class CouncilsAPITestCase(APITestCase):
             } ]
         )
 
+    def test_filtering(self):
+        Council.objects.create(name='West Borsetshire',
+                               slug='west-borsetshire',
+                               country=Council.ENGLAND,
+                               authority_type='UA',
+                               authority_code='WBS',
+                               gss_code='E14000112')
+
+        Council.objects.create(name='East Borsetshire',
+                               slug='east-borsetshire',
+                               country=Council.ENGLAND,
+                               authority_type='CTY',
+                               website_url="https://east-borsetshire.gov.uk",
+                               authority_code='EBS',
+                               gss_code='E14000113')
+
+        Council.objects.create(name='North Borsetshire',
+                               slug='north-borsetshire',
+                               country=Council.SCOTLAND,
+                               authority_type='MD',
+                               website_url="https://north-borsetshire.gov.uk",
+                               authority_code='NBS',
+                               gss_code='E14000114')
+
+        response = self.client.get('/api/councils/?authority_type=County Council')
+
+        self.assertEquals(json.loads(response.content),
+            [ {
+                'name': 'East Borsetshire',
+                'url': '/councils/east-borsetshire/',
+                'website_url': 'https://east-borsetshire.gov.uk',
+                'gss_code': 'E14000113',
+                'country': 'England',
+                'authority_type': 'County Council',
+                'authority_code': 'EBS',
+                'plan_count': 0,
+                'plans_last_update': None,
+                'carbon_neutral_date': None,
+                'carbon_reduction_commitment': False,
+                'carbon_reduction_statements': 'http://testserver/api/councils/EBS/commitments',
+                'declared_emergency': None,
+            } ]
+        )
+
+        response = self.client.get('/api/councils/?authority_type=County Council,Unitary Authority')
+
+        self.assertEquals(json.loads(response.content),
+            [ {
+                'name': 'East Borsetshire',
+                'url': '/councils/east-borsetshire/',
+                'website_url': 'https://east-borsetshire.gov.uk',
+                'gss_code': 'E14000113',
+                'country': 'England',
+                'authority_type': 'County Council',
+                'authority_code': 'EBS',
+                'plan_count': 0,
+                'plans_last_update': None,
+                'carbon_neutral_date': None,
+                'carbon_reduction_commitment': False,
+                'carbon_reduction_statements': 'http://testserver/api/councils/EBS/commitments',
+                'declared_emergency': None,
+            }, {
+                'name': 'West Borsetshire',
+                'url': '/councils/west-borsetshire/',
+                'website_url': '',
+                'gss_code': 'E14000112',
+                'country': 'England',
+                'authority_type': 'Unitary Authority',
+                'authority_code': 'WBS',
+                'plan_count': 0,
+                'plans_last_update': None,
+                'carbon_neutral_date': None,
+                'carbon_reduction_commitment': False,
+                'carbon_reduction_statements': 'http://testserver/api/councils/WBS/commitments',
+                'declared_emergency': None,
+            } ]
+        )
+
+        response = self.client.get('/api/councils/?country=Scotland')
+
+        self.assertEquals(json.loads(response.content),
+            [ {
+                'name': 'North Borsetshire',
+                'url': '/councils/north-borsetshire/',
+                'website_url': 'https://north-borsetshire.gov.uk',
+                'gss_code': 'E14000114',
+                'country': 'Scotland',
+                'authority_type': 'Metropolitan District',
+                'authority_code': 'NBS',
+                'plan_count': 0,
+                'plans_last_update': None,
+                'carbon_neutral_date': None,
+                'carbon_reduction_commitment': False,
+                'carbon_reduction_statements': 'http://testserver/api/councils/NBS/commitments',
+                'declared_emergency': None,
+            } ]
+        )
+
 class PromisesAPITest(APITestCase):
     def setUp(self):
         self.council_bors = Council.objects.create(name='Borsetshire',

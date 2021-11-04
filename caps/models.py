@@ -114,6 +114,17 @@ class Council(models.Model):
         return descriptions_to_codes.get(country_entry.lower().strip())
 
     @classmethod
+    def authority_type_code(cls, authority_type):
+        """
+        Return an authority type code given a text description, or None if the description
+        isn't in the authority type choices
+        """
+        if pd.isnull(authority_type):
+            return None
+        descriptions_to_codes = dict((type.lower(), code) for code, type in Council.AUTHORITY_TYPE_CHOICES)
+        return descriptions_to_codes.get(authority_type.lower().strip())
+
+    @classmethod
     def percent_with_plan(cls):
         """
         Return the percentage of councils that have a plan document

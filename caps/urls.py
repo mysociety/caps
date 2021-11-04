@@ -8,7 +8,7 @@ import caps.api.views as api_views
 from caps.api import routers
 
 router = routers.Router()
-router.register(r'councils', api_views.CouncilViewSet)
+router.register(r'councils', api_views.CouncilViewSet, basename='council')
 router.register(r'searchterms', api_views.SearchTermViewSet)
 router.register(r'commitments', api_views.CommitmentsViewSet)
 
