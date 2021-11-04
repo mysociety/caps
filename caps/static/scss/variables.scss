@@ -151,3 +151,15 @@ $modal-backdrop-opacity: 0.25;
 // Utilities
 
 // Printing
+
+// mySociety footer
+
+$mysoc-footer-background-color: $color-ceuk-grey-900;
+$mysoc-footer-text-color: $white;
+$mysoc-footer-link-text-color: $white;
+$mysoc-footer-divider-color: lighten($color-ceuk-grey-900, 10%);
+$mysoc-footer-donate-background-color: lighten($color-ceuk-grey-900, 10%);
+$mysoc-footer-donate-button-background-color: $color-ceuk-red;
+$mysoc-footer-legal-text-color: mix($color-ceuk-grey-200, $color-ceuk-grey-900, 80%);
+$mysoc-footer-image-path: '../img/mysoc-footer-dark/';
+$mysoc-footer-breakpoint-sm: 576px; // see $grid-breakpoints in bootstrap/variables.scss

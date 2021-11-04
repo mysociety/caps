@@ -1,6 +1,22 @@
-.site-footer {
-    padding: 1rem 0;
-    background-color: $color-ceuk-grey-900;
-    box-shadow: 0 1000px 0 1000px $color-ceuk-grey-900;
-    color: $color-ceuk-grey-200;
+.mysoc-footer {
+    box-shadow: 0 1000px 0 1000px $mysoc-footer-background-color;
+}
+
+.mysoc-footer__orgs {
+    margin: 0 ( $grid-gutter-width / -2 );
+}
+
+.mysoc-footer__org {
+    padding: 0 ( $grid-gutter-width / 2 );
+}
+
+.mysoc-footer__org__logo--ceuk {
+    width: 137px;
+    padding-top: 48px;
+    @include img-retina(
+        '#{$mysoc-footer-image-path}logo-ceuk.png',
+        '#{$mysoc-footer-image-path}logo-ceuk@2x.png',
+        137px,
+        48px
+    );
 }
