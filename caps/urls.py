@@ -24,6 +24,6 @@ urlpatterns = [
     path('style/', views.StyleView.as_view(), name='style'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/councils/<int:pk>/commitments', api_views.CouncilCommitmentsViewSet.as_view({'get': 'list'}), name='council-commitments')
+    path('api/councils/<str:authority_code>/commitments', api_views.CouncilCommitmentsViewSet.as_view({'get': 'list'}), name='council-commitments')
 
 ]

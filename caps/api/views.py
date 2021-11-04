@@ -85,7 +85,7 @@ class CommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     * source - URL of the document the commitment comes from
     * source_name - name of the document the commitment comes from
     """
-    queryset = Promise.objects.order_by('council__name', 'target_year').all()
+    queryset = Promise.objects.order_by('council__name', 'target_year').select_related('council').all()
     serializer_class = PromiseSerializer
 
 class CouncilCommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
@@ -108,7 +108,7 @@ class CouncilCommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = None
 
     def get_queryset(self):
-        return Promise.objects.filter(council_id=self.kwargs['pk']).order_by('target_year').all()
+        return Promise.objects.filter(council__authority_code=self.kwargs['authority_code']).select_related('council').order_by('target_year').all()
 
 class SearchTermViewSet(viewsets.ReadOnlyModelViewSet):
     """

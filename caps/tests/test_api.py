@@ -23,10 +23,11 @@ class CouncilsAPITestCase(APITestCase):
         # bit more readable
         self.assertEquals(json.loads(response.content),
             [ {
+                'authority_code': 'BOS',
                 'authority_type': '',
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
-                'carbon_reduction_statements': 'http://testserver/api/councils/1/commitments',
+                'carbon_reduction_statements': 'http://testserver/api/councils/BOS/commitments',
                 'declared_emergency': None,
                 'gss_code': 'E14000111',
                 'country': 'England',
@@ -50,10 +51,11 @@ class CouncilsAPITestCase(APITestCase):
 
         self.assertEquals(json.loads(response.content),
             [ {
+                'authority_code': 'BOS',
                 'authority_type': '',
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
-                'carbon_reduction_statements': 'http://testserver/api/councils/2/commitments',
+                'carbon_reduction_statements': 'http://testserver/api/councils/BOS/commitments',
                 'declared_emergency': None,
                 'gss_code': 'E14000111',
                 'country': 'England',
@@ -76,6 +78,7 @@ class CouncilsAPITestCase(APITestCase):
         Council.objects.create(name='East Borsetshire',
                                slug='east-borsetshire',
                                country=Council.ENGLAND,
+                               authority_type='CC',
                                website_url="https://east-borsetshire.gov.uk",
                                authority_code='EBS',
                                gss_code='E14000113')
@@ -90,11 +93,12 @@ class CouncilsAPITestCase(APITestCase):
                 'gss_code': 'E14000111',
                 'country': 'England',
                 'authority_type': '',
+                'authority_code': 'BOS',
                 'plan_count': 0,
                 'plans_last_update': None,
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
-                'carbon_reduction_statements': 'http://testserver/api/councils/3/commitments',
+                'carbon_reduction_statements': 'http://testserver/api/councils/BOS/commitments',
                 'declared_emergency': None,
             }, {
                 'name': 'East Borsetshire',
@@ -102,12 +106,13 @@ class CouncilsAPITestCase(APITestCase):
                 'website_url': 'https://east-borsetshire.gov.uk',
                 'gss_code': 'E14000113',
                 'country': 'England',
-                'authority_type': '',
+                'authority_type': 'City of London',
+                'authority_code': 'EBS',
                 'plan_count': 0,
                 'plans_last_update': None,
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
-                'carbon_reduction_statements': 'http://testserver/api/councils/5/commitments',
+                'carbon_reduction_statements': 'http://testserver/api/councils/EBS/commitments',
                 'declared_emergency': None,
             }, {
                 'name': 'West Borsetshire',
@@ -116,11 +121,12 @@ class CouncilsAPITestCase(APITestCase):
                 'gss_code': 'E14000112',
                 'country': 'England',
                 'authority_type': 'Unitary Authority',
+                'authority_code': 'WBS',
                 'plan_count': 0,
                 'plans_last_update': None,
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
-                'carbon_reduction_statements': 'http://testserver/api/councils/4/commitments',
+                'carbon_reduction_statements': 'http://testserver/api/councils/WBS/commitments',
                 'declared_emergency': None,
             } ]
         )
@@ -160,11 +166,12 @@ class PromisesAPITest(APITestCase):
                 'gss_code': 'E14000111',
                 'country': 'England',
                 'authority_type': '',
+                'authority_code': 'BOS',
                 'plan_count': 0,
                 'plans_last_update': None,
                 'carbon_neutral_date': 2035,
                 'carbon_reduction_commitment': True,
-                'carbon_reduction_statements': 'http://testserver/api/councils/6/commitments',
+                'carbon_reduction_statements': 'http://testserver/api/councils/BOS/commitments',
                 'declared_emergency': None
             }, {
                 'name': 'West Borsetshire',
@@ -173,19 +180,20 @@ class PromisesAPITest(APITestCase):
                 'gss_code': 'E14000112',
                 'country': 'England',
                 'authority_type': 'Unitary Authority',
+                'authority_code': 'WBS',
                 'plan_count': 0,
                 'plans_last_update': None,
                 'carbon_neutral_date': None,
                 'carbon_reduction_commitment': False,
-                'carbon_reduction_statements': 'http://testserver/api/councils/7/commitments',
+                'carbon_reduction_statements': 'http://testserver/api/councils/WBS/commitments',
                 'declared_emergency': None
             } ]
         )
 
-        response = self.client.get('/api/councils/6/commitments')
+        response = self.client.get('/api/councils/BOS/commitments')
         self.assertEquals(json.loads(response.content),
             [ {
-                'council': 'http://testserver/api/councils/6/',
+                'council': 'http://testserver/api/councils/BOS/',
                 'has_promise': True,
                 'target_year': 2035,
                 'scope': 'Council only',

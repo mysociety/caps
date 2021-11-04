@@ -1,5 +1,5 @@
 from caps.models import Council, SavedSearch, Promise
-from rest_framework import serializers
+from rest_framework import serializers, reverse
 
 class CouncilSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.URLField(source='get_absolute_url')
@@ -9,8 +9,11 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
     plans_last_update = serializers.DateField()
     carbon_reduction_commitment = serializers.BooleanField()
     carbon_neutral_date = serializers.IntegerField()
-    carbon_reduction_statements = serializers.HyperlinkedIdentityField(view_name='council-commitments')
     declared_emergency = serializers.DateField()
+    carbon_reduction_statements = serializers.HyperlinkedIdentityField(
+        view_name='council-commitments',
+        lookup_field='authority_code'
+    )
 
     class Meta:
         model = Council
@@ -21,6 +24,7 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
             'gss_code',
             'country',
             'authority_type',
+            'authority_code',
             'plan_count',
             'plans_last_update',
             'carbon_reduction_commitment',
@@ -38,6 +42,7 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
         return ret
 
 class PromiseSerializer(serializers.HyperlinkedModelSerializer):
+    council = serializers.SerializerMethodField()
     scope = serializers.CharField(source='get_scope_display')
 
     class Meta:
@@ -51,6 +56,14 @@ class PromiseSerializer(serializers.HyperlinkedModelSerializer):
             'source',
             'source_name',
         ]
+
+    def get_council(self, obj):
+        code = obj.council.authority_code
+        # do this is a string otherwise you get an array as the result
+        result = '{}'.format(
+            reverse.reverse('council-detail', args=[code], request=self.context['request']),
+        )
+        return result
 
 
 class SearchTermSerializer(serializers.HyperlinkedModelSerializer):
