@@ -131,7 +131,7 @@ def replace_headers():
                   'baseline_analysis',
                   'notes',
                   'plan_due',
-                  'title'
+                  'title',
                   'title_checked']
     df.to_csv(open(settings.PROCESSED_CSV, "w"), index=False, header=True)
 
