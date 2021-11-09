@@ -200,6 +200,29 @@ class CouncilDetailView(DetailView):
 
         if council.emergencydeclaration_set.count() > 0:
             context["declared_emergency"] = council.emergencydeclaration_set.all()[0]
+
+        changes = PlanDocument.history.filter(council=council).order_by("history_date")
+        last_change = {}
+        plan_changes = []
+        for change in changes.all():
+            prev = last_change.get(change.id, None)
+            if change.history_type == "+":
+                plan_changes.append({"change": change, "type": "add"})
+            elif change.history_type == "-":
+                plan_changes.append({"change": change, "type": "del"})
+            elif prev is not None:
+                changes = change.diff_against(prev)
+                plan_changes.append(
+                    {"change": change, "type": "modify", "updates": changes}
+                )
+
+            last_change[change.id] = change
+
+        context["plan_changes"] = plan_changes
+
+        if council.emergencydeclaration_set.count() > 0:
+            context["declared_emergency"] = council.emergencydeclaration_set.all()[0]
+
         return context
 
 

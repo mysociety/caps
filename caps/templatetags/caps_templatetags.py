@@ -5,6 +5,8 @@ from string import capwords
 from django import template
 from django.template.defaultfilters import stringfilter
 
+from caps.models import PlanDocument
+
 register = template.Library()
 
 
@@ -29,3 +31,13 @@ def document_title(value):
     is a much better match for our use case.
     """
     return capwords(value)
+
+
+@register.filter
+@stringfilter
+def document_type(value):
+    value = int(value)
+    for choice in PlanDocument.DOCUMENT_TYPE_CHOICES:
+        if choice[0] == value:
+            return choice[1].lower()
+    return "document"
