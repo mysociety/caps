@@ -14,6 +14,8 @@ from django.conf import settings
 from django.forms import Select
 from django.db.models import Count
 
+from simple_history.models import HistoricalRecords
+
 import django_filters
 from caps.filters import DefaultSecondarySortFilter
 
@@ -217,6 +219,7 @@ class PlanDocument(models.Model):
     charset = models.CharField(max_length=50, blank=True)
     text = models.TextField(blank=True)
     file = models.FileField('plans', storage=overwrite_storage)
+    history = HistoricalRecords()
 
     @property
     def get_document_type(self):

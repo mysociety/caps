@@ -158,6 +158,7 @@ INSTALLED_APPS = [
     'pipeline',
     'bootstrap4',
     'rest_framework',
+    'simple_history',
     'caps',
 ]
 
