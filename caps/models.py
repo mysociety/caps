@@ -448,6 +448,7 @@ class Promise(models.Model):
     source = models.URLField(max_length=600)
     source_name = models.CharField(max_length=200, blank=True)
     notes = models.CharField(max_length=800, blank=True, null=True)
+    history = HistoricalRecords()
 
     @property
     def get_scope(self):

@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('caps', '0030_add_emergency_declaration'),
+        ('caps', '0031_council_twitter_details'),
     ]
 
     operations = [
