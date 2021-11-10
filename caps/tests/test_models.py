@@ -170,3 +170,108 @@ class SavedSearchesTestCase(TestCase):
         self.assertEqual(popular_qs.count(), 3)
         popular = [ [ res['user_query'], res['times_seen'] ] for res in popular_qs ]
         self.assertEqual(popular, [ ['turbines', 3], ['solar', 2], ['wind', 2] ])
+
+class CouncilFoeSlugTestCase(TestCase):
+    def test_london_borough(self):
+        council = Council.objects.create(
+            name='London Borough of Southwark',
+            slug='southwark',
+            country=Council.ENGLAND,
+            authority_code='E1',
+            authority_type='LBO',
+            gss_code='E1',
+            website_url='http://example.org'
+        )
+
+        self.assertEqual(council.foe_slug, 'southwark')
+
+    def test_borough(self):
+        council = Council.objects.create(
+            name='Ashford Borough Council',
+            slug='southwark',
+            country=Council.ENGLAND,
+            authority_code='E1',
+            authority_type='NMD',
+            gss_code='E1',
+            website_url='http://example.org'
+        )
+
+        self.assertEqual(council.foe_slug, 'ashford')
+
+    def test_county_is_blank(self):
+        council = Council.objects.create(
+            name='Oxfordshire County Council',
+            slug='southwark',
+            country=Council.ENGLAND,
+            authority_code='E1',
+            authority_type='CTY',
+            gss_code='E1',
+            website_url='http://example.org'
+        )
+
+        self.assertEqual(council.foe_slug, '')
+
+    def test_unitary(self):
+        council = Council.objects.create(
+            name='Cornwall Council (Unitary)',
+            slug='southwark',
+            country=Council.ENGLAND,
+            authority_code='E1',
+            authority_type='UA',
+            gss_code='E1',
+            website_url='http://example.org'
+        )
+
+        self.assertEqual(council.foe_slug, 'cornwall')
+
+    def test_city(self):
+        council = Council.objects.create(
+            name='City of Leeds',
+            slug='southwark',
+            country=Council.ENGLAND,
+            authority_code='E1',
+            authority_type='MD',
+            gss_code='E1',
+            website_url='http://example.org'
+        )
+
+        self.assertEqual(council.foe_slug, 'leeds')
+
+    def test_ampersand(self):
+        council = Council.objects.create(
+            name='London Borough of Hammersmith & Fulham',
+            slug='southwark',
+            country=Council.ENGLAND,
+            authority_code='E1',
+            authority_type='LBO',
+            gss_code='E1',
+            website_url='http://example.org'
+        )
+
+        self.assertEqual(council.foe_slug, 'hammersmith-and-fulham')
+
+    def test_of(self):
+        council = Council.objects.create(
+            name='Isle of Wight',
+            slug='southwark',
+            country=Council.ENGLAND,
+            authority_code='E1',
+            authority_type='UA',
+            gss_code='E1',
+            website_url='http://example.org'
+        )
+
+        self.assertEqual(council.foe_slug, 'isle-wight')
+
+    def test_non_alpha(self):
+        council = Council.objects.create(
+            name="Somewhere's There-under-that Council",
+            slug='southwark',
+            country=Council.ENGLAND,
+            authority_code='E1',
+            authority_type='LBO',
+            gss_code='E1',
+            website_url='http://example.org'
+        )
+
+        self.assertEqual(council.foe_slug, 'somewheres-there-under-that')

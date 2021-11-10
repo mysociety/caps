@@ -243,6 +243,12 @@
                 <p>
                 <strong>Tyndall Centre <a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/">Carbon report</a></strong>: Check {{ council.name }}’s 'carbon budget', ie this council's share towards meeting the UK's Paris agreement targets.
                 </p>
+
+            {% if council.foe_slug != '' %}
+                <p>
+                <strong>Friends of the Earth: <a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}">Near you tool</a></strong>: Discover climate groups in your area, data about {{ council.name }}’s climate performance and actions you can take.
+                </p>
+            {% endif %}
             </div>
         </div>
         {% endif %}

@@ -106,6 +106,24 @@ class Council(models.Model):
     def is_upper_tier(self):
         return self.authority_type == 'CTY' or self.authority_type == 'COMB'
 
+    @property
+    def foe_slug(self):
+        if self.country not in (self.ENGLAND, self.WALES) or self.is_upper_tier:
+            return ''
+
+        slug = self.name.lower()
+
+        if slug == 'city of london':
+            slug = 'city-london'
+        elif slug == 'st albans city and district council':
+            slug = 'st-albans'
+        elif slug == 'barrow-in-furness borough council':
+            slug = 'barrow-furness'
+        else:
+            slug = re.sub(r'([^a-z&\- ]| of|london borough of|royal borough of|metropolitan borough|borough|city of|city|council|district|county|unitary|\(unitary\))', '', slug).strip().replace('&', 'and').replace(' ', '-')
+
+        return slug
+
     @classmethod
     def country_code(cls, country_entry):
         """
