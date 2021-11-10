@@ -234,6 +234,19 @@
             {% endif %}
         </div>
 
+        {% if council.is_upper_tier is False %}
+        <div class="card ceuk-card ceuk-card--red mb-gutter">
+            <div class="card-header">
+                <h2>More resources</h2>
+            </div>
+            <div class="card-body">
+                <p>
+                <strong>Tyndall Centre <a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/">Carbon report</a></strong>: Check {{ council.name }}’s 'carbon budget', ie this council's share towards meeting the UK's Paris agreement targets.
+                </p>
+            </div>
+        </div>
+        {% endif %}
+
       {% if not no_emissions_data %}
         <div class="card ceuk-card ceuk-card--red mb-gutter">
             <div class="card-header">

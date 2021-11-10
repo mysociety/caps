@@ -102,6 +102,10 @@ class Council(models.Model):
 
         return powers
 
+    @property
+    def is_upper_tier(self):
+        return self.authority_type == 'CTY' or self.authority_type == 'COMB'
+
     @classmethod
     def country_code(cls, country_entry):
         """
