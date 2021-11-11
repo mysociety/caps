@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# script/setup-in-docker: Set up application for the first time after cloning, or set it
+#                         back to the initial first unused state.
+#                         runs inside the docker container
+
+# abort on any errors
+set -e
+
+# check that we are in the expected directory
+cd `dirname $0`/..
+
+echo "==> Removing any local data..."
+rm -fr media/
+rm -fr data/
+rm -fr static/
+
+# Run the Bootstrap
+script/bootstrap
+
+# Run the data import
+echo "==> Importing data..."
+script/update --all

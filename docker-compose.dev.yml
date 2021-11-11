@@ -1,0 +1,36 @@
+services:
+  app:
+    image: mysocietyorg/caps-dev:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: /usr/src/app/script/server
+    volumes:
+      - solr_data:/opt/solr/server/solr/mycores
+      - ./:/usr/src/app/
+      - ./conf/config.py.docker:/usr/src/app/conf/config.py
+    environment:
+      - REPOSITORY_DB_PASS=${REPOSITORY_DB_PASS:-caps}
+      - SECRET_KEY=${SECRET_KEY:-xx}
+      - DEBUG=${DEBUG:-1}
+      - MAPIT_API_KEY=${MAPIT_API_KEY:-xxx}
+      - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS:-xxx}
+      - MAILCHIMP_KEY=${MAILCHIMP_KEY:-xxx}
+    depends_on:
+      - postgres
+      - solr
+    ports:
+      - ${PORT:-8000}:8000
+  postgres:
+    extends:
+      file: docker-compose.yml
+      service: postgres
+
+  solr:
+    extends:
+      file: docker-compose.yml
+      service: solr
+
+volumes:
+  postgres_data:
+  solr_data:

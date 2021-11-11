@@ -1,0 +1,17 @@
+
+{
+	"name": "caps",
+
+	"dockerComposeFile": "../docker-compose.dev.yml",
+	"service": "app",
+	"workspaceFolder": "/usr/src/app",
+	"overrideCommand": true,
+
+	"extensions": [
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"ms-azuretools.vscode-docker",
+		"github.vscode-pull-request-github"
+	]
+
+}
