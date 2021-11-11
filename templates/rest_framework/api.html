@@ -2,9 +2,14 @@
 
 {% load static %}
 {% load pipeline %}
+{% load bootstrap4 %}
 
 {% block bootstrap_theme %}
     {% stylesheet 'main' %}
+{% endblock %}
+
+{% block script %}
+{% bootstrap_javascript jquery='full' %}
 {% endblock %}
 
 {% block title %}Climate Action Plan Explorer API{% endblock %}
