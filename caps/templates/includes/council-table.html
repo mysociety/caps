@@ -3,10 +3,13 @@
         <tr>
             <th scope="col">Council name</th>
             <th scope="col">Has plan</th>
+            {% if filter.request.GET.sort != 'last_update' and filter.request.GET.sort != '-last_update' %}
             <th scope="col">Carbon Neutral target</th>
             <th scope="col">Declared emergency</th>
+            {% else %}
             {% if show_last_updated %}
             <th scope="col">Last updated</th>
+            {% endif %}
             {% endif %}
         </tr>
     </thead>
@@ -25,6 +28,7 @@
                 No
               {% endif %}
             </td>
+            {% if filter.request.GET.sort != 'last_update' and filter.request.GET.sort != '-last_update' %}
             <td data-column="promise">
               {% if council.earliest_promise > 0 %}
                 {{ council.earliest_promise }}
@@ -39,12 +43,14 @@
               No
               {% endif %}
             </td>
-            {% if show_last_updated %}
-            <td>
-              {% if council.num_plans > 0 %}
-                {{ council.last_plan_update }}
+            {% else %}
+              {% if show_last_updated %}
+              <td>
+                {% if council.num_plans > 0 %}
+                  {{ council.last_plan_update }}
+                {% endif %}
+              </td>
               {% endif %}
-            </td>
             {% endif %}
         </tr>
       {% endfor %}
