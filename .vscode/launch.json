@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [     
+        {
+            "name": "Run debug server",
+            "type": "python",
+            "request": "launch",
+            "justMyCode": false,
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "runserver"
+            ],
+            "django": true
+        }
+    ]
+}
