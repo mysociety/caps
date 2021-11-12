@@ -24,6 +24,28 @@
             </div>
         </div>
 
+      {% if council.is_upper_tier is False %}
+        <div class="card ceuk-card ceuk-card--purple mb-gutter">
+            <div class="card-header">
+                <h2>More about this council</h2>
+            </div>
+            <div class="card-body">
+                <dl class="mt-n1 mb-0">
+                    <dt><a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/" class="d-flex align-items-center" target="_blank">
+                        Tyndall Centre Carbon Budget report{% include 'icons/external-link.html' with classes="external-link ml-1" %}
+                    </a></dt>
+                    <dd>Check {{ council.name }}’s ‘carbon budget’ – their share towards meeting the UK’s Paris agreement targets.</dd>
+                  {% if council.foe_slug != '' %}
+                    <dt><a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}" class="d-flex align-items-center" target="_blank">
+                        Friends of the Earth ‘Near You’ tool{% include 'icons/external-link.html' with classes="external-link ml-1" %}
+                    </a></dt>
+                    <dd>Discover climate groups in this area, data about {{ council.name }}’s climate performance, and actions you can take.</dd>
+                  {% endif %}
+                </dl>
+            </div>
+        </div>
+      {% endif %}
+
         <div class="card ceuk-card ceuk-card--muted ceuk-card--pink mb-gutter">
             <div class="card-header">
                 <h2>What do you want from Climate Action Plans?</h2>
@@ -233,25 +255,6 @@
             </div>
             {% endif %}
         </div>
-
-        {% if council.is_upper_tier is False %}
-        <div class="card ceuk-card ceuk-card--red mb-gutter">
-            <div class="card-header">
-                <h2>More resources</h2>
-            </div>
-            <div class="card-body">
-                <p>
-                <strong>Tyndall Centre <a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/">Carbon report</a></strong>: Check {{ council.name }}’s 'carbon budget', ie this council's share towards meeting the UK's Paris agreement targets.
-                </p>
-
-            {% if council.foe_slug != '' %}
-                <p>
-                <strong>Friends of the Earth: <a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}">Near you tool</a></strong>: Discover climate groups in your area, data about {{ council.name }}’s climate performance and actions you can take.
-                </p>
-            {% endif %}
-            </div>
-        </div>
-        {% endif %}
 
       {% if not no_emissions_data %}
         <div class="card ceuk-card ceuk-card--red mb-gutter">
