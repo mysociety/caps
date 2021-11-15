@@ -68,7 +68,11 @@
                 <div class="mb-n3">
                   {% for plandocument in council.plandocument_set.all %}
                     <a href="{{ plandocument.link }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}" class="d-flex align-items-center mb-3">
+                      {% if plandocument.file_type == 'pdf' %}
+                        {% include 'icons/pdf.html' with width='3rem' height='3rem' classes='mr-3' %}
+                      {% else %}
                         {% include 'icons/file.html' with width='3rem' height='3rem' classes='mr-3' %}
+                      {% endif %}
                         <div>
                             <strong class="d-block">{{ council.name }} {{ plandocument.get_document_type|title }}</strong>
                             <p class="d-inline-block text-muted mb-0">
