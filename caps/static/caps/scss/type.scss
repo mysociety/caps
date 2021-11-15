@@ -23,12 +23,12 @@
     border-bottom: 1px solid rgba($link-color, 0.6);
     text-decoration: none !important;
 
-    @include hover-focus() {
-        border-bottom-color: currentColor !important;
-    }
-
     &.text-white {
         border-bottom-color: rgba(#fff, 0.6);
+    }
+
+    @include hover-focus() {
+        border-bottom: none;
     }
 }
 
@@ -38,4 +38,12 @@ dl > :last-child {
 
 dd + dt {
     margin-top: $spacer;
+}
+
+a:not(.btn):focus,
+details summary:focus {
+    outline: 3px solid $color-ceuk-yellow !important;
+    box-shadow: 0 3px 0 3px darken($color-ceuk-purple, 30%);
+    background-color: $color-ceuk-yellow !important;
+    color: darken($color-ceuk-purple, 50%) !important;
 }
