@@ -1,19 +1,25 @@
 {% extends "base.html" %}
 
+{% load caps_templatetags %}
+
+{% block before_content %}
+
+<div class="council-hero">
+    <div class="container-fluid">
+        <a href="{% url 'council_list' %}" class="d-inline-flex align-items-center">
+            {% include 'icons/chevron-left.html' with classes="mr-1" %}
+            Back to all councils
+        </a>
+        <h1 class="mt-3 mb-0">{{ council.name }}</h1>
+    </div>
+</div>
+
+{% endblock %}
+
 {% block content %}
 
 <div class="row">
     <div class="col-md-5 col-lg-4">
-
-        <div class="card ceuk-card mb-gutter">
-            <div class="card-body">
-                <h1 class="mb-3">{{ council.name }}</h1>
-                <a href="{{ council.website_url }}" class="btn btn-outline-secondary d-inline-flex align-items-center px-3" style="border-radius: 10em; border-color: #ddd;">
-                  {% include 'icons/globe.html' with classes='mr-2' %}
-                  Website
-                </a>
-            </div>
-        </div>
 
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
             <div class="card-header">
@@ -24,17 +30,20 @@
             </div>
         </div>
 
-      {% if council.is_upper_tier is False %}
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
             <div class="card-header">
                 <h2>More about this council</h2>
             </div>
             <div class="card-body">
                 <dl class="mt-n1 mb-0">
+                    <dt><a href="{{ council.website_url }}">{{ council.website_url|url_human }}{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a></dt>
+                    <dd>{{ council.name }}’s official homepage.</dd>
+                  {% if council.is_upper_tier is False %}
                     <dt><a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/" class="d-flex align-items-center" target="_blank">
                         Tyndall Centre Carbon Budget report{% include 'icons/external-link.html' with classes="external-link ml-1" %}
                     </a></dt>
                     <dd>Check {{ council.name }}’s ‘carbon budget’ – their share towards meeting the UK’s Paris agreement targets.</dd>
+                  {% endif %}
                   {% if council.foe_slug != '' %}
                     <dt><a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}" class="d-flex align-items-center" target="_blank">
                         Friends of the Earth ‘Near You’ tool{% include 'icons/external-link.html' with classes="external-link ml-1" %}
@@ -44,7 +53,6 @@
                 </dl>
             </div>
         </div>
-      {% endif %}
 
         <div class="card ceuk-card ceuk-card--muted ceuk-card--pink mb-gutter">
             <div class="card-header">

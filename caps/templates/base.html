@@ -48,6 +48,8 @@
 
     {% include 'includes/site-subheader.html' %}
 
+    {% block before_content %}{% endblock %}
+
     <div class="site-content">
         <div class="container-fluid">
             {% block content %}{% endblock %}
