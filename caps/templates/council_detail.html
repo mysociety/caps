@@ -19,52 +19,7 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-md-5 col-lg-4">
-
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
-            <div class="card-header">
-                <h2>Powers &amp; Responsibilities</h2>
-            </div>
-            <div class="card-body">
-                {% include 'includes/council-powers.html' %}
-            </div>
-        </div>
-
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
-            <div class="card-header">
-                <h2>More about this council</h2>
-            </div>
-            <div class="card-body">
-                <dl class="mt-n1 mb-0">
-                    <dt><a href="{{ council.website_url }}">{{ council.website_url|url_human }}{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a></dt>
-                    <dd>{{ council.name }}’s official homepage.</dd>
-                  {% if council.is_upper_tier is False %}
-                    <dt><a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/" class="d-flex align-items-center" target="_blank">
-                        Tyndall Centre Carbon Budget report{% include 'icons/external-link.html' with classes="external-link ml-1" %}
-                    </a></dt>
-                    <dd>Check {{ council.name }}’s ‘carbon budget’ – their share towards meeting the UK’s Paris agreement targets.</dd>
-                  {% endif %}
-                  {% if council.foe_slug != '' %}
-                    <dt><a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}" class="d-flex align-items-center" target="_blank">
-                        Friends of the Earth ‘Near You’ tool{% include 'icons/external-link.html' with classes="external-link ml-1" %}
-                    </a></dt>
-                    <dd>Discover climate groups in this area, data about {{ council.name }}’s climate performance, and actions you can take.</dd>
-                  {% endif %}
-                </dl>
-            </div>
-        </div>
-
-        <div class="card ceuk-card ceuk-card--muted ceuk-card--pink mb-gutter">
-            <div class="card-header">
-                <h2>What do you want from Climate Action Plans?</h2>
-            </div>
-            <div class="card-body">
-                {% include 'includes/survey-email.html' %}
-            </div>
-        </div>
-
-    </div>
-    <div class="col-md-7 col-lg-8">
+    <div class="col-md-7 col-lg-8 order-md-2">
 
         <div class="card ceuk-card ceuk-card--emphasised ceuk-card--orange mb-gutter">
             <div class="card-header">
@@ -194,6 +149,51 @@
             </div>
         </div>
       {% endif %}
+
+    </div>
+    <div class="col-md-5 col-lg-4 order-md-1">
+
+        <div class="card ceuk-card ceuk-card--purple mb-gutter">
+            <div class="card-header">
+                <h2>Powers &amp; Responsibilities</h2>
+            </div>
+            <div class="card-body">
+                {% include 'includes/council-powers.html' %}
+            </div>
+        </div>
+
+        <div class="card ceuk-card ceuk-card--purple mb-gutter">
+            <div class="card-header">
+                <h2>More about this council</h2>
+            </div>
+            <div class="card-body">
+                <dl class="mt-n1 mb-0">
+                    <dt><a href="{{ council.website_url }}">{{ council.website_url|url_human }}{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a></dt>
+                    <dd>{{ council.name }}’s official homepage.</dd>
+                  {% if council.is_upper_tier is False %}
+                    <dt><a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/" class="d-flex align-items-center" target="_blank">
+                        Tyndall Centre Carbon Budget report{% include 'icons/external-link.html' with classes="external-link ml-1" %}
+                    </a></dt>
+                    <dd>Check {{ council.name }}’s ‘carbon budget’ – their share towards meeting the UK’s Paris agreement targets.</dd>
+                  {% endif %}
+                  {% if council.foe_slug != '' %}
+                    <dt><a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}" class="d-flex align-items-center" target="_blank">
+                        Friends of the Earth ‘Near You’ tool{% include 'icons/external-link.html' with classes="external-link ml-1" %}
+                    </a></dt>
+                    <dd>Discover climate groups in this area, data about {{ council.name }}’s climate performance, and actions you can take.</dd>
+                  {% endif %}
+                </dl>
+            </div>
+        </div>
+
+        <div class="card ceuk-card ceuk-card--muted ceuk-card--pink mb-gutter">
+            <div class="card-header">
+                <h2>What do you want from Climate Action Plans?</h2>
+            </div>
+            <div class="card-body">
+                {% include 'includes/survey-email.html' %}
+            </div>
+        </div>
 
     </div>
 </div>
