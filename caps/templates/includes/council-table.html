@@ -4,7 +4,7 @@
             <th scope="col">Council name</th>
             <th scope="col">Has plan</th>
             {% if filter.request.GET.sort != 'last_update' and filter.request.GET.sort != '-last_update' %}
-            <th scope="col">Carbon Neutral target</th>
+            <th scope="col">Carbon Neutral by</th>
             <th scope="col">Declared emergency</th>
             {% else %}
             {% if show_last_updated %}

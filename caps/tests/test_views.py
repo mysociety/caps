@@ -165,11 +165,11 @@ class TestCouncilDetailPage(TestCase):
         url = reverse('council', args=['borsetshire'])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertRegex(response.content, br'We couldn\xe2\x80\x99t find any climate promises from this council')
+        self.assertRegex(response.content, br'We couldn\xe2\x80\x99t find any climate pledges from this council')
 
     def test_council_no_promise_data(self):
         self.promise.delete()
         url = reverse('council', args=['borsetshire'])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertRegex(response.content, br'checked whether this council has made any climate promises')
+        self.assertRegex(response.content, br'checked whether this council has made any climate pledges')

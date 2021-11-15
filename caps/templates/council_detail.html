@@ -21,34 +21,25 @@
 <div class="row">
     <div class="col-md-7 col-lg-8 order-md-2">
 
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--orange mb-gutter">
+        <div class="card ceuk-card ceuk-card--orange mb-gutter">
             <div class="card-header">
-                <h2>Climate Emergency</h2>
+                <h2>Declarations &amp; pledges</h2>
             </div>
             <div class="card-body">
-                {% if declared_emergency %}
-                    This council <a href="{{ declared_emergency.source_url }}">declared a climate emergency</a> on {{declared_emergency.date_declared }}.
-                {% else %}
-                    <p>
-                        We don’t think this council has declared a climate emergency.
+                <h3 class="h6">Climate emergency declaration</h3>
+              {% if declared_emergency %}
+                    <p class="mb-0 mt-n1">
+                        This council <a href="{{ declared_emergency.source_url }}">declared a climate emergency</a> on {{declared_emergency.date_declared }}.
                     </p>
-
-                    <p class="text-muted mb-0">
-                        If it has <a href="{% url 'about' %}">let us know!</a>
+              {% else %}
+                    <p class="mb-0 mt-n1 text-muted">
+                        We don’t think this council has declared a climate emergency – <a href="{% url 'about' %}">let us know if it has!</a>
                     </p>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--orange mb-gutter">
-            <div class="card-header">
-                <h2>Headline promises</h2>
-            </div>
-            <div class="card-body">
+              {% endif %}
               {% if promises %}
                   {% for promise in promises %}
                       {% if promise.get_scope %}
-                      <h3 class="h6 {% if not forloop.first %}mt-4{% endif %}">{{ promise.get_scope|capfirst }} target {% if promise.target_year %}for {{ promise.target_year }}{% endif %}</h3>
+                      <h3 class="h6 mt-4">{{ promise.get_scope|capfirst }} pledge {% if promise.target_year %}for {{ promise.target_year }}{% endif %}</h3>
                       {% endif %}
                     <blockquote class="blockquote">
                         <p class="mb-0">“{{ promise.text }}”</p>
@@ -56,18 +47,20 @@
                     </blockquote>
                   {% endfor %}
               {% elif no_promise %}
-                    <p class="mb-0 mt-n1">
-                        We couldn’t find any climate promises from this council. If you’ve found one, <a href="{% url 'about' %}">let us know!</a>
+                    <h3 class="h6 mt-4">Climate pledges</h3>
+                    <p class="mb-0 mt-n1 text-muted">
+                        We couldn’t find any climate pledges from this council. If you’ve found one, <a href="{% url 'about' %}">let us know!</a>
                     </p>
               {% else %}
-                    <p class="mb-0 mt-n1">
-                        We haven’t checked whether this council has made any climate promises yet, but we will soon. If you’ve already found one, <a href="{% url 'about' %}">let us know!</a>
+                    <h3 class="h6 mt-4">Climate pledges</h3>
+                    <p class="mb-0 mt-n1 text-muted">
+                        We haven’t checked whether this council has made any climate pledges yet, but we will soon. If you’ve already found one, <a href="{% url 'about' %}">let us know!</a>
                     </p>
               {% endif %}
             </div>
         </div>
 
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--blue mb-gutter">
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--red mb-gutter">
             <div class="card-header">
                 <h2>Climate documents</h2>
             </div>
@@ -104,7 +97,7 @@
         </div>
 
       {% if not no_emissions_data %}
-        <div class="card ceuk-card ceuk-card--red mb-gutter">
+        <div class="card ceuk-card ceuk-card--purple mb-gutter">
             <div class="card-header">
                 <h2>Emissions data</h2>
             </div>
