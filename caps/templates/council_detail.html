@@ -38,9 +38,16 @@
               {% endif %}
               {% if promises %}
                   {% for promise in promises %}
+                    <h3 class="h6 mt-4">
                       {% if promise.get_scope %}
-                      <h3 class="h6 mt-4">{{ promise.get_scope|capfirst }} pledge {% if promise.target_year %}for {{ promise.target_year }}{% endif %}</h3>
+                        {{ promise.get_scope|capfirst }} pledge
+                      {% else %}
+                        Climate pledge
                       {% endif %}
+                      {% if promise.target_year %}
+                        for {{ promise.target_year }}
+                      {% endif %}
+                    </h3>
                     <blockquote class="blockquote">
                         <p class="mb-0">“{{ promise.text }}”</p>
                         <footer class="blockquote-footer"><cite title="{{ promise.source_name }}"><a href="{{ promise.source }}">{{ promise.source_name }}</a></cite></footer>
