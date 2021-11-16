@@ -38,6 +38,7 @@ services:
       - solr_data:/opt/solr/server/solr/mycores
       - ./conf/schema.xml:/opt/solr/server/solr/configsets/basic_configs/conf/schema.xml
       - ./conf/solrconfig.xml:/opt/solr/server/solr/configsets/basic_configs/conf/solrconfig.xml
+      - ./script/update_solr_schema:/opt/docker-solr/scripts/update_solr_schema
     command:
       - solr-precreate
       - caps

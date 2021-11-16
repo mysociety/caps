@@ -85,3 +85,16 @@ script/server
 The site will be visible at <http://localhost:8000>.
 
 The Solr server interface will be visible at <http://localhost:8983>
+
+### Updating the solr schema
+
+If you want to update the solr schema then you'll need to edit the
+conf/schema.xml file and then run the script/update_solr_schema on the
+solr instance:
+
+`docker compose exec solr update_solr_schema`
+
+This will copy the new schema in to place and reload the core. You will
+then need to re-index for the changes to be useful. This will only work
+if you are adding to the schema, if you're altering an existing property
+then you should probably use the solr API to do so.

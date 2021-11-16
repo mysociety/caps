@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+# abort on any errors
+set -e
+
+cp /opt/solr/server/solr/configsets/basic_configs/conf/schema.xml /opt/solr/server/solr/mycores/caps/conf/
+curl 'http://localhost:8983/solr/admin/cores?action=RELOAD&core=caps'
+
