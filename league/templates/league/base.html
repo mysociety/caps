@@ -1,0 +1,19 @@
+{% load static %}
+{% load pipeline %}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LEAGUE</title>
+
+    {% stylesheet 'league' %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+
+{% block content %}{% endblock %}
+
+</body>
+</html>
