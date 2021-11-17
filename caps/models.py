@@ -7,6 +7,8 @@ import dateutil.parser
 
 import pandas as pd
 
+from collections import defaultdict
+
 from django.db import models
 from django.utils.text import slugify
 from django.core.files.storage import FileSystemStorage
@@ -513,3 +515,37 @@ class CouncilFilter(django_filters.FilterSet):
         model = Council
         fields = []
 
+class PlanScore(models.Model):
+    council = models.ForeignKey(Council, on_delete=models.CASCADE)
+    year = models.PositiveSmallIntegerField(null=True, blank=True)
+    weighted_total = models.PositiveSmallIntegerField(default=0)
+    total = models.PositiveSmallIntegerField(default=0)
+
+
+class PlanSection(models.Model):
+    code = models.CharField(max_length=100)
+    description = models.CharField(max_length=1000)
+    year = models.PositiveSmallIntegerField(null=True, blank=True)
+    max_score = models.PositiveSmallIntegerField(null=True)
+    max_weighted_score = models.PositiveSmallIntegerField(null=True)
+    weight = models.PositiveSmallIntegerField(null=True)
+
+    @classmethod
+    def section_codes(cls):
+        return cls.objects.distinct('code').values_list('code', flat=True)
+
+
+class PlanSectionScore(models.Model):
+    plan_score = models.ForeignKey(PlanScore, on_delete=models.CASCADE)
+    plan_section = models.ForeignKey(PlanSection, on_delete=models.CASCADE)
+    score = models.PositiveSmallIntegerField(default=0)
+    weighted_score = models.PositiveSmallIntegerField(default=0)
+
+    @classmethod
+    def get_all_council_scores(cls):
+        scores = cls.objects.all().select_related('plan_section', 'plan_score').filter(plan_score__total__gt=0).values('plan_score__total', 'plan_score__council_id', 'score', 'weighted_score', 'plan_section__code')
+        councils = defaultdict(dict)
+        for score in scores:
+            councils[score['plan_score__council_id']][score['plan_section__code']] = score['weighted_score'] / score['plan_score__total'] * 100
+
+        return councils
