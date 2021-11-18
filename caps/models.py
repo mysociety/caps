@@ -549,3 +549,17 @@ class PlanSectionScore(models.Model):
             councils[score['plan_score__council_id']][score['plan_section__code']] = score['weighted_score'] / score['plan_score__total'] * 100
 
         return councils
+
+class PlanQuestion(models.Model):
+    section = models.ForeignKey(PlanSection, on_delete=models.CASCADE)
+    code = models.CharField(max_length=100)
+    text = models.TextField(null=True, default='')
+    max_score = models.PositiveSmallIntegerField(default=0)
+    question_type = models.CharField(max_length=100) # needs choices
+
+class PlanQuestionScore(models.Model):
+    plan_score = models.ForeignKey(PlanScore, on_delete=models.CASCADE)
+    plan_question = models.ForeignKey(PlanQuestion, on_delete=models.CASCADE)
+    answer = models.TextField(null=True, default='')
+    score = models.PositiveSmallIntegerField(default=0)
+    notes = models.TextField(null=True, default='')
