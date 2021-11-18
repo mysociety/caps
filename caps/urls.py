@@ -15,6 +15,7 @@ router.register(r'commitments', api_views.CommitmentsViewSet)
 urlpatterns = [
     path('', views.HomePageView.as_view(), name='home'),
     path('councils/<slug:slug>/', views.CouncilDetailView.as_view(), name='council'),
+    path('councils/<slug:slug>/answers', views.CouncilAnswersView.as_view(), name='answers'),
     path('search/', views.SearchResultsView.as_view(form_class=HighlightedSearchForm), name='search_results'),
     path('councils/', views.CouncilListView.as_view(), name='council_list'),
     path('location/', views.LocationResultsView.as_view(), name='location_results'),

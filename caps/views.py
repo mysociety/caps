@@ -15,7 +15,7 @@ from os.path import join
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
 
-from caps.models import Council, CouncilFilter, PlanDocument, DataPoint, SavedSearch
+from caps.models import Council, CouncilFilter, PlanDocument, DataPoint, SavedSearch, PlanScore, PlanSectionScore, PlanQuestionScore
 from caps.forms import HighlightedSearchForm
 from caps.mapit import MapIt, NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException
 from caps.utils import file_size
@@ -73,6 +73,36 @@ class CouncilDetailView(DetailView):
 
         if council.emergencydeclaration_set.count() > 0 :
             context['declared_emergency'] = council.emergencydeclaration_set.all()[0]
+        return context
+
+class CouncilAnswersView(DetailView):
+    model = Council
+    context_object_name = 'council'
+    template_name = 'council_answers.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council = context.get('council')
+
+        plan = PlanScore.objects.get(council=council, year=2021)
+        questions = PlanQuestionScore.objects.select_related('plan_question').filter(plan_score=plan)
+        section_qs = PlanSectionScore.objects.select_related('plan_section').filter(plan_score__council=context['council'],plan_section__year=2021)
+
+        sections = {}
+        for section in section_qs.all():
+            sections[section.plan_section.code] = {
+                'description': section.plan_section.description,
+                'max_score': section.plan_section.max_score,
+                'score': section.score,
+                'answers': []
+            }
+
+        for question in questions:
+            section = question.plan_question.section.code
+            sections[section]['answers'].append(question)
+
+        context['questions'] = questions
+        context['sections'] = sections
         return context
 
 

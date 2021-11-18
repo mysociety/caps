@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+            <div class="card-header">
+                <h3>
+                    Answers
+                </h3>
+            </div>
+            <div class="ceuk-data-table">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Question</th>
+                            <th scope="col">Answer</th>
+                            <th scope="col">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for section in sections.values %}
+                        <tr data-has-plan="no">
+                            <td colspan="3" class="">
+                                {{ section.description }} ( {{ section.score }}/{{ section.max_score }} )
+                            </td>
+                        </tr>
+                        {% for answer in section.answers %}
+                        <tr>
+                            <td data-column="answer">
+                                {{ answer.plan_question.text }}
+                            </td>
+                            <td data-column="answer">
+                                {{ answer.answer }}
+                            </td>
+                            <td data-column="score">
+                                {{ answer.score }}/{{ answer.plan_question.max_score }}
+                            </td>
+                        </tr>
+                      {% endfor %}
+                      {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
