@@ -6,7 +6,7 @@ import math
 
 import pandas as pd
 
-from caps.models import Council, PlanDocument, PlanScore, PlanSection, PlanSectionScore, PlanQuestion
+from caps.models import Council, PlanDocument, PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
 
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files import File
@@ -20,6 +20,7 @@ class Command(BaseCommand):
     YEAR = 2021
     SCORES_CSV = join(settings.DATA_DIR, 'council_plan_scores.csv')
     QUESTIONS_CSV = join(settings.DATA_DIR, 'council_plan_questions.csv')
+    ANSWERS_CSV = join(settings.DATA_DIR, 'all_councils_scored.csv')
 
     def normalise_section_code(self, code):
         normalised = code.replace('&', '_')
@@ -100,7 +101,39 @@ class Command(BaseCommand):
                 question.save()
 
 
+    def import_question_scores(self):
+        df = pd.read_csv(self.ANSWERS_CSV)
+        for index, row in df.iterrows():
+            code = self.normalise_section_code(row['question_id'])
+            council_code = row['answer_id']
+            council_code = re.sub(r'^([^_]*)_.*', r'\1', council_code)
+
+            try:
+                council = Council.objects.get(authority_code=council_code)
+                plan = PlanScore.objects.get(council=council, year=self.YEAR)
+                question = PlanQuestion.objects.get(code=code)
+            except Council.DoesNotExist as e:
+                print('failed to match council {}'.format(council_code))
+                continue
+            except PlanScore.DoesNotExist as e:
+                print('failed to match plan {}'.format(council.name))
+                continue
+            except PlanQuestion.DoesNotExist as e:
+                print('failed to match question {}'.format(code))
+                continue
+
+            answer, created = PlanQuestionScore.objects.get_or_create(
+                plan_score = plan,
+                plan_question = question
+            )
+
+            if created:
+                answer.score = row['score']
+                answer.answer = row['answer']
+                answer.save()
+
 
     def handle(self, *args, **options):
         self.import_section_scores()
         self.import_questions()
+        self.import_question_scores()
