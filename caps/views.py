@@ -101,7 +101,6 @@ class SearchResultsView(HaystackSearchView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         inorganic = self.request.GET.get('inorganic')
-        context['show_council_search'] = True
         if context['form']['council_name'].value() is not None:
             context['council_name'] = context['form']['council_name'].value()
 

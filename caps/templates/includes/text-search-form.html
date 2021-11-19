@@ -11,15 +11,4 @@
             </button>
         </div>
     </div>
-    {% if show_council_search %}
-    <fieldset>
-        <legend>Advanced search</legend>
-        <label for="council_name" class="mt-3 mb-3 font-weight-bold">Only search councils where the name includes</label>
-        <div class="form-row flex-nowrap">
-            <div class="col-auto flex-shrink-1">
-            <input type="text" class="form-control form-control-lg" name="council_name" id="council_name" value="{{ form.council_name.value|default_if_none:'' }}">
-            </div>
-        </div>
-    </fieldset>
-    {% endif %}
 </form>

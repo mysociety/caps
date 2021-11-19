@@ -2,38 +2,74 @@
 
 {% block content %}
 
-<h1>Search results</h1>
+<div class="row">
+    <div class="col-md-4">
 
-{% include 'includes/text-search-form.html' with q=query %}
+        <div class="card ceuk-card mb-gutter position-sticky" style="top: 1rem;">
+            <div class="card-body">
+                <h1 class="mb-3">Search inside plans</h1>
 
-{% if query %}
+                <form action="{% url 'search_results' %}" class="mb-n3">
+                    <div class="form-group">
+                        <label for="q">Search phrase</label>
+                        <input type="text" class="form-control" name="q" id="q" value="{{ query|default_if_none:'' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="council_name" class="d-flex flex-wrap flex-row-reverse">
+                            <span class="text-muted">(Optional)</span>
+                            <span class="mr-auto">Council name contains</span>
+                        </label>
+                        <input type="text" class="form-control" name="council_name" id="council_name" value="{{ form.council_name.value|default_if_none:'' }}">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block mt-4 d-flex align-items-center justify-content-center">
+                            {% include 'icons/search.html' with classes="mr-2" %}
+                            Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-    <p class="mt-5 mb-4">
-        {{ page_obj.paginator.count }}
-        result{{ page_obj.paginator.count|pluralize }}
-    </p>
-
-  {% for result in page_obj.object_list %}
-    {% include 'includes/text-search-result.html' with result=result %}
-  {% empty %}
-    <p>No results found.</p>
-  {% endfor %}
-
-  {% if page_obj.has_previous or page_obj.has_next %}
-    <div class="d-flex justify-content-center align-items-center mt-5">
-      {% if page_obj.has_previous %}
-        <a class="btn btn-outline-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}{% if form.council_name.value %}&council_name={{ form.council_name.value }}{% endif %}">
-            Previous results
-        </a>
-      {% endif %}
-      {% if page_obj.has_next %}
-        <a class="btn btn-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}{% if form.council_name.value %}&council_name={{ form.council_name.value }}{% endif %}">
-            More results
-        </a>
-      {% endif %}
     </div>
-  {% endif %}
+    <div class="col-md-8">
 
-{% endif %}
+      {% if query %}
+
+        <div class="card ceuk-card ceuk-card--red ceuk-card--muted mb-3 mb-lg-4">
+            <div class="card-header border-bottom-0">
+                <h2>
+                    {{ page_obj.paginator.count }}
+                    result{{ page_obj.paginator.count|pluralize }}
+                </h2>
+            </div>
+        </div>
+
+      {% for result in page_obj.object_list %}
+        {% include 'includes/text-search-result.html' with result=result %}
+      {% empty %}
+        <p>No results found.</p>
+      {% endfor %}
+
+      {% if page_obj.has_previous or page_obj.has_next %}
+        <div class="d-flex justify-content-center align-items-center mt-5">
+          {% if page_obj.has_previous %}
+            <a class="btn btn-outline-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}{% if form.council_name.value %}&council_name={{ form.council_name.value }}{% endif %}">
+                Previous results
+            </a>
+          {% endif %}
+          {% if page_obj.has_next %}
+            <a class="btn btn-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}{% if form.council_name.value %}&council_name={{ form.council_name.value }}{% endif %}">
+                More results
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% endif %}
+
+    </div>
+
+</div>
 
 {% endblock %}
