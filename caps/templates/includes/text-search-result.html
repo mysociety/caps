@@ -8,5 +8,8 @@
       {% for text in result.highlighted.text %}
         <p>…{% autoescape off %}{{ text }}{% endautoescape %}…</p>
       {% endfor %}
+      {% for text in result.highlighted.text_exact %}
+        <p>…{% autoescape off %}{{ text }}{% endautoescape %}…</p>
+      {% endfor %}
     </div>
 </div>
