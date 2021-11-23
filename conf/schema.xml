@@ -83,6 +83,8 @@
     
     <field name="text" type="text_en" indexed="true" stored="true" multiValued="false" />
     <field name="council_name" type="text_en" indexed="true" stored="true" multiValued="false" />
+    <field name="text_exact" type="text_ws" stored="true" multiValued="false" />
+    <copyField source="text" dest="text_exact"/>
     
     <uniqueKey>id</uniqueKey>
 
@@ -381,6 +383,7 @@
     <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
         <analyzer>
             <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory"/>
         </analyzer>
     </fieldType>
 
