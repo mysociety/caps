@@ -1,4 +1,6 @@
 # -*- coding: future_fstrings -*-
+import re
+import requests
 import urllib.request
 import csv
 from os.path import join
@@ -12,6 +14,7 @@ from django.conf import settings
 
 WEBSITES_CSV_NAME = 'council_websites.csv'
 WEBSITE_CSV = join(settings.DATA_DIR, WEBSITES_CSV_NAME)
+SCOTTISH_TWITTER_CSV = join(settings.DATA_DIR, 'scottish_twitter.csv')
 
 
 def get_dom(url):
@@ -21,6 +24,10 @@ def get_dom(url):
         page = reader.read()
 
     return BeautifulSoup(page, 'html.parser')
+
+def parse_twitter_name(name):
+    name = re.sub(r'^@', '', name)
+    return name
 
 def get_england_and_wales():
 
@@ -40,11 +47,15 @@ def get_england_and_wales():
         link = row.find('th').find('a')
         council = link.text
         website_url = link['href']
-        councils.append({'council': council, 'url': website_url})
+        twitter_link = row.find('td').find(href=re.compile(r'twitter.com'))
+        twitter_url = twitter_link['href']
+        twitter_name = parse_twitter_name(twitter_link.text)
+        councils.append({'council': council, 'url': website_url, 'twitter_url': twitter_url, 'twitter_name': twitter_name})
     return councils
 
 def get_scotland():
 
+    council_twitter = get_scotland_twitter()
     councils = []
     index_url = 'https://www.cosla.gov.uk/councils'
     try:
@@ -57,8 +68,32 @@ def get_scotland():
     for item in items:
         council = item.find('h4').text
         website_url = item['href']
-        councils.append({'council': council, 'url': website_url})
+        twitter = council_twitter.get(council, {})
+        councils.append({
+            'council': council,
+            'url': website_url,
+            'twitter_url': twitter.get('twitter_url', ''),
+            'twitter_name': twitter.get('twitter_name', ''),
+        })
     return councils
+
+def get_scotland_twitter():
+    headers = { 'Accept': 'text/csv' }
+    url = 'https://query.wikidata.org/sparql?query=SELECT%20%3Fitem%20%3FitemLabel%20%3Ftwitter%20%20WHERE%20%7B%0A%20%20%3Fitem%20wdt%3AP31%20wd%3AQ21451686%20.%0A%20%20%3Fitem%20wdt%3AP2002%20%3Ftwitter%20.%0A%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_LANGUAGE%5D%2Cen%22.%20%7D%0A%7D'
+    r = requests.get(url, headers=headers)
+    with open(SCOTTISH_TWITTER_CSV, 'wb') as outfile:
+        outfile.write(r.content)
+
+    councils = {}
+    df = pd.read_csv(SCOTTISH_TWITTER_CSV)
+    for index, row in df.iterrows():
+        councils[row['itemLabel']] = {
+            'twitter_name': parse_twitter_name(row['twitter']),
+            'twitter_url': 'https://twitter.com/{}'.format(row['twitter']),
+        }
+
+    return councils
+
 
 def get_ni():
     councils = []
@@ -170,12 +205,17 @@ def create_council_website_csv():
 
     with open(WEBSITE_CSV, 'w') as csvfile:
 
-        fieldnames = ['council', 'url']
+        fieldnames = ['council', 'url', 'twitter_url', 'twitter_name']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
         for council_info in all_authorities:
-            writer.writerow({'council': council_info['council'], 'url': council_info['url']})
+            writer.writerow({
+                'council': council_info['council'],
+                'url': council_info['url'],
+                'twitter_url': council_info.get('twitter_url', ''),
+                'twitter_name': council_info.get('twitter_name', ''),
+            })
 
 def add_website_urls_to_councils():
 
@@ -183,7 +223,11 @@ def add_website_urls_to_councils():
 
     websites = {}
     for row in reader:
-        websites[row[0]] = row[1]
+        websites[row[0]] = {
+            'url': row[1],
+            'twitter_url': row[2],
+            'twitter_name': row[3],
+        }
 
     df = pd.read_csv(settings.PROCESSED_CSV)
     rows = len(df['council'])
@@ -196,8 +240,10 @@ def add_website_urls_to_councils():
         website_set = set(websites)
         matches = list(alternative_names_set.intersection(website_set))
         if matches:
-            website_url = websites.get(matches[0])
-            df.at[index, 'website_url'] = website_url
+            details = websites.get(matches[0])
+            df.at[index, 'website_url'] = details.get('url', '')
+            df.at[index, 'twitter_url'] = details.get('twitter_url', '')
+            df.at[index, 'twitter_name'] = details.get('twitter_name', '')
         else:
             unmatched.append([council_name, row['authority_type']])
     df.to_csv(open(settings.PROCESSED_CSV, "w"), index=False, header=True)
