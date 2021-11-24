@@ -59,6 +59,8 @@ class Council(models.Model):
     website_url = models.URLField()
     combined_authority = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     related_councils = models.ManyToManyField("self", blank=True)
+    twitter_name = models.CharField(max_length=200, null=True)
+    twitter_url = models.URLField(null=True)
 
     class Meta:
         ordering = ['name']
