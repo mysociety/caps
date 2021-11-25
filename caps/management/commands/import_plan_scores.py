@@ -77,8 +77,9 @@ class Command(BaseCommand):
     def import_questions(self):
         df = pd.read_csv(self.QUESTIONS_CSV)
         for index, row in df.iterrows():
-            if row['Options'] == 'HEADER':
-                continue
+            q_type = 'Other'
+            if row['Options'] in ('HEADER', 'CHECKBOX'):
+                q_type = row['Options']
 
             code = self.normalise_section_code(row['question_id'])
             section = re.sub(r'(.*)_q[0-9].*', r'\1', code)
@@ -94,10 +95,14 @@ class Command(BaseCommand):
                 section=plan_section
             )
             if created:
-                scores = row['Scores'].split(',')
-                max_score = max(scores)
+                max_score = 0
+                if q_type != 'HEADER':
+                    scores = PlanDocument.char_from_text(row['Scores'])
+                    scores = scores.split(',')
+                    max_score = max(scores)
                 question.max_score = max_score
                 question.text = row['Question description']
+                question.question_type = q_type
                 question.save()
 
 
