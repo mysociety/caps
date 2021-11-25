@@ -15,7 +15,7 @@ from os.path import join
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
 
-from caps.models import Council, CouncilFilter, PlanDocument, DataPoint, SavedSearch, PlanScore, PlanSectionScore, PlanQuestionScore
+from caps.models import Council, CouncilFilter, PlanDocument, DataPoint, SavedSearch, PlanScore, PlanSectionScore, PlanQuestion, PlanQuestionScore
 from caps.forms import HighlightedSearchForm
 from caps.mapit import MapIt, NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException
 from caps.utils import file_size
@@ -85,8 +85,20 @@ class CouncilAnswersView(DetailView):
         council = context.get('council')
 
         plan = PlanScore.objects.get(council=council, year=2021)
-        questions = PlanQuestionScore.objects.select_related('plan_question').filter(plan_score=plan)
-        section_qs = PlanSectionScore.objects.select_related('plan_section').filter(plan_score__council=context['council'],plan_section__year=2021)
+
+        # do this in raw SQL as otherwise we need a third query and an extra loop below
+        questions = PlanQuestion.objects.raw(
+            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score \
+            from caps_planquestion q join caps_plansection s on q.section_id = s.id \
+            left join caps_planquestionscore a on q.id = a.plan_question_id \
+            where s.year = '2021' and ( a.plan_score_id = %s or a.plan_score_id is null) order by q.code",
+            [council.id]
+        )
+
+        section_qs = PlanSectionScore.objects.select_related('plan_section').filter(
+            plan_score__council=context['council'],
+            plan_section__year=2021
+        )
 
         sections = {}
         for section in section_qs.all():
@@ -98,10 +110,18 @@ class CouncilAnswersView(DetailView):
             }
 
         for question in questions:
-            section = question.plan_question.section.code
-            sections[section]['answers'].append(question)
+            section = question.section_code
+            q = {
+                'question': question.text,
+                'type': question.question_type,
+                'max': question.max_score,
+                'section': question.section.code,
+                'answer': question.answer or '-',
+                'score': question.score or 0,
+            }
+            sections[section]['answers'].append(q)
 
-        context['questions'] = questions
+        context['plan'] = plan
         context['sections'] = sections
         return context
 

@@ -30,15 +30,21 @@
                         </tr>
                         {% for answer in section.answers %}
                         <tr>
+                            {% if answer.type == 'HEADER' %}
+                            <td data-column="answer" colspan="3">
+                            {% else %}
                             <td data-column="answer">
-                                {{ answer.plan_question.text }}
+                            {% endif %}
+                                {{ answer.question }}
                             </td>
+                            {% if answer.type != 'HEADER' %}
                             <td data-column="answer">
                                 {{ answer.answer }}
                             </td>
                             <td data-column="score">
-                                {{ answer.score }}/{{ answer.plan_question.max_score }}
+                                {{ answer.score }}/{{ answer.max }}
                             </td>
+                            {% endif %}
                         </tr>
                       {% endfor %}
                       {% endfor %}

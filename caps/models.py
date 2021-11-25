@@ -559,7 +559,7 @@ class PlanQuestion(models.Model):
 
 class PlanQuestionScore(models.Model):
     plan_score = models.ForeignKey(PlanScore, on_delete=models.CASCADE)
-    plan_question = models.ForeignKey(PlanQuestion, on_delete=models.CASCADE)
+    plan_question = models.ForeignKey(PlanQuestion, on_delete=models.CASCADE, related_name='questions')
     answer = models.TextField(null=True, default='')
     score = models.PositiveSmallIntegerField(default=0)
     notes = models.TextField(null=True, default='')
