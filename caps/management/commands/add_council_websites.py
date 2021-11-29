@@ -27,7 +27,12 @@ def get_england_and_wales():
     councils = []
     index_url = 'https://www.local.gov.uk/our-support/guidance-and-resources/communications-support/digital-councils/social-media/go-further/a-z-councils-online'
 
-    dom = get_dom(index_url)
+    try:
+        dom = get_dom(index_url)
+    except Exception as e:
+        print("problem getting England and Wales URL data: {}".format(e))
+        return []
+
     table = dom.find('div', class_='table-responsive')
     body = table.find('tbody')
     rows = body.find_all('tr')
@@ -42,7 +47,12 @@ def get_scotland():
 
     councils = []
     index_url = 'https://www.cosla.gov.uk/councils'
-    dom = get_dom(index_url)
+    try:
+        dom = get_dom(index_url)
+    except Exception as e:
+        print("problem getting Scotland URL data: {}".format(e))
+        return []
+
     items = dom.find_all('a', class_='councils__list__item')
     for item in items:
         council = item.find('h4').text
@@ -54,7 +64,12 @@ def get_ni():
     councils = []
     base_url = 'https://www.nidirect.gov.uk'
     index_url = base_url + '/contacts/local-councils-in-northern-ireland'
-    dom = get_dom(index_url)
+    try:
+        dom = get_dom(index_url)
+    except Exception as e:
+        print("problem getting Northern Ireland URL data: {}".format(e))
+        return []
+
     table = dom.find('div', class_='item-list')
     rows = table.find_all('span', class_='field-content')
     for row in rows:
@@ -72,7 +87,12 @@ def get_combined_authorities():
 
     councils = []
     index_url = 'https://www.local.gov.uk/topics/devolution/devolution-online-hub/devolution-explained/combined-authorities'
-    dom = get_dom(index_url)
+    try:
+        dom = get_dom(index_url)
+    except Exception as e:
+        print("problem getting combined authorities URL data: {}".format(e))
+        return []
+
     wrapper = dom.find('div', class_='col-md-8')
     list_elements = wrapper.find_all('li')
     for list_element in list_elements:
