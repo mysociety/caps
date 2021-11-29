@@ -191,7 +191,7 @@ class Command(BaseCommand):
             )
 
             # the url is the only council property that's likely to change
-            if council.website_url != council_url:
+            if council_url != '' and council.website_url != council_url:
                 council.website_url = council_url
                 council.save()
 
