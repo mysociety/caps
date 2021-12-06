@@ -14,6 +14,7 @@ cd `dirname $0`/..
 "$(dirname "$0")/manage" import_plans --confirm_changes
 "$(dirname "$0")/manage" fetch_and_process_promises
 "$(dirname "$0")/manage" import_promises
+"$(dirname "$0")/manage" import_declarations
 "$(dirname "$0")/manage" link_combined_authorities
 "$(dirname "$0")/manage" add_related_councils "$@"
 "$(dirname "$0")/manage" rebuild_index --noinput
