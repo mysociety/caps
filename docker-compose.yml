@@ -33,7 +33,7 @@ services:
       - POSTGRES_DB=${REPOSITORY_DB_NAME:-caps}
 
   solr:
-    image: solr:6
+    image: solr:6.5
     volumes:
       - solr_data:/opt/solr/server/solr/mycores
       - ./conf/schema.xml:/opt/solr/server/solr/configsets/basic_configs/conf/schema.xml
