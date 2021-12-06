@@ -7,6 +7,8 @@ import dateutil.parser
 
 import pandas as pd
 
+from collections import defaultdict
+
 from django.db import models
 from django.utils.text import slugify
 from django.core.files.storage import FileSystemStorage
