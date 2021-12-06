@@ -152,6 +152,16 @@ DECLARATIONS_CSV_SHEET_NAME = 'Council Adaptation + Ecological Emergency Data'
 DECLARATIONS_CSV_NAME = 'declarations.csv'
 DECLARATIONS_CSV = os.path.join(DATA_DIR, DECLARATIONS_CSV_NAME)
 
+PLAN_YEAR = 2021
+PLAN_SECTION_SCORES_CSV_KEY = ''
+PLAN_SCORE_QUESTIONS_CSV_KEY = '1NkAcDZ0wZwnb7iiwWSy5gMf7rJfhDPnDWvZtaJ4l0f8'
+PLAN_SCORE_QUESTIONS_CSV_TAB = 1790236873 # this number obtained from browser network console :|
+PLAN_SCORE_ANSWERS_CSV_KEY = ''
+PLAN_SECTION_SCORES_CSV_NAME = 'council_plan_scores.csv'
+PLAN_SCORE_QUESTIONS_CSV_NAME = 'council_plan_questions.csv'
+PLAN_SCORE_ANSWERS_CSV_NAME = 'all_councils_scored.csv'
+
+
 # Application definition
 
 INSTALLED_APPS = [
