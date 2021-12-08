@@ -1,6 +1,6 @@
 {
     "python.linting.pycodestyleEnabled": true,
-    "python.pythonPath": "/usr/local/bin/python",
+    "python.defaultInterpreterPath": "/usr/local/bin/python",
 
     "files.exclude": {
         "**/.git": true,
