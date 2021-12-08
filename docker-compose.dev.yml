@@ -4,11 +4,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: /usr/src/app/script/server
+    command: /workspaces/caps/script/server
     volumes:
       - solr_data:/opt/solr/server/solr/mycores
-      - ./:/usr/src/app/
-      - ./conf/config.py.docker:/usr/src/app/conf/config.py
+      - ./:/workspaces/caps/
+      - ./conf/config.py.docker:/workspaces/caps/conf/config.py
     environment:
       - REPOSITORY_DB_PASS=${REPOSITORY_DB_PASS:-caps}
       - SECRET_KEY=${SECRET_KEY:-xx}
