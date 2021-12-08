@@ -44,6 +44,36 @@ You can rebuild the application container by running `script/build`. Bear in min
 
 The environment will be visible at http://localhost:8000 and the Solr admin interface at http://localhost:8983
 
+### Codespaces/VSCode
+
+In your [Github Codespaces settings](https://github.com/settings/codespaces), set up the relevant secrets (mostly MAPIT_API_KEY) and give the caps repo access to this secret.
+
+Then in the [caps repo](https://github.com/mysociety/caps/), click the code dropdown (top right), and select the codespaces tab, then create new codespace. 
+
+Once it has cloned and set up the docker configuration (it may prompt you to reload with the pylance extension, this is fine and takea a few seconds). You have two options:
+
+To run the data population from scratch run `script/setup-in-docker` (as warned above, this takes a while).
+To restore a previous database dump, run `script/quick-setup`.
+
+Once this is finished `script/server` will run the test server. You can access this by right clicking the `0.0.0.0:8000` link in the terminal, or follow the links in the ports page (where it can also be made public/shared to organisation).
+
+#### Changes to docker image
+
+The development docker image used by vscode/codespaces is based on a prebuilt version of the main Dockerfile to save start-up time.
+
+This means some adjustments are necessary when a change to the branch involves a change to the base image (e.g. new packages or changed version). 
+
+In this event, commit the changes that affect the image to the branch, and go to [the workflow page](https://github.com/mysociety/caps/actions/workflows/main.yml) that can create a new image. 
+
+In this page click run workflow, and use the workflow from your new branch. 
+
+This will build the docker image and tag it with the name of the your branch. This will appear in the [package page](https://github.com/mysociety/caps/pkgs/container/caps) when ready. If the build fails, the details are in the actions tab.
+
+Now, in the `Dockerfile.dev` file (which is the one used by the development environment), adjust the name of the image pulled in the FROM command from 'master' to the branch name. 
+
+New instances will then be referencing the changes made. When merging back into 'master' you can remove this, but technically it shouldn't matter (this image will be 'good' until a new branch that amends the dockerfile comes along). 
+
+
 ## Vagrant
 
 Copy across some basic config. You may need to add a MapIt API key.
