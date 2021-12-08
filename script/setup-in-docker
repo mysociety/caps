@@ -15,9 +15,18 @@ rm -fr media/
 rm -fr data/
 rm -fr static/
 
+
 # Run the Bootstrap
 script/bootstrap
 
+# Create the database
+script/migrate
+
 # Run the data import
 echo "==> Importing data..."
-script/update --all
+if [ "$1" = "--quick" ]; then
+    echo "==> running quicker version of update"
+    script/update
+else
+    script/update --all
+fi

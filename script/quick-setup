@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# script/quick-setup : Experimental approach to pull in previous test data
+
+# abort on any errors
+set -e
+
+# check that we are in the expected directory
+cd `dirname $0`/..
+
+echo "==> Removing any local data..."
+rm -fr media/
+rm -fr data/
+rm -fr static/
+
+echo "==> Creating dirs..."
+mkdir -p media
+mkdir -p media/data
+mkdir -p media/data/plans
+mkdir -p static/css
+
+echo "==> Getting stored data..."
+git clone https://github.com/mysociety/caps_data data
+
+echo "==> restoring database"
+PGPASSWORD="caps" pg_restore -U caps -h postgres -d caps -Fd data/sql_backup/
+
+echo "==> migrating database to present"
+script/migrate
+
+echo "==> copying plan files"
+cp -r data/plans media/data/
+
+echo "==> rebuilding index and other functions"
+"$(dirname "$0")/manage" rebuild_index --noinput
+"$(dirname "$0")/manage" postprocess
+"$(dirname "$0")/manage" create_zip_file
