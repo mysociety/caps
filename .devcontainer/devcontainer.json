@@ -4,7 +4,7 @@
 
 	"dockerComposeFile": "../docker-compose.dev.yml",
 	"service": "app",
-	"workspaceFolder": "/usr/src/app",
+	"workspaceFolder": "/workspaces/caps",
 	"overrideCommand": true,
 
 	"extensions": [
