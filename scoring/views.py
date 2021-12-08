@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.db.models import Subquery, OuterRef, Q
 
 from caps.models import Council
-from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion
+from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
 
 from scoring.forms import ScoringSort
 
@@ -107,4 +107,25 @@ class CouncilAnswersView(DetailView):
 
         context['plan_score'] = plan_score
         context['sections'] = sections
+        return context
+
+class AnswerCouncilsView(DetailView):
+    model = PlanQuestion
+    context_object_name = 'question'
+    template_name = 'question_answers.html'
+    slug_field = 'code'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        question = context.get('question')
+
+        answers = PlanQuestionScore.objects.filter(
+            plan_question=question
+        ).select_related(
+            'plan_score',
+            'plan_score__council'
+        ).order_by( "plan_score__council__name")
+
+        context['question'] = question
+        context['answers'] = answers
         return context
