@@ -3,4 +3,35 @@
 
     <h1>LEAGUE</h1>
 
+    <table class="table mb-0">
+        <thead>
+            <tr>
+                <th>Council</th>
+                <th>Governance</th>
+                <th>Mitigation</th>
+                <th>Commitment</th>
+                <th>Community</th>
+                <th>Measuring</th>
+                <th>Co-benefits</th>
+                <th>Diversity</th>
+                <th>Education</th>
+                <th>Ecological</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for council in council_data %}
+        <tr>
+            <td>
+                {{ council.name }}
+            </td>
+            {% for score in council.all_scores.values %}
+            <td>
+                {{ score.score }}/{{ score.max }}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
