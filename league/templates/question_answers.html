@@ -1,0 +1,50 @@
+{% extends "league/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+            <div class="card-header">
+                <h3>
+                    {{ question.code }}
+                </h3>
+
+                <div>
+                    {{ question.text | linebreaks }}
+                </div>
+            </div>
+            <div class="ceuk-data-table">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Council No</th>
+                            <th scope="col">Answer</th>
+                            <th scope="col">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for answer in answers %}
+                        <tr>
+                            <td data-column="council">
+                                {{ answer.plan_score.council.name }}
+                            </td>
+                            <td data-column="answer">
+                                {{ answer.answer }}
+                            </td>
+                            <td data-column="score">
+                                {{ answer.score }}/{{ question.max_score }}
+                            </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

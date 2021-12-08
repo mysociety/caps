@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.db.models import Subquery, OuterRef
 
 from caps.models import Council
-from league.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion
+from league.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
 
 class HomePageView(ListView):
     template_name = "league/home.html"
@@ -82,4 +82,22 @@ class CouncilAnswersView(DetailView):
 
         context['plan'] = plan
         context['sections'] = sections
+        return context
+
+class AnswerCouncilsView(DetailView):
+    model = PlanQuestion
+    context_object_name = 'question'
+    template_name = 'question_answers.html'
+    slug_field = 'code'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        question = context.get('question')
+
+        answers = PlanQuestionScore.objects.filter(
+            plan_question=question
+        ).select_related('plan_score', 'plan_score__council')
+
+        context['question'] = question
+        context['answers'] = answers
         return context
