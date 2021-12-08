@@ -1,0 +1,63 @@
+{% extends "scoring/base.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+            <div class="card-header">
+                <h3>
+                    Answers
+                </h3>
+            </div>
+            <div class="ceuk-data-table">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">Question No</th>
+                            <th scope="col">Question</th>
+                            <th scope="col">Answer</th>
+                            <th scope="col">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for section in sections.values %}
+                        <tr data-has-plan="no">
+                            <td colspan="4" class="">
+                                {{ section.description }} ( {{ section.score }}/{{ section.max_score }} )
+                            </td>
+                        </tr>
+                        {% for answer in section.answers %}
+                        <tr>
+                            <td data-column="question_no">
+                                {{ answer.display_code }}
+                            </td>
+                            {% if answer.type == 'HEADER' %}
+                            <td data-column="answer" colspan="3">
+                            {% else %}
+                            <td data-column="answer">
+                            {% endif %}
+                                {{ answer.question | linebreaks }}
+                            </td>
+                            {% if answer.type != 'HEADER' %}
+                            <td data-column="answer">
+                                {{ answer.answer }}
+                            </td>
+                            <td data-column="score">
+                                {{ answer.score }}/{{ answer.max }}
+                            </td>
+                            {% endif %}
+                        </tr>
+                      {% endfor %}
+                      {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
