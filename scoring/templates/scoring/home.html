@@ -47,7 +47,7 @@
         {% for council in council_data %}
         <tr>
             <td>
-                {{ council.name }}
+                <a href="{% url 'answers' council.slug %}">{{ council.name }}</a>
             </td>
             <td>
                 {{ council.score }}
