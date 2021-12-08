@@ -25,7 +25,7 @@ def get_promises():
 # Replace the column header lines
 def replace_headers():
     df = pd.read_csv(settings.PROMISES_CSV)
-    df = df.dropna('columns', 'all')
+    df = df.dropna(axis='columns', how='all')
 
     df.columns = ['council',
                   'scope',
