@@ -6,4 +6,5 @@ import scoring.views as views
 urlpatterns = [
     path('', views.HomePageView.as_view(), name='home'),
     path('councils/<slug:slug>/answers', views.CouncilAnswersView.as_view(), name='answers'),
+    path('answers/<slug:slug>/', views.AnswerCouncilsView.as_view(), name='answercouncils'),
 ]

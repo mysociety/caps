@@ -32,7 +32,11 @@
                         {% for answer in section.answers %}
                         <tr>
                             <td data-column="question_no">
+                                {% if answer.type == 'HEADER' %}
                                 {{ answer.display_code }}
+                                {% else %}
+                                <a href="{% url 'answercouncils' answer.code %}">{{ answer.display_code }}</a>
+                                {% endif %}
                             </td>
                             {% if answer.type == 'HEADER' %}
                             <td data-column="answer" colspan="3">
