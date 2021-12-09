@@ -29,6 +29,13 @@
         <a href="{% url 'scoring' 'combined' %}">Combined</a>
     </p>
 
+    <p>
+    <form method="GET">
+        {{ form }}
+         <input type="submit" value="Sort">
+    </form>
+
+
     <table class="table mb-0">
         <thead>
             <tr>
@@ -54,11 +61,35 @@
             <td>
                 {{ council.score }}
             </td>
-            {% for score in council.all_scores.values %}
+            {% with scores=council.all_scores %}
             <td>
-                {{ score.score }}/{{ score.max }}
+                {{ scores.s1_gov.score }}/{{ scores.s1_gov.max }}
             </td>
-            {% endfor %}
+            <td>
+                {{ scores.s2_m_a.score }}/{{ scores.s2_m_a.max }}
+            </td>
+            <td>
+                {{ scores.s3_c_a.score }}/{{ scores.s3_c_a.max }}
+            </td>
+            <td>
+                {{ scores.s4_coms.score }}/{{ scores.s4_coms.max }}
+            </td>
+            <td>
+                {{ scores.s5_mset.score }}/{{ scores.s5_mset.max }}
+            </td>
+            <td>
+                {{ scores.s6_cb.score }}/{{ scores.s6_cb.max }}
+            </td>
+            <td>
+                {{ scores.s7_dsi.score }}/{{ scores.s7_dsi.max }}
+            </td>
+            <td>
+                {{ scores.s8_est.score }}/{{ scores.s8_est.max }}
+            </td>
+            <td>
+                {{ scores.s9_ee.score }}/{{ scores.s9_ee.max }}
+            </td>
+            {% endwith %}
         </tr>
         {% endfor %}
         </tbody>
