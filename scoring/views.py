@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from django.db.models import Subquery, OuterRef, Q
+from django.db.models import Subquery, OuterRef, Q, Avg
 
 from caps.models import Council
 from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
@@ -66,6 +66,40 @@ class HomePageView(ListView):
         context['council_data'] = councils
         return context
 
+class CouncilSectionView(DetailView):
+    model = Council
+    context_object_name = 'council'
+    template_name = 'council_sections.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council = context.get('council')
+
+        section_qs = PlanSectionScore.objects.select_related('plan_section').filter(
+            plan_score__council=council,
+            plan_section__year=2021
+        )
+
+        sections = {}
+        for section in section_qs.all():
+            sections[section.plan_section.code] = {
+                'description': section.plan_section.description,
+                'max_score': section.plan_section.max_score,
+                'score': section.score,
+            }
+
+        section_avgs = PlanSectionScore.objects.select_related('plan_section').filter(
+            plan_score__council__authority_type=council.authority_type,
+            plan_section__year=2021
+        ).values('plan_section__code').annotate(avg_score=Avg('score')) #, distinct=True))
+
+        for section in section_avgs.all():
+            sections[section['plan_section__code']]['avg'] = round(section['avg_score'], 1)
+
+        context['sections'] = sections
+        return context
+
+
 class CouncilAnswersView(DetailView):
     model = Council
     context_object_name = 'council'
@@ -76,6 +110,20 @@ class CouncilAnswersView(DetailView):
         council = context.get('council')
 
         plan = PlanScore.objects.get(council=council, year=2021)
+
+        section_qs = PlanSectionScore.objects.select_related('plan_section').filter(
+            plan_score__council=context['council'],
+            plan_section__year=2021
+        )
+
+        sections = {}
+        for section in section_qs.all():
+            sections[section.plan_section.code] = {
+                'description': section.plan_section.description,
+                'max_score': section.plan_section.max_score,
+                'score': section.score,
+                'answers': []
+            }
 
         # do this in raw SQL as otherwise we need a third query and an extra loop below
         questions = PlanQuestion.objects.raw(
