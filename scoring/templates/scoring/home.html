@@ -36,6 +36,9 @@
             <td>
                 {{ council.name }}
             </td>
+            <td>
+                {{ council.score }}
+            </td>
             {% for score in council.all_scores.values %}
             <td>
                 {{ score.score }}/{{ score.max }}
