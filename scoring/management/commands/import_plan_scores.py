@@ -24,6 +24,17 @@ class Command(BaseCommand):
     QUESTIONS_CSV = join(settings.DATA_DIR, settings.PLAN_SCORE_QUESTIONS_CSV_NAME)
     ANSWERS_CSV = join(settings.DATA_DIR, settings.PLAN_SCORE_ANSWERS_CSV_NAME)
 
+    def check_for_existing(self):
+            existing_plans = PlanScore.objects.filter(
+                year=self.YEAR
+            ).exists()
+
+            if existing_plans:
+                print("Existing plans for year {}, not importing".format(self.YEAR))
+                return True
+
+            return False
+
     def get_files(self):
         # other files manually downloaded for now
         sheet_url = f"https://docs.google.com/spreadsheets/d/{settings.PLAN_SCORE_QUESTIONS_CSV_KEY}/export?format=csv&gid={settings.PLAN_SCORE_QUESTIONS_CSV_TAB}"
@@ -157,7 +168,8 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        self.get_files()
-        self.import_section_scores()
-        self.import_questions()
-        self.import_question_scores()
+        if self.check_for_existing() == False:
+            self.get_files()
+            self.import_section_scores()
+            self.import_questions()
+            self.import_question_scores()
