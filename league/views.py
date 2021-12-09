@@ -4,12 +4,13 @@ from django.db.models import Subquery, OuterRef, Q
 from caps.models import Council
 from league.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
 
+from league.forms import LeagueSort
+
 class HomePageView(ListView):
     template_name = "league/home.html"
 
     def get_queryset(self):
         authority_type = self.kwargs.get('council_type', '')
-        sort = self.request.GET.get('sort_by')
         qs = Council.objects.annotate(
             score=Subquery(
                 PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('total')
@@ -53,6 +54,15 @@ class HomePageView(ListView):
 
         codes = PlanSection.section_codes()
 
+        form = LeagueSort(self.request.GET)
+        if form.is_valid():
+            sort = form.cleaned_data['sort_by']
+            if sort != '':
+                councils = sorted(councils, key=lambda council: 0 if council['score'] == 0 else council['all_scores'][sort]['score'], reverse=True)
+        else:
+            form = LeagueSort()
+
+        context['form'] = form
         context['council_data'] = councils
         return context
 
