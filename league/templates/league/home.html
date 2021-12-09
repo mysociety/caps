@@ -1,12 +1,30 @@
 {% extends "league/base.html" %}
+{% load bootstrap4 %}
+
 {% block content %}
 
     <h1>LEAGUE</h1>
+
+    <p>
+        <a href="{% url 'league' 'scottish' %}">Scotland</a> :
+        <a href="{% url 'league' 'england' %}">England</a> :
+        <a href="{% url 'league' 'wales' %}">Wales</a> :
+        <a href="{% url 'league' 'ni' %}">Northern Ireland</a>
+    </p>
+
+    <p>
+        <a href="{% url 'league' 'unitary' %}">Unitary</a> :
+        <a href="{% url 'league' 'district' %}">District</a> :
+        <a href="{% url 'league' 'london' %}">London</a> :
+        <a href="{% url 'league' 'county' %}">County</a> :
+        <a href="{% url 'league' 'combined' %}">Combined</a>
+    </p>
 
     <table class="table mb-0">
         <thead>
             <tr>
                 <th>Council</th>
+                <th>Total</th>
                 <th>Governance</th>
                 <th>Mitigation</th>
                 <th>Commitment</th>
