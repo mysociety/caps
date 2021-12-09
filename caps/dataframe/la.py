@@ -9,9 +9,9 @@ import string
 import pandas as pd
 import numpy as np
 
-la_lookup_url = "https://raw.githubusercontent.com/ajparsons/uk_local_authority_names_and_codes/master/uk_local_authorities.csv"
-name_lookup_url = "https://raw.githubusercontent.com/ajparsons/uk_local_authority_names_and_codes/master/lookup_name_to_registry.csv"
-gss_code = "https://raw.githubusercontent.com/ajparsons/uk_local_authority_names_and_codes/master/lookup_gss_to_registry.csv"
+la_lookup_url = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/uk_local_authorities.csv"
+name_lookup_url = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/lookup_name_to_registry.csv"
+gss_code = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/lookup_gss_to_registry.csv"
 
 
 @lru_cache
@@ -162,7 +162,7 @@ class LAPDAccessor(object):
                    columns: Optional[List[str]] = None,
                    aggfunc="sum",
                    weight_on: Optional[str] = None,
-                   comparison_column: str = "replaced_by",
+                   comparison_column: str = "replaced-by",
                    upgrade_absent: bool = True) -> pd.DataFrame:
         """
         If given values by primary authority, this may be former authorities.
