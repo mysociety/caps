@@ -24,6 +24,9 @@
             <td>
                 <a href="{% url 'answers' council.slug %}">{{ council.name }}</a>
             </td>
+            <td>
+                {{ council.score }}
+            </td>
             {% for score in council.all_scores.values %}
             <td>
                 {{ score.score }}/{{ score.max }}
