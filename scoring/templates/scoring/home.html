@@ -1,12 +1,30 @@
 {% extends "scoring/base.html" %}
+{% load bootstrap4 %}
+
 {% block content %}
 
     <h1>SCORING</h1>
+
+    <p>
+        <a href="{% url 'scoring' 'scottish' %}">Scotland</a> :
+        <a href="{% url 'scoring' 'england' %}">England</a> :
+        <a href="{% url 'scoring' 'wales' %}">Wales</a> :
+        <a href="{% url 'scoring' 'ni' %}">Northern Ireland</a>
+    </p>
+
+    <p>
+        <a href="{% url 'scoring' 'unitary' %}">Unitary</a> :
+        <a href="{% url 'scoring' 'district' %}">District</a> :
+        <a href="{% url 'scoring' 'london' %}">London</a> :
+        <a href="{% url 'scoring' 'county' %}">County</a> :
+        <a href="{% url 'scoring' 'combined' %}">Combined</a>
+    </p>
 
     <table class="table mb-0">
         <thead>
             <tr>
                 <th>Council</th>
+                <th>Total</th>
                 <th>Governance</th>
                 <th>Mitigation</th>
                 <th>Commitment</th>
