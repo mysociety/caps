@@ -8,12 +8,14 @@ class HomePageView(ListView):
     template_name = "scoring/home.html"
 
     def get_queryset(self):
+        authority_type = self.kwargs.get('council_type', '')
         sort = self.request.GET.get('sort_by')
         qs = Council.objects.annotate(
             score=Subquery(
-                PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('weighted_total')
+                PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('total')
             )
-        )
+        ).order_by('-score')
+
         return qs
 
     def get_context_data(self, **kwargs):
