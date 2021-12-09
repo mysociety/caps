@@ -5,4 +5,5 @@ import scoring.views as views
 
 urlpatterns = [
     path("", views.HomePageView.as_view(), name="home"),
+    path('scoring/<str:council_type>/', views.HomePageView.as_view(), name='scoring'),
 ]
