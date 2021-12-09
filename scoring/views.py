@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from django.db.models import Subquery, OuterRef, Q
+from django.db.models import Subquery, OuterRef, Q, Avg
 
 from caps.models import Council
 from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
@@ -65,20 +65,10 @@ class CouncilAnswersView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         council = context.get('council')
-
         plan_score = PlanScore.objects.get(council=council, year=2021)
 
-        # do this in raw SQL as otherwise we need a third query and an extra loop below
-        questions = PlanQuestion.objects.raw(
-            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score \
-            from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
-            left join scoring_planquestionscore a on q.id = a.plan_question_id \
-            where s.year = '2021' and ( a.plan_score_id = %s or a.plan_score_id is null) order by q.code",
-            [plan_score.id]
-        )
-
         section_qs = PlanSectionScore.objects.select_related('plan_section').filter(
-            plan_score__council=context['council'],
+            plan_score__council=council,
             plan_section__year=2021
         )
 
@@ -90,6 +80,25 @@ class CouncilAnswersView(DetailView):
                 'score': section.score,
                 'answers': []
             }
+
+        # get average section scores for authorities of the same type
+        section_avgs = PlanSectionScore.objects.select_related('plan_section').filter(
+            plan_score__total__gt=0,
+            plan_score__council__authority_type=council.authority_type,
+            plan_section__year=2021
+        ).values('plan_section__code').annotate(avg_score=Avg('score')) #, distinct=True))
+
+        for section in section_avgs.all():
+            sections[section['plan_section__code']]['avg'] = round(section['avg_score'], 1)
+
+        # do this in raw SQL as otherwise we need a third query and an extra loop below
+        questions = PlanQuestion.objects.raw(
+            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score \
+            from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
+            left join scoring_planquestionscore a on q.id = a.plan_question_id \
+            where s.year = '2021' and ( a.plan_score_id = %s or a.plan_score_id is null) order by q.code",
+            [plan_score.id]
+        )
 
         for question in questions:
             section = question.section_code
