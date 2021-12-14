@@ -106,6 +106,12 @@ PIPELINE = {
             "source_filenames": ("scss/scoring.scss",),
             "output_filename": "css/scoring.css",
         },
+        'scoring': {
+            'source_filenames': (
+                'scss/scoring.scss',
+            ),
+            'output_filename': 'css/scoring.css',
+        },
     },
     "JAVASCRIPT": {
         "main": {
