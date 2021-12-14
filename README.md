@@ -128,3 +128,9 @@ This will copy the new schema in to place and reload the core. You will
 then need to re-index for the changes to be useful. This will only work
 if you are adding to the schema, if you're altering an existing property
 then you should probably use the solr API to do so.
+
+## Code style
+
+[`black`](https://black.readthedocs.io/en/stable/) is run for code tidying: `python -m black .`
+
+This is monitored by a github action for pull requests. 
