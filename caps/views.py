@@ -1,4 +1,3 @@
-# -*- coding: future_fstrings -*-
 from random import shuffle
 
 from django.shortcuts import render

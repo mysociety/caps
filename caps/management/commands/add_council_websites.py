@@ -1,4 +1,3 @@
-# -*- coding: future_fstrings -*-
 import re
 import requests
 import urllib.request
