@@ -1,4 +1,5 @@
 FROM ghcr.io/mysociety/caps:master
 
 RUN apt-get install -qq git postgresql-client
-RUN pip install pycodestyle autopep8
+COPY requirements.dev.txt /
+RUN pip install -r /requirements.dev.txt
