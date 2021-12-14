@@ -1,6 +1,7 @@
 import os
+
 SECRET_KEY = os.environ.get("SECRET_KEY", "xx")
-SASSC_LOCATION  = os.environ.get("SASSC_LOCATION", "sassc")
+SASSC_LOCATION = os.environ.get("SASSC_LOCATION", "sassc")
 DEBUG = int(os.environ.get("DEBUG", 1))
 ALLOWED_HOSTS = ["*"]
 
@@ -10,14 +11,17 @@ REPOSITORY_DB_USER = os.environ.get("REPOSITORY_DB_USER", "caps")
 REPOSITORY_DB_NAME = os.environ.get("REPOSITORY_DB_NAME", "caps")
 REPOSITORY_DB_PASS = os.environ.get("REPOSITORY_DB_PASS", "caps")
 
-MAPIT_URL = 'https://mapit.mysociety.org'
+MAPIT_URL = "https://mapit.mysociety.org"
 MAPIT_API_KEY = os.environ.get("MAPIT_API_KEY", "xxx")
 
-CACHE_FILE = 'data/cache'
+CACHE_FILE = "data/cache"
 
 SOLR_URL = os.environ.get("SOLR_URL", "http://solr:8983/solr/caps")
 SOLR_ADMIN_URL = os.environ.get("SOLR_ADMIN_URL", "http://solr:8983/solr/admin/cores")
-SURVEY_URL = os.environ.get("SURVEY_URL", "https://survey.alchemer.com/s3/6421904/Climate-Action-Plans-User-Survey")
+SURVEY_URL = os.environ.get(
+    "SURVEY_URL",
+    "https://survey.alchemer.com/s3/6421904/Climate-Action-Plans-User-Survey",
+)
 
 GOOGLE_ANALYTICS = os.environ.get("GOOGLE_ANALYTICS", "xxx")
 

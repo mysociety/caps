@@ -1,10 +1,11 @@
 from haystack import indexes
 from caps.models import PlanDocument
 
+
 class PlanDocumentIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True,
-                             use_template=True,
-                             template_name='plandocument_text_index.txt')
+    text = indexes.CharField(
+        document=True, use_template=True, template_name="plandocument_text_index.txt"
+    )
     council_name = indexes.CharField()
 
     def get_model(self):
