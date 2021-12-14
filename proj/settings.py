@@ -20,6 +20,9 @@ MEDIA_URL = "/media/"
 
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
+ROOT_HOSTCONF = "proj.hosts"
+DEFAULT_HOST = "cape"
+
 DEBUG = True
 
 if DEBUG:
@@ -99,6 +102,10 @@ PIPELINE = {
             "source_filenames": ("scss/main.scss",),
             "output_filename": "css/main.css",
         },
+        "scoring": {
+            "source_filenames": ("scss/scoring.scss",),
+            "output_filename": "css/scoring.css",
+        },
     },
     "JAVASCRIPT": {
         "main": {
@@ -145,12 +152,14 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "django_filters",
+    "django_hosts",
     "haystack",
     "pipeline",
     "bootstrap4",
     "rest_framework",
     "simple_history",
     "caps",
+    "scoring",
 ]
 
 HAYSTACK_CONNECTIONS = {
@@ -173,6 +182,7 @@ DATABASES = {
 }
 
 MIDDLEWARE = (
+    "django_hosts.middleware.HostsRequestMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -181,6 +191,7 @@ MIDDLEWARE = (
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "htmlmin.middleware.HtmlMinifyMiddleware",
     "htmlmin.middleware.MarkRequestMiddleware",
+    "django_hosts.middleware.HostsResponseMiddleware",
 )
 
 REST_FRAMEWORK = {
