@@ -28,7 +28,7 @@ def get_la_df(include_historical: bool = False) -> pd.DataFrame:
 @lru_cache
 def gss_registry_lookup(allow_none: bool = False) -> Callable:
     """
-    retrieve a function that can be applied to convert gss codes to 
+    retrieve a function that can be applied to convert gss codes to
     three letter codes
     """
     df = pd.read_csv(gss_code)
@@ -47,7 +47,7 @@ def gss_registry_lookup(allow_none: bool = False) -> Callable:
 
 def remove_punctuations(text):
     for punctuation in string.punctuation + string.whitespace:
-        text = text.replace(punctuation, '')
+        text = text.replace(punctuation, "")
     return text
 
 
@@ -62,8 +62,7 @@ def name_registry_lookup(allow_none: bool = False) -> Callable:
     df = pd.read_csv(name_lookup_url)
     df["la name"] = df["la name"].str.lower().str.strip()
     for b in banned_words:
-        df["la name"] = df["la name"].str.replace(
-            b, "", regex=False)
+        df["la name"] = df["la name"].str.replace(b, "", regex=False)
     df["la name"] = df["la name"].apply(remove_punctuations)
     lookup = df.set_index("la name")["local-authority-code"].to_dict()
 
@@ -91,11 +90,12 @@ class LAPDAccessor(object):
     def __init__(self, pandas_obj):
         self._obj = pandas_obj
 
-    def get_council_info(self,
-                         items: Optional[List[str]] = None,
-                         merge_type: str = "left",
-                         include_historical: bool = False,
-                         ) -> pd.DataFrame:
+    def get_council_info(
+        self,
+        items: Optional[List[str]] = None,
+        merge_type: str = "left",
+        include_historical: bool = False,
+    ) -> pd.DataFrame:
         """
         retrieve columns from comparison LA spreadsheet.
         Set merge_type to right to expand to include authorities not
@@ -125,12 +125,13 @@ class LAPDAccessor(object):
             df = df.drop(columns=["local-authority-type"])
         return df.loc[lower_mask]
 
-    def create_code_column(self,
-                           from_type: str = "name",
-                           source_col: Optional[str] = None,
-                           code_col_name: str = "local-authority-code",
-                           allow_none: bool = False
-                           ) -> pd.DataFrame:
+    def create_code_column(
+        self,
+        from_type: str = "name",
+        source_col: Optional[str] = None,
+        code_col_name: str = "local-authority-code",
+        allow_none: bool = False,
+    ) -> pd.DataFrame:
         """
         Create registry code column
         """
@@ -152,25 +153,28 @@ class LAPDAccessor(object):
                     pass
         if source_col is None:
             raise ValueError(
-                "Could not find a column with a valid name in the first row")
+                "Could not find a column with a valid name in the first row"
+            )
 
         df[code_col_name] = df[source_col].apply(lookup_func)
 
         return df
 
-    def to_current(self,
-                   columns: Optional[List[str]] = None,
-                   aggfunc="sum",
-                   weight_on: Optional[str] = None,
-                   comparison_column: str = "replaced-by",
-                   upgrade_absent: bool = True) -> pd.DataFrame:
+    def to_current(
+        self,
+        columns: Optional[List[str]] = None,
+        aggfunc="sum",
+        weight_on: Optional[str] = None,
+        comparison_column: str = "replaced-by",
+        upgrade_absent: bool = True,
+    ) -> pd.DataFrame:
         """
         If given values by primary authority, this may be former authorities.
-        This uses the lookup of how authorities were merged to update this data. 
+        This uses the lookup of how authorities were merged to update this data.
         the aggfunc is anything pandas .agg function can expect. So 'mean', 'sum',
-        or a custom function that returns a dataframe from a series input. 
-        'weight_on' will give a mean that's been weighted by a column in the lookup table. 
-        Good values are 'pop_2020' or 'area' 
+        or a custom function that returns a dataframe from a series input.
+        'weight_on' will give a mean that's been weighted by a column in the lookup table.
+        Good values are 'pop_2020' or 'area'
         """
         df = self._obj
         cols_to_fetch = [comparison_column]
@@ -179,41 +183,51 @@ class LAPDAccessor(object):
         if aggfunc != "mean" and weight_on:
             raise ValueError("If using weight_on must also use mean.")
         if weight_on:
-            def aggfunc(x): return np.average(
-                x, weights=df.loc[x.index, weight_on])
+
+            def aggfunc(x):
+                return np.average(x, weights=df.loc[x.index, weight_on])
+
             cols_to_fetch.append(weight_on)
-        df = df.la.get_council_info(cols_to_fetch, include_historical=True,)
+        df = df.la.get_council_info(
+            cols_to_fetch,
+            include_historical=True,
+        )
         if weight_on:
             df[weight_on] = df[weight_on].fillna(1)
         if upgrade_absent:
-            df[comparison_column] = np.where(df[comparison_column].isna(),
-                                             df["local-authority-code"],
-                                             df[comparison_column])
-        return (df[[comparison_column] + columns].groupby(comparison_column)
-                .agg(aggfunc)
-                .rename_axis(index="local-authority-code")
-                .reset_index())
+            df[comparison_column] = np.where(
+                df[comparison_column].isna(),
+                df["local-authority-code"],
+                df[comparison_column],
+            )
+        return (
+            df[[comparison_column] + columns]
+            .groupby(comparison_column)
+            .agg(aggfunc)
+            .rename_axis(index="local-authority-code")
+            .reset_index()
+        )
 
-    def to_higher(self,
-                  columns: Optional[List[str]] = None,
-                  aggfunc="mean",
-                  weight_on: Optional[str] = None,
-                  comparison_column: str = "county-la",
-                  upgrade_absent: bool = False) -> pd.DataFrame:
+    def to_higher(
+        self,
+        columns: Optional[List[str]] = None,
+        aggfunc="mean",
+        weight_on: Optional[str] = None,
+        comparison_column: str = "county-la",
+        upgrade_absent: bool = False,
+    ) -> pd.DataFrame:
         """
         If given values by primary authority, we may want the overlapping authorities
         (upper level, regional partnerships, etc)
-        This uses the lookup of how authorities were merged to update this data. 
+        This uses the lookup of how authorities were merged to update this data.
         the aggfunc is anything pandas .agg function can expect. So 'mean', 'sum',
-        or a custom function that returns a dataframe from a series input. 
-        'weight_on' will give a mean that's been weighted by a column in the lookup table. 
-        Good values are 'pop_2020' or 'area' 
+        or a custom function that returns a dataframe from a series input.
+        'weight_on' will give a mean that's been weighted by a column in the lookup table.
+        Good values are 'pop_2020' or 'area'
         """
-        return self.to_current(columns,
-                               aggfunc,
-                               weight_on,
-                               comparison_column,
-                               upgrade_absent)
+        return self.to_current(
+            columns, aggfunc, weight_on, comparison_column, upgrade_absent
+        )
 
 
 @pd.api.extensions.register_series_accessor("la")

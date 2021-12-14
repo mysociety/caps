@@ -19,6 +19,7 @@ from simple_history.models import HistoricalRecords
 import django_filters
 from caps.filters import DefaultSecondarySortFilter
 
+
 class Council(models.Model):
 
     ENGLAND = 1
@@ -27,26 +28,26 @@ class Council(models.Model):
     NORTHERN_IRELAND = 4
 
     COUNTRY_CHOICES = [
-        (ENGLAND, 'England'),
-        (SCOTLAND, 'Scotland'),
-        (WALES, 'Wales'),
-        (NORTHERN_IRELAND, 'Northern Ireland')
+        (ENGLAND, "England"),
+        (SCOTLAND, "Scotland"),
+        (WALES, "Wales"),
+        (NORTHERN_IRELAND, "Northern Ireland"),
     ]
 
     AUTHORITY_TYPE_CHOICES = [
-        ('CC', 'City of London'),
-        ('COMB', 'Combined Authority'),
-        ('CTY', 'County Council'),
-        ('LBO', 'London Borough'),
-        ('MD', 'Metropolitan District'),
-        ('NMD', 'Non-Metropolitan District'),
-        ('UA', 'Unitary Authority')
+        ("CC", "City of London"),
+        ("COMB", "Combined Authority"),
+        ("CTY", "County Council"),
+        ("LBO", "London Borough"),
+        ("MD", "Metropolitan District"),
+        ("NMD", "Non-Metropolitan District"),
+        ("UA", "Unitary Authority"),
     ]
 
     PLAN_FILTER_CHOICES = [
-        (None, 'All'),
-        (True, 'Yes'),
-        (False, 'No'),
+        (None, "All"),
+        (True, "Yes"),
+        (False, "No"),
     ]
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -54,77 +55,107 @@ class Council(models.Model):
     slug = models.SlugField(max_length=100)
     country = models.PositiveSmallIntegerField(choices=COUNTRY_CHOICES)
     authority_code = models.CharField(max_length=4, unique=True)
-    authority_type = models.CharField(max_length=4, choices=AUTHORITY_TYPE_CHOICES, blank=True)
+    authority_type = models.CharField(
+        max_length=4, choices=AUTHORITY_TYPE_CHOICES, blank=True
+    )
     gss_code = models.CharField(max_length=9, blank=True, unique=True)
     whatdotheyknow_id = models.IntegerField(null=True, blank=True, unique=True)
     mapit_area_code = models.CharField(max_length=3, blank=True)
     website_url = models.URLField()
-    combined_authority = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
+    combined_authority = models.ForeignKey(
+        "self", on_delete=models.CASCADE, null=True, blank=True
+    )
     related_councils = models.ManyToManyField("self", blank=True)
     twitter_name = models.CharField(max_length=200, null=True)
     twitter_url = models.URLField(null=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
 
     def __str__(self):
-        return u"%s" % self.name
+        return "%s" % self.name
 
     def get_absolute_url(self):
         return "/councils/%s/" % self.slug
 
     @property
     def powers(self):
-        powers = ['staff', 'spending']
+        powers = ["staff", "spending"]
 
-        if self.country != self.NORTHERN_IRELAND and self.authority_type != 'COMB' and self.authority_type != 'NMD':
-            powers.append('transport-planning')
+        if (
+            self.country != self.NORTHERN_IRELAND
+            and self.authority_type != "COMB"
+            and self.authority_type != "NMD"
+        ):
+            powers.append("transport-planning")
 
-        if self.country != self.NORTHERN_IRELAND and self.authority_type == 'UA' or self.authority_type == 'MD' or self.authority_type == 'CTY':
-            powers.append('passenger-transport')
+        if (
+            self.country != self.NORTHERN_IRELAND
+            and self.authority_type == "UA"
+            or self.authority_type == "MD"
+            or self.authority_type == "CTY"
+        ):
+            powers.append("passenger-transport")
 
-        if self.country != self.NORTHERN_IRELAND and self.authority_type != 'COMB' and self.authority_type != 'NMD':
-            powers.append('schools-libraries')
+        if (
+            self.country != self.NORTHERN_IRELAND
+            and self.authority_type != "COMB"
+            and self.authority_type != "NMD"
+        ):
+            powers.append("schools-libraries")
 
-        if self.authority_type != 'COMB' and self.authority_type != 'CTY':
-            powers.append('environmental-health')
+        if self.authority_type != "COMB" and self.authority_type != "CTY":
+            powers.append("environmental-health")
 
-        if self.authority_type != 'COMB':
-                if self.authority_type != 'CTY' and self.authority_type != 'NMD':
-                    powers.append('waste-collection')
-                    powers.append('waste-disposal')
-                elif self.authority_type == 'CTY':
-                    powers.append('waste-disposal')
-                elif self.authority_type == 'NMD':
-                    powers.append('waste-collection')
+        if self.authority_type != "COMB":
+            if self.authority_type != "CTY" and self.authority_type != "NMD":
+                powers.append("waste-collection")
+                powers.append("waste-disposal")
+            elif self.authority_type == "CTY":
+                powers.append("waste-disposal")
+            elif self.authority_type == "NMD":
+                powers.append("waste-collection")
 
-        if self.country != self.NORTHERN_IRELAND and self.authority_type != 'COMB' and self.authority_type != 'CTY':
-            powers.append('social-housing')
+        if (
+            self.country != self.NORTHERN_IRELAND
+            and self.authority_type != "COMB"
+            and self.authority_type != "CTY"
+        ):
+            powers.append("social-housing")
 
-        if self.authority_type != 'COMB' and self.authority_type != 'CTY':
-            powers.append('planning-building')
+        if self.authority_type != "COMB" and self.authority_type != "CTY":
+            powers.append("planning-building")
 
         return powers
 
     @property
     def is_upper_tier(self):
-        return self.authority_type == 'CTY' or self.authority_type == 'COMB'
+        return self.authority_type == "CTY" or self.authority_type == "COMB"
 
     @property
     def foe_slug(self):
         if self.country not in (self.ENGLAND, self.WALES) or self.is_upper_tier:
-            return ''
+            return ""
 
         slug = self.name.lower()
 
-        if slug == 'city of london':
-            slug = 'city-london'
-        elif slug == 'st albans city and district council':
-            slug = 'st-albans'
-        elif slug == 'barrow-in-furness borough council':
-            slug = 'barrow-furness'
+        if slug == "city of london":
+            slug = "city-london"
+        elif slug == "st albans city and district council":
+            slug = "st-albans"
+        elif slug == "barrow-in-furness borough council":
+            slug = "barrow-furness"
         else:
-            slug = re.sub(r'([^a-z&\- ]| of|london borough of|royal borough of|metropolitan borough|borough|city of|city|council|district|county|unitary|\(unitary\))', '', slug).strip().replace('&', 'and').replace(' ', '-')
+            slug = (
+                re.sub(
+                    r"([^a-z&\- ]| of|london borough of|royal borough of|metropolitan borough|borough|city of|city|council|district|county|unitary|\(unitary\))",
+                    "",
+                    slug,
+                )
+                .strip()
+                .replace("&", "and")
+                .replace(" ", "-")
+            )
 
         return slug
 
@@ -136,7 +167,9 @@ class Council(models.Model):
         """
         if pd.isnull(country_entry):
             return None
-        descriptions_to_codes = dict((country.lower(), code) for code, country in Council.COUNTRY_CHOICES)
+        descriptions_to_codes = dict(
+            (country.lower(), code) for code, country in Council.COUNTRY_CHOICES
+        )
         return descriptions_to_codes.get(country_entry.lower().strip())
 
     @classmethod
@@ -147,7 +180,9 @@ class Council(models.Model):
         """
         if pd.isnull(authority_type):
             return None
-        descriptions_to_codes = dict((type.lower(), code) for code, type in Council.AUTHORITY_TYPE_CHOICES)
+        descriptions_to_codes = dict(
+            (type.lower(), code) for code, type in Council.AUTHORITY_TYPE_CHOICES
+        )
         return descriptions_to_codes.get(authority_type.lower().strip())
 
     @classmethod
@@ -155,20 +190,28 @@ class Council(models.Model):
         """
         Return the percentage of councils that have a plan document
         """
-        with_plan = cls.objects.annotate(num_plans=Count('plandocument')).filter(num_plans__gt=0).count()
+        with_plan = (
+            cls.objects.annotate(num_plans=Count("plandocument"))
+            .filter(num_plans__gt=0)
+            .count()
+        )
         total = cls.objects.all().count()
-        return(round(with_plan / total * 100))
+        return round(with_plan / total * 100)
+
 
 class OverwriteStorage(FileSystemStorage):
     """
     Overwrite an existing file at the name given
     """
+
     def get_available_name(self, name, max_length):
         if self.exists(name):
             os.remove(os.path.join(settings.MEDIA_ROOT, name))
         return name
 
+
 overwrite_storage = OverwriteStorage()
+
 
 class PlanDocument(models.Model):
 
@@ -178,27 +221,24 @@ class PlanDocument(models.Model):
     PRE_PLAN = 4
     MEETING_MINUTES = 5
     DOCUMENT_TYPE_CHOICES = [
-        (ACTION_PLAN, 'Action plan'),
-        (CLIMATE_STRATEGY, 'Climate strategy'),
-        (SUMMARY_DOCUMENT, 'Summary document'),
-        (PRE_PLAN, 'Pre-plan'),
-        (MEETING_MINUTES, 'Meeting minutes'),
+        (ACTION_PLAN, "Action plan"),
+        (CLIMATE_STRATEGY, "Climate strategy"),
+        (SUMMARY_DOCUMENT, "Summary document"),
+        (PRE_PLAN, "Pre-plan"),
+        (MEETING_MINUTES, "Meeting minutes"),
     ]
 
     COUNCIL_ONLY = 1
     WHOLE_AREA = 2
     SCOPE_CHOICES = [
-        (COUNCIL_ONLY, 'Council only'),
-        (WHOLE_AREA, 'Whole area'),
+        (COUNCIL_ONLY, "Council only"),
+        (WHOLE_AREA, "Whole area"),
     ]
 
     DRAFT = 1
     APPROVED = 2
 
-    STATUS_CHOICES = [
-        (DRAFT, 'Draft'),
-        (APPROVED, 'Approved')
-    ]
+    STATUS_CHOICES = [(DRAFT, "Draft"), (APPROVED, "Approved")]
 
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -209,16 +249,22 @@ class PlanDocument(models.Model):
     date_last_found = models.DateField(null=True, blank=True)
     start_year = models.PositiveSmallIntegerField(null=True, blank=True)
     end_year = models.PositiveSmallIntegerField(null=True, blank=True)
-    document_type = models.PositiveSmallIntegerField(choices=DOCUMENT_TYPE_CHOICES, null=True, blank=True)
-    scope = models.PositiveSmallIntegerField(choices=SCOPE_CHOICES, null=True, blank=True)
-    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, null=True, blank=True)
+    document_type = models.PositiveSmallIntegerField(
+        choices=DOCUMENT_TYPE_CHOICES, null=True, blank=True
+    )
+    scope = models.PositiveSmallIntegerField(
+        choices=SCOPE_CHOICES, null=True, blank=True
+    )
+    status = models.PositiveSmallIntegerField(
+        choices=STATUS_CHOICES, null=True, blank=True
+    )
     well_presented = models.BooleanField(null=True, blank=True)
     baseline_analysis = models.BooleanField(null=True, blank=True)
     notes = models.CharField(max_length=800, blank=True)
     file_type = models.CharField(max_length=200)
     charset = models.CharField(max_length=50, blank=True)
     text = models.TextField(blank=True)
-    file = models.FileField('plans', storage=overwrite_storage)
+    file = models.FileField("plans", storage=overwrite_storage)
     history = HistoricalRecords()
 
     @property
@@ -226,21 +272,21 @@ class PlanDocument(models.Model):
         for choice in self.DOCUMENT_TYPE_CHOICES:
             if choice[0] == self.document_type:
                 return choice[1].lower()
-        return 'document'
+        return "document"
 
     @property
     def get_scope(self):
         for choice in self.SCOPE_CHOICES:
             if choice[0] == self.scope:
                 return choice[1].lower()
-        return ''
+        return ""
 
     @property
     def get_status(self):
         for choice in self.STATUS_CHOICES:
             if choice[0] == self.status:
                 return choice[1].lower()
-        return ''
+        return ""
 
     @property
     def link(self):
@@ -248,7 +294,7 @@ class PlanDocument(models.Model):
         PDFs are the only filetype we can display well locally so link out to
         the source document for other file types
         """
-        if self.file_type == 'pdf':
+        if self.file_type == "pdf":
             return self.file.url
         else:
             return self.url
@@ -258,7 +304,7 @@ class PlanDocument(models.Model):
         """
         Generate a 7 character hash of the url passed
         """
-        return hashlib.md5(url.encode('utf-8')).hexdigest()[:7]
+        return hashlib.md5(url.encode("utf-8")).hexdigest()[:7]
 
     @classmethod
     def council_slug(cls, council_name):
@@ -276,9 +322,11 @@ class PlanDocument(models.Model):
         """
         if pd.isnull(time_period):
             return (None, None)
-        match = re.match(r'(?P<start_year>20\d\d)-(?P<end_year>20\d\d)', time_period.lstrip())
+        match = re.match(
+            r"(?P<start_year>20\d\d)-(?P<end_year>20\d\d)", time_period.lstrip()
+        )
         if match:
-            return (int(match.group('start_year')), int(match.group('end_year')))
+            return (int(match.group("start_year")), int(match.group("end_year")))
         else:
             return (None, None)
 
@@ -290,7 +338,10 @@ class PlanDocument(models.Model):
         """
         if pd.isnull(document_type_entry):
             return None
-        descriptions_to_codes = dict((doc_type.lower(), code) for code, doc_type in PlanDocument.DOCUMENT_TYPE_CHOICES)
+        descriptions_to_codes = dict(
+            (doc_type.lower(), code)
+            for code, doc_type in PlanDocument.DOCUMENT_TYPE_CHOICES
+        )
         return descriptions_to_codes.get(document_type_entry.lower().strip())
 
     @classmethod
@@ -301,7 +352,9 @@ class PlanDocument(models.Model):
         """
         if pd.isnull(scope_entry):
             return None
-        descriptions_to_codes = dict((scope.lower(), code) for code, scope in PlanDocument.SCOPE_CHOICES)
+        descriptions_to_codes = dict(
+            (scope.lower(), code) for code, scope in PlanDocument.SCOPE_CHOICES
+        )
         return descriptions_to_codes.get(scope_entry.lower().strip())
 
     @classmethod
@@ -312,7 +365,9 @@ class PlanDocument(models.Model):
         """
         if pd.isnull(status_entry):
             return None
-        descriptions_to_codes = dict((status.lower(), code) for code, status in PlanDocument.STATUS_CHOICES)
+        descriptions_to_codes = dict(
+            (status.lower(), code) for code, status in PlanDocument.STATUS_CHOICES
+        )
         return descriptions_to_codes.get(status_entry.lower().strip())
 
     @classmethod
@@ -341,7 +396,7 @@ class PlanDocument(models.Model):
         Return a value from a pandas data field is it's not null
         """
         if pd.isnull(entry):
-            return ''
+            return ""
         else:
             return entry
 
@@ -353,11 +408,9 @@ class PlanDocument(models.Model):
         """
         if pd.isnull(entry):
             return None
-        descriptions_to_booleans = { 'y': True,
-                                     'n': False,
-                                     'yes': True,
-                                     'no': False }
+        descriptions_to_booleans = {"y": True, "n": False, "yes": True, "no": False}
         return descriptions_to_booleans.get(entry.strip().lower())
+
 
 class DataType(models.Model):
 
@@ -371,6 +424,7 @@ class DataType(models.Model):
     def __str__(self):
         return self.name
 
+
 class DataPoint(models.Model):
 
     created_at = models.DateField(auto_now_add=True)
@@ -381,7 +435,8 @@ class DataPoint(models.Model):
     data_type = models.ForeignKey(DataType, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ['data_type', 'year']
+        ordering = ["data_type", "year"]
+
 
 """
 Following adapted from https://github.com/django-haystack/saved_searches/
@@ -390,6 +445,8 @@ Both of these limit results to those returning a result partly as a way to
 avoid abuse and also because it's unclear what the point of displaying results
 that return no results are
 """
+
+
 class SavedSearchManager(models.Manager):
     def most_recent(self, search_key=None, threshold=1):
         qs = self.get_queryset()
@@ -397,7 +454,15 @@ class SavedSearchManager(models.Manager):
         if search_key is not None:
             qs = qs.filter(search_key=search_key)
 
-        return qs.values('user_query').filter(result_count__gt=0).annotate(most_recent=models.Max('created'),times_seen=models.Count('user_query')).order_by('-most_recent', 'user_query').filter(times_seen__gte=threshold)
+        return (
+            qs.values("user_query")
+            .filter(result_count__gt=0)
+            .annotate(
+                most_recent=models.Max("created"), times_seen=models.Count("user_query")
+            )
+            .order_by("-most_recent", "user_query")
+            .filter(times_seen__gte=threshold)
+        )
 
     def most_popular(self, search_key=None, threshold=1):
         qs = self.get_queryset()
@@ -405,38 +470,58 @@ class SavedSearchManager(models.Manager):
         if search_key is not None:
             qs = qs.filter(search_key=search_key)
 
-        initial_list = qs.values('user_query').filter(result_count__gt=0).order_by().annotate(times_seen=models.Count('user_query')).order_by('-times_seen', 'user_query').filter(times_seen__gte=threshold)
-        return initial_list.values('user_query', 'times_seen')
+        initial_list = (
+            qs.values("user_query")
+            .filter(result_count__gt=0)
+            .order_by()
+            .annotate(times_seen=models.Count("user_query"))
+            .order_by("-times_seen", "user_query")
+            .filter(times_seen__gte=threshold)
+        )
+        return initial_list.values("user_query", "times_seen")
 
 
 class SavedSearch(models.Model):
-    search_key = models.SlugField(max_length=100, help_text="A way to arbitrarily group queries. Should be a single word. Example: all-products")
-    user_query = models.CharField(max_length=1000, help_text="The text the user searched on. Useful for display.")
-    full_query = models.CharField(max_length=1000, default='', blank=True, help_text="The full query Haystack generated. Useful for searching again.")
+    search_key = models.SlugField(
+        max_length=100,
+        help_text="A way to arbitrarily group queries. Should be a single word. Example: all-products",
+    )
+    user_query = models.CharField(
+        max_length=1000, help_text="The text the user searched on. Useful for display."
+    )
+    full_query = models.CharField(
+        max_length=1000,
+        default="",
+        blank=True,
+        help_text="The full query Haystack generated. Useful for searching again.",
+    )
     result_count = models.PositiveIntegerField(default=0, blank=True)
     inorganic = models.BooleanField(default=False)
     created = models.DateTimeField(blank=True, auto_now_add=True)
-    council_restriction = models.CharField(max_length=1000, help_text="The text used to restrict by council", default='')
+    council_restriction = models.CharField(
+        max_length=1000, help_text="The text used to restrict by council", default=""
+    )
 
     objects = SavedSearchManager()
 
     class Meta:
-        verbose_name_plural = 'Saved Searches'
+        verbose_name_plural = "Saved Searches"
 
     def __unicode__(self):
-        return u"'%s...%s" % (self.user_query[:50], self.search_key)
+        return "'%s...%s" % (self.user_query[:50], self.search_key)
+
 
 class Promise(models.Model):
 
     PROMISE_FILTER_CHOICES = [
-        (2025, '2025'),
-        (2030, '2030'),
-        (2035, '2035'),
-        (2040, '2040'),
-        (2045, '2045'),
-        (2050, '2050'),
-        ('no_target', 'No target'),
-        ('unknown', 'Unknown'),
+        (2025, "2025"),
+        (2030, "2030"),
+        (2035, "2035"),
+        (2040, "2040"),
+        (2045, "2045"),
+        (2050, "2050"),
+        ("no_target", "No target"),
+        ("unknown", "Unknown"),
     ]
 
     created_at = models.DateField(auto_now_add=True)
@@ -444,7 +529,9 @@ class Promise(models.Model):
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
     has_promise = models.BooleanField(blank=True, null=True)
     target_year = models.IntegerField(blank=True, null=True)
-    scope = models.PositiveSmallIntegerField(choices=PlanDocument.SCOPE_CHOICES, null=True, blank=True)
+    scope = models.PositiveSmallIntegerField(
+        choices=PlanDocument.SCOPE_CHOICES, null=True, blank=True
+    )
     text = models.TextField(blank=True)
     source = models.URLField(max_length=600)
     source_name = models.CharField(max_length=200, blank=True)
@@ -456,7 +543,8 @@ class Promise(models.Model):
         for choice in PlanDocument.SCOPE_CHOICES:
             if choice[0] == self.scope:
                 return choice[1].lower()
-        return ''
+        return ""
+
 
 class EmergencyDeclaration(models.Model):
     created_at = models.DateField(auto_now_add=True)
@@ -465,58 +553,66 @@ class EmergencyDeclaration(models.Model):
     source_url = models.URLField(max_length=600)
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
 
+
 class CouncilFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr='icontains')
-    has_plan = django_filters.BooleanFilter(field_name='plandocument',
-                                            lookup_expr='isnull',
-                                            exclude=True,
-                                            label='Has plan',
-                                            widget=Select(choices=Council.PLAN_FILTER_CHOICES))
-    authority_type = django_filters.ChoiceFilter(choices=Council.AUTHORITY_TYPE_CHOICES,
-                                                empty_label='All')
-    country = django_filters.ChoiceFilter(choices=Council.COUNTRY_CHOICES,
-                                          empty_label='All')
+    name = django_filters.CharFilter(lookup_expr="icontains")
+    has_plan = django_filters.BooleanFilter(
+        field_name="plandocument",
+        lookup_expr="isnull",
+        exclude=True,
+        label="Has plan",
+        widget=Select(choices=Council.PLAN_FILTER_CHOICES),
+    )
+    authority_type = django_filters.ChoiceFilter(
+        choices=Council.AUTHORITY_TYPE_CHOICES, empty_label="All"
+    )
+    country = django_filters.ChoiceFilter(
+        choices=Council.COUNTRY_CHOICES, empty_label="All"
+    )
 
-    promise_combined = django_filters.ChoiceFilter(method='filter_promise',
-                                            label='Carbon neutral by',
-                                            empty_label='All',
-                                            choices=Promise.PROMISE_FILTER_CHOICES)
+    promise_combined = django_filters.ChoiceFilter(
+        method="filter_promise",
+        label="Carbon neutral by",
+        empty_label="All",
+        choices=Promise.PROMISE_FILTER_CHOICES,
+    )
 
-    declared_emergency = django_filters.BooleanFilter(field_name='emergencydeclaration',
-                                                      lookup_expr='isnull',
-                                                      label='Declared emergency',
-                                                      exclude=True,
-                                                      widget=Select(choices=Council.PLAN_FILTER_CHOICES))
+    declared_emergency = django_filters.BooleanFilter(
+        field_name="emergencydeclaration",
+        lookup_expr="isnull",
+        label="Declared emergency",
+        exclude=True,
+        widget=Select(choices=Council.PLAN_FILTER_CHOICES),
+    )
 
     sort = DefaultSecondarySortFilter(
-        secondary='name',
-        label='Sort by',
+        secondary="name",
+        label="Sort by",
         empty_label=None,
         fields=(
-            ('name', 'name'),
-            ('promise__target_year', 'promise_year'),
-            ('emergencydeclaration__date_declared', 'declaration_date'),
-            ('plandocument__updated_at', 'last_update')
+            ("name", "name"),
+            ("promise__target_year", "promise_year"),
+            ("emergencydeclaration__date_declared", "declaration_date"),
+            ("plandocument__updated_at", "last_update"),
         ),
         field_labels={
-            'name': 'Council name',
-            'promise__target_year': 'Carbon neutral target',
-            'emergencydeclaration__date_declared': 'Declaration date',
-            'last_update': 'Last update',
-        }
+            "name": "Council name",
+            "promise__target_year": "Carbon neutral target",
+            "emergencydeclaration__date_declared": "Declaration date",
+            "last_update": "Last update",
+        },
     )
 
     def filter_promise(self, queryset, name, value):
         if value is None:
             return queryset
-        elif value == 'unknown':
-            return queryset.filter(**{ 'has_promise': 0 })
-        elif value == 'no_target':
-            return queryset.filter(**{ 'has_promise__gte': 1, 'earliest_promise': None })
+        elif value == "unknown":
+            return queryset.filter(**{"has_promise": 0})
+        elif value == "no_target":
+            return queryset.filter(**{"has_promise__gte": 1, "earliest_promise": None})
         else:
-            return queryset.filter(**{ 'earliest_promise__lte': value })
+            return queryset.filter(**{"earliest_promise__lte": value})
 
     class Meta:
         model = Council
         fields = []
-

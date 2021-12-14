@@ -17,7 +17,13 @@ from haystack.generic_views import SearchView as HaystackSearchView
 
 from caps.models import Council, CouncilFilter, PlanDocument, DataPoint, SavedSearch
 from caps.forms import HighlightedSearchForm
-from caps.mapit import MapIt, NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException
+from caps.mapit import (
+    MapIt,
+    NotFoundException,
+    BadRequestException,
+    InternalServerErrorException,
+    ForbiddenException,
+)
 from caps.utils import file_size
 
 
@@ -27,20 +33,24 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_councils'] = Council.objects.all()
-        context['total_councils'] = Council.objects.all().count()
-        context['total_plans'] = PlanDocument.objects.all().count()
-        context['percent_councils_with_plan'] = Council.percent_with_plan()
+        context["all_councils"] = Council.objects.all()
+        context["total_councils"] = Council.objects.all().count()
+        context["total_plans"] = PlanDocument.objects.all().count()
+        context["percent_councils_with_plan"] = Council.percent_with_plan()
         # can't shuffle querysets because they don't support assignment
-        context['popular_searches'] = [ s for s in SavedSearch.objects.most_popular()[:6] ]
-        shuffle(context['popular_searches'])
-        context['last_update'] = PlanDocument.objects.aggregate(Max('updated_at'))['updated_at__max']
+        context["popular_searches"] = [
+            s for s in SavedSearch.objects.most_popular()[:6]
+        ]
+        shuffle(context["popular_searches"])
+        context["last_update"] = PlanDocument.objects.aggregate(Max("updated_at"))[
+            "updated_at__max"
+        ]
 
-        plan_file = join(settings.MEDIA_ROOT, 'data', 'plans', 'plans.zip')
+        plan_file = join(settings.MEDIA_ROOT, "data", "plans", "plans.zip")
         plan_size = file_size(plan_file)
-        context['plan_zip_size'] = plan_size
+        context["plan_zip_size"] = plan_size
 
-        context['page_title'] = 'Tracking the UK’s journey towards carbon zero'
+        context["page_title"] = "Tracking the UK’s journey towards carbon zero"
 
         return context
 
@@ -48,89 +58,103 @@ class HomePageView(TemplateView):
 class CouncilDetailView(DetailView):
 
     model = Council
-    context_object_name = 'council'
-    template_name = 'council_detail.html'
+    context_object_name = "council"
+    template_name = "council_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        council = context.get('council')
+        council = context.get("council")
         try:
-            latest_year = council.datapoint_set.aggregate(Max('year'))['year__max']
-            context['latest_year'] = latest_year
-            latest_year_per_capita_emissions = council.datapoint_set.get(year=latest_year, data_type__name='Per Capita Emissions').value
-            latest_year_per_km2_emissions = council.datapoint_set.get(year=latest_year, data_type__name='Emissions per km2').value
-            latest_year_total_emissions = council.datapoint_set.get(year=latest_year, data_type__name='Total Emissions').value
-            context['latest_year_per_capita_emissions'] = latest_year_per_capita_emissions
-            context['latest_year_per_km2_emissions'] = latest_year_per_km2_emissions
-            context['latest_year_total_emissions'] = latest_year_total_emissions
+            latest_year = council.datapoint_set.aggregate(Max("year"))["year__max"]
+            context["latest_year"] = latest_year
+            latest_year_per_capita_emissions = council.datapoint_set.get(
+                year=latest_year, data_type__name="Per Capita Emissions"
+            ).value
+            latest_year_per_km2_emissions = council.datapoint_set.get(
+                year=latest_year, data_type__name="Emissions per km2"
+            ).value
+            latest_year_total_emissions = council.datapoint_set.get(
+                year=latest_year, data_type__name="Total Emissions"
+            ).value
+            context[
+                "latest_year_per_capita_emissions"
+            ] = latest_year_per_capita_emissions
+            context["latest_year_per_km2_emissions"] = latest_year_per_km2_emissions
+            context["latest_year_total_emissions"] = latest_year_total_emissions
         except DataPoint.DoesNotExist:
-            context['no_emissions_data'] = True
-        context['related_councils'] = council.related_councils.all().annotate(num_plans=Count('plandocument'),has_promise=Count('promise'),earliest_promise=Min('promise__target_year'),declared_emergency=Min('emergencydeclaration__date_declared'))
-        context['promises'] = council.promise_set.filter(has_promise=True).order_by('target_year')
-        context['no_promise'] = council.promise_set.filter(has_promise=False)
-        context['last_updated'] = council.plandocument_set.aggregate(last_update=Max('updated_at'),last_found=Max('date_first_found'))
-        context['page_title'] = council.name
+            context["no_emissions_data"] = True
+        context["related_councils"] = council.related_councils.all().annotate(
+            num_plans=Count("plandocument"),
+            has_promise=Count("promise"),
+            earliest_promise=Min("promise__target_year"),
+            declared_emergency=Min("emergencydeclaration__date_declared"),
+        )
+        context["promises"] = council.promise_set.filter(has_promise=True).order_by(
+            "target_year"
+        )
+        context["no_promise"] = council.promise_set.filter(has_promise=False)
+        context["last_updated"] = council.plandocument_set.aggregate(
+            last_update=Max("updated_at"), last_found=Max("date_first_found")
+        )
+        context["page_title"] = council.name
 
-        if council.emergencydeclaration_set.count() > 0 :
-            context['declared_emergency'] = council.emergencydeclaration_set.all()[0]
+        if council.emergencydeclaration_set.count() > 0:
+            context["declared_emergency"] = council.emergencydeclaration_set.all()[0]
         return context
 
 
 class CouncilListView(FilterView):
 
     filterset_class = CouncilFilter
-    template_name = 'council_list.html'
-    extra_context = {
-        'page_title': 'All councils'
-    }
+    template_name = "council_list.html"
+    extra_context = {"page_title": "All councils"}
 
     def get_queryset(self):
         return Council.objects.annotate(
-            num_plans=Count('plandocument'),
-            has_promise=Count('promise'),
-            earliest_promise=Min('promise__target_year'),
-            declared_emergency=Min('emergencydeclaration__date_declared'),
-            last_plan_update=Max('plandocument__updated_at')
-        ).order_by('name')
+            num_plans=Count("plandocument"),
+            has_promise=Count("promise"),
+            earliest_promise=Min("promise__target_year"),
+            declared_emergency=Min("emergencydeclaration__date_declared"),
+            last_plan_update=Max("plandocument__updated_at"),
+        ).order_by("name")
 
 
 class SearchResultsView(HaystackSearchView):
 
-    template_name = 'search_results.html'
+    template_name = "search_results.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        inorganic = self.request.GET.get('inorganic')
-        if context['form']['council_name'].value() is not None:
-            context['council_name'] = context['form']['council_name'].value()
+        inorganic = self.request.GET.get("inorganic")
+        if context["form"]["council_name"].value() is not None:
+            context["council_name"] = context["form"]["council_name"].value()
 
-        context['inorganic'] = False
-        if inorganic == '1':
-            context['inorganic'] = True
+        context["inorganic"] = False
+        if inorganic == "1":
+            context["inorganic"] = True
 
-        if context['query']:
-            context['page_title'] = '{} – Search results'.format(
-                context['query']
-            )
+        if context["query"]:
+            context["page_title"] = "{} – Search results".format(context["query"])
         else:
-            context['page_title'] = 'Search plans'
+            context["page_title"] = "Search plans"
 
         return context
 
     """
     Following adapted from https://github.com/django-haystack/saved_searches/
     """
+
     def save_search(self, context):
-        if context['query'] and context['page_obj'].number == 1:
+        if context["query"] and context["page_obj"].number == 1:
             # Save the search.
             saved_search = SavedSearch(
                 search_key=self.search_field,
-                user_query=context['query'],
-                result_count=context['paginator'].count,
-                inorganic=context['inorganic']
+                user_query=context["query"],
+                result_count=context["paginator"].count,
+                inorganic=context["inorganic"],
             )
-            if context.get('council_name', '') != '':
-                saved_search.council_restriction = context['council_name']
+            if context.get("council_name", "") != "":
+                saved_search.council_restriction = context["council_name"]
             saved_search.save()
 
     def render_to_response(self, context):
@@ -143,20 +167,20 @@ class LocationResultsView(TemplateView):
     template_name = "location_results.html"
 
     def render_to_response(self, context):
-        councils = context.get('councils')
+        councils = context.get("councils")
         if councils and len(councils) == 1:
-            return redirect(context['councils'] [0])
+            return redirect(context["councils"][0])
 
         return super(LocationResultsView, self).render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        postcode = self.request.GET.get('pc')
-        lon = self.request.GET.get('lon')
-        lat = self.request.GET.get('lat')
+        postcode = self.request.GET.get("pc")
+        lon = self.request.GET.get("lon")
+        lat = self.request.GET.get("lat")
         mapit = MapIt()
-        context['postcode'] = postcode
-        context['all_councils'] = Council.objects.all()
+        context["postcode"] = postcode
+        context["all_councils"] = Council.objects.all()
         try:
             if lon and lat:
                 gss_codes = mapit.wgs84_point_to_gss_codes(lon, lat)
@@ -165,17 +189,26 @@ class LocationResultsView(TemplateView):
             else:
                 return context
             councils = Council.objects.filter(gss_code__in=gss_codes)
-            combined_authorities = [ council.combined_authority for council in councils if council.combined_authority ]
-            context['councils'] = list(councils) + combined_authorities
-        except (NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException) as error:
-            context['error'] = error
+            combined_authorities = [
+                council.combined_authority
+                for council in councils
+                if council.combined_authority
+            ]
+            context["councils"] = list(councils) + combined_authorities
+        except (
+            NotFoundException,
+            BadRequestException,
+            InternalServerErrorException,
+            ForbiddenException,
+        ) as error:
+            context["error"] = error
 
         if postcode:
-            context['page_title'] = '{} – Find your council’s action plan'.format(
+            context["page_title"] = "{} – Find your council’s action plan".format(
                 postcode
             )
         else:
-            context['page_title'] = 'Find your council’s action plan'
+            context["page_title"] = "Find your council’s action plan"
 
         return context
 
@@ -183,16 +216,13 @@ class LocationResultsView(TemplateView):
 class AboutView(TemplateView):
 
     template_name = "about.html"
-    extra_context = {
-        'page_title': 'About'
-    }
+    extra_context = {"page_title": "About"}
+
 
 class AboutDataView(TemplateView):
 
     template_name = "about_data.html"
-    extra_context = {
-        'page_title': 'Our data'
-    }
+    extra_context = {"page_title": "Our data"}
 
 
 class MailchimpView(View):
@@ -207,15 +237,15 @@ class MailchimpView(View):
 
         email = request.POST.get("email")
         client = MailchimpMarketing.Client()
-        client.set_config({
-            "api_key": settings.MAILCHIMP_KEY,
-            "server": settings.MAILCHIMP_SERVER_PREFIX
-        })
+        client.set_config(
+            {
+                "api_key": settings.MAILCHIMP_KEY,
+                "server": settings.MAILCHIMP_SERVER_PREFIX,
+            }
+        )
 
-        content = {"email_address":email,
-                   "status":"subscribed"}
-        body = {"members":[content],
-                "update_existing": True}
+        content = {"email_address": email, "status": "subscribed"}
+        body = {"members": [content], "update_existing": True}
 
         http_status = 200
         response_data = {"data": content}
@@ -225,11 +255,13 @@ class MailchimpView(View):
         except ApiClientError as error:
             http_status = 500
             response_data = {
-                "errors": [{
-                    "status": 500,
-                    "title": "mailchimp_marketing ApiClientError",
-                    "detail": error.text,
-                }]
+                "errors": [
+                    {
+                        "status": 500,
+                        "title": "mailchimp_marketing ApiClientError",
+                        "detail": error.text,
+                    }
+                ]
             }
 
         return JsonResponse(response_data, status=http_status)
@@ -239,14 +271,12 @@ class NetZeroLocalHeroView(TemplateView):
 
     template_name = "net_zero_local_hero.html"
     extra_context = {
-        'page_title': 'Be a Net Zero Local Hero',
-        'og_image_path': '/static/img/og-image-nzlh.jpg'
+        "page_title": "Be a Net Zero Local Hero",
+        "og_image_path": "/static/img/og-image-nzlh.jpg",
     }
 
 
 class StyleView(TemplateView):
 
     template_name = "style.html"
-    extra_context = {
-        'page_title': 'Styles'
-    }
+    extra_context = {"page_title": "Styles"}

@@ -13,23 +13,25 @@ ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-AUTHORITY_MAPPING_URL = 'https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/lookup_name_to_registry.csv'
-AUTHORITY_MAPPING_NAME = 'lookup_name_to_registry.csv'
+AUTHORITY_MAPPING_URL = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/lookup_name_to_registry.csv"
+AUTHORITY_MAPPING_NAME = "lookup_name_to_registry.csv"
 AUTHORITY_MAPPING = join(settings.DATA_DIR, AUTHORITY_MAPPING_NAME)
 
-AUTHORITY_DATA_URL = 'https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/uk_local_authorities.csv'
-AUTHORITY_DATA_NAME = 'uk_local_authorities.csv'
+AUTHORITY_DATA_URL = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/uk_local_authorities.csv"
+AUTHORITY_DATA_NAME = "uk_local_authorities.csv"
 AUTHORITY_DATA = join(settings.DATA_DIR, AUTHORITY_DATA_NAME)
 
 
 def get_data_files():
 
-    data_files = [(AUTHORITY_MAPPING_URL, AUTHORITY_MAPPING),
-                  (AUTHORITY_DATA_URL, AUTHORITY_DATA)]
+    data_files = [
+        (AUTHORITY_MAPPING_URL, AUTHORITY_MAPPING),
+        (AUTHORITY_DATA_URL, AUTHORITY_DATA),
+    ]
 
     for (source, destination) in data_files:
         r = requests.get(source)
-        with open(destination, 'wb') as outfile:
+        with open(destination, "wb") as outfile:
             outfile.write(r.content)
 
 
@@ -38,22 +40,25 @@ def add_authority_codes(filename):
 
     plans_df = pd.read_csv(filename)
 
-    rows = len(plans_df['council'])
+    rows = len(plans_df["council"])
 
-    plans_df['authority_code'] = pd.Series([None] * rows, index=plans_df.index)
+    plans_df["authority_code"] = pd.Series([None] * rows, index=plans_df.index)
 
     names_to_codes = {}
     for index, row in mapping_df.iterrows():
-        names_to_codes[row['la name'].lower()] = row['local-authority-code']
+        names_to_codes[row["la name"].lower()] = row["local-authority-code"]
 
     for index, row in plans_df.iterrows():
-        council = row['council'].lower()
+        council = row["council"].lower()
 
-        name_versions = [council, council.replace('council', '').strip(
-        ), council.replace('- unitary', '').replace('(unitary)', '').strip()]
+        name_versions = [
+            council,
+            council.replace("council", "").strip(),
+            council.replace("- unitary", "").replace("(unitary)", "").strip(),
+        ]
         for version in name_versions:
             if version in names_to_codes:
-                plans_df.at[index, 'authority_code'] = names_to_codes[version]
+                plans_df.at[index, "authority_code"] = names_to_codes[version]
                 break
     plans_df.to_csv(open(filename, "w"), index=False, header=True)
 
@@ -63,16 +68,16 @@ def add_gss_codes(filename):
     authority_df = pd.read_csv(AUTHORITY_DATA)
     plans_df = pd.read_csv(filename)
 
-    rows = len(plans_df['council'])
-    plans_df['gss_code'] = pd.Series([None] * rows, index=plans_df.index)
+    rows = len(plans_df["council"])
+    plans_df["gss_code"] = pd.Series([None] * rows, index=plans_df.index)
 
     for index, row in plans_df.iterrows():
-        authority_code = row['authority_code']
+        authority_code = row["authority_code"]
         if not pd.isnull(authority_code):
-            authority_match = authority_df[authority_df['local-authority-code']
-                                           == authority_code]
-            plans_df.at[index,
-                        'gss_code'] = authority_match['gss-code'].values[0]
+            authority_match = authority_df[
+                authority_df["local-authority-code"] == authority_code
+            ]
+            plans_df.at[index, "gss_code"] = authority_match["gss-code"].values[0]
 
     plans_df.to_csv(open(filename, "w"), index=False, header=True)
 
@@ -82,16 +87,27 @@ def add_extra_authority_info(filename):
     authority_df = pd.read_csv(AUTHORITY_DATA)
     plans_df = pd.read_csv(filename)
 
-    df = authority_df[["local-authority-code", "local-authority-type",
-                       "wdtk-id", "mapit-area-code", "nation", "gss-code"]]
+    df = authority_df[
+        [
+            "local-authority-code",
+            "local-authority-type",
+            "wdtk-id",
+            "mapit-area-code",
+            "nation",
+            "gss-code",
+        ]
+    ]
 
-    df = df.rename(columns={"local-authority-code": "authority_code",
-                            "local-authority-type": "authority_type",
-                            "wdtk-id": "wdtk_id",
-                            "mapit-area-code": "mapit_area_code",
-                            "nation": "country",
-                            "gss-code": "gss_code"
-                            })
+    df = df.rename(
+        columns={
+            "local-authority-code": "authority_code",
+            "local-authority-type": "authority_type",
+            "wdtk-id": "wdtk_id",
+            "mapit-area-code": "mapit_area_code",
+            "nation": "country",
+            "gss-code": "gss_code",
+        }
+    )
 
     # the info sheet may contain updated version of columns previously
     # loaded to sheet, need to drop them before the merge
@@ -102,9 +118,7 @@ def add_extra_authority_info(filename):
     # merge two dataframes using the authority_code as the common reference
     df = plans_df.merge(df, on="authority_code", how="left")
 
-    is_non_english = df["country"].isin(['Wales',
-                                         'Scotland',
-                                         'Northern Ireland'])
+    is_non_english = df["country"].isin(["Wales", "Scotland", "Northern Ireland"])
     df.loc[is_non_english, "authority_type"] = "UA"
 
     # treat greater london authority as combined
