@@ -1,4 +1,3 @@
-# -*- coding: future_fstrings -*-
 import operator
 from datetime import datetime
 from functools import reduce

@@ -1,4 +1,3 @@
-# -*- coding: future_fstrings -*-
 from os.path import join, basename
 from datetime import date
 import math

@@ -1,4 +1,3 @@
-# -*- coding: future_fstrings -*-
 import re
 import sys
 import pandas as pd
