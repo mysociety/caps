@@ -24,21 +24,9 @@ class Command(BaseCommand):
     QUESTIONS_CSV = join(settings.DATA_DIR, settings.PLAN_SCORE_QUESTIONS_CSV_NAME)
     ANSWERS_CSV = join(settings.DATA_DIR, settings.PLAN_SCORE_ANSWERS_CSV_NAME)
 
-    def check_for_existing(self):
-            existing_plans = PlanScore.objects.filter(
-                year=self.YEAR
-            ).exists()
-
-            if existing_plans:
-                print("Existing plans for year {}, not importing".format(self.YEAR))
-                return True
-
-            return False
-
     def get_files(self):
         # other files manually downloaded for now
         sheet_url = f"https://docs.google.com/spreadsheets/d/{settings.PLAN_SCORE_QUESTIONS_CSV_KEY}/export?format=csv&gid={settings.PLAN_SCORE_QUESTIONS_CSV_TAB}"
-        print(sheet_url)
         r = requests.get(sheet_url)
         with open(self.QUESTIONS_CSV, 'wb') as outfile:
             outfile.write(r.content)
@@ -49,6 +37,8 @@ class Command(BaseCommand):
         return normalised
 
     def import_section_scores(self):
+        council_scores = {}
+
         df = pd.read_csv(self.SCORES_CSV)
         for index, row in df.iterrows():
             if row['section'] == 'overall':
@@ -92,15 +82,25 @@ class Command(BaseCommand):
             section_score.weighted_score = weighted_score
             section_score.save()
 
-            plan.total = plan.total + section_score.score
-            plan.weighted_total = plan.weighted_total + section_score.weighted_score
+            totals = council_scores.get(council.authority_code, {'total': 0, 'weighted_total': 0})
+            totals['total'] = totals['total'] + section_score.score
+            totals['weighted_total'] = totals['weighted_total'] + section_score.weighted_score
+            council_scores[council.authority_code] = totals
+
+        for authority_code, totals in council_scores.items():
+            plan = PlanScore.objects.get(
+                council__authority_code=authority_code,
+                year=self.YEAR,
+            )
+            plan.total = totals['total']
+            plan.weighted_total = totals['weighted_total']
             plan.save()
+
 
     def import_questions(self):
         df = pd.read_csv(self.QUESTIONS_CSV)
         # pandas thinks this is a float which is unhelpful
         df['Scores'] = df['Scores'].astype(str)
-        print(df.dtypes)
 
         for index, row in df.iterrows():
             q_type = 'Other'
@@ -168,8 +168,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        if self.check_for_existing() == False:
-            self.get_files()
-            self.import_section_scores()
-            self.import_questions()
-            self.import_question_scores()
+        self.get_files()
+        self.import_section_scores()
+        self.import_questions()
+        self.import_question_scores()
