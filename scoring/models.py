@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from django.db import models
+from django.db.models import Avg
 
 from caps.models import Council
 
@@ -30,6 +31,34 @@ class PlanSection(models.Model):
     def section_codes(cls):
         return cls.objects.distinct('code').values_list('code', flat=True)
 
+    @classmethod
+    def get_average_scores(cls):
+        """
+        This excludes plans with zero score as it's assumed that if they have 0 then they
+        were not marked, or the council has no plan, and hence including them would artificially
+        reduce the average.
+        """
+        has_score = PlanScore.objects.filter(total__gt=0)
+        has_score_avg = has_score.aggregate(average=Avg('weighted_total'))
+        has_score_list = has_score.values_list('pk', flat=True)
+
+        scores = cls.objects.filter(
+            plansectionscore__plan_score__in=list(has_score_list)
+        ).annotate(
+            average_score=Avg('plansectionscore__weighted_score')
+        )
+
+        averages = {}
+        max_score = 0
+        for score in scores:
+            max_score = max_score + score.max_weighted_score
+            averages[score.code] = { 'score': round(score.average_score), 'max': score.max_weighted_score }
+
+        avg_score = round(has_score_avg['average'])
+        averages['total'] = { 'score': avg_score, 'max': max_score, 'percentage': round( ( avg_score / max_score ) * 100 ) }
+
+        return averages
+
 
 class PlanSectionScore(models.Model):
     """
@@ -43,6 +72,10 @@ class PlanSectionScore(models.Model):
 
     @classmethod
     def get_all_council_scores(cls):
+        """
+        This excludes plans with zero score as it's assumed that if they have 0 then they
+        were not marked, or the council has no plan
+        """
         scores = cls.objects.all().select_related('plan_section', 'plan_score').filter(plan_score__total__gt=0).values('plan_score__total', 'plan_score__council_id', 'score', 'weighted_score', 'plan_section__code', 'plan_section__max_score')
         councils = defaultdict(dict)
         for score in scores:

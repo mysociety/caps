@@ -53,13 +53,45 @@
             </tr>
         </thead>
         <tbody>
+        <tr>
+            <td></td>
+            <td>
+                {{ averages.total.percentage }}
+            </td>
+            <td>
+                {{ averages.s1_gov.score }}/{{ averages.s1_gov.max }}
+            </td>
+            <td>
+                {{ averages.s2_m_a.score }}/{{ averages.s2_m_a.max }}
+            </td>
+            <td>
+                {{ averages.s3_c_a.score }}/{{ averages.s3_c_a.max }}
+            </td>
+            <td>
+                {{ averages.s4_coms.score }}/{{ averages.s4_coms.max }}
+            </td>
+            <td>
+                {{ averages.s5_mset.score }}/{{ averages.s5_mset.max }}
+            </td>
+            <td>
+                {{ averages.s6_cb.score }}/{{ averages.s6_cb.max }}
+            </td>
+            <td>
+                {{ averages.s7_dsi.score }}/{{ averages.s7_dsi.max }}
+            </td>
+            <td>
+                {{ averages.s8_est.score }}/{{ averages.s8_est.max }}
+            </td>
+            <td>
+                {{ averages.s9_ee.score }}/{{ averages.s9_ee.max }}
+            </td>
         {% for council in council_data %}
         <tr>
             <td>
                 {{ council.name }}
             </td>
             <td>
-                {{ council.score }}
+                {{ council.percentage }}
             </td>
             {% with scores=council.all_scores %}
             <td>
