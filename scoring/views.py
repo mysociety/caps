@@ -13,7 +13,7 @@ class HomePageView(ListView):
         authority_type = self.kwargs.get('council_type', '')
         qs = Council.objects.annotate(
             score=Subquery(
-                PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('total')
+                PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('weighted_total')
             )
         ).order_by('-score')
 
@@ -47,10 +47,12 @@ class HomePageView(ListView):
         councils = context['object_list'].values()
         context['plan_sections'] = PlanSection.objects.filter(year=2021).all()
 
+        averages = PlanSection.get_average_scores()
         all_scores = PlanSectionScore.get_all_council_scores()
 
         for council in councils:
             council['all_scores'] = all_scores[council['id']]
+            council['percentage'] = round( ( council['score'] / averages['total']['max'] ) * 100 )
 
         codes = PlanSection.section_codes()
 
@@ -64,4 +66,5 @@ class HomePageView(ListView):
 
         context['form'] = form
         context['council_data'] = councils
+        context['averages'] = averages
         return context
