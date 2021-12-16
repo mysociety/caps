@@ -3,9 +3,10 @@ import math
 import os
 import re
 from copy import deepcopy
-from itertools import chain, groupby
+from itertools import groupby, chain
 from pathlib import Path
-from typing import DefaultDict, List, Optional, Type
+from typing import Optional, Type, List
+from collections import defaultdict
 
 import dateutil.parser
 import django_filters
@@ -18,7 +19,6 @@ from django.db.models import Count, Max, Min, Q, Sum
 from django.forms import Select
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
-
 from caps.filters import DefaultSecondarySortFilter
 
 
@@ -110,6 +110,63 @@ class Council(models.Model):
 
     def get_absolute_url(self):
         return "/councils/%s/" % self.slug
+
+    def get_related_councils(self, cut_off: int = 10) -> List[dict]:
+        """
+        get all related councils
+        """
+        councils = self.related_authorities.filter(
+            distances__position__lte=cut_off + 2
+        ).annotate(
+            num_plans=Count("plandocument"),
+            has_promise=Count("promise"),
+            earliest_promise=Min("promise__target_year"),
+            declared_emergency=Min("emergencydeclaration__date_declared"),
+        )
+
+        council_lookup = {council.id: council for council in councils}
+        council_ids = list(council_lookup.keys()) + [self.id]
+
+        # get label assignments in a seperate query ready to assign
+        comparison_qs = (
+            ComparisonLabelAssignment.objects.filter(council_id__in=council_ids)
+            .prefetch_related("label")
+            .order_by("label__type_id")
+        )
+
+        # change list of labels to tiered lookup (type_id, council_id)
+        labels = defaultdict(dict)
+        for comparison in comparison_qs.all():
+            labels[comparison.label.type_id][comparison.council_id] = comparison
+
+        processed_councils = []
+        for d in self.distances.all().order_by("type_id"):
+            # deepcopy to make sure the same council in multiple comparison types
+            # are seperate objects with seperate links to Distance objects
+            nc = deepcopy(council_lookup[d.council_b_id])
+            nc.distance = d
+            nc.label = labels[d.type_id][nc.id]
+            processed_councils.append(nc)
+
+        types = ComparisonType.objects.all()
+        types = {comparison_type.id: comparison_type for comparison_type in types}
+
+        grouped_results = groupby(
+            processed_councils, key=lambda council: council.distance.type_id
+        )
+
+        results = []
+        # add details for the home council
+        for type_id, g in grouped_results:
+            results.append(
+                {
+                    "type": types[type_id],
+                    "label": labels[type_id][self.id].label,
+                    "councils": list(g)[:cut_off],
+                }
+            )
+
+        return results
 
     @property
     def powers(self):

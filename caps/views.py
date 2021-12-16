@@ -82,12 +82,7 @@ class CouncilDetailView(DetailView):
             context["latest_year_total_emissions"] = latest_year_total_emissions
         except DataPoint.DoesNotExist:
             context["no_emissions_data"] = True
-        context["related_councils"] = council.related_councils.all().annotate(
-            num_plans=Count("plandocument"),
-            has_promise=Count("promise"),
-            earliest_promise=Min("promise__target_year"),
-            declared_emergency=Min("emergencydeclaration__date_declared"),
-        )
+        context["related_councils"] = council.get_related_councils()
         context["promises"] = council.promise_set.filter(has_promise=True).order_by(
             "target_year"
         )

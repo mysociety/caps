@@ -3,10 +3,14 @@ from haystack.forms import SearchForm
 from haystack.query import SearchQuerySet
 from haystack.inputs import Exact
 
+from caps.models import Distance
+
 
 class HighlightedSearchForm(SearchForm):
     council_name = CharField(required=False)
     exact = BooleanField(required=False)
+    similar_type = CharField(required=False)
+    similar_council = CharField(required=False)
 
     def search(self):
         kwargs = {
@@ -26,6 +30,19 @@ class HighlightedSearchForm(SearchForm):
                 sqs = sqs.load_all()
         else:
             sqs = super(HighlightedSearchForm, self).search()
+
+        if self.cleaned_data["similar_type"]:
+            council_slug = self.cleaned_data["similar_council"]
+            comparison_slug = self.cleaned_data["similar_type"]
+            cut_off = 15
+            names = Distance.objects.filter(
+                council_a__slug=council_slug,
+                type__slug=comparison_slug,
+                position__lte=cut_off,
+            ).values_list("council_b__name", flat=True)
+
+            query_names = [f'council_name:"{name}"' for name in names]
+            sqs = sqs.narrow(" OR ".join(query_names))
 
         if self.cleaned_data["council_name"]:
             # narrow makes use of fq rather than q
