@@ -13,6 +13,15 @@ p {
 }
 
 // HEADINGS
+.subtitle {
+    font-family: $font-family-sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 130%;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
 
 h1 {
     @include responsive(font-size, 30, 40);
@@ -22,6 +31,18 @@ h1 {
     line-height: 120%;
     letter-spacing: 0em;
     color: $color-league-grey-900;
+}
+
+h3 {
+    font-family: $headings-font-family;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 130%;
+    /* or 31px */
+
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 h6 {
