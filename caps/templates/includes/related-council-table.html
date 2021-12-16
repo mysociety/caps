@@ -1,0 +1,36 @@
+<table class="table mb-0">
+    <thead>
+        <tr>
+            <th scope="col">Council name</th>
+            <th scope="col">Has plan</th>
+            <th scope="col">Match score</th>
+  
+            <th scope="col">Group</th>
+          
+        </tr>
+    </thead>
+    <tbody>
+      {% for council in councils %}
+        <tr data-has-plan="{% if council.num_plans > 0 %}yes{% else %}no{% endif %}">
+            <td data-column="council-name">
+                <a href="{% url 'council' council.slug %}">{{ council.name }}</a>
+            </td>
+            <td data-column="has-plan">
+              {% if council.num_plans > 0 %}
+                {% include 'icons/check-circle-fill.html' with classes='mr-1' %}
+                Yes
+              {% else %}
+                {% include 'icons/question-circle.html' with classes='mr-1' %}
+                No
+              {% endif %}
+            </td>
+            <td data-column="match score">
+              {{council.distance.match_score}}
+            </td>
+            <td data-column="group-label">
+              {{council.label.label.name}}
+            </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+</table>

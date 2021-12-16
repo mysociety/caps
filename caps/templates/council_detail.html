@@ -144,15 +144,43 @@
       {% endif %}
 
       {% if related_councils %}
+
+      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+      {% for group in related_councils %}
+        <li class="nav-item">
+          <a class="nav-link{% if group.type.slug == "composite" %} active{% endif %}" id="{{group.type.slug}}-tab" data-toggle="pill" href="#{{group.type.slug}}-content" role="tab" aria-controls="{{group.type.slug}}-content" aria-selected="true">{{group.type.name}}</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <div class="tab-content" id="pills-tabContent">
+        
+      {% for group in related_councils %}
+        
+      <div class="tab-pane fade{% if group.type.slug == "composite" %} show active {% endif %}" id="{{group.type.slug}}-content" role="tabpanel" aria-labelledby="{{group.type.slug}}-tab">
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
             <div class="card-header">
-                <h2>Other nearby councils</h2>
+                <h2>{{group.type.name}}</h2>
+            </div>
+            <div class = "card-body">
+                {{group.type.markdown_desc|safe}}
+                <p>This council is in group: <b>{{group.label.name}}</b>.</p>
+                <i>{{group.label.markdown_desc|safe}}</i>
+                {% include 'includes/text-search-form.html' with similar_council=council.slug similar_type=group.type.slug label_text="Search within similar councils" %}
             </div>
             <div class="ceuk-data-table">
-                {% include 'includes/council-table.html' with councils=related_councils %}
+                {% include 'includes/related-council-table.html' with councils=group.councils %}
             </div>
         </div>
+        </div>
+
+      {% endfor %}
+
+    </div>
+
       {% endif %}
+
+
 
     </div>
     <div class="col-md-5 col-lg-4 order-md-1">
