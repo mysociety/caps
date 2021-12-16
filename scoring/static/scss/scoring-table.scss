@@ -16,17 +16,25 @@
 
 // Table league
 .league-table-wrapper {
-    width: 100%;
-    max-height: 50vh;
+    width: 98%;
+    max-height: 100vh;
     overflow: auto;
 }
 
 .league-table {
+
+
     th {
         padding: 8px 10px;
         max-width: 171px;
         vertical-align: initial;
+        .table-header-first-row {
+            a {
+                width: 120px;
+            }
+        }
     }
+
     .category-1 {
         background-color: #EEF6FD;
         a {
@@ -78,22 +86,25 @@
         position: sticky;
         top: 0;
         z-index: 1;
+        max-height: 110px;
+        height: 110px;
     }
 
     thead {
         th.second-row {
-            top:139px;
+            top:110px;
+            height: 65px;
         }
-    }
-
-    tbody th {
-        position: relative;
     }
 
     thead th:first-child {
         position: sticky;
         left: 0;
         z-index: 2;
+    }
+
+    tbody th {
+        position: relative;
     }
 
     tbody th {
@@ -118,12 +129,33 @@
     padding: 8px 0;
     margin-right: auto;
     margin-left:auto;
+    position: relative;
+
+    .progress-bar {
+        width: 0;
+        height: 100%;
+        position: absolute;
+        background: red;
+        top:0;
+        border-radius: $border-radius;
+        z-index: 0;
+    }
 
     span {
         display: block;
         text-align: center;
         line-height: 100%;
         margin-bottom: 0;
+        z-index: 1;
+        position: relative;
+    }
+
+    span.average {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 13px;
+        opacity: 0.9;
     }
 }
 

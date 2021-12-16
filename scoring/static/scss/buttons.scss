@@ -22,10 +22,14 @@ input::-webkit-input-placeholder {
 
 a {
     display: table;
+    font-family: $font-family-sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 130%;
     color:$color-league-blue-d1;
     text-decoration: underline;
     @include transition(color 0.3s ease-in-out);
-    @include responsive(font-size, 15, 16);
+    @include responsive(font-size, 14, 15);
     letter-spacing: 0.05em;
  
     &:hover {
