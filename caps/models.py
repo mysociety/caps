@@ -1,22 +1,48 @@
-import os
 import hashlib
-import re
 import math
+import os
+import re
+from copy import deepcopy
+from itertools import chain, groupby
+from pathlib import Path
+from typing import DefaultDict, List, Optional, Type
+
 import dateutil.parser
-
+import django_filters
+import markdown
 import pandas as pd
-
-from django.db import models
-from django.utils.text import slugify
-from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.db import models
+from django.db.models import Count, Max, Min, Q, Sum
 from django.forms import Select
-from django.db.models import Count
-
+from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
 
-import django_filters
 from caps.filters import DefaultSecondarySortFilter
+
+
+def query_lookup(
+    query: models.QuerySet, key: str, value: str, default: Optional[str] = None
+) -> dict:
+    """
+    convert a query to a lookup function with a default value
+    """
+    di = dict(query.values_list(key, value))
+    return lambda x: di.get(x, default)
+
+
+def save_df_to_model(model: Type[models.Model], df: pd.DataFrame):
+    """
+    Given a df with column names that match field names,
+    create entries in database
+    """
+    ff = filter(lambda x: hasattr(x, "db_column"), model._meta.get_fields())
+    field_names = [x.get_attname_column()[0] for x in ff]
+    good_cols = [x for x in df.columns if x in field_names]
+    records = df[good_cols].to_dict("records")
+    items = [model(**kwargs) for kwargs in records]
+    model.objects.bulk_create(items, batch_size=1000)
 
 
 class Council(models.Model):
@@ -64,7 +90,15 @@ class Council(models.Model):
     combined_authority = models.ForeignKey(
         "self", on_delete=models.CASCADE, null=True, blank=True
     )
-    related_councils = models.ManyToManyField("self", blank=True)
+    labels = models.ManyToManyField(
+        "ComparisonLabel", through="ComparisonLabelAssignment", blank=True
+    )
+    related_authorities = models.ManyToManyField(
+        "self",
+        through="Distance",
+        through_fields=("council_a", "council_b"),
+        blank=True,
+    )
     twitter_name = models.CharField(max_length=200, null=True)
     twitter_url = models.URLField(null=True)
 
@@ -615,3 +649,153 @@ class CouncilFilter(django_filters.FilterSet):
     class Meta:
         model = Council
         fields = []
+
+
+class ComparisonType(models.Model):
+    """
+    Type of comparison (emissions, distance)
+    """
+
+    slug = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    desc = models.TextField(default="")
+
+    TYPES = {
+        "composite": "Overall",
+        "emissions": "Emissions profile",
+        "geographic_distance": "Nearby councils",
+        "imd": "Deprivation profile",
+        "ruc": " Rural/Urban profile",
+    }
+
+    def markdown_desc(self):
+        return markdown.markdown(self.desc)
+
+    @classmethod
+    def populate(cls):
+        """
+        Create general types
+        """
+        to_create = []
+        for slug, name in cls.TYPES.items():
+            c = cls(name=name, slug=slug)
+            c.get_desc()
+            to_create.append(c)
+
+        cls.objects.all().delete()
+        cls.objects.bulk_create(to_create)
+
+    def get_desc(self):
+        """
+        read in markdown description
+        """
+        file_path = Path("data", "comparisons", self.slug, "description.md")
+        with open(file_path, "r") as f:
+            self.desc = f.read()
+        return self
+
+    @classmethod
+    def combine_files(cls, filename: str):
+        """
+        combine the same file from different types into a
+        single dataframe, with a `type_slug` column.
+        """
+
+        dfs = []
+        for slug in cls.TYPES.keys():
+            file_path = Path("data", "comparisons", slug, filename)
+            df = pd.read_csv(file_path)
+            df["type_slug"] = slug
+            dfs.append(df)
+
+        return pd.concat(dfs)
+
+
+class ComparisonLabel(models.Model):
+    """
+    Group in comparison type ("low emissions", "high imd")
+    """
+
+    slug = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    desc = models.TextField(default="")
+    type = models.ForeignKey(ComparisonType, on_delete=models.CASCADE)
+
+    @classmethod
+    def populate(cls):
+        df = ComparisonType.combine_files("label_desc.csv")
+        slug_to_id = query_lookup(ComparisonType.objects.all(), "slug", "id")
+        df["slug"] = df["label"].apply(slugify)
+        df["type_id"] = df["type_slug"].apply(slug_to_id)
+        df = df.rename(columns={"label": "name"})
+        cls.objects.all().delete()
+        save_df_to_model(cls, df)
+
+    def markdown_desc(self):
+        return markdown.markdown(self.desc)
+
+
+class ComparisonLabelAssignment(models.Model):
+    """
+    Relation of label to council
+    """
+
+    label = models.ForeignKey(ComparisonLabel, on_delete=models.CASCADE)
+    council = models.ForeignKey(Council, on_delete=models.CASCADE)
+
+    @classmethod
+    def populate(cls):
+        df = ComparisonType.combine_files("la_labels.csv")
+        slug_to_id = query_lookup(ComparisonType.objects.all(), "slug", "id")
+        code_to_id = query_lookup(Council.objects.all(), "authority_code", "id")
+        df["council_id"] = df["local-authority-code"].apply(code_to_id)
+        df["type_id"] = df["type_slug"].apply(slug_to_id)
+
+        # remove councils not in cape
+        df = df[~df["council_id"].isnull()]
+
+        # possibility of duplicate label names in different types
+        # need to join on both the type and label name to get the id
+        q = ComparisonLabel.objects.all().values("id", "name", "type_id")
+        label_df = pd.DataFrame(q).rename(columns={"name": "label", "id": "label_id"})
+        df = df.merge(label_df, on=["type_id", "label"], how="left")
+        cls.objects.all().delete()
+        save_df_to_model(cls, df)
+
+
+class Distance(models.Model):
+    """
+    match score between two councils
+    """
+
+    council_a = models.ForeignKey(
+        Council, on_delete=models.CASCADE, related_name="distances"
+    )
+    council_b = models.ForeignKey(
+        Council, on_delete=models.CASCADE, related_name="reverse_distance"
+    )
+    type = models.ForeignKey(ComparisonType, on_delete=models.CASCADE)
+    distance = models.FloatField()
+    match_score = models.FloatField()
+    position = models.IntegerField()
+
+    @classmethod
+    def populate(cls):
+        df = ComparisonType.combine_files("distance_map.csv")
+
+        # will never access almost all distances, only save the top 30
+        df = df[lambda x: x["position"] <= 31]
+
+        slug_to_id = query_lookup(ComparisonType.objects.all(), "slug", "id")
+        code_to_id = query_lookup(Council.objects.all(), "authority_code", "id")
+        df["type_id"] = df["type_slug"].apply(slug_to_id)
+        df["council_a_id"] = df["local-authority-code_A"].apply(code_to_id)
+        df["council_b_id"] = df["local-authority-code_B"].apply(code_to_id)
+        df = df.rename(columns={"match": "match_score"})
+
+        # need some handling for if a council is not in the caps database
+        # this requires both id columns to have a value
+        has_both = ~(df["council_a_id"].isnull() | df["council_b_id"].isnull())
+        df = df[has_both]
+        cls.objects.all().delete()
+        save_df_to_model(cls, df)
