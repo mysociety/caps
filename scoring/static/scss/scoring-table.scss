@@ -19,15 +19,41 @@
     width: 98%;
     max-height: 100vh;
     overflow: auto;
+    border: 1px solid transparentize($color: $black, $amount: 0.8)
 }
+
 
 .league-table {
 
+    //Table inner border
+    .table-sticky-border-vertical {
+        height: 100%;
+        width: 1px;
+        background-color: transparentize($color: $black, $amount: 0.8);
+        position:absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .table-sticky-border-horizontal {
+        height: 1px;
+        width:100%;
+        background-color: transparentize($color: $black, $amount: 0.8);
+        position:absolute;
+        left: 0px;
+        bottom: 0;
+    }
+
+    //Table Header
+    th, td {
+        vertical-align: middle;
+        background-color: $white;
+        position: relative;
+        z-index: 0;
+    }
 
     th {
-        padding: 8px 10px;
-        max-width: 171px;
-        vertical-align: initial;
+        padding: 14px 10px;
         .table-header-first-row {
             a {
                 width: 120px;
@@ -35,51 +61,73 @@
         }
     }
 
-    .category-1 {
-        background-color: #EEF6FD;
-        a {
-            color:#004A8A;
+    th.council-name.second-row {
+        min-width: 250px;
+        padding-top: 12px;
+        padding-left: 35px;
+        background-color: $color-league-green-l1;
+    }
+
+    th.first-row {
+        padding: 10px 10px 0px 10px;
+        vertical-align: initial;
+        background-color:$color-league-green-l1;
+        .table-header-first-row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            margin-bottom: 10px;
         }
     }
-    .category-2 {background-color: #FFF5FA;
-        a {
-            color:#A40052;
-        }
+
+    th.header , .table-header-first-row span {
+        font-family: $font-family-sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 130%;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
     }
-    .category-3 {background-color: #FFFCEE;
-        a {
-            color:#8C7400;
-        }
+
+    $color-category-1:#004A8A;
+    $color-category-2:#A40052;
+    $color-category-3:#8C7400;
+    $color-category-4:#00903B;
+    $color-category-5:#028790;
+    $color-category-6:#8E5702;
+    $color-category-7:#055070;
+    $color-category-8:#180C7C;
+    $color-category-9:#880202;
+
+
+
+    th.category-1 {
+        @include table-category-color-header($color-category-1);
     }
-    .category-4 {background-color: #EFFEF5;
-        a {
-            color:#00903B;
-        }
+    th.category-2 {
+        @include table-category-color-header($color-category-2);
     }
-    .category-5 {background-color: #EFFDFE;
-        a {
-            color:#028790;
-        }
+    th.category-3 {
+        @include table-category-color-header($color-category-3);
     }
-    .category-6 {background-color: #FFF8EE;
-        a {
-            color:#8E5702;
-        }
+    th.category-4 {
+        @include table-category-color-header($color-category-4);
     }
-    .category-7 {background-color: #E4F7FF;
-        a {
-            color:#055070;
-        }
+    th.category-5 {
+        @include table-category-color-header($color-category-5);
     }
-    .category-8 {background-color: #F6F5FF;
-        a {
-            color:#180C7C;
-        }
+    th.category-6 {
+        @include table-category-color-header($color-category-6);
     }
-    .category-9 {background-color: #FFF7F7;
-        a {
-            color:#6F0404;
-        }
+    th.category-7 {
+        @include table-category-color-header($color-category-7);
+    }
+    th.category-8 {
+        @include table-category-color-header($color-category-8);
+    }
+    th.category-9 {
+        @include table-category-color-header($color-category-9);
     }
 
     thead th {
@@ -93,7 +141,9 @@
     thead {
         th.second-row {
             top:110px;
-            height: 65px;
+            height: auto;
+            padding: 5px 10px;
+            padding-bottom: 14px;
         }
     }
 
@@ -105,59 +155,152 @@
 
     tbody th {
         position: relative;
-    }
-
-    tbody th {
-        position: sticky;
         left: 0;
-        z-index: 1;
     }
-}
 
-.table-header-first-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    margin-bottom: 10px;
-}
+    tbody tr {
+        &:nth-child(odd) {
+            th, td{
+                background-color: #F8F8F8;
+            }
+        }
+    }
 
-.score-bar {
-    background: $white;
-    border: 1px solid #005CAB;
-    border-radius: $border-radius;
-    width: 100px;
-    padding: 8px 0;
-    margin-right: auto;
-    margin-left:auto;
-    position: relative;
+    .council-total-score, .total-score {
+        left: 250px;
+    }
 
-    .progress-bar {
-        width: 0;
-        height: 100%;
-        position: absolute;
-        background: red;
-        top:0;
+    .z-index-3 {
+        z-index: 3 !important;
+    }
+    
+    .z-index-4 {
+        z-index: 4 !important;
+    }
+
+    .z-index-5 {
+        z-index: 5 !important;
+    }
+
+
+    //score-bar
+    .score-bar {
+        background: $white;
+        border: 1px solid #005CAB;
         border-radius: $border-radius;
-        z-index: 0;
-    }
-
-    span {
-        display: block;
-        text-align: center;
-        line-height: 100%;
-        margin-bottom: 0;
-        z-index: 1;
+        width: 100px;
+        padding: 8px 0;
+        margin-right: auto;
+        margin-left:auto;
         position: relative;
+    
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            position: absolute;
+            background: red;
+            top:0;
+            border-radius: $border-radius;
+            z-index: 0;
+        }
+    
+        span {
+            display: block;
+            text-align: center;
+            line-height: 100%;
+            margin-bottom: 0;
+            z-index: 1;
+            position: relative;
+        }
+    
+        span.average {
+            position: absolute;
+            right: 5px;
+            top: 10px;
+            font-size: 13px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
     }
 
-    span.average {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        font-size: 13px;
-        opacity: 0.9;
+    .second-row.total-score {
+        .score-bar {
+            border-color: $color-league-green-d1;
+            .progress-bar {
+                background-color: darken($color: $green, $amount: 10%);
+                border-right: 1px solid $color-league-green-d1;
+            }
+        }
     }
+
+    .council-total-score {
+        .score-bar {
+            border-color: $color-league-green-d1;
+            .progress-bar {
+                background-color: $green;
+                border-right: 1px solid $color-league-green-d1;
+            }
+        }
+    }
+
+    td.council-category-score.category-1 {
+        @include progress-bar-body($color-category-1);
+    }
+    td.council-category-score.category-2 {
+        @include progress-bar-body($color-category-2);
+    }
+    td.council-category-score.category-3 {
+        @include progress-bar-body($color-category-3);
+    }
+    td.council-category-score.category-4 {
+        @include progress-bar-body($color-category-4);
+    }
+    td.council-category-score.category-5 {
+        @include progress-bar-body($color-category-5);
+    }
+    td.council-category-score.category-6 {
+        @include progress-bar-body($color-category-6);
+    }
+    td.council-category-score.category-7 {
+        @include progress-bar-body($color-category-7);
+    }
+    td.council-category-score.category-8 {
+        @include progress-bar-body($color-category-8);
+    }
+    td.council-category-score.category-9 {
+        @include progress-bar-body($color-category-9);
+    }
+
+    th.category-1.second-row {
+        @include progress-bar-header($color-category-1);
+    }
+    th.category-2.second-row {
+        @include progress-bar-header($color-category-2);
+    }
+    th.category-3.second-row {
+        @include progress-bar-header($color-category-3);
+    }
+    th.category-4.second-row {
+        @include progress-bar-header($color-category-4);
+    }
+    th.category-5.second-row {
+        @include progress-bar-header($color-category-5);
+    }
+    th.category-6.second-row {
+        @include progress-bar-header($color-category-6);
+    }
+    th.category-7.second-row {
+        @include progress-bar-header($color-category-7);
+    }
+    th.category-8.second-row {
+        @include progress-bar-header($color-category-8);
+    }
+    th.category-9.second-row {
+        @include progress-bar-header($color-category-9);
+    }
+
 }
+
 
 .sort-icon {
     @include transition(background-image 0.3s ease-in-out);
@@ -165,9 +308,23 @@
     height: 22px;
     margin-left: 5px;
     background-image: url('../img/sort-down-default.svg');
-    background-position: contain;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .sort-icon.green {
     background-image: url('../img/sort-down-green.svg');
+    background-repeat: no-repeat;
+}
+
+.council-link {
+    padding-left: 25px;
+    display: block;
+}
+
+.top-performer {
+    background-image: url('../img/star.svg');
+    background-repeat: no-repeat;
+    background-size: 16px auto;
+    background-position: left;
 }

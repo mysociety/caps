@@ -11,9 +11,17 @@
 }
 
 .bg-blue-l2 {
-    background-color: $color-league-blue-l2;
+    background-color: $color-league-blue-l2 !important;
 }
 
 .bg-green-l2 {
-    background-color: $color-league-green-l1;
+    background-color: $color-league-green-l1 !important;
+}
+
+.bg-inherit {
+    background-color: inherit !important;
+}
+
+.bg-grey {
+    background-color: #eceff5 !important;
 }
