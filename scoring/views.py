@@ -2,7 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.db.models import Subquery, OuterRef, Q
 
 from caps.models import Council
-from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion
+from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
 
 from scoring.forms import ScoringSort
 
@@ -71,10 +71,7 @@ class CouncilAnswersView(DetailView):
     context_object_name = 'council'
     template_name = 'council_answers.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        council = context.get('council')
-
+    def get_council_data(self, council):
         plan = PlanScore.objects.get(council=council, year=2021)
 
         # do this in raw SQL as otherwise we need a third query and an extra loop below
@@ -87,7 +84,7 @@ class CouncilAnswersView(DetailView):
         )
 
         section_qs = PlanSectionScore.objects.select_related('plan_section').filter(
-            plan_score__council=context['council'],
+            plan_score__council=council,
             plan_section__year=2021
         )
 
@@ -114,6 +111,77 @@ class CouncilAnswersView(DetailView):
             }
             sections[section]['answers'].append(q)
 
-        context['plan'] = plan
-        context['sections'] = sections
+        return { 'sections': sections, 'plan': plan }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council = context.get('council')
+
+        data = self.get_council_data(council)
+
+        context['plan'] = data['plan']
+        context['sections'] = data['sections']
+
+        # comparisons = self.request.GET['compare']
+        comparisons = 'ABD'
+        compare = Council.objects.get(authority_code=comparisons)
+
+        data = self.get_council_data(compare)
+        context['comparisons'] = [
+            {
+                'council': compare,
+                'plan': data['plan'],
+                'sections': data['sections']
+            }
+        ]
+        context['foo'] = self.get_comparison_data(council, compare)
         return context
+
+    def get_comparison_data(self, main_council, *comparisons):
+        main_id = main_council.id
+        other_ids = [ council.id for council in comparisons ]
+        all_ids =  [ main_id, *other_ids ]
+        questions = PlanQuestion.objects.filter(section__year=2021)
+
+        council_answers = PlanQuestionScore.objects.filter(
+            plan_score__year=2021,
+            plan_score__council__in=list(all_ids),
+        )
+
+        answers = {}
+        for answer in council_answers.all():
+            a = answers.get(answer.plan_question.code, {})
+            a[answer.plan_score.council.id] = { 'answer': answer.answer, 'score': answer.score }
+            answers[answer.plan_question.code] = a
+
+        sections = {}
+        for question in questions.all():
+            section_code = question.section.code
+            section = sections.get(section_code, {
+                'description': question.section.description,
+                'max_score': question.section.max_score,
+                'score': 0,
+                'answers': [],
+            })
+
+            q = {
+                'code': question.code,
+                'display_code': question.code.replace('{}_'.format(section_code), ''),
+                'question': question.text,
+                'type': question.question_type,
+                'max': question.max_score,
+                'answers': []
+            }
+
+            if question.question_type != 'HEADER':
+                try:
+                    q['answers'].append(answers[question.code][main_id])
+                    [ q['answers'].append(answers[question.code][council_id]) for council_id in other_ids ]
+                except:
+                    pass
+
+            section['answers'].append(q)
+            sections[section_code] = section
+
+        return sections
+

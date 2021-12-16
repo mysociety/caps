@@ -23,6 +23,38 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for section in foo.values %}
+                        <tr data-has-plan="no">
+                            <td colspan="4" class="">
+                                {{ section.description }} ( {{ section.score }}/{{ section.max_score }} )
+                            </td>
+                        </tr>
+                        {% for answer in section.answers %}
+                        <tr>
+                            <td data-column="question_no">
+                                {{ answer.display_code }}
+                            </td>
+                            {% if answer.type == 'HEADER' %}
+                            <td data-column="answer" colspan="3">
+                            {% else %}
+                            <td data-column="answer">
+                            {% endif %}
+                                {{ answer.question | linebreaks }}
+                            </td>
+                            {% if answer.type != 'HEADER' %}
+                            {% for council_answer in answer.answers %}
+                            <td data-column="answer">
+                                {{ council_answer.answer }}
+                            </td>
+                            <td data-column="score">
+                                {{ council_answer.score }}/{{ answer.max }}
+                            </td>
+                            {% endfor %}
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                        {% endfor %}
+
                         {% for section in sections.values %}
                         <tr data-has-plan="no">
                             <td colspan="4" class="">
