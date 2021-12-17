@@ -1,0 +1,141 @@
+// Table control filter
+.table-filter {
+    .left {
+        border: 1px solid $blue;
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+    }
+    
+    .right {
+        border: 1px solid $color-league-green-d1;
+        border-left: none;
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+    }
+}
+
+// Table league
+.league-table-wrapper {
+    width: 100%;
+    max-height: 50vh;
+    overflow: auto;
+}
+
+.league-table {
+    th {
+        padding: 8px 10px;
+        max-width: 171px;
+        vertical-align: initial;
+    }
+    .category-1 {
+        background-color: #EEF6FD;
+        a {
+            color:#004A8A;
+        }
+    }
+    .category-2 {background-color: #FFF5FA;
+        a {
+            color:#A40052;
+        }
+    }
+    .category-3 {background-color: #FFFCEE;
+        a {
+            color:#8C7400;
+        }
+    }
+    .category-4 {background-color: #EFFEF5;
+        a {
+            color:#00903B;
+        }
+    }
+    .category-5 {background-color: #EFFDFE;
+        a {
+            color:#028790;
+        }
+    }
+    .category-6 {background-color: #FFF8EE;
+        a {
+            color:#8E5702;
+        }
+    }
+    .category-7 {background-color: #E4F7FF;
+        a {
+            color:#055070;
+        }
+    }
+    .category-8 {background-color: #F6F5FF;
+        a {
+            color:#180C7C;
+        }
+    }
+    .category-9 {background-color: #FFF7F7;
+        a {
+            color:#6F0404;
+        }
+    }
+
+    thead th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    thead {
+        th.second-row {
+            top:139px;
+        }
+    }
+
+    tbody th {
+        position: relative;
+    }
+
+    thead th:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+    }
+
+    tbody th {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+    }
+}
+
+.table-header-first-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+}
+
+.score-bar {
+    background: $white;
+    border: 1px solid #005CAB;
+    border-radius: $border-radius;
+    width: 100px;
+    padding: 8px 0;
+    margin-right: auto;
+    margin-left:auto;
+
+    span {
+        display: block;
+        text-align: center;
+        line-height: 100%;
+        margin-bottom: 0;
+    }
+}
+
+.sort-icon {
+    @include transition(background-image 0.3s ease-in-out);
+    min-width: 22px;
+    height: 22px;
+    margin-left: 5px;
+    background-image: url('../img/sort-down-default.svg');
+    background-position: contain;
+}
+
+.sort-icon.green {
+    background-image: url('../img/sort-down-green.svg');
+}
