@@ -2,15 +2,29 @@ ul.type-council-option-wrapper {
     list-style: none;
 }
 
+// Radio buttons
 
+.radio-btn {
+    display: inline-block;
+    margin-right: 15px;
 
-// .radio-flex {
-//     display: flex;
-//     flex-direction: row;
-//     flex-wrap: wrap;
-    
-//     label {
-//         flex-basis: auto !important;
-//         border-radius: $border-radius !important;
-//     }
-// }
+    input {
+        visibility:hidden;
+        position: absolute;
+    }
+    label {
+        cursor: pointer;
+        border-radius: $border-radius;
+        padding: 6px 12px;
+        border: 1px solid $blue;
+        background-color: $white;
+        @include transition(background-color 0.3s ease-in-out);
+        &:hover {
+            background-color: $color-scorecard-blue-l1;
+        }
+    }
+    input:checked + label {
+        background-color: $blue;
+        color: $white;
+    }
+}

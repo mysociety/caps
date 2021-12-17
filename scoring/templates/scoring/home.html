@@ -4,21 +4,21 @@
 {% block content %}
 
     <div class="container-fluid hero bg-grey-gradient">
-        <h1 class="text-center mb-3">About the ranking</h1>
+        <h1 class="text-center mb-3">About the scoring</h1>
         <p class="text-center mx-auto" style="max-width: 650px;">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
             Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt 
             nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet 
             sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat 
             sunt nostrud amet.</p>
-        <a class="cta mx-auto" href="#methodology">Learn more about the league</a>
+        <a class="cta mx-auto" href="#methodology">Learn more about the scoring</a>
 
         <div class="table-filter row justify-content-md-center mx-auto mt-4 mt-lg-5" style="max-width: 1100px;">
             <div class="col-12 col-lg-6 bg-blue-l2 left py-3">
                 <form class="form">
-                    <h6 class="mb-3">Find your council on the league table</h6>
+                    <h6 class="mb-3">Find your council on the table</h6>
                     <input class="form-control searchbar blue light mb-5" type="search" placeholder="Search" aria-label="Search">
                     
-                    <h6 class="mb-3">filter the league by type of council</h6>
+                    <h6 class="mb-3">filter the table by type of council</h6>
                     <ul class="type-council-option-wrapper">
                         <li class="radio-btn">
                             <input type='radio' value='1' name='radio' id='radio1' checked/>
@@ -46,17 +46,22 @@
 
             <div class="col-12 col-lg-6 py-3 bg-green-l2 right">
                 <form class="form">
-                    <h6 class="mb-3">Check for a council’s data breakdown</h6>
+                    <h6 class="mb-3">Check for a council’s complete score</h6>
                     <input class="form-control searchbar green dark mb-4" type="search" placeholder="Search" aria-label="Search">
                 </form>
             </div>
         </div>
     </div>
 
-    <a href="https://css-tricks.com/a-table-with-both-a-sticky-header-and-a-sticky-first-column/">stickky table</a>
-    <div class="container-fluid" style="max-width: 1440px;">
-        <div class="league-table-wrapper">
-            <table class="league-table">
+    <div class="container-fluid my-5" style="max-width: 1440px;">
+        <h3 class="underline">
+            <span>single tier</span>
+            <span>·</span>
+            <span>urban</span>
+        </h3>
+        <p class="subtitle mb-4">councils plan scorecard</p>
+        <div class="scorecard-table-wrapper">
+            <table class="scorecard-table">
                 <thead>
                     <tr>
                         <th scope="col" class="bg-grey position-sticky z-index-5"></th>
@@ -65,6 +70,7 @@
                                 <span>Total Score</span>
                                 <div class="sort-icon green"></div>
                             </div>
+                            <div class="table-sticky-border-vertical"></div>
                         </th>
                         <th scope="col" class="first-row category-1">
                             <div class="table-header-first-row">
@@ -132,6 +138,7 @@
                                 <div class="progress-bar"></div>
                                 <span class="average">avg</span>
                             </div>
+                            <div class="table-sticky-border-vertical"></div>
                             <div class="table-sticky-border-horizontal"></div>
                         </th>
                         <th scope="col" class="category-1 second-row">              
@@ -681,7 +688,6 @@
             let fractionToPercentage = parseInt(splitFraction[0], 10) / parseInt(splitFraction[1], 10) * 100;
             scoreFraction[i].nextElementSibling.style.width = fractionToPercentage + '%';
         }
-
     </script> 
 
     

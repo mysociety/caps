@@ -58,17 +58,17 @@
 @import "../bootstrap/print";
 
 //The variables.scss is not being imported so I'm putting some variables here.
-$color-league-green-l1: #E4FAF5;
-$color-league-green: #AFE9DD;
-$color-league-green-d1: #0BC7A0;
-$color-league-grey-900: #404040;
-$color-league-blue-l2: #D8F2FE;
-$color-league-blue-l1: #7BD2F8;
-$color-league-blue: #07A9F1;
-$color-league-blue-d1: #045C88;
+$color-scorecard-green-l1: #E4FAF5;
+$color-scorecard-green: #AFE9DD;
+$color-scorecard-green-d1: #0BC7A0;
+$color-scorecard-grey-900: #404040;
+$color-scorecard-blue-l2: #D8F2FE;
+$color-scorecard-blue-l1: #7BD2F8;
+$color-scorecard-blue: #07A9F1;
+$color-scorecard-blue-d1: #045C88;
 $black: #1C2624;
-$green: $color-league-green;
-$blue: $color-league-blue;
+$green: $color-scorecard-green;
+$blue: $color-scorecard-blue;
 
 //body
 

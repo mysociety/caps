@@ -4,12 +4,12 @@ body {
     font-weight: normal;
     line-height: 150%;
     letter-spacing: 0.02em;
-    color:$color-league-grey-900;
+    color:$color-scorecard-grey-900;
     @include responsive(font-size, 14, 15);
 }
 
 p {
-    color: transparentize($color-league-grey-900, 0.1);
+    color: transparentize($color-scorecard-grey-900, 0.1);
 }
 
 // HEADINGS
@@ -30,7 +30,7 @@ h1 {
     font-weight: 500;
     line-height: 120%;
     letter-spacing: 0em;
-    color: $color-league-grey-900;
+    color: $color-scorecard-grey-900;
 }
 
 h3 {

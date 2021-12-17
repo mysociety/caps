@@ -26,14 +26,14 @@ a {
     font-style: normal;
     font-weight: normal;
     line-height: 130%;
-    color:$color-league-blue-d1;
+    color:$color-scorecard-blue-d1;
     text-decoration: underline;
     @include transition(color 0.3s ease-in-out);
     @include responsive(font-size, 14, 15);
     letter-spacing: 0.05em;
  
     &:hover {
-        color: $color-league-grey-900;
+        color: $color-scorecard-grey-900;
     }
 }
 
@@ -60,10 +60,10 @@ a.cta {
 
 .btn-blue {
     background: #FFFFFF;
-    border: 1px solid $color-league-blue;
+    border: 1px solid $color-scorecard-blue;
     box-sizing: border-box;
     border-radius: 2px;
-    color: transparentize($color-league-grey-900, 0.1);
+    color: transparentize($color-scorecard-grey-900, 0.1);
 }
 
 // Donation button
@@ -94,13 +94,13 @@ a.cta {
     color: $black;
     font-size: 14px;
     border-radius: $border-radius;
-    border: 1px solid $color-league-green-d1;
+    border: 1px solid $color-scorecard-green-d1;
     @include transition(background-color 0.3s ease-in-out);
 
 }
 
 .searchbar.green.dark {
-    background-color: $color-league-green-d1;
+    background-color: $color-scorecard-green-d1;
     &:hover {
         background-color: $white; 
     }
@@ -110,39 +110,12 @@ a.cta {
 }
 
 .searchbar.blue.light {
-    background-color: $color-league-blue-l1;
+    background-color: $color-scorecard-blue-l1;
     border: 1px solid $blue;
     &:hover {
         background-color: $white; 
     }
     &:active, &:focus {
         background-color: $blue;
-    }
-}
-
-// Radio buttons
-
-.radio-btn {
-    display: inline-block;
-    margin-right: 15px;
-
-    input {
-        visibility:hidden;
-        position: absolute;
-    }
-    label {
-        cursor: pointer;
-        border-radius: $border-radius;
-        padding: 6px 12px;
-        border: 1px solid $blue;
-        background-color: $white;
-        @include transition(background-color 0.3s ease-in-out);
-        &:hover {
-            background-color: $color-league-blue-l1;
-        }
-    }
-    input:checked + label {
-        background-color: $blue;
-        color: $white;
     }
 }

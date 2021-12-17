@@ -47,6 +47,7 @@ $max-viewport: 1792;
 
 // Scorecard Table
 @mixin table-category-color-header($color) {
+    border-right: 1px solid transparentize($color: $black, $amount: 0.9);
     background-color: lighten($color: $color, $amount: 65%);
     a {
         color: $color;
@@ -57,22 +58,27 @@ $max-viewport: 1792;
 }
 
 @mixin progress-bar-header($color) {
+    border-right: 1px solid transparentize($color: $black, $amount: 0.9);
     .score-bar {
         border-color: $color;
         .progress-bar {
             background-color: lighten($color: $color, $amount: 62%);
-            border-right: 1px solid transparentize($color: $color, $amount: 0.6);
+            border-right: 1px solid transparentize($color: $color, $amount: 0.9);
         }
     }
 }
 
 @mixin progress-bar-body($color) {
     border-right: 1px solid transparentize($color: $black, $amount: 0.9);
+    span {
+        opacity: 0.8;
+        @include responsive(font-size, 13, 14);
+    }
     .score-bar {
         border-color: $color;
         .progress-bar {
-            background-color: lighten($color: $color, $amount: 68%);
-            border-right: 1px solid transparentize($color: $color, $amount: 0.6);
+            background-color: lighten($color: $color, $amount: 66%);
+            border-right: 1px solid transparentize($color: $color, $amount: 0.9);
         }
     }
 }

@@ -7,24 +7,22 @@
     }
     
     .right {
-        border: 1px solid $color-league-green-d1;
+        border: 1px solid $color-scorecard-green-d1;
         border-left: none;
         border-top-right-radius: $border-radius;
         border-bottom-right-radius: $border-radius;
     }
 }
 
-// Table league
-.league-table-wrapper {
+// Table scorecard
+.scorecard-table-wrapper {
     width: 98%;
     max-height: 100vh;
     overflow: auto;
     border: 1px solid transparentize($color: $black, $amount: 0.8)
 }
 
-
-.league-table {
-
+.scorecard-table {
     //Table inner border
     .table-sticky-border-vertical {
         height: 100%;
@@ -53,6 +51,7 @@
     }
 
     th {
+        font-weight: 400;
         padding: 14px 10px;
         .table-header-first-row {
             a {
@@ -65,13 +64,13 @@
         min-width: 250px;
         padding-top: 12px;
         padding-left: 35px;
-        background-color: $color-league-green-l1;
+        background-color: $color-scorecard-green-l1;
     }
 
     th.first-row {
         padding: 10px 10px 0px 10px;
         vertical-align: initial;
-        background-color:$color-league-green-l1;
+        background-color:$color-scorecard-green-l1;
         .table-header-first-row {
             display: flex;
             flex-direction: row;
@@ -91,7 +90,7 @@
     }
 
     $color-category-1:#004A8A;
-    $color-category-2:#A40052;
+    $color-category-2:#6200a4;
     $color-category-3:#8C7400;
     $color-category-4:#00903B;
     $color-category-5:#028790;
@@ -99,8 +98,6 @@
     $color-category-7:#055070;
     $color-category-8:#180C7C;
     $color-category-9:#880202;
-
-
 
     th.category-1 {
         @include table-category-color-header($color-category-1);
@@ -182,7 +179,6 @@
         z-index: 5 !important;
     }
 
-
     //score-bar
     .score-bar {
         background: $white;
@@ -225,20 +221,20 @@
 
     .second-row.total-score {
         .score-bar {
-            border-color: $color-league-green-d1;
+            border-color: $color-scorecard-green-d1;
             .progress-bar {
                 background-color: darken($color: $green, $amount: 10%);
-                border-right: 1px solid $color-league-green-d1;
+                border-right: 1px solid $color-scorecard-green-d1;
             }
         }
     }
 
     .council-total-score {
         .score-bar {
-            border-color: $color-league-green-d1;
+            border-color: $color-scorecard-green-d1;
             .progress-bar {
                 background-color: $green;
-                border-right: 1px solid $color-league-green-d1;
+                border-right: 1px solid $color-scorecard-green-d1;
             }
         }
     }
@@ -300,7 +296,6 @@
     }
 
 }
-
 
 .sort-icon {
     @include transition(background-image 0.3s ease-in-out);

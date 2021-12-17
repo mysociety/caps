@@ -1,5 +1,4 @@
-
-.league.navbar {
+.scorecard.navbar {
 
         padding: 0 1rem * 2;
 
@@ -39,16 +38,16 @@
             background-color:#A8F0E4;
             color: $black;
             opacity: 1;
-            text-decoration: underline;
             border-top: $nav-item-border-size solid;
             border-bottom: $nav-item-border-size solid;
             border-color: darken(#A8F0E4,30%);
         }
     }
-    .nav-item.active {
+    .nav-item.active .nav-link{
         background-color:lighten($green, 40%);
         color: $black;
         opacity: 1;
+        border-color: $green;
     }
 
 }
