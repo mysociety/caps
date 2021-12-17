@@ -33,7 +33,7 @@
 @import "../bootstrap/buttons";
 @import "../bootstrap/transitions";
 // @import "../bootstrap/dropdown";
-// @import "../bootstrap/button-group";
+@import "../bootstrap/button-group";
 // @import "../bootstrap/input-group";
 // @import "../bootstrap/custom-forms";
 @import "../bootstrap/nav";
@@ -57,4 +57,22 @@
 @import "../bootstrap/utilities";
 @import "../bootstrap/print";
 
-@import "mysociety-standard-footer";
+//The variables.scss is not being imported so I'm putting some variables here.
+$color-league-green-l1: #E4FAF5;
+$color-league-green: #AFE9DD;
+$color-league-green-d1: #0BC7A0;
+$color-league-grey-900: #404040;
+$color-league-blue-l2: #D8F2FE;
+$color-league-blue-l1: #7BD2F8;
+$color-league-blue: #07A9F1;
+$color-league-blue-d1: #045C88;
+$black: #1C2624;
+$green: $color-league-green;
+$blue: $color-league-blue;
+@import "mixins";
+@import "containers";
+@import "background";
+@import "typo";
+@import "buttons";
+@import "input";
+@import "navbar";

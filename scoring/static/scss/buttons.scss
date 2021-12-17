@@ -1,0 +1,128 @@
+// Reset styles
+
+input::-webkit-input-placeholder {
+    color: $black !important;
+}
+
+::-moz-placeholder {
+    color: $black !important;
+}
+
+:-ms-input-placeholder {
+    color: $black !important;
+}
+
+::-webkit-input-placeholder {
+    color: $black !important;
+}
+
+::placeholder {
+    color: $black !important;
+}
+
+a {
+    display: table;
+    color:$color-league-blue-d1;
+    text-decoration: underline;
+    @include transition(color 0.3s ease-in-out);
+    @include responsive(font-size, 15, 16);
+    letter-spacing: 0.05em;
+ 
+    &:hover {
+        color: $color-league-grey-900;
+    }
+}
+
+// CTA
+
+a.cta {
+    padding-right: 30px;
+    background-image: url('../img/chevron-right-blue.svg');
+    background-size: 7px auto;
+    background-repeat: no-repeat;
+    background-position: right 18px bottom 40%;
+    @include transition(background-position 0.3s ease-in-out);
+
+    &:hover {
+        background-position: right 12px bottom 40%; ;
+    }
+}
+
+.btn {
+    @include responsive(font-size, 14, 15);
+}
+
+// Color button
+
+.btn-blue {
+    background: #FFFFFF;
+    border: 1px solid $color-league-blue;
+    box-sizing: border-box;
+    border-radius: 2px;
+    color: transparentize($color-league-grey-900, 0.1);
+}
+
+// Searchbar
+
+.searchbar {
+    background-image: url('../img/search-icon.svg');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 10px 50%;
+    padding-left: 40px;
+    width: 230px;
+    color: $black;
+    font-size: 14px;
+    border-radius: $border-radius;
+    border: 1px solid $color-league-green-d1;
+    @include transition(background-color 0.3s ease-in-out);
+
+}
+
+.searchbar.green.dark {
+    background-color: $color-league-green-d1;
+    &:hover {
+        background-color: $white; 
+    }
+    &:active, &:focus {
+        background-color: $green;
+    }
+}
+
+.searchbar.blue.light {
+    background-color: $color-league-blue-l1;
+    border: 1px solid $blue;
+    &:hover {
+        background-color: $white; 
+    }
+    &:active, &:focus {
+        background-color: $blue;
+    }
+}
+
+// Radio buttons
+
+.radio-btn {
+    display: inline-block;
+    margin-right: 15px;
+
+    input {
+        visibility:hidden;
+        position: absolute;
+    }
+    label {
+        cursor: pointer;
+        border-radius: $border-radius;
+        padding: 6px 12px;
+        border: 1px solid $blue;
+        background-color: $white;
+        @include transition(background-color 0.3s ease-in-out);
+        &:hover {
+            background-color: $color-league-blue-l1;
+        }
+    }
+    input:checked + label {
+        background-color: $blue;
+        color: $white;
+    }
+}

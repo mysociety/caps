@@ -1,0 +1,4 @@
+.container-fluid.hero {
+    @include responsive(padding-top, 50, 90);
+    @include responsive(padding-bottom, 30, 70);
+}
