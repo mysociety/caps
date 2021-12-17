@@ -1,3 +1,43 @@
 ul.type-council-option-wrapper {
     list-style: none;
 }
+
+// Radio buttons
+
+.radio-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    padding: 10px 0;
+    label {
+        margin-bottom: 0;
+        margin-left: 5px;
+        line-height: 130%;
+    }
+}
+
+.radio-btn.is--with-label {
+    display: inline-block;
+    margin-right: 15px;
+
+    input {
+        visibility:hidden;
+        position: absolute;
+    }
+    label {
+        cursor: pointer;
+        border-radius: $border-radius;
+        padding: 6px 12px;
+        border: 1px solid $blue;
+        background-color: $white;
+        @include transition(background-color 0.3s ease-in-out);
+        &:hover {
+            background-color: $color-scorecard-blue-l1;
+        }
+    }
+    input:checked + label {
+        background-color: $blue;
+        color: $white;
+    }
+}

@@ -3,16 +3,1305 @@
 
 {% block content %}
 
-<div class="container">
-    <p class="mb-4 text-muted">Coming soon</p>
+    <div class="container-fluid hero">
+        <h1 class="text-center mb-3">About the scoring</h1>
+        <p class="text-center mx-auto" style="max-width: 650px;">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
+            Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt 
+            nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet 
+            sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat 
+            sunt nostrud amet.</p>
+        <a class="cta mx-auto" href="#methodology">Learn more about the scoring</a>
 
-    <h1 class="mb-4">Council Climate Plan Scorecards</h1>
+        <div class="table-filter row justify-content-md-center mx-auto mt-5 pb-5" style="max-width: 1100px;">
+            <div class="col-12 col-lg-6 bg-blue-l2 left py-3">
+                {% include 'scoring/includes/main-filter.html' %}                
+            </div>
 
-    <p class="mb-4 text-muted">
-        From <a href="https://www.climateemergency.uk">Climate Emergency UK</a>.
-        Built by <a href="https://www.mysociety.org">mySociety</a>.
-    </p>
-</div>
+            <div class="col-12 col-lg-6 py-3 bg-green-l2 right">
+                <form class="form">
+                    <h6 class="mb-3">Check for a council’s complete score</h6>
+                    <input class="form-control searchbar green dark" type="search" placeholder="Search" aria-label="Search">
+                </form>
+            </div>
+        </div>
+
+        <div class="my-5 mx-auto position-relative" style="max-width: 1440px;">
+            <div class="table-header mb-4 align-items-end">
+                <div>
+                    <h3 class="underline">
+                        <span>single tier</span>
+                        <span>·</span>
+                        <span>urban</span>
+                    </h3>
+                    <p class="subtitle mb-0">councils plan scorecard</p>
+                </div>
+                {% include 'scoring/includes/advanced-filter.html' %}
+            </div>
+
+            <div class="advanced-filter-wrapper bg-blue-l2 popup-modal shadow" data-popup-modal="categories">
+                <div class="filter-header mb-4">
+                    <h5 class="filter-title">Select which section you want to display</h5>
+                    <button class="close-icon popup-modal__close" type="button"></button>
+                </div>
+                <form>
+                    <div class="option-group">
+                        <div class="radio-wrapper">
+                            <input class="category-option" type="radio" id="total-score" name="category" value="total-score">
+                            <label for="total-score">Total score</label>
+                        </div>
+                        <div class="radio-wrapper">
+                            <input class="category-option" type="radio" id="category-1" name="category" value="category-1">
+                            <label for="category-1">Governance, development and funding</label>
+                        </div>
+                        <div class="radio-wrapper">
+                            <input class="category-option" type="radio" id="category-2" name="category" value="category-2">
+                            <label for="category-2">Mitigation and adaption</label>
+                        </div>
+                        <div class="radio-wrapper">
+                            <input class="category-option" type="radio" id="category-3" name="category" value="category-3">
+                            <label for="category-3">Community engagement and communications</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="scorecard-table-wrapper">
+                <table class="scorecard-table">
+                    <thead>
+                        <tr class="first-row">
+                            <th scope="col" class="bg-white position-sticky z-index-5">
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <th scope="col" class="first-row-child total-score position-sticky z-index-4">
+                                <div class="table-header-first-row">
+                                    <span class="text-center">Total Score</span>
+                                    <div class="sort-icon green"></div>
+                                </div>
+                                <div class="table-sticky-border right"></div>
+                                <div class="table-sticky-border left"></div>
+                                <div class="table-sticky-border top"></div>
+                            </th>
+                            <th scope="col" class="first-row-child category-1">
+                                <div class="table-header-first-row">
+                                    <a href="">Governance, development and funding</a>
+                                    <div class="sort-icon"></div>
+                                </div>
+                                <div class="table-sticky-border top"></div>
+                            </th>
+                            <th scope="col" class="first-row-child category-2">
+                                <div class="table-header-first-row">
+                                    <a href="">Mitigation and Adaptation</a>
+                                    <div class="sort-icon"></div>
+                                </div>
+                                <div class="table-sticky-border top"></div>
+                            </th>
+                            <th scope="col" class="first-row-child category-3">
+                                <div class="table-header-first-row">
+                                    <a href="">Community engagement and communications</a>
+                                    <div class="sort-icon"></div>
+                                </div>
+                                <div class="table-sticky-border top"></div>
+                            </th>
+                            <th scope="col" class="first-row-child category-4">
+                                <div class="table-header-first-row">
+                                    <a href="">Measuring and setting emissions targets</a>
+                                    <div class="sort-icon"></div>
+                                </div>
+                                <div class="table-sticky-border top"></div>
+                            </th>
+                            <th scope="col" class="first-row-child category-5">
+                                <div class="table-header-first-row">
+                                    <a href="">Commitment and Integration</a>
+                                    <div class="sort-icon"></div>
+                                </div>
+                                <div class="table-sticky-border top"></div>
+                            </th>
+                            <th scope="col" class="first-row-child category-6">
+                                <div class="table-header-first-row">
+                                    <a href="">Diversity and Social Inclusion</a>
+                                    <div class="sort-icon"></div>
+                                </div>
+                                <div class="table-sticky-border top"></div>
+                            </th>
+                            <th scope="col" class="first-row-child category-7">
+                                <div class="table-header-first-row">
+                                    <a href="">Education, Skills and Training</a>
+                                    <div class="sort-icon"></div>
+                                </div>
+                                <div class="table-sticky-border top"></div>
+                            </th>
+                            <th scope="col" class="first-row-child category-8">
+                                <div class="table-header-first-row">
+                                    <a href="">Ecological emergency</a>
+                                    <div class="sort-icon"></div>
+                                </div>
+                                <div class="table-sticky-border top"></div>
+                            </th>
+                            <th scope="col" class="first-row-child category-9">
+                                <div class="table-header-first-row">
+                                    <a href="">Co-benefits</a>
+                                    <div class="sort-icon"></div>
+                                </div>
+                                <div class="table-sticky-border top"></div>
+                            </th>
+                        </tr>
+                        <tr class="second-row position-sticky z-index-4">
+                            <th scope="col" class="council-name header position-sticky z-index-4">
+                                Council name
+                                <div class="table-sticky-border bottom"></div>
+                                <div class="table-sticky-border left"></div>
+                            </th>
+                            <th scope="col" class="total-score position-sticky z-index-4 bg-green-l2">              
+                                <div class="score-bar">
+                                    <span class="score-percentage">70%</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                                <div class="table-sticky-border right"></div>
+                            </th>
+                            <th scope="col" class="category-1 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <th scope="col" class="category-2 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <th scope="col" class="category-3 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <th scope="col" class="category-4 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <th scope="col" class="category-5 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <th scope="col" class="category-6 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <th scope="col" class="category-7 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <th scope="col" class="category-8 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <th scope="col" class="category-9 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer active">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                                <div class="table-sticky-border left"></div>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border right"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer active">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                                <div class="table-sticky-border left"></div>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border right"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer active">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                                <div class="table-sticky-border left"></div>
+                                <div class="table-sticky-border left"></div>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border right"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer active">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                                <div class="table-sticky-border left"></div>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border right"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer active">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                                <div class="table-sticky-border left"></div>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border right"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                                <div class="table-sticky-border left"></div>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border right"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                                <div class="table-sticky-border left"></div>
+                                <div class="table-sticky-border left"></div>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border right"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                {% comment %} Mobile version {% endcomment %}
+                <table class="scorecard-table-mobile">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="2" class="main-header position-sticky z-index-5">
+                                <div class="category">
+                                    <span>Total Score</span>
+                                    <button class="hamburguer open-modal popup-trigger"
+                                        data-popup-trigger="categories" type="button">
+                                    </button>
+                                </div>
+                            </th>
+                        <tr class="second-row position-sticky z-index-4">
+                            <th scope="col" class="council-name header">
+                                Council name
+                            </th>
+                            <th scope="col" class="total-score position-sticky z-index-4">              
+                                <div class="score-bar">
+                                    <div class="sort-icon"></div>
+                                    <span class="score-percentage">70%</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                            </th>
+                            <th scope="col" class="category-1 second-row">              
+                                <div class="score-bar">
+                                    <div class="sort-icon"></div>
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                            </th>
+                            <th scope="col" class="category-2 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                            </th>
+                            <th scope="col" class="category-3 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                            </th>
+                            <th scope="col" class="category-4 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                            </th>
+                            <th scope="col" class="category-5 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                            </th>
+                            <th scope="col" class="category-6 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                            </th>
+                            <th scope="col" class="category-7 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                            </th>
+                            <th scope="col" class="category-8 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                            </th>
+                            <th scope="col" class="category-9 second-row">              
+                                <div class="score-bar">
+                                    <span class="score-fraction">4/10</span>
+                                    <div class="progress-bar"></div>
+                                    <span class="average">avg</span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer active">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer active">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer active">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="council-name position-sticky z-index-3">
+                                <div class="top-performer active">
+                                    <div class="hover-message">
+                                        <span>This is a top perfomer council.</span>
+                                    </div>
+                                </div>
+                                <a class="council-link" href="#">Abdur distric council</a>
+                            </th>
+                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                                <div class="score-bar">
+                                    <span class="score-percentage">90%</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="table-sticky-border bottom"></div>
+                            </th>
+                            <td scope="row" class="council-category-score category-1">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                <div class="score-bar">
+                                    <span class="score-fraction">3/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                <div class="score-bar">
+                                    <span class="score-fraction">7/10</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                <div class="score-bar">
+                                    <span class="score-fraction">1/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-6">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-7">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/8</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-8">
+                                <div class="score-bar">
+                                    <span class="score-fraction">6/9</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                            <td scope="row" class="council-category-score category-9">
+                                <div class="score-bar">
+                                    <span class="score-fraction">5/6</span>
+                                    <div class="progress-bar"></div>
+                                </div>
+                            </td>
+                        </tr>
+     
+    
+                    </tbody>
+                </table>
+            </div>
+        </div>    
+    </div>
+
+    <script>
+        // controller for progress-bar
+        let scorePercentage = document.getElementsByClassName('score-percentage');
+
+        for (let i = 0; i < scorePercentage.length; i++) {
+            let percentageValue = scorePercentage[i].textContent;
+            scorePercentage[i].nextElementSibling.style.width = percentageValue;
+        }
+
+        let scoreFraction = document.getElementsByClassName('score-fraction');
+        for (let i = 0; i < scoreFraction.length; i++) {
+            let fractionValue = scoreFraction[i].textContent;
+            let splitFraction = fractionValue.split('/');
+            let fractionToPercentage = parseInt(splitFraction[0], 10) / parseInt(splitFraction[1], 10) * 100;
+            scoreFraction[i].nextElementSibling.style.width = fractionToPercentage + '%';
+        }
+
+        // Open modals and filters
+        const modalTriggers = document.querySelectorAll('.popup-trigger')
+        const modalCloseTrigger = document.querySelector('.popup-modal__close')
+        
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const { popupTrigger } = trigger.dataset;
+                const popupModal = document.querySelector(`[data-popup-modal="${popupTrigger}"]`);
+                popupModal.classList.add('is--visible');
+
+                popupModal.querySelector('.popup-modal__close').addEventListener('click', () => {
+                popupModal.classList.remove('is--visible');
+                })
+            })
+        })
+    </script> 
 
     <p>
         <a href="{% url 'scoring' 'single' %}">Single Tier</a> :
