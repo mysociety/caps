@@ -16,7 +16,7 @@
 
 // Table scorecard
 .scorecard-table-wrapper {
-    width: 98%;
+    width: 100%;
     max-height: 100vh;
     overflow: auto;
     border: 1px solid transparentize($color: $black, $amount: 0.8)
@@ -153,6 +153,13 @@
     tbody th {
         position: relative;
         left: 0;
+    }
+
+    tbody th.council-name {
+        display: flex;
+        flex-direction: row;
+        min-height: 62px;
+        align-items: center;
     }
 
     tbody tr {
@@ -312,14 +319,47 @@
     background-repeat: no-repeat;
 }
 
+
+// Hover message for top-performers
 .council-link {
-    padding-left: 25px;
     display: block;
+    margin-left: 3px;
 }
 
 .top-performer {
+    display: block;
+    width: 20px;
+    height: 20px;
     background-image: url('../img/star.svg');
     background-repeat: no-repeat;
     background-size: 16px auto;
     background-position: left;
+    position: relative;
+    
+
+    .hover-message {
+        opacity: 0;
+        position: absolute;
+        top:-10px;
+        left: 0;
+        width: 0;
+        z-index: 1000;
+    }
+
+    &:hover {
+        .hover-message {
+           opacity: 1;
+           width: 230px;
+           
+        } 
+    }
+}
+
+.hover-message {
+    background-color: $color-scorecard-grey-900;
+    padding: 8px;
+    border-radius: $border-radius;
+    span {
+        color: $white;
+    }
 }
