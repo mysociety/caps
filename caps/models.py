@@ -377,7 +377,7 @@ class PlanDocument(models.Model):
         """
         if pd.isnull(date_entry):
             return None
-        return dateutil.parser.parse(date_entry).date()
+        return dateutil.parser.parse(date_entry, dayfirst=True).date()
 
     @classmethod
     def integer_from_text(cls, entry):
