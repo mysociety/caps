@@ -70,8 +70,7 @@ $black: #1C2624;
 $green: $color-scorecard-green;
 $blue: $color-scorecard-blue;
 
-//body
-
+$sm-max:576px;
 
 @import "mixins";
 // @import "mysociety-standard-footer";
@@ -79,7 +78,9 @@ $blue: $color-scorecard-blue;
 @import "containers";
 @import "background";
 @import "typo";
+@import "icons";
 @import "buttons";
 @import "input";
 @import "navbar";
 @import "scoring-table";
+@import "advanced-filter";

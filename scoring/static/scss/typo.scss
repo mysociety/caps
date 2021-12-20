@@ -23,7 +23,7 @@ p {
     text-transform: uppercase;
 }
 
-h1 {
+h1, .h1 {
     @include responsive(font-size, 30, 40);
     font-family: $headings-font-family;
     font-style: normal;
@@ -33,7 +33,7 @@ h1 {
     color: $color-scorecard-grey-900;
 }
 
-h3 {
+h3, .h3 {
     font-family: $headings-font-family;
     font-style: normal;
     font-weight: 500;
@@ -43,21 +43,38 @@ h3 {
 
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    color: $color-scorecard-grey-900;
 }
 
-h6 {
+h4, .h4 {
+    font-family: $headings-font-family;
+    font-style: normal;
+    font-weight: normal;
+    @include responsive(font-size, 18, 20);
+    line-height: 130%;
+    letter-spacing: 0.04em;
+    color: $color-scorecard-grey-900;
+}
+
+h5, .h5 {
     font-family: $font-family-sans-serif;
     font-style: normal;
     font-weight: 500;
-    font-size: 15px;
+    @include responsive(font-size, 14, 16);
+    line-height: 150%;
+    letter-spacing: 0.03em;
+    color: $color-scorecard-grey-900;
+}
+
+h6, .h6 {
+    font-family: $font-family-sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    @include responsive(font-size, 14, 15);
     line-height: 130%;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-
-    /* CAP/Grey */
-
-    color: #404040;
-
+    color: $color-scorecard-grey-900;
     opacity: 0.82;
 }
 

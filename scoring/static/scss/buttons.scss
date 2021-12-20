@@ -1,4 +1,16 @@
 // Reset styles
+button {
+    // reset 
+    border-radius: $border-radius;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    padding-left: 0;
+    letter-spacing: 0.05em;
+    &:focus {
+        outline: none;
+    }
+}
 
 input::-webkit-input-placeholder {
     color: $black !important;
@@ -117,5 +129,68 @@ a.cta {
     }
     &:active, &:focus {
         background-color: $blue;
+    }
+}
+
+// Open div
+
+.btn-open-div {
+    padding-right: 30px;
+    background-image: url('../img/chevron-black-down.svg');
+    background-size: 13px;
+    background-repeat: no-repeat;
+    background-position: right 8px top 10px;
+    
+    @include transition(background-position, opacity, 0.2s ease-in-out);
+    &:hover {
+        background-position: right 8px top 11px;
+        opacity: 0.7;
+    }
+}
+
+.btn-open-div.active {
+    background-image: url('../img/chevron-black-up.svg');
+}
+
+.open-div {
+    overflow  : hidden;
+    @include transition(height, 0.3s ease-in-out);
+}
+
+.open-div:not(.active) {
+    display: none;
+}
+
+// Modal
+
+.close-icon {
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/close-grey.svg');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.8;
+    @include transition(background-image, 0.3s ease-in-out);
+    &:hover {
+        background-image: url('../img/close-green.svg');
+    }
+}
+
+// Advanced filters
+
+.advanced-filter {
+    height: 32px;
+    padding-left: 6px;
+    padding-right: 30px;
+    background-image: url('../img/advanced-filter-grey.svg');
+    background-position: right 10px top 55%;
+    background-repeat: no-repeat;
+    border: 1px solid $color-scorecard-grey-900;
+    @include transition(background-image, background-color, color,  0.3s ease-in-out);
+    &:hover {
+        background-image: url('../img/advanced-filter-white.svg'); 
+        color: $white;
+        background-color: $color-scorecard-grey-900; 
     }
 }

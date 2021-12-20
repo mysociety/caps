@@ -14,34 +14,7 @@
 
         <div class="table-filter row justify-content-md-center mx-auto mt-4 mt-lg-5" style="max-width: 1100px;">
             <div class="col-12 col-lg-6 bg-blue-l2 left py-3">
-                <form class="form">
-                    <h6 class="mb-3">Find your council on the table</h6>
-                    <input class="form-control searchbar blue light mb-5" type="search" placeholder="Search" aria-label="Search">
-                    
-                    <h6 class="mb-3">filter the table by type of council</h6>
-                    <ul class="type-council-option-wrapper">
-                        <li class="radio-btn">
-                            <input type='radio' value='1' name='radio' id='radio1' checked/>
-                            <label for='radio1'>Single Tier</label>
-                        </li>
-                        <li class="radio-btn">
-                            <input type='radio' value='2' name='radio' id='radio2' />
-                            <label for='radio1'>Distric</label>
-                        </li>
-                        <li class="radio-btn">
-                            <input type='radio' value='3' name='radio'  id='radio3'/>
-                            <label for='radio2'>County</label>
-                        </li>
-                        <li class="radio-btn">
-                            <input type='radio' value='4' name='radio'  id='radio4'/>
-                            <label for='radio3'>Northern Ireland</label>
-                        </li>
-                        <li class="radio-btn">
-                            <input type='radio' value='5' name='radio'  id='radio5'/>
-                            <label for='radio3'>Combined Authorithy</label>
-                        </li>
-                    </ul>
-                </form>
+                {% include 'scoring/includes/main-filter.html' %}                
             </div>
 
             <div class="col-12 col-lg-6 py-3 bg-green-l2 right">
@@ -54,12 +27,18 @@
     </div>
 
     <div class="container-fluid my-5" style="max-width: 1440px;">
-        <h3 class="underline">
-            <span>single tier</span>
-            <span>·</span>
-            <span>urban</span>
-        </h3>
-        <p class="subtitle mb-4">councils plan scorecard</p>
+        <div class="position-relative mb-4 d-flex flex-row justify-content-between">
+            <div>
+                <h3 class="underline">
+                    <span>single tier</span>
+                    <span>·</span>
+                    <span>urban</span>
+                </h3>
+                <p class="subtitle">councils plan scorecard</p>
+            </div>
+            {% include 'scoring/includes/advanced-filter.html' %}
+        </div>
+
         <div class="scorecard-table-wrapper">
             <table class="scorecard-table">
                 <thead>
@@ -672,18 +651,17 @@
     </div>
 
     <script>
-        let scorePercentage = document.getElementsByClassName("score-percentage");
+        // controller for progress-bar
+        let scorePercentage = document.getElementsByClassName('score-percentage');
 
-        for (var i = 0; i < scorePercentage.length; i++) {
+        for (let i = 0; i < scorePercentage.length; i++) {
             let percentageValue = scorePercentage[i].textContent;
-            console.log(percentageValue);
             scorePercentage[i].nextElementSibling.style.width = percentageValue;
         }
 
-        let scoreFraction = document.getElementsByClassName("score-fraction");
-        for (var i = 0; i < scoreFraction.length; i++) {
+        let scoreFraction = document.getElementsByClassName('score-fraction');
+        for (let i = 0; i < scoreFraction.length; i++) {
             let fractionValue = scoreFraction[i].textContent;
-
             let splitFraction = fractionValue.split('/');
             let fractionToPercentage = parseInt(splitFraction[0], 10) / parseInt(splitFraction[1], 10) * 100;
             scoreFraction[i].nextElementSibling.style.width = fractionToPercentage + '%';
