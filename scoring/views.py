@@ -81,10 +81,13 @@ class CouncilAnswersView(DetailView):
                 'answers': []
             }
 
+        group = council.get_scoring_group()
+
         # get average section scores for authorities of the same type
         section_avgs = PlanSectionScore.objects.select_related('plan_section').filter(
             plan_score__total__gt=0,
-            plan_score__council__authority_type=council.authority_type,
+            plan_score__council__authority_type__in=group['types'],
+            plan_score__council__country__in=group['countries'],
             plan_section__year=2021
         ).values('plan_section__code').annotate(avg_score=Avg('score')) #, distinct=True))
 
