@@ -69,6 +69,29 @@ class Council(models.Model):
         ("UA", "Unitary Authority"),
     ]
 
+    SCORING_GROUPS = {
+        'single': {
+            'types': ['CC', 'LBO', 'MD', 'UA'],
+            'countries': [ ENGLAND, SCOTLAND, WALES]
+        },
+        'county': {
+            'types': ['CTY'],
+            'countries': [ ENGLAND, SCOTLAND, WALES]
+        },
+        'district': {
+            'types': ['NMD'],
+            'countries': [ ENGLAND, SCOTLAND, WALES]
+        },
+        'combined': {
+            'types': ['COMB'],
+            'countries': [ ENGLAND, SCOTLAND, WALES]
+        },
+        'northern-ireland': {
+            'types': ['UA'],
+            'countries': [NORTHERN_IRELAND]
+        },
+    }
+
     PLAN_FILTER_CHOICES = [
         (None, "All"),
         (True, "Yes"),
@@ -167,6 +190,22 @@ class Council(models.Model):
             )
 
         return results
+
+    def get_scoring_group(self):
+        if self.authority_type in ( 'CC', 'LBO', 'MD', 'UA' ):
+            group = 'single'
+        elif self.authority_type == 'NMD':
+            group = 'district'
+        elif self.authority_type == 'CTY':
+            group = 'county'
+        elif self.country == NORTHERN_IRELAND:
+            group = 'northern-ireland'
+        elif self.authority_type == 'COMB':
+            group = 'combined'
+        else:
+            group = 'single'
+
+        return self.SCORING_GROUPS[group]
 
     @property
     def powers(self):
