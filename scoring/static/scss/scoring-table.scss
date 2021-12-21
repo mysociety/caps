@@ -136,7 +136,7 @@ tbody th.council-name {
     }
 
     .table-sticky-border.left {
-        left: 0;
+        left: 0px;
         top: 0;
     }
 
@@ -149,7 +149,6 @@ tbody th.council-name {
     tr {
          border-bottom: $border-table;
          border-right: $border-table;
-         border-left: $border-table; 
     }
 
     tr.second-row {
