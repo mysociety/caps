@@ -1,3 +1,14 @@
+$table-desktop-breakpoint: 915px;
+$color-category-1:#004A8A;
+$color-category-2:#6200a4;
+$color-category-3:#8C7400;
+$color-category-4:#00903B;
+$color-category-5:#028790;
+$color-category-6:#8E5702;
+$color-category-7:#055070;
+$color-category-8:#180C7C;
+$color-category-9:#880202;
+
 // Table control filter
 .table-filter {
     .left {
@@ -12,17 +23,87 @@
         border-top-right-radius: $border-radius;
         border-bottom-right-radius: $border-radius;
     }
+
+    @media only screen and (max-width: $table-desktop-breakpoint) {
+        .left {
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .right {
+            border-top: none;
+            border-left: 1px solid $color-scorecard-green-d1;
+            border-bottom-left-radius: $border-radius;
+            border-bottom-right-radius: $border-radius;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
 }
 
-// Table scorecard
+// Table header
+.table-header {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+
+    @media only screen and (max-width: $table-desktop-breakpoint) {
+        flex-direction: column;
+        button {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 30px;
+        }
+    }
+}
+
+// Attributes for both tables
+.z-index-3 {
+    z-index: 3 !important;
+}
+
+.z-index-4 {
+    z-index: 4 !important;
+}
+
+.z-index-5 {
+    z-index: 5 !important;
+}
+
+th, td {
+    vertical-align: middle;
+    background-color: $white;
+    position: relative;
+    z-index: 0;
+}
+
+tbody th.council-name {
+    display: flex;
+    flex-direction: row;
+    min-height: 62px;
+    align-items: center;
+}
+
+// Table scorecard Desktop
 .scorecard-table-wrapper {
     width: 100%;
     max-height: 100vh;
     overflow: auto;
-    border: 1px solid transparentize($color: $black, $amount: 0.8)
+    border: 1px solid transparentize($color: $black, $amount: 0.8);
+    border-radius: $border-radius;
+    @media only screen and (max-width: $table-desktop-breakpoint) {
+        border:none;
+    }
 }
 
 .scorecard-table {
+    @media only screen and (max-width: $table-desktop-breakpoint) {
+        display: none;
+    }
+
     //Table inner border
     .table-sticky-border-vertical {
         height: 100%;
@@ -43,13 +124,6 @@
     }
 
     //Table Header
-    th, td {
-        vertical-align: middle;
-        background-color: $white;
-        position: relative;
-        z-index: 0;
-    }
-
     th {
         font-weight: 400;
         padding: 14px 10px;
@@ -60,7 +134,7 @@
         }
     }
 
-    th.council-name.second-row {
+    .second-row th.council-name {
         min-width: 250px;
         padding-top: 12px;
         padding-left: 35px;
@@ -88,17 +162,7 @@
         letter-spacing: 0.01em;
         text-transform: uppercase;
     }
-
-    $color-category-1:#004A8A;
-    $color-category-2:#6200a4;
-    $color-category-3:#8C7400;
-    $color-category-4:#00903B;
-    $color-category-5:#028790;
-    $color-category-6:#8E5702;
-    $color-category-7:#055070;
-    $color-category-8:#180C7C;
-    $color-category-9:#880202;
-
+    
     th.category-1 {
         @include table-category-color-header($color-category-1);
     }
@@ -136,7 +200,7 @@
     }
 
     thead {
-        th.second-row {
+        .second-row th {
             top:110px;
             height: auto;
             padding: 5px 10px;
@@ -155,13 +219,6 @@
         left: 0;
     }
 
-    tbody th.council-name {
-        display: flex;
-        flex-direction: row;
-        min-height: 62px;
-        align-items: center;
-    }
-
     tbody tr {
         &:nth-child(odd) {
             th, td{
@@ -173,137 +230,125 @@
     .council-total-score, .total-score {
         left: 250px;
     }
-
-    .z-index-3 {
-        z-index: 3 !important;
-    }
-    
-    .z-index-4 {
-        z-index: 4 !important;
-    }
-
-    .z-index-5 {
-        z-index: 5 !important;
-    }
-
-    //score-bar
-    .score-bar {
-        background: $white;
-        border: 1px solid #005CAB;
-        border-radius: $border-radius;
-        width: 100px;
-        padding: 8px 0;
-        margin-right: auto;
-        margin-left:auto;
-        position: relative;
-    
-        .progress-bar {
-            width: 0;
-            height: 100%;
-            position: absolute;
-            background: red;
-            top:0;
-            border-radius: $border-radius;
-            z-index: 0;
-        }
-    
-        span {
-            display: block;
-            text-align: center;
-            line-height: 100%;
-            margin-bottom: 0;
-            z-index: 1;
-            position: relative;
-        }
-    
-        span.average {
-            position: absolute;
-            right: 5px;
-            top: 10px;
-            font-size: 13px;
-            opacity: 0.9;
-            font-weight: 300;
-        }
-    }
-
-    .second-row.total-score {
-        .score-bar {
-            border-color: $color-scorecard-green-d1;
-            .progress-bar {
-                background-color: darken($color: $green, $amount: 10%);
-                border-right: 1px solid $color-scorecard-green-d1;
-            }
-        }
-    }
-
-    .council-total-score {
-        .score-bar {
-            border-color: $color-scorecard-green-d1;
-            .progress-bar {
-                background-color: $green;
-                border-right: 1px solid $color-scorecard-green-d1;
-            }
-        }
-    }
-
-    td.council-category-score.category-1 {
-        @include progress-bar-body($color-category-1);
-    }
-    td.council-category-score.category-2 {
-        @include progress-bar-body($color-category-2);
-    }
-    td.council-category-score.category-3 {
-        @include progress-bar-body($color-category-3);
-    }
-    td.council-category-score.category-4 {
-        @include progress-bar-body($color-category-4);
-    }
-    td.council-category-score.category-5 {
-        @include progress-bar-body($color-category-5);
-    }
-    td.council-category-score.category-6 {
-        @include progress-bar-body($color-category-6);
-    }
-    td.council-category-score.category-7 {
-        @include progress-bar-body($color-category-7);
-    }
-    td.council-category-score.category-8 {
-        @include progress-bar-body($color-category-8);
-    }
-    td.council-category-score.category-9 {
-        @include progress-bar-body($color-category-9);
-    }
-
-    th.category-1.second-row {
-        @include progress-bar-header($color-category-1);
-    }
-    th.category-2.second-row {
-        @include progress-bar-header($color-category-2);
-    }
-    th.category-3.second-row {
-        @include progress-bar-header($color-category-3);
-    }
-    th.category-4.second-row {
-        @include progress-bar-header($color-category-4);
-    }
-    th.category-5.second-row {
-        @include progress-bar-header($color-category-5);
-    }
-    th.category-6.second-row {
-        @include progress-bar-header($color-category-6);
-    }
-    th.category-7.second-row {
-        @include progress-bar-header($color-category-7);
-    }
-    th.category-8.second-row {
-        @include progress-bar-header($color-category-8);
-    }
-    th.category-9.second-row {
-        @include progress-bar-header($color-category-9);
-    }
-
 }
 
+// Progress bar
+.score-bar {
+    background: $white;
+    border: 1px solid #005CAB;
+    border-radius: $border-radius;
+    width: 100px;
+    padding: 8px 0;
+    margin-right: auto;
+    margin-left:auto;
+    position: relative;
+
+    .progress-bar {
+        width: 0;
+        height: 100%;
+        position: absolute;
+        background: red;
+        top:0;
+        border-radius: $border-radius;
+        z-index: 0;
+    }
+
+    span {
+        display: block;
+        text-align: center;
+        line-height: 100%;
+        margin-bottom: 0;
+        z-index: 1;
+        position: relative;
+    }
+
+    span.average {
+        position: absolute;
+        right: 5px;
+        top: 10px;
+        font-size: 13px;
+        opacity: 0.9;
+        font-weight: 300;
+    }
+}
+
+.second-row .total-score {
+    .score-bar {
+        border-color: $color-scorecard-green-d1;
+        .progress-bar {
+            background-color: darken($color: $green, $amount: 10%);
+            border-right: 1px solid $color-scorecard-green-d1;
+        }
+    }
+}
+
+.council-total-score {
+    .score-bar {
+        border-color: $color-scorecard-green-d1;
+        .progress-bar {
+            background-color: $green;
+            border-right: 1px solid $color-scorecard-green-d1;
+        }
+    }
+}
+
+td.council-category-score.category-1 {
+    @include progress-bar-body($color-category-1);
+}
+td.council-category-score.category-2 {
+    @include progress-bar-body($color-category-2);
+}
+td.council-category-score.category-3 {
+    @include progress-bar-body($color-category-3);
+}
+td.council-category-score.category-4 {
+    @include progress-bar-body($color-category-4);
+}
+td.council-category-score.category-5 {
+    @include progress-bar-body($color-category-5);
+}
+td.council-category-score.category-6 {
+    @include progress-bar-body($color-category-6);
+}
+td.council-category-score.category-7 {
+    @include progress-bar-body($color-category-7);
+}
+td.council-category-score.category-8 {
+    @include progress-bar-body($color-category-8);
+}
+td.council-category-score.category-9 {
+    @include progress-bar-body($color-category-9);
+}
+
+.second-row  th.category-1{
+    @include progress-bar-header($color-category-1);
+}
+.second-row  th.category-2{
+    @include progress-bar-header($color-category-2);
+}
+.second-row  th.category-3{
+    @include progress-bar-header($color-category-3);
+}
+.second-row  th.category-4{
+    @include progress-bar-header($color-category-4);
+}
+.second-row  th.category-5{
+    @include progress-bar-header($color-category-5);
+}
+.second-row  th.category-6{
+    @include progress-bar-header($color-category-6);
+}
+.second-row  th.category-7{
+    @include progress-bar-header($color-category-7);
+}
+.second-row  th.category-8{
+    @include progress-bar-header($color-category-8);
+}
+.second-row  th.category-9{
+    @include progress-bar-header($color-category-9);
+}
+
+// Sort icon
 .sort-icon {
     @include transition(background-image 0.3s ease-in-out);
     min-width: 22px;
@@ -329,12 +374,7 @@
     display: block;
     width: 20px;
     height: 20px;
-    background-image: url('../img/star.svg');
-    background-repeat: no-repeat;
-    background-size: 16px auto;
-    background-position: left;
     position: relative;
-    
 
     .hover-message {
         opacity: 0;
@@ -344,6 +384,13 @@
         width: 0;
         z-index: 1000;
     }
+}
+
+.top-performer.active {
+    background-image: url('../img/star.svg');
+    background-repeat: no-repeat;
+    background-size: 16px auto;
+    background-position: left;
 
     &:hover {
         .hover-message {
@@ -361,4 +408,144 @@
     span {
         color: $white;
     }
+}
+
+// Mobile table
+$padding-left: 8px;
+
+.hamburguer {
+    padding: 0;
+    width: 44px;
+    height: 44px;
+    background-image: url('../img/hamburguer-white.svg');
+    background-repeat: no-repeat;
+    background-size: 16px auto;
+    background-position: center;
+    position: relative;
+}
+
+.scorecard-table-mobile {
+    width: 100%;
+
+    th.main-header {
+        // First row "category select"
+        padding: 0 !important;
+        display: table-cell !important;
+        top: 0;
+        .category {
+            background-color: $color-scorecard-grey-900;
+            border: 1px solid $color-scorecard-grey-900;
+            display: flex !important;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
+            padding: $padding-left;
+            span {
+                font-family: $headings-font-family;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 13px;
+                line-height: 100%;
+                letter-spacing: 0.02em;
+                text-transform: uppercase;
+                color: $white;
+                margin-right: 10px;
+            }
+        }
+    }
+    // Second row: "Council name"
+    tr.second-row {
+        top:61px;
+    }
+    .council-name.header {
+        font-family: $font-family-sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 150%;
+        text-transform: uppercase;
+        height: 48px;
+        padding-top: 16px;
+        padding-left: 28px;
+    }
+
+    .second-row .total-score .score-bar {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        width: auto;
+        // padding: 8px 0;
+        // margin-right: auto;
+        // margin-left: auto;
+        // position: relative;
+        .progress-bar {
+            width: 0 !important;
+            border-right: none;
+        }
+        .sort-icon {
+            width: 22px;
+            position: absolute;
+            top: 5px;
+            z-index: 3;
+        }
+    }
+
+    // Table body
+    tbody th, thead th {
+        padding: $padding-left;
+        border-top: none;
+    }
+
+    tbody th, tbody td {
+        word-break: break-word;
+    }
+
+    .council-link {
+        @media only screen and (max-width: $sm-max) {
+            max-width: 130px;
+        }
+    }
+
+    tr {
+        border: 1px solid transparentize($color: $black, $amount: 0.8);
+        border-top: none;
+    }
+
+    //Hide Total-score column
+    tbody tr {
+        th {
+            &:nth-child(2) {
+                display:table-cell;
+            }
+        }
+    }
+    tbody tr th.active {
+        display: block;
+    }
+
+    tbody tr {
+        td {
+            display:none;
+        }
+    }
+    tbody tr td.active {
+        display: block;
+    }
+
+    thead tr {
+        th {
+            display:none;
+            &:nth-child(1), &:nth-child(2) {
+                display: table-cell;
+            }
+        }
+    }
+
+    thead tr {
+        th.active {
+            display: block;
+        }
+    }
+    // Hide 
 }

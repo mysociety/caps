@@ -70,12 +70,16 @@ h6, .h6 {
     font-family: $font-family-sans-serif;
     font-style: normal;
     font-weight: 500;
-    @include responsive(font-size, 14, 15);
+    font-size: 15px;
     line-height: 130%;
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: $color-scorecard-grey-900;
     opacity: 0.82;
+
+    @media only screen and (max-width: $sm-max) {
+        text-transform: none;
+    }
 }
 
 ul {padding-inline-start: 0;}

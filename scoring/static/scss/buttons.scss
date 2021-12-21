@@ -141,7 +141,7 @@ a.cta {
     background-size: 13px;
     background-repeat: no-repeat;
     background-position: right 8px top 10px;
-    
+    white-space: normal;
     @include transition(background-position, opacity, 0.2s ease-in-out);
     &:hover {
         background-position: right 8px top 11px;
