@@ -17,27 +17,15 @@ class HomePageView(ListView):
             )
         ).order_by('-score')
 
-        if authority_type != '':
-            if authority_type == 'unitary':
-                qs = qs.filter(authority_type='UA')
-            elif authority_type == 'district':
-                qs = qs.filter(Q(authority_type='MD') | Q(authority_type='NMD'))
-            elif authority_type == 'county':
-                qs = qs.filter(authority_type='CTY')
-            elif authority_type == 'london':
-                qs = qs.filter(Q(authority_type='LBO') | Q(authority_type='CTY'))
-            elif authority_type == 'combined':
-                qs = qs.filter(authority_type='COMB')
-            elif authority_type == 'scotland':
-                qs = qs.filter(country=Council.SCOTLAND)
-            elif authority_type == 'wales':
-                qs = qs.filter(country=Council.WALES)
-            elif authority_type == 'ni':
-                qs = qs.filter(country=Council.NORTHERN_IRELAND)
-            elif authority_type == 'england':
-                qs = qs.filter(country=Council.ENGLAND)
-        else:
-            qs = qs.filter(authority_type='UA')
+        try:
+            group = Council.SCORING_GROUPS[authority_type]
+        except:
+            group = Council.SCORING_GROUPS['single']
+
+        qs = qs.filter(
+            authority_type__in=group['types'],
+            country__in=group['countries']
+        )
 
         return qs
 
