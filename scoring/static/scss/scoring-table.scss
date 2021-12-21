@@ -400,7 +400,8 @@ td.council-category-score.category-9 {
 // Hover message for top-performers
 .council-link {
     display: block;
-    margin-left: 3px;
+    margin-left: 5px;
+    white-space: break-spaces;
 }
 
 .top-performer {
@@ -429,7 +430,6 @@ td.council-category-score.category-9 {
         .hover-message {
            opacity: 1;
            width: 230px;
-           
         } 
     }
 }
@@ -459,6 +459,11 @@ $padding-left: 8px;
 
 .scorecard-table-mobile {
     width: 100%;
+    white-space: nowrap;
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
 
     @media only screen and (min-width: $table-desktop-breakpoint) {
         display: none;
@@ -524,6 +529,7 @@ $padding-left: 8px;
             width: 22px;
             position: absolute;
             top: 5px;
+            left: 15px;
             z-index: 3;
         }
     }
@@ -547,6 +553,11 @@ $padding-left: 8px;
     tr {
         border: $border-table;
         border-top: none;
+        &:nth-child(odd) {
+            th, td {
+                background-color: #F8F8F8;
+            }
+        }
     }
 
     //Hide Total-score column
