@@ -1,9 +1,13 @@
 .bg-green-gradient {
-    background: linear-gradient(90deg, #AFE9DD 0%, #DEF8F6 100%);
+    background: linear-gradient(90deg, #AFE9DD 0%, #DEF8F6 100%) !important;
 }
 
 .bg-grey-gradient {
-    background: linear-gradient(181.76deg, #EEEEEE 1.56%, rgba(238, 238, 238, 0) 92.05%);
+    background: linear-gradient(181.76deg, #EEEEEE 1.56%, rgba(238, 238, 238, 0) 92.05%) !important;
+}
+
+.bg-blue-gradient {
+    background: linear-gradient(90deg, #D8F2FE 0.01%, rgba(216, 242, 254, 0.3) 99%) !important;
 }
 
 .bg-blue-l2 {

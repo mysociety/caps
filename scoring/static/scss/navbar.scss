@@ -52,3 +52,24 @@
     }
 
 }
+
+// Subheader
+nav.subheader {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 0.5px solid transparentize($color: $blue, $amount: 0.8);
+
+    span {
+        font-family: $font-family-sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        @include responsive(font-size, 13, 15);
+        line-height: 130%;
+        letter-spacing: 0.05em;
+        opacity: 0.8;
+    }
+}
