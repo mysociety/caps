@@ -64,6 +64,7 @@ h5, .h5 {
     line-height: 150%;
     letter-spacing: 0.03em;
     color: $color-scorecard-grey-900;
+    font-weight: 600;
 }
 
 h6, .h6 {
@@ -82,4 +83,7 @@ h6, .h6 {
     }
 }
 
-ul {padding-inline-start: 0;}
+ul {
+    padding-inline-start: 0;
+    margin-block-end: 0;
+}

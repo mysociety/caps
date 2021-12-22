@@ -1,4 +1,4 @@
-.advanced-filter-wrapper {
+.advanced-filter-wrapper, .category-filter-wrapper {
     max-width: 480px;
     padding: 25px 16px 0px 16px;
     border: 1px solid transparentize($blue, 0.7);
@@ -25,6 +25,8 @@
         @media only screen and (max-width: $sm-max) {
             flex-basis: 100%;
             max-width: none;
+            margin-bottom: 0;
+           padding-top: 20px;
         }
         button {
             width: 100%;

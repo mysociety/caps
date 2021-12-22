@@ -3,6 +3,18 @@ ul.type-council-option-wrapper {
 }
 
 // Radio buttons
+.radio-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    padding: 10px 0;
+    label {
+        margin-bottom: 0;
+        margin-left: 5px;
+        line-height: 130%;
+    }
+}
 
 .radio-btn.is--with-label {
     display: inline-block;
