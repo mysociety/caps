@@ -719,10 +719,10 @@ class ComparisonType(models.Model):
 
     TYPES = {
         "composite": "Overall",
-        "emissions": "Emissions profile",
-        "geographic_distance": "Nearby councils",
-        "imd": "Deprivation profile",
-        "ruc": " Rural/Urban profile",
+        "emissions": "Emissions",
+        "geographic_distance": "Nearby",
+        "imd": "IMD",
+        "ruc": " Rural/Urban",
     }
 
     def markdown_desc(self):

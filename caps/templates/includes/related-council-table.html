@@ -2,11 +2,10 @@
     <thead>
         <tr>
             <th scope="col">Council name</th>
-            <th scope="col">Has plan</th>
-            <th scope="col">Match score</th>
-  
-            <th scope="col">Group</th>
-          
+            <th scope="col">Similarity</th>
+            <th scope="col" class="d-none d-sm-table-cell">Has plan</th>
+            <th scope="col" class="d-none d-lg-table-cell">Carbon Neutral by</th>
+            <th scope="col" class="d-none d-lg-table-cell">Declared emergency</th>
         </tr>
     </thead>
     <tbody>
@@ -15,7 +14,10 @@
             <td data-column="council-name">
                 <a href="{% url 'council' council.slug %}">{{ council.name }}</a>
             </td>
-            <td data-column="has-plan">
+            <td data-column="match-score">
+              {{ council.distance.match_score|floatformat:"0" }}%
+            </td>
+            <td data-column="has-plan" class="d-none d-sm-table-cell">
               {% if council.num_plans > 0 %}
                 {% include 'icons/check-circle-fill.html' with classes='mr-1' %}
                 Yes
@@ -24,11 +26,19 @@
                 No
               {% endif %}
             </td>
-            <td data-column="match score">
-              {{council.distance.match_score}}
+            <td data-column="promise" class="d-none d-lg-table-cell">
+              {% if council.earliest_promise > 0 %}
+                {{ council.earliest_promise }}
+              {% elif council.has_promise %}
+                No target
+              {% endif %}
             </td>
-            <td data-column="group-label">
-              {{council.label.label.name}}
+            <td data-column="declared-emergency" class="d-none d-lg-table-cell">
+              {% if council.declared_emergency %}
+              {{ council.declared_emergency }}
+              {% else %}
+              No
+              {% endif %}
             </td>
         </tr>
       {% endfor %}

@@ -14,7 +14,14 @@ from os.path import join
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
 
-from caps.models import Council, CouncilFilter, PlanDocument, DataPoint, SavedSearch
+from caps.models import (
+    Council,
+    CouncilFilter,
+    PlanDocument,
+    DataPoint,
+    SavedSearch,
+    ComparisonType,
+)
 from caps.forms import HighlightedSearchForm
 from caps.mapit import (
     MapIt,
@@ -216,7 +223,14 @@ class AboutView(TemplateView):
 class AboutDataView(TemplateView):
 
     template_name = "about_data.html"
-    extra_context = {"page_title": "Our data"}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["comparison_types"] = ComparisonType.objects.all()
+
+        context["page_title"] = "Our data"
+
+        return context
 
 
 class MailchimpView(View):

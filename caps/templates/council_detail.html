@@ -76,9 +76,9 @@
                   {% for plandocument in council.plandocument_set.all %}
                     <a href="{{ plandocument.link }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}" class="d-flex align-items-center mb-3">
                       {% if plandocument.file_type == 'pdf' %}
-                        {% include 'icons/pdf.html' with width='3rem' height='3rem' classes='mr-3' %}
+                        {% include 'icons/pdf.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' %}
                       {% else %}
-                        {% include 'icons/file.html' with width='3rem' height='3rem' classes='mr-3' %}
+                        {% include 'icons/file.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' %}
                       {% endif %}
                         <div>
                             <strong class="d-block">{{ council.name }} {{ plandocument.get_document_type|title }}</strong>
@@ -137,50 +137,61 @@
                     </div>
                 </div>
 
-                <p class="text-muted mb-0"><small>Latest CO<sub>2</sub> estimates from <a href="https://www.gov.uk/government/statistics/uk-local-authority-and-regional-carbon-dioxide-emissions-national-statistics-2005-to-2019">the Department of Business, Energy &amp; Skills</a>. County and combined authority data combined from constituent authorities.</small></p>
+                <p class="text-muted mb-0"><small>Latest CO<sub>2</sub> estimates from <a href="https://www.gov.uk/government/statistics/uk-local-authority-and-regional-carbon-dioxide-emissions-national-statistics-2005-to-2019">the Department of Business, Energy &amp; Industrial Strategy</a>. County and combined authority data combined from constituent authorities.</small></p>
 
             </div>
         </div>
       {% endif %}
 
       {% if related_councils %}
-
-      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-      {% for group in related_councils %}
-        <li class="nav-item">
-          <a class="nav-link{% if group.type.slug == "composite" %} active{% endif %}" id="{{group.type.slug}}-tab" data-toggle="pill" href="#{{group.type.slug}}-content" role="tab" aria-controls="{{group.type.slug}}-content" aria-selected="true">{{group.type.name}}</a>
-        </li>
-      {% endfor %}
-    </ul>
-
-    <div class="tab-content" id="pills-tabContent">
-        
-      {% for group in related_councils %}
-        
-      <div class="tab-pane fade{% if group.type.slug == "composite" %} show active {% endif %}" id="{{group.type.slug}}-content" role="tabpanel" aria-labelledby="{{group.type.slug}}-tab">
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
-            <div class="card-header">
-                <h2>{{group.type.name}}</h2>
-            </div>
-            <div class = "card-body">
-                {{group.type.markdown_desc|safe}}
-                <p>This council is in group: <b>{{group.label.name}}</b>.</p>
-                <i>{{group.label.markdown_desc|safe}}</i>
-                {% include 'includes/text-search-form.html' with similar_council=council.slug similar_type=group.type.slug label_text="Search within similar councils" %}
-            </div>
-            <div class="ceuk-data-table">
-                {% include 'includes/related-council-table.html' with councils=group.councils %}
+            <ul class="card-header nav nav-tabs" role="tablist">
+              {% for group in related_councils %}
+                <li class="nav-item" role="presentation">
+                    <a id="{{group.type.slug}}-tab" class="nav-link {% if group.type.slug == "composite" %}active{% endif %}" href="#{{group.type.slug}}-content" aria-controls="{{group.type.slug}}-content" aria-selected="{% if group.type.slug == "composite" %}true{% else %}false{% endif %}" data-toggle="tab" role="tab">
+                      {% if group.type.slug == "composite" %}
+                        Similar councils
+                      {% else %}
+                        {{group.type.name}}
+                      {% endif %}
+                    </a>
+                </li>
+              {% endfor %}
+            </ul>
+            <div class="tab-content">
+              {% for group in related_councils %}
+                <div class="tab-pane {% if group.type.slug == "composite" %}show active{% endif %}" id="{{group.type.slug}}-content" role="tabpanel" aria-labelledby="{{group.type.slug}}-tab">
+                    <div class="card-body d-flex align-items-center">
+                        {% include 'icons/info.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' %}
+                        <p class="mb-0">
+                          {% if group.type.slug == "composite" %}
+                            These councils are the most similar to <strong>{{ council.name }}</strong> in terms of emissions profile, deprivation, rural/urban population density, and geographical nearness.
+                          {% elif group.type.slug == "emissions" %}
+                            These councils are the most similar to <strong>{{ council.name }}</strong> in terms of their emissions profile, based on the latest data from the Department of Business, Energy &amp; Industrial Strategy.
+                          {% elif group.type.slug == "geographic_distance" %}
+                            These councils grographically border or overlap with <strong>{{ council.name }}</strong>.
+                          {% elif group.type.slug == "imd" %}
+                            These councils are the most similar to <strong>{{ council.name }}</strong> in terms of the proportion of their population living in high deprivation, medium deprivation, and low deprivation neighbourhoods.
+                          {% elif group.type.slug == "ruc" %}
+                            These councils are the most similar to <strong>{{ council.name }}</strong> in terms of the proportion of their population living in urban, rural, and highly rural neighbourhoods.
+                          {% endif %}
+                            <a href="{% url 'about_data' %}#similarity">Read more about how we calculate this.</a>
+                        </p>
+                    </div>
+                    <div class="ceuk-data-table">
+                        {% include 'includes/related-council-table.html' with councils=group.councils %}
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'search_results' %}?similar_council={{ council.slug }}&amp;similar_type={{ group.type.slug }}" class="d-flex align-items-center justify-content-start">
+                            {% include 'icons/search.html' with classes='mr-2' %}
+                            Search inside these councils’ plans
+                        </a>
+                    </div>
+                </div>
+              {% endfor %}
             </div>
         </div>
-        </div>
-
-      {% endfor %}
-
-    </div>
-
       {% endif %}
-
-
 
     </div>
     <div class="col-md-5 col-lg-4 order-md-1">

@@ -10,19 +10,32 @@
 
     <p>Links to council climate action plans were crowdsourced <a href="https://docs.google.com/spreadsheets/d/1tEnjJRaWsdXtCkMwA25-ZZ8D75zAY6c2GOOeUchZsnU/edit">in this spreadsheet</a>. If you find a plan document that we’ve missed, <a href="https://docs.google.com/document/d/1oGFkzhZkTCfEBUeJIdMb9aOfuqPoCHkUMTJxROsRRow/edit">read our guide</a> on what we consider a climate action plan and how to add one to our spreadsheet.</p>
 
-    <p>Council climate emergency declarations and Net zero commitments were largely collated by CEUK staff.</p>
+    <p>Council climate emergency declarations and net zero commitments were largely collated by <a href="https://www.climateemergency.uk/">Climate Emergency UK</a> staff.</p>
 
-    <p>Local authority CO<sub>2</sub> emissions estimates are <a href="https://www.gov.uk/government/statistics/uk-local-authority-and-regional-carbon-dioxide-emissions-national-statistics-2005-to-2019">collated by the Department of Business, Energy &amp; Skills</a>.</p>
+    <p>Local authority CO<sub>2</sub> emissions estimates are <a href="https://www.gov.uk/government/statistics/uk-local-authority-and-regional-carbon-dioxide-emissions-national-statistics-2005-to-2019">collated by the Department of Business, Energy &amp; Industrial Strategy</a>.</p>
 
-    <h2 class="mt-5">Council Plans</h2>
+    <h2 class="mt-5 mb-4" id="plans">Council plans</h2>
 
     <p>You can <a href="{{ MEDIA_URL }}data/plans/plans.zip">download a zip file of all the plans</a>. As well as the PDFs, or HTML pages, of the plans, this includes a CSV file (plans.csv) with details and sources for all the included files, along with information like GSS codes to enable linking to other data. The CSV file is available separately, see below for details.</p>
 
-    <h2 class="mt-5">API</h2>
+    <h2 class="mt-5 mb-4" id="similarity">Similar councils</h2>
+
+    <p>We have built on open datasets to provide comparisons between councils that are similar in a number of dimensions:</p> 
+
+    <table class="table my-4">
+      {% for comparison_type in comparison_types %}
+        <tr>
+            <th class="pt-4 pl-0">{{ comparison_type.name }}</th>
+            <td class="pt-4 pr-0">{{ comparison_type.markdown_desc|safe }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <h2 class="mt-5 mb-4" id="api">API</h2>
 
     <p>We have <a href="{% url 'api-root' %}">an API</a> through which an increasing quantity of our data will be available. The API page includes a full description of the data available.</p>
 
-    <h2 class="mt-5">CSV files</h2>
+    <h2 class="mt-5 mb-4" id="csv">CSV files</h2>
 
     <p>If you need to use our data in your own spreadsheets then the following data is available to download as CSV files:<p>
 
@@ -43,7 +56,7 @@
 
     <p>All CSV files include the council GSS code, and a three letter council code you can use with the API, to enable matching data across files, and with other sources.</p>
 
-    <h2 class="mt-5">Got feedback? Want to contribute?</h2>
+    <h2 class="mt-5 mb-4" id="feedback">Got feedback? Want to contribute?</h2>
 
     <p>Take <a href="{{settings.SURVEY_URL}}">our user survey</a> to give us feedback about the kind of groups using the service.</p>
 
