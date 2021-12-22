@@ -62,8 +62,24 @@ a.cta {
     color: transparentize($color-league-grey-900, 0.1);
 }
 
-// Searchbar
+// Donation button
+.btn.donation {
+    background-image: url('../img/donate.svg');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: right 10px top 8px;
+    background-color: #7BD2F8;
+    text-decoration: none;
+    padding-right: 30px;
+    border: 1px solid $blue;
+    @include transition(background-color, color 0.3s ease-in-out);
+    &:hover {
+        background-color: $white;
+        color: #045C88;   
+    }
+}
 
+// Searchbar
 .searchbar {
     background-image: url('../img/search-icon.svg');
     background-size: 20px;
