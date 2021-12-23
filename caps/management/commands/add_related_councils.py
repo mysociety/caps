@@ -16,7 +16,7 @@ from caps.models import (
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Count
 
-DISTANCE_VERSION = "0.9"
+DISTANCE_VERSION = "1.0"
 DISTANCE_REPO_ZIP = f"https://github.com/mysociety/la_distance/archive/refs/tags/v{DISTANCE_VERSION}.zip"
 
 
