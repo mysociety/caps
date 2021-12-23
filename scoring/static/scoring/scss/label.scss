@@ -1,0 +1,32 @@
+.label {
+    display: inline-block;
+    font-family: $font-family-sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    @include responsive(font-size, 13, 14);
+    line-height: 130%;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $black;
+    padding: 5px 3px;
+    margin-bottom: 5px;
+    border-radius: $border-radius;
+}
+
+.label.green {
+    background-color: $green;
+}
+
+// Located on the top of the council page
+.group-label-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .label-wrapper {
+        flex-basis: 50%;
+        @media only screen and (max-width: 550px) {
+            flex-basis: 100%;
+        }
+    }
+}

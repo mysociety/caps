@@ -6,6 +6,10 @@
     background: linear-gradient(180deg, transparentize($color-scorecard-grey-900, 0.85) 1%, transparentize($black, 0.95) 90%);
 }
 
+.bg-grey-gradient-darker {
+    background: linear-gradient(0deg, #EEEEEE -5%, rgba(187, 187, 187, 0.30) 100%) !important;
+}
+
 .bg-blue-l2 {
     background-color: $color-scorecard-blue-l2 !important;
 }
