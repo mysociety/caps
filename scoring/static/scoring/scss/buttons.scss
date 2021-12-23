@@ -158,7 +158,6 @@ a.cta {
 }
 
 // Open div
-
 .btn-open-div {
     padding-right: 30px;
     background-image: url('../img/chevron-black-down.svg');
@@ -187,7 +186,6 @@ a.cta {
 }
 
 // Modal
-
 .close-icon {
     width: 30px;
     height: 30px;
@@ -203,7 +201,6 @@ a.cta {
 }
 
 // Advanced filters
-
 .advanced-filter {
     height: 32px;
     padding-left: 6px;
@@ -217,5 +214,19 @@ a.cta {
         background-image: url('../img/advanced-filter-white.svg'); 
         color: $white;
         background-color: $color-scorecard-grey-900; 
+    }
+}
+
+// Advanced filter for council table
+.advanced-filter-simple {
+    width: 16px;
+    height: 16px;
+    background-image: url('../img/advanced-filter-black.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    @include transition(background-image 0.3s ease-in-out);
+    &:hover {
+        background-image: url('../img/advanced-filter-green.svg');
     }
 }
