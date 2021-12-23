@@ -140,7 +140,7 @@ class Council(models.Model):
             labels[comparison.label.type_id][comparison.council_id] = comparison
 
         processed_councils = []
-        for d in self.distances.all().order_by("type_id"):
+        for d in self.distances.all().order_by("type_id", "-match_score"):
             # deepcopy to make sure the same council in multiple comparison types
             # are seperate objects with seperate links to Distance objects
             nc = deepcopy(council_lookup[d.council_b_id])
