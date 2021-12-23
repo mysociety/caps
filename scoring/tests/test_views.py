@@ -49,7 +49,18 @@ class TestAnswerView(TestCase):
                     "score": 15,
                 },
                 "s2_m_a": {
-                    "answers": [],
+                    "answers": [
+                        {
+                            "code": "s2_m_a_q1_sp1",
+                            "display_code": "q1_sp1",
+                            "question": "The answer is a Boolean",
+                            "answer": "-",
+                            "max": 1,
+                            "section": "s2_m_a",
+                            "score": 0,
+                            "type": "CHECKBOX",
+                        },
+                    ],
                     "avg": 9.8,
                     "max_score": 18,
                     "description": "Mitigation and adaptation",
@@ -103,7 +114,18 @@ class TestAnswerView(TestCase):
                     "score": 15,
                 },
                 "s2_m_a": {
-                    "answers": [],
+                    "answers": [
+                        {
+                            "code": "s2_m_a_q1_sp1",
+                            "display_code": "q1_sp1",
+                            "question": "The answer is a Boolean",
+                            "answer": "-",
+                            "max": 1,
+                            "section": "s2_m_a",
+                            "score": 0,
+                            "type": "CHECKBOX",
+                        },
+                    ],
                     "avg": 8.7,
                     "max_score": 18,
                     "description": "Mitigation and adaptation",
@@ -157,7 +179,18 @@ class TestAnswerView(TestCase):
                     "score": 15,
                 },
                 "s2_m_a": {
-                    "answers": [],
+                    "answers": [
+                        {
+                            "code": "s2_m_a_q1_sp1",
+                            "display_code": "q1_sp1",
+                            "question": "The answer is a Boolean",
+                            "answer": "-",
+                            "max": 1,
+                            "section": "s2_m_a",
+                            "score": 0,
+                            "type": "CHECKBOX",
+                        },
+                    ],
                     "avg": 9.8,
                     "max_score": 18,
                     "description": "Mitigation and adaptation",
@@ -209,7 +242,18 @@ class TestAnswerView(TestCase):
                     "score": 15,
                 },
                 "s2_m_a": {
-                    "answers": [],
+                    "answers": [
+                        {
+                            "code": "s2_m_a_q1_sp1",
+                            "display_code": "q1_sp1",
+                            "question": "The answer is a Boolean",
+                            "answer": "-",
+                            "max": 1,
+                            "section": "s2_m_a",
+                            "score": 0,
+                            "type": "CHECKBOX",
+                        },
+                    ],
                     "avg": 8.7,
                     "max_score": 18,
                     "description": "Mitigation and adaptation",
