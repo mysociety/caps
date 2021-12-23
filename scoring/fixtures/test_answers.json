@@ -268,6 +268,17 @@
     }
   },
   {
+    "model": "scoring.planquestion",
+    "pk": 3,
+    "fields": {
+      "section": 2,
+      "code": "s2_m_a_q1_sp1",
+      "text": "The answer is a Boolean",
+      "max_score": 1,
+      "question_type": "CHECKBOX"
+    }
+  },
+  {
     "model": "scoring.planquestionscore",
     "pk": 1,
     "fields": {
