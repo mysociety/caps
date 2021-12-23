@@ -1,0 +1,108 @@
+$border-priority-1: 1px solid transparentize(#9CBFB7, 0.7) ;
+$border-priority-2: 1px solid #C0DDD6;
+$table-section-mobile-breakpoint: 500px;
+.table-header {
+    max-width: 455px;
+
+    button {
+        @media only screen and (max-width: 915px) {
+            display: none;
+        }
+    }
+}
+
+.mobile-message {
+    background-color: $color-league-grey-900;
+    padding: 1rem;
+    @media only screen and (min-width: $table-section-mobile-breakpoint) {
+        display: none;
+    }
+}
+
+.table-section {
+    
+    table-layout: fixed;
+    border: $border-priority-2;
+    border-radius: $border-radius;
+    @media only screen and (max-width: $table-section-mobile-breakpoint) {
+        width: 100%;
+    }
+
+    //First column width
+    thead tr th, tbody tr td {
+        &:first-child {
+            width: 275px;
+            text-align: left;
+            @media only screen and (max-width: $table-section-mobile-breakpoint) {
+                width: 60%;
+            }
+        }
+    }
+
+    //Second column(Current council)
+    thead tr th, tbody tr td {
+        &:nth-child(2) {
+            border-right: $border-priority-1;
+            border-left: $border-priority-1;
+            @media only screen and (max-width: $table-section-mobile-breakpoint) {
+                width: 40%;
+            }
+        }
+        @media only screen and (max-width: $table-section-mobile-breakpoint) {
+            &:nth-child(n+3) {
+                display: none;
+            }
+        }
+    }
+
+    // >= 2nd column
+    th, td {
+        width: 155px;
+        padding: 16px;
+        text-align: center;
+        border-bottom: $border-priority-2;
+        @media only screen and (max-width: $table-section-mobile-breakpoint) {
+            width: auto;
+        }
+    }
+
+    //Row
+    tbody tr {
+        background-color:$color-league-green-l1;
+        &:nth-child(odd) {
+            background-color:#C3EFE5;
+        }
+    }
+
+    td .top-perfomer {
+        padding-left: 22px;
+        margin-left: -22px;
+        @include transition(background-image 0.3s ease-in-out);
+        // background-image: url('../img/advanced-filter-green.svg');
+        background-repeat: no-repeat;
+    }
+
+    //Font style
+    thead th {
+        background-color: $white;
+        font-family: $font-family-sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 130%;
+        text-align: center;
+        letter-spacing: 0.06em;
+        @include responsive(font-size, 15, 16);
+        span.filter-active {
+            font-family: $headings-font-family;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 13px;
+            line-height: 120%;
+            text-align: center;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+    }
+}

@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<div class="container about-section" style="max-width=1000px">
+<div class="container about-section">
     <div class="row">
         <div class="col-12 col-lg-5">
             <div class="about-section-child p-3">
@@ -59,99 +59,129 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+    
+            <div class="mb-3 mb-md-4 mb-lg-5">
+                <div class="table-header mb-5">
+                    <h3>
+                        Section
+                    </h3>
+                    <p>Amet minim mollit non deserunt 
+                        ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+                    </p>
+                    <button>Choose councils to compare</button>
+                </div>
+                <div style="display:table">
+                    <div class="mobile-message">
+                        <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
+                        <p class="text-white">You can compare your council with others, also check the average score in the section and question tables.</p>
+                    </div>
+                    <table class="table-section mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-left">Section</th>
+                                <th scope="col">Council Score</th>
+                                <th scope="col">
+                                    <p>Average Score</p>
+                                    <span class="filter-active">Single Tier</span>
+                                    <span class="filter-active">·</span>
+                                    <span class="filter-active">Urban</span>
+                                    <button class="advanced-filter-simple mx-auto d-block mt-1"></button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for section in sections.values %}
+                            <tr>
+                                <td>
+                                    <div>
+                                    {{ section.description }}
+                                    </div>
+                                </td>
+                                <td>
+                                    {% comment %} Needs a conditional so when a council 
+                                    have scored the max  amount of points get a star{% endcomment %}
+                                    <span class="top-perfomer">
+                                    {{ section.score }}/{{ section.max_score }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {{ section.avg }}
+                                </td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="table-footer mt-2">
+                        <a class="mt-3" href="">See results in context</a>
+                        <div class="social-media-wrapper">
+                            <a class="table-social-icon facebook mr-1" href=""></a>
+                            <a class="table-social-icon twitter" href=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
-            <div class="card-header">
-                <h3>
-                    Sections
-                </h3>
-            </div>
-            <div class="ceuk-data-table">
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">Section</th>
-                            <th scope="col">Council Score</th>
-                            <th scope="col">Average Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for section in sections.values %}
-                        <tr>
-                            <td>
-                                {{ section.description }}
-                            </td>
-                            <td>
-                                {{ section.score }}
-                            </td>
-                            <td>
-                                {{ section.avg }}
-                            </td>
-                        </tr>
-                      {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
-            <div class="card-header">
-                <h3>
-                    Answers
-                </h3>
-            </div>
-            <div class="ceuk-data-table">
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">Question No</th>
-                            <th scope="col">Question</th>
-                            <th scope="col">Answer</th>
-                            <th scope="col">Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for section in sections.values %}
-                        <tr data-has-plan="no">
-                            <td colspan="4" class="">
-                                {{ section.description }} ( {{ section.score }}/{{ section.max_score }} )
-                            </td>
-                        </tr>
-                        {% for answer in section.answers %}
-                        <tr>
-                            <td data-column="question_no">
+            <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+                <div class="card-header">
+                    <h3>
+                        Answers
+                    </h3>
+                </div>
+                <div class="ceuk-data-table">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Question No</th>
+                                <th scope="col">Question</th>
+                                <th scope="col">Answer</th>
+                                <th scope="col">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for section in sections.values %}
+                            <tr data-has-plan="no">
+                                <td colspan="4" class="">
+                                    {{ section.description }} ( {{ section.score }}/{{ section.max_score }} )
+                                </td>
+                            </tr>
+                            {% for answer in section.answers %}
+                            <tr>
+                                <td data-column="question_no">
+                                    {% if answer.type == 'HEADER' %}
+                                    {{ answer.display_code }}
+                                    {% else %}
+                                    <a href="{% url 'answercouncils' answer.code %}">{{ answer.display_code }}</a>
+                                    {% endif %}
+                                </td>
                                 {% if answer.type == 'HEADER' %}
-                                {{ answer.display_code }}
+                                <td data-column="answer" colspan="3">
                                 {% else %}
-                                <a href="{% url 'answercouncils' answer.code %}">{{ answer.display_code }}</a>
+                                <td data-column="answer">
                                 {% endif %}
-                            </td>
-                            {% if answer.type == 'HEADER' %}
-                            <td data-column="answer" colspan="3">
-                            {% else %}
-                            <td data-column="answer">
-                            {% endif %}
-                                {{ answer.question | linebreaks }}
-                            </td>
-                            {% if answer.type != 'HEADER' %}
-                            <td data-column="answer">
-                                {{ answer.answer }}
-                            </td>
-                            <td data-column="score">
-                                {{ answer.score }}/{{ answer.max }}
-                            </td>
-                            {% endif %}
-                        </tr>
-                      {% endfor %}
-                      {% endfor %}
-                    </tbody>
-                </table>
+                                    {{ answer.question | linebreaks }}
+                                </td>
+                                {% if answer.type != 'HEADER' %}
+                                <td data-column="answer">
+                                    {{ answer.answer }}
+                                </td>
+                                <td data-column="score">
+                                    {{ answer.score }}/{{ answer.max }}
+                                </td>
+                                {% endif %}
+                            </tr>
+                          {% endfor %}
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
+    
         </div>
-
     </div>
 </div>
+
 
 {% endblock %}
