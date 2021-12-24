@@ -90,29 +90,53 @@ a.cta {
     color: $black;
     font-size: 14px;
     border-radius: $border-radius;
-    border: 1px solid $color-league-green-d1;
-    @include transition(background-color 0.3s ease-in-out);
-
-}
-
-.searchbar.green.dark {
-    background-color: $color-league-green-d1;
-    &:hover {
-        background-color: $white; 
+    border: 1px solid $color-scorecard-green-d1;
+    @include transition(background-color, background-image 0.3s ease-in-out);
+    @include placeholder {
+        @include transition(color 0.3s ease-in-out);
     }
-    &:active, &:focus {
-        background-color: $green;
-    }
-}
 
-.searchbar.blue.light {
-    background-color: $color-league-blue-l1;
-    border: 1px solid $blue;
-    &:hover {
-        background-color: $white; 
+    &.green.dark {
+        background-color: $color-scorecard-green-d1;
+        @include hover-focus {
+            background-color: $white; 
+        }
+        &:active {
+            background-color: $green;
+        }
     }
-    &:active, &:focus {
-        background-color: $blue;
+
+    &.blue.light {
+        background-color: $color-scorecard-blue-l1;
+        border: 1px solid $blue;
+        @include hover-focus {
+            background-color: $white; 
+        }
+        &:active {
+            background-color: $blue;
+        }
+    }
+
+    &.blue.dark {
+        background-image: url('../img/search-icon-white.svg');
+        color: $white;
+        background-color: darken($blue, 5%);
+        border: 1px solid $blue;
+        @include placeholder {
+            color: $white !important;
+        }
+
+        @include hover-focus {
+            background-image: url('../img/search-icon.svg');
+            background-color: #7BD2F8;
+            @include placeholder {
+                color: $black !important;
+            }
+        }
+
+        &:active {
+            background-color: $white;
+        }
     }
 }
 
