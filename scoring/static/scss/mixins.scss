@@ -12,7 +12,7 @@
     -webkit-transition: $unfoldedTransitions;
     transition: $unfoldedTransitions;
 }
-  
+
 @function unfoldTransition ($transition) {
 // Default values
 $property: all;
@@ -43,4 +43,12 @@ $max-viewport: 1792;
 
 @mixin responsive($property, $property-min, $property-max) {
     #{$property}: calc(#{$property-min}px + (#{$property-max} - #{$property-min}) * ( (100vw - #{$min-viewport}px) / (#{$max-viewport} - #{$min-viewport}) )) !important;
+}
+
+//Placeholder
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content;}
+    &:-moz-placeholder           {@content;}
+    &::-moz-placeholder          {@content;}
+    &:-ms-input-placeholder      {@content;}  
 }
