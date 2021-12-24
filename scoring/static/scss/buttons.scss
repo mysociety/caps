@@ -22,14 +22,14 @@ input::-webkit-input-placeholder {
 
 a {
     display: table;
-    color:$color-league-blue-d1;
+    color:$color-scorecard-blue-d1;
     text-decoration: underline;
     @include transition(color 0.3s ease-in-out);
     @include responsive(font-size, 15, 16);
     letter-spacing: 0.05em;
  
     &:hover {
-        color: $color-league-grey-900;
+        color: $color-scorecard-grey-900;
     }
 }
 
@@ -56,10 +56,10 @@ a.cta {
 
 .btn-blue {
     background: #FFFFFF;
-    border: 1px solid $color-league-blue;
+    border: 1px solid $color-scorecard-blue;
     box-sizing: border-box;
     border-radius: 2px;
-    color: transparentize($color-league-grey-900, 0.1);
+    color: transparentize($color-scorecard-grey-900, 0.1);
 }
 
 // Donation button
@@ -134,7 +134,7 @@ a.cta {
         background-color: $white;
         @include transition(background-color 0.3s ease-in-out);
         &:hover {
-            background-color: $color-league-blue-l1;
+            background-color: $color-scorecard-blue-l1;
         }
     }
     input:checked + label {
