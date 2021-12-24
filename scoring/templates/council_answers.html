@@ -62,7 +62,6 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-    
             <div class="mb-3 mb-md-4 mb-lg-5">
                 <div class="table-header mb-5">
                     <h3>
@@ -124,61 +123,105 @@
                 </div>
             </div>
 
-            <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
-                <div class="card-header">
+            <div class="mb-3 mb-md-4 mb-lg-5">
+                <div class="table-header mb-5">
                     <h3>
-                        Answers
+                        Question
                     </h3>
+                    <p>Amet minim mollit non deserunt 
+                        ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+                    </p>
+                    <button>Choose councils to compare</button>
                 </div>
-                <div class="ceuk-data-table">
-                    <table class="table mb-0">
+                <div style="display: table">
+                    <table class="table-question-council mb-0">
                         <thead>
                             <tr>
-                                <th scope="col">Question No</th>
-                                <th scope="col">Question</th>
-                                <th scope="col">Answer</th>
+                                <th scope="col">#</th>
+                                <th scope="col" class="text-left">Question</th>
+                                {% comment %} TODO Instead of score, let's use the name of the council {% endcomment %}
                                 <th scope="col">Score</th>
+                                <th scope="col">
+                                    <p>Top Performers</p>
+                                    <span class="filter-active">Single Tier</span>
+                                    <span class="filter-active">·</span>
+                                    <span class="filter-active">Urban</span>
+                                    <button class="advanced-filter-simple mx-auto d-block mt-1"></button>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for section in sections.values %}
-                            <tr data-has-plan="no">
-                                <td colspan="4" class="">
-                                    {{ section.description }} ( {{ section.score }}/{{ section.max_score }} )
+                            <tr data-has-plan="no" class="bg-green section-row">
+                                <td></td>
+                                <td colspan="1" class="section-cell">
+                                    {{ section.description }}
                                 </td>
+                                <td>
+                                    {{ section.score }}/{{ section.max_score }}
+                                </td>
+                                <td>
+                                    {% comment %} TODO add single top perfomers {% endcomment %}
+                                    {% comment %} Eg: 15 out of 120, this is a link{% endcomment %}
+                                    <a href="#" class="mx-auto" style="text-transform: none">15 out of 120</a>
+                                </td>
+                                <td class="button-wrapper p-0">
+                                    {% comment %} TODO what would probably work for the accordion is
+                                    to add a class to the "tr" element below this one with the section name, and then
+                                    the button just an active state to all the "tr" that share the same class.
+                                    {% endcomment %}
+                                    <button type="button" class="accordion">
+                                        <div class="mx-auto"></div>
+                                    </button>
+                                </td>
+
                             </tr>
                             {% for answer in section.answers %}
-                            <tr>
-                                <td data-column="question_no">
-                                    {% if answer.type == 'HEADER' %}
-                                    {{ answer.display_code }}
-                                    {% else %}
-                                    <a href="{% url 'answercouncils' answer.code %}">{{ answer.display_code }}</a>
-                                    {% endif %}
+                            {% if answer.type == 'HEADER' %}
+                            <tr class="header-question">
+                            {% else %}
+                            <tr class="subpoint-question">
+                            {% endif %}
+                                <td data-column="question_no" class="question-no">
+                                    <div>
+                                        {% if answer.type == 'HEADER' %}
+                                        <a href="{% url 'answercouncils' answer.code %}">{{ answer.display_code }}</a>
+                                        {% else %}
+                                        <div class="pl-2">
+                                            {{ answer.display_code }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
                                 </td>
                                 {% if answer.type == 'HEADER' %}
-                                <td data-column="answer" colspan="3">
+                                <td data-column="answer" colspan="1">
                                 {% else %}
                                 <td data-column="answer">
                                 {% endif %}
-                                    {{ answer.question | linebreaks }}
+                                    <div class="question-content">
+                                        {{ answer.question | linebreaks }}
+                                    </div>
                                 </td>
                                 {% if answer.type != 'HEADER' %}
-                                <td data-column="answer">
-                                    {{ answer.answer }}
-                                </td>
                                 <td data-column="score">
                                     {{ answer.score }}/{{ answer.max }}
                                 </td>
+                                {% else %}
+                                <td data-column="score">
+                                    {% comment %}TODO score obtained / the total points for the header question {% endcomment %}
+                                    7/10
+                                </td>
+                                <td data-column="top-tier-score" class="top-tier-score">
+                                    <a href="#" class="mx-auto" style="text-transform: none">13 out of 120</a>
+                                </td>
                                 {% endif %}
                             </tr>
-                          {% endfor %}
-                          {% endfor %}
+                            {% endfor %}
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
-    
         </div>
     </div>
 </div>
