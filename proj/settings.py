@@ -98,25 +98,19 @@ STATICFILES_FINDERS = (
 
 PIPELINE = {
     "STYLESHEETS": {
-        "main": {
-            "source_filenames": ("scss/main.scss",),
-            "output_filename": "css/main.css",
+        "caps": {
+            "source_filenames": ("caps/scss/main.scss",),
+            "output_filename": "css/caps.css",
         },
         "scoring": {
-            "source_filenames": ("scss/scoring.scss",),
+            "source_filenames": ("scoring/scss/main.scss",),
             "output_filename": "css/scoring.css",
-        },
-        'scoring': {
-            'source_filenames': (
-                'scss/scoring.scss',
-            ),
-            'output_filename': 'css/scoring.css',
         },
     },
     "JAVASCRIPT": {
-        "main": {
-            "source_filenames": ("js/main.js",),
-            "output_filename": "js/main.js",
+        "caps": {
+            "source_filenames": ("caps/js/main.js",),
+            "output_filename": "js/caps.js",
         },
     },
     "CSS_COMPRESSOR": "django_pipeline_csscompressor.CssCompressor",
@@ -148,13 +142,15 @@ DECLARATIONS_CSV_NAME = "declarations.csv"
 DECLARATIONS_CSV = os.path.join(DATA_DIR, DECLARATIONS_CSV_NAME)
 
 PLAN_YEAR = 2021
-PLAN_SECTION_SCORES_CSV_KEY = ''
-PLAN_SCORE_QUESTIONS_CSV_KEY = '1NkAcDZ0wZwnb7iiwWSy5gMf7rJfhDPnDWvZtaJ4l0f8'
-PLAN_SCORE_QUESTIONS_CSV_TAB = 1790236873 # this number obtained from browser network console :|
-PLAN_SCORE_ANSWERS_CSV_KEY = ''
-PLAN_SECTION_SCORES_CSV_NAME = 'council_plan_scores.csv'
-PLAN_SCORE_QUESTIONS_CSV_NAME = 'council_plan_questions.csv'
-PLAN_SCORE_ANSWERS_CSV_NAME = 'all_councils_scored.csv'
+PLAN_SECTION_SCORES_CSV_KEY = ""
+PLAN_SCORE_QUESTIONS_CSV_KEY = "1NkAcDZ0wZwnb7iiwWSy5gMf7rJfhDPnDWvZtaJ4l0f8"
+PLAN_SCORE_QUESTIONS_CSV_TAB = (
+    1790236873  # this number obtained from browser network console :|
+)
+PLAN_SCORE_ANSWERS_CSV_KEY = ""
+PLAN_SECTION_SCORES_CSV_NAME = "council_plan_scores.csv"
+PLAN_SCORE_QUESTIONS_CSV_NAME = "council_plan_questions.csv"
+PLAN_SCORE_ANSWERS_CSV_NAME = "all_councils_scored.csv"
 
 
 # Application definition
