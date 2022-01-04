@@ -57,18 +57,6 @@
 @import "../bootstrap/utilities";
 @import "../bootstrap/print";
 
-//The variables.scss is not being imported so I'm putting some variables here.
-$color-scorecard-green-l1: #E4FAF5;
-$color-scorecard-green: #AFE9DD;
-$color-scorecard-green-d1: #0BC7A0;
-$color-scorecard-grey-900: #404040;
-$color-scorecard-blue-l2: #D8F2FE;
-$color-scorecard-blue-l1: #7BD2F8;
-$color-scorecard-blue: #07A9F1;
-$color-scorecard-blue-d1: #045C88;
-$black: #1C2624;
-$green: $color-scorecard-green;
-$blue: $color-scorecard-blue;
 @import "mixins";
 @import "containers";
 @import "background";

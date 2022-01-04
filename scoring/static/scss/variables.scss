@@ -1,45 +1,49 @@
-$color-league-blue: #07A9F1;
-$color-league-navy: #005cab;
-$color-league-purple: #7360eb;
-$color-league-pink: #d92b85;
-$color-league-red: #EB1924;
-$color-league-orange: #f29e1a;
-$color-league-yellow: #ffd80b;
-$color-league-green: #AFE9DD;
-$color-league-green-d1: #0BC7A0;
-$color-league-cyan: #54d9e2;
-$color-league-grey-100: #f3f6fb;
-$color-league-grey-200: #ecf0f5;
-$color-league-grey-600: #6c757d;
-$color-league-grey-800: #32465a;
-$color-league-grey-900: #404040;
+$color-scorecard-blue-l2: #D8F2FE;
+$color-scorecard-blue-l1: #7BD2F8;
+$color-scorecard-blue: #07A9F1;
+$color-scorecard-blue-d1: #045C88;
+$color-scorecard-navy: #005cab;
+$color-scorecard-purple: #7360eb;
+$color-scorecard-pink: #d92b85;
+$color-scorecard-red: #EB1924;
+$color-scorecard-orange: #f29e1a;
+$color-scorecard-yellow: #ffd80b;
+$color-scorecard-green-l1: #E4FAF5;
+$color-scorecard-green: #AFE9DD;
+$color-scorecard-green-d1: #0BC7A0;
+$color-scorecard-cyan: #54d9e2;
+$color-scorecard-grey-100: #f3f6fb;
+$color-scorecard-grey-200: #ecf0f5;
+$color-scorecard-grey-600: #6c757d;
+$color-scorecard-grey-800: #32465a;
+$color-scorecard-grey-900: #404040;
 
 // Color system
 
 $white: #FDFDFD;
 $black: #1C2624;
 
-$blue: $color-league-blue;
-$purple: $color-league-purple;
-$pink: $color-league-pink;
-$red: $color-league-red;
-$orange: $color-league-orange;
-$yellow: $color-league-yellow;
-$green: $color-league-green;
-$cyan: $color-league-cyan;
+$blue: $color-scorecard-blue;
+$purple: $color-scorecard-purple;
+$pink: $color-scorecard-pink;
+$red: $color-scorecard-red;
+$orange: $color-scorecard-orange;
+$yellow: $color-scorecard-yellow;
+$green: $color-scorecard-green;
+$cyan: $color-scorecard-cyan;
 
 $light: $white;
 
 $theme-colors: (
-    'blue': $color-league-blue,
-    'navy': $color-league-navy,
-    'purple': $color-league-purple,
-    'pink': $color-league-pink,
-    'red': $color-league-red,
-    'orange': $color-league-orange,
-    'yellow': $color-league-yellow,
-    'green': $color-league-green,
-    'cyan': $color-league-cyan,
+    'blue': $color-scorecard-blue,
+    'navy': $color-scorecard-navy,
+    'purple': $color-scorecard-purple,
+    'pink': $color-scorecard-pink,
+    'red': $color-scorecard-red,
+    'orange': $color-scorecard-orange,
+    'yellow': $color-scorecard-yellow,
+    'green': $color-scorecard-green,
+    'cyan': $color-scorecard-cyan,
 );
 
 // Options
@@ -56,11 +60,11 @@ $spacers: (
 
 // Body
 
-$body-bg: $color-league-grey-200;
+$body-bg: $color-scorecard-grey-200;
 
 // Links
 
-$link-color: $color-league-purple;
+$link-color: $color-scorecard-purple;
 
 // Paragraphs
 
@@ -103,10 +107,10 @@ $navbar-dark-hover-color: rgba($navbar-dark-color, 0.8);
 $navbar-dark-active-color: $navbar-dark-color;
 $navbar-dark-toggler-border-color: rgba($navbar-dark-color, 0.3);
 
-$navbar-light-color: $color-league-grey-600;
+$navbar-light-color: $color-scorecard-grey-600;
 $navbar-light-hover-color: rgba($navbar-light-color, 0.8);
 $navbar-light-active-color: $navbar-light-color;
-$navbar-light-toggler-border-color: rgba($color-league-grey-600, 0.3);
+$navbar-light-toggler-border-color: rgba($color-scorecard-grey-600, 0.3);
 
 // Dropdowns
 
@@ -157,12 +161,12 @@ $border-radius: 4px;
 
 // mySociety footer
 
-$mysoc-footer-background-color: $color-league-grey-900;
+$mysoc-footer-background-color: $color-scorecard-grey-900;
 $mysoc-footer-text-color: $white;
 $mysoc-footer-link-text-color: $white;
-$mysoc-footer-divider-color: lighten($color-league-grey-900, 10%);
-$mysoc-footer-donate-background-color: lighten($color-league-grey-900, 10%);
-$mysoc-footer-donate-button-background-color: $color-league-red;
-$mysoc-footer-legal-text-color: mix($color-league-grey-200, $color-league-grey-900, 80%);
+$mysoc-footer-divider-color: lighten($color-scorecard-grey-900, 10%);
+$mysoc-footer-donate-background-color: lighten($color-scorecard-grey-900, 10%);
+$mysoc-footer-donate-button-background-color: $color-scorecard-red;
+$mysoc-footer-legal-text-color: mix($color-scorecard-grey-200, $color-scorecard-grey-900, 80%);
 $mysoc-footer-image-path: '../img/mysoc-footer-dark/';
 $mysoc-footer-breakpoint-sm: 576px; // see $grid-breakpoints in bootstrap/variables.scss
