@@ -95,3 +95,12 @@ ul {
     padding-inline-start: 0;
     margin-block-end: 0;
 }
+
+// Custom messages
+.warning-message {
+    padding-left: 30px;
+    background-image: url('../img/exclamation-black.svg');
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: left 0 center;
+}
