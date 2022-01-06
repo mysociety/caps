@@ -141,7 +141,7 @@
                                 <th scope="col" class="text-left">Question</th>
                                 {% comment %} TODO Instead of score, let's use the name of the council {% endcomment %}
                                 <th scope="col">Score</th>
-                                <th scope="col">
+                                <th scope="col" class="top-tier-head">
                                     <p>Top Performers</p>
                                     <span class="filter-active">Single Tier</span>
                                     <span class="filter-active">·</span>
@@ -160,7 +160,7 @@
                                 <td>
                                     {{ section.score }}/{{ section.max_score }}
                                 </td>
-                                <td>
+                                <td class="top-tier-score">
                                     {% comment %} TODO add single top perfomers {% endcomment %}
                                     {% comment %} Eg: 15 out of 120, this is a link{% endcomment %}
                                     <a href="#" class="mx-auto" style="text-transform: none">15 out of 120</a>
