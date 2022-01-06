@@ -12,12 +12,14 @@
             flex-basis: 80%;
         }
     }
+
     form {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
     }
+
     .criteria-group-wrapper {
         max-width: 190px;
         flex-basis: 50%;
