@@ -50,6 +50,15 @@ a {
     }
 }
 
+table a {
+    @include responsive(font-size, 14, 15);
+    color: $color-scorecard-grey-900;
+    @include hover-focus {
+        color: $color-scorecard-green-d1;
+        text-decoration: none;
+    }
+}
+
 // CTA
 
 a.cta {
