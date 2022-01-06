@@ -96,11 +96,11 @@
                             <tr>
                                 <td>
                                     <div>
-                                    {{ section.description }}
+                                        <a href="{% url 'home' %}">{{ section.description }}</a>
                                     </div>
                                 </td>
                                 <td>
-                                    {% comment %} Needs a conditional so when a council 
+                                    {% comment %}TODO Needs a conditional so when a council 
                                     have scored the max  amount of points get a star{% endcomment %}
                                     <span class="top-perfomer">
                                     {{ section.score }}/{{ section.max_score }}
