@@ -41,3 +41,31 @@ ul.type-council-option-wrapper {
         color: $white;
     }
 }
+
+// This is for the "radio buttons" that in HTML will be links
+// Most likely the code above will be deleted if wwe change all the radio
+//buttons to links.
+
+.radio-btn.is--with-label {
+    @include responsive(font-size, 12, 13);
+    color: $color-scorecard-grey-900;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: $border-radius;
+    padding: 7px 8px;
+    border: 1px solid $blue;
+    background-color: $white;
+    @include transition(background-color 0.3s ease-in-out);
+
+    @include hover-focus {
+        background-color: $color-scorecard-blue-l1;
+    }
+}
+
+.radio-btn.is--with-label.is--with-closed-icon {
+    padding-right: 40px;
+    background-image: url('../img/close-background-blue.svg');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
