@@ -82,25 +82,6 @@ $table-section-mobile-breakpoint: 500px;
 
     //Font style
     thead th {
-        background-color: $white;
-        font-family: $font-family-sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 130%;
-        text-align: center;
-        letter-spacing: 0.06em;
-        @include responsive(font-size, 15, 16);
-        span.filter-active {
-            font-family: $headings-font-family;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 13px;
-            line-height: 120%;
-            text-align: center;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            opacity: 0.7;
-        }
+        @include table-header;
     }
 }

@@ -90,6 +90,32 @@ $max-viewport: 1792;
             border-right: 1px solid transparentize($color: $color, $amount: 0.9);
         }
     }
+}
+
+// Mixin table header
+//usage thead th {@include table-header;}
+@mixin table-header {
+    background-color: $white;
+    font-family: $font-family-sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.06em;
+    @include responsive(font-size, 15, 16);
+    span.filter-active {
+        font-family: $headings-font-family;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 120%;
+        text-align: center;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        opacity: 0.7;
+    }
+}
 
 // Mixin borders
 //usage @include border-priority-1(right);
