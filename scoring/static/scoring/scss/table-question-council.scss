@@ -1,3 +1,6 @@
+
+$mobile-breakpoint-question-table: 500px;
+
 .table-question-council {
     table-layout: fixed;
 
@@ -56,7 +59,7 @@
         font-family: $font-family-sans-serif;
         font-style: normal;
         font-weight: 600;
-        font-size: 16px;
+        @include responsive(font-size, 13, 15);
         line-height: 120%;
         letter-spacing: 0.01em;
     }
@@ -99,6 +102,10 @@
     //Header question
     tr.header-question {
         background-color: lighten($color: $green, $amount: 5%);
+
+        td .question-content {
+            @include responsive(font-size, 14, 15);
+        }
     }
 
     //subpoint questions
@@ -116,19 +123,36 @@
     }
 
     // First column
-    tr td:nth-child(1) div{
+    .question-no {
+        padding: 16px 10px;
+        text-transform: uppercase;
+        @include responsive(font-size, 11, 12);
+        vertical-align: top;
+        div {
             width: 75px;
             overflow: hidden;
             word-break: break-all;
 
+            a {
+                background-color: white;
+                border-radius: 4px;
+                padding: 5px 8px;
+                display: inline-block;
+                border: 1 solid $green;
+            }
+        }
     }
 
-    tbody tr {
-        td a, td{
-            &:first-child {
-                text-transform: uppercase;
-                @include responsive(font-size, 12, 13);
-                vertical-align: top;
+    // Mobile version
+    @media only screen and (max-width: $mobile-breakpoint-question-table) {
+        .top-tier-score, .top-tier-head {
+            display: none;
+        }
+
+        .question-no {
+            padding: 16px 5px;
+            div {
+                width: 50px;
             }
         }
     }
