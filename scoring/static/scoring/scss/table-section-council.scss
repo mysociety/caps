@@ -76,8 +76,10 @@ $table-section-mobile-breakpoint: 500px;
         padding-left: 22px;
         margin-left: -22px;
         @include transition(background-image 0.3s ease-in-out);
-        // background-image: url('../img/advanced-filter-green.svg');
+        background-image: url('../img/star.svg');
         background-repeat: no-repeat;
+        background-size: 15px;
+        background-position: top 50% left 0;
     }
 
     //Font style
