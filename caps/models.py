@@ -71,22 +71,32 @@ class Council(models.Model):
 
     SCORING_GROUPS = {
         'single': {
+            'name': 'Single tier',
+            'slug': 'single',
             'types': ['CC', 'LBO', 'MD', 'UA'],
             'countries': [ ENGLAND, SCOTLAND, WALES]
         },
         'county': {
+            'name': 'County',
+            'slug': 'county',
             'types': ['CTY'],
             'countries': [ ENGLAND, SCOTLAND, WALES]
         },
         'district': {
+            'name': 'District',
+            'slug': 'district',
             'types': ['NMD'],
             'countries': [ ENGLAND, SCOTLAND, WALES]
         },
         'combined': {
+            'name': 'Combined Authority',
+            'slug': 'combined',
             'types': ['COMB'],
             'countries': [ ENGLAND, SCOTLAND, WALES]
         },
         'northern-ireland': {
+            'name': 'Northern Ireland',
+            'slug': 'northern-ireland',
             'types': ['UA'],
             'countries': [NORTHERN_IRELAND]
         },
