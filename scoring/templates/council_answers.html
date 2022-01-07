@@ -5,9 +5,10 @@
 <div class="hero container-fluid bg-dark-grey">
     <div style="max-width: 1140px" class="mx-auto">
         <a class="cta reverse white" href="{% url 'home' %}">Back to scorecards plan</a>
-        <h1 class="text-white mt-3">Doncaster Metropolitan Borough Council</h1>
+        <h1 class="text-white mt-3">{{ council.name }}</h1>
         <div class="mt-3">
-            <span class="top-perfomer hero-sub">Top Perfomer · </span><span class="hero-sub">Single Tier</span>
+            <!-- TODO: Real data -->
+            <span class="top-perfomer hero-sub">Top Perfomer · </span><span class="hero-sub">{{ council.get_scoring_group.name }}</span>
         </div>
     </div>
 </div>
@@ -17,36 +18,43 @@
         <div class="col-12 col-lg-5">
             <div class="about-section-child p-3">
                 <h3 class="mb-3">About this council</h3>
+                <!-- TODO: Real data -->
                 <p class="top-performer.active mb-0">This council is a top performer on the single tier councils on the Climate League.</p>
-                <a href="link to the homepage table with all the right type of council filter applied">(See in context)</a>
+                <a href="{% url 'scoring' council.get_scoring_group.slug %}">(See in context)</a>
                 <div class="group-label-wrapper mt-5">
                     <div class="label-wrapper">
                         <p class="label green">Nation</p>
-                        <p>England</p>
+                        <p>{{ council.get_country_display }}</p>
                     </div>
                     <div class="label-wrapper">
                         <p class="label green">Climate pledge target</p>
-                        <p>England</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
                     </div>
                     <div class="label-wrapper">
                         <p class="label green">Annual income</p>
-                        <p>England</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
                     </div>
                     <div class="label-wrapper">
                         <p class="label green">Current political control</p>
-                        <p>England</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
                     </div>
                     <div class="label-wrapper">
                         <p class="label green">Deprivation index</p>
-                        <p>England</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
                     </div>
                     <div class="label-wrapper">
-                        <p class="label green">total population</p>
-                        <p>England</p>
+                        <p class="label green">Total population</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
                     </div>
                     <div class="label-wrapper">
                         <p class="label green">Urbanization</p>
-                        <p>England</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
                     </div>
                 </div>
             </div>
@@ -55,6 +63,7 @@
         <div class="col-12 col-lg-5">
             <div class="about-section-child bg-grey-gradient-darker p-3">
                 <h3 class="mb-3">About the scoring</h3>
+                <!-- TODO: New text -->
                 <p>Amet minim mollit non deserunt 
                     ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
                 </p>
@@ -76,9 +85,11 @@
                     <h3>
                         Section
                     </h3>
+                    <!-- TODO: New text -->
                     <p>Amet minim mollit non deserunt 
                         ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
                     </p>
+                    <!-- TODO: Make button work -->
                     <button>Choose councils to compare</button>
                 </div>
                 <div style="display:table">
@@ -137,6 +148,7 @@
                     <h3>
                         Question
                     </h3>
+                    <!-- TODO: New text -->
                     <p>Amet minim mollit non deserunt 
                         ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
                     </p>
