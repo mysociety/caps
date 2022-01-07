@@ -189,22 +189,45 @@ a.cta {
 }
 
 // Open div
-.btn-open-div {
-    padding-right: 30px;
-    background-image: url('../img/chevron-black-down.svg');
-    background-size: 13px;
-    background-repeat: no-repeat;
-    background-position: right 8px top 10px;
+.btn-open-question, .btn-open-div {
+    position: relative;
+    opacity: 0.7;
+    @include transition(opacity 0.2s ease-in-out);
     white-space: normal;
-    @include transition(background-position, opacity, 0.2s ease-in-out);
-    &:hover {
-        background-position: right 8px top 11px;
-        opacity: 0.7;
+    font-weight: 600;
+    
+    &::after {
+        content:" ";
+        width: 25px;
+        height: 25px;
+        background-image: url('../img/chevron-thin-black-down.svg');
+        background-size: 13px;
+        background-repeat: no-repeat;
+        background-position: right 8px top 8px;
+        position: absolute;
+        @include transition(transform 0.2s ease-in-out);
     }
+
+    @include hover-focus {
+        opacity: 1;
+        &::after {
+            transform: translateY(1px);
+        }
+    }
+
+    &.active {
+        text-decoration: underline;
+        &::after {
+            transform: rotate(180deg);
+        }
+    }
+    
 }
 
-.btn-open-div.active {
-    background-image: url('../img/chevron-black-up.svg');
+.btn-open-div {
+    &::after {
+        background-image: url('../img/chevron-black-down.svg');
+    }
 }
 
 .open-div {
