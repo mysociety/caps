@@ -27,17 +27,6 @@ $mobile-breakpoint-question-table: 500px;
             }
         }
 
-        .top-tier-score {
-            @include border-priority-2(top);
-            @include border-priority-2(bottom);
-        }
-
-        .section-row + .header-question {
-            .top-tier-score {
-                border-top: none;
-            }
-        }
-
         tr {
             &:last-child td {
                 @include border-priority-2(bottom);

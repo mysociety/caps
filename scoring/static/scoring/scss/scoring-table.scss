@@ -55,7 +55,7 @@ $border-table: 1px solid transparentize($color: $black, $amount: 0.8);
 }
 
 // Table header
-.table-header {
+.home .table-header {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -85,13 +85,6 @@ $border-table: 1px solid transparentize($color: $black, $amount: 0.8);
     z-index: 5 !important;
 }
 
-th, td {
-    vertical-align: middle;
-    background-color: $white;
-    position: relative;
-    z-index: 0;
-}
-
 tbody th.council-name {
     display: flex;
     flex-direction: row;
@@ -113,6 +106,13 @@ tbody th.council-name {
 }
 
 .scorecard-table {
+    th, td {
+        vertical-align: middle;
+        background-color: $white;
+        position: relative;
+        z-index: 0;
+    }
+
     @media only screen and (max-width: $table-desktop-breakpoint) {
         display: none;
     }
