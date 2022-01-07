@@ -11,10 +11,18 @@
     padding: 5px 3px;
     margin-bottom: 5px;
     border-radius: $border-radius;
+
+    &.is--smaller {
+        @include responsive(font-size, 12, 13);
+    }
 }
 
 .label.green {
     background-color: $green;
+}
+
+.label.green-light {
+    background-color: $color-scorecard-green-l1;
 }
 
 // Located on the top of the council page
@@ -23,10 +31,28 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+
     .label-wrapper {
         flex-basis: 50%;
         @media only screen and (max-width: 550px) {
             flex-basis: 100%;
         }
+    }
+}
+
+.label-wrapper.horizontal {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+    p {
+        &:first-child {
+            margin-right: 5px;
+        }
+    }
+
+    button {
+        flex-basis: 100%;
     }
 }
