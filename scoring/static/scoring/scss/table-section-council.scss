@@ -12,7 +12,7 @@ $table-section-mobile-breakpoint: 500px;
 }
 
 .mobile-message {
-    background-color: $color-league-grey-900;
+    background-color: $color-scorecard-grey-900;
     padding: 1rem;
     @media only screen and (min-width: $table-section-mobile-breakpoint) {
         display: none;
@@ -68,7 +68,7 @@ $table-section-mobile-breakpoint: 500px;
 
     //Row
     tbody tr {
-        background-color:$color-league-green-l1;
+        background-color:$color-scorecard-green-l1;
         &:nth-child(odd) {
             background-color:#C3EFE5;
         }
