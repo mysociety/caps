@@ -722,8 +722,11 @@ class ComparisonType(models.Model):
         "emissions": "Emissions",
         "geographic_distance": "Nearby",
         "imd": "IMD",
-        "ruc": " Rural/Urban",
+        "ruc": "Rural/Urban",
     }
+
+    def __str__(self):
+        return self.name
 
     def markdown_desc(self):
         return markdown.markdown(self.desc)

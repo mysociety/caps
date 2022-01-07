@@ -1,16 +1,27 @@
-from django.forms import CharField, BooleanField
+from django.forms import CharField, BooleanField, ModelChoiceField, Select
 from haystack.forms import SearchForm
 from haystack.query import SearchQuerySet
 from haystack.inputs import Exact
 
-from caps.models import Distance
+from caps.models import Distance, ComparisonType, Council
 
 
 class HighlightedSearchForm(SearchForm):
     council_name = CharField(required=False)
     exact = BooleanField(required=False)
-    similar_type = CharField(required=False)
-    similar_council = CharField(required=False)
+    similar_council = ModelChoiceField(
+        queryset=Council.objects.all(),
+        to_field_name="slug",
+        required=False,
+        empty_label=None,
+    )
+    similar_type = ModelChoiceField(
+        queryset=ComparisonType.objects.all(),
+        to_field_name="slug",
+        required=False,
+        empty_label=None,
+        widget=Select(attrs={"class": "form-control"}),
+    )
 
     def search(self):
         kwargs = {
@@ -32,12 +43,12 @@ class HighlightedSearchForm(SearchForm):
             sqs = super(HighlightedSearchForm, self).search()
 
         if self.cleaned_data["similar_type"]:
-            council_slug = self.cleaned_data["similar_council"]
-            comparison_slug = self.cleaned_data["similar_type"]
+            similar_council = self.cleaned_data["similar_council"]
+            comparison_type = self.cleaned_data["similar_type"]
             cut_off = 15
             names = Distance.objects.filter(
-                council_a__slug=council_slug,
-                type__slug=comparison_slug,
+                council_a=similar_council,
+                type=comparison_type,
                 position__lte=cut_off,
             ).values_list("council_b__name", flat=True)
 
