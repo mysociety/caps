@@ -30,11 +30,9 @@ $border-table: 1px solid transparentize($color: $black, $amount: 0.8);
         flex-direction: row;
         flex-wrap: wrap;
         align-items: flex-start;
-        justify-content: space-between;
 
         a {
             margin-right: 10px;
-            //flex-basis: calc(50% - 10px);
         }
     }
 
