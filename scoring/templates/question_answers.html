@@ -108,7 +108,9 @@
         let openDiv = questionItems[i].nextElementSibling;
         let buttonQuestion = questionItems[i].nextElementSibling;
         
-        if (questionItemsOffHeight > questionItemsScrollHeight) {
+        if (questionItemsOffHeight < questionItemsScrollHeight) {
+            openDiv.style.display = 'inline-block';
+        } else {
             openDiv.style.display = 'none';
         }
         buttonQuestion.addEventListener('click', () => {
@@ -118,12 +120,12 @@
                 questionItems[i].style.height = "auto";
                 openDiv.textContent="Display less";
                 let height = questionItems[i].clientHeight + "px";
-                questionItems[i].style.height = "100px";
+                questionItems[i].style.height = "65px";
                 setTimeout(() => {
                     questionItems[i].style.height = height;
                 }, 0) 
             } else {
-                questionItems[i].style.height = "100px";
+                questionItems[i].style.height = "65px";
                 questionItems[i].addEventListener('transitionend', () => {
                     questionItems[i].classList.remove('active');
                     openDiv.textContent="Display more";
