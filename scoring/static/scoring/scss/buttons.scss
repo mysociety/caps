@@ -67,10 +67,32 @@ a.cta {
     background-size: 7px auto;
     background-repeat: no-repeat;
     background-position: right 18px bottom 40%;
-    @include transition(background-position 0.3s ease-in-out);
+    opacity: 0.9;
+    @include transition(background-position, transform, opacity 0.3s ease-in-out);
 
-    &:hover {
+    @include hover-focus {
+        color: $color-scorecard-blue-d1;
         background-position: right 12px bottom 40%; ;
+        transform: translateX(3px);
+        opacity: 1;
+    }
+
+    &.white {
+        color: $white;
+    }
+
+    &.reverse {
+        padding-right: 0;
+        padding-left: 23px;
+        background-image: url('../img/chevron-white-left.svg');
+        background-size: 11px auto;
+        background-position: left 3px center;
+        opacity: 0.7;
+
+        @include hover-focus {
+            background-position: left 0px center;
+            transform: translateX(-3px);
+        }
     }
 }
 
