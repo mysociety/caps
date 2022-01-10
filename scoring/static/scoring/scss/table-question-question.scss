@@ -4,12 +4,23 @@
 }
 
 .question-table-section {
+    $padding: 10px;
+    $mobile-breakpoint:500px;
+
     .question-info {
-        padding: 10px;
+        padding: $padding;
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         align-items: start;
+
+        .label {
+            @media only screen and (max-width: $mobile-breakpoint) {
+                flex-basis: 100%;
+                margin-bottom: 10px !important;
+                margin-right:0 !important;
+            }
+        }
 
         .question-text {
             max-width: 700px;
@@ -33,6 +44,10 @@
                 color: $white;
             }
 
+            .question-text {
+                color: $white;
+            }
+
             .label.grey {
                 background-color: transparentize($color: $white, $amount: 0.1);
                 color: $color-scorecard-grey-900;
@@ -42,11 +57,22 @@
                 &::after {
                     background-image: url('../img/chevron-down-white.svg') !important;
                 }
-
                 @include hover-focus {
                     opacity: 0.6;
                 }
             }
+        }
+    }
+
+    .question-data {
+        height: 0;
+        padding: 0 $padding;
+        overflow-y: hidden;
+        @include transition(height, 0.3s ease-in-out);
+
+        .question-data-inner {
+            margin-top: $padding;
+            margin-bottom: $padding;
         }
     }
 }
