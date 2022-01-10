@@ -134,3 +134,35 @@
         }
     }
 }
+
+// Table
+.question-table-wrapper {
+    max-height: 535px;
+    overflow: auto;
+
+    table {
+        border-collapse: collapse;
+        position: relative;
+    }
+
+    thead th{
+        background-color: $green;
+        z-index: 1;
+        position: sticky;
+        padding: 20px 10px;
+        top: 0;
+    }
+
+    tbody {
+        td {
+            padding: 20px 10px;
+        }
+        tr {
+            background-color: $white;
+            &:nth-child(even) {
+                background-color: $color-scorecard-green-l1;
+            }
+        }
+    }
+
+}
