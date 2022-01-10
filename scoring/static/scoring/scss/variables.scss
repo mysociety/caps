@@ -156,6 +156,10 @@ $modal-backdrop-opacity: 0.25;
 
 // Utilities
 $border-radius: 4px;
+$border-priority-1: 1px solid transparentize(#9CBFB7, 0.5);
+$border-priority-2: 1px solid transparentize(#9CBFB7, 0.6);
+$border-priority-3: 1px solid transparentize(#9CBFB7, 0.8);
+$border-priority-2-grey:1px solid transparentize($black, 0.8);
 
 // Printing
 
