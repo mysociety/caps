@@ -240,6 +240,7 @@ a.cta {
     @include transition(opacity 0.2s ease-in-out);
     white-space: normal;
     font-weight: 600;
+    color: $color-scorecard-grey-900;
     
     &::after {
         content:" ";
@@ -266,7 +267,6 @@ a.cta {
             transform: rotate(180deg);
         }
     }
-    
 }
 
 .btn-open-div {
@@ -282,6 +282,51 @@ a.cta {
 
 .open-div:not(.active) {
     display: none;
+}
+
+// Accordion
+
+.btn-open-accordion {
+    width: 44px;
+    height: 44px;
+    position: relative;
+    opacity: 0.8;
+    @include transition(opacity, transform 0.2s ease-in-out);
+
+    &::after {
+        content:" ";
+        width: 25px;
+        height: 25px;
+        background-image: url('../img/plus-black.svg');
+        background-size: 15px;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include transition(background-image 0.2s ease-in-out);
+    }
+    @include hover-focus {
+        opacity: 1;
+        transform: rotate(180deg);
+    }
+
+    &.active {
+        transform: rotate(45deg);
+        opacity: 1;
+        &::after {
+            background-image: url('../img/plus-white.svg');
+        }
+
+        @include hover-focus {
+            opacity: 0.8;
+            transform: rotate(180deg);
+            &::after {
+                background-image: url('../img/plus-white.svg');
+            }
+        }
+    }
 }
 
 // Modal

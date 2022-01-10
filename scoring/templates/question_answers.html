@@ -71,18 +71,35 @@
         <div class="row bg-white mb-4 mb-lg-5 mx-auto" style="max-width:100%">
             <div class="d-flex flex-row align-items-center px-3 p-3">
                 <p class="label green mb-0 mr-2">Number of councils</p>
-                <!-- TODO: Real data -->
                 <p class="mb-0">XXXX on this group.</p>
             </div>
         </div>
-        <div class="row">
+
+        <div class="accordion-wrapper rounded">
+            <div class="question-info">
+                <p class="label grey mb-0 mr-3">{{ question.code }}</p>
+                <div>
+                    <div class="question-text">{{ question.text | linebreaks }}</div>
+                    <button class="btn-open-question mt-3" type="button">Display more</button>
+                </div>
+                <button class="btn-open-accordion" type="button"></button>
+            </div>
+            <div class="question-data">
+                <div class="row">
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-5">
             <div class="col-md-12">
                 <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
                     <div class="card-header">
                         <h3>
                             {{ question.code }}
                         </h3>
-        
+
                         <div>
                             {{ question.text | linebreaks }}
                         </div>
