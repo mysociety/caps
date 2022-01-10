@@ -58,7 +58,7 @@
 <div class="container-fluid question-page bg-grey-gradient question-table-section">
     <div class="mx-auto" style="max-width: 910px">
         <h3 class="mb-4 mb-lg-5">Question performance</h3>
-        <div class="row bg-white mx-auto" style="max-width:100%">
+        <div id="top-filter" class="row bg-white mx-auto" style="max-width:100%">
             <div class="table-filter col-12 col-lg-7 py-3">
                     {% include 'scoring/includes/main-filter.html' %}
             </div>
@@ -68,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="row bg-white mb-4 mb-lg-5 mx-auto" style="max-width:100%">
+        <div id="filter-result" class="row bg-white mb-4 mb-lg-5 mx-auto" style="max-width:100%">
             <div class="d-flex flex-row align-items-center px-3 p-3">
                 <p class="label green mb-0 mr-2">Number of councils</p>
                 <p class="mb-0">XXXX on this group.</p>
@@ -80,9 +80,7 @@
                 <div class="question-info">
                     <p class="label grey mb-0 mr-3">{{ question.code }}</p>
                     <div>
-                        {% comment %} <div class="question-text">{{ question.text | linebreaks }}</div> {% endcomment %}
-                        {% comment %} <div class="question-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div> {% endcomment %}
-                        <div class="question-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
+                        <div class="question-text">{{ question.text | linebreaks }}</div>
                         <button class="btn-open-question is--smaller mt-3" type="button">Display more</button>
                     </div>
                     <button class="btn-open-accordion ml-auto" type="button"></button>
@@ -163,13 +161,11 @@
                 </div>
             </div>
 
-            <div class="question-accordion-item">
+            <div class="question-accordion-item is--subpoint-question">
                 <div class="question-info">
-                    <p class="label grey mb-0 mr-3">{{ question.code }}</p>
+                    <p class="label grey mb-0 mr-2">{{ question.code }}</p>
                     <div>
-                        {% comment %} <div class="question-text">{{ question.text | linebreaks }}</div> {% endcomment %}
-                        {% comment %} <div class="question-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div> {% endcomment %}
-                        <div class="question-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
+                        <div class="question-text">{{ question.text | linebreaks }}</div>
                         <button class="btn-open-question is--smaller mt-3" type="button">Display more</button>
                     </div>
                     <button class="btn-open-accordion ml-auto" type="button"></button>
@@ -308,12 +304,12 @@
                 questionItemsAccordion[i].style.height = "auto";
                 accordionDisplayMoreQ.textContent="Display less";
                 let height = questionItemsAccordion[i].clientHeight + "px";
-                questionItemsAccordion[i].style.height = "65px";
+                questionItemsAccordion[i].style.height = "60px";
                 setTimeout(() => {
                     questionItemsAccordion[i].style.height = height;
                 }, 0) 
             } else {
-                questionItemsAccordion[i].style.height = "65px";
+                questionItemsAccordion[i].style.height = "60px";
                 questionItemsAccordion[i].addEventListener('transitionend', () => {
                     questionItemsAccordion[i].classList.remove('active');
                     accordionDisplayMoreQ.textContent="Display more";
