@@ -79,10 +79,12 @@
             <div class="question-info">
                 <p class="label grey mb-0 mr-3">{{ question.code }}</p>
                 <div>
-                    <div class="question-text">{{ question.text | linebreaks }}</div>
+                    {% comment %} <div class="question-text">{{ question.text | linebreaks }}</div> {% endcomment %}
+                    {% comment %} <div class="question-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div> {% endcomment %}
+                    <div class="question-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
                     <button class="btn-open-question mt-3" type="button">Display more</button>
                 </div>
-                <button class="btn-open-accordion" type="button"></button>
+                <button class="btn-open-accordion ml-auto" type="button"></button>
             </div>
             <div class="question-data">
                 <div class="row">
@@ -92,7 +94,7 @@
         </div>
 
 
-        <div class="row mt-5">
+        {% comment %} <div class="row mt-5">
             <div class="col-md-12">
                 <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
                     <div class="card-header">
@@ -133,13 +135,13 @@
                 </div>
         
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
 </div>
 
 
 <script>
-    // Open div for each group of filters
+    // Open div questions in the about section
     let questionItems = document.getElementsByClassName('question-content');
     for (let i = 0; i < questionItems.length; i++) {
         let questionItemsOffHeight = questionItems[i].offsetHeight;
@@ -167,6 +169,41 @@
                 questionItems[i].style.height = "65px";
                 questionItems[i].addEventListener('transitionend', () => {
                     questionItems[i].classList.remove('active');
+                    openDiv.textContent="Display more";
+                    buttonQuestion.classList.remove('active');
+                }, {once: true})
+            }
+        })
+    }
+
+    // Open div inner question accordion
+    let questionItemsAccordion = document.getElementsByClassName('question-text');
+    for (let i = 0; i < questionItemsAccordion.length; i++) {
+        let questionItemsAccordionOffHeight = questionItemsAccordion[i].offsetHeight;
+        let questionItemsAccordionScrollHeight = questionItemsAccordion[i].scrollHeight;
+        let openDiv = questionItemsAccordion[i].nextElementSibling;
+        let buttonQuestion = questionItemsAccordion[i].nextElementSibling;
+        
+        if (questionItemsAccordionOffHeight < questionItemsAccordionScrollHeight) {
+            openDiv.style.display = 'inline-block';
+        } else {
+            openDiv.style.display = 'none';
+        }
+        buttonQuestion.addEventListener('click', () => {
+            if(!questionItemsAccordion[i].classList.contains('active')) {
+                questionItemsAccordion[i].classList.toggle('active');
+                buttonQuestion.classList.toggle('active');
+                questionItemsAccordion[i].style.height = "auto";
+                openDiv.textContent="Display less";
+                let height = questionItemsAccordion[i].clientHeight + "px";
+                questionItemsAccordion[i].style.height = "65px";
+                setTimeout(() => {
+                    questionItemsAccordion[i].style.height = height;
+                }, 0) 
+            } else {
+                questionItemsAccordion[i].style.height = "65px";
+                questionItemsAccordion[i].addEventListener('transitionend', () => {
+                    questionItemsAccordion[i].classList.remove('active');
                     openDiv.textContent="Display more";
                     buttonQuestion.classList.remove('active');
                 }, {once: true})

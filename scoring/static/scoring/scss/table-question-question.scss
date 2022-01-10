@@ -20,6 +20,12 @@
             font-weight: 400;
         }
 
+        .question-text {
+            height: 65px;
+            overflow-y: hidden;
+            @include transition(height, 0.3s ease-in-out);
+        }
+
         &.active {
             background-color: $color-scorecard-grey-900;
 
