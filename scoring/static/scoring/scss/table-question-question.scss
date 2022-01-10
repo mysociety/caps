@@ -73,6 +73,64 @@
         .question-data-inner {
             margin-top: $padding;
             margin-bottom: $padding;
+
+            .data-summary {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-content: flex-start;
+
+                .data-summary-item {
+                    flex-basis: 50%;
+                    text-align: center;
+                    max-width: 150px;
+                    max-height: 110px;
+                    padding: 13px 20px 16px 20px;
+                    // Because this items will be dinamically generated, I'm using
+                    //box-shadow instead of border.
+                    box-shadow: 
+                    1px 0 0 0 $green, 
+                    0 1px 0 0 $green, 
+                    1px 1px 0 0 $green,   /* Just to fix the corner */
+                    1px 0 0 0 $green inset, 
+                    0 1px 0 0 $green inset;
+
+                    &.main {
+                        background-color: $color-scorecard-green-l1;
+                    }
+
+                    .result {
+                        font-family: $font-family-sans-serif;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 20px;
+                        line-height: 150%;
+                        letter-spacing: 0.02em;
+                        color: $black;
+                        opacity: 0.8;
+                        margin-bottom: 0px;
+                    }
+
+                    p {
+                        font-size: 13px;
+                        opacity: 0.7;
+                        margin-bottom: 6px;
+                    }
+
+                    .total-points {
+                        font-family: $font-family-sans-serif;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 12px;
+                        line-height: 100%;
+                        text-align: center;
+                        letter-spacing: 0.02em;
+                        text-transform: uppercase;
+                        color: $black;
+                        opacity: 0.8;
+                    }
+                }
+            }
         }
     }
 }
