@@ -55,49 +55,71 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-
-        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
-            <div class="card-header">
-                <h3>
-                    {{ question.code }}
-                </h3>
-
-                <div>
-                    {{ question.text | linebreaks }}
+<div class="container-fluid question-page bg-grey-gradient question-table-section">
+    <div class="mx-auto" style="max-width: 910px">
+        <h3 class="mb-4 mb-lg-5">Question performance</h3>
+        <div class="row bg-white mx-auto" style="max-width:100%">
+            <div class="table-filter col-12 col-lg-7 py-3">
+                    {% include 'scoring/includes/main-filter.html' %}
+            </div>
+            <div class="table-filter col-12 col-lg-5 py-3">
+                <div class="float-left float-md-right">
+                    {% include 'scoring/includes/advanced-filter.html' %}
                 </div>
             </div>
-            <div class="ceuk-data-table">
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">Council No</th>
-                            <th scope="col">Answer</th>
-                            <th scope="col">Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for answer in answers %}
-                        <tr>
-                            <td data-column="council">
-                                {{ answer.plan_score.council.name }}
-                            </td>
-                            <td data-column="answer">
-                                {{ answer.answer }}
-                            </td>
-                            <td data-column="score">
-                                {{ answer.score }}/{{ question.max_score }}
-                            </td>
-                        </tr>
-                      {% endfor %}
-                    </tbody>
-                </table>
+        </div>
+        <div class="row bg-white mb-4 mb-lg-5 mx-auto" style="max-width:100%">
+            <div class="d-flex flex-row align-items-center px-3 p-3">
+                <p class="label green mb-0 mr-2">Number of councils</p>
+                <!-- TODO: Real data -->
+                <p class="mb-0">XXXX on this group.</p>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+                    <div class="card-header">
+                        <h3>
+                            {{ question.code }}
+                        </h3>
+        
+                        <div>
+                            {{ question.text | linebreaks }}
+                        </div>
+                    </div>
+                    <div class="ceuk-data-table">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Council No</th>
+                                    <th scope="col">Answer</th>
+                                    <th scope="col">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for answer in answers %}
+                                <tr>
+                                    <td data-column="council">
+                                        {{ answer.plan_score.council.name }}
+                                    </td>
+                                    <td data-column="answer">
+                                        {{ answer.answer }}
+                                    </td>
+                                    <td data-column="score">
+                                        {{ answer.score }}/{{ question.max_score }}
+                                    </td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
     </div>
 </div>
+
 
 <script>
     // Open div for each group of filters
