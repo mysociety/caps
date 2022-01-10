@@ -8,7 +8,7 @@
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: $black;
-    padding: 5px 3px;
+    padding: 5px;
     margin-bottom: 5px;
     border-radius: $border-radius;
 
@@ -23,6 +23,11 @@
 
 .label.green-light {
     background-color: $color-scorecard-green-l1;
+}
+
+.label.grey {
+    background-color: $color-scorecard-grey-900;
+    color: $white;
 }
 
 // Located on the top of the council page

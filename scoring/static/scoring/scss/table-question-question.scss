@@ -1,0 +1,46 @@
+.accordion-wrapper {
+    background-color: $white;
+    
+}
+
+.question-table-section {
+    .question-info {
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: start;
+
+        .question-text {
+            max-width: 700px;
+        }
+
+        .btn-open-question {
+            opacity: 1;
+            font-weight: 400;
+        }
+
+        &.active {
+            background-color: $color-scorecard-grey-900;
+
+            p, span, button {
+                color: $white;
+            }
+
+            .label.grey {
+                background-color: transparentize($color: $white, $amount: 0.1);
+                color: $color-scorecard-grey-900;
+            }
+
+            .btn-open-question {
+                &::after {
+                    background-image: url('../img/chevron-down-white.svg') !important;
+                }
+
+                @include hover-focus {
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
+}
