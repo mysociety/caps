@@ -121,6 +121,98 @@ $(function() {
         );
     });
 
+    var makeEmissionsChart = function makeEmissionsChart($el, $dataTable){
+        var labels = [];
+        var datasets = {};
+        var colours = {
+            "Industrial sources": "#e11d21",
+            "Commercial sources": "#f29e1a",
+            "Public sector sources": "#ffd80b",
+            "Domestic sources": "#28cf6b",
+            "Transport sources": "#00aeee"
+        };
+
+        var headers = $dataTable.find('thead th').map(function(i){
+            return $(this).text();
+        }).get();
+
+        $dataTable.find('tbody tr').each(function(){
+            var $row = $(this);
+            $row.children().each(function(i){
+                var colName = headers[i];
+                if ( colName == 'Year' ) {
+                    var value = parseInt( $(this).text() );
+                    labels.push(value);
+                } else if ( colName != 'All sources' ) {
+                    var value = parseFloat( $(this).text() );
+                    datasets[ colName ] = datasets[ colName ] || {
+                        label: colName,
+                        data: [],
+                        backgroundColor: colours[ colName ],
+                        borderWidth: 0,
+                        pointRadius: 0,
+                        fill: true
+                    };
+                    datasets[ colName ][ "data" ].push(value);
+                }
+            });
+        });
+
+        var datasetsArray = $.map(datasets, function(value){
+            return value;
+        });
+
+        return new Chart($el, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: datasetsArray
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                },
+                hover: {
+                    mode: "x",
+                    intersect: false
+                },
+                tooltips: {
+                    mode: "x"
+                },
+                legend: {
+                    display: false
+                },
+                animation: {
+                    duration: 0
+                },
+                title: {
+                    display: false
+                }
+            }
+        });
+    };
+
+    $('.js-make-emissions-chart').each(function() {
+        var $table = $(this);
+        var $canvas = $('<canvas width="400" height="200">');
+        $canvas.insertAfter( $table );
+        $table.addClass('d-none');
+
+        makeEmissionsChart(
+            $canvas,
+            $table
+        );
+    });
+
     $('a[data-plan-id]').on("click", function(e) {
         var link = $(this);
         var link_url = link.attr('href');
