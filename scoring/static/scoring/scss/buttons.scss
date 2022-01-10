@@ -250,6 +250,7 @@ a.cta {
         background-size: 13px;
         background-repeat: no-repeat;
         background-position: right 8px top 8px;
+        transform-origin: center;
         position: absolute;
         @include transition(transform 0.2s ease-in-out);
     }
@@ -265,6 +266,20 @@ a.cta {
         text-decoration: underline;
         &::after {
             transform: rotate(180deg);
+        }
+    }
+
+    &.is--smaller {
+        &::after {
+            content:" ";
+            width: 20px;
+            height: 20px;
+            background-position: right 1px top 7px;
+        }
+        &.active {
+            &::after {
+                background-position: right 6px top 6px;
+            }
         }
     }
 }
@@ -291,6 +306,7 @@ a.cta {
     height: 44px;
     position: relative;
     opacity: 0.8;
+    padding-right: 0;
     @include transition(opacity, transform 0.2s ease-in-out);
 
     &::after {
@@ -307,7 +323,7 @@ a.cta {
         transform: translate(-50%, -50%);
         @include transition(background-image 0.2s ease-in-out);
     }
-    @include hover-focus {
+    &:hover {
         opacity: 1;
         transform: rotate(180deg);
     }
@@ -319,7 +335,7 @@ a.cta {
             background-image: url('../img/plus-white.svg');
         }
 
-        @include hover-focus {
+        &:hover {
             opacity: 0.8;
             transform: rotate(180deg);
             &::after {
