@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from django.db import models
-from django.db.models import Avg
+from django.db.models import Avg, Max
 
 from caps.models import Council
 
@@ -44,14 +44,15 @@ class PlanSection(models.Model):
         scores = cls.objects.filter(
             plansectionscore__plan_score__in=list(has_score_list)
         ).annotate(
-            average_score=Avg('plansectionscore__weighted_score')
+            average_score=Avg('plansectionscore__score'),
+            max_score=Max('plansectionscore__max_score')
         )
 
         averages = {}
         max_score = 0
         for score in scores:
-            max_score = max_score + score.max_weighted_score
-            averages[score.code] = { 'score': round(score.average_score), 'max': score.max_weighted_score }
+            max_score = max_score + score.max_score
+            averages[score.code] = { 'score': round(score.average_score), 'max': score.max_score }
 
         avg_score = round(has_score_avg['average'])
         averages['total'] = { 'score': avg_score, 'max': max_score, 'percentage': round( ( avg_score / max_score ) * 100 ) }
@@ -79,10 +80,10 @@ class PlanSectionScore(models.Model):
         This excludes plans with zero score as it's assumed that if they have 0 then they
         were not marked, or the council has no plan
         """
-        scores = cls.objects.all().select_related('plan_section', 'plan_score').filter(plan_score__total__gt=0).values('plan_score__total', 'plan_score__council_id', 'score', 'weighted_score', 'plan_section__code', 'plan_section__max_score')
+        scores = cls.objects.all().select_related('plan_section', 'plan_score').filter(plan_score__total__gt=0).values('plan_score__total', 'plan_score__council_id', 'score', 'weighted_score', 'plan_section__code', 'max_score')
         councils = defaultdict(dict)
         for score in scores:
-            councils[score['plan_score__council_id']][score['plan_section__code']] = { 'score': score['weighted_score'], 'max': score['plan_section__max_score'] }
+            councils[score['plan_score__council_id']][score['plan_section__code']] = { 'score': score['score'], 'max': score['max_score'] }
 
         return councils
 
