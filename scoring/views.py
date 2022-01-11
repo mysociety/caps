@@ -40,7 +40,7 @@ class HomePageView(ListView):
 
         for council in councils:
             council['all_scores'] = all_scores[council['id']]
-            council['percentage'] = round( ( council['score'] / averages['total']['max'] ) * 100 )
+            council['percentage'] = council['score']
 
         codes = PlanSection.section_codes()
 
@@ -76,7 +76,7 @@ class CouncilAnswersView(DetailView):
         for section in section_qs.all():
             sections[section.plan_section.code] = {
                 'description': section.plan_section.description,
-                'max_score': section.plan_section.max_score,
+                'max_score': section.max_score,
                 'score': section.score,
                 'answers': []
             }
