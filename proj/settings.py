@@ -148,9 +148,10 @@ PLAN_SCORE_QUESTIONS_CSV_TAB = (
     1790236873  # this number obtained from browser network console :|
 )
 PLAN_SCORE_ANSWERS_CSV_KEY = ""
-PLAN_SECTION_SCORES_CSV_NAME = "council_plan_scores.csv"
+PLAN_OVERALL_SCORES_CSV_NAME = "0.9.1_all_section_scores.csv"
+PLAN_SECTION_SCORES_CSV_NAME = "0.9.1_raw_section_marks.csv"
 PLAN_SCORE_QUESTIONS_CSV_NAME = "council_plan_questions.csv"
-PLAN_SCORE_ANSWERS_CSV_NAME = "all_councils_scored.csv"
+PLAN_SCORE_ANSWERS_CSV_NAME = "0.9.1_individual_answers.csv"
 
 
 # Application definition
