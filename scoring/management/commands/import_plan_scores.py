@@ -23,6 +23,18 @@ class Command(BaseCommand):
     SECTION_SCORES_CSV = join(settings.DATA_DIR, settings.PLAN_SECTION_SCORES_CSV_NAME)
     QUESTIONS_CSV = join(settings.DATA_DIR, settings.PLAN_SCORE_QUESTIONS_CSV_NAME)
     ANSWERS_CSV = join(settings.DATA_DIR, settings.PLAN_SCORE_ANSWERS_CSV_NAME)
+    OVERALL_SCORES_CSV = join(settings.DATA_DIR, settings.PLAN_OVERALL_SCORES_CSV_NAME)
+
+    SECTIONS = {"s1_gov": "Governance, development and funding",
+        "s2_m&a": "Mitigation and adaptation",
+        "s3_c&a": "Commitment and integration",
+        "s4_coms": "Community, engagement and communications",
+        "s5_mset": "Measuring and setting emissions targets",
+        "s6_cb": "Co-benefits",
+        "s7_dsi": "Diversity and inclusion",
+        "s8_est": "Education, skills and training",
+        "s9_ee": "Ecological emergency",
+        }
 
     def get_files(self):
         # other files manually downloaded for now
@@ -36,6 +48,15 @@ class Command(BaseCommand):
         normalised = code.replace('&', '_')
         return normalised
 
+    def create_sections(self):
+        for code, desc in self.SECTIONS.items():
+            section, created = PlanSection.objects.get_or_create(
+                code=self.normalise_section_code(code),
+                description=desc,
+                year=self.YEAR,
+            )
+
+
     def import_section_scores(self):
         council_scores = {}
 
@@ -44,28 +65,16 @@ class Command(BaseCommand):
             if row['section'] == 'overall':
                 continue
 
-            weight = PlanDocument.integer_from_text(row['weighting'])
-            max_score = PlanDocument.integer_from_text(row['max_score'])
 
-            # create the sections as we go
-            # rather than populate the sections in advance we assume that
-            # if there's a section in the scores that's not in the database
-            # we should create it
-            section, created = PlanSection.objects.get_or_create(
+            # update the section max_score as we go
+            section = PlanSection.objects.get(
                 code=self.normalise_section_code(row['section']),
-                year=self.YEAR,
             )
-            if (created):
-                section.description = row['section_name']
-                section.max_score = max_score
-                section.max_weighted_score = max_score * weight
-                section.weight = weight
-                section.save()
 
             try:
-                council = Council.objects.get(authority_code=row['council_id'])
+                council = Council.objects.get(authority_code=row['local-authority-code'])
             except Council.DoesNotExist:
-                print("Did not find council in db: {}".format(row['council_id']))
+                print("Did not find council in db: {}".format(row['local-authority-code']))
                 continue
 
             plan_score, created = PlanScore.objects.get_or_create(
@@ -74,32 +83,52 @@ class Command(BaseCommand):
             )
 
             score = 0
-            if not pd.isnull(row['value']):
-                score = PlanDocument.integer_from_text(row['value'])
-                weighted_score = score * weight
+            if not pd.isnull(row['score']):
+                score = PlanDocument.integer_from_text(row['score'])
+
+            max_score = PlanDocument.integer_from_text(row['max_score'])
 
             section_score, created = PlanSectionScore.objects.get_or_create(
                 plan_section=section,
                 plan_score=plan_score,
             )
 
+            section_score.max_score = max_score
             section_score.score = score
-            section_score.weighted_score = weighted_score
             section_score.save()
 
-            totals = council_scores.get(council.authority_code, {'total': 0, 'weighted_total': 0})
-            totals['total'] = totals['total'] + section_score.score
-            totals['weighted_total'] = totals['weighted_total'] + section_score.weighted_score
-            council_scores[council.authority_code] = totals
 
-        for authority_code, totals in council_scores.items():
-            plan = PlanScore.objects.get(
-                council__authority_code=authority_code,
-                year=self.YEAR,
+    def import_overall_scores(self):
+        df = pd.read_csv(self.OVERALL_SCORES_CSV)
+        for index, row in df.iterrows():
+            try:
+                council = Council.objects.get(authority_code=row['local-authority-code'])
+            except Council.DoesNotExist:
+                print("Did not find council in db: {}".format(row['local-authority-code']))
+                continue
+
+            plan_score, created = PlanScore.objects.get_or_create(
+                council=council,
+                year=self.YEAR
             )
-            plan.total = totals['total']
-            plan.weighted_total = totals['weighted_total']
-            plan.save()
+
+            plan_score.total = round(row['raw_total'] * 100)
+            plan_score.weighted_total = round(row['weighted_total'] * 100)
+            plan_score.save()
+
+            for code in self.SECTIONS.keys():
+                if not pd.isnull(row[code]):
+                    section = PlanSection.objects.get(
+                        code=self.normalise_section_code(code)
+                    )
+
+                    section_score, created = PlanSectionScore.objects.get_or_create(
+                        plan_section=section,
+                        plan_score=plan_score,
+                    )
+
+                    section_score.weighted_score = round(row[code] * 100)
+                    section_score.save()
 
 
     def import_questions(self):
@@ -164,13 +193,18 @@ class Command(BaseCommand):
             )
 
             if created:
-                answer.score = row['score']
-                answer.answer = row['answer']
+                score = 0
+                if not pd.isnull(row["score"]):
+                    score = PlanDocument.integer_from_text(row["score"])
+                answer.score = score
+                answer.answer = row['audited_answer']
                 answer.save()
 
 
     def handle(self, *args, **options):
         self.get_files()
+        self.create_sections()
         self.import_section_scores()
+        self.import_overall_scores()
         self.import_questions()
         self.import_question_scores()
