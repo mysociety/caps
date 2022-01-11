@@ -58,7 +58,7 @@ class Command(BaseCommand):
     def create_sections(self):
         for code, desc in self.SECTIONS.items():
             section, created = PlanSection.objects.get_or_create(
-                code=self.normalise_section_code(code),
+                code=code,
                 description=desc,
                 year=self.YEAR,
             )
@@ -126,7 +126,7 @@ class Command(BaseCommand):
             for code in self.SECTIONS.keys():
                 if not pd.isnull(row[code]):
                     section = PlanSection.objects.get(
-                        code=self.normalise_section_code(code)
+                        code=code
                     )
 
                     section_score, created = PlanSectionScore.objects.get_or_create(
