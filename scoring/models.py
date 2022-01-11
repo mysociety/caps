@@ -11,8 +11,10 @@ class PlanScore(models.Model):
     """
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
-    weighted_total = models.PositiveSmallIntegerField(default=0)
-    total = models.PositiveSmallIntegerField(default=0)
+
+    # these are percentages
+    weighted_total = models.FloatField(default=0)
+    total = models.FloatField(default=0)
 
 
 class PlanSection(models.Model):
@@ -23,9 +25,6 @@ class PlanSection(models.Model):
     code = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
-    max_score = models.PositiveSmallIntegerField(null=True)
-    max_weighted_score = models.PositiveSmallIntegerField(null=True)
-    weight = models.PositiveSmallIntegerField(null=True)
 
     @classmethod
     def section_codes(cls):
@@ -68,7 +67,11 @@ class PlanSectionScore(models.Model):
     plan_score = models.ForeignKey(PlanScore, on_delete=models.CASCADE)
     plan_section = models.ForeignKey(PlanSection, on_delete=models.CASCADE)
     score = models.PositiveSmallIntegerField(default=0)
-    weighted_score = models.PositiveSmallIntegerField(default=0)
+    # store the max score here because not all council types get asked the same set of questions
+    # so there may not be a consistent per section max score
+    max_score = models.PositiveSmallIntegerField(default=0)
+    # this is a percentage
+    weighted_score = models.FloatField(default=0)
 
     @classmethod
     def get_all_council_scores(cls):
