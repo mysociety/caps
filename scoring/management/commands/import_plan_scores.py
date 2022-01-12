@@ -27,7 +27,7 @@ class Command(BaseCommand):
 
     SECTIONS = {"s1_gov": "Governance, development and funding",
         "s2_m&a": "Mitigation and adaptation",
-        "s3_c&a": "Commitment and intergration",
+        "s3_c&a": "Commitment and integration",
         "s4_coms": "Community, engagement and communications",
         "s5_mset": "Measuring and setting emissions targets",
         "s6_cb": "Co-benefits",
