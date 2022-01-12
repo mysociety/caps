@@ -43,6 +43,14 @@ class Council(models.Model):
         ('UA', 'Unitary Authority')
     ]
 
+    SCORING_GROUP_CHOICES = [
+        ( 'single', 'Single Tier' ),
+        ( 'county', 'County Council' ),
+        ( 'district', 'District Council' ),
+        ( 'combined', 'Combined Authority' ),
+        ( 'northern-ireland', 'Northern Ireland Council' ),
+    ]
+
     SCORING_GROUPS = {
         'single': {
             'name': 'Single tier',
