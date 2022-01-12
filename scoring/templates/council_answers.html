@@ -208,8 +208,8 @@
                                         {% if answer.type == 'HEADER' %}
                                         <a href="{% url 'answercouncils' answer.code %}">{{ answer.display_code }}</a>
                                         {% else %}
-                                        <div class="pl-2">
-                                            {{ answer.display_code }}
+                                        <div class="question-code pl-2">
+                                            <span>{{ answer.display_code }}</span>
                                         </div>
                                         {% endif %}
                                     </div>
@@ -219,7 +219,8 @@
                                 {% else %}
                                 <td data-column="answer">
                                 {% endif %}
-                                    <div class="question-content">
+                                    <div class="question-content-table">
+                                        <span class="question-no is--mobile">{{ answer.display_code }}</span>
                                         {{ answer.question | linebreaks }}
                                     </div>
                                 </td>
