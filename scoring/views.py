@@ -23,6 +23,9 @@ class HomePageView(ListView):
         qs = Council.objects.annotate(
             score=Subquery(
                 PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('weighted_total')
+            ),
+            top_performer=Subquery(
+                PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('top_performer')
             )
         ).order_by('-score')
 

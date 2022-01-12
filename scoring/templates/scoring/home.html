@@ -198,11 +198,13 @@
                       {% for council in council_data %}
                         <tr>
                             <th scope="row" class="council-name position-sticky z-index-3">
+                                {% if council.top_performer %}
                                 <div class="top-performer active">
                                     <div class="hover-message">
                                         <span>This is a top perfomer council.</span>
                                     </div>
                                 </div>
+                                {% endif %}
                                 <a class="council-link" href="{% url 'answers' council.slug %}">{{ council.name }}</a>
                                 <div class="table-sticky-border left"></div>
                             </th>
