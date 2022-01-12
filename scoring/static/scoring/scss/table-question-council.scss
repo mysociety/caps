@@ -41,6 +41,13 @@ $mobile-breakpoint-question-table: 500px;
 
     thead th {
         @include table-header;
+
+        .top-perfomer {
+            background-image: url('../img/star.svg');
+            background-size: 13px;
+            background-repeat: no-repeat;
+            background-position: left 28px top 4px;
+        }
     }
 
     //Section cell
