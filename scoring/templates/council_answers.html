@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for section in sections.values %}
+                        {% for section in sections %}
                         <tr>
                             <td>
                                 {{ section.description }}
@@ -57,7 +57,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for section in sections.values %}
+                        {% for section in sections %}
                         <tr data-has-plan="no">
                             <td colspan="4" class="">
                                 {{ section.description }} ( {{ section.score }}/{{ section.max_score }} )
