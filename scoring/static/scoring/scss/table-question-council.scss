@@ -142,7 +142,22 @@ $mobile-breakpoint-question-table: 500px;
         }
     }
 
-
+    //Score column for councils
+    .score {
+        span {
+            padding-left: 17px;
+        }
+        &.is--header-score, &.is--section-score {
+            &.top-perfomer {
+                span {
+                    background-image: url('../img/star.svg');
+                    background-size: 13px;
+                    background-repeat: no-repeat;
+                    background-position: left 0 center;
+                }
+            }
+        }
+    }
 
     // Mobile version
     @media only screen and (max-width: $mobile-breakpoint-question-table) {

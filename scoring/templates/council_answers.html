@@ -178,8 +178,8 @@
                                 <td colspan="1" class="section-cell">
                                     {{ section.description }}
                                 </td>
-                                <td>
-                                    {{ section.score }}/{{ section.max_score }}
+                                <td class="score is--section-score top-perfomer">
+                                    <span>{{ section.score }}/{{ section.max_score }}</span>
                                 </td>
                                 <td class="top-tier-score">
                                     {% comment %} TODO add single top perfomers {% endcomment %}
@@ -225,13 +225,13 @@
                                     </div>
                                 </td>
                                 {% if answer.type != 'HEADER' %}
-                                <td data-column="score">
-                                    {{ answer.score }}/{{ answer.max }}
+                                <td data-column="score" class="score">
+                                    <span>{{ answer.score }}/{{ answer.max }}</span>
                                 </td>
                                 {% else %}
-                                <td data-column="score">
+                                <td data-column="score" class="score is--header-score top-perfomer">
                                     {% comment %}TODO score obtained / the total points for the header question {% endcomment %}
-                                    7/10
+                                    <span>7/10</span>
                                 </td>
                                 <td data-column="top-tier-score" class="top-tier-score">
                                     <a href="#" class="mx-auto" style="text-transform: none">13 out of 120</a>
