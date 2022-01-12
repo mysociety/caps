@@ -98,8 +98,9 @@ class CouncilAnswersView(DetailView):
         questions = PlanQuestion.objects.raw(
             "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score \
             from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
-            left join scoring_planquestionscore a on q.id = a.plan_question_id \
-            where s.year = '2021' and ( a.plan_score_id = %s or a.plan_score_id is null) order by q.code",
+            join scoring_planquestionscore a on q.id = a.plan_question_id \
+            where s.year = '2021' and ( a.plan_score_id = %s or a.plan_score_id is null) and a.plan_question_id is not null\
+            order by q.code",
             [plan_score.id]
         )
 
