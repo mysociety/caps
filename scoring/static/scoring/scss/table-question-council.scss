@@ -161,6 +161,9 @@ $mobile-breakpoint-question-table: 500px;
 
     // Mobile version
     @media only screen and (max-width: $mobile-breakpoint-question-table) {
+
+        @include border-priority-2(left);
+
         .top-tier-score, .top-tier-head {
             display: none;
         }
@@ -177,6 +180,14 @@ $mobile-breakpoint-question-table: 500px;
             &:first-child {
                 display: none;
             }
+        }
+
+        .score.is--header-score {
+            @include border-priority-2(right);
+        }
+
+        .current-council-score {
+            @include border-priority-2(right);
         }
 
         .question-no {
