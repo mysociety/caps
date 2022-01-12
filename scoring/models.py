@@ -16,6 +16,8 @@ class PlanScore(models.Model):
     weighted_total = models.FloatField(default=0)
     total = models.FloatField(default=0)
 
+    top_performer = models.CharField(max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True)
+
 
 class PlanSection(models.Model):
     """
@@ -25,6 +27,7 @@ class PlanSection(models.Model):
     code = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
+    top_performer = models.CharField(max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True)
 
     @classmethod
     def section_codes(cls):
@@ -78,6 +81,7 @@ class PlanSectionScore(models.Model):
     max_score = models.PositiveSmallIntegerField(default=0)
     # this is a percentage
     weighted_score = models.FloatField(default=0)
+    top_performer = models.CharField(max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True)
 
     @classmethod
     def get_all_council_scores(cls):
