@@ -1,0 +1,37 @@
+{% extends "scoring/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid hero text-center">
+    <h1 class="mb-3">Find your council</h1>
+
+  {% if error %}
+    <div class="alert alert-danger mb-3 mx-auto" style="max-width: 500px">
+        {{ error }}
+    </div>
+  {% endif %}
+
+    <form action="{% url 'location_results' %}" class="form">
+        <label for="check-score-input" class="h6 mb-3">Check for a council’s complete score</label>
+        <!-- TODO: Progressively enhance with council name autocomplete (remember to update placeholder text too) -->
+        <input class="mx-auto form-control searchbar green dark" type="search" name="pc" id="check-score-input" value="{{ postcode|default_if_none:'' }}" placeholder="Postcode">
+        <!-- TODO: Do we need a submit button? -->
+    </form>
+</div>
+
+{% if councils %}
+<div class="container-fluid">
+    <h2 class="text-center mb-3">Multiple councils cover {{ postcode|upper|default_if_none:'that location' }}</h2>
+    <p class="text-center mx-auto">Your postcode is served by multiple councils. Which one would you like to see in more detail?</p>
+
+    <div class="row justify-content-md-center mx-auto mt-5 pb-5" style="max-width: {% if num_councils == 3 %}1280px{% else %}960px{% endif %};">
+      {% for council in councils %}
+        <a href="{% url 'council' council.slug %}" class="col-12 {% if num_councils == 3 %}col-lg-4{% else %}col-lg-6{% endif %} h1 py-5 px-3 px-sm-4 px-lg-5 d-lg-flex align-items-center text-center {% if forloop.counter == 2 %}bg-green-l2{% else %}bg-blue-l2{% endif %}">
+            {{ council.name }}
+        </a>
+      {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

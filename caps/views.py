@@ -138,16 +138,13 @@ class SearchResultsView(HaystackSearchView):
         return super().render_to_response(context)
 
 
-class LocationResultsView(TemplateView):
-
-    template_name = "location_results.html"
-
+class BaseLocationResultsView(TemplateView):
     def render_to_response(self, context):
         councils = context.get('councils')
         if councils and len(councils) == 1:
             return redirect(context['councils'] [0])
 
-        return super(LocationResultsView, self).render_to_response(context)
+        return super(BaseLocationResultsView, self).render_to_response(context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -170,9 +167,18 @@ class LocationResultsView(TemplateView):
         except (NotFoundException, BadRequestException, InternalServerErrorException, ForbiddenException) as error:
             context['error'] = error
 
-        if postcode:
+        return context
+
+
+class LocationResultsView(BaseLocationResultsView):
+    template_name = "location_results.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if context.get('postcode', '') != '':
             context['page_title'] = '{} – Find your council’s action plan'.format(
-                postcode
+                context['postcode']
             )
         else:
             context['page_title'] = 'Find your council’s action plan'

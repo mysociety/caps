@@ -1,10 +1,13 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.db.models import Subquery, OuterRef, Q, Avg
+from django.shortcuts import redirect
 
 from caps.models import Council
 from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
 
 from scoring.forms import ScoringSort
+
+from caps.views import BaseLocationResultsView
 
 class HomePageView(ListView):
     template_name = "scoring/home.html"
@@ -159,3 +162,7 @@ class QuestionView(DetailView):
         context['question'] = question
         context['answers'] = answers
         return context
+
+
+class LocationResultsView(BaseLocationResultsView):
+    template_name = "scoring/location_results.html"
