@@ -61,6 +61,7 @@ class HomePageView(ListView):
 
         authority_type = self.get_authority_type()
         context['authority_type'] = authority_type['slug']
+        context['authority_type_label'] = authority_type['name']
 
         context['form'] = form
         context['council_data'] = councils
