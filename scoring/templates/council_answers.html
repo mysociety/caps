@@ -9,7 +9,7 @@
         <div class="mt-3">
             <!-- TODO: Real data -->
             {% if plan_score.top_performer %}
-            <span class="top-perfomer hero-sub">Top Perfomer · </span>
+            <span class="top-performer hero-sub">Top Performer · </span>
             {% endif %}
             <span class="hero-sub">{{ authority_type.name }}</span>
         </div>
@@ -124,10 +124,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    {% comment %}TODO Needs a conditional so when a council 
-                                    have scored the max  amount of points get a star{% endcomment %}
                                     {% if section.top_performer %}
-                                    <span class="top-perfomer">
+                                    <span class="top-performer">
                                     {% else %}
                                     <span>
                                     {% endif %}
