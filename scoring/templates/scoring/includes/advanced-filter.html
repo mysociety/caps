@@ -6,6 +6,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
         <button class="close-icon popup-modal__close" type="button"></button>
     </div>
     <form>
+        {% if authority_type == 'single' %}
         <div class="criteria-group-wrapper">
             <button class="h5 btn-open-div" type="button">
                 Nation
@@ -25,6 +26,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
                 </div>
             </div>
         </div>
+        {% endif %}
 
         <div class="criteria-group-wrapper">
             <button class="h5 btn-open-div" type="button">Urbanization</button>
@@ -84,6 +86,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
             </div>
         </div>
 
+        {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
         <div class="criteria-group-wrapper">
             <button class="h5 btn-open-div" type="button">
                 Index of multiple deprivation
@@ -103,6 +106,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
                 </div>
             </div>
         </div>
+        {% endif %}
 
         <div class="criteria-group-wrapper">
             <button class="h5 btn-open-div" type="button">
