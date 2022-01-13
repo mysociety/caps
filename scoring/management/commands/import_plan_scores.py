@@ -215,11 +215,12 @@ class Command(BaseCommand):
         PlanSectionScore.objects.update(top_performer='')
 
         for group in Council.SCORING_GROUP_CHOICES:
-            count = self.TOP_PERFORMER_COUNT.get(group[0], self.DEFAULT_TOP_PERFORMER_COUNT)
+            group_tag = group[0]
+
+            count = self.TOP_PERFORMER_COUNT.get(group_tag, self.DEFAULT_TOP_PERFORMER_COUNT)
             if count == 0:
                 continue
 
-            group_tag = group[0]
             group_params = Council.SCORING_GROUPS[group_tag]
 
             top_plan_scores = PlanScore.objects.filter(
