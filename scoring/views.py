@@ -40,7 +40,10 @@ class HomePageView(ListView):
 
         for council in councils:
             council['all_scores'] = all_scores[council['id']]
-            council['percentage'] = council['score']
+            if council['score'] is not None:
+                council['percentage'] = council['score']
+            else:
+                council['percentage'] = 0
 
         codes = PlanSection.section_codes()
 
