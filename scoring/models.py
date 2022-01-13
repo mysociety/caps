@@ -54,8 +54,13 @@ class PlanSection(models.Model):
             max_score = max_score + score.max_score
             averages[score.code] = { 'score': round(score.average_score), 'max': score.max_score }
 
-        avg_score = round(has_score_avg['average'])
-        averages['total'] = { 'score': avg_score, 'max': max_score, 'percentage': round( ( avg_score / max_score ) * 100 ) }
+        avg_score = 0
+        percentage = 0
+        if has_score_avg['average'] is not None:
+            avg_score = round(has_score_avg['average'])
+            percentage = avg_score / max_score
+
+        averages['total'] = { 'score': avg_score, 'max': max_score, 'percentage': round( percentage * 100 ) }
 
         return averages
 
