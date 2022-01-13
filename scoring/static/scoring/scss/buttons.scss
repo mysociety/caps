@@ -98,16 +98,61 @@ a.cta {
 
 .btn {
     @include responsive(font-size, 14, 15);
+    border-radius: $border-radius;
+    box-sizing: border-box;
+    @include transition(background-color, border, color 0.3s ease-in-out);
+    color: $black;
+    font-family: $headings-font-family;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    padding: 7px;
 }
 
 // Color button
 
 .btn-blue {
-    background: #FFFFFF;
+    background-color: $color-scorecard-blue-l1;
     border: 1px solid $color-scorecard-blue;
-    box-sizing: border-box;
-    border-radius: 2px;
-    color: transparentize($color-scorecard-grey-900, 0.1);
+
+    @include hover-focus {
+        color: $color-scorecard-blue-d1;
+        background-color: $color-scorecard-blue-l2;
+        border: 1px solid $color-scorecard-blue;
+    }
+
+    &.is--light {
+        background-color: $color-scorecard-blue-l2;
+        @include hover-focus {
+            color: $black;
+            background-color: $color-scorecard-blue-l1;
+            border: 1px solid $color-scorecard-blue;
+        }
+    }
+}
+
+.btn-green {
+    background-color: $color-scorecard-green-d1;
+    border: 1px solid $color-scorecard-green-d1;
+
+    @include hover-focus {
+        color: $color-scorecard-green-d1;
+        background-color: $color-scorecard-green-l1;
+        border: 1px solid $green;
+    }
+
+    &.is--light {
+        background-color: transparentize($color-scorecard-green-l1, 0.7);
+        border: 1px solid $white;
+        color: $color-scorecard-grey-900;
+        @include hover-focus {
+            color: $white;
+            background-color: $color-scorecard-green-d1;
+            border: 1px solid $color-scorecard-green;
+        }
+    }
 }
 
 // Donation button
@@ -115,7 +160,7 @@ a.cta {
     background-image: url('../img/donate.svg');
     background-size: 20px;
     background-repeat: no-repeat;
-    background-position: right 10px top 8px;
+    background-position: right 8px top 5px;
     background-color: #7BD2F8;
     text-decoration: none;
     padding-right: 30px;
