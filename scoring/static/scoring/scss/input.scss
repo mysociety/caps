@@ -1,3 +1,18 @@
+input {
+    border-radius: $border-radius;
+    border: none;
+    padding: 7px 7px 5px 7px;
+    border: 1px solid transparent; 
+    @include transition(border, background-color, color 0.3s ease-in-out);
+
+    @include hover-focus {
+        color: $white;
+        border: 1px solid $white;
+        background-color: $color-scorecard-green-d1;
+        outline: none;
+    }
+}
+
 // Radio buttons
 .radio-btn.is--with-label {
     @include responsive(font-size, 12, 13);
