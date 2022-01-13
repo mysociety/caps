@@ -13,7 +13,7 @@ class TestAnswerView(TestCase):
         self.client = Client()
 
     def test_answer_view(self):
-        url = reverse("answers", urlconf="scoring.urls", args=["borsetshire"])
+        url = reverse("council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="scoring.example.com")
         sections = response.context["sections"]
 
@@ -69,7 +69,7 @@ class TestAnswerView(TestCase):
         council.authority_type = "NMD"
         council.save()
 
-        url = reverse("answers", urlconf="scoring.urls", args=["borsetshire"])
+        url = reverse("council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="scoring.example.com")
         sections = response.context["sections"]
 
@@ -125,7 +125,7 @@ class TestAnswerView(TestCase):
         section.weighted_score = 0
         section.save()
 
-        url = reverse("answers", urlconf="scoring.urls", args=["borsetshire"])
+        url = reverse("council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="scoring.example.com")
         sections = response.context["sections"]
 
@@ -179,7 +179,7 @@ class TestAnswerView(TestCase):
         plan.weighted_score = 0
         plan.save()
 
-        url = reverse("answers", urlconf="scoring.urls", args=["borsetshire"])
+        url = reverse("council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="scoring.example.com")
         sections = response.context["sections"]
 
