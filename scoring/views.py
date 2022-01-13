@@ -89,6 +89,7 @@ class CouncilAnswersView(DetailView):
         sections = {}
         for section in section_qs.all():
             sections[section.plan_section.code] = {
+                'top_performer': section.top_performer,
                 'code': section.plan_section.code,
                 'description': section.plan_section.description,
                 'max_score': section.max_score,
@@ -133,6 +134,7 @@ class CouncilAnswersView(DetailView):
             }
             sections[section]['answers'].append(q)
 
+        context['authority_type'] = group
         context['plan_score'] = plan_score
         context['sections'] = sorted(sections.values(), key=lambda section: section['code'])
         return context
