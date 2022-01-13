@@ -205,7 +205,7 @@
                                     </div>
                                 </div>
                                 {% endif %}
-                                <a class="council-link" href="{% url 'answers' council.slug %}">{{ council.name }}</a>
+                                <a class="council-link" href="{% url 'council' council.slug %}">{{ council.name }}</a>
                                 <div class="table-sticky-border left"></div>
                             </th>
                             <th scope="row" class="council-total-score position-sticky z-index-3">
@@ -302,7 +302,7 @@
                                         <span>This is a top performer council.</span>
                                     </div>
                                 </div>
-                                <a class="council-link" href="{% url 'answers' council.slug %}">{{ council.name }}</a>
+                                <a class="council-link" href="{% url 'council' council.slug %}">{{ council.name }}</a>
                             </th>
                             <th scope="row" class="council-total-score position-sticky z-index-3">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}

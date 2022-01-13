@@ -71,10 +71,10 @@ class HomePageView(ListView):
         context['averages'] = averages
         return context
 
-class CouncilAnswersView(DetailView):
+class CouncilView(DetailView):
     model = Council
     context_object_name = 'council'
-    template_name = 'council_answers.html'
+    template_name = 'scoring/council.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
