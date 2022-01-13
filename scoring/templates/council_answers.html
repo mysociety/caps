@@ -122,7 +122,11 @@
                                 <td>
                                     {% comment %}TODO Needs a conditional so when a council 
                                     have scored the max  amount of points get a star{% endcomment %}
+                                    {% if section.top_performer %}
                                     <span class="top-perfomer">
+                                    {% else %}
+                                    <span>
+                                    {% endif %}
                                     {{ section.score }}/{{ section.max_score }}
                                     </span>
                                 </td>

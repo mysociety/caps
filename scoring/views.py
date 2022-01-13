@@ -89,6 +89,7 @@ class CouncilAnswersView(DetailView):
         sections = {}
         for section in section_qs.all():
             sections[section.plan_section.code] = {
+                'top_performer': section.top_performer,
                 'code': section.plan_section.code,
                 'description': section.plan_section.description,
                 'max_score': section.max_score,
