@@ -18,9 +18,11 @@
             </div>
 
             <div class="col-12 col-lg-6 py-3 bg-green-l2 right">
-                <form class="form">
-                    <h6 class="mb-3">Check for a council’s complete score</h6>
-                    <input class="form-control searchbar green dark" type="search" placeholder="Search" aria-label="Search">
+                <form action="{% url 'location_results' %}" class="form">
+                    <label for="check-score-input" class="h6 mb-3">Check for a council’s complete score</label>
+                    <!-- TODO: Progressively enhance with council name autocomplete (remember to update placeholder text too) -->
+                    <input class="form-control searchbar green dark" type="search" name="pc" id="check-score-input" placeholder="Postcode">
+                    <!-- TODO: Do we need a submit button? -->
                 </form>
             </div>
         </div>
