@@ -8,7 +8,10 @@
         <h1 class="text-white mt-3">{{ council.name }}</h1>
         <div class="mt-3">
             <!-- TODO: Real data -->
-            <span class="top-perfomer hero-sub">Top Perfomer · </span><span class="hero-sub">{{ council.get_scoring_group.name }}</span>
+            {% if plan_score.top_performer %}
+            <span class="top-perfomer hero-sub">Top Perfomer · </span>
+            {% endif %}
+            <span class="hero-sub">{{ authority_type.name }}</span>
         </div>
     </div>
 </div>
@@ -18,9 +21,10 @@
         <div class="col-12 col-lg-5">
             <div class="about-section-child pt-3">
                 <h3 class="mb-3">About this council</h3>
-                <!-- TODO: Real data -->
-                <p class="top-performer.active mb-0">This council is a top performer on the single tier councils on the Climate League.</p>
-                <a href="{% url 'scoring' council.get_scoring_group.slug %}">(See in context)</a>
+                {% if plan_score.top_performer %}
+                <p class="top-performer.active mb-0">This council is a top performer wthin {{ authority_type.name }} councils.</p>
+                {% endif %}
+                <a href="{% url 'scoring' authority_type.slug %}">(See in context)</a>
                 <div class="group-label-wrapper mt-5">
                     <div class="label-wrapper">
                         <p class="label green">Nation</p>

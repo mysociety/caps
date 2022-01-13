@@ -134,6 +134,7 @@ class CouncilAnswersView(DetailView):
             }
             sections[section]['answers'].append(q)
 
+        context['authority_type'] = group
         context['plan_score'] = plan_score
         context['sections'] = sorted(sections.values(), key=lambda section: section['code'])
         return context
