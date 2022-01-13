@@ -139,10 +139,10 @@ class CouncilView(DetailView):
         context['sections'] = sorted(sections.values(), key=lambda section: section['code'])
         return context
 
-class AnswerCouncilsView(DetailView):
+class QuestionView(DetailView):
     model = PlanQuestion
     context_object_name = 'question'
-    template_name = 'question_answers.html'
+    template_name = 'scoring/question.html'
     slug_field = 'code'
 
     def get_context_data(self, **kwargs):
