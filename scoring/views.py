@@ -9,22 +9,26 @@ from scoring.forms import ScoringSort
 class HomePageView(ListView):
     template_name = "scoring/home.html"
 
-    def get_queryset(self):
+    def get_authority_type(self):
         authority_type = self.kwargs.get('council_type', '')
+        try:
+            group = Council.SCORING_GROUPS[authority_type]
+        except:
+            group = Council.SCORING_GROUPS['single']
+
+        return group
+
+    def get_queryset(self):
+        authority_type = self.get_authority_type()
         qs = Council.objects.annotate(
             score=Subquery(
                 PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('weighted_total')
             )
         ).order_by('-score')
 
-        try:
-            group = Council.SCORING_GROUPS[authority_type]
-        except:
-            group = Council.SCORING_GROUPS['single']
-
         qs = qs.filter(
-            authority_type__in=group['types'],
-            country__in=group['countries']
+            authority_type__in=authority_type['types'],
+            country__in=authority_type['countries']
         )
 
         return qs
@@ -54,6 +58,9 @@ class HomePageView(ListView):
                 councils = sorted(councils, key=lambda council: 0 if council['score'] == 0 else council['all_scores'][sort]['score'], reverse=True)
         else:
             form = ScoringSort()
+
+        authority_type = self.get_authority_type()
+        context['authority_type'] = authority_type['slug']
 
         context['form'] = form
         context['council_data'] = councils
