@@ -16,7 +16,7 @@
 <div class="container about-section">
     <div class="row">
         <div class="col-12 col-lg-5">
-            <div class="about-section-child p-3">
+            <div class="about-section-child pt-3">
                 <h3 class="mb-3">About this council</h3>
                 <!-- TODO: Real data -->
                 <p class="top-performer.active mb-0">This council is a top performer on the single tier councils on the Climate League.</p>
@@ -163,7 +163,7 @@
                                 {% comment %} TODO Instead of score, let's use the name of the council {% endcomment %}
                                 <th scope="col" class="current-council-score">Score</th>
                                 <th scope="col" class="top-tier-head">
-                                    <p class="top-perfomer">Top Performers</p>
+                                    <p class="top-perfomer">Maximum scorers</p>
                                     <span class="filter-active">Single Tier</span>
                                     <span class="filter-active">·</span>
                                     <span class="filter-active">Urban</span>
@@ -206,23 +206,27 @@
                                 <td data-column="question_no" class="question-no">
                                     <div>
                                         {% if answer.type == 'HEADER' %}
-                                        <a href="{% url 'answercouncils' answer.code %}">{{ answer.display_code }}</a>
+                                        <a href="{% url 'answercouncils' answer.code %}">{{ answer.code }}</a>
                                         {% else %}
                                         <div class="question-code pl-2">
-                                            <span>{{ answer.display_code }}</span>
+                                            <span>{{ answer.code }}</span>
                                         </div>
                                         {% endif %}
                                     </div>
                                 </td>
                                 {% if answer.type == 'HEADER' %}
                                 <td data-column="answer" colspan="1">
-                                {% else %}
-                                <td data-column="answer">
-                                {% endif %}
                                     <div class="question-content-table">
-                                        <span class="question-no is--mobile">{{ answer.display_code }}</span>
+                                        <a href="{% url 'answercouncils' answer.code %}" class="question-no is--mobile">{{ answer.code }}</a>
                                         {{ answer.question | linebreaks }}
                                     </div>
+                                {% else %}
+                                <td data-column="answer">
+                                    <div class="question-content-table">
+                                        <span class="question-no is--mobile">{{ answer.code }}</span>
+                                        {{ answer.question | linebreaks }}
+                                    </div>
+                                {% endif %}
                                 </td>
                                 {% if answer.type != 'HEADER' %}
                                 <td data-column="score" class="score">
@@ -247,6 +251,4 @@
         </div>
     </div>
 </div>
-
-
 {% endblock %}
