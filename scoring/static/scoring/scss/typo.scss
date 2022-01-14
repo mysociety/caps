@@ -38,7 +38,7 @@ h1, .h1 {
     font-style: normal;
     font-weight: 300;
     @include responsive(font-size, 15, 17);
-    line-height: 100%;
+    line-height: 130%;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: $white;
