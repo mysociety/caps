@@ -2,7 +2,16 @@
 {% load bootstrap4 %}
 
 {% block content %}
-
+<div class="hero container-fluid bg-dark-grey">
+    <div style="max-width: 1140px" class="mx-auto">
+        <a class="cta reverse white" href="{% url 'home' %}">Back to scorecards plan</a>
+        <h1 class="text-white mt-3"><span style="text-transform:uppercase">{{ question.code }}</span> data breakdown</h1>
+        <div class="mt-3">
+            {% comment %} TODO add section name{% endcomment %}
+            <span class="hero-sub">Community engagement and communications</span>
+        </div>
+    </div>
+</div>
 <div class="container about-section question">
     <div class="row">
         <div class="col-12 col-lg-5">
@@ -65,6 +74,18 @@
             <div class="table-filter col-12 col-lg-5 py-3">
                 <div class="float-left float-md-right">
                     {% include 'scoring/includes/advanced-filter.html' %}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+            <div class="card-header">
+                <h3>
+                    {{ question.code }}
+                </h3>
+
+                <div>
+                    {{ question.text | linebreaks }}
                 </div>
             </div>
         </div>
@@ -249,7 +270,6 @@
     </div>
 </div>
 
-
 <script>
     // Open div questions in the about section
     let questionItems = document.getElementsByClassName('question-content');
@@ -349,5 +369,4 @@
         })
     }
 </script>
-
 {% endblock %}
