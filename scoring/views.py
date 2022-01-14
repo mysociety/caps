@@ -41,6 +41,7 @@ class HomePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
 
         councils = context['object_list'].values()
         context['plan_sections'] = PlanSection.objects.filter(year=2021).all()
@@ -81,6 +82,8 @@ class CouncilView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
+
         council = context.get('council')
         plan_score = PlanScore.objects.get(council=council, year=2021)
 
@@ -150,6 +153,8 @@ class QuestionView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
+
         question = context.get('question')
 
         answers = PlanQuestionScore.objects.filter(
@@ -166,3 +171,8 @@ class QuestionView(DetailView):
 
 class LocationResultsView(BaseLocationResultsView):
     template_name = "scoring/location_results.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
+        return context

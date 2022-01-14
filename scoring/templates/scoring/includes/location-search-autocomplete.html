@@ -1,0 +1,30 @@
+{% load static %}
+
+<script src="{% static 'awesomplete/awesomplete.min.js' %}"></script>
+<script>
+
+var councils = {
+  {% for council in all_councils %}
+    "{{ council.name }}": "{% url 'council' council.slug %}",
+  {% endfor %}
+};
+
+var inputs = document.querySelectorAll('.js-location-search-autocomplete');
+Array.prototype.forEach.call( inputs, function(input){ 
+    var ac = new Awesomplete(
+        input,
+        {
+            list: Object.keys(councils),
+            minChars: 3,
+            autoFirst: true
+        }
+    );
+    input.placeholder = 'Council name or postcode';
+});
+
+document.addEventListener('awesomplete-select', function(selection){
+    selection.preventDefault();
+    window.location.href = councils[selection.text];
+});
+
+</script>
