@@ -153,8 +153,8 @@
                             </th>
                             <th scope="col" class="total-score position-sticky z-index-4 bg-green-l2">              
                                 <div class="score-bar">
-                                    <span class="score-percentage">{{ averages.total.percentage }}%</span>
-                                    <div class="progress-bar"></div>
+                                    <span class="score-percentage">{{ averages.total.percentage|floatformat:"0" }}%</span>
+                                    <div class="progress-bar" style="width: {{ averages.total.percentage }}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
@@ -163,7 +163,7 @@
                             <th scope="col" class="category-1 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s1_gov.score }}/{{ averages.s1_gov.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s1_gov.score averages.s1_gov.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
@@ -171,7 +171,7 @@
                             <th scope="col" class="category-2 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s2_m_a.score }}/{{ averages.s2_m_a.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s2_m_a.score averages.s2_m_a.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
@@ -179,7 +179,7 @@
                             <th scope="col" class="category-3 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s3_c_a.score }}/{{ averages.s3_c_a.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s3_c_a.score averages.s3_c_a.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
@@ -187,7 +187,7 @@
                             <th scope="col" class="category-4 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s4_coms.score }}/{{ averages.s4_coms.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s4_coms.score averages.s4_coms.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
@@ -195,7 +195,7 @@
                             <th scope="col" class="category-5 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s5_mset.score }}/{{ averages.s5_mset.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s5_mset.score averages.s5_mset.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
@@ -203,7 +203,7 @@
                             <th scope="col" class="category-6 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s6_cb.score }}/{{ averages.s6_cb.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s6_cb.score averages.s6_cb.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
@@ -211,7 +211,7 @@
                             <th scope="col" class="category-7 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s7_dsi.score }}/{{ averages.s7_dsi.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s7_dsi.score averages.s7_dsi.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
@@ -219,7 +219,7 @@
                             <th scope="col" class="category-8 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s8_est.score }}/{{ averages.s8_est.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s8_est.score averages.s8_est.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
@@ -227,7 +227,7 @@
                             <th scope="col" class="category-9 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s9_ee.score }}/{{ averages.s9_ee.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s9_ee.score averages.s9_ee.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
@@ -235,7 +235,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% for council in council_data %}
+                      {% for council in council_data %}
                         <tr>
                             <th scope="row" class="council-name position-sticky z-index-3">
                                 <div class="top-performer active">
@@ -248,73 +248,72 @@
                             </th>
                             <th scope="row" class="council-total-score position-sticky z-index-3">
                                 <div class="score-bar">
-                                    <span class="score-percentage">{{ council.percentage }}%</span>
-                                    <div class="progress-bar"></div>
+                                    <span class="score-percentage">{{ council.percentage|floatformat:"0" }}%</span>
+                                    <div class="progress-bar" style="width: {{ council.percentage }}%;"></div>
                                 </div>
                                 <div class="table-sticky-border right"></div>
                             </th>
-                            {% with scores=council.all_scores %}
+                          {% with scores=council.all_scores %}
                             <td scope="row" class="council-category-score category-1">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s1_gov.score }}/{{ scores.s1_gov.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s1_gov.score scores.s1_gov.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-2">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s2_m_a.score }}/{{ scores.s2_m_a.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s2_m_a.score scores.s2_m_a.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-3">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s3_c_a.score }}/{{ scores.s3_c_a.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s3_c_a.score scores.s3_c_a.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-4">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s4_coms.score }}/{{ scores.s4_coms.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s4_coms.score scores.s4_coms.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-5">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s5_mset.score }}/{{ scores.s5_mset.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s5_mset.score scores.s5_mset.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-6">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s6_cb.score }}/{{ scores.s6_cb.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s6_cb.score scores.s6_cb.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-7">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s7_dsi.score }}/{{ scores.s7_dsi.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s7_dsi.score scores.s7_dsi.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-8">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s8_est.score }}/{{ scores.s8_est.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s8_est.score scores.s8_est.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-9">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s9_ee.score }}/{{ scores.s9_ee.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s9_ee.score scores.s9_ee.max 100 %}%;"></div>
                                 </div>
                             </td>
-                            {% endwith %}
+                          {% endwith %}
                         </tr>
-                        {% endfor %}
+                      {% endfor %}
                     </tbody>
                 </table>
 
-                {% comment %} Mobile version {% endcomment %}
                 <table class="scorecard-table-mobile">
                     <thead>
                         <tr>
@@ -333,8 +332,8 @@
                             <th scope="col" class="total-score position-sticky z-index-4">              
                                 <div class="score-bar">
                                     <div class="sort-icon"></div>
-                                    <span class="score-percentage">{{ averages.total.percentage }}%</span>
-                                    <div class="progress-bar"></div>
+                                    <span class="score-percentage">{{ averages.total.percentage|floatformat:"0" }}%</span>
+                                    <div class="progress-bar" style="width: {{ averages.total.percentage }}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                             </th>
@@ -342,70 +341,70 @@
                                 <div class="score-bar">
                                     <div class="sort-icon"></div>
                                     <span class="score-fraction">{{ averages.s1_gov.score }}/{{ averages.s1_gov.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s1_gov.score averages.s1_gov.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                             </th>
                             <th scope="col" class="category-2 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s2_m_a.score }}/{{ averages.s2_m_a.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s2_m_a.score averages.s2_m_a.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                             </th>
                             <th scope="col" class="category-3 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s3_c_a.score }}/{{ averages.s3_c_a.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s3_c_a.score averages.s3_c_a.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                             </th>
                             <th scope="col" class="category-4 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s4_coms.score }}/{{ averages.s4_coms.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s4_coms.score averages.s4_coms.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                             </th>
                             <th scope="col" class="category-5 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s5_mset.score }}/{{ averages.s5_mset.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s5_mset.score averages.s5_mset.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                             </th>
                             <th scope="col" class="category-6 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s6_cb.score }}/{{ averages.s6_cb.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s6_cb.score averages.s6_cb.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                             </th>
                             <th scope="col" class="category-7 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s7_dsi.score }}/{{ averages.s7_dsi.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s7_dsi.score averages.s7_dsi.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                             </th>
                             <th scope="col" class="category-8 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s8_est.score }}/{{ averages.s8_est.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s8_est.score averages.s8_est.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                             </th>
                             <th scope="col" class="category-9 second-row">              
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ averages.s9_ee.score }}/{{ averages.s9_ee.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio averages.s9_ee.score averages.s9_ee.max 100 %}%;"></div>
                                     <span class="average">avg</span>
                                 </div>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for council in council_data %}
+                      {% for council in council_data %}
                         <tr>
                             <th scope="row" class="council-name position-sticky z-index-3">
                                 <div class="top-performer active">
@@ -417,69 +416,69 @@
                             </th>
                             <th scope="row" class="council-total-score position-sticky z-index-3">
                                 <div class="score-bar">
-                                    <span class="score-percentage">{{ council.percentage }}%</span>
-                                    <div class="progress-bar"></div>
+                                    <span class="score-percentage">{{ council.percentage|floatformat:"0" }}%</span>
+                                    <div class="progress-bar" style="width: {{ council.percentage }}%;"></div>
                                 </div>
                                 <div class="table-sticky-border bottom"></div>
                             </th>
-                            {% with scores=council.all_scores %}
+                          {% with scores=council.all_scores %}
                             <td scope="row" class="council-category-score category-1">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s1_gov.score }}/{{ scores.s1_gov.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s1_gov.score scores.s1_gov.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-2">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s2_m_a.score }}/{{ scores.s2_m_a.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s2_m_a.score scores.s2_m_a.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-3">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s3_c_a.score }}/{{ scores.s3_c_a.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s3_c_a.score scores.s3_c_a.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-4">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s4_coms.score }}/{{ scores.s4_coms.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s4_coms.score scores.s4_coms.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-5">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s5_mset.score }}/{{ scores.s5_mset.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s5_mset.score scores.s5_mset.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-6">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s6_cb.score }}/{{ scores.s6_cb.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s6_cb.score scores.s6_cb.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-7">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s7_dsi.score }}/{{ scores.s7_dsi.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s7_dsi.score scores.s7_dsi.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-8">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s8_est.score }}/{{ scores.s8_est.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s8_est.score scores.s8_est.max 100 %}%;"></div>
                                 </div>
                             </td>
                             <td scope="row" class="council-category-score category-9">
                                 <div class="score-bar">
                                     <span class="score-fraction">{{ scores.s9_ee.score }}/{{ scores.s9_ee.max }}</span>
-                                    <div class="progress-bar"></div>
+                                    <div class="progress-bar" style="width: {% widthratio scores.s9_ee.score scores.s9_ee.max 100 %}%;"></div>
                                 </div>
                             </td>
-                            {% endwith %}
+                          {% endwith %}
                         </tr>
-                        {% endfor %}
+                      {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -523,24 +522,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // controller for progress-bar
-        let scorePercentage = document.getElementsByClassName('score-percentage');
-
-        for (let i = 0; i < scorePercentage.length; i++) {
-            let percentageValue = scorePercentage[i].textContent;
-            scorePercentage[i].nextElementSibling.style.width = percentageValue;
-        }
-
-        let scoreFraction = document.getElementsByClassName('score-fraction');
-        for (let i = 0; i < scoreFraction.length; i++) {
-            let fractionValue = scoreFraction[i].textContent;
-            let splitFraction = fractionValue.split('/');
-            let fractionToPercentage = parseInt(splitFraction[0], 10) / parseInt(splitFraction[1], 10) * 100;
-            scoreFraction[i].nextElementSibling.style.width = fractionToPercentage + '%';
-        }
-    </script> 
 
     <p>
         <a href="{% url 'scoring' 'single' %}">Single Tier</a> :
