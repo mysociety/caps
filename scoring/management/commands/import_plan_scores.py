@@ -226,38 +226,46 @@ class Command(BaseCommand):
 
 
     def import_question_scores(self):
+        # import related fields in bulk at the start
+        councils = {x.authority_code: x for x in Council.objects.all()}
+        plan_scores = {x.council: x for x in PlanScore.objects.filter(year=self.YEAR)}
+        questions = {x.code: x for x in PlanQuestion.objects.all()}
+
         df = pd.read_csv(self.ANSWERS_CSV)
+
+        # can fix at series level rather than testing individual entries
+        df["score"] = df["score"].fillna(0)
+        to_create = []
+
+        # more efficent just to delete everything and quickly reload
+        PlanQuestionScore.objects.filter(plan_score__year=self.YEAR).delete()
+
         for index, row in df.iterrows():
             code = self.normalise_section_code(row['question_id'])
-            council_code = row['answer_id']
-            council_code = re.sub(r'^([^_]*)_.*', r'\1', council_code)
 
-            try:
-                council = Council.objects.get(authority_code=council_code)
-                plan_score = PlanScore.objects.get(council=council, year=self.YEAR)
-                question = PlanQuestion.objects.get(code=code)
-            except Council.DoesNotExist as e:
-                print('failed to match council {}'.format(council_code))
+            council = councils.get(row["local-authority-code"], None)
+            plan_score = plan_scores.get(council, None)
+            question = questions.get(code, None)
+
+            if council is None:
+                print('failed to match council {}'.format(row["local-authority-code"]))
                 continue
-            except PlanScore.DoesNotExist as e:
+            if plan_score is None:
                 print('failed to match plan score for {}'.format(council.name))
                 continue
-            except PlanQuestion.DoesNotExist as e:
+            if question is None:
                 print('failed to match question {}'.format(code))
                 continue
 
-            answer, created = PlanQuestionScore.objects.get_or_create(
-                plan_score = plan_score,
-                plan_question = question
+            score_obj = PlanQuestionScore(
+                plan_score=plan_score,
+                plan_question=question,
+                score=row["score"],
+                answer=row['audited_answer']
             )
+            to_create.append(score_obj)
+        PlanQuestionScore.objects.bulk_create(to_create)
 
-            if created:
-                score = 0
-                if not pd.isnull(row["score"]):
-                    score = PlanDocument.integer_from_text(row["score"])
-                answer.score = score
-                answer.answer = row['audited_answer']
-                answer.save()
 
     def label_top_performers(self):
         plan_sections = PlanSection.objects.filter(year=2021)
@@ -297,7 +305,6 @@ class Command(BaseCommand):
                 for section_score in top_section_scores.all()[:section_count]:
                     section_score.top_performer = group_tag
                     section_score.save()
-
 
 
     def handle(self, *args, **options):
