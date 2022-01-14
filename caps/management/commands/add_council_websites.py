@@ -46,6 +46,8 @@ def get_england_and_wales():
     rows = body.find_all("tr")
     for row in rows:
         link = row.find("th").find("a")
+        if link is None:
+            continue
         council = link.text
         website_url = link["href"]
         twitter_link = row.find("td").find(href=re.compile(r"twitter.com"))
