@@ -1,11 +1,18 @@
 # -*- coding: future_fstrings -*-
 import re
+import os
 from os.path import join
 from datetime import date
 import math
 
 import requests
 import pandas as pd
+from pathlib import Path
+from typing import Optional, Union
+import shutil
+import urllib3
+import tempfile
+import zipfile
 
 from caps.models import Council, PlanDocument
 from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
@@ -16,14 +23,63 @@ from django.template.defaultfilters import pluralize
 
 from django.conf import settings
 
+
+def download_github_release(org: str,
+                            repo: str,
+                            tag: str,
+                            dest: Path,
+                            private: bool = False):
+    """
+    Get and extract a release zip of a dataset from github.
+    If private is true, try to use PERSONAL_ACCESS_TOKEN
+    to access the repository. Should only be used as part of testing 
+    before a dataset is public.
+    """
+
+    file = f"https://github.com/{org}/{repo}/archive/refs/tags/{tag}.zip"
+
+    headers = None
+    if private:
+        token = os.environ.get("PERSONAL_ACCESS_TOKEN", None)
+        if token is None:
+            raise ValueError(
+                "Tried to access private repo, but no PERSONAL_ACCESS_TOKEN envkey.")
+        headers = {'Authorization': "token " + token}
+
+    http = urllib3.PoolManager()
+    r = http.request('GET', file, preload_content=False,
+                     headers=headers)
+    temp_extract_path = tempfile.TemporaryDirectory()
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        temp_zip_file = Path(tmpdirname, "temporary_zip.zip")
+        with open(temp_zip_file, 'wb') as out:
+            while True:
+                data = r.read(64)
+                if not data:
+                    break
+                out.write(data)
+        r.release_conn()
+        with zipfile.ZipFile(temp_zip_file, 'r') as zip_ref:
+            zip_ref.extractall(temp_extract_path.name)
+    
+    extract_path = Path(temp_extract_path.name, f"{repo}-{tag}")
+    if Path(dest).exists():
+        
+        shutil.rmtree(dest)
+    shutil.copytree(extract_path, dest)
+        
+    
+
+
 class Command(BaseCommand):
     help = 'Imports plan scores'
 
     YEAR = settings.PLAN_YEAR
-    SECTION_SCORES_CSV = join(settings.DATA_DIR, settings.PLAN_SECTION_SCORES_CSV_NAME)
-    QUESTIONS_CSV = join(settings.DATA_DIR, settings.PLAN_SCORE_QUESTIONS_CSV_NAME)
-    ANSWERS_CSV = join(settings.DATA_DIR, settings.PLAN_SCORE_ANSWERS_CSV_NAME)
-    OVERALL_SCORES_CSV = join(settings.DATA_DIR, settings.PLAN_OVERALL_SCORES_CSV_NAME)
+    SCORECARD_DATA_DIR = Path(settings.DATA_DIR, "scorecard_data", str(settings.PLAN_YEAR))
+    QUESTIONS_CSV = Path(SCORECARD_DATA_DIR, "questions.csv")
+    ANSWERS_CSV = Path(SCORECARD_DATA_DIR, "individual_answers.csv")
+    SECTION_SCORES_CSV = Path(SCORECARD_DATA_DIR, "raw_section_marks.csv")
+    OVERALL_SCORES_CSV = Path(SCORECARD_DATA_DIR, "all_section_scores.csv")
 
     SECTIONS = {"s1_gov": "Governance, development and funding",
         "s2_m&a": "Mitigation and adaptation",
@@ -37,12 +93,8 @@ class Command(BaseCommand):
         }
 
     def get_files(self):
-        # other files manually downloaded for now
-        sheet_url = f"https://docs.google.com/spreadsheets/d/{settings.PLAN_SCORE_QUESTIONS_CSV_KEY}/export?format=csv&gid={settings.PLAN_SCORE_QUESTIONS_CSV_TAB}"
-        r = requests.get(sheet_url)
-        with open(self.QUESTIONS_CSV, 'wb') as outfile:
-            outfile.write(r.content)
-
+        download_github_release(**settings.PLAN_SCORECARD_DATASET_DETAILS,
+                                  dest=Path(settings.DATA_DIR, "scorecard_data"))
 
     def normalise_section_code(self, code):
         normalised = code.replace('&', '_')

@@ -153,15 +153,11 @@ DECLARATIONS_CSV_NAME = 'declarations.csv'
 DECLARATIONS_CSV = os.path.join(DATA_DIR, DECLARATIONS_CSV_NAME)
 
 PLAN_YEAR = 2021
-PLAN_SECTION_SCORES_CSV_KEY = ''
-PLAN_SCORE_QUESTIONS_CSV_KEY = '1NkAcDZ0wZwnb7iiwWSy5gMf7rJfhDPnDWvZtaJ4l0f8'
-PLAN_SCORE_QUESTIONS_CSV_TAB = 1790236873 # this number obtained from browser network console :|
-PLAN_SCORE_ANSWERS_CSV_KEY = ''
-PLAN_OVERALL_SCORES_CSV_NAME = '0.9.1_all_section_scores.csv'
-PLAN_SECTION_SCORES_CSV_NAME = '0.9.1_raw_section_marks.csv'
-PLAN_SCORE_QUESTIONS_CSV_NAME = 'council_plan_questions.csv'
-PLAN_SCORE_ANSWERS_CSV_NAME = '0.9.1_individual_answers.csv'
 
+PLAN_SCORECARD_DATASET_DETAILS = {"org": "mysociety",
+                                  "repo": "climate_scorecard_data",
+                                  "tag": "0.9.5",
+                                  "private": True}
 
 # Application definition
 
