@@ -43,10 +43,11 @@ $mobile-breakpoint-question-table: 500px;
         @include table-header;
 
         .top-perfomer {
-            background-image: url('../img/star.svg');
-            background-size: 13px;
+            background-image: url('../img/star-teal.svg');
+            background-size: 15px;
             background-repeat: no-repeat;
-            background-position: left 28px top 4px;
+            background-position: left 0px top 4px;
+            padding-left: 2px;
         }
     }
 
@@ -115,9 +116,6 @@ $mobile-breakpoint-question-table: 500px;
         }
 
         td .question-content-table {
-            height: 100px;
-            max-height: 200px;
-            overflow-y: scroll;
             @include responsive(font-size, 13, 14);
         }
     }
@@ -206,6 +204,11 @@ $mobile-breakpoint-question-table: 500px;
                 display: block;
                 padding: 0;
             }
+        }
+
+        a.question-no.is--mobile {
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
     }
 }
