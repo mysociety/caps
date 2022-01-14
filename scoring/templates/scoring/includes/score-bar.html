@@ -1,0 +1,15 @@
+<div class="score-bar">
+  {% if sort %}
+    <div class="sort-icon"></div>
+  {% endif %}
+  {% if percentage %}
+    <span class="score-percentage">{{ percentage|floatformat:"0" }}%</span>
+    <div class="progress-bar" style="width: {{ percentage }}%;"></div>
+  {% else %}
+    <span class="score-fraction">{{ score }}/{{ max }}</span>
+    <div class="progress-bar" style="width: {% widthratio score max 100 %}%;"></div>
+  {% endif %}
+  {% if average %}
+    <span class="average">avg</span>
+  {% endif %}
+</div>
