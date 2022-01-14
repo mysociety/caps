@@ -201,13 +201,15 @@ class Command(BaseCommand):
             twitter_url = PlanDocument.char_from_text(row["twitter_url"])
             twitter_name = PlanDocument.char_from_text(row["twitter_name"])
             council, created = Council.objects.get_or_create(
-                name=row["council"],
-                slug=PlanDocument.council_slug(row["council"]),
                 authority_code=PlanDocument.char_from_text(row["authority_code"]),
-                authority_type=PlanDocument.char_from_text(row["authority_type"]),
-                gss_code=PlanDocument.char_from_text(row["gss_code"]),
                 country=Council.country_code(row["country"]),
                 defaults={
+                    "authority_type": PlanDocument.char_from_text(
+                        row["authority_type"]
+                    ),
+                    "name": row["council"],
+                    "slug": PlanDocument.council_slug(row["council"]),
+                    "gss_code": PlanDocument.char_from_text(row["gss_code"]),
                     "whatdotheyknow_id": PlanDocument.integer_from_text(row["wdtk_id"]),
                     "mapit_area_code": PlanDocument.char_from_text(
                         row["mapit_area_code"]
@@ -220,6 +222,25 @@ class Command(BaseCommand):
 
             # check the council things that might change
             changed = False
+
+            if (
+                PlanDocument.char_from_text(row["authority_type"])
+                != council.authority_type
+            ):
+                council.authority_type = PlanDocument.char_from_text(
+                    row["authority_type"]
+                )
+                changed = True
+
+            if row["council"] != council.name:
+                council.name = row["council"]
+                council.slug = PlanDocument.council_slug(row["council"])
+                changed = True
+
+            if PlanDocument.char_from_text(row["gss_code"]) != council.gss_code:
+                council.gss_code = PlanDocument.char_from_text(row["gss_code"])
+                changed = True
+
             if council_url != "" and council.website_url != council_url:
                 council.website_url = council_url
                 changed = True
