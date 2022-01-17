@@ -19,8 +19,9 @@ class TestAnswerView(TestCase):
 
         self.assertEquals(
             sections,
-            {
-                "s1_gov": {
+            [
+                {
+                    "code": "s1_gov",
                     "answers": [
                         {
                             "code": "s1_gov_q1",
@@ -48,25 +49,15 @@ class TestAnswerView(TestCase):
                     "description": "Governance, development and funding",
                     "score": 15,
                 },
-                "s2_m_a": {
-                    "answers": [
-                        {
-                            "code": "s2_m_a_q1_sp1",
-                            "display_code": "q1_sp1",
-                            "question": "The answer is a Boolean",
-                            "answer": "-",
-                            "max": 1,
-                            "section": "s2_m_a",
-                            "score": 0,
-                            "type": "CHECKBOX",
-                        },
-                    ],
+                {
+                    "code": "s2_m_a",
+                    "answers": [],
                     "avg": 9.8,
                     "max_score": 18,
                     "description": "Mitigation and adaptation",
                     "score": 10,
                 },
-            },
+            ],
         )
 
     def test_averages_use_groupings(self):
@@ -84,8 +75,9 @@ class TestAnswerView(TestCase):
 
         self.assertEquals(
             sections,
-            {
-                "s1_gov": {
+            [
+                {
+                    "code": "s1_gov",
                     "answers": [
                         {
                             "code": "s1_gov_q1",
@@ -113,25 +105,15 @@ class TestAnswerView(TestCase):
                     "description": "Governance, development and funding",
                     "score": 15,
                 },
-                "s2_m_a": {
-                    "answers": [
-                        {
-                            "code": "s2_m_a_q1_sp1",
-                            "display_code": "q1_sp1",
-                            "question": "The answer is a Boolean",
-                            "answer": "-",
-                            "max": 1,
-                            "section": "s2_m_a",
-                            "score": 0,
-                            "type": "CHECKBOX",
-                        },
-                    ],
+                {
+                    "code": "s2_m_a",
+                    "answers": [],
                     "avg": 8.7,
                     "max_score": 18,
                     "description": "Mitigation and adaptation",
                     "score": 10,
                 },
-            },
+            ],
         )
 
     def test_zero_sections_scores_used_in_averages(self):
@@ -149,8 +131,9 @@ class TestAnswerView(TestCase):
 
         self.assertEquals(
             sections,
-            {
-                "s1_gov": {
+            [
+                {
+                    "code": "s1_gov",
                     "answers": [
                         {
                             "code": "s1_gov_q1",
@@ -178,25 +161,15 @@ class TestAnswerView(TestCase):
                     "description": "Governance, development and funding",
                     "score": 15,
                 },
-                "s2_m_a": {
-                    "answers": [
-                        {
-                            "code": "s2_m_a_q1_sp1",
-                            "display_code": "q1_sp1",
-                            "question": "The answer is a Boolean",
-                            "answer": "-",
-                            "max": 1,
-                            "section": "s2_m_a",
-                            "score": 0,
-                            "type": "CHECKBOX",
-                        },
-                    ],
+                {
+                    "code": "s2_m_a",
+                    "answers": [],
                     "avg": 9.8,
                     "max_score": 18,
                     "description": "Mitigation and adaptation",
                     "score": 10,
                 },
-            },
+            ],
         )
 
     def test_zero_plan_score_not_used_in_averages(self):
@@ -212,8 +185,9 @@ class TestAnswerView(TestCase):
 
         self.assertEquals(
             sections,
-            {
-                "s1_gov": {
+            [
+                {
+                    "code": "s1_gov",
                     "answers": [
                         {
                             "code": "s1_gov_q1",
@@ -241,23 +215,13 @@ class TestAnswerView(TestCase):
                     "description": "Governance, development and funding",
                     "score": 15,
                 },
-                "s2_m_a": {
-                    "answers": [
-                        {
-                            "code": "s2_m_a_q1_sp1",
-                            "display_code": "q1_sp1",
-                            "question": "The answer is a Boolean",
-                            "answer": "-",
-                            "max": 1,
-                            "section": "s2_m_a",
-                            "score": 0,
-                            "type": "CHECKBOX",
-                        },
-                    ],
+                {
+                    "code": "s2_m_a",
+                    "answers": [],
                     "avg": 8.7,
                     "max_score": 18,
                     "description": "Mitigation and adaptation",
                     "score": 10,
                 },
-            },
+            ],
         )
