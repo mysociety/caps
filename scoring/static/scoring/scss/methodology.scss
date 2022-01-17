@@ -10,7 +10,48 @@
             padding: 8px 0px;
         }
     }
+
     a {
         display: inline-block;
+    }
+
+    table {
+        td, th {
+            border: 1px solid transparentize($color: $black, $amount: 0.8);
+            padding: 8px;
+            text-align: center;
+        }
+
+        thead tr {
+            background-color:$color-scorecard-green-d1;
+            color: $black;
+            :nth-child(n+2) {
+                max-width: 150px;
+            }
+        }
+
+        tbody tr {
+            &:nth-child(even) {
+                background-color:$color-scorecard-green-l1;
+            }
+        }
+
+        tbody tr td, thead tr th {
+            &:first-child() {
+                text-align: left;
+            }
+        }
+    
+        &.weighting-table {
+            @media screen and (max-width: 768px) {
+                display: none;
+            }
+        }
+    }
+
+    .card-wrapper.is--weighting {
+        @media screen and (min-width: 769px) {
+            display: none;
+        }
     }
 }

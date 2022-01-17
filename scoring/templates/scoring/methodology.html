@@ -134,6 +134,296 @@
             <div style="max-width:550px">
                 <p>Some of the sections have more questions than others, but, those sections with fewer questions are not significantly less important. To address this, a light-touch weighting system, as in the table below, has been applied to ensure each section's true value is reflected.</p>
             </div>
+            <div class="table-wrapper">
+                {% comment %} TODO for future releases would be great to get the 
+                data from the database {% endcomment %}
+                <table class="weighting-table">
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th>Maximum points available in this section</th>
+                            <th>Percent of final score that this section would naturally account for </th>
+                            <th>Weighted percentage</th>
+                            <th>Switch to weighted from score change</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Governance, Development and Funding</td>
+                            <td>21</td>
+                            <td>27</td>
+                            <td>15</td>
+                            <td>-12</td>
+                        </tr>
+                        <tr>
+                            <td>Mitigation and Adaptation</td>
+                            <td>18</td>
+                            <td>23</td>
+                            <td>15</td>
+                            <td>-8</td>
+                        </tr>
+                        <tr>
+                            <td>Commitment and Integration</td>
+                            <td>7</td>
+                            <td>9</td>
+                            <td>15</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>Community Engagement and Communications</td>
+                            <td>9</td>
+                            <td>12</td>
+                            <td>15</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Measuring and Setting Emissions Targets</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>10</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>Co-Benefits</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>5</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>Diversity and Social Inclusion</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>10</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>Education, Skills and Training</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>10</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>Ecological Emergency </td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="card-wrapper is--weighting">
+                    <div class="card-item mb-3">
+                        <div class="card-heading">
+                            <span>Governance, Development and Funding</span>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-info-item">
+                                <span class="info-title">Maximum points available in this section</span>
+                                <span class="info-text">21</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Percent of final score that this section would naturally account for</span>
+                                <span class="info-text">27</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Weighted percentage</span>
+                                <span class="info-text">15</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Switch to weighted from score change</span>
+                                <span class="info-text">-12</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-item mb-3">
+                        <div class="card-heading">
+                            <span>Mitigation and Adaptation</span>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-info-item">
+                                <span class="info-title">Maximum points available in this section</span>
+                                <span class="info-text">18</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Percent of final score that this section would naturally account for</span>
+                                <span class="info-text">23</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Weighted percentage</span>
+                                <span class="info-text">15</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Switch to weighted from score change</span>
+                                <span class="info-text">-8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-item mb-3">
+                        <div class="card-heading">
+                            <span>Commitment and Integration</span>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-info-item">
+                                <span class="info-title">Maximum points available in this section</span>
+                                <span class="info-text">7</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Percent of final score that this section would naturally account for</span>
+                                <span class="info-text">9</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Weighted percentage</span>
+                                <span class="info-text">15</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Switch to weighted from score change</span>
+                                <span class="info-text">6</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-item mb-3">
+                        <div class="card-heading">
+                            <span>Community Engagement and Communications</span>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-info-item">
+                                <span class="info-title">Maximum points available in this section</span>
+                                <span class="info-text">9</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Percent of final score that this section would naturally account for</span>
+                                <span class="info-text">12</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Weighted percentage</span>
+                                <span class="info-text">15</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Switch to weighted from score change</span>
+                                <span class="info-text">3</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-item mb-3">
+                        <div class="card-heading">
+                            <span>Measuring and Setting Emissions Targets</span>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-info-item">
+                                <span class="info-title">Maximum points available in this section</span>
+                                <span class="info-text">5</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Percent of final score that this section would naturally account for</span>
+                                <span class="info-text">6</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Weighted percentage</span>
+                                <span class="info-text">10</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Switch to weighted from score change</span>
+                                <span class="info-text">4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-item mb-3">
+                        <div class="card-heading">
+                            <span>Co-Benefits</span>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-info-item">
+                                <span class="info-title">Maximum points available in this section</span>
+                                <span class="info-text">4</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Percent of final score that this section would naturally account for</span>
+                                <span class="info-text">5</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Weighted percentage</span>
+                                <span class="info-text">5</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Switch to weighted from score change</span>
+                                <span class="info-text">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-item mb-3">
+                        <div class="card-heading">
+                            <span>Diversity and Social Inclusion</span>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-info-item">
+                                <span class="info-title">Maximum points available in this section</span>
+                                <span class="info-text">5</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Percent of final score that this section would naturally account for</span>
+                                <span class="info-text">6</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Weighted percentage</span>
+                                <span class="info-text">10</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Switch to weighted from score change</span>
+                                <span class="info-text">4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-item mb-3">
+                        <div class="card-heading">
+                            <span>Education, Skills and Training</span>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-info-item">
+                                <span class="info-title">Maximum points available in this section</span>
+                                <span class="info-text">5</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Percent of final score that this section would naturally account for</span>
+                                <span class="info-text">6</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Weighted percentage</span>
+                                <span class="info-text">10</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Switch to weighted from score change</span>
+                                <span class="info-text">4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-item mb-3">
+                        <div class="card-heading">
+                            <span>Ecological Emergency</span>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-info-item">
+                                <span class="info-title">Maximum points available in this section</span>
+                                <span class="info-text">4</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Percent of final score that this section would naturally account for</span>
+                                <span class="info-text">5</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Weighted percentage</span>
+                                <span class="info-text">5</span>
+                            </div>
+                            <div class="card-info-item">
+                                <span class="info-title">Switch to weighted from score change</span>
+                                <span class="info-text">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
     </div>
