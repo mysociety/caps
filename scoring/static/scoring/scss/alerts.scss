@@ -1,7 +1,7 @@
 .alert {
     color: $black;
     &.alert-warning {
-        span {
+        span.warning-icon {
             padding-left: 25px;
             background-image: url('../img/exclamation-black.svg');
             background-size: 20px;
