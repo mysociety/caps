@@ -1,6 +1,9 @@
 $table-section-mobile-breakpoint: 500px;
 .council-page .table-header {
-    max-width: 455px;
+    max-width: 670px;
+    p {
+        max-width: 455px;
+    }
 
     button {
         @media only screen and (max-width: 915px) {
