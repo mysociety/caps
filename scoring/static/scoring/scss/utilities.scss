@@ -1,0 +1,55 @@
+.card-wrapper {
+    $padding: 16px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .card-item {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        border-radius: 4px;
+        border: 1px solid transparentize($color: $black, $amount: 0.8);
+        overflow: hidden;
+        max-width: 375px;
+
+        .card-heading{
+            background-color: $color-scorecard-green-d1;
+            color: $black;
+            font-family: $headings-font-family;
+            font-weight: 600;
+            padding: $padding;
+        }
+
+        .card-info {
+            padding: $padding;
+            padding-top: 0;
+            padding-bottom: 0;
+
+            .card-info-item {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                margin-left: calc(#{$padding} * -1);
+                margin-right: calc(#{$padding} * -1);
+                padding: $padding;
+                align-items: center;
+
+                &:nth-child(even) {
+                    background-color: $color-scorecard-green-l1;
+                }
+                &:last-child {
+                    margin-bottom: 0;
+                }
+                .info-title {
+                    flex-basis: 70%;
+                }
+                .info-text {
+                    flex-basis: 30%;
+                    text-align: end;
+                }
+            }
+        }
+    }
+}
