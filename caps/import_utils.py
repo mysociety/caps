@@ -121,8 +121,4 @@ def add_extra_authority_info(filename):
     is_non_english = df["country"].isin(["Wales", "Scotland", "Northern Ireland"])
     df.loc[is_non_english, "authority_type"] = "UA"
 
-    # treat greater london authority as combined
-    is_strategic = df["authority_type"] == "SRA"
-    df.loc[is_strategic, "authority_type"] = "COMB"
-
     df.to_csv(filename, index=False, header=True)

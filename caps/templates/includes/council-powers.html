@@ -1,5 +1,7 @@
 {% if council.authority_type == 'CC' %}
     <p class="mt-n1">{{ council.name }} has powers over:</p>
+{% elif council.authority_type == 'SRA' %}
+    <p class="mt-n1">The {{ council.name }} has powers over:</p>
 {% elif council.country == council.NORTHERN_IRELAND %}
     <p class="mt-n1">{{ council.name }} is a <strong>Northern Irish {{ council.get_authority_type_display }}</strong>, with powers over:</p>
 {% else %}
