@@ -132,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="display:table">
+                <div class="position-relative" style="display:table">
                     <div class="mobile-message">
                         <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
                         <p class="text-white">You can compare your council with others, also check the average score in the section and question tables.</p>
@@ -150,7 +150,7 @@
                                     <span class="filter-active">Single Tier</span>
                                     <span class="filter-active">·</span>
                                     <span class="filter-active">Urban</span>
-                                    <button class="advanced-filter-simple mx-auto d-block mt-1"></button>
+                                    <button class="advanced-filter-simple open-modal popup-trigger mx-auto d-block mt-1" data-popup-trigger="advanced-filter-one" type="button"></button>
                                 </th>
                             </tr>
                         </thead>
@@ -177,6 +177,7 @@
                                 <td>{{ section.score }}/{{ section.max_score }}</td>
                                 <td>{{ section.score }}/{{ section.max_score }}</td>
                                 <td>
+                                    {% comment %}TODO change from decimal to fractions{% endcomment %}
                                     {{ section.avg }}
                                 </td>
                             </tr>
@@ -188,6 +189,20 @@
                         <div class="social-media-wrapper">
                             <a class="table-social-icon facebook mr-1" href=""></a>
                             <a class="table-social-icon twitter" href=""></a>
+                        </div>
+                    </div>
+                    <div class="advanced-filter-wrapper pb-3 bg-blue-l2 popup-modal shadow" data-popup-modal="advanced-filter-one">
+                        <div class="filter-header mb-4">
+                            <h5 class="filter-title">Select a filter</h5>
+                            <button class="close-icon popup-modal__close" type="button"></button>
+                        </div>
+                        <div class="option-group">
+                            <a class="radio-btn is--with-label active" href="#">Nation</a>
+                            <a class="radio-btn is--with-label" href="#">Urbanisation</a>
+                            <a class="radio-btn is--with-label" href="#">Total population</a>
+                            <a class="radio-btn is--with-label" href="#">Index of multiple deprivation </a>
+                            <a class="radio-btn is--with-label" href="#">Climate pledge</a>
+                            <a class="radio-btn is--with-label" href="#">Current political control</a>
                         </div>
                     </div>
                 </div>
@@ -239,7 +254,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="display: table">
+                <div class="position-relative" style="display: table">
                     <table class="table-question-council mb-0">
                         <thead>
                             <tr>
@@ -255,7 +270,7 @@
                                     <span class="filter-active">Single Tier</span>
                                     <span class="filter-active">·</span>
                                     <span class="filter-active">Urban</span>
-                                    <button class="advanced-filter-simple mx-auto d-block mt-1"></button>
+                                    <button class="advanced-filter-simple open-modal popup-trigger mx-auto d-block mt-1" data-popup-trigger="advanced-filter-two" type="button"></button>
                                 </th>
                             </tr>
                         </thead>
@@ -368,6 +383,20 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                    <div class="advanced-filter-wrapper pb-3 bg-blue-l2 popup-modal shadow" data-popup-modal="advanced-filter-two">
+                        <div class="filter-header mb-4">
+                            <h5 class="filter-title">Select a filter</h5>
+                            <button class="close-icon popup-modal__close" type="button"></button>
+                        </div>
+                        <div class="option-group">
+                            <a class="radio-btn is--with-label active" href="#">Nation</a>
+                            <a class="radio-btn is--with-label" href="#">Urbanisation</a>
+                            <a class="radio-btn is--with-label" href="#">Total population</a>
+                            <a class="radio-btn is--with-label" href="#">Index of multiple deprivation </a>
+                            <a class="radio-btn is--with-label" href="#">Climate pledge</a>
+                            <a class="radio-btn is--with-label" href="#">Current political control</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
