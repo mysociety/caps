@@ -9,6 +9,14 @@ class PlanScore(models.Model):
     """
     Overall score for a council's plan for a particular year
     """
+
+    RUC_TYPES = [
+        ("urban", "Urban"),
+        ("rural", "Rural"),
+        ("urban-rural-areas", "Urban with rural areas"),
+        ("sparse-rural", "Sparse and rural"),
+    ]
+
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
 
@@ -16,6 +24,13 @@ class PlanScore(models.Model):
     weighted_total = models.FloatField(default=0)
     total = models.FloatField(default=0)
     top_performer = models.CharField(max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True)
+
+    # filter data
+    deprivation_quintile = models.SmallIntegerField(default=0)
+    population = models.CharField(max_length=20, null=True, blank=True)
+    region = models.CharField(max_length=100, blank=True)
+    ruc_cluster = models.CharField(max_length=100, choices=RUC_TYPES, null=True, blank=True)
+    political_control = models.CharField(max_length=100, null=True, blank=True)
 
 
 
