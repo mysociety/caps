@@ -168,9 +168,36 @@ class QuestionView(DetailView):
         context['answers'] = answers
         return context
 
-
 class LocationResultsView(BaseLocationResultsView):
     template_name = "scoring/location_results.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
+        return context
+
+class MethodologyView(TemplateView):
+    template_name = "scoring/methodology.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
+
+        questions = PlanQuestion.objects.all()
+
+        context['questions'] = questions
+        return context
+
+class AboutView(TemplateView):
+    template_name = "scoring/about.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
+        return context
+
+class ContactView(TemplateView):
+    template_name = "scoring/contact.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
