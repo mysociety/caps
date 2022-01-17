@@ -134,7 +134,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
     // Open modals and filters
     const modalTriggers = document.querySelectorAll('.popup-trigger')
     const modalCloseTrigger = document.querySelector('.popup-modal__close')
-
+    
     modalTriggers.forEach(trigger => {
         trigger.addEventListener('click', () => {
             const { popupTrigger } = trigger.dataset;
@@ -146,27 +146,4 @@ data-popup-trigger="one" type="button">Advanced filters</button>
             })
         })
     })
-
-    // Open div for each group of filters
-    let buttonOpen = document.getElementsByClassName('btn-open-div');
-    for (let i = 0; i < buttonOpen.length; i++) {
-        let openDiv = buttonOpen[i].nextElementSibling;
-        buttonOpen[i].addEventListener('click', () => {
-            buttonOpen[i].classList.toggle('active');
-            if(!openDiv.classList.contains('active')) {
-                openDiv.classList.toggle('active');
-                openDiv.style.height = "auto";
-                let height = openDiv.clientHeight + "px";
-                openDiv.style.height = "0px";
-                setTimeout(() => {
-                    openDiv.style.height = height;
-                }, 0) 
-            } else {
-                openDiv.style.height = "0px";
-                openDiv.addEventListener('transitionend', () => {
-                    openDiv.classList.remove('active');
-                }, {once: true})
-            }
-        })
-    }
 </script>
