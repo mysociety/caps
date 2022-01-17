@@ -82,10 +82,10 @@
     </div>
 </div>
 
-<div class="container council-page">
+<div class="container council-page mt-4">
     <div class="row">
         <div class="col-md-12">
-            <div class="mb-3 mb-md-4 mb-lg-5">
+            <div class="mb-5">
                 <div class="table-header mb-4">
                     <h3>
                         Section
@@ -185,8 +185,7 @@
                 </div>
             </div>
 
-
-            <div class="mb-3 mb-md-4 mb-lg-5">
+            <div class="mb-5">
                 <div class="table-header mb-4">
                     <h3>
                         Question
@@ -284,7 +283,9 @@
                                 <td data-column="question_no" class="question-no">
                                     <div>
                                         {% if answer.type == 'HEADER' %}
-                                        <a href="{% url 'question' answer.code %}">{{ answer.code }}</a>
+                                        <div class="question-code">
+                                            <a href="{% url 'question' answer.code %}">{{ answer.code }}</a>
+                                        </div>
                                         {% else %}
                                         <div class="question-code pl-2">
                                             <span>{{ answer.code }}</span>
