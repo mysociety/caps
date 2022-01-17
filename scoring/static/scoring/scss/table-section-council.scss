@@ -1,4 +1,6 @@
 $table-section-mobile-breakpoint: 600px;
+$pick-council-break-point--section: 915px;
+
 .council-page .table-header {
     max-width: 670px;
     p {
@@ -49,9 +51,14 @@ $table-section-mobile-breakpoint: 600px;
                 width: 40%;
             }
         }
-        @media only screen and (max-width: $table-section-mobile-breakpoint) {
+        @media only screen and (max-width: $pick-council-break-point--section) {
             &:nth-child(n+3) {
                 display: none;
+            }
+        }
+        @media (min-width:$table-section-mobile-breakpoint) and (max-width:$pick-council-break-point--section) {
+            &:last-child {
+                display: table-cell;
             }
         }
     }

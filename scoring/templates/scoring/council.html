@@ -142,6 +142,9 @@
                             <tr>
                                 <th scope="col" class="text-left">Section</th>
                                 <th scope="col">Council Score</th>
+                                <th scope="col">Birmingham City Council</th>
+                                <th scope="col">Bradford Metropolitan District Council</th>
+                                <th scope="col">East Riding of Yorkshire Council</th>
                                 <th scope="col">
                                     <p>Average Score</p>
                                     <span class="filter-active">Single Tier</span>
@@ -168,6 +171,11 @@
                                     {{ section.score }}/{{ section.max_score }}
                                     </span>
                                 </td>
+                                    {% comment %} The following three "td" are the markup for councils 
+                                    added to compare with the current council{% endcomment %}
+                                <td>{{ section.score }}/{{ section.max_score }}</td>
+                                <td>{{ section.score }}/{{ section.max_score }}</td>
+                                <td>{{ section.score }}/{{ section.max_score }}</td>
                                 <td>
                                     {{ section.avg }}
                                 </td>
@@ -239,6 +247,9 @@
                                 <th scope="col" class="text-left">Question</th>
                                 {% comment %} TODO Instead of score, let's use the name of the council {% endcomment %}
                                 <th scope="col" class="current-council-score">Score</th>
+                                <th scope="col" class="comparisson-council">Birmingham City Council</th>
+                                <th scope="col" class="comparisson-council">Bradford Metropolitan District Council</th>
+                                <th scope="col" class="comparisson-council">East Riding of Yorkshire Council</th>
                                 <th scope="col" class="top-tier-head">
                                     <p class="top-perfomer">Maximum scorers</p>
                                     <span class="filter-active">Single Tier</span>
@@ -256,6 +267,16 @@
                                     {{ section.description }}
                                 </td>
                                 <td class="score is--section-score top-perfomer">
+                                    <span>{{ section.score }}/{{ section.max_score }}</span>
+                                </td>
+                                {% comment %} The following three td are "comparisson councils" {% endcomment %}
+                                <td class="score is--section-score">
+                                    <span>{{ section.score }}/{{ section.max_score }}</span>
+                                </td>
+                                <td class="score is--section-score">
+                                    <span>{{ section.score }}/{{ section.max_score }}</span>
+                                </td>
+                                <td class="score is--section-score">
                                     <span>{{ section.score }}/{{ section.max_score }}</span>
                                 </td>
                                 <td class="top-tier-score">
@@ -311,9 +332,31 @@
                                 <td data-column="score" class="score">
                                     <span>{{ answer.score }}/{{ answer.max }}</span>
                                 </td>
+                                 {% comment %} The following three "td" are the markup for councils 
+                                added to compare with the current council{% endcomment %}
+                                <td data-column="score" class="score">
+                                    <span>{{ answer.score }}/{{ answer.max }}</span>
+                                </td>
+                                <td data-column="score" class="score">
+                                    <span>{{ answer.score }}/{{ answer.max }}</span>
+                                </td>
+                                <td data-column="score" class="score">
+                                    <span>{{ answer.score }}/{{ answer.max }}</span>
+                                </td>
                                 {% else %}
                                 <td data-column="score" class="score is--header-score top-perfomer">
                                     {% comment %}TODO score obtained / the total points for the header question {% endcomment %}
+                                    <span>7/10</span>
+                                </td>
+                                {% comment %} The following three "td" are the markup for councils 
+                                added to compare with the current council{% endcomment %}
+                                <td data-column="score" class="score is--header-score top-perfomer">
+                                    <span>7/10</span>
+                                </td>
+                                <td data-column="score" class="score is--header-score top-perfomer">
+                                    <span>7/10</span>
+                                </td>
+                                <td data-column="score" class="score is--header-score top-perfomer">
                                     <span>7/10</span>
                                 </td>
                                 <td data-column="top-tier-score" class="top-tier-score">
