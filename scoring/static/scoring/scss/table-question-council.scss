@@ -1,6 +1,6 @@
 
 $mobile-breakpoint-question-table: 600px;
-$pick-council-break-point: 915px;
+$pick-council-break-point--question: 1200px;
 
 .table-question-council {
     table-layout: fixed;
@@ -48,11 +48,11 @@ $pick-council-break-point: 915px;
             background-size: 15px;
             background-repeat: no-repeat;
             background-position: left 0px top 4px;
-            padding-left: 2px;
+            padding-left: 13px;
+        }
 
-            @media only screen and (max-width: 1200px) {
-                background-image: none;
-            }
+        &.comparisson-council {
+            @include responsive(font-size, 13, 14);
         }
     }
 
@@ -162,6 +162,7 @@ $pick-council-break-point: 915px;
     .score {
         span {
             padding-left: 17px;
+            @include responsive (font-size, 13, 14);
         }
         &.is--header-score, &.is--section-score {
             &.top-perfomer {
@@ -175,14 +176,27 @@ $pick-council-break-point: 915px;
         }
     }
 
-    // Mobile version
+    // Responsiveness
+
+    thead tr th, tbody tr td {
+        @media only screen and (max-width: $pick-council-break-point--question) {
+            &:nth-child(n+4) {
+                display: none;
+            }
+            &:last-child {
+                display: table-cell;
+            }
+        }
+        @media (max-width:$table-section-mobile-breakpoint) {
+            &:last-child {
+                display: none;
+            }
+        }
+    }
+
     @media only screen and (max-width: $mobile-breakpoint-question-table) {
 
         @include border-priority-2(left);
-
-        .top-tier-score, .top-tier-head {
-            display: none;
-        }
 
         thead th {
             // Hiding question column
