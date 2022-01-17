@@ -1,0 +1,145 @@
+{% extends "scoring/base.html" %}
+{% load bootstrap4 %}
+
+{% comment %} 
+    section = models.ForeignKey(PlanSection, on_delete=models.CASCADE)
+    code = models.CharField(max_length=100)
+    text = models.TextField(null=True, default='')
+    max_score = models.PositiveSmallIntegerField(default=0)
+    question_type = models.CharField(max_length=100) # needs choices
+{% endcomment %}
+
+{% block content %}
+    <div class="about-page">
+        <div class="hero container-fluid bg-dark-grey">
+            <div style="max-width: 1110px" class="mx-auto">
+                <a class="cta reverse white" href="{% url 'home' %}">Back to scorecards plan</a>
+                <h1 class="text-white mt-3">Methodology</h1>
+                <div class="mt-3">
+                    <span class="hero-sub">Check out our process</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="alert alert-warning mt-4 mt-lg-5" role="alert">
+                <h3>Disclaimer</h3>
+                <span>This assessment marked Climate Action Plans that were 
+                    publicly available on council websites on or before 20 September 
+                    2021. As such, it is a snapshot of that moment in time: we acknowledge 
+                    that some councils have published or updated plans since this date. 
+                    The plans included in this assessment are listed on the individual 
+                    council pages. Visit the <a href="https://data.climateemergency.uk/">Climate Action Plan Explorer</a> to see if there is a later version of a council’s plan.</span>
+            </div>
+            {% comment %} Add about page link {% endcomment %}
+            <p><strong>To find out about the history of and methodology behind the scorecards, please go to </strong> <a class="d-inline-block" href="{% url 'about' %}">About us</a></p>
+        </div>
+
+        <div class="container table-of-content">
+            <h3 class="mb-3">Table of content</h3>
+            {% comment %} Update links ID {% endcomment %}
+            <a href="#what-have">What have we marked?</a>
+            <a href="#what-have">What have we marked?</a>
+            <a href="#what-have">What have we marked?</a>
+            <a href="#what-have">What have we marked?</a>
+        </div>
+
+        <div id="what-have" class="container">
+            <div class="row mb-3">
+                <div class="col-12 col-lg-6">
+                    <h3>What have we marked?</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <p>In this pilot project we have only marked councils' 
+                        Climate Action Plans. These Scorecards do not take into account
+                         any action that councils may have underway. 
+                    </p>
+                    <p>In future years we plan to assess councils on the actual 
+                        steps they are taking towards eliminating their climate 
+                        emissions. However, this preparatory work is vital, as a 
+                        strong plan is the first step towards taking robust climate 
+                        action over a sustained period of time — and without a plan 
+                        it is impossible for residents to participate in the democratic
+                         process of holding their councils to account.
+                    </p>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <p>To create the Council Climate Plan Scorecards we have 
+                        marked UK councils' climate action plans, strategies and, 
+                        if relevant, drafts of these documents. We have also marked 
+                        other related plans and strategies if they are either mentioned in the
+                         Climate Action Plan or linked to from the same webpage as the Climate Action Plan. 
+                         Examples of these extra plans include separate Biodiversity Plans and emissions 
+                         data documents. <strong>Plans must have been publicly available on the council’s website
+                          on or before 20 September 2021 to be included.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="developing-the-scoring" class="container">
+            <h3 class="mb-4">Developing the Scoring System</h3>
+            <div class="sub-topic mb-4">
+                <h4 class="mb-3">Checklist</h4>
+                <div style="max-width:550px">
+                    <p>Climate Emergency UK’s 
+                        <a class="d-inline-block" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">Climate Action Plan Checklist</a>,
+                        created in partnership with Friends of the Earth, Centre for Alternative Technology, Ashden and APSE Energy, outlines the recommended contents of a strong Climate Action Plan.
+                        The scoring system used in compiling the Scorecards was based on this checklist. 
+                    </p>
+                </div>
+            </div>
+            <div class="sub-topic mb-4">
+                <h4 class="mb-3">Consultations and feedback</h4>
+                <div style="max-width:550px">
+                    <p>During the development of the scoring system, Climate Emergency UK held three consultations in which nearly 200 councillors, council officers, climate action campaigners and organisations were invited to comment on the process. In these sessions we delved into the details of the questions used to score against, explored how to make this process useful and manageable for councils and discussed the presentation of the data.</p>
+                    <p>A survey on how the data should be presented was also sent to approx. 700 councillors and council officers who were not able to attend the events. This asked questions about how the data should be presented, for example:</p>
+                    <ul class="mb-3">
+                        <li>What do you think about us displaying a single overall score for each council?</li>
+                        <li>Do you think it’s useful to display the breakdown of category scores?</li>
+                        <li>What filters should be included?</li>
+                    </ul>
+                    <p>Based on the feedback received from these sessions, the questions were refined to produce the final checklist. The right of reply was established as part of this process and it was decided that scores would be displayed by council type.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="scoring-process" class="container">
+            <h3 class="mb-4">Scoring Process</h3>
+            <div class="sub-topic mb-4">
+                <h4 class="mb-3">First Marking</h4>
+                <div style="max-width:550px">
+                    <p>A team of around 120 trained volunteers marked all the Council Climate Action plans in the UK using the scoring system described above.</p>
+                </div>
+            </div>
+            <div class="sub-topic mb-4">
+                <h4 class="mb-3">Right of Reply</h4>
+                <div style="max-width:550px">
+                    <p>All councils in the UK were sent the scoring questions along with the first mark of their plan. They could see which questions had received points, but they couldn’t see individual scores for questions or their overall score. All councils, including those without a plan, were given a right of reply. Councils had three weeks to respond and highlight any mistakes in the first mark. Almost 50% of councils with a Climate Action Plan responded to the Right of Reply.</p>
+                </div>
+            </div>
+            <div class="sub-topic mb-4">
+                <h4 class="mb-3">Scoring Audit</h4>
+                <div style="max-width:550px">
+                    <p>During the scoring audit a team of around 25 highly trained volunteers and CEUK staff reviewed the first mark alongside the council's right of reply. All plans were audited regardless of whether the council responded to the right of reply.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="scoring-process" class="container">
+            <h3 class="mb-3">Weighting</h3>
+            <div style="max-width:550px">
+                <p>Some of the sections have more questions than others, but, those sections with fewer questions are not significantly less important. To address this, a light-touch weighting system, as in the table below, has been applied to ensure each section's true value is reflected.</p>
+            </div>
+        </div>
+
+    </div>
+
+    {% for question in questions %}
+        {{ question.code }}
+        {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
+    {% endfor %}
+{% endblock %}

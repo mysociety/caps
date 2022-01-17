@@ -1,0 +1,16 @@
+.about-page {
+    .container {
+        @include responsive(padding-top, 20, 35);
+        @include responsive(padding-bottom, 20, 35);
+    }
+
+    .table-of-content {
+        a {
+            display: block;
+            padding: 8px 0px;
+        }
+    }
+    a {
+        display: inline-block;
+    }
+}
