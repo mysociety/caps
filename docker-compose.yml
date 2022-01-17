@@ -17,6 +17,7 @@ services:
       - MAPIT_API_KEY=${MAPIT_API_KEY:-xxx}
       - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS:-xxx}
       - MAILCHIMP_KEY=${MAILCHIMP_KEY:-xxx}
+      - PERSONAL_ACCESS_TOKEN=${PERSONAL_ACCESS_TOKEN:-xxx}
     depends_on:
       - postgres
       - solr
