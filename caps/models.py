@@ -187,17 +187,17 @@ class Council(models.Model):
         ):
             powers.append("passenger-transport")
 
-        if (
-            self.country != self.NORTHERN_IRELAND
-            and self.authority_type != "COMB"
-            and self.authority_type != "NMD"
-        ):
+        if self.country != self.NORTHERN_IRELAND and self.authority_type not in [
+            "COMB",
+            "SRA",
+            "NMD",
+        ]:
             powers.append("schools-libraries")
 
-        if self.authority_type != "COMB" and self.authority_type != "CTY":
+        if self.authority_type not in ["COMB", "SRA"] and self.authority_type != "CTY":
             powers.append("environmental-health")
 
-        if self.authority_type != "COMB":
+        if self.authority_type not in ["COMB", "SRA"]:
             if self.authority_type != "CTY" and self.authority_type != "NMD":
                 powers.append("waste-collection")
                 powers.append("waste-disposal")
@@ -208,7 +208,7 @@ class Council(models.Model):
 
         if (
             self.country != self.NORTHERN_IRELAND
-            and self.authority_type != "COMB"
+            and self.authority_type not in ["COMB", "SRA"]
             and self.authority_type != "CTY"
         ):
             powers.append("social-housing")
