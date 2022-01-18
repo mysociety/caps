@@ -18,9 +18,10 @@
             </div>
 
             <div class="col-12 col-lg-6 py-3 bg-green-l2 right">
-                <form class="form">
-                    <h6 class="mb-3">Check for a council’s complete score</h6>
-                    <input class="form-control searchbar green dark" type="search" placeholder="Search" aria-label="Search">
+                <form action="{% url 'location_results' %}" class="form">
+                    <label for="check-score-input" class="h6 mb-3">Check for a council’s complete score</label>
+                    <input class="form-control searchbar green dark js-location-search-autocomplete" type="search" name="pc" id="check-score-input" placeholder="Postcode">
+                    <!-- TODO: Do we need a submit button? -->
                 </form>
             </div>
         </div>
@@ -205,7 +206,7 @@
                                     </div>
                                 </div>
                                 {% endif %}
-                                <a class="council-link" href="{% url 'answers' council.slug %}">{{ council.name }}</a>
+                                <a class="council-link" href="{% url 'council' council.slug %}">{{ council.name }}</a>
                                 <div class="table-sticky-border left"></div>
                             </th>
                             <th scope="row" class="council-total-score position-sticky z-index-3">
@@ -302,7 +303,7 @@
                                         <span>This is a top performer council.</span>
                                     </div>
                                 </div>
-                                <a class="council-link" href="{% url 'answers' council.slug %}">{{ council.name }}</a>
+                                <a class="council-link" href="{% url 'council' council.slug %}">{{ council.name }}</a>
                             </th>
                             <th scope="row" class="council-total-score position-sticky z-index-3">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}

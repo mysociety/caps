@@ -214,7 +214,7 @@
                                 <td data-column="question_no" class="question-no">
                                     <div>
                                         {% if answer.type == 'HEADER' %}
-                                        <a href="{% url 'answercouncils' answer.code %}">{{ answer.code }}</a>
+                                        <a href="{% url 'question' answer.code %}">{{ answer.code }}</a>
                                         {% else %}
                                         <div class="question-code pl-2">
                                             <span>{{ answer.code }}</span>
@@ -225,7 +225,7 @@
                                 {% if answer.type == 'HEADER' %}
                                 <td data-column="answer" colspan="1">
                                     <div class="question-content-table">
-                                        <a href="{% url 'answercouncils' answer.code %}" class="question-no is--mobile">{{ answer.code }}</a>
+                                        <a href="{% url 'question' answer.code %}" class="question-no is--mobile">{{ answer.code }}</a>
                                         {{ answer.question | linebreaks }}
                                     </div>
                                 {% else %}

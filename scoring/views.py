@@ -1,10 +1,13 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.db.models import Subquery, OuterRef, Q, Avg
+from django.shortcuts import redirect
 
 from caps.models import Council
 from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
 
 from scoring.forms import ScoringSort
+
+from caps.views import BaseLocationResultsView
 
 class HomePageView(ListView):
     template_name = "scoring/home.html"
@@ -38,6 +41,7 @@ class HomePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
 
         councils = context['object_list'].values()
         context['plan_sections'] = PlanSection.objects.filter(year=2021).all()
@@ -71,13 +75,15 @@ class HomePageView(ListView):
         context['averages'] = averages
         return context
 
-class CouncilAnswersView(DetailView):
+class CouncilView(DetailView):
     model = Council
     context_object_name = 'council'
-    template_name = 'council_answers.html'
+    template_name = 'scoring/council.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
+
         council = context.get('council')
         plan_score = PlanScore.objects.get(council=council, year=2021)
 
@@ -139,14 +145,16 @@ class CouncilAnswersView(DetailView):
         context['sections'] = sorted(sections.values(), key=lambda section: section['code'])
         return context
 
-class AnswerCouncilsView(DetailView):
+class QuestionView(DetailView):
     model = PlanQuestion
     context_object_name = 'question'
-    template_name = 'question_answers.html'
+    template_name = 'scoring/question.html'
     slug_field = 'code'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
+
         question = context.get('question')
 
         answers = PlanQuestionScore.objects.filter(
@@ -158,4 +166,13 @@ class AnswerCouncilsView(DetailView):
 
         context['question'] = question
         context['answers'] = answers
+        return context
+
+
+class LocationResultsView(BaseLocationResultsView):
+    template_name = "scoring/location_results.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_councils'] = Council.objects.all() # for location search autocomplete
         return context

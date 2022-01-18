@@ -35,8 +35,9 @@
                     <a class="nav-link" href="#">Contact</a>
                 </li>
                 <li class="d-flex align-items-center ml-2">
-                    <form class="form">
-                        <input class="form-control searchbar green dark mr-sm-2" type="search" placeholder="Council name or Post code" aria-label="Search">
+                    <form action="{% url 'location_results' %}" class="form">
+                        <input class="form-control searchbar green dark mr-sm-2 js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
+                        <!-- TODO: Do we need a submit button? -->
                     </form>
                 </li>
             </ul>
@@ -46,7 +47,9 @@
         <span>Help Climate Emergency UK by making a quick donation. We depend on you to remain independent and keep you informed!</span>
         <a class="btn donation ml-2" href="https://www.paypal.com/donate?token=JVAijB-upEdRZMmUvUG04rqaFjj4OfIaEnzewHJZgHGrCCuqOwKlJqaefZttGHMEEo7A45BVdLDBqVkn">Donate</a>
     </nav>
+
 {% block content %}{% endblock %}
+
     <footer class="container-fluid bg-dark-grey">
         <div class="mx-auto" style="max-width:1200px">
             <div class="row">
@@ -96,5 +99,8 @@
             </div>
         </div>
     </footer>
+
+{% include 'scoring/includes/location-search-autocomplete.html' %}
+
 </body>
 </html>
