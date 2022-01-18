@@ -1,14 +1,446 @@
+{% comment %} TODO update database some questions have souble versions and there are missing subpoints eg s1_gov_q2_sp4 {% endcomment %}
 {% if code == 's1_gov_q1_sp1' %}
-<p>
-Someone must be taking responsibility for overseeing the delivery of the plan. If this is a committee that qualifies for the point. 
-If it is an individual leading it must be a senior officer as they have the authority to make necessary changes.
-Most plans have someone who has written the foreword. This alone is not enough. It needs to say who (name or job role) is responsible for the plan.
-</p>
+<ul>
+    <li>Someone must be taking responsibility for overseeing the delivery of the plan. If this is a committee that qualifies for the point.</li>
+    <li>If it is an individual leading it must be a <strong>senior officer</strong> as they have the authority to make necessary changes.</li>
+    <li>Most plans have someone who has written the foreword. This alone is not enough. It needs to say who (name or job role) is responsible for the plan.</li>
+</ul>
 
 {% elif code == 's1_gov_q1_sp2' %}
-<p>
-    test 2Someone must be taking responsibility for overseeing the delivery of the plan. If this is a committee that qualifies for the point. 
-    If it is an individual leading it must be a senior officer as they have the authority to make necessary changes.
-    Most plans have someone who has written the foreword. This alone is not enough. It needs to say who (name or job role) is responsible for the plan.
-</p>
+<ul>
+    <li>This could be an officer, a committee, team or department e.g. waste management team or planning department.</li>
+    <li>At least half of the actions should be assigned to get this point.</li>
+    <li>Must be set out in the CAP - if set out in another plan that doesn’t qualify to be marked they don’t get the point.</li>
+</ul>
+
+{% elif code == 's1_gov_q1_sp3' %}
+<ul>
+    <li>Must mention all <strong>4 key bodies</strong> from the essential list plus <strong>1 other</strong> to get the point.</li>
+    <li>Desirable list contains suggestions but other key bodies can be accepted if not on the list.</li>
+</ul>
+
+{% elif code == 's1_gov_q1' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan is not led by a senior lead officer with a cabinet member or committee responsible for development and delivery and the actions are not assigned.</p>
+
+{% elif code == 's1_gov_q2' %}
+<p>The <a href="">net-zero targets</a> in the Plan are not science backed, the terms are not defined and the scope is not considered.</p>
+{% comment %} TODO we need to tidy up all the question that are v2 of an existing one {% endcomment %}
+{% elif code == 's1_gov_q2_sp1' %}
+<ul>
+    <li>A target of 2031 - 2050 = 1 point</li>
+    <li>A target of 2030 or earlier = 2 points</li>
+</ul>
+
+{% elif code == 's1_gov_q2_sp1_v2' %}
+<ul>
+    <li>A target of 2031 - 2050 = 1 point</li>
+    <li>A target of 2030 or earlier = 2 points</li>
+</ul>
+
+{% elif code == 's1_gov_q2_sp1_v2_b' %}
+<ul>
+    <li>A target of 2031 - 2050 = 1 point</li>
+    <li>A target of 2030 or earlier = 2 points</li>
+</ul>
+
+{% elif code == 's1_gov_q2_sp2' %}
+{% comment %} TODO add links {% endcomment %}
+<ul>
+    <li>These must be clear and specific dates rather than a vague graph.</li>
+    <li><a href="#">Figure 1</a> would not get the point</li>
+    <li><a href="#">Figure 2</a> would get the point</li>
+</ul>
+
+{% elif code == 's1_gov_q2_sp4' %}
+<ul>
+    <li>3 bullet points completed = 1 point </li>
+    <li>4 or more bullet points completed = 2 points</li>
+    <li>Scope in this context means do the net-zero targets themselves outline what gases are included e.g. is it net-zero carbon or net-zero greenhouse gas emissions? When will net-zero be reached? And is the intent to reduce, remove or offset the emissions? 
+    </li>
+    <li>Councils may use the terms net-zero and carbon neutral interchangeably. If they are consistent and have defined their terms they can have the point for either.
+    </li>
+</ul>
+
+{% elif code == 's1_gov_q3' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>Commitment to the climate emergency Action Plan is not embedded in the council’s <a href="#">Corporate Plan</a> or their decisions and actions.</p>
+
+{% elif code == 's1_gov_q3_sp1' %}
+<ul>
+    <li>The Corporate Plan needs to be either hyperlinked to or mentioned within the Action Plan.</li>
+    <li>If the climate emergency action plan is embedded in the Corporate Plan but it is not linked from the CAP it doesn’t get this point.</li>
+    <li>The Corporate Plan should say that it is committed to the delivery of the Climate Action Plan.</li>
+</ul>
+
+{% elif code == 's1_gov_q3_sp2' %}
+<ul>
+    <li>There should be a line in the Plan that commits to this, for example, Nottingham’s Plan says: ‘This is one of the most important and complex challenges any society has faced, which is why the Council has taken it to the core of how it operates.’</li>
+    <li>The plan could suggest which policies/procedures/etc. will need to be updated in order to achieve this or there may be an environmental consideration/implication box alongside all council decisions and motions.</li>
+    <li>Make sure there is actually a commitment rather than a vague statement. For example, ‘The Council has a vision for a low carbon future and is seeking to address climate Make sure there is actually a commitment rather than a vague statement. For example, ‘The Council has a vision for a low carbon future and is seeking to address climate </li>
+</ul>
+
+{% elif code == 's1_gov_q4' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not identify funding for any actions or cost any actions.</p>
+
+{% elif code == 's1_gov_q4_sp1' %}
+<ul>
+    <li>This is asking if the council has considered where funding will come from for specific actions.</li>
+    <li>This needs to be a broad outline of where the funding is or could be coming from for individual actions. Some Plans have a funding column which says ‘yes’ or ‘no’ for funding but we’re expecting more than this e.g. plans could mention specific government funds.</li>
+    <li>At least half of the actions must identify funding to get the point.</li>
+</ul>
+
+{% elif code == 's1_gov_q4_sp2' %}
+<ul>
+    <li>We want to see a broad outline of the cost of actions</li>
+    <li>There needs to be some actual figures or estimates of how much at least half of the actions will cost to implement.</li>
+    <li>Craven is a good example of what counts as costing the Action Plan, they have a code of estimates of how much each action will cost, with £ or ££ or £££ signs</li>
+    <li>At least half of the actions should be costed to get the point.</li>
+</ul>
+
+{% elif code == 's1_gov_q4_sp3' %}
+<ul>
+    <li>This question is about the council itself making money from green projects like renewable energy, not residents e.g. Glasgow says retrofitting will save residents money but that wouldn’t get the point.</li>
+    <li>Whereas this would get the point: "£750,000 funded by prudential borrowing has been set aside in the capital programme over three years for projects such as renewable energy and energy efficiency projects to be identified that generate sufficient income to cover the cost of borrowing. Where projects don’t make sufficient return other funding sources will be explored (e.g. government grants) and an assessment will need to be of the cost versus the benefit."</li>
+</ul>
+
+{% elif code == 's1_gov_q4_sp4' %}
+<ul>
+    <li>This question is about thinking of where funding more generally could come from.</li>
+    <li>If specific government funds are identified then this can have a point - but they need to be realistic and specific rather than a generalised comment that there may be government funding</li>
+    <li>Nottingham City Council have successfully introduced a Workplace Parking Levy which charges employers who offer car parking spaces. This money is ring fenced and used for low carbon public transport initiatives.</li>
+    <li>Newham Council in London has pioneered the licensing of landlords. This money is used for inspections of rented homes to ensure that they are meeting energy efficiency standards.</li>
+</ul>
+
+{% elif code == 's1_gov_q4_sp5' %}
+<ul>
+    <li>There needs to be a commitment to allocating a budget towards climate action rather than just a suggestion that it might be considered.</li>
+    <li>They don’t need to outline exact figures, we’re looking for a commitment that it will happen.</li>
+</ul>
+
+{% elif code == 's1_gov_q5' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not explain what the local authority can and cannot do. It does not commit to <a href="#">lobbying</a> higher levels of government or include actions where the UK Government and/or <a href="#">devolved governments</a> can help.</p>
+
+{% elif code == 's1_gov_q6' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The council does not have a monitoring system in place and there are no commitments to update the Plan annually.</p>
+
+{% elif code == 's1_gov_q6_sp1' %}
+<ul>
+    <li>If the plan states that it will come up with a monitoring system as an action then it can have the point.</li>
+</ul>
+
+{% elif code == 's1_gov_q6_sp3' %}
+<ul>
+    <li>If there are commitments to update the Plan less than annually, or the commitments are not specific about how often the Plan will be updated, it does not get the point.</li>
+    <li>They don’t need to outline exact figures, we’re looking for a commitment that it will happen.</li>
+</ul>
+
+{% elif code == 's2_m_a_q7' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The council does not have a monitoring system in place and there are no commitments to update the Plan annually.</p>
+
+{% elif code == 's2_m_a_q7_sp1' %}
+<ul>
+    <li>At the very least the implications need to be UK specific.</li>
+    <li>Preferably they would be more specific e.g. if the area is coastal, sea level rise should be mentioned</li>
+</ul>
+
+{% elif code == 's2_m_a_q8' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not set out or link to strategies for any of the above. If the council only has a strategy for its own operations the above sub-points and not the whole district then it doesn’t get the point.</p>
+
+{% elif code == 's2_m_a_q8_sp1' %}
+<ul>
+    <li>For all of the sub-points in this question the Plan must have a strategy for the <strong>whole area/district</strong>, not just for the council’s own operations.</li>
+    <li>A ‘strategy’ needs to be at least 3 specific, large actions. It must be more substantial than just a couple of lines. In order to get the point it must have at least 3 actions.</li>
+</ul>
+
+{% elif code == 's2_m_a_q8_sp2' %}
+<p>Planning in this context is about planning in relation to land use and new buildings/homes. It can include:</p>
+<ul>
+    <li>Land Use Policy - denser walkable homes</li>
+    <li>Requirements for construction as new developments will have to meet certain requirements.</li>
+    <li>Including requirements for active travel infrastructure etc. for new developments</li>
+</ul>
+
+{% elif code == 's2_m_a_q9' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not consider adaptation to climate change in any of the areas listed above. If the council only has a strategy for its own operations the above sub-points and not the whole district then it doesn’t get the point.</p>
+
+{% elif code == 's2_m_a_q9_sp1' %}
+<p>Planning in this context is about planning in relation to land use and new buildings/homes. It can include:</p>
+<ul>
+    <li>For all of the sub-points in this question the Plan must set out actions for the <strong>whole area/district</strong>, not just for the council’s own operations.</li>
+    <li>This only needs to be 1 action, not a full strategy </li>
+</ul>
+
+{% elif code == 's3_c_a_q10' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not set out how the climate and ecological emergency will be integrated with existing organisational policies, procedures, services and strategies.</p>
+
+{% elif code == 's3_c_a_q10_sp1' %}
+<p>Plan links to or mentions any other plans and/or strategies to get 1 point</p>
+
+{% elif code == 's3_c_a_q10_sp2' %}
+{% comment %} TODO there is something missing in the copy file {% endcomment %}
+<p>To be considered a ‘key aim of financial procedures’ there must be substantial evidence. One action or mention of </p>
+
+{% elif code == 's3_c_a_q10_sp3' %}
+<p>This needs to be more than just mentioning training as there is a separate question on training later. HR involvement indicates that there are issues of climate response in job descriptions, individual development, appraisal, and performance management, as these are all HR processes.</p>
+
+{% elif code == 's3_c_a_q11' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<p><strong>NOTE:</strong> This question does not apply to county councils and combined authorities</p>
+<h5>Give 0 points if:</h5>
+<p>The Plan does not integrate with and link to the council’s <a href="#">Local Plan</a>.</p>
+
+{% elif code == 's3_c_a_q11_sp1' %}
+<p>This doesn’t need to be a hyperlink, it just needs to mention the Local Plan.</p>
+
+{% elif code == 's3_c_a_q11_sp2' %}
+<ul>
+    <li>There should be a line in the Plan that explains the council’s commitment to the CAP by committing to updating the Local Plan.</li>
+    <li>If the Local Plan already commits to significant climate action they also get the point.</li>
+</ul>
+
+{% elif code == 's3_c_a_q12' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not set strong target dates for actions. <br>This could mean:</p>
+<ul>
+    <li>They are not SMART targets</li>
+    <li>There are no target dates at all</li>
+    <li>There are no target dates at all</li>
+    <li>The dates are set too far in the future (e.g. all the target dates are set to 2030)</li>
+    <li>The dates say when they actions will be started but not completed, or similar</li>
+</ul>
+
+{% elif code == 's3_c_a_q12_sp2' %}
+<p>At least half of the actions must have SMART targets to get this point</p>
+
+
+{% elif code == 's4_coms_q13' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>There has been no community engagement in the development of the Plan and there is no strategy for engaging the public in its progress.</p>
+
+{% elif code == 's4_coms_q13_sp1' %}
+<p>Mention 2 bullet points/groups to get 1 point</p>
+
+{% elif code == 's4_coms_q13_sp2' %}
+<ul>
+    <li>The mention of a Citizen’s Assembly is enough to get the point.</li>
+    <li>It would be better if it outlines the details of the Citizens Assembly but this is not essential.</li>
+</ul>
+
+{% elif code == 's4_coms_q14' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not establish any collaborative partnerships and secure commitments from different sectors within the community or include how the local authority and its leaders will work to influence and support other bodies.</p>
+
+{% elif code == 's4_coms_q14_sp1' %}
+<ul>
+    <li>Mentions partnerships with at least 3 different organisations or sectors to get 1 point.</li>
+    <li>We are looking for whether the Plan has written specifically which partners they will be working with and ideally which projects each partner will be working on.</li>
+</ul>
+
+{% elif code == 's4_coms_q14_sp2' %}
+<ul>
+    <li>This is referring to authorities at a lower level than the national government such as other local authorities, council bodies, LEPs, parish councils or regional transport bodies.</li>
+    <li>One mention of a local organisation or body e.g. the local train station is not enough for the point.</li>
+</ul>
+
+{% elif code == 's4_coms_q15' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan is very difficult to find:
+    When searching for it, it does not appear and/or the plan is only accessible via an appendix on the relevant meeting minutes.</p>
+
+{% elif code == 's4_coms_q15_sp1' %}
+<ul>
+    <li>For this question, if the Plan achieves sub-point 3, also tick the boxes for sub-points 1 and 2. If the Plan achieves sub-point 2, also tick the box for sub-point 1. This is a cumulative score so Plans will get more marks if they complete higher sub-points.</li>
+    <li>The Plan score 0, 1 for sub-point 1 alone,  2 for sub-points 1 and 2, or 3 for sub-points 1, 2 and 3 combined.</li>
+</ul>
+
+{% elif code == 's4_coms_q15_sp3' %}
+<p>Must be able to find the plan in a maximum 2 clicks from the homepage to get the point e.g. click on the climate change icon, click on link to the plan.</p>
+
+{% elif code == 's4_coms_q16' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan is inaccessible and unclear. This could include:</p>
+<ul>
+    <li>Too much jargon</li>
+    <li>Jargon is undefined</li>
+    <li>Too much text</li>
+    <li>Lack of signposting for sections</li>
+    <li>Lack of images, tables and infographics to help explain the content</li>
+</ul>
+
+{% elif code == 's4_coms_q17' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not have a clear communication strategy.</p>
+
+{% elif code == 's4_coms_q17_sp1' %}
+<ul>
+    <li>If the plan outlines actions to create a communication plan then it gets the point.</li>
+    <li>The Plan may lay out its communications plan which could include:
+        <ul>
+            <li>Social media campaigning</li>
+            <li>A clear Climate Emergency section on the website which is regularly updated
+            </li>
+            <li>Public forums</li>
+        </ul>
+    </li>
+</ul>
+
+{% elif code == 's5_mset_q18' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not measure and set emissions targets. If it only measures and sets targets for the council itself, rather than the area as a whole, it also doesn’t get the points.</p>
+
+{% elif code == 's5_mset_q18_sp1' %}
+<ul>
+    <li>Must be for the whole area not just the council.</li>
+    <li>The baseline emissions inventory should be set at 2005 or earlier. If it is set after 2005 it doesn’t get the point. This is because 2005 was when councils were required to begin reporting on emissions data.</li>
+</ul>
+
+{% elif code == 's5_mset_q18_sp2' %}
+<ul>
+    <li>Must be for the whole area not just the council.</li>
+    <li>Quantifying current emissions is now/when the plan was written. Emissions data can take a few years to be worked out so lots of plans will be using 2017 data. This would qualify for the point.</li>
+</ul>
+
+{% elif code == 's5_mset_q18_sp3' %}
+<ul>
+    <li>Must be for the whole area not just the council.</li>
+    <li>To get this point scope 1 and scope 2 must be fully set out and scope 3 needs to be at least mentioned. Scope 3 emissions are much harder to quantify and it can be hard for councils to get this data so if they have made it clear why scope 3 hasn’t been fully broken down then they can have the point.</li>
+</ul>
+
+{% elif code == 's5_mset_q19' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not highlight action areas for emissions reductions and/or only concentrates on <a href="#">carbon offsetting</a>.</p>
+
+{% elif code == 's5_mset_q19_sp1' %}
+<ul>
+    <li>At least 3 action areas = 1 point.</li>
+    <li>Action areas may also be referred to as action themes in plans.</li>
+    <li>Points can be given if these themes are for the council's own estate or for the whole district.</li>
+</ul>
+
+{% elif code == 's5_mset_q19_sp2' %}
+<ul>
+    <li>It is important that the Plan has a clear strategy for reducing emissions and doesn’t just rely on carbon offsetting. If the Plan just focuses on offsetting it does not get the point.</li>
+    <li>The fact that a plan doesn’t talk much about offsetting shows that it isn't focused on it so if there are ambitious and detailed plans for reduction and a small, or no mention of offsetting it should get the point. <a href="#">See figure 3</a></li>
+</ul>
+
+{% elif code == 's6_cb_q20' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not consider the <a href="#">co-benefits</a> of <a href="#">climate change mitigation</a> and adaptation.</p>
+
+{% elif code == 's6_cb_q20_sp1' %}
+<ul>
+    <li>3 areas covered = 1 point</li>
+    <li>5 or more areas covered = 2 points</li>
+    <li>Whether the action was designed as an environmental action that has other benefits, or was designed for another purpose and it happens to have environmental benefits, the Plan gets the points as long as it is outlined clearly.</li>
+</ul>
+
+{% elif code == 's6_cb_q20' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not outline public health risks in the area as a result of climate change or include actions to address these risks across the different action themes.</p>
+
+{% elif code == 's6_cb_q21_sp1' %}
+<ul>
+    <li>Outline any health risk = 1 point</li>
+    <li>This question seems similar to question 7 ‘Does the Plan outline the implications of climate change for the local area?’ but it needs to explicitly talk about health risks to get the point. Just pointing out that the temperatures will increase in summer and there will be more rainfall in winter is not enough.</li>
+</ul>
+
+{% elif code == 's7_dsi_q22' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not outline public health risks in the area as a result of climate change or include actions to address these risks across the different action themes.</p>
+
+{% elif code == 's7_dsi_q22_sp1' %}
+<ul>
+    <li>3 groups identified = 1 point</li>
+    <li>5 or more groups identified = 2 points</li>
+</ul>
+
+{% elif code == 's7_dsi_q22_sp2' %}
+<ul>
+    <li>3 areas covered = 1 point </li>
+    <li>5 or more areas covered = 2 points</li>
+    <li>The Plan needs to commit to actions to support the most vulnerable, not just vaguely say the council will help the vulnerable.</li>
+</ul>
+
+{% elif code == 's7_dsi_q23' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not recognise the council’s individual responsibility to climate action.</p>
+
+{% elif code == 's8_est_q24' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not include carbon and climate literacy training for all staff and councillors.</p>
+
+{% elif code == 's8_est_q25' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not include education as a key component across any of the action themes.</p>
+
+{% elif code == 's8_est_q25_sp1' %}
+<p>The Plan needs to include actions to work with schools to teach children and staff about the climate crisis.</p>
+
+{% elif code == 's8_est_q25_sp2' %}
+<ul>
+    <li>The Plan should mention at least 2 different groups of adults to get this point. It may use different wording to the question e.g. parents, adult learning, residents.</li>
+    <li>Education in this case means awareness raising and informing residents and local businesses so that people have a better understanding of the issues and what they can do, and what the council can do to tackle them.</li>
+</ul>
+
+{% elif code == 's8_est_q26' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not identify the training and upskilling of the workforce that is necessary to transform the local economy at the scale and pace needed.</p>
+
+{% elif code == 's8_est_q26_sp1' %}
+<ul>
+    <li><strong>Example:</strong> "Invest £100,000 over four years to promote the growth of the low carbon economy in Wychavon, including increasing our investment in the Low Carbon Opportunities Programme and apprenticeship grants to businesses working in green technologies."
+    </li>
+    <li>This would get the point for sub-point 1 because it recognises that employment and the economy needs to change and be supported to be lower carbon in terms of jobs.</li>
+</ul>
+
+{% elif code == 's8_est_q26_sp2' %}
+<p>But it would NOT get the point for sub-point 2 because it does not provide any detail on HOW this will happen, when it will happen and who will need to carry this out.</p>
+
+{% elif code == 's9_ee_q27' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not identify the training and upskilling of the workforce that is necessary to transform the local economy at the scale and pace needed.</p>
+
+{% elif code == 's9_ee_q27_sp2' %}
+<p>If the local authority has declared an ecological emergency they will get this point.</p>
+
+{% elif code == 's9_ee_q28' %}
+{% comment %} Give 0 points if: {% endcomment %}
+<h5>Give 0 points if:</h5>
+<p>The Plan does not outline the ecological impact of <a href="#">climate change mitigation</a> and adaptation actions.</p>
+
+{% elif code == 's9_ee_q28_sp1' %}
+<p>E.g. LED street lights have a negative impact on insects.</p>
 {% endif %}

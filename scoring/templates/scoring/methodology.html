@@ -23,6 +23,7 @@
 
         <div class="container">
             <h3 class="pending">Change everything to curly quote</h3>
+            <h3 class="pending">Check all the TODO comments</h3>
             <div class="alert alert-warning mt-4 mt-lg-5" role="alert">
                 <h3>Disclaimer</h3>
                 <span>This assessment marked Climate Action Plans that were 
@@ -45,7 +46,7 @@
             <a href="#what-have">What have we marked?</a>
         </div>
 
-        <div id="what-have" class="container">
+        <div id="what-have" class="container bg-grey">
             <div class="row mb-3">
                 <div class="col-12 col-lg-6">
                     <h3>What have we marked?</h3>
@@ -108,7 +109,7 @@
             </div>
         </div>
 
-        <div id="scoring-process" class="container">
+        <div id="scoring-process" class="container bg-grey">
             <h3 class="mb-4">Scoring Process</h3>
             <div class="sub-topic mb-4">
                 <h4 class="mb-3">First Marking</h4>
@@ -522,7 +523,7 @@
                     </div>
                 </div>
             </div>
-            <div class="sub-topic mb-4">
+            <div class="sub-topic mb-5">
                 <h4 class="mb-3">County Council Joint Plans</h4>
                 <div style="max-width:550px">
                     <p>A number of counties throughout the UK have adopted a joined-up approach in addressing the climate crisis by producing a countywide plan for multiple levels of local government to follow.</p>
@@ -631,17 +632,79 @@
 
             <div class="sub-topic mb-4">
                 <h4 class="mb-3">Question Tables</h4>
-                <div style="max-width:550px">
-                    <p>The highest scoring councils of each type and category have been marked ‘Top Performers’ in recognition of the hard work that goes into creating a goodAction Plan. Some councils are putting admirable efforts into their commitments to tackling climate change and it is only right that this should be acknowledged.</p>
-                    <p>The top performing councils in each scoring table have a star next to their name. In addition, this mark of recognition is displayed on the individual councils' pages, which also show if that council is a top performer within any of the categories.</p>
+                <div class="mb-5" style="max-width:550px">
+                    <p>Notes</p>
+                    <ul class="mb-4">
+                        <li>Words in blue can be found in the glossary (below question S9_EE_Q27)</li>
+                        <li>The following advice was given to markers to help them decide whether to award points or not. This will be helpful for understanding why a council was or wasn’t awarded points.</li>
+                    </ul>
                 </div>
+                {% for section in sections %}
+                <h5 class="mb-3">{{ section.description }} (Max points: {{ section.max_score }})</h5>
+                <div class="table-wrapper mb-5">
+                    <table class="question-table-methodology">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Question</th>
+                                <th class="score">Max points</th>
+                                <th>Additional criteria / Advice for marker</th>
+                        </thead>
+                        <tbody>
+                            {% for question in section.questions %}
+                            {% if question.type == 'HEADER' %}
+                            <tr class="header-question">
+                            {% else %}
+                            <tr class="subpoint-question">
+                            {% endif %}
+                                <td data-column="question_no" class="question-no">
+                                    <div>
+                                        {% if question.type == 'HEADER' %}
+                                        <div class="question-code">
+                                            <p class="question-header">{{ question.code }}</p>
+                                        </div>
+                                        {% else %}
+                                        <div class="question-code pl-2">
+                                            <span>{{ question.code }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                {% if question.type == 'HEADER' %}
+                                {% comment %} How are we going to handle the glossary when the data is being pulled from the database {% endcomment %}
+                                <td data-column="question" colspan="1">
+                                    <div class="question-content-table is--header">
+                                        {{ question.question | linebreaks }}
+                                    </div>
+                                {% else %}
+                                <td data-column="question">
+                                    <div class="question-content-table">
+                                        {{ question.question | linebreaks }}
+                                    </div>
+                                {% endif %}
+                                </td>
+                                <td data-column="score" class="score">
+                                    {% comment %} TODO get the max score for HEADER question {% endcomment %}
+                                    <span>{{ question.max }}</span>
+                                </td>
+                                <td>
+                                    {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
             </div>
         </div>
 
     </div>
+{% comment %} 
+    {% for section in sections %}
+        {% for question in section.questions %}
+        <p class="question-header">{{ question.code }}</p>
+        {% endfor %}
+    {% endfor %} {% endcomment %}
 
-    {% for question in questions %}
-        {{ question.code }}
-        {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
-    {% endfor %}
 {% endblock %}
