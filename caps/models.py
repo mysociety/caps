@@ -216,7 +216,7 @@ class Council(models.Model):
             group = 'district'
         elif self.authority_type == 'CTY':
             group = 'county'
-        elif self.country == NORTHERN_IRELAND:
+        elif self.country == self.NORTHERN_IRELAND:
             group = 'northern-ireland'
         elif self.authority_type == 'COMB':
             group = 'combined'
