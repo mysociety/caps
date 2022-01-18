@@ -223,5 +223,6 @@ class TestAnswerView(TestCase):
                     "description": "Mitigation and adaptation",
                     "score": 10,
                 },
+
             ],
         )
