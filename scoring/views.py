@@ -183,9 +183,42 @@ class MethodologyView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['all_councils'] = Council.objects.all() # for location search autocomplete
 
-        questions = PlanQuestion.objects.all()
+        # questions = PlanQuestion.objects.all()
+        # sections = PlanSection.objects.all()
 
-        context['questions'] = questions
+        section_qs = PlanSection.objects.filter(
+            year=2021
+        )
+
+        sections = {}
+        for section in section_qs.all():
+            sections[section.code] = {
+                'code': section.code,
+                'description': section.description,
+                'max_score': section.max_score,
+                'questions': [],
+            }
+
+        questions = PlanQuestion.objects.raw(
+            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code \
+            from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
+            where s.year = '2021' order by q.code"
+        )
+
+        for question in questions:
+            section = question.section_code
+            q = {
+                'code': question.code,
+                'display_code': question.code.replace('{}_'.format(question.section_code), '', 1),
+                'question': question.text,
+                'type': question.question_type,
+                'max': question.max_score,
+                'section': question.section.code,
+            }
+            sections[section]['questions'].append(q)
+
+        # context['questions'] = questions
+        context['sections'] = sorted(sections.values(), key=lambda section: section['code'])
         return context
 
 class AboutView(TemplateView):
