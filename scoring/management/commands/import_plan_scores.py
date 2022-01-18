@@ -81,6 +81,13 @@ class Command(BaseCommand):
     SECTION_SCORES_CSV = Path(SCORECARD_DATA_DIR, "raw_section_marks.csv")
     OVERALL_SCORES_CSV = Path(SCORECARD_DATA_DIR, "all_section_scores.csv")
 
+    DEFAULT_TOP_PERFORMER_COUNT = 10
+    TOP_PERFORMER_COUNT = {
+        'northern-ireland': 0,
+        'combined': 1,
+        'section': 5,
+    }
+
     SECTIONS = {"s1_gov": "Governance, development and funding",
         "s2_m&a": "Mitigation and adaptation",
         "s3_c&a": "Commitment and integration",
@@ -259,6 +266,47 @@ class Command(BaseCommand):
             to_create.append(score_obj)
         PlanQuestionScore.objects.bulk_create(to_create)
 
+
+    def label_top_performers(self):
+        plan_sections = PlanSection.objects.filter(year=2021)
+
+        # reset top performers
+        PlanScore.objects.update(top_performer='')
+        PlanSectionScore.objects.update(top_performer='')
+
+        for group in Council.SCORING_GROUP_CHOICES:
+            group_tag = group[0]
+
+            count = self.TOP_PERFORMER_COUNT.get(group_tag, self.DEFAULT_TOP_PERFORMER_COUNT)
+            if count == 0:
+                continue
+
+            group_params = Council.SCORING_GROUPS[group_tag]
+
+            top_plan_scores = PlanScore.objects.filter(
+                council__authority_type__in=group_params["types"],
+                council__country__in=group_params["countries"],
+                weighted_total__gt=0
+            ).order_by('-weighted_total')
+
+            for plan_score in top_plan_scores.all()[:count]:
+                plan_score.top_performer=group_tag
+                plan_score.save()
+
+
+            for section in plan_sections.all():
+                section_count = self.TOP_PERFORMER_COUNT['section']
+                top_section_scores = PlanSectionScore.objects.filter(
+                    plan_section=section,
+                    plan_score__council__authority_type__in=group_params["types"],
+                    plan_score__council__country__in=group_params["countries"]
+                ).order_by("-weighted_score")
+
+                for section_score in top_section_scores.all()[:section_count]:
+                    section_score.top_performer = group_tag
+                    section_score.save()
+
+
     def handle(self, *args, **options):
         self.get_files()
         self.create_sections()
@@ -266,3 +314,4 @@ class Command(BaseCommand):
         self.import_overall_scores()
         self.import_questions()
         self.import_question_scores()
+        self.label_top_performers()

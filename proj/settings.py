@@ -100,25 +100,25 @@ STATICFILES_FINDERS = (
 
 PIPELINE = {
     'STYLESHEETS': {
-        'main': {
+        'caps': {
             'source_filenames': (
-                'scss/main.scss',
+                'caps/scss/main.scss',
             ),
-            'output_filename': 'css/main.css',
+            'output_filename': 'css/caps.css',
         },
         'scoring': {
             'source_filenames': (
-                'scss/scoring.scss',
+                'scoring/scss/main.scss',
             ),
             'output_filename': 'css/scoring.css',
         },
     },
     'JAVASCRIPT': {
-        'main': {
+        'caps': {
             'source_filenames': (
-                'js/main.js',
+                'caps/js/main.js',
             ),
-            'output_filename': 'js/main.js',
+            'output_filename': 'js/caps.js',
         },
     },
 

@@ -1,0 +1,14 @@
+.container-fluid.hero {
+    @include responsive(padding-top, 50, 90);
+    @include responsive(padding-bottom, 30, 70);
+}
+
+.about-section {
+    @include responsive(padding-top, 50, 100);
+    @include responsive(padding-bottom, 30, 70);
+}
+
+.question-table-section {
+    @include responsive(padding-top, 30, 50);
+    @include responsive(padding-bottom, 30, 50);
+}

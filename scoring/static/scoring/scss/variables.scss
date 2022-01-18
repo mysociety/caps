@@ -1,0 +1,176 @@
+$color-scorecard-blue-l2: #D8F2FE;
+$color-scorecard-blue-l1: #7BD2F8;
+$color-scorecard-blue: #07A9F1;
+$color-scorecard-blue-d1: #045C88;
+$color-scorecard-navy: #005cab;
+$color-scorecard-purple: #7360eb;
+$color-scorecard-pink: #d92b85;
+$color-scorecard-red: #EB1924;
+$color-scorecard-orange: #f29e1a;
+$color-scorecard-yellow: #ffd80b;
+$color-scorecard-green-l1: #E4FAF5;
+$color-scorecard-green: #AFE9DD;
+$color-scorecard-green-d1: #0BC7A0;
+$color-scorecard-cyan: #54d9e2;
+$color-scorecard-grey-100: #f3f6fb;
+$color-scorecard-grey-200: #ecf0f5;
+$color-scorecard-grey-600: #6c757d;
+$color-scorecard-grey-800: #32465a;
+$color-scorecard-grey-900: #404040;
+
+// Color system
+
+$white: #FDFDFD;
+$black: #1C2624;
+
+$blue: $color-scorecard-blue;
+$purple: $color-scorecard-purple;
+$pink: $color-scorecard-pink;
+$red: $color-scorecard-red;
+$orange: $color-scorecard-orange;
+$yellow: $color-scorecard-yellow;
+$green: $color-scorecard-green;
+$cyan: $color-scorecard-cyan;
+
+$light: $white;
+
+$theme-colors: (
+    'blue': $color-scorecard-blue,
+    'navy': $color-scorecard-navy,
+    'purple': $color-scorecard-purple,
+    'pink': $color-scorecard-pink,
+    'red': $color-scorecard-red,
+    'orange': $color-scorecard-orange,
+    'yellow': $color-scorecard-yellow,
+    'green': $color-scorecard-green,
+    'cyan': $color-scorecard-cyan,
+);
+
+// Options
+
+$enable-deprecation-messages: false;
+
+// Spacing
+
+$grid-gutter-width: 30px;
+
+$spacers: (
+    "gutter": $grid-gutter-width
+);
+
+// Body
+
+$body-bg: $white;
+
+// Links
+
+$link-color: $color-scorecard-purple;
+
+// Paragraphs
+
+// Grid breakpoints
+
+// Grid containers
+
+// Grid columns
+
+// Components
+
+// Typography
+
+$font-family-sans-serif: "Lato", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+$headings-font-family: "Montserrat", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+$blockquote-font-size: 1.1rem;
+
+$mark-bg: #fffeb5;
+
+// Tables
+
+// Buttons + Forms
+
+// Buttons
+
+// Forms
+
+// Form validation
+
+// Z-index master list
+
+// Navs
+
+// Navbar
+
+$navbar-dark-color: $white;
+$navbar-dark-hover-color: rgba($navbar-dark-color, 0.8);
+$navbar-dark-active-color: $navbar-dark-color;
+$navbar-dark-toggler-border-color: rgba($navbar-dark-color, 0.3);
+
+$navbar-light-color: $color-scorecard-grey-600;
+$navbar-light-hover-color: rgba($navbar-light-color, 0.8);
+$navbar-light-active-color: $navbar-light-color;
+$navbar-light-toggler-border-color: rgba($color-scorecard-grey-600, 0.3);
+
+// Dropdowns
+
+// Pagination
+
+// Jumbotron
+
+// Cards
+
+$card-spacer-y: 1rem;
+
+// Tooltips
+
+// Popovers
+
+// Toasts
+
+// Badges
+
+// Modals
+
+$modal-backdrop-opacity: 0.25;
+
+// Alerts
+
+// Progress bars
+
+// List group
+
+// Image thumbnails
+
+// Figures
+
+// Breadcrumbs
+
+// Carousel
+
+// Spinners
+
+// Close
+
+// Code
+
+// Utilities
+$border-radius: 4px;
+$border-priority-1: 1px solid transparentize(#9CBFB7, 0.5);
+$border-priority-2: 1px solid transparentize(#9CBFB7, 0.6);
+$border-priority-3: 1px solid transparentize(#9CBFB7, 0.8);
+$border-priority-2-grey:1px solid transparentize($black, 0.8);
+
+// Printing
+
+// mySociety footer
+
+$mysoc-footer-background-color: $color-scorecard-grey-900;
+$mysoc-footer-text-color: $white;
+$mysoc-footer-link-text-color: $white;
+$mysoc-footer-divider-color: lighten($color-scorecard-grey-900, 10%);
+$mysoc-footer-donate-background-color: lighten($color-scorecard-grey-900, 10%);
+$mysoc-footer-donate-button-background-color: $color-scorecard-red;
+$mysoc-footer-legal-text-color: mix($color-scorecard-grey-200, $color-scorecard-grey-900, 80%);
+$mysoc-footer-image-path: '../img/mysoc-footer-dark/';
+$mysoc-footer-breakpoint-sm: 576px; // see $grid-breakpoints in bootstrap/variables.scss

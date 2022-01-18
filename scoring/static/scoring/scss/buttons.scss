@@ -1,0 +1,392 @@
+// Reset styles
+button {
+    // reset 
+    border-radius: $border-radius;
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    padding-left: 0;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    &:focus {
+        outline: none;
+    }
+}
+
+input::-webkit-input-placeholder {
+    color: $black !important;
+}
+
+::-moz-placeholder {
+    color: $black !important;
+}
+
+:-ms-input-placeholder {
+    color: $black !important;
+}
+
+::-webkit-input-placeholder {
+    color: $black !important;
+}
+
+::placeholder {
+    color: $black !important;
+}
+
+a {
+    display: table;
+    font-family: $font-family-sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 130%;
+    color: $color-scorecard-blue-d1;
+    text-decoration: underline;
+    @include transition(color 0.3s ease-in-out);
+    @include responsive(font-size, 14, 15);
+    letter-spacing: 0.05em;
+ 
+    &:hover {
+        color: $color-scorecard-grey-900;
+    }
+}
+
+table a {
+    @include responsive(font-size, 14, 15);
+    color: $color-scorecard-grey-900;
+    @include hover-focus {
+        color: $color-scorecard-green-d1;
+        text-decoration: none;
+    }
+}
+
+// CTA
+
+a.cta {
+    padding-right: 30px;
+    background-image: url('../img/chevron-right-blue.svg');
+    background-size: 7px auto;
+    background-repeat: no-repeat;
+    background-position: right 18px bottom 40%;
+    opacity: 0.9;
+    @include transition(background-position, transform, opacity 0.3s ease-in-out);
+
+    @include hover-focus {
+        color: $color-scorecard-blue-d1;
+        background-position: right 12px bottom 40%; ;
+        transform: translateX(3px);
+        opacity: 1;
+    }
+
+    &.white {
+        color: $white;
+    }
+
+    &.reverse {
+        padding-right: 0;
+        padding-left: 23px;
+        background-image: url('../img/chevron-white-left.svg');
+        background-size: 11px auto;
+        background-position: left 3px center;
+        opacity: 0.7;
+
+        @include hover-focus {
+            background-position: left 0px center;
+            transform: translateX(-3px);
+        }
+    }
+}
+
+.btn {
+    @include responsive(font-size, 14, 15);
+    border-radius: $border-radius;
+    box-sizing: border-box;
+    @include transition(background-color, border, color 0.3s ease-in-out);
+    color: $black;
+    font-family: $headings-font-family;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 100%;
+    letter-spacing: 0.03em;
+    padding: 7px;
+}
+
+// Color button
+
+.btn-blue {
+    background-color: $color-scorecard-blue-l1;
+    border: 1px solid $color-scorecard-blue;
+
+    @include hover-focus {
+        color: $color-scorecard-blue-d1;
+        background-color: $color-scorecard-blue-l2;
+        border: 1px solid $color-scorecard-blue;
+    }
+
+    &.is--light {
+        background-color: $color-scorecard-blue-l2;
+        @include hover-focus {
+            color: $black;
+            background-color: $color-scorecard-blue-l1;
+            border: 1px solid $color-scorecard-blue;
+        }
+    }
+}
+
+.btn-green {
+    background-color: $color-scorecard-green-d1;
+    border: 1px solid $color-scorecard-green-d1;
+
+    @include hover-focus {
+        color: $color-scorecard-green-d1;
+        background-color: $color-scorecard-green-l1;
+        border: 1px solid $green;
+    }
+
+    &.is--light {
+        background-color: transparentize($color-scorecard-green-l1, 0.7);
+        border: 1px solid $white;
+        color: $color-scorecard-grey-900;
+        @include hover-focus {
+            color: $white;
+            background-color: $color-scorecard-green-d1;
+            border: 1px solid $color-scorecard-green;
+        }
+    }
+}
+
+// Donation button
+.btn.donation {
+    background-image: url('../img/donate.svg');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: right 8px top 5px;
+    background-color: #7BD2F8;
+    text-decoration: none;
+    padding-right: 30px;
+    border: 1px solid $blue;
+    @include transition(background-color, color 0.3s ease-in-out);
+    &:hover {
+        background-color: $white;
+        color: #045C88;   
+    }
+}
+
+// Searchbar
+.searchbar {
+    background-image: url('../img/search-icon.svg');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 10px 50%;
+    padding-left: 40px;
+    width: 230px;
+    color: $black;
+    font-size: 14px;
+    border-radius: $border-radius;
+    border: 1px solid $color-scorecard-green-d1;
+    @include transition(background-color, background-image 0.3s ease-in-out);
+    @include placeholder {
+        @include transition(color 0.3s ease-in-out);
+    }
+
+    &.green.dark {
+        background-color: $color-scorecard-green-d1;
+        @include hover-focus {
+            background-color: $white; 
+        }
+        &:active {
+            background-color: $green;
+        }
+    }
+
+    &.blue.light {
+        background-color: $color-scorecard-blue-l1;
+        border: 1px solid $blue;
+        @include hover-focus {
+            background-color: $white; 
+        }
+        &:active {
+            background-color: $blue;
+        }
+    }
+
+    &.blue.dark {
+        background-image: url('../img/search-icon-white.svg');
+        color: $white;
+        background-color: darken($blue, 5%);
+        border: 1px solid $blue;
+        @include placeholder {
+            color: $white !important;
+        }
+
+        @include hover-focus {
+            background-image: url('../img/search-icon.svg');
+            background-color: #7BD2F8;
+            @include placeholder {
+                color: $black !important;
+            }
+        }
+
+        &:active {
+            background-color: $white;
+        }
+    }
+}
+
+// Open div
+.btn-open-question, .btn-open-div {
+    position: relative;
+    opacity: 0.7;
+    @include transition(opacity 0.2s ease-in-out);
+    white-space: normal;
+    font-weight: 600;
+    color: $color-scorecard-grey-900;
+    
+    &::after {
+        content:" ";
+        width: 25px;
+        height: 25px;
+        background-image: url('../img/chevron-thin-black-down.svg');
+        background-size: 13px;
+        background-repeat: no-repeat;
+        background-position: right 8px top 8px;
+        transform-origin: center;
+        position: absolute;
+        @include transition(transform 0.2s ease-in-out);
+    }
+
+    @include hover-focus {
+        opacity: 1;
+        &::after {
+            transform: translateY(1px);
+        }
+    }
+
+    &.active {
+        text-decoration: underline;
+        &::after {
+            transform: rotate(180deg);
+        }
+    }
+
+    &.is--smaller {
+        &::after {
+            content:" ";
+            width: 20px;
+            height: 20px;
+            background-position: right 1px top 7px;
+        }
+        &.active {
+            &::after {
+                background-position: right 6px top 6px;
+            }
+        }
+    }
+}
+
+.btn-open-div {
+    &::after {
+        background-image: url('../img/chevron-black-down.svg');
+    }
+}
+
+.open-div {
+    overflow: hidden;
+    @include transition(height, 0.3s ease-in-out);
+}
+
+.open-div:not(.active) {
+    display: none;
+}
+
+// Accordion
+
+.btn-open-accordion {
+    width: 44px;
+    height: 44px;
+    position: relative;
+    opacity: 0.8;
+    padding-right: 0;
+    @include transition(opacity, transform 0.2s ease-in-out);
+
+    &::after {
+        content:" ";
+        width: 25px;
+        height: 25px;
+        background-image: url('../img/plus-black.svg');
+        background-size: 15px;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include transition(background-image 0.2s ease-in-out);
+    }
+    &:hover {
+        opacity: 1;
+        transform: rotate(180deg);
+    }
+
+    &.active {
+        transform: rotate(45deg);
+        opacity: 1;
+        &::after {
+            background-image: url('../img/plus-white.svg');
+        }
+
+        &:hover {
+            opacity: 0.8;
+            transform: rotate(180deg);
+            &::after {
+                background-image: url('../img/plus-white.svg');
+            }
+        }
+    }
+}
+
+// Modal
+.close-icon {
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/close-grey.svg');
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.8;
+    @include transition(background-image, 0.3s ease-in-out);
+    &:hover {
+        background-image: url('../img/close-green.svg');
+    }
+}
+
+// Advanced filters
+.advanced-filter {
+    height: 32px;
+    padding-left: 6px;
+    padding-right: 30px;
+    background-image: url('../img/advanced-filter-grey.svg');
+    background-position: right 10px top 55%;
+    background-repeat: no-repeat;
+    border: 1px solid $color-scorecard-grey-900;
+    @include transition(background-image, background-color, color,  0.3s ease-in-out);
+    &:hover {
+        background-image: url('../img/advanced-filter-white.svg'); 
+        color: $white;
+        background-color: $color-scorecard-grey-900; 
+    }
+}
+
+// Advanced filter for council table
+.advanced-filter-simple {
+    width: 16px;
+    height: 16px;
+    background-image: url('../img/advanced-filter-black.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    @include transition(background-image 0.3s ease-in-out);
+    &:hover {
+        background-image: url('../img/advanced-filter-green.svg');
+    }
+}

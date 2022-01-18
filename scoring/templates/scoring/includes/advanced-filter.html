@@ -1,0 +1,172 @@
+<button class="advanced-filter open-modal popup-trigger"
+data-popup-trigger="one" type="button">Advanced filters</button>
+<div class="advanced-filter-wrapper bg-blue-l2 popup-modal shadow" data-popup-modal="one">
+    <div class="filter-header mb-4 mb-sm-5">
+        <h4 class="filter-title">Select which criteria you would like to filter:</h4>
+        <button class="close-icon popup-modal__close" type="button"></button>
+    </div>
+    <form>
+        {% if authority_type == 'single' %}
+        <div class="criteria-group-wrapper">
+            <button class="h5 btn-open-div" type="button">
+                Nation
+            </button>
+            <div class="option-group open-div">
+                <div class="radio-wrapper">
+                    <input type="radio" id="england" name="nation" value="england">
+                    <label for="england">England</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="scotland" name="nation" value="scotland">
+                    <label for="scotland">Scotland</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="wales" name="nation" value="wales">
+                    <label for="wales">Wales</label>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="criteria-group-wrapper">
+            <button class="h5 btn-open-div" type="button">Urbanization</button>
+            <div class="option-group open-div">
+                <div class="radio-wrapper">
+                    <input type="radio" id="urban" name="urbanization" value="urban">
+                    <label for="urban">Urban</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="rural" name="urbanization" value="rural">
+                    <label for="rural">Rural</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="remote" name="urbanization" value="remote">
+                    <label for="remote">Remote</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="criteria-group-wrapper">
+            <button class="h5 btn-open-div" type="button">
+                Current political control
+            </button>
+            <div class="option-group open-div">
+                <div class="radio-wrapper">
+                    <input type="radio" id="england" name="nation" value="england">
+                    <label for="england">England</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="scotland" name="nation" value="scotland">
+                    <label for="scotland">Scotland</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="wales" name="nation" value="wales">
+                    <label for="wales">Wales</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="criteria-group-wrapper">
+            <button class="h5 btn-open-div" type="button">
+                Annual income
+            </button>
+            <div class="option-group open-div">
+                <div class="radio-wrapper">
+                    <input type="radio" id="england" name="nation" value="england">
+                    <label for="england">England</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="scotland" name="nation" value="scotland">
+                    <label for="scotland">Scotland</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="wales" name="nation" value="wales">
+                    <label for="wales">Wales</label>
+                </div>
+            </div>
+        </div>
+
+        {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
+        <div class="criteria-group-wrapper">
+            <button class="h5 btn-open-div" type="button">
+                Index of multiple deprivation
+            </button>
+            <div class="option-group open-div">
+                <div class="radio-wrapper">
+                    <input type="radio" id="england" name="nation" value="england">
+                    <label for="england">England</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="scotland" name="nation" value="scotland">
+                    <label for="scotland">Scotland</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="wales" name="nation" value="wales">
+                    <label for="wales">Wales</label>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="criteria-group-wrapper">
+            <button class="h5 btn-open-div" type="button">
+                Total population
+            </button>
+            <div class="option-group open-div">
+                <div class="radio-wrapper">
+                    <input type="radio" id="england" name="nation" value="england">
+                    <label for="england">England</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="scotland" name="nation" value="scotland">
+                    <label for="scotland">Scotland</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="wales" name="nation" value="wales">
+                    <label for="wales">Wales</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Open modals and filters
+    const modalTriggers = document.querySelectorAll('.popup-trigger')
+    const modalCloseTrigger = document.querySelector('.popup-modal__close')
+
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const { popupTrigger } = trigger.dataset;
+            const popupModal = document.querySelector(`[data-popup-modal="${popupTrigger}"]`);
+            popupModal.classList.add('is--visible');
+
+            popupModal.querySelector('.popup-modal__close').addEventListener('click', () => {
+            popupModal.classList.remove('is--visible');
+            })
+        })
+    })
+
+    // Open div for each group of filters
+    let buttonOpen = document.getElementsByClassName('btn-open-div');
+    for (let i = 0; i < buttonOpen.length; i++) {
+        let openDiv = buttonOpen[i].nextElementSibling;
+        buttonOpen[i].addEventListener('click', () => {
+            buttonOpen[i].classList.toggle('active');
+            if(!openDiv.classList.contains('active')) {
+                openDiv.classList.toggle('active');
+                openDiv.style.height = "auto";
+                let height = openDiv.clientHeight + "px";
+                openDiv.style.height = "0px";
+                setTimeout(() => {
+                    openDiv.style.height = height;
+                }, 0) 
+            } else {
+                openDiv.style.height = "0px";
+                openDiv.addEventListener('transitionend', () => {
+                    openDiv.classList.remove('active');
+                }, {once: true})
+            }
+        })
+    }
+</script>

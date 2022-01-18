@@ -2,100 +2,261 @@
 {% load bootstrap4 %}
 
 {% block content %}
-
-<div class="row">
-    <div class="col-md-12">
-
-        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
-            <div class="card-header">
-                <h3>
-                    Sections
-                </h3>
-            </div>
-            <div class="ceuk-data-table">
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">Section</th>
-                            <th scope="col">Council Score</th>
-                            <th scope="col">Average Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for section in sections %}
-                        <tr>
-                            <td>
-                                {{ section.description }}
-                            </td>
-                            <td>
-                                {{ section.score }}
-                            </td>
-                            <td>
-                                {{ section.avg }}
-                            </td>
-                        </tr>
-                      {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+<div class="hero container-fluid bg-dark-grey">
+    <div style="max-width: 1140px" class="mx-auto">
+        <a class="cta reverse white" href="{% url 'home' %}">Back to scorecards plan</a>
+        <h1 class="text-white mt-3">{{ council.name }}</h1>
+        <div class="mt-3">
+            <!-- TODO: Real data -->
+            {% if plan_score.top_performer %}
+            <span class="top-performer hero-sub">Top Performer · </span>
+            {% endif %}
+            <span class="hero-sub">{{ authority_type.name }}</span>
         </div>
-
-        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
-            <div class="card-header">
-                <h3>
-                    Answers
-                </h3>
-            </div>
-            <div class="ceuk-data-table">
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col">Question No</th>
-                            <th scope="col">Question</th>
-                            <th scope="col">Answer</th>
-                            <th scope="col">Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for section in sections %}
-                        <tr data-has-plan="no">
-                            <td colspan="4" class="">
-                                {{ section.description }} ( {{ section.score }}/{{ section.max_score }} )
-                            </td>
-                        </tr>
-                        {% for answer in section.answers %}
-                        <tr>
-                            <td data-column="question_no">
-                                {% if answer.type == 'HEADER' %}
-                                {{ answer.display_code }}
-                                {% else %}
-                                <a href="{% url 'answercouncils' answer.code %}">{{ answer.display_code }}</a>
-                                {% endif %}
-                            </td>
-                            {% if answer.type == 'HEADER' %}
-                            <td data-column="answer" colspan="3">
-                            {% else %}
-                            <td data-column="answer">
-                            {% endif %}
-                                {{ answer.question | linebreaks }}
-                            </td>
-                            {% if answer.type != 'HEADER' %}
-                            <td data-column="answer">
-                                {{ answer.answer }}
-                            </td>
-                            <td data-column="score">
-                                {{ answer.score }}/{{ answer.max }}
-                            </td>
-                            {% endif %}
-                        </tr>
-                      {% endfor %}
-                      {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
     </div>
 </div>
 
+<div class="container about-section">
+    <div class="row">
+        <div class="col-12 col-lg-5">
+            <div class="about-section-child pt-3">
+                <h3 class="mb-3">About this council</h3>
+                {% if plan_score.top_performer %}
+                <p class="top-performer.active mb-0">This council is a top performer wthin {{ authority_type.name }} councils.</p>
+                {% endif %}
+                <a href="{% url 'scoring' authority_type.slug %}">(See in context)</a>
+                <div class="group-label-wrapper mt-5">
+                    <div class="label-wrapper">
+                        <p class="label green">Nation</p>
+                        <p>{{ council.get_country_display }}</p>
+                    </div>
+                    <div class="label-wrapper">
+                        <p class="label green">Climate pledge target</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
+                    </div>
+                    <div class="label-wrapper">
+                        <p class="label green">Annual income</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
+                    </div>
+                    <div class="label-wrapper">
+                        <p class="label green">Current political control</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
+                    </div>
+                    <div class="label-wrapper">
+                        <p class="label green">Deprivation index</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
+                    </div>
+                    <div class="label-wrapper">
+                        <p class="label green">Total population</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
+                    </div>
+                    <div class="label-wrapper">
+                        <p class="label green">Urbanization</p>
+                        <!-- TODO: Real data -->
+                        <p>XXXXX</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-2"></div>
+        <div class="col-12 col-lg-5">
+            <div class="about-section-child bg-grey-gradient-darker p-3">
+                <h3 class="mb-3">About the scoring</h3>
+                <!-- TODO: New text -->
+                <p>Amet minim mollit non deserunt 
+                    ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+                </p>
+                <p>Amet minim mollit non deserunt 
+                    ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+                </p>
+                {% comment %} If there is only one plan {% endcomment %}
+                <button type="button">Display the action plans</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container council-page">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mb-3 mb-md-4 mb-lg-5">
+                <div class="table-header mb-4">
+                    <h3>
+                        Section
+                    </h3>
+                    <!-- TODO: New text -->
+                    <p>Amet minim mollit non deserunt 
+                        ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+                    </p>
+                    <!-- TODO: Make button work -->
+                    <button>Choose councils to compare</button>
+                </div>
+                <div style="display:table">
+                    <div class="mobile-message">
+                        <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
+                        <p class="text-white">You can compare your council with others, also check the average score in the section and question tables.</p>
+                    </div>
+                    <table class="table-section mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-left">Section</th>
+                                <th scope="col">Council Score</th>
+                                <th scope="col">
+                                    <p>Average Score</p>
+                                    <span class="filter-active">Single Tier</span>
+                                    <span class="filter-active">·</span>
+                                    <span class="filter-active">Urban</span>
+                                    <button class="advanced-filter-simple mx-auto d-block mt-1"></button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for section in sections %}
+                            <tr>
+                                <td>
+                                    <div>
+                                        <a href="{% url 'home' %}">{{ section.description }}</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if section.top_performer %}
+                                    <span class="top-performer">
+                                    {% else %}
+                                    <span>
+                                    {% endif %}
+                                    {{ section.score }}/{{ section.max_score }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {{ section.avg }}
+                                </td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="table-footer mt-2">
+                        <a class="mt-3" href="">See results in context</a>
+                        <div class="social-media-wrapper">
+                            <a class="table-social-icon facebook mr-1" href=""></a>
+                            <a class="table-social-icon twitter" href=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mb-3 mb-md-4 mb-lg-5">
+                <div class="table-header mb-4">
+                    <h3>
+                        Question
+                    </h3>
+                    <!-- TODO: New text -->
+                    <p>Amet minim mollit non deserunt 
+                        ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+                    </p>
+                    <button>Choose councils to compare</button>
+                </div>
+                <div style="display: table">
+                    <table class="table-question-council mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col" class="text-left">Question</th>
+                                {% comment %} TODO Instead of score, let's use the name of the council {% endcomment %}
+                                <th scope="col" class="current-council-score">Score</th>
+                                <th scope="col" class="top-tier-head">
+                                    <p class="top-perfomer">Maximum scorers</p>
+                                    <span class="filter-active">Single Tier</span>
+                                    <span class="filter-active">·</span>
+                                    <span class="filter-active">Urban</span>
+                                    <button class="advanced-filter-simple mx-auto d-block mt-1"></button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for section in sections %}
+                            <tr data-has-plan="no" class="bg-green section-row">
+                                <td></td>
+                                <td colspan="1" class="section-cell">
+                                    {{ section.description }}
+                                </td>
+                                <td class="score is--section-score top-perfomer">
+                                    <span>{{ section.score }}/{{ section.max_score }}</span>
+                                </td>
+                                <td class="top-tier-score">
+                                    {% comment %} TODO add single top perfomers {% endcomment %}
+                                    {% comment %} Eg: 15 out of 120, this is a link{% endcomment %}
+                                    <a href="#" class="mx-auto" style="text-transform: none">15 out of 120</a>
+                                </td>
+                                <td class="button-wrapper p-0">
+                                    {% comment %} TODO what would probably work for the accordion is
+                                    to add a class to the "tr" element below this one with the section name, and then
+                                    the button just an active state to all the "tr" that share the same class.
+                                    {% endcomment %}
+                                    <button type="button" class="accordion">
+                                        <div class="mx-auto"></div>
+                                    </button>
+                                </td>
+
+                            </tr>
+                            {% for answer in section.answers %}
+                            {% if answer.type == 'HEADER' %}
+                            <tr class="header-question">
+                            {% else %}
+                            <tr class="subpoint-question">
+                            {% endif %}
+                                <td data-column="question_no" class="question-no">
+                                    <div>
+                                        {% if answer.type == 'HEADER' %}
+                                        <a href="{% url 'answercouncils' answer.code %}">{{ answer.code }}</a>
+                                        {% else %}
+                                        <div class="question-code pl-2">
+                                            <span>{{ answer.code }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                {% if answer.type == 'HEADER' %}
+                                <td data-column="answer" colspan="1">
+                                    <div class="question-content-table">
+                                        <a href="{% url 'answercouncils' answer.code %}" class="question-no is--mobile">{{ answer.code }}</a>
+                                        {{ answer.question | linebreaks }}
+                                    </div>
+                                {% else %}
+                                <td data-column="answer">
+                                    <div class="question-content-table">
+                                        <span class="question-no is--mobile">{{ answer.code }}</span>
+                                        {{ answer.question | linebreaks }}
+                                    </div>
+                                {% endif %}
+                                </td>
+                                {% if answer.type != 'HEADER' %}
+                                <td data-column="score" class="score">
+                                    <span>{{ answer.score }}/{{ answer.max }}</span>
+                                </td>
+                                {% else %}
+                                <td data-column="score" class="score is--header-score top-perfomer">
+                                    {% comment %}TODO score obtained / the total points for the header question {% endcomment %}
+                                    <span>7/10</span>
+                                </td>
+                                <td data-column="top-tier-score" class="top-tier-score">
+                                    <a href="#" class="mx-auto" style="text-transform: none">13 out of 120</a>
+                                </td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

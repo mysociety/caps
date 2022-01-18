@@ -1,0 +1,89 @@
+$table-section-mobile-breakpoint: 500px;
+.council-page .table-header {
+    max-width: 455px;
+
+    button {
+        @media only screen and (max-width: 915px) {
+            display: none;
+        }
+    }
+}
+
+.mobile-message {
+    background-color: $color-scorecard-grey-900;
+    padding: 1rem;
+    @media only screen and (min-width: $table-section-mobile-breakpoint) {
+        display: none;
+    }
+}
+
+.table-section {
+    
+    table-layout: fixed;
+    border: $border-priority-2;
+    border-radius: $border-radius;
+    @media only screen and (max-width: $table-section-mobile-breakpoint) {
+        width: 100%;
+    }
+
+    //First column width
+    thead tr th, tbody tr td {
+        &:first-child {
+            width: 275px;
+            text-align: left;
+            @media only screen and (max-width: $table-section-mobile-breakpoint) {
+                width: 60%;
+            }
+        }
+    }
+
+    //Second column(Current council)
+    thead tr th, tbody tr td {
+        &:nth-child(2) {
+            @include border-priority-1(right);
+            @include border-priority-1(left);
+            @media only screen and (max-width: $table-section-mobile-breakpoint) {
+                width: 40%;
+            }
+        }
+        @media only screen and (max-width: $table-section-mobile-breakpoint) {
+            &:nth-child(n+3) {
+                display: none;
+            }
+        }
+    }
+
+    // >= 2nd column
+    th, td {
+        width: 155px;
+        padding: 16px;
+        text-align: center;
+        @include border-priority-2(bottom);
+        @media only screen and (max-width: $table-section-mobile-breakpoint) {
+            width: auto;
+        }
+    }
+
+    //Row
+    tbody tr {
+        background-color:$color-scorecard-green-l1;
+        &:nth-child(odd) {
+            background-color:#C3EFE5;
+        }
+    }
+
+    td .top-performer {
+        padding-left: 22px;
+        margin-left: -22px;
+        @include transition(background-image 0.3s ease-in-out);
+        background-image: url('../img/star.svg');
+        background-repeat: no-repeat;
+        background-size: 15px;
+        background-position: top 50% left 0;
+    }
+
+    //Font style
+    thead th {
+        @include table-header;
+    }
+}

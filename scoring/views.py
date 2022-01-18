@@ -9,22 +9,29 @@ from scoring.forms import ScoringSort
 class HomePageView(ListView):
     template_name = "scoring/home.html"
 
-    def get_queryset(self):
+    def get_authority_type(self):
         authority_type = self.kwargs.get('council_type', '')
-        qs = Council.objects.annotate(
-            score=Subquery(
-                PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('weighted_total')
-            )
-        ).order_by('-score')
-
         try:
             group = Council.SCORING_GROUPS[authority_type]
         except:
             group = Council.SCORING_GROUPS['single']
 
+        return group
+
+    def get_queryset(self):
+        authority_type = self.get_authority_type()
+        qs = Council.objects.annotate(
+            score=Subquery(
+                PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('weighted_total')
+            ),
+            top_performer=Subquery(
+                PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('top_performer')
+            )
+        ).order_by('-score')
+
         qs = qs.filter(
-            authority_type__in=group['types'],
-            country__in=group['countries']
+            authority_type__in=authority_type['types'],
+            country__in=authority_type['countries']
         )
 
         return qs
@@ -40,7 +47,10 @@ class HomePageView(ListView):
 
         for council in councils:
             council['all_scores'] = all_scores[council['id']]
-            council['percentage'] = council['score']
+            if council['score'] is not None:
+                council['percentage'] = council['score']
+            else:
+                council['percentage'] = 0
 
         codes = PlanSection.section_codes()
 
@@ -51,6 +61,10 @@ class HomePageView(ListView):
                 councils = sorted(councils, key=lambda council: 0 if council['score'] == 0 else council['all_scores'][sort]['score'], reverse=True)
         else:
             form = ScoringSort()
+
+        authority_type = self.get_authority_type()
+        context['authority_type'] = authority_type['slug']
+        context['authority_type_label'] = authority_type['name']
 
         context['form'] = form
         context['council_data'] = councils
@@ -75,6 +89,7 @@ class CouncilAnswersView(DetailView):
         sections = {}
         for section in section_qs.all():
             sections[section.plan_section.code] = {
+                'top_performer': section.top_performer,
                 'code': section.plan_section.code,
                 'description': section.plan_section.description,
                 'max_score': section.max_score,
@@ -99,8 +114,8 @@ class CouncilAnswersView(DetailView):
         questions = PlanQuestion.objects.raw(
             "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score \
             from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
-            join scoring_planquestionscore a on q.id = a.plan_question_id \
-            where s.year = '2021' and ( a.plan_score_id = %s or a.plan_score_id is null) and a.plan_question_id is not null\
+            left join scoring_planquestionscore a on q.id = a.plan_question_id \
+            where s.year = '2021' and ( a.plan_score_id = %s or a.plan_score_id is null) and (q.question_type = 'HEADER' or a.plan_question_id is not null)\
             order by q.code",
             [plan_score.id]
         )
@@ -119,6 +134,7 @@ class CouncilAnswersView(DetailView):
             }
             sections[section]['answers'].append(q)
 
+        context['authority_type'] = group
         context['plan_score'] = plan_score
         context['sections'] = sorted(sections.values(), key=lambda section: section['code'])
         return context

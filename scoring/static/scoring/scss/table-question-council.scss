@@ -1,0 +1,214 @@
+
+$mobile-breakpoint-question-table: 500px;
+
+.table-question-council {
+    table-layout: fixed;
+
+    // table borders
+    th {
+        @include border-priority-2(top);
+        &:first-child {
+            @include border-priority-2(left);
+        }
+
+        &:last-child {
+            @include border-priority-2(right); 
+        }
+    }
+
+    tbody {
+        td {
+            &:first-child {
+                @include border-priority-2(left);
+            }
+    
+            &:last-child {
+                @include border-priority-2(right); 
+            }
+        }
+
+        tr {
+            &:last-child td {
+                @include border-priority-2(bottom);
+            }
+        }
+    }
+
+    th, td  {
+        @include responsive(padding, 12, 16);
+
+    }
+
+    thead th {
+        @include table-header;
+
+        .top-perfomer {
+            background-image: url('../img/star-teal.svg');
+            background-size: 15px;
+            background-repeat: no-repeat;
+            background-position: left 0px top 4px;
+            padding-left: 2px;
+        }
+    }
+
+    //Section cell
+    .section-cell {
+        font-family: $font-family-sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        @include responsive(font-size, 13, 15);
+        line-height: 120%;
+        letter-spacing: 0.01em;
+    }
+
+    // Accordion button
+    .button-wrapper {
+        vertical-align: middle;
+        padding: 0 !important;
+        min-width: 44px;
+        min-height: 44px;
+        button.accordion {
+            width: 100%;
+            min-height: 44px;
+            background-color: $green;
+            background-position: center;
+            @include transition(background-color 0.3s ease-in-out);
+
+            div {
+                width: 15px;
+                height: 10px;
+                background-image: url('../img/chevron-black-down.svg');
+                background-repeat: no-repeat;
+                background-size: contain;
+                @include transition(transform 0.3s ease-in-out);
+            }
+
+            @include hover-focus() {
+                background-color: $color-scorecard-green-d1;
+                div{
+                    transform: rotate(180deg);
+                }
+                
+            }
+
+            &.active {
+                div{
+                    background-image: url('../img/chevron-black-up.svg');
+                }
+            }
+        }
+    }
+
+    //Header question
+    tr.header-question {
+        background-color: lighten($color: $green, $amount: 5%);
+
+        td .question-content-table {
+            @include responsive(font-size, 14, 15);
+        }
+    }
+
+    //subpoint questions
+    tr.subpoint-question {
+        background-color: $white;
+        td {
+            @include border-priority-3(bottom);
+        }
+
+        td .question-content-table {
+            @include responsive(font-size, 13, 14);
+        }
+    }
+
+    // First column
+    .question-no {
+        padding: 16px 10px;
+        text-transform: uppercase;
+        @include responsive(font-size, 11, 12);
+        vertical-align: top;
+
+        &.is--mobile {
+            display: none;
+            padding: 0;
+        }
+
+        .question-code {
+            width: 75px;
+            overflow: hidden;
+            word-break: break-all;
+    
+            a {
+                background-color: white;
+                border-radius: 4px;
+                padding: 5px 8px;
+                display: inline-block;
+                border: 1 solid $green;
+            }
+        }
+    }
+
+    //Score column for councils
+    .score {
+        span {
+            padding-left: 17px;
+        }
+        &.is--header-score, &.is--section-score {
+            &.top-perfomer {
+                span {
+                    background-image: url('../img/star.svg');
+                    background-size: 13px;
+                    background-repeat: no-repeat;
+                    background-position: left 0 center;
+                }
+            }
+        }
+    }
+
+    // Mobile version
+    @media only screen and (max-width: $mobile-breakpoint-question-table) {
+
+        @include border-priority-2(left);
+
+        .top-tier-score, .top-tier-head {
+            display: none;
+        }
+
+        thead th {
+            // Hiding question column
+            &:first-child {
+                display: none;
+            }
+        }
+
+        tbody td {
+            // Hiding question column
+            &:first-child {
+                display: none;
+            }
+        }
+
+        .score.is--header-score {
+            @include border-priority-2(right);
+        }
+
+        .current-council-score {
+            @include border-priority-2(right);
+        }
+
+        .question-no {
+            display: none;
+            font-weight: 600;
+            margin-bottom: 10px;
+
+            &.is--mobile {
+                display: block;
+                padding: 0;
+            }
+        }
+
+        a.question-no.is--mobile {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+}

@@ -15,6 +15,8 @@ class PlanScore(models.Model):
     # these are percentages
     weighted_total = models.FloatField(default=0)
     total = models.FloatField(default=0)
+    top_performer = models.CharField(max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True)
+
 
 
 class PlanSection(models.Model):
@@ -25,6 +27,8 @@ class PlanSection(models.Model):
     code = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
+    top_performer = models.CharField(max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True)
+
 
     @classmethod
     def section_codes(cls):
@@ -54,8 +58,13 @@ class PlanSection(models.Model):
             max_score = max_score + score.max_score
             averages[score.code] = { 'score': round(score.average_score), 'max': score.max_score }
 
-        avg_score = round(has_score_avg['average'])
-        averages['total'] = { 'score': avg_score, 'max': max_score, 'percentage': round( ( avg_score / max_score ) * 100 ) }
+        avg_score = 0
+        percentage = 0
+        if has_score_avg['average'] is not None:
+            avg_score = round(has_score_avg['average'])
+            percentage = avg_score / max_score
+
+        averages['total'] = { 'score': avg_score, 'max': max_score, 'percentage': round( percentage * 100 ) }
 
         return averages
 
@@ -73,6 +82,8 @@ class PlanSectionScore(models.Model):
     max_score = models.PositiveSmallIntegerField(default=0)
     # this is a percentage
     weighted_score = models.FloatField(default=0)
+    top_performer = models.CharField(max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True)
+
 
     @classmethod
     def get_all_council_scores(cls):

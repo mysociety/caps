@@ -1,0 +1,199 @@
+#top-filter {
+    border: $border-priority-2-grey;
+    border-bottom: none;
+}
+
+#filter-result {
+    border: $border-priority-2-grey;
+    border-top: none;
+}
+
+.accordion-wrapper {
+    background-color: $white;
+}
+
+.question-table-section {
+    $padding: 10px;
+    $mobile-breakpoint:500px;
+
+    .question-accordion-item {
+        border: $border-priority-2-grey;
+        border-bottom: none;
+
+        &.is--subpoint-question {
+            .label {
+                margin-left: calc(1em / 2);
+            }
+        }
+
+        &:first-child {
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+        }
+
+        &:last-child {
+            border-bottom: $border-priority-2-grey;
+            border-bottom-left-radius: $border-radius;
+            border-bottom-right-radius: $border-radius;
+        }
+    }
+
+    .question-info {
+        padding: $padding;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: start;
+
+        .label {
+            @media only screen and (max-width: $mobile-breakpoint) {
+                flex-basis: 100%;
+                margin-bottom: 10px !important;
+                margin-right:0 !important;
+            }
+        }
+
+        .question-text {
+            max-width: 700px;
+        }
+
+        .btn-open-question {
+            opacity: 1;
+            font-weight: 400;
+        }
+
+        .question-text {
+            height: 60px;
+            overflow-y: hidden;
+            @include transition(height, 0.3s ease-in-out);
+        }
+
+        &.active {
+            background-color: $color-scorecard-grey-900;
+
+            p, span, button {
+                color: $white;
+            }
+
+            .question-text {
+                color: $white;
+            }
+
+            .label.grey {
+                background-color: transparentize($color: $white, $amount: 0.1);
+                color: $color-scorecard-grey-900;
+            }
+
+            .btn-open-question {
+                &::after {
+                    background-image: url('../img/chevron-down-white.svg') !important;
+                }
+                @include hover-focus {
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
+
+    .question-data {
+        height: 0;
+        padding: 0 $padding;
+        overflow-y: hidden;
+        @include transition(height, 0.3s ease-in-out);
+
+        .question-data-inner {
+            margin-top: $padding;
+            margin-bottom: $padding;
+
+            .data-summary {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-content: flex-start;
+
+                .data-summary-item {
+                    flex-basis: 50%;
+                    text-align: center;
+                    max-width: 150px;
+                    max-height: 110px;
+                    padding: 13px 20px 16px 20px;
+                    // Because this items will be dinamically generated, I'm using
+                    //box-shadow instead of border.
+                    box-shadow: 
+                    1px 0 0 0 $green, 
+                    0 1px 0 0 $green, 
+                    1px 1px 0 0 $green,   /* Just to fix the corner */
+                    1px 0 0 0 $green inset, 
+                    0 1px 0 0 $green inset;
+
+                    &.main {
+                        background-color: $color-scorecard-green-l1;
+                    }
+
+                    .result {
+                        font-family: $font-family-sans-serif;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 20px;
+                        line-height: 150%;
+                        letter-spacing: 0.02em;
+                        color: $black;
+                        opacity: 0.8;
+                        margin-bottom: 0px;
+                    }
+
+                    p {
+                        font-size: 13px;
+                        opacity: 0.7;
+                        margin-bottom: 6px;
+                    }
+
+                    .total-points {
+                        font-family: $font-family-sans-serif;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 12px;
+                        line-height: 100%;
+                        text-align: center;
+                        letter-spacing: 0.02em;
+                        text-transform: uppercase;
+                        color: $black;
+                        opacity: 0.8;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Table
+.question-table-wrapper {
+    max-height: 535px;
+    overflow: auto;
+
+    table {
+        border-collapse: collapse;
+        position: relative;
+    }
+
+    thead th{
+        background-color: $green;
+        z-index: 1;
+        position: sticky;
+        padding: 20px 10px;
+        top: 0;
+    }
+
+    tbody {
+        td {
+            padding: 20px 10px;
+        }
+        tr {
+            background-color: $white;
+            &:nth-child(even) {
+                background-color: $color-scorecard-green-l1;
+            }
+        }
+    }
+
+}
