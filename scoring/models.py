@@ -92,6 +92,13 @@ class PlanScore(models.Model):
         return codes_to_descriptions.get(ruc_cluster)
 
 
+# this needs to handle councils that use district plan. possibly just have duplicates?
+class PlanScoreDocument(models.Model):
+    plan_score = models.ForeignKey(PlanScore, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200, null=True)
+    plan_url = models.URLField(max_length=1000)
+
+
 class PlanSection(models.Model):
     """
     Details of a section in the scoring
