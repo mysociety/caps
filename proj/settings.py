@@ -156,6 +156,11 @@ PLAN_SCORECARD_DATASET_DETAILS = {
     "private": True,
 }
 
+SCORED_PLANS_CSV_KEY = "1SctltlJq1CF6E1pmNHDzSZl29sth7NqvBuCOL5FJCJc"
+SCORED_PLANS_CSV_SHEET_NAME = "Council Tracker"
+SCORED_PLANS_CSV_NAME = "scored_plans.csv"
+SCORED_PLANS_CSV = os.path.join(DATA_DIR, SCORED_PLANS_CSV_NAME)
+
 # Application definition
 
 INSTALLED_APPS = [
