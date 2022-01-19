@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView, TemplateView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Subquery, OuterRef, Q, Avg
-from django.shortcuts import redirect
+from django.shortcuts import redirect, resolve_url
 
 from caps.models import Council
 from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
@@ -8,8 +9,22 @@ from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestio
 from scoring.forms import ScoringSort
 
 from caps.views import BaseLocationResultsView
+from scoring.mixins import CheckForDownPageMixin
 
-class HomePageView(ListView):
+class DownPageView(TemplateView):
+    template_name = "scoring/down.html"
+
+class LoginView(LoginView):
+    next_page = 'home'
+    template_name = 'scoring/login.html'
+
+    def get_success_url(self):
+        return resolve_url(self.next_page)
+
+class LogoutView(LogoutView):
+    next_page = 'home'
+
+class HomePageView(CheckForDownPageMixin, ListView):
     template_name = "scoring/home.html"
 
     def get_authority_type(self):
@@ -75,7 +90,7 @@ class HomePageView(ListView):
         context['averages'] = averages
         return context
 
-class CouncilView(DetailView):
+class CouncilView(CheckForDownPageMixin, DetailView):
     model = Council
     context_object_name = 'council'
     template_name = 'scoring/council.html'
@@ -145,7 +160,7 @@ class CouncilView(DetailView):
         context['sections'] = sorted(sections.values(), key=lambda section: section['code'])
         return context
 
-class QuestionView(DetailView):
+class QuestionView(CheckForDownPageMixin, DetailView):
     model = PlanQuestion
     context_object_name = 'question'
     template_name = 'scoring/question.html'
@@ -168,7 +183,8 @@ class QuestionView(DetailView):
         context['answers'] = answers
         return context
 
-class LocationResultsView(BaseLocationResultsView):
+
+class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
     template_name = "scoring/location_results.html"
 
     def get_context_data(self, **kwargs):
@@ -176,7 +192,7 @@ class LocationResultsView(BaseLocationResultsView):
         context['all_councils'] = Council.objects.all() # for location search autocomplete
         return context
 
-class MethodologyView(TemplateView):
+class MethodologyView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/methodology.html"
 
     def get_context_data(self, **kwargs):
@@ -220,7 +236,7 @@ class MethodologyView(TemplateView):
         context['sections'] = sorted(sections.values(), key=lambda section: section['code'])
         return context
 
-class AboutView(TemplateView):
+class AboutView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/about.html"
 
     def get_context_data(self, **kwargs):
@@ -228,7 +244,7 @@ class AboutView(TemplateView):
         context['all_councils'] = Council.objects.all() # for location search autocomplete
         return context
 
-class ContactView(TemplateView):
+class ContactView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/contact.html"
 
     def get_context_data(self, **kwargs):
