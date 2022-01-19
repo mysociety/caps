@@ -1,5 +1,6 @@
 {% extends "scoring/base.html" %}
 {% load bootstrap4 %}
+{% load caps_templatetags %}
 
 {% block content %}
 <div class="hero container-fluid bg-dark-grey">
@@ -83,6 +84,9 @@
                 </p>
                 {% comment %} If there is only one plan {% endcomment %}
                 <button type="button">Display the action plans</button>
+              {% for plan_url in plan_urls %}
+                <a href="{{ plan_url.plan_url }}">{{ plan_url.plan_url|url_human }}</a><br>
+              {% endfor %}
             </div>
         </div>
     </div>

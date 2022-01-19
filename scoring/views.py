@@ -8,6 +8,7 @@ from django_filters.views import FilterView
 from caps.models import Council, Promise
 from scoring.models import (
     PlanScore,
+    PlanScoreDocument,
     PlanSection,
     PlanSectionScore,
     PlanQuestion,
@@ -157,6 +158,8 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
         plan_score = PlanScore.objects.get(council=council, year=2021)
 
+        plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
+
         section_qs = PlanSectionScore.objects.select_related("plan_section").filter(
             plan_score__council=council, plan_section__year=2021
         )
@@ -221,6 +224,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         context["targets"] = promises
         context["authority_type"] = group
         context["plan_score"] = plan_score
+        context["plan_urls"] = plan_urls
         context["sections"] = sorted(
             sections.values(), key=lambda section: section["code"]
         )
