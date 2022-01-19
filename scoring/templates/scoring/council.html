@@ -35,34 +35,38 @@
                     </div>
                     <div class="label-wrapper">
                         <p class="label green">Climate pledge target</p>
-                        <!-- TODO: Real data -->
-                        <p>XXXXX</p>
+                      {% for target in targets %}
+                      {% if target.scope is None %}
+                        <p>No target</p>
+                      {% else %}
+                        <p>{{ target.get_scope_display }}: {{ target.target_year }}</p>
+                      {% endif %}
+                      {% endfor %}
                     </div>
-                    <div class="label-wrapper">
-                        <p class="label green">Annual income</p>
-                        <!-- TODO: Real data -->
-                        <p>XXXXX</p>
-                    </div>
-                    <div class="label-wrapper">
-                        <p class="label green">Current political control</p>
-                        <!-- TODO: Real data -->
-                        <p>XXXXX</p>
-                    </div>
+                  {% if plan_score.deprivation_quintile %}
                     <div class="label-wrapper">
                         <p class="label green">Deprivation index</p>
-                        <!-- TODO: Real data -->
-                        <p>XXXXX</p>
+                        <p>{{ plan_score.deprivation_quintile }}</p>
                     </div>
+                  {% endif %}
+                  {% if plan_score.population %}
                     <div class="label-wrapper">
                         <p class="label green">Total population</p>
-                        <!-- TODO: Real data -->
-                        <p>XXXXX</p>
+                        <p>{{ plan_score.population }}</p>
                     </div>
+                  {% endif %}
+                  {% if plan_score.get_ruc_cluster_display %}
                     <div class="label-wrapper">
                         <p class="label green">Urbanization</p>
-                        <!-- TODO: Real data -->
-                        <p>XXXXX</p>
+                        <p>{{ plan_score.get_ruc_cluster_display }}</p>
                     </div>
+                  {% endif %}
+                  {% if plan_score.political_control %}
+                    <div class="label-wrapper">
+                        <p class="label green">Current political control</p>
+                        <p>{{ plan_score.political_control }}</p>
+                    </div>
+                  {% endif %}
                 </div>
             </div>
         </div>

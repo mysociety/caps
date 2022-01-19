@@ -3,7 +3,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Subquery, OuterRef, Q, Avg
 from django.shortcuts import redirect, resolve_url
 
-from caps.models import Council
+from caps.models import Council, Promise
 from scoring.models import (
     PlanScore,
     PlanSection,
@@ -125,6 +125,8 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         ] = Council.objects.all()  # for location search autocomplete
 
         council = context.get("council")
+        promises = Promise.objects.filter(council=council).all()
+
         plan_score = PlanScore.objects.get(council=council, year=2021)
 
         section_qs = PlanSectionScore.objects.select_related("plan_section").filter(
@@ -188,6 +190,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             }
             sections[section]["answers"].append(q)
 
+        context["targets"] = promises
         context["authority_type"] = group
         context["plan_score"] = plan_score
         context["sections"] = sorted(
