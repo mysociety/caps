@@ -1,6 +1,137 @@
 {% extends "scoring/base.html" %}
 {% load bootstrap4 %}
+{% load static %}
 
 {% block content %}
-This is guide
+<div class="how-to-use-page">
+    <div class="hero container-fluid bg-dark-grey">
+        <div style="max-width: 1110px" class="mx-auto">
+            <a class="cta reverse white" href="{% url 'home' %}">Back to scorecards plan</a>
+            <h1 class="text-white mt-3">How to use the scorecards</h1>
+            <div class="mt-3">
+                <span class="hero-sub">Learn how to use them</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <h3 class="mb-4">How to use the Council Climate Plan Scorecards for climate action in your area.</h3>
+                <p>The <a href="{% url 'home' %}">Council Climate Plan Scorecards</a> let you see, at a glance, how your own council's plan performs in comparison to the plans of other councils across the UK.</p>
+                <p>But once you've checked that out, you might be wondering what to do with this information. That's quite understandable — the path from data to action isn't always clear! So with that in mind we've gathered together some ways in which you, as residents and community groups, can use this data to bring about meaningful change.</p>
+                <div class="alert alert-warning mt-4" role="alert">
+                    {% comment %} TODO add link to councillor {% endcomment %}
+                    <span>If you’re a Councillor or Officer <a href="">click here</a> for guidance on how to use the Scorecards within your council for change</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12 col-lg-6">
+                <h3>Quick and simple actions you can take right now</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="mb-3">
+                    <h4 class="mb-3">Tweet at your council</h4>
+                    <p>You'll find each council's Twitter handle on their page of the Climate Action Plans Scorecards website.</p>
+                    <img class="mb-3" width="100%" src="{% static 'scoring/img/twitter-handle-screenshot.jpg' %}" target="_blank">
+                    {% comment %} TODO add link to media folder {% endcomment %}
+                    <p class="mb-0">You can use our suggested tweet below, check out our media pack for more ideas, or compose your own tweet - just remember to @ your council in.</p>
+                </div>
+                <div class="bubble is--green mb-3">
+                    <h5 class="mb-2">General tweet</h5>
+                    <p>Up to 30% of the UK's transition to zero carbon is within the influence of local councils - that's why I'm checking [@TWITTER NAME OF YOUR COUNCIL]'s Climate Action Plan on [LINK TO COUNCIL'S PAGE ON SCORECARDS SITE] 📋 #CouncilClimateScorecards. 
+                    </p>
+                </div>
+                <div class="bubble is--blue mb-4">
+                    <h5 class="mb-2">Why?</h5>
+                    <p class="mb-3">It helps show your council — and your followers —  that you care about the steps they say they’re taking towards net zero, and that there's support for strong action amongst their residents.</p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="mb-3">
+                    <h4 class="mb-3">Share your council's score</h4>
+                    <p>With your own social networks - social media, email, word of mouth - however you can ensure more people see it.</p>
+                    <div class="bubble is--blue mb-4">
+                        <h5 class="mb-2">Why?</h5>
+                        <p>The more exposure the Scorecards get, the more conversation there will be around councils taking strong climate action, bringing the idea into the mainstream.</p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h4 class="mb-3">Send a letter to the local newspaper</h4>
+                    {% comment %} TODO add link to letter {% endcomment %}
+                    <p>We've shared a template letter here, which you can personalise as you wish. You can find the email address for your local paper on their contact us page on their website, and put ‘letter to editor’ in the email title.</p>
+                    <div class="bubble is--blue mb-4">
+                        <h5 class="mb-2">Why?</h5>
+                        <p>Local press is an effective route to reaching an audience that cares about your local community.</p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h4 class="mb-3">Send a press release to your local paper or radio station/s</h4>
+                    {% comment %} TODO add link to letter {% endcomment %}
+                    <p>Here's a template which you can edit and send.</p>
+                    <div class="bubble is--blue mb-4">
+                        <h5 class="mb-2">Why?</h5>
+                        <p> Local media really helps us get the word out, but we need your help to make sure we've covered every outlet. Councillors always read their local paper, so this is a great way to make sure your council sees the Scorecards and is encouraged to do more.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row py-4">
+            <div class="col-12 col-lg-6">
+                <div class="accordion-wrapper rounded">
+                    <div class="accordion-item">
+                        <div class="accordion-heading">
+                            <p class="mb-0">This is heading</p>
+                            <button class="btn-open-accordion ml-auto" type="button"></button>
+                        </div>
+                        <div class="accordion-data">
+                            <div class="row accordion-data-inner">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+        // Open accordion item
+        let accordionItemData = document.getElementsByClassName('accordion-data');
+        let accordionItemQuestion = document.getElementsByClassName('accordion-heading');
+    
+        for (let i = 0; i < accordionItemData.length; i++) {
+            let accordionItemDataOffHeight = accordionItemData[i].offsetHeight;
+            let accordionItemDataScrollHeight = accordionItemData[i].scrollHeight;
+            let buttonAccordion = accordionItemQuestion[i].querySelector('.btn-open-accordion');  
+            buttonAccordion.addEventListener('click', () => {
+                if(!accordionItemData[i].classList.contains('active')) {
+                    accordionItemData[i].classList.toggle('active');
+                    buttonAccordion.classList.toggle('active');
+                    accordionItemQuestion[i].classList.toggle('active');
+                    accordionItemData[i].style.height = "auto";
+                    let height = accordionItemData[i].clientHeight + "px";
+                    accordionItemData[i].style.height = "0px";
+                    setTimeout(() => {
+                        accordionItemData[i].style.height = height;
+                    }, 0) 
+                } else {
+                    accordionItemData[i].style.height = "0px";
+                    accordionItemData[i].addEventListener('transitionend', () => {
+                        accordionItemData[i].classList.remove('active');
+                        accordionItemQuestion[i].classList.remove('active');
+                        buttonAccordion.classList.remove('active');
+                    }, {once: true})
+                }
+            })
+        }
+</script>
 {% endblock %}

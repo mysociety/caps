@@ -75,6 +75,79 @@
     }
 }
 
+// Bubble
+// Usage <div class="bubble"><h4></h4></div>
+.bubble {
+    border-radius: $border-radius;
+    padding: 15px 10px;
+    border: 1px solid transparent;
+    &.is--green {
+        background-color: $color-scorecard-green-l1;
+        border-color:transparentize($color-scorecard-green-d1, 0.5);
+        h4 {
+            box-shadow: inset 0 10px 0 transparent, inset 0 -10px 0 $green !important;
+        }
+        h5 {
+            box-shadow: inset 0 10px 0 transparent, inset 0 -10px 0 $green !important;
+        }
+    }
+
+    &.is--blue {
+        background-color: $color-scorecard-blue-l2;
+        border-color:transparentize($blue, 0.5);
+        h4 {
+            box-shadow: inset 0 10px 0 transparent, inset 0 -10px 0 $color-scorecard-blue-l1 !important;
+        }
+        h5 {
+            box-shadow: inset 0 10px 0 transparent, inset 0 -10px 0 $color-scorecard-blue-l1 !important;
+        }
+    }
+}
+
+//Accordion
+.accordion-wrapper {
+    .accordion-item {
+        border: 1px solid transparentize($color: $black, $amount: 0.8);
+        .accordion-heading {
+            padding: 10px;
+            background-color: $white;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: space-between;
+            @include transition(background-color, 0.3s ease-in-out);
+            &.active {
+                background-color: $color-scorecard-grey-900;
+                p, span, button {
+                    color: $white;
+                }
+                .btn-open-question {
+                    &::after {
+                        background-image: url('../img/chevron-down-white.svg') !important;
+                    }
+                    @include hover-focus {
+                        opacity: 0.6;
+                    }
+                }
+            }
+        }
+
+        .accordion-data {
+            $padding: 10px;
+            height: 0;
+            padding: 0 $padding;
+            overflow-y: hidden;
+            @include transition(height, 0.3s ease-in-out);
+        
+            .accordion-data-inner {
+                margin-top: $padding;
+                margin-bottom: $padding;
+            }
+        }
+    }
+}
+
 .pending {
     padding: 16px;
     background-color: rgb(247, 12, 122);
