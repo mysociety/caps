@@ -71,6 +71,20 @@
     }
 
     // Table for questions
+    .table-section-questions {
+        @media screen and (max-width: 1200px) {
+            display: none;
+        }
+        &.is--mobile {
+            @media screen and (max-width: 1200px) {
+                display: block;
+            }
+            @media screen and (min-width: 1201px) {
+                display: none;
+            }
+        }
+    }
+
     table.question-table-methodology {
         td, th {
             text-align: left;
@@ -102,6 +116,32 @@
             p {
                 font-weight: 600;
             }
+        }
+    }
+
+    // For the questions cards
+    .section-card-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .card-wrapper {
+            flex-basis: 48%;
+            @media screen and (max-width: 675px) {
+                flex-basis: 100%;
+            }
+        }
+    }
+
+    //Glossary
+    .glossary-content {
+        .glossary-content-item {
+            margin-bottom: 30px;
+        }
+
+        .glossary-footer {
+            border-top: 1px solid transparentize($color: $black, $amount: 0.9);
         }
     }
 }
