@@ -195,7 +195,6 @@ class MethodologyView(TemplateView):
             sections[section.code] = {
                 'code': section.code,
                 'description': section.description,
-                'max_score': section.max_score,
                 'questions': [],
             }
 
