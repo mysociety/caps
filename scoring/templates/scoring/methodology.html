@@ -24,6 +24,9 @@
         <div class="container">
             <h3 class="pending">Change everything to curly quote</h3>
             <h3 class="pending">Check all the TODO comments</h3>
+            <h3 class="pending">Link to glosarry</h3>
+            <h3 class="pending">Filters</h3>
+            <h3 class="pending">Table of content</h3>
             <div class="alert alert-warning mt-4 mt-lg-5" role="alert">
                 <h3>Disclaimer</h3>
                 <span>This assessment marked Climate Action Plans that were 
@@ -46,7 +49,7 @@
             <a href="#what-have">What have we marked?</a>
         </div>
 
-        <div id="what-have" class="container bg-grey">
+        <div id="what-have" class="container">
             <div class="row mb-3">
                 <div class="col-12 col-lg-6">
                     <h3>What have we marked?</h3>
@@ -109,7 +112,7 @@
             </div>
         </div>
 
-        <div id="scoring-process" class="container bg-grey">
+        <div id="scoring-process" class="container">
             <h3 class="mb-4">Scoring Process</h3>
             <div class="sub-topic mb-4">
                 <h4 class="mb-3">First Marking</h4>
@@ -434,7 +437,7 @@
             <div class="sub-topic mb-4">
                 <h4 class="mb-3">'Type of Council' Lists</h4>
                 <div style="max-width:550px">
-                    <p>We recognise that different councils have different powers, <a href="https://www.instituteforgovernment.org.uk/explainers/local-government">as laid out by the Institute for Local Government<a>. To ensure that comparisons are meaningful, the Scorecard data has been divided into five lists: </p>
+                    <p>We recognise that different councils have different powers, <a href="https://www.instituteforgovernment.org.uk/explainers/local-government">as laid out by the Institute for Local Government</a>. To ensure that comparisons are meaningful, the Scorecard data has been divided into five lists: </p>
                     <ul class="mb-3">
                         <li>District councils</li>
                         <li>Single tier councils (English unitary councils and metropolitan districts, Scottish and Welsh councils)</li>
@@ -635,76 +638,343 @@
                 <div class="mb-5" style="max-width:550px">
                     <p>Notes</p>
                     <ul class="mb-4">
-                        <li>Words in blue can be found in the glossary (below question S9_EE_Q27)</li>
+                        {% comment %} <li>Words in blue can be found in the glossary (below question S9_EE_Q27)</li> {% endcomment %}
                         <li>The following advice was given to markers to help them decide whether to award points or not. This will be helpful for understanding why a council was or wasn’t awarded points.</li>
                     </ul>
                 </div>
-                {% for section in sections %}
-                <h5 class="mb-3">{{ section.description }}</h5>
-                <div class="table-wrapper mb-5">
-                    <table class="question-table-methodology">
-                        <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Question</th>
-                                <th class="score">Max points</th>
-                                <th>Additional criteria / Advice for marker</th>
-                        </thead>
-                        <tbody>
+                <div class="table-section-questions">
+                    {% for section in sections %}
+                    <h5 class="mb-3">{{ section.description }}</h5>
+                    <div class="table-wrapper mb-5">
+                        <table class="question-table-methodology">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Question</th>
+                                    <th class="score">Max points</th>
+                                    <th>Additional criteria / Advice for marker</th>
+                            </thead>
+                            <tbody>
+                                {% for question in section.questions %}
+                                {% if question.type == 'HEADER' %}
+                                <tr class="header-question">
+                                {% else %}
+                                <tr class="subpoint-question">
+                                {% endif %}
+                                    <td data-column="question_no" class="question-no">
+                                        <div>
+                                            {% if question.type == 'HEADER' %}
+                                            <div class="question-code">
+                                                <p class="question-header">{{ question.code }}</p>
+                                            </div>
+                                            {% else %}
+                                            <div class="question-code pl-2">
+                                                <span>{{ question.code }}</span>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    {% if question.type == 'HEADER' %}
+                                    {% comment %} How are we going to handle the glossary when the data is being pulled from the database {% endcomment %}
+                                    <td data-column="question" colspan="1">
+                                        <div class="question-content-table is--header">
+                                            {{ question.question | linebreaks }}
+                                        </div>
+                                    {% else %}
+                                    <td data-column="question">
+                                        <div class="question-content-table">
+                                            {{ question.question | linebreaks }}
+                                        </div>
+                                    {% endif %}
+                                    </td>
+                                    <td data-column="score" class="score">
+                                        {% comment %} TODO get the max score for HEADER question {% endcomment %}
+                                        <span>{{ question.max }}</span>
+                                    </td>
+                                    <td>
+                                        {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="table-section-questions is--mobile">
+                    {% for section in sections %}
+                    <h5 class="mb-3">{{ section.description }}</h5>
+                        <div class="section-card-wrapper">
                             {% for question in section.questions %}
                             {% if question.type == 'HEADER' %}
-                            <tr class="header-question">
+                            <div class="card-wrapper mb-3 is--header-question">
                             {% else %}
-                            <tr class="subpoint-question">
+                            <div class="card-wrapper mb-3">
                             {% endif %}
-                                <td data-column="question_no" class="question-no">
-                                    <div>
-                                        {% if question.type == 'HEADER' %}
-                                        <div class="question-code">
-                                            <p class="question-header">{{ question.code }}</p>
+                                <div class="card-item">
+                                    <div class="card-heading d-flex flex-row justify-content-between align-items-end">
+                                        {% if question.type != 'HEADER' %}
+                                        <span>{{ question.code }}</span>
+                                        <span class="card-subtitle">Max points:{{ question.max }}</span>
+                                        {% else %}
+                                        <span>{{ question.code }}<span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-info mt-3">
+                                        <p><strong>Question description</strong></p>
+                                        <div>{{ question.question | linebreaks }}</div>
+                                        {% if question.type != 'HEADER' %}
+                                        <div class="d-flex flex-column">
+                                            <p><strong>Additional criteria / Advice for marker</strong></p>
+                                            {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
                                         </div>
                                         {% else %}
-                                        <div class="question-code pl-2">
-                                            <span>{{ question.code }}</span>
+                                        <div>
+                                            {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
                                         </div>
                                         {% endif %}
                                     </div>
-                                </td>
-                                {% if question.type == 'HEADER' %}
-                                {% comment %} How are we going to handle the glossary when the data is being pulled from the database {% endcomment %}
-                                <td data-column="question" colspan="1">
-                                    <div class="question-content-table is--header">
-                                        {{ question.question | linebreaks }}
-                                    </div>
-                                {% else %}
-                                <td data-column="question">
-                                    <div class="question-content-table">
-                                        {{ question.question | linebreaks }}
-                                    </div>
-                                {% endif %}
-                                </td>
-                                <td data-column="score" class="score">
-                                    {% comment %} TODO get the max score for HEADER question {% endcomment %}
-                                    <span>{{ question.max }}</span>
-                                </td>
-                                <td>
-                                    {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
 
-    </div>
-{% comment %} 
-    {% for section in sections %}
-        {% for question in section.questions %}
-        <p class="question-header">{{ question.code }}</p>
-        {% endfor %}
-    {% endfor %} {% endcomment %}
+        <div id="glossary" class="container">
+            <h3 class="mb-3">Glossary</h3>
+            <div class="glossary-content" style="max-width:550px;">
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Anchor Institutions</h4>
+                    <p>The term ‘anchor institutions’ is used to refer to organisations which:</p>
+                    <ul>
+                        <li>Have an important presence in a place, usually through a combination of: being largescale employers, or the largest purchasers of goods and services in the locality; controlling large areas of land and/or having relatively ﬁxed assets.</li>
+                        <li>Are tied to a particular place by their mission, histories, physical assets and local relationships. Examples include local authorities, NHS trusts, universities, trade unions, large local businesses, the combined activities of the community and voluntary sector and housing associations.
+                        </li>
+                    </ul>
+                </div>
 
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Baseline emissions inventory</h4>
+                    <p>Quantifies the amount of CO2 emitted due to energy consumption in the territory of the Council in the baseline year, e.g. how much CO2 was emitted in 2005?</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Capex</h4>
+                    <p>The money an organisation or corporate entity spends to buy, maintain, or improve its fixed assets, such as buildings, vehicles, equipment, or land.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Carbon budgets</h4>
+                    <p>A carbon budget is the cumulative amount of carbon dioxide (CO2) emissions permitted over a period of time to keep within a certain temperature threshold. Each Local Authority has an allocated carbon dioxide budget for the years up to 2100 in order to stay on track with the Paris agreement.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Carbon negative</h4>
+                    <p>Going carbon negative refers to carbon dioxide removal from the atmosphere after the council has achieved zero carbon. This means that not only are they no longer emitting carbon, but they are also actively removing carbon from the atmosphere as well.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Carbon Neutral</h4>
+                    <p>Carbon neutrality means balancing greenhouse gas (GHG) emissions by ‘offsetting’ – or removing from the atmosphere – an equivalent amount of carbon for the amount produced. This can be achieved by buying ‘carbon credits’ – in essence, permission to emit carbon dioxide or other GHG in exchange for offsetting the effects of those emissions – and/or by supporting GHG-reduction initiatives such as renewable-energy projects. However, a commitment to carbon neutrality does not require (or even necessarily imply) a commitment to reduce overall GHG emissions. A carbon-neutral business needs only to offset the GHG emissions it produces – even if those emissions are increasing.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Carbon Offsetting</h4>
+                    <p>A carbon offset is a reduction in emissions of carbon dioxide or other greenhouse gases made in order to compensate for emissions made elsewhere. For example this could be by planting trees to suck carbon dioxide out of the atmosphere.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Circular Economy</h4>
+                    <p>A circular economy is an economic system aimed at eliminating waste and encouraging the continual use of resources.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Citizens’ Assembly</h4>
+                    <p>A Citizens’ Assembly is a representative group of citizens who are selected at random to reflect the demographics of the overall population to learn about, deliberate upon, and make recommendations in relation to a particular issue or set of issues. It is still up to elected politicians whether or not to follow the assembly’s recommendations.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Climate Change Mitigation</h4>
+                    <p>Efforts to reduce or prevent emission of greenhouse gases.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Co-benefits</h4>
+                    <p>The positive benefits related to the reduction of greenhouse gases, which may not be directly related to climate change. For example, the need for climate action may bring new jobs and opportunities for prosperity to a region.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Combined Authority</h4>
+                    <p>A combined authority is a type of local government institution in England, created voluntarily outside Greater London  This model allows a group of local authorities to pool appropriate responsibility and receive certain delegated functions from central government in order to deliver transport and economic policy more effectively over a wider area</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Corporate Plan</h4>
+                    <p>The Corporate Plan is an internal business planning document which sets out the council's future priorities and objectives. This is important because a clearly set Corporate Plan ensures that the council manages its resources effectively.</p>
+                    <ul>
+                        <li>It ensures that projects can be delivered by the council's services and that enough capacity is available to deliver them. It provides a focus for the council's Cabinet so it can plan its work - and the framework for the council's scrutiny function to hold the Cabinet to account. It provides the framework for evaluating the council's performance.</li>
+                    </ul>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Costing</h4>
+                    <p>This refers to working out the financial cost of the actions set out in the plan, and may be very specific about each action, or may categorise actions into low, medium and high cost items before then outlining what range of costs each of these categories represents.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Critical infrastructure</h4>
+                    <p>The body of systems, networks and assets that are so essential that their continued operation is required to ensure the security of a given nation, its economy, and the public's health and/or safety.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Devolved Governments</h4>
+                    <p>The different countries in the UK have devolved governments: the Scottish Parliament, National Assembly of Wales and the Northern Ireland Assembly. Power is delegated from central government on a subnational level so the devolved territories have the power to make legislation relevant to the area.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Distribution Network Operators</h4>
+                    <p>(DNOs) are companies licensed to distribute electricity in Great Britain by the Office of Gas and Electricity Markets.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Divesting from fossil fuels</h4>
+                    <p>Divestment is the opposite of an investment – it simply means getting rid of stocks, bonds, or investment funds that are unethical or morally ambiguous. Divestment ensures an end to fossil fuel sponsorship, among other areas of investment.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Equity investors</h4>
+                    <p>Equity investors are people who invest money into a company, or this case a project, in exchange for a share of ownership in the company or project.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Financial return on investment</h4>
+                    <p>Return on investment is a financial ratio used to calculate the benefit an investor will receive in relation to their investment cost.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Fuel poverty</h4>
+                    <p>A household is said to be in fuel poverty when its members cannot afford to keep adequately warm at a reasonable cost, given their income.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Heat Islands</h4>
+                    <p>Heat islands are urbanised areas that experience higher temperatures than outlying areas. Structures such as buildings, roads, and other infrastructure absorb and re-emit the sun's heat more than natural landscapes such as forests and water bodies.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Housing Associations</h4>
+                    <p>A Housing Association is a not-for-profit organisation: all profits are reinvested back into their homes and services.  They can rent and sell homes, which are usually classed as ‘affordable’. They often run via  a democratic system of governance. HR - Human Resources - the HR department is a group who is responsible for managing the employee life cycle within an organisation (i.e. recruiting, hiring, onboarding, training, and firing employees) and administering employee benefits.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Lobbying</h4>
+                    <p>Lobbying is when an individual or a group tries to persuade someone in Parliament to support a particular policy or campaign.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Local Enterprise Partnerships</h4>
+                    <p>Local Enterprise Partnerships are locally-owner partnerships between local authorities and businesses. An LEP plays a central role in deciding local economic priorities and undertaking activities to drive economic growth and create local jobs.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Local Plan</h4>
+                    <p>A Local Plan is a document created by the council, setting out their priorities over the coming years. Plans should be succinct and up-to-date, should provide a positive vision for the future of each area and put forward a framework for addressing housing needs and other economic, social and environmental priorities.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Local Statutory Organisations</h4>
+                    <p>A Local Statutory Organisation is any government agency or body created in the UK, by an Act of Parliament or other legislation. Examples include: the Healthcare Commission, the General Medical Council, the General Dental Council, NHS, primary care trusts (PCTs), hospital trusts, social services departments, etc.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Net-zero</h4>
+                    <p>Net-zero means that the amount of greenhouse gases emitted will equal the amount which is taken out of the atmosphere by carbon offsetting. This is different from Zero Carbon which means the authority would be emitting no carbon at all. The net-zero target is the date which is set for when the organisation/area/country aims to reach net-zero. A good net-zero target will be very clear about what is covered in the target, e.g. whether it is the council's own operations or the whole area that will be net-zero, which gases are covered etc.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">NGOs</h4>
+                    <p>Non-governmental organisations are bodies such as charities or foundations which work for public or social good, independent of government.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Procurement</h4>
+                    <p>Procurement refers to he purchase of goods and services by a company or organisation.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Scope 1, 2 and 3 emissions</h4>
+                    <br>
+                    <h5>Scope 1 Emissions</h5>
+                    <p>Greenhouse Gas emissions from sources located within the local authority boundary. These include:</p>
+                    <ul>
+                        <li>Council only: A council's direct emissions, e.g. emissions from council buildings, fleet vehicles and equipment, and land use.</li>
+                        <li>Whole District/County: Emissions within the local authority boundary e.g. those caused by transportation, privately owned buildings, stationary energy; agriculture and land use; in-boundary waste etc.</li>
+                    </ul>
+                    <h5>Scope 2 Emissions</h5>
+                    <p>Greenhouse Gas emissions occurring due to the use of grid-supplied electricity, heat, and/or cooling for council and private buildings and services within the city boundary.</p>
+                    <h5>Scope 3 Emissions</h5>
+                    <p>Includes all Greenhouse Gas emissions that occur outside the city boundary as a result of activities taking place within the city boundary. These include:</p>
+                    <ul>
+                        <li>Council only: Emissions generated by purchased goods and services; business travel, commuting, grey fleet (employee owned cars claiming mileage back by expenses); waste disposal for contracted out waste processing; use of sold products and services (emissions related to local people’s use of local authority services); investments; leased assets, franchises and outsourcing (all contractor emissions).</li>
+                        <li>Whole District/County: Emissions generated by out of boundary transportation (travel by commuters, railways and airports); out of boundary waste; residents' diet and consumption; transmission and distribution of electricity, heating and/or cooling.<sup>1</sup></li>
+                    </ul>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">SME</h4>
+                    <p>Small and Medium-sized Enterprises is a label that refers to the number of employees and level of turnover in a business.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Stakeholders</h4>
+                    <p>A party that has an interest in the project and can either affect or be affected by it. For Climate Action Plans, stakeholders might include: the council, its residents, business owners who supply goods to the council, etc. </p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Sub-national Transport Bodies</h4>
+                    <p>A sub-national transport body (STB) groups councils together to. provide strategic transport governance at a much larger scale than existing local transport authorities could manage independently.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Supply chain</h4>
+                    <p>In Local Government a supply chain is a system of organisations, people, activities, information, and resources involved in supplying a product or service to the residents and businesses in the area. Supply chain activities involve the transformation of natural resources, raw materials, and components into a finished product that is delivered to the end customer.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Tyndall Center Data</h4>
+                    <p>The Tyndall Centre is a partnership of universities bringing together researchers from the social and natural sciences and engineering to develop sustainable responses to climate change. It works with leaders from the public and private sectors to promote informed decisions on mitigating and adapting to climate change. For each council in the UK the Tyndall Centre has created a tool to allow local authorities to calculate their carbon budgets between now and the year 2100 to cut their emissions in line with climate science and the UN Paris Agreement. The tool shows the council how much they must reduce their carbon emissions every year in order to reach this goal.
+                    <a href="https://carbonbudget.manchester.ac.uk/reports/">See more</a> </p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Utility Companies</h4>
+                    <p>Utility companies are the bodies providing energy, electricity, water, natural gas, sanitation and waste disposal.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">VCSE/Third Sector</h4>
+                    <p>The Voluntary, Community and Social Enterprise sector includes any organisation working for social purposes, ranging from small community based groups and schemes to larger registered charities that operate locally, regionally or nationally.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">VCSE/Third Sector</h4>
+                    <p>The Voluntary, Community and Social Enterprise sector includes any organisation working for social purposes, ranging from small community based groups and schemes to larger registered charities that operate locally, regionally or nationally.</p>
+                </div>
+
+                <div class="glossary-content-item">
+                    <h4 class="mb-3">Workplace Parking Levy</h4>
+                    <p>A Workplace Parking Levy is a cost which encourages workers to take sustainable transport options rather than drive their car to work, as it charges them for parking. Nottingham City Council successfully introduced a Workplace Parking Levy, and ring fenced the money raised for public transport upgrades in the city<sup>2</sup>.</p>
+                </div>
+
+                <div class="glossary-footer pt-3">
+                    <p class="mb-3"><sup>1</sup>Emissions for “Council only” taken from Local Authorities and Sixth Carbon Budget, <a href="https://www.theccc.org.uk/publication/local-authorities-and-the-sixth-carbon-budget/">pg 49</a>. “Whole District/County” Emissions adapted from the GHG Protocol for Cities | Greenhouse Gas Protocol with the report found here Global Protocol for Community-Scale Greenhouse Gas Emission Inventories.</p>
+
+                    <sup>2</sup><a href=" https://www.nottinghamcity.gov.uk/wpl">Nottingham’s Workplace Parking Levy</a>.
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

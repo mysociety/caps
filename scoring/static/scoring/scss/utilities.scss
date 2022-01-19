@@ -1,3 +1,17 @@
+/* CARDS usage:
+<div class="card-wrapper">
+    <div class="card-item">
+        <div class="card-heading">
+        </div>
+        <div class="card-info">
+            <div class="card-info-item">
+                <span class="info-title"></span>
+                <span class="info-text"></span>
+            </div>
+        </div>
+    </div>
+</div>
+*/
 .card-wrapper {
     $padding: 16px;
     display: flex;
@@ -20,6 +34,13 @@
             font-family: $headings-font-family;
             font-weight: 600;
             padding: $padding;
+
+            .card-subtitle {
+                font-family: $font-family-sans-serif;
+                font-weight: 400;
+                color: $black;
+                opacity: 0.8;
+            }
         }
 
         .card-info {
