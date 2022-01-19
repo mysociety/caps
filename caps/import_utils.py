@@ -46,7 +46,7 @@ def add_authority_codes(filename):
 
     names_to_codes = {}
     for index, row in mapping_df.iterrows():
-        names_to_codes[row["la name"].lower()] = row["local-authority-code"]
+        names_to_codes[row["la-name"].lower()] = row["local-authority-code"]
 
     for index, row in plans_df.iterrows():
         council = row["council"].lower()
