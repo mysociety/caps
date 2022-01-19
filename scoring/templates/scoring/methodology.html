@@ -14,8 +14,6 @@
         </div>
 
         <div class="container">
-            <h3 class="pending">Check all the TODO comments</h3>
-            <h3 class="pending">Add Images</h3>
             <div class="alert alert-warning mt-4 mt-lg-5" role="alert">
                 <h3>Disclaimer</h3>
                 <span>This assessment marked Climate Action Plans that were 
@@ -702,7 +700,9 @@
                                     </td>
                                     <td data-column="score" class="score">
                                         {% comment %} TODO get the max score for HEADER question {% endcomment %}
+                                        {% if question.type != 'HEADER' %}
                                         <span>{{ question.max }}</span>
+                                        {% endif %}
                                     </td>
                                     <td>
                                         {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
