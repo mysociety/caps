@@ -301,3 +301,14 @@ class ContactView(CheckForDownPageMixin, TemplateView):
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
         return context
+
+
+class HowToUseView(TemplateView):
+    template_name = "scoring/how-to-use-the-scorecards.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
+        return context
