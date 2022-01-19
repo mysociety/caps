@@ -1,14 +1,6 @@
 {% extends "scoring/base.html" %}
 {% load bootstrap4 %}
 
-{% comment %} 
-    section = models.ForeignKey(PlanSection, on_delete=models.CASCADE)
-    code = models.CharField(max_length=100)
-    text = models.TextField(null=True, default='')
-    max_score = models.PositiveSmallIntegerField(default=0)
-    question_type = models.CharField(max_length=100) # needs choices
-{% endcomment %}
-
 {% block content %}
     <div class="about-page">
         <div class="hero container-fluid bg-dark-grey">
@@ -22,11 +14,8 @@
         </div>
 
         <div class="container">
-            <h3 class="pending">Change everything to curly quote</h3>
             <h3 class="pending">Check all the TODO comments</h3>
-            <h3 class="pending">Link to glosarry</h3>
-            <h3 class="pending">Filters</h3>
-            <h3 class="pending">Table of content</h3>
+            <h3 class="pending">Add Images</h3>
             <div class="alert alert-warning mt-4 mt-lg-5" role="alert">
                 <h3>Disclaimer</h3>
                 <span>This assessment marked Climate Action Plans that were 
@@ -44,9 +33,12 @@
             <h3 class="mb-3">Table of content</h3>
             {% comment %} Update links ID {% endcomment %}
             <a href="#what-have">What have we marked?</a>
-            <a href="#what-have">What have we marked?</a>
-            <a href="#what-have">What have we marked?</a>
-            <a href="#what-have">What have we marked?</a>
+            <a href="#developing-the-scoring">Developing the Scoring System</a>
+            <a href="#scoring-process">Scoring Process</a>
+            <a href="#Weighting">Weighting</a>
+            <a href="#presentation">Presentation</a>
+            <a href="#scoring-system">Scoring system</a>
+            <a href="#glossary">Glossary</a>
         </div>
 
         <div id="what-have" class="container">
@@ -134,7 +126,7 @@
             </div>
         </div>
 
-        <div id="scoring-process" class="container">
+        <div id="Weighting" class="container">
             <h3 class="mb-3">Weighting</h3>
             <div style="max-width:550px">
                 <p>Some of the sections have more questions than others, but, those sections with fewer questions are not significantly less important. To address this, a light-touch weighting system, as in the table below, has been applied to ensure each section's true value is reflected.</p>
@@ -435,7 +427,7 @@
             <h3 class="mb-3">Presentation</h3>
             <p class="mb-4" style="max-width:550px">The feedback we received from councils and campaigners was carefully considered as we made decisions around the presentation of the Council Climate Plan Scorecards. </p>
             <div class="sub-topic mb-4">
-                <h4 class="mb-3">'Type of Council' Lists</h4>
+                <h4 class="mb-3">‘Type of Council’ Lists</h4>
                 <div style="max-width:550px">
                     <p>We recognise that different councils have different powers, <a href="https://www.instituteforgovernment.org.uk/explainers/local-government">as laid out by the Institute for Local Government</a>. To ensure that comparisons are meaningful, the Scorecard data has been divided into five lists: </p>
                     <ul class="mb-3">
@@ -449,9 +441,30 @@
                 </div>
             </div>
             <div class="sub-topic mb-4">
-                <h4 class="mb-3">Filters</h4>
+                <h4 class="mb-3">Climate scorecards filter</h4>
                 <div style="max-width:550px">
-                    <p class="pending">Pending</p>
+                    <p>There are five ‘leagues’. Filters are ways of subdividing leagues further. Not all filters apply to all leagues (league too small, doesn’t make conceptual sense to divide), the same filter may have different groupings in different leagues (population bandings are different to reflect different population of different kinds of council)</p>
+                    <p><strong>Data is in a private <a href="https://github.com/mysociety/climate_league_filter_datasets">repo</a></strong></p>
+
+                    <h5>Index of multiple deprivation</h5>
+                    <p>For two leagues (non-metropolitan districts, and single-tier), there is an index of multiple deprivation filters. This divides councils in each league into five quintiles, based on the multiple-deprivation ranking of a council in the group.</p>
+                    <p>The county council leagues are split into two groupings of 12.</p>
+                    <p>As the single-tier league contains different nations, this is based on <a href="https://github.com/mysociety/composite_uk_imd">mySociety’s composite UK index of multiple deprivation</a> for small areas. This is converted to a score for authority using <a href="https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/833947/IoD2019_Research_Report.pdf">the method in the English Index of Multiple Deprivation Research Report</a> (pg. 69).</p>
+
+                    <h5>Index of multiple deprivation</h5>
+                    <p>This filter uses data from <a href="http://opencouncildata.co.uk">Open Council Data UK</a> to get the current overall control for councils and allow plans to be compared within the same kind of political control. This is overall control as of Dec 2021, and may not reflect control when the plan was written.</p>
+
+                    <h5>Population</h5>
+                    <p>Local governments in the UK cover very different sizes of population. This filter groups councils into broad bands of populations. Different leagues have different bands because there are different distributions of population. This approach tries to create useful groupings of population size, so that councils are in general more similar to each other inside the group.</p>
+
+                    <h5>Rural Urban Cluster</h5>
+                    <p>Councils across the UK are grouped into four different groups: Urban, Urban with rural areas, Rural, as well as Sparse and Rural. These groupings have been made from a combination of <a href="https://github.com/mysociety/uk_ruc">rural/urban classifications</a> for small areas across England, Wales and Scotland.</p>
+
+                    <h5>Region/Nation</h5>
+                    <p>Region/Nation of the UK.</p>
+
+                    <h5>Councils type</h5>
+                    <p>Some leagues (single tier/combined authority) combine multiple types of local government. This filter lets you just look at a single type of local government.</p>
                 </div>
             </div>
             <div class="sub-topic mb-4">
