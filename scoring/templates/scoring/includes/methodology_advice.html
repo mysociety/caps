@@ -1,3 +1,4 @@
+{% load static %}
 {% comment %} TODO update database some questions have souble versions and there are missing subpoints eg s1_gov_q2_sp4 {% endcomment %}
 {% if code == 's1_gov_q1_sp1' %}
 <ul>
@@ -49,8 +50,8 @@
 {% comment %} TODO add links {% endcomment %}
 <ul>
     <li>These must be clear and specific dates rather than a vague graph.</li>
-    <li><a href="#">Figure 1</a> would not get the point</li>
-    <li><a href="#">Figure 2</a> would get the point</li>
+    <li><a href="{% static 'scoring/img/figure-1.png' %}" target="_blank">Figure 1</a> would not get the point</li>
+    <li><a href="{% static 'scoring/img/figure-2.png' %}" target="_blank">Figure 2</a> would get the point</li>
 </ul>
 
 {% elif code == 's1_gov_q2_sp4' %}
@@ -345,7 +346,7 @@
 {% elif code == 's5_mset_q19_sp2' %}
 <ul>
     <li>It is important that the Plan has a clear strategy for reducing emissions and doesn’t just rely on carbon offsetting. If the Plan just focuses on offsetting it does not get the point.</li>
-    <li>The fact that a plan doesn’t talk much about offsetting shows that it isn't focused on it so if there are ambitious and detailed plans for reduction and a small, or no mention of offsetting it should get the point. <a href="#">See figure 3</a></li>
+    <li>The fact that a plan doesn’t talk much about offsetting shows that it isn't focused on it so if there are ambitious and detailed plans for reduction and a small, or no mention of offsetting it should get the point. <a href="{% static 'scoring/img/figure-3.png' %}" target="_blank">See figure 3</a></li>
 </ul>
 
 {% elif code == 's6_cb_q20' %}
