@@ -1,4 +1,6 @@
 import os
+from distutils.utils import strtobool
+
 SECRET_KEY = 'xx'
 SASSC_LOCATION  = 'sassc'
 
@@ -24,3 +26,5 @@ GOOGLE_ANALYTICS = 'xxx'
 MAILCHIMP_KEY = 'xxx'
 MAILCHIMP_SERVER_PREFIX = 'xxx'
 MAILCHIMP_LIST_ID = 'xxx'
+
+SCORECARDS_PRIVATE = strtobool(os.environ.get("SCORECARDS_PRIVATE", False))

@@ -8,7 +8,7 @@ class CheckForDownPageMixin(AccessMixin):
     redirect_field_name = 'redirect_to'
 
     def dispatch(self, request, *args, **kwargs):
-        if getattr(settings, 'SCORECARDS_PRIVATE', False) == False:
+        if not getattr(settings, 'SCORECARDS_PRIVATE', False):
             return super().dispatch(request, *args, **kwargs)
 
         if not request.user.is_authenticated:
