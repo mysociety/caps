@@ -1,5 +1,9 @@
-.scorecard.navbar {
+.navbar {
     padding: 0 1rem * 2;
+
+    li {
+        margin-bottom: 0;
+    }
 
     .navbar-brand {
         flex-shrink: 0;
