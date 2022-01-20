@@ -1,5 +1,5 @@
 import os
-from distutils.utils import strtobool
+from distutils.util import strtobool
 
 SECRET_KEY = 'xx'
 SASSC_LOCATION  = 'sassc'
