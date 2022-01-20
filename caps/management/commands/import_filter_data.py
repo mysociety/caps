@@ -41,9 +41,17 @@ def import_filters():
     df["political_control"] = df["political_control"].fillna("")
 
     for index, row in df.iterrows():
-        plan_score = PlanScore.objects.get(
-            year=YEAR, council__authority_code=row["local-authority-code"]
-        )
+        try:
+            plan_score = PlanScore.objects.get(
+                year=YEAR, council__authority_code=row["local-authority-code"]
+            )
+        except PlanScore.DoesNotExist:
+            print(
+                "could not find plan score for council {}".format(
+                    row["local-authority-code"]
+                )
+            )
+            continue
 
         try:
             cluster = ruc_lookup[row["ruc_cluster"]]
