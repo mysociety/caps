@@ -81,6 +81,7 @@
     border-radius: $border-radius;
     padding: 15px 10px;
     border: 1px solid transparent;
+
     &.is--green {
         background-color: $color-scorecard-green-l1;
         border-color:transparentize($color-scorecard-green-d1, 0.5);
@@ -105,17 +106,40 @@
 }
 
 //Accordion
+/* Usage
+<div class="accordion-wrapper rounded">
+    <div class="accordion-item">
+        <div class="accordion-heading">
+            <p class="mb-0">Tweet at your council</p>
+            <button class="btn-open-accordion ml-auto" type="button"></button>
+        </div>
+        <div class="accordion-data">
+            <div class="accordion-data-inner">
+            </div>
+        </div>
+    </div>
+</div>
+*/
 .accordion-wrapper {
+    overflow: hidden;
+    border: 1px solid transparentize($color: $black, $amount: 0.8);
+
     .accordion-item {
-        border: 1px solid transparentize($color: $black, $amount: 0.8);
+        border-top: 1px solid transparentize($color: $black, $amount: 0.8);
+        border-bottom: none;
+
+        &:first-child {
+            border-top: none;
+        }
+
         .accordion-heading {
             padding: 10px;
-            background-color: $white;
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
             align-items: center;
             justify-content: space-between;
+            font-weight: 600;
             @include transition(background-color, 0.3s ease-in-out);
             &.active {
                 background-color: $color-scorecard-grey-900;
@@ -139,7 +163,10 @@
             padding: 0 $padding;
             overflow-y: hidden;
             @include transition(height, 0.3s ease-in-out);
-        
+            &.active {
+                height: auto;
+            }
+
             .accordion-data-inner {
                 margin-top: $padding;
                 margin-bottom: $padding;
