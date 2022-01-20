@@ -70,43 +70,43 @@ class Council(models.Model):
     ]
 
     SCORING_GROUP_CHOICES = [
-        ( 'single', 'Single Tier' ),
-        ( 'county', 'County Council' ),
-        ( 'district', 'District Council' ),
-        ( 'combined', 'Combined Authority' ),
-        ( 'northern-ireland', 'Northern Ireland Council' ),
+        ("single", "Single Tier"),
+        ("county", "County Council"),
+        ("district", "District Council"),
+        ("combined", "Combined Authority"),
+        ("northern-ireland", "Northern Ireland Council"),
     ]
 
     SCORING_GROUPS = {
-        'single': {
-            'name': 'Single tier',
-            'slug': 'single',
-            'types': ['CC', 'LBO', 'MD', 'UA'],
-            'countries': [ ENGLAND, SCOTLAND, WALES]
+        "single": {
+            "name": "Single tier",
+            "slug": "single",
+            "types": ["CC", "LBO", "MD", "UA"],
+            "countries": [ENGLAND, SCOTLAND, WALES],
         },
-        'county': {
-            'name': 'County',
-            'slug': 'county',
-            'types': ['CTY'],
-            'countries': [ ENGLAND, SCOTLAND, WALES]
+        "county": {
+            "name": "County",
+            "slug": "county",
+            "types": ["CTY"],
+            "countries": [ENGLAND, SCOTLAND, WALES],
         },
-        'district': {
-            'name': 'District',
-            'slug': 'district',
-            'types': ['NMD'],
-            'countries': [ ENGLAND, SCOTLAND, WALES]
+        "district": {
+            "name": "District",
+            "slug": "district",
+            "types": ["NMD"],
+            "countries": [ENGLAND, SCOTLAND, WALES],
         },
-        'combined': {
-            'name': 'Combined Authority',
-            'slug': 'combined',
-            'types': ['COMB'],
-            'countries': [ ENGLAND, SCOTLAND, WALES]
+        "combined": {
+            "name": "Combined Authority",
+            "slug": "combined",
+            "types": ["COMB"],
+            "countries": [ENGLAND, SCOTLAND, WALES],
         },
-        'northern-ireland': {
-            'name': 'Northern Ireland',
-            'slug': 'northern-ireland',
-            'types': ['UA'],
-            'countries': [NORTHERN_IRELAND]
+        "northern-ireland": {
+            "name": "Northern Ireland",
+            "slug": "northern-ireland",
+            "types": ["UA"],
+            "countries": [NORTHERN_IRELAND],
         },
     }
 
@@ -210,18 +210,18 @@ class Council(models.Model):
         return results
 
     def get_scoring_group(self):
-        if self.authority_type in ( 'CC', 'LBO', 'MD', 'UA' ):
-            group = 'single'
-        elif self.authority_type == 'NMD':
-            group = 'district'
-        elif self.authority_type == 'CTY':
-            group = 'county'
+        if self.authority_type in ("CC", "LBO", "MD", "UA"):
+            group = "single"
+        elif self.authority_type == "NMD":
+            group = "district"
+        elif self.authority_type == "CTY":
+            group = "county"
         elif self.country == self.NORTHERN_IRELAND:
-            group = 'northern-ireland'
-        elif self.authority_type == 'COMB':
-            group = 'combined'
+            group = "northern-ireland"
+        elif self.authority_type == "COMB":
+            group = "combined"
         else:
-            group = 'single'
+            group = "single"
 
         return self.SCORING_GROUPS[group]
 

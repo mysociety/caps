@@ -5,6 +5,7 @@ from django.db.models import Avg, Max
 
 from caps.models import Council
 
+
 class PlanScore(models.Model):
     """
     Overall score for a council's plan for a particular year
@@ -24,15 +25,18 @@ class PlanScore(models.Model):
     weighted_total = models.FloatField(default=0)
     total = models.FloatField(default=0)
 
-    top_performer = models.CharField(max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True)
+    top_performer = models.CharField(
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
+    )
 
     # filter data
     deprivation_quintile = models.SmallIntegerField(default=0)
     population = models.CharField(max_length=20, null=True, blank=True)
     region = models.CharField(max_length=100, blank=True)
-    ruc_cluster = models.CharField(max_length=100, choices=RUC_TYPES, null=True, blank=True)
+    ruc_cluster = models.CharField(
+        max_length=100, choices=RUC_TYPES, null=True, blank=True
+    )
     political_control = models.CharField(max_length=100, null=True, blank=True)
-
 
 
 class PlanSection(models.Model):
@@ -43,11 +47,13 @@ class PlanSection(models.Model):
     code = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
-    top_performer = models.CharField(max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True)
+    top_performer = models.CharField(
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
+    )
 
     @classmethod
     def section_codes(cls):
-        return cls.objects.distinct('code').values_list('code', flat=True)
+        return cls.objects.distinct("code").values_list("code", flat=True)
 
     @classmethod
     def get_average_scores(cls):
@@ -57,29 +63,36 @@ class PlanSection(models.Model):
         reduce the average.
         """
         has_score = PlanScore.objects.filter(total__gt=0)
-        has_score_avg = has_score.aggregate(average=Avg('weighted_total'))
-        has_score_list = has_score.values_list('pk', flat=True)
+        has_score_avg = has_score.aggregate(average=Avg("weighted_total"))
+        has_score_list = has_score.values_list("pk", flat=True)
 
         scores = cls.objects.filter(
             plansectionscore__plan_score__in=list(has_score_list)
         ).annotate(
-            average_score=Avg('plansectionscore__score'),
-            max_score=Max('plansectionscore__max_score')
+            average_score=Avg("plansectionscore__score"),
+            max_score=Max("plansectionscore__max_score"),
         )
 
         averages = {}
         max_score = 0
         for score in scores:
             max_score = max_score + score.max_score
-            averages[score.code] = { 'score': round(score.average_score), 'max': score.max_score }
+            averages[score.code] = {
+                "score": round(score.average_score),
+                "max": score.max_score,
+            }
 
         avg_score = 0
         percentage = 0
-        if has_score_avg['average'] is not None:
-            avg_score = round(has_score_avg['average'])
+        if has_score_avg["average"] is not None:
+            avg_score = round(has_score_avg["average"])
             percentage = avg_score / max_score
 
-        averages['total'] = { 'score': avg_score, 'max': max_score, 'percentage': round( percentage * 100 ) }
+        averages["total"] = {
+            "score": avg_score,
+            "max": max_score,
+            "percentage": round(percentage * 100),
+        }
 
         return averages
 
@@ -97,7 +110,9 @@ class PlanSectionScore(models.Model):
     max_score = models.PositiveSmallIntegerField(default=0)
     # this is a percentage
     weighted_score = models.FloatField(default=0)
-    top_performer = models.CharField(max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True)
+    top_performer = models.CharField(
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
+    )
 
     @classmethod
     def get_all_council_scores(cls):
@@ -105,12 +120,28 @@ class PlanSectionScore(models.Model):
         This excludes plans with zero score as it's assumed that if they have 0 then they
         were not marked, or the council has no plan
         """
-        scores = cls.objects.all().select_related('plan_section', 'plan_score').filter(plan_score__total__gt=0).values('plan_score__total', 'plan_score__council_id', 'score', 'weighted_score', 'plan_section__code', 'max_score')
+        scores = (
+            cls.objects.all()
+            .select_related("plan_section", "plan_score")
+            .filter(plan_score__total__gt=0)
+            .values(
+                "plan_score__total",
+                "plan_score__council_id",
+                "score",
+                "weighted_score",
+                "plan_section__code",
+                "max_score",
+            )
+        )
         councils = defaultdict(dict)
         for score in scores:
-            councils[score['plan_score__council_id']][score['plan_section__code']] = { 'score': score['score'], 'max': score['max_score'] }
+            councils[score["plan_score__council_id"]][score["plan_section__code"]] = {
+                "score": score["score"],
+                "max": score["max_score"],
+            }
 
         return councils
+
 
 class PlanQuestion(models.Model):
     """
@@ -121,9 +152,10 @@ class PlanQuestion(models.Model):
 
     section = models.ForeignKey(PlanSection, on_delete=models.CASCADE)
     code = models.CharField(max_length=100)
-    text = models.TextField(null=True, default='')
+    text = models.TextField(null=True, default="")
     max_score = models.PositiveSmallIntegerField(default=0)
-    question_type = models.CharField(max_length=100) # needs choices
+    question_type = models.CharField(max_length=100)  # needs choices
+
 
 class PlanQuestionScore(models.Model):
     """
@@ -131,7 +163,9 @@ class PlanQuestionScore(models.Model):
     """
 
     plan_score = models.ForeignKey(PlanScore, on_delete=models.CASCADE)
-    plan_question = models.ForeignKey(PlanQuestion, on_delete=models.CASCADE, related_name='questions')
-    answer = models.TextField(null=True, default='')
+    plan_question = models.ForeignKey(
+        PlanQuestion, on_delete=models.CASCADE, related_name="questions"
+    )
+    answer = models.TextField(null=True, default="")
     score = models.PositiveSmallIntegerField(default=0)
-    notes = models.TextField(null=True, default='')
+    notes = models.TextField(null=True, default="")

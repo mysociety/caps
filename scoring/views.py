@@ -4,35 +4,45 @@ from django.db.models import Subquery, OuterRef, Q, Avg
 from django.shortcuts import redirect, resolve_url
 
 from caps.models import Council
-from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanQuestion, PlanQuestionScore
+from scoring.models import (
+    PlanScore,
+    PlanSection,
+    PlanSectionScore,
+    PlanQuestion,
+    PlanQuestionScore,
+)
 
 from scoring.forms import ScoringSort
 
 from caps.views import BaseLocationResultsView
 from scoring.mixins import CheckForDownPageMixin
 
+
 class DownPageView(TemplateView):
     template_name = "scoring/down.html"
 
+
 class LoginView(LoginView):
-    next_page = 'home'
-    template_name = 'scoring/login.html'
+    next_page = "home"
+    template_name = "scoring/login.html"
 
     def get_success_url(self):
         return resolve_url(self.next_page)
 
+
 class LogoutView(LogoutView):
-    next_page = 'home'
+    next_page = "home"
+
 
 class HomePageView(CheckForDownPageMixin, ListView):
     template_name = "scoring/home.html"
 
     def get_authority_type(self):
-        authority_type = self.kwargs.get('council_type', '')
+        authority_type = self.kwargs.get("council_type", "")
         try:
             group = Council.SCORING_GROUPS[authority_type]
         except:
-            group = Council.SCORING_GROUPS['single']
+            group = Council.SCORING_GROUPS["single"]
 
         return group
 
@@ -40,96 +50,117 @@ class HomePageView(CheckForDownPageMixin, ListView):
         authority_type = self.get_authority_type()
         qs = Council.objects.annotate(
             score=Subquery(
-                PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('weighted_total')
+                PlanScore.objects.filter(council_id=OuterRef("id"), year="2021").values(
+                    "weighted_total"
+                )
             ),
             top_performer=Subquery(
-                PlanScore.objects.filter(council_id=OuterRef('id'),year='2021').values('top_performer')
-            )
-        ).order_by('-score')
+                PlanScore.objects.filter(council_id=OuterRef("id"), year="2021").values(
+                    "top_performer"
+                )
+            ),
+        ).order_by("-score")
 
         qs = qs.filter(
-            authority_type__in=authority_type['types'],
-            country__in=authority_type['countries']
+            authority_type__in=authority_type["types"],
+            country__in=authority_type["countries"],
         )
 
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_councils'] = Council.objects.all() # for location search autocomplete
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
 
-        councils = context['object_list'].values()
-        context['plan_sections'] = PlanSection.objects.filter(year=2021).all()
+        councils = context["object_list"].values()
+        context["plan_sections"] = PlanSection.objects.filter(year=2021).all()
 
         averages = PlanSection.get_average_scores()
         all_scores = PlanSectionScore.get_all_council_scores()
 
         for council in councils:
-            council['all_scores'] = all_scores[council['id']]
-            if council['score'] is not None:
-                council['percentage'] = council['score']
+            council["all_scores"] = all_scores[council["id"]]
+            if council["score"] is not None:
+                council["percentage"] = council["score"]
             else:
-                council['percentage'] = 0
+                council["percentage"] = 0
 
         codes = PlanSection.section_codes()
 
         form = ScoringSort(self.request.GET)
         if form.is_valid():
-            sort = form.cleaned_data['sort_by']
-            if sort != '':
-                councils = sorted(councils, key=lambda council: 0 if council['score'] == 0 else council['all_scores'][sort]['score'], reverse=True)
+            sort = form.cleaned_data["sort_by"]
+            if sort != "":
+                councils = sorted(
+                    councils,
+                    key=lambda council: 0
+                    if council["score"] == 0
+                    else council["all_scores"][sort]["score"],
+                    reverse=True,
+                )
         else:
             form = ScoringSort()
 
         authority_type = self.get_authority_type()
-        context['authority_type'] = authority_type['slug']
-        context['authority_type_label'] = authority_type['name']
+        context["authority_type"] = authority_type["slug"]
+        context["authority_type_label"] = authority_type["name"]
 
-        context['form'] = form
-        context['council_data'] = councils
-        context['averages'] = averages
+        context["form"] = form
+        context["council_data"] = councils
+        context["averages"] = averages
         return context
+
 
 class CouncilView(CheckForDownPageMixin, DetailView):
     model = Council
-    context_object_name = 'council'
-    template_name = 'scoring/council.html'
+    context_object_name = "council"
+    template_name = "scoring/council.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_councils'] = Council.objects.all() # for location search autocomplete
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
 
-        council = context.get('council')
+        council = context.get("council")
         plan_score = PlanScore.objects.get(council=council, year=2021)
 
-        section_qs = PlanSectionScore.objects.select_related('plan_section').filter(
-            plan_score__council=council,
-            plan_section__year=2021
+        section_qs = PlanSectionScore.objects.select_related("plan_section").filter(
+            plan_score__council=council, plan_section__year=2021
         )
 
         sections = {}
         for section in section_qs.all():
             sections[section.plan_section.code] = {
-                'top_performer': section.top_performer,
-                'code': section.plan_section.code,
-                'description': section.plan_section.description,
-                'max_score': section.max_score,
-                'score': section.score,
-                'answers': []
+                "top_performer": section.top_performer,
+                "code": section.plan_section.code,
+                "description": section.plan_section.description,
+                "max_score": section.max_score,
+                "score": section.score,
+                "answers": [],
             }
 
         group = council.get_scoring_group()
 
         # get average section scores for authorities of the same type
-        section_avgs = PlanSectionScore.objects.select_related('plan_section').filter(
-            plan_score__total__gt=0,
-            plan_score__council__authority_type__in=group['types'],
-            plan_score__council__country__in=group['countries'],
-            plan_section__year=2021
-        ).values('plan_section__code').annotate(avg_score=Avg('score')) #, distinct=True))
+        section_avgs = (
+            PlanSectionScore.objects.select_related("plan_section")
+            .filter(
+                plan_score__total__gt=0,
+                plan_score__council__authority_type__in=group["types"],
+                plan_score__council__country__in=group["countries"],
+                plan_section__year=2021,
+            )
+            .values("plan_section__code")
+            .annotate(avg_score=Avg("score"))
+        )  # , distinct=True))
 
         for section in section_avgs.all():
-            sections[section['plan_section__code']]['avg'] = round(section['avg_score'], 1)
+            sections[section["plan_section__code"]]["avg"] = round(
+                section["avg_score"], 1
+            )
 
         # do this in raw SQL as otherwise we need a third query and an extra loop below
         questions = PlanQuestion.objects.raw(
@@ -138,49 +169,55 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             left join scoring_planquestionscore a on q.id = a.plan_question_id \
             where s.year = '2021' and ( a.plan_score_id = %s or a.plan_score_id is null) and (q.question_type = 'HEADER' or a.plan_question_id is not null)\
             order by q.code",
-            [plan_score.id]
+            [plan_score.id],
         )
 
         for question in questions:
             section = question.section_code
             q = {
-                'code': question.code,
-                'display_code': question.code.replace('{}_'.format(question.section_code), '', 1),
-                'question': question.text,
-                'type': question.question_type,
-                'max': question.max_score,
-                'section': question.section.code,
-                'answer': question.answer or '-',
-                'score': question.score or 0,
+                "code": question.code,
+                "display_code": question.code.replace(
+                    "{}_".format(question.section_code), "", 1
+                ),
+                "question": question.text,
+                "type": question.question_type,
+                "max": question.max_score,
+                "section": question.section.code,
+                "answer": question.answer or "-",
+                "score": question.score or 0,
             }
-            sections[section]['answers'].append(q)
+            sections[section]["answers"].append(q)
 
-        context['authority_type'] = group
-        context['plan_score'] = plan_score
-        context['sections'] = sorted(sections.values(), key=lambda section: section['code'])
+        context["authority_type"] = group
+        context["plan_score"] = plan_score
+        context["sections"] = sorted(
+            sections.values(), key=lambda section: section["code"]
+        )
         return context
+
 
 class QuestionView(CheckForDownPageMixin, DetailView):
     model = PlanQuestion
-    context_object_name = 'question'
-    template_name = 'scoring/question.html'
-    slug_field = 'code'
+    context_object_name = "question"
+    template_name = "scoring/question.html"
+    slug_field = "code"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_councils'] = Council.objects.all() # for location search autocomplete
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
 
-        question = context.get('question')
+        question = context.get("question")
 
-        answers = PlanQuestionScore.objects.filter(
-            plan_question=question
-        ).select_related(
-            'plan_score',
-            'plan_score__council'
-        ).order_by( "plan_score__council__name")
+        answers = (
+            PlanQuestionScore.objects.filter(plan_question=question)
+            .select_related("plan_score", "plan_score__council")
+            .order_by("plan_score__council__name")
+        )
 
-        context['question'] = question
-        context['answers'] = answers
+        context["question"] = question
+        context["answers"] = answers
         return context
 
 
@@ -189,29 +226,32 @@ class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_councils'] = Council.objects.all() # for location search autocomplete
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
         return context
+
 
 class MethodologyView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/methodology.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_councils'] = Council.objects.all() # for location search autocomplete
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
 
         # questions = PlanQuestion.objects.all()
         # sections = PlanSection.objects.all()
 
-        section_qs = PlanSection.objects.filter(
-            year=2021
-        )
+        section_qs = PlanSection.objects.filter(year=2021)
 
         sections = {}
         for section in section_qs.all():
             sections[section.code] = {
-                'code': section.code,
-                'description': section.description,
-                'questions': [],
+                "code": section.code,
+                "description": section.description,
+                "questions": [],
             }
 
         questions = PlanQuestion.objects.raw(
@@ -223,31 +263,41 @@ class MethodologyView(CheckForDownPageMixin, TemplateView):
         for question in questions:
             section = question.section_code
             q = {
-                'code': question.code,
-                'display_code': question.code.replace('{}_'.format(question.section_code), '', 1),
-                'question': question.text,
-                'type': question.question_type,
-                'max': question.max_score,
-                'section': question.section.code,
+                "code": question.code,
+                "display_code": question.code.replace(
+                    "{}_".format(question.section_code), "", 1
+                ),
+                "question": question.text,
+                "type": question.question_type,
+                "max": question.max_score,
+                "section": question.section.code,
             }
-            sections[section]['questions'].append(q)
+            sections[section]["questions"].append(q)
 
         # context['questions'] = questions
-        context['sections'] = sorted(sections.values(), key=lambda section: section['code'])
+        context["sections"] = sorted(
+            sections.values(), key=lambda section: section["code"]
+        )
         return context
+
 
 class AboutView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/about.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_councils'] = Council.objects.all() # for location search autocomplete
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
         return context
+
 
 class ContactView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/contact.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['all_councils'] = Council.objects.all() # for location search autocomplete
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
         return context

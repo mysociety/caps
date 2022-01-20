@@ -143,10 +143,12 @@ DECLARATIONS_CSV = os.path.join(DATA_DIR, DECLARATIONS_CSV_NAME)
 
 PLAN_YEAR = 2021
 
-PLAN_SCORECARD_DATASET_DETAILS = {"org": "mysociety",
-                                  "repo": "climate_scorecard_data",
-                                  "tag": "0.9.5",
-                                  "private": True}
+PLAN_SCORECARD_DATASET_DETAILS = {
+    "org": "mysociety",
+    "repo": "climate_scorecard_data",
+    "tag": "0.9.5",
+    "private": True,
+}
 
 # Application definition
 
