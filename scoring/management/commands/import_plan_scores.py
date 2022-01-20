@@ -186,7 +186,9 @@ class Command(BaseCommand):
 
             for code in self.SECTIONS.keys():
                 if not pd.isnull(row[code]):
-                    section = PlanSection.objects.get(code=self.normalise_section_code(code))
+                    section = PlanSection.objects.get(
+                        code=self.normalise_section_code(code)
+                    )
 
                     section_score, created = PlanSectionScore.objects.get_or_create(
                         plan_section=section,
