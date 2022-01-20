@@ -15,6 +15,7 @@ class TestAnswerView(TestCase):
     def test_answer_view(self):
         url = reverse("council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+        print(response)
         sections = response.context["sections"]
 
         self.assertEquals(
