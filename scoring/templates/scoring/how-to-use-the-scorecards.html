@@ -20,103 +20,274 @@
                 <h3 class="mb-4">How to use the Council Climate Plan Scorecards for climate action in your area.</h3>
                 <p>The <a href="{% url 'home' %}">Council Climate Plan Scorecards</a> let you see, at a glance, how your own council's plan performs in comparison to the plans of other councils across the UK.</p>
                 <p>But once you've checked that out, you might be wondering what to do with this information. That's quite understandable — the path from data to action isn't always clear! So with that in mind we've gathered together some ways in which you, as residents and community groups, can use this data to bring about meaningful change.</p>
-                <div class="alert alert-warning mt-4" role="alert">
+                <div class="alert alert-warning mt-4 mb-0" role="alert">
                     {% comment %} TODO add link to councillor {% endcomment %}
-                    <span>If you’re a Councillor or Officer <a href="">click here</a> for guidance on how to use the Scorecards within your council for change</span>
+                    <span>If you’re a Councillor or Officer <a href="#councillor">click here</a> for guidance on how to use the Scorecards within your council for change</span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="container">
-        <div class="row mb-4">
+        <div class="row mb-3">
             <div class="col-12 col-lg-6">
                 <h3>Quick and simple actions you can take right now</h3>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 col-lg-6">
-                <div class="mb-3">
-                    <h4 class="mb-3">Tweet at your council</h4>
-                    <p>You'll find each council's Twitter handle on their page of the Climate Action Plans Scorecards website.</p>
-                    <img class="mb-3" width="100%" src="{% static 'scoring/img/twitter-handle-screenshot.jpg' %}" target="_blank">
-                    {% comment %} TODO add link to media folder {% endcomment %}
-                    <p class="mb-0">You can use our suggested tweet below, check out our media pack for more ideas, or compose your own tweet - just remember to @ your council in.</p>
-                </div>
-                <div class="bubble is--green mb-3">
-                    <h5 class="mb-2">General tweet</h5>
-                    <p>Up to 30% of the UK's transition to zero carbon is within the influence of local councils - that's why I'm checking [@TWITTER NAME OF YOUR COUNCIL]'s Climate Action Plan on [LINK TO COUNCIL'S PAGE ON SCORECARDS SITE] 📋 #CouncilClimateScorecards. 
-                    </p>
-                </div>
-                <div class="bubble is--blue mb-4">
-                    <h5 class="mb-2">Why?</h5>
-                    <p class="mb-3">It helps show your council — and your followers —  that you care about the steps they say they’re taking towards net zero, and that there's support for strong action amongst their residents.</p>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6">
-                <div class="mb-3">
-                    <h4 class="mb-3">Share your council's score</h4>
-                    <p>With your own social networks - social media, email, word of mouth - however you can ensure more people see it.</p>
-                    <div class="bubble is--blue mb-4">
-                        <h5 class="mb-2">Why?</h5>
-                        <p>The more exposure the Scorecards get, the more conversation there will be around councils taking strong climate action, bringing the idea into the mainstream.</p>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <h4 class="mb-3">Send a letter to the local newspaper</h4>
-                    {% comment %} TODO add link to letter {% endcomment %}
-                    <p>We've shared a template letter here, which you can personalise as you wish. You can find the email address for your local paper on their contact us page on their website, and put ‘letter to editor’ in the email title.</p>
-                    <div class="bubble is--blue mb-4">
-                        <h5 class="mb-2">Why?</h5>
-                        <p>Local press is an effective route to reaching an audience that cares about your local community.</p>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <h4 class="mb-3">Send a press release to your local paper or radio station/s</h4>
-                    {% comment %} TODO add link to letter {% endcomment %}
-                    <p>Here's a template which you can edit and send.</p>
-                    <div class="bubble is--blue mb-4">
-                        <h5 class="mb-2">Why?</h5>
-                        <p> Local media really helps us get the word out, but we need your help to make sure we've covered every outlet. Councillors always read their local paper, so this is a great way to make sure your council sees the Scorecards and is encouraged to do more.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row py-4">
+        <div class="row">
             <div class="col-12 col-lg-6">
                 <div class="accordion-wrapper rounded">
                     <div class="accordion-item">
                         <div class="accordion-heading">
-                            <p class="mb-0">This is heading</p>
+                            <p class="mb-0">Tweet at your council</p>
                             <button class="btn-open-accordion ml-auto" type="button"></button>
                         </div>
                         <div class="accordion-data">
-                            <div class="row accordion-data-inner">
+                            <div class="accordion-data-inner">
+                                <p>You'll find each council's Twitter handle on their page of the Climate Action Plans Scorecards website.</p>
+                                <img class="mb-3" width="100%" src="{% static 'scoring/img/twitter-handle-screenshot.jpg' %}">
+                                {% comment %} TODO add link to media folder {% endcomment %}
+                                <p>You can use our suggested tweet below, check out our media pack for more ideas, or compose your own tweet - just remember to @ your council in.</p>
+                                <div class="bubble is--green mb-3">
+                                    <h5 class="mb-2">General tweet</h5>
+                                    <p>Up to 30% of the UK's transition to zero carbon is within the influence of local councils - that's why I'm checking [@TWITTER NAME OF YOUR COUNCIL]'s Climate Action Plan on [LINK TO COUNCIL'S PAGE ON SCORECARDS SITE] 📋 #CouncilClimateScorecards. 
+                                    </p>
+                                </div>
+                                <div class="bubble is--blue mb-4">
+                                    <h5 class="mb-2">Why?</h5>
+                                    <p class="mb-3">It helps show your council — and your followers —  that you care about the steps they say they’re taking towards net zero, and that there's support for strong action amongst their residents.</p>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-heading">
+                            <p class="mb-0">Share your council's score</p>
+                            <button class="btn-open-accordion ml-auto" type="button"></button>
+                        </div>
+                        <div class="accordion-data">
+                            <div class="accordion-data-inner">
+                                <p>With your own social networks - social media, email, word of mouth - however you can ensure more people see it.</p>
+                                <div class="bubble is--blue mb-4">
+                                    <h5 class="mb-2">Why?</h5>
+                                    <p>The more exposure the Scorecards get, the more conversation there will be around councils taking strong climate action, bringing the idea into the mainstream.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-heading">
+                            <p class="mb-0">Send a letter to the local newspaper</p>
+                            <button class="btn-open-accordion ml-auto" type="button"></button>
+                        </div>
+                        <div class="accordion-data">
+                            <div class="accordion-data-inner">
+                                {% comment %} TODO add link to letter {% endcomment %}
+                                <p>We've shared a template letter <a href="https://docs.google.com/document/d/1Wn6q80Lh0lvk2fUvLaVFpAwmi1OR73Wbw0azvvj2Two/edit?usp=sharing">in the media pack</a>, which you can personalise as you wish. You can find the email address for your local paper on their contact us page on their website, and put ‘letter to editor’ in the email title. </p>
+                                <div class="bubble is--blue mb-4">
+                                    <h5 class="mb-2">Why?</h5>
+                                    <p>Local press is an effective route to reaching an audience that cares about your local community.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-heading">
+                            <p class="mb-0">Send a press release to your local paper or radio station/s</p>
+                            <button class="btn-open-accordion ml-auto" type="button"></button>
+                        </div>
+                        <div class="accordion-data">
+                            <div class="accordion-data-inner">
+                                {% comment %} TODO add link to letter {% endcomment %}
+                                <p>Here's a <a href="https://docs.google.com/document/d/1Wn6q80Lh0lvk2fUvLaVFpAwmi1OR73Wbw0azvvj2Two/edit?usp=sharing">template</a> which you can edit and send.</p>
+                                <div class="bubble is--blue mb-4">
+                                    <h5 class="mb-2">Why?</h5>
+                                    <p> Local media really helps us get the word out, but we need your help to make sure we've covered every outlet. Councillors always read their local paper, so this is a great way to make sure your council sees the Scorecards and is encouraged to do more.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-heading">
+                            <p class="mb-0">Sign our petition</p>
+                            <button class="btn-open-accordion ml-auto" type="button"></button>
+                        </div>
+                        <div class="accordion-data">
+                            <div class="accordion-data-inner">
+                                {% comment %} TODO add link to letter {% endcomment %}
+                                <p><a href="https://actionnetwork.org/petitions/michael-gove-fund-councils-climate-action">Sign our petition</a> asking Michael Gove to allocate more funding and support to councils' action on climate change</p>
+                                <div class="bubble is--blue mb-4">
+                                    <h5 class="mb-2">Why?</h5>
+                                    <p>Councils may be finding it hard to achieve all that they want or need to because of a lack of funds from central government.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col-12 col-lg-6">
+                <h3>Do a little more</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <ul>
+                    <li>
+                        <p><strong>Read our</strong> <a href="https://www.google.com/url?q=https://drive.google.com/drive/u/0/folders/12kOtQBQjyJAbtPzv9QxLzDTZ740sP60L&sa=D&source=docs&ust=1642616400197185&usg=AOvVaw2R_VdVf9ILWgs_F2h6_LL8">Campaigners Guide to the Council Climate Plan Scorecards</a> to work out how best to push your council for change</p>
+                        <div class="bubble is--blue mb-4">
+                            <h5 class="mb-2">Why?</h5>
+                            <p class="mb-0">Research and data can be vital tools in persuading councils to take action, if you know how to use them!</p>
+                        </div>
+                    </li>
+
+                    <li> 
+                        {% comment %} TODO link to eventbrite {% endcomment %}
+                        <p>Join us online in February for an <strong>online masterclass</strong> on what these Scorecards mean and how you can use them in your campaigning.</p>
+
+                        <div class="bubble is--blue mb-4">
+                            <h5 class="mb-2">Why?</h5>
+                            <p class="mb-0">Research and data can be vital tools in persuading councils to take action, if you know how to use them!</p>
+                        </div>
+                    </li>
+
+                    <li> 
+                        {% comment %} TODO link to eventbrite {% endcomment %}
+                        <p><strong>Join a local campaign group</strong> You could take a look at groups listed on <a href="https://takeclimateaction.uk/join">Friends of the earth Climate Action Group Map</a>, or with <a href="https://www.campaigncc.org/local.shtml">Campaign Against Climate Change</a>, on <a href="https://climatenetwork.org/">Climate Network</a> (some groups might appear on multiple maps!) or find or start your own group locally.</p>
+                        <div class="bubble is--blue mb-4">
+                            <h5 class="mb-2">Why?</h5>
+                            <p class="mb-0">Acting alone can be daunting, and it's easier to shape an actionable request based on the data when you have a group to discuss it with.</p>
+                        </div>
+                    </li>
+
+                    <li> 
+                        {% comment %} TODO link to eventbrite {% endcomment %}
+                        <p><strong>Get in touch with your local Councillor with a remit for the environment</strong>. At least one of your councillors will sit on your council's environment committee. Check out our <a href="https://www.google.com/url?q=https://drive.google.com/drive/u/0/folders/12kOtQBQjyJAbtPzv9QxLzDTZ740sP60L&sa=D&source=docs&ust=1642616400197185&usg=AOvVaw2R_VdVf9ILWgs_F2h6_LL8">Campaigners' Guide to the Council Climate Scorecards</a> on how to find them and how to know what to say.</p>
+                        <div class="bubble is--blue mb-4">
+                            <h5 class="mb-2">Why?</h5>
+                            <p class="mb-0">Using the scorecards as a basis for your conversation, you may be able to secure a commitment to faster or more ambitious climate action.</p>
+                        </div>
+                    </li>
+
+                    <li> 
+                        {% comment %} TODO link to eventbrite {% endcomment %}
+                        <p><strong>Submit a question to your local council meeting </strong> Every member of the public has the right to do this. Sounds a little intimidating? Check out our Campaigners' Guide to the Council Climate Scorecards for more on how to do this.</p>
+                        <div class="bubble is--blue mb-4">
+                            <h5 class="mb-2">Why?</h5>
+                            <p class="mb-0">This is a way of getting climate action directly onto the council's agenda.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div style="max-width:1100px" class="mx-auto">
+            <div class="row mb-3">
+                <div class="col-12 col-lg-6">
+                    <h3>If you're already part of an action group</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <ul class="mb-5">
+                        <li>
+                            <p><strong>Read our</strong> <a href="https://www.google.com/url?q=https://drive.google.com/drive/u/0/folders/12kOtQBQjyJAbtPzv9QxLzDTZ740sP60L&sa=D&source=docs&ust=1642616400197185&usg=AOvVaw2R_VdVf9ILWgs_F2h6_LL8">Campaigners Guide to the Council Climate Plan Scorecards</a> to work out how best to push your council for change</p>
+                            <div class="bubble is--blue mb-4">
+                                <h5 class="mb-2">Why?</h5>
+                                <p class="mb-0">Research and data can be vital tools in persuading councils to take action, if you know how to use them!</p>
+                            </div>
+                        </li>
+    
+                        <li> 
+                            <p><strong>Help us spread the word.</strong> Check out our <a href="https://docs.google.com/document/d/1Wn6q80Lh0lvk2fUvLaVFpAwmi1OR73Wbw0azvvj2Two/edit?usp=sharing">media pack</a> for resources that you can adapt for your communication channels and social networks.</p>
+                            <div class="bubble is--blue mb-4">
+                                <h5 class="mb-2">Why?</h5>
+                                <p class="mb-0">You can get the word out to your climate-engaged membership, and get them to take the actions we listed above.</p>
+                            </div>
+                        </li>
+    
+                        <li> 
+                            {% comment %} TODO link to eventbrite {% endcomment %}
+                            <p><strong>Run an event or meeting based around the league</strong> Online or in person.</p>
+                            <div class="bubble is--blue mb-4">
+                                <h5 class="mb-2">Why?</h5>
+                                <p class="mb-0"> Sometimes it's easier to explain things, and enthuse people to take action, face to face.</p>
+                            </div>
+                        </li>
+                    </ul>
+    
+                    <div class="border-top border-bottom py-3 mb-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+                        <div>
+                            <h3 class="mb-2 text-center text-md-left">Still got questions?</h3>
+                            <p class="text-center text-md-left mb-0">Feel free to get in touch</p>
+                        </div>
+                        <a class="d-inline-block btn btn-green mt-3 mt-md-0" href="{% url 'contact' %}">Contact us</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div id="councillor" class="container-fluid bg-grey pt-5">
+        <div style="max-width:1100px" class="mx-auto">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <h3 class="mb-4">How to use the Scorecards as a Councillor or Officer</h3>
+                    <p>The Scorecards score each council's Climate Action Plan on 28 questions across 9 sections, following <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">Climate Emergency UK's checklist</a></p>
+                    <p>This scoring can only represent what has been captured within the councils' public plans; not every action they have taken — although the published plans do tend to cover the majority of a council's climate activity.</p>
+                    {% comment %} TODO add link Top 10 ways {% endcomment %}
+                    <p>Don’t forget to check out our ‘Top 10 ways to Improve your Climate Action Plan’ summary document, which is written in response to some of the common themes we noticed in Council Climate Action Plans and how they could be improved.</p>
+                    <p>Here are some helpful tips on how best to understand this data and use it for meaningful improvement to your council's planned activity.</p>
+                    <ul class="mb-4">
+                        <li>Take time to <strong>understand the</strong> <a href="{% url 'methodology' %}">methodology</a> and what exactly the markers were looking for in each question. </li>
+                        <li><strong>Look at each section score</strong>. You might have scored particularly well in some sections but not in others: why is that? Use the filter buttons to see which councils have scored highly in the sections that you didn’t score as well on. What have these councils done differently with their plans, and what can you learn from this?</li>
+                        <li><strong>Make use of the filter tools</strong>. Use the various criteria such as urbanisation, deprivation or population size to discover councils that are similar to yours, and see where the strengths and weaknesses are in their climate action plans.<br>
+                        Or check your neighbouring councils: where have they scored well, and can you learn from them?<br>
+                        These filters can help you understand more about what councils similar to you have done, and where you might be able to share learnings — or even budgets! 
+                        </li>
+                        <li><strong>Remember that a low score might not indicate a lack of plans; it might be a result of weaker communication</strong>. Do you need to make sure that your plans are publicly available, from a page that's easier to find on your website? Or is your council making progress that isn't captured in the plan?</li>
+                        <li><strong>Share your successes</strong>. If you are a council that has scored well in a particular section, or overall, can you share your learnings and successes with other councils so that they can make progress faster and more easily?</li>
+                    </ul>
+                    <p>These scorecards are publicly available online, so you may well find that residents, local campaign groups or other councillors ask about your council's Climate Action Plan and scorecard result.</p>
+                    <p>We believe this is a real benefit of the project: for climate action to be effective, first, everyone needs to understand what is being done and why. That's the first step toward residents' buy-in. There's a further advantage to having more people fully up to speed with the council's plans:  as the net widens, you'll have access to more people with skills, experience, capacity or ideas worth sharing. </p>
+                    <p>If you are interested in finding out more about your council’s score, including the evidence used for each score and analysis on how you could improve, please contact us. We are looking into providing further (for a fee) advice on how a council can improve their plan.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
 </div>
 
 <script>
         // Open accordion item
         let accordionItemData = document.getElementsByClassName('accordion-data');
-        let accordionItemQuestion = document.getElementsByClassName('accordion-heading');
+        let accordionItemHeading = document.getElementsByClassName('accordion-heading');
     
         for (let i = 0; i < accordionItemData.length; i++) {
             let accordionItemDataOffHeight = accordionItemData[i].offsetHeight;
             let accordionItemDataScrollHeight = accordionItemData[i].scrollHeight;
-            let buttonAccordion = accordionItemQuestion[i].querySelector('.btn-open-accordion');  
+            let buttonAccordion = accordionItemHeading[i].querySelector('.btn-open-accordion');  
             buttonAccordion.addEventListener('click', () => {
                 if(!accordionItemData[i].classList.contains('active')) {
                     accordionItemData[i].classList.toggle('active');
                     buttonAccordion.classList.toggle('active');
-                    accordionItemQuestion[i].classList.toggle('active');
+                    accordionItemHeading[i].classList.toggle('active');
                     accordionItemData[i].style.height = "auto";
                     let height = accordionItemData[i].clientHeight + "px";
                     accordionItemData[i].style.height = "0px";
@@ -127,7 +298,7 @@
                     accordionItemData[i].style.height = "0px";
                     accordionItemData[i].addEventListener('transitionend', () => {
                         accordionItemData[i].classList.remove('active');
-                        accordionItemQuestion[i].classList.remove('active');
+                        accordionItemHeading[i].classList.remove('active');
                         buttonAccordion.classList.remove('active');
                     }, {once: true})
                 }
