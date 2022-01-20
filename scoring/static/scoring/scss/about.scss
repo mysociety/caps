@@ -1,0 +1,111 @@
+#volunteers {
+    @include responsive(padding-top, 30, 70);
+    @include responsive(padding-bottom, 30, 60);
+}
+
+$colors:$color-scorecard-cyan, $color-scorecard-blue, $color-scorecard-purple, $color-scorecard-pink, $color-scorecard-orange, $color-scorecard-green-d1, $color-scorecard-navy, $color-scorecard-red;
+$wall-repeat-pattern: 10;
+
+.names-wall {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: white;
+    padding: 16px;
+    border-radius: $border-radius;
+
+    .names-wall-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        @media only screen and (max-width: 950px) {
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-left:0 !important;
+            margin-right:0 !important;
+            .names-wall-row-item {
+                flex-basis: 20%;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                margin-bottom: 5px !important;
+            }
+        }
+
+        .names-wall-row-item {
+            padding: 8px;
+            border-radius: $border-radius;
+            border: 1px solid transparentize($color: $black, $amount: 0.8);
+            margin: 0 5px;
+            font-family: $headings-font-family;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            &:first-child {
+                margin-left: 0;
+            }
+            &:last-child {
+                margin-right: 0;
+            }
+            &.strong {
+                font-weight: 600;
+            }
+        }
+
+        &:nth-child(1) {
+            margin-left: -10px;
+            margin-right:-10px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(2) {
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(3) {
+            margin-left: -12px;
+            margin-right:-12px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(4) {
+            margin-left: -3px;
+            margin-right:-3px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(5) {
+            margin-left: -8px;
+            margin-right:-8px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+    }
+}
