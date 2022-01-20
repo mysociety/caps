@@ -1,78 +1,12 @@
-{% load static %}
-
-<script src="{% static 'awesomplete/awesomplete.min.js' %}"></script>
 <script>
-
-function isVisible(el) {
-    return (el.offsetParent !== null)
-};
-
-function forEachElement(selector, callback) {
-    var elements = document.querySelectorAll(selector);
-    Array.prototype.forEach.call( elements, callback );
-};
-
-var councils = {
+var councils = [
   {% for council in all_councils %}
-    "{{ council.name }}": "{% url 'council' council.slug %}",
+    {
+        name: "{{ council.name }}",
+        slug: "{{ council.slug }}",
+        council_url: "{% url 'council' council.slug %}",
+        scoring_url: "{% if council.get_scoring_group.slug == 'single'%}{% url 'home' %}{% else %}{% url 'scoring' council.get_scoring_group.slug %}{% endif %}"
+    },
   {% endfor %}
-};
-
-forEachElement('.js-location-search-autocomplete', function(input){
-    var ac = new Awesomplete(
-        input,
-        {
-            list: Object.keys(councils),
-            minChars: 3,
-            autoFirst: true
-        }
-    );
-    input.parentNode.addEventListener('awesomplete-select', function(data){
-        data.preventDefault();
-        window.location.href = councils[data.text];
-    });
-    input.placeholder = 'Council name or postcode';
-});
-
-var councilsOnThisPage = {};
-forEachElement('[data-jump-slug]', function(el){
-    councilsOnThisPage[ el.textContent ] = el.getAttribute('data-jump-slug');
-});
-
-forEachElement('.js-location-jump-autocomplete', function(input){
-    var ac = new Awesomplete(
-        input,
-        {
-            list: Object.keys(councilsOnThisPage),
-            minChars: 3,
-            autoFirst: true
-        }
-    );
-    input.parentNode.addEventListener('awesomplete-select', function(data){
-        data.preventDefault();
-        forEachElement('[data-jump-slug="' + councilsOnThisPage[data.text] + '"]', function(el){
-            // There will be two matching rows on the page, one in the
-            // desktop table, and one in the mobile table. We want to
-            // scroll to whichever one is visible right now.
-            if ( isVisible( el ) ) {
-
-                // Finish up with the autocomplete
-                ac.close();
-                input.blur();
-
-                // Scroll to the correct row
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                // Visually highlight the row for a few seconds
-                var row = el.closest('tr') || el; // `el` fallback for IE
-                row.classList.add('highlight');
-                setTimeout(function(){
-                  row.classList.remove('highlight');
-                }, 10000);
-
-              }
-        });
-    });
-});
-
+];
 </script>

@@ -275,38 +275,12 @@ tbody th.council-name {
 
     .highlight {
         th, td {
-            animation: yellow-to-white-fade 5s linear 1;
-        }
-
-        &:nth-child(odd) {
-            th, td {
-                animation: yellow-to-grey-fade 5s linear 1;
-            }
+            background: rgba($color-scorecard-yellow, 0.5);
         }
     }
 
     .council-total-score, .total-score {
         left: 250px;
-    }
-}
-
-@keyframes yellow-to-white-fade {
-    from {
-        background: rgba($color-scorecard-yellow, 0.5);
-    }
-
-    to {
-        background: #fff;
-    }
-}
-
-@keyframes yellow-to-grey-fade {
-    from {
-        background: rgba($color-scorecard-yellow, 0.5);
-    }
-
-    to {
-        background: #f8f8f8;
     }
 }
 

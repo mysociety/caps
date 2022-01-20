@@ -104,7 +104,9 @@
         </div>
     </footer>
 
-{% include 'scoring/includes/location-search-autocomplete.html' %}
+    <script src="{% static 'awesomplete/awesomplete.min.js' %}"></script>
+    {% include 'scoring/includes/location-search-autocomplete.html' %}
+    <script src="{% static 'scoring/js/main.js' %}"></script>
 
 </body>
 </html>

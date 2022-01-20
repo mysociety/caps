@@ -197,7 +197,7 @@
                     </thead>
                     <tbody>
                       {% for council in council_data %}
-                        <tr>
+                        <tr data-jump-slug="{{ council.slug }}">
                             <th scope="row" class="council-name position-sticky z-index-3">
                                 {% if council.top_performer %}
                                 <div class="top-performer active">
@@ -206,7 +206,7 @@
                                     </div>
                                 </div>
                                 {% endif %}
-                                <a class="council-link" href="{% url 'council' council.slug %}" data-jump-slug="{{ council.slug }}">{{ council.name }}</a>
+                                <a class="council-link" href="{% url 'council' council.slug %}">{{ council.name }}</a>
                                 <div class="table-sticky-border left"></div>
                             </th>
                             <th scope="row" class="council-total-score position-sticky z-index-3">
@@ -296,7 +296,7 @@
                     </thead>
                     <tbody>
                       {% for council in council_data %}
-                        <tr>
+                        <tr data-jump-slug="{{ council.slug }}">
                             <th scope="row" class="council-name position-sticky z-index-3">
                                 {% if council.top_performer %}
                                 <div class="top-performer active">
@@ -305,7 +305,7 @@
                                     </div>
                                 </div>
                                 {% endif %}
-                                <a class="council-link" href="{% url 'council' council.slug %}" data-jump-slug="{{ council.slug }}">{{ council.name }}</a>
+                                <a class="council-link" href="{% url 'council' council.slug %}">{{ council.name }}</a>
                             </th>
                             <th scope="row" class="council-total-score position-sticky z-index-3">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
