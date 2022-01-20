@@ -27,4 +27,4 @@ MAILCHIMP_KEY = 'xxx'
 MAILCHIMP_SERVER_PREFIX = 'xxx'
 MAILCHIMP_LIST_ID = 'xxx'
 
-SCORECARDS_PRIVATE = strtobool(os.environ.get("SCORECARDS_PRIVATE", False))
+SCORECARDS_PRIVATE = strtobool(os.environ.get("SCORECARDS_PRIVATE", 'False'))
