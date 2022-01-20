@@ -2,5 +2,36 @@
 {% load bootstrap4 %}
 
 {% block content %}
-This is about
+<div class="about-page">
+    <div class="hero container-fluid bg-dark-grey">
+        <div style="max-width: 1110px" class="mx-auto">
+            <a class="cta reverse white" href="{% url 'home' %}">Back to scorecards plan</a>
+            <h1 class="text-white mt-3">About us</h1>
+            <div class="mt-3">
+                <span class="hero-sub">Know more about CE UK and the scorecards</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h3 class="mb-3">About us</h3>
+                <p>Climate Emergency UK was set up in response to the climate emergency declarations that councils started making from the end of 2018. CE UK began by collecting these declarations, and the Climate Action Plans that followed, on its website.</p>
+                {% comment %} TODO add link press release {% endcomment %}
+                <p>Click <a class="#">here</a> to read our <strong>press release</strong> on the launch of the Council Climate Plan Scorecards.</p>
+                <p> For <strong>interviews</strong>, <strong>data</strong>, <strong>further analysis</strong>; please contact: <a href="press@climateemergency.uk">press@climateemergency.uk</a></p>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 col-md-6">
+                <h4 class="mb-3">History of the Scorecards</h4>
+                <p>CE UK worked with longstanding civic tech NGO <a href="https://www.mysociety.org/">mySociety</a> to create CAPE, the <a href="https://data.climateemergency.uk/">Climate Action Plan Explorer</a>. This took the plans collected by CE UK and placed them into a database, allowing users to easily locate and read their council’s Climate Action Plan, if it has one, and search across all councils' plans.</p>
+                <p>At around the same time, CE UK created the <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">Climate Action Plan Checklist</a> with the support of Friends of the Earth, Ashden, the Centre for Alternative Technology and APSE Energy. This extensively researched document outlines the elements of a strong Climate Action Plan and highlights best practice from councils all over the world.</p>
+                <p>While both of these tools are very useful, neither allow residents to understand the quality of their council’s Climate Action Plan, or how their council’s plan compares to others. Without this information it is difficult to know how their council can improve, and what to ask for. For this reason CE UK decided to assess Climate Action Plans and publish the findings publicly.</p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
