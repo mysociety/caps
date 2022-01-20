@@ -1,0 +1,17 @@
+.login-form {
+    text-align: left;
+
+    label {
+        display: block;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        border: 1px solid black;
+    }
+
+    input[type="submit"] {
+        line-height: 1;
+        padding: 0.75rem 1rem;
+    }
+}
