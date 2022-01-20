@@ -315,4 +315,3 @@ class TestTopPerormersInViews(TestCase):
                 },
             ],
         )
-
