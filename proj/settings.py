@@ -32,7 +32,7 @@ else:
     IS_LIVE = True
     STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
 
-ALLOWED_HOSTS = ["127.0.0.1", "testserver", "0.0.0.0", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "testserver", "0.0.0.0", "localhost", "councilclimatescorecards.com"]
 
 from conf.config import *  # stores database and key outside repo
 
