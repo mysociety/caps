@@ -8,5 +8,11 @@ register = template.Library()
 
 @register.filter
 @stringfilter
-def url_human(value):
+def domain_human(value):
     return re.sub(r"^(https?:[/][/])?(www[.])?([^/]+).*", r"\3", value)
+
+
+@register.filter
+@stringfilter
+def url_human(value):
+    return re.sub(r"^(https?:[/][/])?(www[.])?(.*)", r"\3", value)

@@ -308,7 +308,7 @@
             </div>
             <div class="card-body">
                 <dl class="mt-n1 mb-0">
-                    <dt><a href="{{ council.website_url }}">{{ council.website_url|url_human }}{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a></dt>
+                    <dt><a href="{{ council.website_url }}">{{ council.website_url|domain_human }}{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a></dt>
                     <dd>{{ council.name }}’s official homepage.</dd>
                   {% if council.twitter_url %}
                     <dt><a href="{{ council.twitter_url }}">@{{ council.twitter_name }}{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a></dt>

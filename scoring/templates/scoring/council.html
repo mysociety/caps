@@ -82,11 +82,16 @@
                 <p>Amet minim mollit non deserunt 
                     ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
                 </p>
-                {% comment %} If there is only one plan {% endcomment %}
-                <button type="button">Display the action plans</button>
-              {% for plan_url in plan_urls %}
-                <a href="{{ plan_url.plan_url }}">{{ plan_url.plan_url|url_human }}</a><br>
-              {% endfor %}
+              {% if plan_urls %}
+                <details>
+                    <summary class="btn btn btn-blue is--light">Display the action plans</summary>
+                    <ul class="scoring-source-links">
+                      {% for plan_url in plan_urls %}
+                        <li><a href="{{ plan_url.plan_url }}" title="{{ plan_url.plan_url|url_human }}">{{ plan_url.plan_url|url_human }}</a></li>
+                      {% endfor %}
+                    </ul>
+                </details>
+              {% endif %}
             </div>
         </div>
     </div>
