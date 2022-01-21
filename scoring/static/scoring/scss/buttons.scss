@@ -110,6 +110,7 @@ a.cta {
     letter-spacing: 0.03em;
     padding: 7px;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 // Color button
@@ -158,16 +159,17 @@ a.cta {
 
 // Donation button
 .btn.donation {
-    background-image: url('../img/donate.svg');
-    background-size: 20px;
+    background-image: url('../img/donate-black.svg');
+    background-size: 18px;
     background-repeat: no-repeat;
     background-position: right 8px top 5px;
-    background-color: #7BD2F8;
+    background-color: transparentize($color-scorecard-blue, 0.1);
     text-decoration: none;
     padding-right: 30px;
     border: 1px solid $blue;
-    @include transition(background-color, color 0.3s ease-in-out);
+    @include transition(background-color, background-image, color 0.3s ease-in-out);
     &:hover {
+        background-image: url('../img/donate-black.svg');
         background-color: $white;
         color: #045C88;   
     }
