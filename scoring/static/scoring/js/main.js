@@ -2,8 +2,12 @@ function isVisible(el) {
     return (el.offsetParent !== null)
 };
 
-function forEachElement(selector, callback) {
-    var elements = document.querySelectorAll(selector);
+function forEachElement(arg1, arg2, arg3) {
+    var context = (typeof arg3 == 'function') ? arg1 : document;
+    var selector = (typeof arg3 == 'function') ? arg2 : arg1;
+    var callback = (typeof arg3 == 'function') ? arg3 : arg2;
+
+    var elements = context.querySelectorAll(selector);
     Array.prototype.forEach.call( elements, callback );
 };
 
@@ -17,6 +21,14 @@ function findItem(list, params) {
     }
     return null;
 };
+
+function siblingIndex(el) {
+    var index = 0;
+    while ( (el=el.previousElementSibling) != null ) {
+        ++index;
+    }
+    return index;
+}
 
 function serialiseObject(obj) {
     return Object.keys(obj).map(function(key){
@@ -116,4 +128,56 @@ navbarButton.addEventListener('click', function(){
             navbarContent.classList.remove('show-height');
         }, {once: true})
     }
+});
+
+function sortTableByColumn(columnHeader, direction) {
+    var table = columnHeader.closest('table');
+    var headerCell = columnHeader.closest('th');
+    var columnIndex = siblingIndex(headerCell);
+
+    // Values here are labels for what will happen
+    // when you click, not the current state!
+    var strings = {
+        'none': 'Sort highest first',
+        'descending': 'Sort lowest first',
+        'ascending': 'Cancel sorting',
+    }
+
+    forEachElement(table, '.js-sort-table', function(el){
+        el.classList.remove('is-sorted-descending');
+        el.classList.remove('is-sorted-ascending');
+        el.setAttribute('title', strings['none']);
+    });
+
+    columnHeader.classList.add('is-sorted-' + direction);
+    columnHeader.setAttribute('title', strings[direction]);
+
+    var tbody = table.querySelector('tbody');
+    var rows = tbody.querySelectorAll('tbody tr');
+    var rowsArr = Array.from(rows);
+    rowsArr.sort(function(rowA, rowB){
+        var valueA = parseFloat( rowA.children[columnIndex].getAttribute('data-sort-value') );
+        var valueB = parseFloat( rowB.children[columnIndex].getAttribute('data-sort-value') );
+        return valueB - valueA;
+    }).forEach(function(row){
+        if ( direction == 'descending' ) {
+            tbody.insertBefore(row, tbody.childNodes[tbody.length]);
+        } else {
+            tbody.insertBefore(row, tbody.childNodes[0]);
+        }
+    });
+}
+
+forEachElement('.js-sort-table', function(el){
+    el.addEventListener('click', function(){
+        if ( this.classList.contains('is-sorted-descending') ) {
+            sortTableByColumn(this, 'ascending');
+        } else if ( this.classList.contains('is-sorted-ascending') ) {
+            var defaultSortColumn = this.closest('table').querySelector('[data-sort-default]');
+            var defaultSortDirection = defaultSortColumn.getAttribute('data-sort-default');
+            sortTableByColumn(defaultSortColumn, defaultSortDirection);
+        } else {
+            sortTableByColumn(this, 'descending');
+        }
+    });
 });

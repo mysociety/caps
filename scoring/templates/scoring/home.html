@@ -76,7 +76,7 @@
                             <th scope="col" class="first-row-child total-score position-sticky z-index-4">
                                 <div class="table-header-first-row">
                                     <span class="text-center">Total Score</span>
-                                    <button class="sort-icon is-sorted-descending" title="Sort lowest first"></button>
+                                    <button class="js-sort-table sort-icon is-sorted-descending" title="Sort lowest first" data-sort-default="descending"></button>
                                 </div>
                                 <div class="table-sticky-border right"></div>
                                 <div class="table-sticky-border left"></div>
@@ -85,63 +85,63 @@
                             <th scope="col" class="first-row-child category-1">
                                 <div class="table-header-first-row">
                                     <a href="{% url 'methodology' %}#sec-gov">Governance, development and funding</a>
-                                    <button class="sort-icon" title="Sort highest first"></button>
+                                    <button class="js-sort-table sort-icon" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-2">
                                 <div class="table-header-first-row">
                                     <a href="{% url 'methodology' %}#sec-ma">Mitigation and Adaptation</a>
-                                    <button class="sort-icon" title="Sort highest first"></button>
+                                    <button class="js-sort-table sort-icon" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-3">
                                 <div class="table-header-first-row">
                                     <a href="{% url 'methodology' %}#sec-ca">Commitment and Integration</a>
-                                    <button class="sort-icon" title="Sort highest first"></button>
+                                    <button class="js-sort-table sort-icon" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-4">
                                 <div class="table-header-first-row">
                                     <a href="{% url 'methodology' %}#sec-coms">Community engagement and communications</a>
-                                    <button class="sort-icon" title="Sort highest first"></button>
+                                    <button class="js-sort-table sort-icon" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-5">
                                 <div class="table-header-first-row">
                                     <a href="{% url 'methodology' %}#sec-mset">Measuring and setting emissions targets</a>
-                                    <button class="sort-icon" title="Sort highest first"></button>
+                                    <button class="js-sort-table sort-icon" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-6">
                                 <div class="table-header-first-row">
                                     <a href="{% url 'methodology' %}#sec-co">Co-benefits</a>
-                                    <button class="sort-icon" title="Sort highest first"></button>
+                                    <button class="js-sort-table sort-icon" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-7">
                                 <div class="table-header-first-row">
                                     <a href="{% url 'methodology' %}#sec-dsi">Diversity and Social Inclusion</a>
-                                    <button class="sort-icon" title="Sort highest first"></button>
+                                    <button class="js-sort-table sort-icon" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-8">
                                 <div class="table-header-first-row">
                                     <a href="{% url 'methodology' %}#sec-est">Education, Skills and Training</a>
-                                    <button class="sort-icon" title="Sort highest first"></button>
+                                    <button class="js-sort-table sort-icon" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-9">
                                 <div class="table-header-first-row">
                                     <a href="{% url 'methodology' %}#sec-ee">Ecological emergency</a>
-                                    <button class="sort-icon" title="Sort highest first"></button>
+                                    <button class="js-sort-table sort-icon" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
@@ -209,36 +209,36 @@
                                 <a class="council-link" href="{% url 'council' council.slug %}">{{ council.name }}</a>
                                 <div class="table-sticky-border left"></div>
                             </th>
-                            <th scope="row" class="council-total-score position-sticky z-index-3">
+                            <th scope="row" class="council-total-score position-sticky z-index-3" data-sort-value="{{ council.percentage|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                                 <div class="table-sticky-border right"></div>
                             </th>
                           {% with scores=council.all_scores %}
-                            <td scope="row" class="council-category-score category-1">
+                            <td scope="row" class="council-category-score category-1" data-sort-value="{{ scores.s1_gov.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s1_gov.score max=scores.s1_gov.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-2">
+                            <td scope="row" class="council-category-score category-2" data-sort-value="{{ scores.s2_m_a.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s2_m_a.score max=scores.s2_m_a.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-3">
+                            <td scope="row" class="council-category-score category-3" data-sort-value="{{ scores.s3_c_a.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s3_c_a.score max=scores.s3_c_a.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-4">
+                            <td scope="row" class="council-category-score category-4" data-sort-value="{{ scores.s4_coms.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s4_coms.score max=scores.s4_coms.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-5">
+                            <td scope="row" class="council-category-score category-5" data-sort-value="{{ scores.s5_mset.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s5_mset.score max=scores.s5_mset.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-6">
+                            <td scope="row" class="council-category-score category-6" data-sort-value="{{ scores.s6_cb.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s6_cb.score max=scores.s6_cb.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-7">
+                            <td scope="row" class="council-category-score category-7" data-sort-value="{{ scores.s7_dsi.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s7_dsi.score max=scores.s7_dsi.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-8">
+                            <td scope="row" class="council-category-score category-8" data-sort-value="{{ scores.s8_est.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s8_est.score max=scores.s8_est.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-9">
+                            <td scope="row" class="council-category-score category-9" data-sort-value="{{ scores.s9_ee.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s9_ee.score max=scores.s9_ee.max %}
                             </td>
                           {% endwith %}
@@ -263,10 +263,10 @@
                                 Council name
                             </th>
                             <th scope="col" class="total-score position-sticky z-index-4">              
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 sort=1 %}
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                             </th>
                             <th scope="col" class="category-1 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s1_gov.score max=averages.s1_gov.max average=1 sort=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s1_gov.score max=averages.s1_gov.max average=1 %}
                             </th>
                             <th scope="col" class="category-2 second-row">              
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s2_m_a.score max=averages.s2_m_a.max average=1 %}
