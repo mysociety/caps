@@ -412,11 +412,14 @@ td.council-category-score.category-9 {
     background-image: url('../img/sort-down-default.svg');
     background-size: contain;
     background-repeat: no-repeat;
-}
 
-.sort-icon.green {
-    background-image: url('../img/sort-down-green.svg');
-    background-repeat: no-repeat;
+    &.is-sorted-descending {
+        background-image: url('../img/sort-down-green.svg');
+    }
+
+    &.is-sorted-ascending {
+        background-image: url('../img/sort-up-green.svg');
+    }
 }
 
 // Hover message for top-performers
