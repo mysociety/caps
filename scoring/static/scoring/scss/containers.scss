@@ -12,3 +12,70 @@
     @include responsive(padding-top, 30, 50);
     @include responsive(padding-bottom, 30, 50);
 }
+
+//Container Y-sizes 
+.container, .container-fluid {
+    &.small {
+        @include responsive(padding-top, 15, 30);
+        @include responsive(padding-bottom, 15, 30);
+    }
+    &.medium {
+        @include responsive(padding-top, 20, 35);
+        @include responsive(padding-bottom, 20, 35);
+    }
+    &.large {
+        @include responsive(padding-top, 30, 55);
+        @include responsive(padding-bottom, 30, 55);
+    }
+    &.x-large {
+        @include responsive(padding-top, 50, 75);
+        @include responsive(padding-bottom, 50, 75);
+    }
+}
+
+//Background-images
+.globe-background {
+    background-image: url('../img/globe-background.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right 400px top 35px;
+
+    @media only screen and (max-width: 600px) {
+        background-position: right 0px top 0px;
+    }
+
+    @media screen and (min-width: 601px) and (max-width: 900px) {
+        background-position: right 20px top 0px;
+    }
+
+    @media screen and (min-width: 901px) and (max-width: 1200px) {
+        background-position: left 400px top 0px;
+    }
+
+    @media screen and (min-width: 1201px) {
+        background-position: left 700px top 0px;
+    }
+}
+
+.contact-background {
+    background-image: url('../img/contact-background.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left 400px top 0px;
+
+    @media only screen and (max-width: 600px) {
+        background-position: right 0px top 0px;
+    }
+
+    @media screen and (min-width: 601px) and (max-width: 900px) {
+        background-position: right 20px top 0px;
+    }
+
+    @media screen and (min-width: 901px) and (max-width: 1200px) {
+        background-position: left 400px top 0px;
+    }
+
+    @media screen and (min-width: 1201px) {
+        background-position: left 700px top 0px;
+    }
+}
