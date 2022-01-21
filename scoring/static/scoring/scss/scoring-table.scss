@@ -325,6 +325,9 @@ tbody th.council-name {
 }
 
 .second-row .total-score {
+    @media only screen and (max-width: $table-desktop-breakpoint) {
+        background-color: $white;
+    }
     .score-bar {
         border-color: $color-scorecard-green-d1;
         .progress-bar {
@@ -542,6 +545,7 @@ $padding-left: 8px;
         height: 48px;
         padding-top: 16px;
         padding-left: 28px;
+        background-color: $white;
     }
 
     .second-row .total-score .score-bar {
