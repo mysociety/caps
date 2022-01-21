@@ -92,11 +92,6 @@ footer {
             input {
                 flex-basis: calc(45% - 10px);
                 max-width: 230px;
-                margin-bottom: 16px;
-
-                &:first-child {
-                    margin-right: 10px;
-                }
 
                 &.btn {
                     max-width: 100px;

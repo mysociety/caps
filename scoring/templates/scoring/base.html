@@ -78,11 +78,21 @@
                     <div>
                         <div class="newsletter-wrapper">
                             <h5>Receive the latest news from Climate Emergency UK</h5>
+                            {% comment %} TODO not sure if we need this {% endcomment %}
+                            <div class="mailpoet_form_popup_overlay"></div> 
                             <p class="newsletter-subtitle">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.</p>
-                            <form class="newsletter-form mt-4">
-                                <input class="name" type="text" id="fname" name="firstname" placeholder="Name">
-                                <input class="last-name" type="email" id="email" placeholder="Email" pattern=".+@globex\.com" size="30" required>
-                                <input class="btn btn-green is--light" type="submit" value="Join us">
+                            <form class="newsletter-form mt-4" target="_self" method="post" action="https://www.climateemergency.uk/wp-admin/admin-post.php?action=mailpoet_subscription_form">
+                                <input type="hidden" name="data[form_id]" value="2"> 
+                                <input type="hidden" name="token" value="a70e9f682e"> 
+                                <input type="hidden" name="api_version" value="v1"> 
+                                <input type="hidden" name="endpoint" value="subscribers"> 
+                                <input type="hidden" name="mailpoet_method" value="subscribe">
+                                <input class="name mb-3" type="text" name="data[form_field_ODA0N2VkZWZlZWVkX2ZpcnN0X25hbWU=]" title="First name" value="" placeholder="First name">
+                                <input class="last-name mb-3" type="text" name="data[form_field_NmEwMWE2ZDUzYzA0X2xhc3RfbmFtZQ==]" title="Last name" value="" placeholder="Last name">
+                                <input class="mb-3" type="email" name="data[form_field_MDVlMDkwY2Y0YjIyX2VtYWls]" title="Email" value="" placeholder="Email *">
+                                <div class="mailpoet_paragraph last">
+                                    <input type="submit" class="btn btn-green is--light" value="Subscribe!">
+                                </div>
                             </form>
                         </div>
                         <div class="media-icons-wrapper mt-4">
