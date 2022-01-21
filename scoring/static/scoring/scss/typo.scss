@@ -56,7 +56,7 @@ h3, .h3 {
     font-family: $headings-font-family;
     font-style: normal;
     font-weight: 500;
-    font-size: 24px;
+    @include responsive(font-size, 22, 25);
     line-height: 130%;
     /* or 31px */
 
@@ -77,7 +77,7 @@ h4, .h4 {
     font-family: $headings-font-family;
     font-style: normal;
     font-weight: normal;
-    @include responsive(font-size, 18, 20);
+    @include responsive(font-size, 18, 23);
     line-height: 130%;
     letter-spacing: 0.04em;
     color: $color-scorecard-grey-900;
@@ -87,7 +87,7 @@ h5, .h5 {
     font-family: $font-family-sans-serif;
     font-style: normal;
     font-weight: 500;
-    @include responsive(font-size, 14, 16);
+    @include responsive(font-size, 15, 19);
     line-height: 150%;
     letter-spacing: 0.03em;
     color: $color-scorecard-grey-900;
@@ -98,7 +98,7 @@ h6, .h6 {
     font-family: $font-family-sans-serif;
     font-style: normal;
     font-weight: 500;
-    font-size: 15px;
+    @include responsive(font-size, 14, 17);
     line-height: 130%;
     letter-spacing: 0.02em;
     text-transform: uppercase;
