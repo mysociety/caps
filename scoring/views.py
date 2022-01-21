@@ -111,6 +111,7 @@ class HomePageView(CheckForDownPageMixin, ListView):
         context["council_data"] = councils
         context["averages"] = averages
         context["page_title"] = "MISSING TITLE"
+        context["current_page"] = "home-page"
         return context
 
 
@@ -285,6 +286,7 @@ class MethodologyView(CheckForDownPageMixin, TemplateView):
             sections.values(), key=lambda section: section["code"]
         )
         context["page_title"] = 'Methodology'
+        context["current_page"] = "methodology-page"
         return context
 
 
@@ -297,6 +299,7 @@ class AboutView(CheckForDownPageMixin, TemplateView):
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
         context["page_title"] = 'About us'
+        context["current_page"] = "about-page"
         return context
 
 
@@ -309,6 +312,7 @@ class ContactView(CheckForDownPageMixin, TemplateView):
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
         context["page_title"] = 'Contact us'
+        context["current_page"] = "contact-page"
         return context
 
 
@@ -321,4 +325,5 @@ class HowToUseView(TemplateView):
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
         context["page_title"] = 'How to use the scorecards'
+        context["current_page"] = "how-to-page"
         return context

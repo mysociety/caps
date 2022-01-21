@@ -130,3 +130,12 @@ $max-viewport: 1792;
 @mixin border-priority-3($direction) {
     border-#{$direction}: $border-priority-3;
 }
+
+// Active nav-link active
+
+@mixin nav-link-active {
+    background-color:lighten($green, 40%);
+    color: $black;
+    opacity: 1;
+    border-color: $green;
+}

@@ -46,14 +46,40 @@
             border-color: darken(#A8F0E4,30%);
         }
     }
-    .nav-item.active .nav-link{
-        background-color:lighten($green, 40%);
-        color: $black;
-        opacity: 1;
-        border-color: $green;
+}
+
+body {
+    &.home-page {
+        #home-page.nav-item .nav-link{
+            @include nav-link-active;
+        }
     }
 
+    &.methodology-page {
+        #methodology-page.nav-item .nav-link{
+            @include nav-link-active;
+        }
+    }
+
+    &.how-to-page {
+        #how-to-page.nav-item .nav-link{
+            @include nav-link-active;
+        }
+    }
+
+    &.about-page {
+        #about-page.nav-item .nav-link{
+            @include nav-link-active;
+        }
+    }
+
+    &.contact-page {
+        #contact-page.nav-item .nav-link{
+            @include nav-link-active;
+        }
+    }
 }
+
 
 // Subheader
 nav.subheader {
