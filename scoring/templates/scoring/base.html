@@ -16,13 +16,13 @@
     {% stylesheet 'scoring' %}
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
-    <nav class="scorecards navbar navbar-expand-lg navbar-light justify-content-between bg-green-gradient">
+    <nav class="scorecards navbar navbar-expand-xl navbar-light justify-content-between bg-green-gradient">
         <a class="navbar-brand" href="{% url 'home' %}">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button id="navbar-toggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav my-3 my-xl-0">
                 <li id="home-page" class="nav-item">
                     <a class="nav-link" href="{% url 'home' %}">Scorecards</a>
                 </li>
@@ -38,7 +38,7 @@
                 <li id="contact-page" class="nav-item">
                     <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                 </li>
-                <li class="d-flex align-items-center ml-2">
+                <li class="d-flex align-items-center ml-xl-2 ml-0 py-2 py-xl-0">
                     <form action="{% url 'location_results' %}" class="form">
                         <input class="form-control searchbar green dark mr-sm-2 js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
                         <!-- TODO: Do we need a submit button? -->

@@ -1,5 +1,12 @@
+$navbar-mobile-breakpoint: 1200px;
 .navbar {
-    padding: 0 1rem * 2;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    @media only screen and (max-width: $navbar-mobile-breakpoint) {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
 
     li {
         margin-bottom: 0;
@@ -25,7 +32,7 @@
         font-style: normal;
         font-weight: normal;
         line-height: 100%;
-        padding: calc((78px - #{$nav-link-font-size} - #{$nav-item-border-size}) / 2) 25px;
+        padding: calc((78px - #{$nav-link-font-size} - #{$nav-item-border-size}) / 2) 20px;
         letter-spacing: 0.08em;
         color: $black;
         opacity: 0.7;
@@ -44,6 +51,32 @@
             border-top: $nav-item-border-size solid;
             border-bottom: $nav-item-border-size solid;
             border-color: darken(#A8F0E4,30%);
+        }
+
+        @media only screen and (max-width: $navbar-mobile-breakpoint) {
+            padding-top: 15px !important;
+            padding-bottom: 15px !important;
+        }
+        
+    }
+
+    .navbar-collapse {
+        height: 0;
+        overflow: hidden;
+        @include transition(height 0.3s ease-in-out);
+        &.show-height {
+            height: auto;
+        }
+        &.collapse:not(.show-height) {
+            display: block;
+        }
+        &.collapse:not(.show) {
+            display: flex;
+            height: auto;
+            @media only screen and (max-width: $navbar-mobile-breakpoint) {
+                display: block;
+                height: 0;
+            }
         }
     }
 }
@@ -99,5 +132,14 @@ nav.subheader {
         line-height: 130%;
         letter-spacing: 0.05em;
         opacity: 0.8;
+    }
+}
+
+.navbar-light .navbar-toggler {
+    border-color: transparent;
+
+    @include hover-focus {
+        border-color: $color-scorecard-green-d1;
+        background-color: $color-scorecard-green-l1;
     }
 }
