@@ -2,13 +2,13 @@
 data-popup-trigger="one" type="button">Advanced filters</button>
 <div class="advanced-filter-wrapper bg-blue-l2 popup-modal shadow" data-popup-modal="one">
     <div class="filter-header mb-4 mb-sm-5">
-        <h4 class="filter-title">Select which criteria you would like to filter:</h4>
+        <h5 class="filter-title">Select which criteria you would like to filter:</h5>
         <button class="close-icon popup-modal__close" type="button"></button>
     </div>
     <form>
         {% if authority_type == 'single' %}
         <div class="criteria-group-wrapper">
-            <button class="h5 btn-open-div" type="button">
+            <button class="btn-open-div mb-2" type="button">
                 Nation
             </button>
             <div class="option-group open-div">
@@ -29,7 +29,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
         {% endif %}
 
         <div class="criteria-group-wrapper">
-            <button class="h5 btn-open-div" type="button">Urbanization</button>
+            <button class="btn-open-div mb-2" type="button">Urbanization</button>
             <div class="option-group open-div">
                 <div class="radio-wrapper">
                     <input type="radio" id="urban" name="urbanization" value="urban">
@@ -47,7 +47,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
         </div>
 
         <div class="criteria-group-wrapper">
-            <button class="h5 btn-open-div" type="button">
+            <button class="btn-open-div mb-2" type="button">
                 Current political control
             </button>
             <div class="option-group open-div">
@@ -67,7 +67,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
         </div>
 
         <div class="criteria-group-wrapper">
-            <button class="h5 btn-open-div" type="button">
+            <button class="btn-open-div mb-2" type="button">
                 Annual income
             </button>
             <div class="option-group open-div">
@@ -88,7 +88,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
 
         {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
         <div class="criteria-group-wrapper">
-            <button class="h5 btn-open-div" type="button">
+            <button class="btn-open-div mb-2" type="button">
                 Index of multiple deprivation
             </button>
             <div class="option-group open-div">
@@ -109,7 +109,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
         {% endif %}
 
         <div class="criteria-group-wrapper">
-            <button class="h5 btn-open-div" type="button">
+            <button class="btn-open-div mb-2" type="button">
                 Total population
             </button>
             <div class="option-group open-div">
@@ -131,7 +131,29 @@ data-popup-trigger="one" type="button">Advanced filters</button>
 </div>
 
 <script>
-    // Open modals and filters
+    // Open div for each group of filters
+    let buttonOpen = document.getElementsByClassName('btn-open-div');
+    for (let i = 0; i < buttonOpen.length; i++) {
+        let openDiv = buttonOpen[i].nextElementSibling;
+        buttonOpen[i].addEventListener('click', () => {
+            buttonOpen[i].classList.toggle('active');
+            if(!openDiv.classList.contains('active')) {
+                openDiv.classList.toggle('active');
+                openDiv.style.height = "auto";
+                let height = openDiv.clientHeight + "px";
+                openDiv.style.height = "0px";
+                setTimeout(() => {
+                    openDiv.style.height = height;
+                }, 0) 
+            } else {
+                openDiv.style.height = "0px";
+                openDiv.addEventListener('transitionend', () => {
+                    openDiv.classList.remove('active');
+                }, {once: true})
+            }
+        })
+    }
+    // Display modals
     const modalTriggers = document.querySelectorAll('.popup-trigger')
     const modalCloseTrigger = document.querySelector('.popup-modal__close')
     

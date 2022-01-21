@@ -256,11 +256,13 @@ a.cta {
 // Open div
 .btn-open-question, .btn-open-div {
     position: relative;
-    opacity: 0.7;
-    @include transition(opacity 0.2s ease-in-out);
+    opacity: 0.9;
     white-space: normal;
-    font-weight: 600;
+    font-weight: 500;
     color: $color-scorecard-grey-900;
+    text-transform: uppercase;
+    @include responsive(font-size, 13, 14);
+    @include transition(opacity 0.2s ease-in-out);
     
     &::after {
         content:" ";
@@ -269,7 +271,7 @@ a.cta {
         background-image: url('../img/chevron-thin-black-down.svg');
         background-size: 13px;
         background-repeat: no-repeat;
-        background-position: right 8px top 8px;
+        background-position: right 8px top 6px;
         transform-origin: center;
         position: absolute;
         @include transition(transform 0.2s ease-in-out);
@@ -277,15 +279,18 @@ a.cta {
 
     @include hover-focus {
         opacity: 1;
+        color: $color-scorecard-green-d1;
         &::after {
+            background-image: url('../img/chevron-thin-green-down.svg');
             transform: translateY(1px);
         }
     }
 
     &.active {
-        text-decoration: underline;
+        opacity: 1;
         &::after {
             transform: rotate(180deg);
+            background-position: right 8px top 9px;
         }
     }
 
@@ -301,12 +306,6 @@ a.cta {
                 background-position: right 6px top 6px;
             }
         }
-    }
-}
-
-.btn-open-div {
-    &::after {
-        background-image: url('../img/chevron-black-down.svg');
     }
 }
 
