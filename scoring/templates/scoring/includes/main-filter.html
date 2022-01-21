@@ -2,8 +2,7 @@
     <h6 class="mb-3">Find your council on the table:</h6>
     <input class="form-control searchbar blue light js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
     <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-    
-    <h6 class="mt-4 mt-lg-5 mb-2 mb-lg-3">Filter table by type of council:</h6>
+    <h6 class="mt-4 mt-lg-5 mb-2">Filter table by type of council:</h6>
     <div class="type-council-option-wrapper">
         <a class="radio-btn is--with-label{% if authority_type == 'single' %} active{% endif %}" href="{% url 'scoring' 'single' %}">Single Tier</a>
         <a class="radio-btn is--with-label{% if authority_type == 'district' %} active{% endif %}" href="{% url 'scoring' 'district' %}">District</a>

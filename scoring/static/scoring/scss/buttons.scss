@@ -193,7 +193,12 @@ a.cta {
     &.green.dark {
         background-color: $color-scorecard-green-d1;
         @include hover-focus {
-            background-color: $white; 
+            background-color: $white;
+            color: $color-scorecard-grey-900;
+            border: 1px solid $color-scorecard-green-d1;
+            @include placeholder {
+                color: $color-scorecard-grey-900 !important;
+            }
         }
         &:active {
             background-color: $green;
@@ -204,10 +209,17 @@ a.cta {
         background-color: $color-scorecard-blue-l1;
         border: 1px solid $blue;
         @include hover-focus {
-            background-color: $white; 
+            background-color: $white;
+            color: $color-scorecard-blue-d1;
+            border: 1px solid $color-scorecard-blue-d1;
         }
         &:active {
-            background-color: $blue;
+            background-color: $color-scorecard-blue-d1;
+            color: $white;
+            background-image: url('../img/search-icon-white.svg');
+            @include placeholder {
+                color: $white !important;
+            }
         }
     }
 
@@ -223,13 +235,20 @@ a.cta {
         @include hover-focus {
             background-image: url('../img/search-icon.svg');
             background-color: #7BD2F8;
+            color: $color-scorecard-grey-900;
+            border: 1px solid $color-scorecard-blue-d1;
             @include placeholder {
                 color: $black !important;
             }
         }
 
         &:active {
+            background-image: url('../img/search-icon.svg');
             background-color: $white;
+            color: $color-scorecard-blue-d1;
+            @include placeholder {
+                color: $black !important;
+            }
         }
     }
 }
