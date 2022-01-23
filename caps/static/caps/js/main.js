@@ -273,6 +273,22 @@ $('.details-accordion').on('click', function(){
     $(this).siblings('.details-accordion[open]').removeAttr('open');
 });
 
+$('.scorecard-table').each(function(){
+    var $table = $(this);
+    var $btn = $('<button>');
+    $btn.text('Show more');
+    $btn.on('click', function(){
+        if ( $table.is('.open') ) {
+            $table.removeClass('open');
+            $btn.text('Show more');
+        } else {
+            $table.addClass('open');
+            $btn.text('Show less');
+        }
+    });
+    $btn.appendTo($table);
+});
+
 $('.nzlh-landing-page').on('click', 'a[href]', function(e){
     var href = $(e.currentTarget).attr('href');
 

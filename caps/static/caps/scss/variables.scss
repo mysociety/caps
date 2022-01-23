@@ -13,6 +13,8 @@ $color-ceuk-grey-600: #6c757d;
 $color-ceuk-grey-800: #32465a;
 $color-ceuk-grey-900: #232323;
 
+$color-scorecard-top-performer: mix($color-ceuk-yellow, #fff, 5%);
+
 // Color system
 
 $white: #fff;
@@ -38,6 +40,7 @@ $theme-colors: (
     'yellow': $color-ceuk-yellow,
     'green': $color-ceuk-green,
     'cyan': $color-ceuk-cyan,
+    'grey': $color-ceuk-grey-600,
 );
 
 // Options

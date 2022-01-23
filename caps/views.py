@@ -3,7 +3,7 @@ from random import shuffle
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import View, DetailView, ListView, TemplateView
-from django.db.models import Q, Count, Max, Min
+from django.db.models import Q, Count, Max, Min, Avg
 from django.shortcuts import redirect
 from django.conf import settings
 import mailchimp_marketing as MailchimpMarketing
@@ -31,6 +31,12 @@ from caps.mapit import (
     ForbiddenException,
 )
 from caps.utils import file_size
+
+from scoring.models import (
+    PlanScore,
+    PlanSection,
+    PlanSectionScore,
+)
 
 
 class HomePageView(TemplateView):
@@ -70,6 +76,7 @@ class CouncilDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         council = context.get("council")
+
         try:
             latest_year = council.datapoint_set.aggregate(Max("year"))["year__max"]
             context["latest_year"] = latest_year
@@ -89,6 +96,84 @@ class CouncilDetailView(DetailView):
             context["latest_year_total_emissions"] = latest_year_total_emissions
         except DataPoint.DoesNotExist:
             context["no_emissions_data"] = True
+
+        # this covers no scoring data at all
+        try:
+            plan_score = PlanScore.objects.get(council=council, year=2021)
+
+            section_qs = PlanSectionScore.objects.select_related("plan_section").filter(
+                plan_score__council=council, plan_section__year=2021
+            )
+
+            sections = {}
+            for section in section_qs.all():
+                sections[section.plan_section.code] = {
+                    "top_performer": section.top_performer,
+                    "code": section.plan_section.code,
+                    "description": section.plan_section.description,
+                    "max_score": section.max_score,
+                    "score": section.score,
+                }
+
+            group = council.get_scoring_group()
+
+            average_total = (
+                PlanScore.objects.filter(
+                    total__gt=0,
+                    council__authority_type__in=group["types"],
+                    council__country__in=group["countries"],
+                    year=2021,
+                )
+                .values("year")
+                .annotate(average_score=Avg("weighted_total"))
+            )
+
+            # get average section scores for authorities of the same type
+            section_avgs = (
+                PlanSectionScore.objects.select_related("plan_section")
+                .filter(
+                    plan_score__total__gt=0,
+                    plan_score__council__authority_type__in=group["types"],
+                    plan_score__council__country__in=group["countries"],
+                    plan_section__year=2021,
+                )
+                .values("plan_section__code")
+                .annotate(avg_score=Avg("score"))
+            )
+
+            for section in section_avgs.all():
+                sections[section["plan_section__code"]]["avg"] = round(
+                    section["avg_score"], 1
+                )
+
+            context["scoring_group"] = group
+            context["scoring_score"] = plan_score
+            context["scoring_sections"] = sorted(
+                sections.values(), key=lambda section: section["code"]
+            )
+
+            context["average_total"] = average_total.first()["average_score"]
+
+            top_scoring_sections = [
+                section for section in sections.values() if section["top_performer"]
+            ]
+
+            if plan_score.top_performer or top_scoring_sections:
+                context["scoring_accolades"] = {
+                    "overall": plan_score.top_performer,
+                    "num_sections": len(top_scoring_sections),
+                    "example_section": top_scoring_sections[0]["description"],
+                }
+
+        except PlanScore.DoesNotExist:
+            context["no_scoring"] = True
+
+        # TODO: will user.is_authenticated carry over from the *other* Django site?
+        context["scoring_hidden"] = (
+            getattr(settings, "SCORECARDS_PRIVATE", False)
+            and not self.request.user.is_authenticated
+        )
+
         context["related_councils"] = council.get_related_councils()
         context["promises"] = council.promise_set.filter(has_promise=True).order_by(
             "target_year"

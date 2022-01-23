@@ -54,12 +54,6 @@
         }
     }
 
-    th, td {
-        .bi {
-            vertical-align: -0.2em;
-        }
-    }
-
     tr[data-has-plan="yes"] {
         td[data-column="has-plan"] {
             color: $success;
