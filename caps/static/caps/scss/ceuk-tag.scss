@@ -1,0 +1,79 @@
+.ceuk-tag {
+    display: inline-flex;
+    height: 1.8em;
+    font-size: 0.8rem;
+    line-height: 1em;
+
+    svg {
+        width: auto;
+        height: 100%;
+        flex: 1 0 auto;
+        fill: $color-ceuk-grey-200;
+        fill-rule: evenodd;
+    }
+
+    span {
+        display: flex;
+        align-items: center;
+        padding: 0 0.5em 0 0.4em;
+        white-space: nowrap;
+        border-radius: 0 $border-radius-sm $border-radius-sm 0;
+        background: $color-ceuk-grey-200;
+        font-weight: bold;
+    }
+}
+
+a.ceuk-tag {
+    cursor: pointer;
+    text-decoration: none;
+    color: $link-color !important;
+
+    &:hover,
+    &:focus {
+        color: $link-hover-color !important;
+
+        svg {
+            fill: $color-ceuk-grey-100;
+        }
+
+        span {
+            background: $color-ceuk-grey-100;
+        }
+    }
+}
+
+@each $color, $value in $theme-colors {
+    .ceuk-tag--#{$color} {
+        svg {
+            fill: mix($value, #fff, 15%);
+        }
+
+        span {
+            background: mix($value, #fff, 15%);
+        }
+    }
+
+    a.ceuk-tag--#{$color} {
+        &:hover,
+        &:focus {
+            svg {
+                fill: mix($value, #fff, 10%);
+            }
+
+            span {
+                background: mix($value, #fff, 10%);
+            }
+        }
+    }
+}
+
+.ceuk-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: -0.25rem;
+
+    .ceuk-tag {
+        margin: 0.25rem;
+    }
+}
