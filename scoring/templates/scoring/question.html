@@ -326,12 +326,12 @@
                 questionItemsAccordion[i].style.height = "auto";
                 accordionDisplayMoreQ.textContent="Display less";
                 let height = questionItemsAccordion[i].clientHeight + "px";
-                questionItemsAccordion[i].style.height = "60px";
+                questionItemsAccordion[i].style.height = "65px";
                 setTimeout(() => {
                     questionItemsAccordion[i].style.height = height;
                 }, 0) 
             } else {
-                questionItemsAccordion[i].style.height = "60px";
+                questionItemsAccordion[i].style.height = "65px";
                 questionItemsAccordion[i].addEventListener('transitionend', () => {
                     questionItemsAccordion[i].classList.remove('active');
                     accordionDisplayMoreQ.textContent="Display more";
