@@ -13,16 +13,20 @@ data-popup-trigger="one" type="button">Advanced filters</button>
             </button>
             <div class="option-group open-div">
                 <div class="radio-wrapper">
-                    <input type="radio" id="england" name="nation" value="england">
+                    <input type="radio" id="england" name="country" value="1">
                     <label for="england">England</label>
                 </div>
                 <div class="radio-wrapper">
-                    <input type="radio" id="scotland" name="nation" value="scotland">
+                    <input type="radio" id="scotland" name="country" value="2">
                     <label for="scotland">Scotland</label>
                 </div>
                 <div class="radio-wrapper">
-                    <input type="radio" id="wales" name="nation" value="wales">
+                    <input type="radio" id="wales" name="country" value="3">
                     <label for="wales">Wales</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="country_all" name="country" value=" ">
+                    <label for="country_all">Any</label>
                 </div>
             </div>
         </div>
@@ -31,17 +35,15 @@ data-popup-trigger="one" type="button">Advanced filters</button>
         <div class="criteria-group-wrapper">
             <button class="btn-open-div mb-2" type="button">Urbanization</button>
             <div class="option-group open-div">
+                {% for option in urbanisation_filter %}
                 <div class="radio-wrapper">
-                    <input type="radio" id="urban" name="urbanization" value="urban">
-                    <label for="urban">Urban</label>
+                    <input type="radio" id="{{ option.0|slugify }}" name="ruc_cluster" value="{{ option.0 }}">
+                    <label for="{{ option.0|slugify }}">{{ option.1 }}</label>
                 </div>
+                {% endfor %}
                 <div class="radio-wrapper">
-                    <input type="radio" id="rural" name="urbanization" value="rural">
-                    <label for="rural">Rural</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="remote" name="urbanization" value="remote">
-                    <label for="remote">Remote</label>
+                    <input type="radio" id="urban_all" name="ruc_cluster" value="">
+                    <label for="urban_all">All</label>
                 </div>
             </div>
         </div>
@@ -52,36 +54,32 @@ data-popup-trigger="one" type="button">Advanced filters</button>
             </button>
             <div class="option-group open-div">
                 <div class="radio-wrapper">
-                    <input type="radio" id="england" name="nation" value="england">
-                    <label for="england">England</label>
+                    <input type="radio" id="control_coalition" name="control" value="Coalition/Minority">
+                    <label for="control_coalition">Coalition/Minority</label>
                 </div>
                 <div class="radio-wrapper">
-                    <input type="radio" id="scotland" name="nation" value="scotland">
-                    <label for="scotland">Scotland</label>
+                    <input type="radio" id="control_conservative" name="control" value="Conservative">
+                    <label for="control_conservative">Conservative</label>
                 </div>
                 <div class="radio-wrapper">
-                    <input type="radio" id="wales" name="nation" value="wales">
-                    <label for="wales">Wales</label>
-                </div>
-            </div>
-        </div>
-
-        <div class="criteria-group-wrapper">
-            <button class="btn-open-div mb-2" type="button">
-                Annual income
-            </button>
-            <div class="option-group open-div">
-                <div class="radio-wrapper">
-                    <input type="radio" id="england" name="nation" value="england">
-                    <label for="england">England</label>
+                    <input type="radio" id="control_independant" name="control" value="Independent">
+                    <label for="control_independant">Independent</label>
                 </div>
                 <div class="radio-wrapper">
-                    <input type="radio" id="scotland" name="nation" value="scotland">
-                    <label for="scotland">Scotland</label>
+                    <input type="radio" id="control_labour" name="control" value="Labour">
+                    <label for="control_labour">Labour</label>
                 </div>
                 <div class="radio-wrapper">
-                    <input type="radio" id="wales" name="nation" value="wales">
-                    <label for="wales">Wales</label>
+                    <input type="radio" id="control_libdem" name="control" value="Liberal Democrat">
+                    <label for="control_libdem">Liberal Democrat</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="control_plaid" name="control" value="Plaid Cymru">
+                    <label for="control_plaid">Plaid Cymru</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="control_all" name="control" value="">
+                    <label for="control_all">All</label>
                 </div>
             </div>
         </div>
@@ -92,16 +90,28 @@ data-popup-trigger="one" type="button">Advanced filters</button>
             </button>
             <div class="option-group open-div">
                 <div class="radio-wrapper">
-                    <input type="radio" id="england" name="nation" value="england">
-                    <label for="england">England</label>
+                    <input type="radio" id="imdq_1" name="imdq" value="1">
+                    <label for="imdq_1">1 (most deprived)</label>
                 </div>
                 <div class="radio-wrapper">
-                    <input type="radio" id="scotland" name="nation" value="scotland">
-                    <label for="scotland">Scotland</label>
+                    <input type="radio" id="imdq_2" name="imdq" value="2">
+                    <label for="imdq_2">2</label>
                 </div>
                 <div class="radio-wrapper">
-                    <input type="radio" id="wales" name="nation" value="wales">
-                    <label for="wales">Wales</label>
+                    <input type="radio" id="imdq_3" name="imdq" value="3">
+                    <label for="imdq_3">3</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="imdq_4" name="imdq" value="4">
+                    <label for="imdq_4">4</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="imdq_5" name="imdq" value="5">
+                    <label for="imdq_5">5 (least deprived)</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" id="imdq_all" name="imdq" value="">
+                    <label for="imdq_all">All</label>
                 </div>
             </div>
         </div>
@@ -111,17 +121,15 @@ data-popup-trigger="one" type="button">Advanced filters</button>
                 Total population
             </button>
             <div class="option-group open-div">
+                {% for option in population_filter %}
                 <div class="radio-wrapper">
-                    <input type="radio" id="england" name="nation" value="england">
-                    <label for="england">England</label>
+                    <input type="radio" id="{{ option.0|slugify }}" name="population" value="{{ option.0 }}">
+                    <label for="{{ option.0|slugify }}">{{ option.1 }}</label>
                 </div>
+                {% endfor %}
                 <div class="radio-wrapper">
-                    <input type="radio" id="scotland" name="nation" value="scotland">
-                    <label for="scotland">Scotland</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="wales" name="nation" value="wales">
-                    <label for="wales">Wales</label>
+                    <input type="radio" id="poulation_all" name="population" value="">
+                    <label for="population_all">Any</label>
                 </div>
             </div>
         </div>
