@@ -3,6 +3,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Subquery, OuterRef, Q, Avg
 from django.shortcuts import redirect, resolve_url
 
+from django_filters.views import FilterView
+
 from caps.models import Council, Promise
 from scoring.models import (
     PlanScore,
@@ -11,6 +13,7 @@ from scoring.models import (
     PlanQuestion,
     PlanQuestionScore,
 )
+from scoring.filters import PlanScoreFilter
 
 from scoring.forms import ScoringSort
 
@@ -34,7 +37,8 @@ class LogoutView(LogoutView):
     next_page = "home"
 
 
-class HomePageView(CheckForDownPageMixin, ListView):
+class HomePageView(CheckForDownPageMixin, FilterView):
+    filterset_class = PlanScoreFilter
     template_name = "scoring/home.html"
 
     def get_authority_type(self):

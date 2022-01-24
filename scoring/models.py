@@ -18,6 +18,52 @@ class PlanScore(models.Model):
         ("sparse-rural", "Sparse and rural"),
     ]
 
+    POPULATION_ALL_FILTER_CHOICES = [
+        ("0k - 140k", "0k - 140k"),
+        ("50k - 80k", "50k - 80k"),
+        ("80k - 90k", "80k - 90k"),
+        ("90k - 100k", "90k - 100k"),
+        ("110k - 120k", "110k - 120k"),
+        ("120k - 130k", "120k - 130k"),
+        ("140k - 160k", "140k - 160k"),
+        ("140k - 210k", "140k - 210k"),
+        ("170k - 250k", "170k - 250k"),
+        ("210k - 290k", "210k - 290k"),
+        ("290k - 410k", "290k - 410k"),
+        ("440k - 640k", "440k - 640k"),
+        ("800k - 1140k", "800k - 1140k"),
+        ("under 800k", "under 800k"),
+        ("800k - 1m", "800k - 1m"),
+        ("1m +", "1m +"),
+    ]
+
+    POPULATION_FILTER_CHOICES = {
+        "single": [
+            ("0k - 140k", "0k - 140k"),
+            ("140k - 210k", "140k - 210k"),
+            ("210k - 290k", "210k - 290k"),
+            ("290k - 410k", "290k - 410k"),
+            ("440k - 640k", "440k - 640k"),
+            ("800k - 1140k", "800k - 1140k"),
+        ],
+        "county": [
+            ("under 800k", "under 800k"),
+            ("800k - 1m", "800k - 1m"),
+            ("1m +", "1m +"),
+        ],
+        "district": [
+            ("50k - 80k", "50k - 80k"),
+            ("80k - 90k", "80k - 90k"),
+            ("90k - 100k", "90k - 100k"),
+            ("110k - 120k", "110k - 120k"),
+            ("120k - 130k", "120k - 130k"),
+            ("140k - 160k", "140k - 160k"),
+            ("170k - 250k", "170k - 250k"),
+        ],
+    }
+
+    POLITICAL_CONTROL_FILTER_CHOICES = []
+
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
 
