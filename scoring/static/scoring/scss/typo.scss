@@ -117,6 +117,13 @@ h6, .h6 {
     }
 }
 
+//Filter title
+.filter-title {
+    @include responsive(font-size, 16, 17);
+    letter-spacing: 0.03em;
+    line-height: 160%;
+}
+
 // Underline
 .underline-green {
     display: inline-block;
@@ -130,9 +137,11 @@ h6, .h6 {
 
 // Custom messages
 .warning-message {
-    padding-left: 30px;
+    padding-left: 32px;
     background-image: url('../img/exclamation-black.svg');
     background-size: 25px;
     background-repeat: no-repeat;
     background-position: left 0 center;
+    max-width: 100% !important;
+    margin-bottom: 0;
 }
