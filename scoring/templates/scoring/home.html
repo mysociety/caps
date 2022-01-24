@@ -36,7 +36,9 @@
                     </h3>
                     <p class="subtitle mb-0">councils plan scorecard</p>
                 </div>
+                {% if authority_type == 'single' or authority_type == 'country' or authority_type == 'district' %}
                 {% include 'scoring/includes/advanced-filter.html' %}
+                {% endif %}
             </div>
 
             <div class="advanced-filter-wrapper bg-blue-l2 popup-modal shadow" data-popup-modal="categories">
