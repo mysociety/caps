@@ -94,7 +94,7 @@
             <div class="mb-5">
                 <div class="table-header mb-4">
                     <h3>
-                        Section
+                        Sections
                     </h3>
                     <!-- TODO: New text -->
                     <p>Amet minim mollit non deserunt 
@@ -146,8 +146,8 @@
                     <table class="table-section mb-0">
                         <thead>
                             <tr>
-                                <th scope="col" class="text-left">Section</th>
-                                <th scope="col">Council Score</th>
+                                <th scope="col" class="text-left">Sections</th>
+                                <th scope="col">{{ council.name }}</th>
                                 <th scope="col">Birmingham City Council</th>
                                 <th scope="col">Bradford Metropolitan District Council</th>
                                 <th scope="col">East Riding of Yorkshire Council</th>
@@ -219,7 +219,7 @@
             <div class="mb-5">
                 <div class="table-header mb-4">
                     <h3>
-                        Question
+                        Questions
                     </h3>
                     <!-- TODO: New text -->
                     <p>Amet minim mollit non deserunt 
@@ -267,14 +267,14 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col" class="text-left">Question</th>
+                                <th scope="col" class="text-left">Questions</th>
                                 {% comment %} TODO Instead of score, let's use the name of the council {% endcomment %}
-                                <th scope="col" class="current-council-score">Score</th>
+                                <th scope="col" class="current-council-score">{{ council.name }}</th>
                                 <th scope="col" class="comparisson-council">Birmingham City Council</th>
                                 <th scope="col" class="comparisson-council">Bradford Metropolitan District Council</th>
                                 <th scope="col" class="comparisson-council">East Riding of Yorkshire Council</th>
                                 <th scope="col" class="top-tier-head">
-                                    <p class="top-perfomer">Maximum scorers</p>
+                                    <p class="top-perfomer">Councils with full scores</p>
                                     <span class="filter-active">Single Tier</span>
                                     <span class="filter-active">·</span>
                                     <span class="filter-active">Urban</span>
@@ -286,7 +286,7 @@
                             {% for section in sections %}
                             <tr data-has-plan="no" class="bg-green section-row">
                                 <td></td>
-                                <td colspan="1" class="section-cell">
+                                <td colspan="1" class="section-cell text-left">
                                     {{ section.description }}
                                 </td>
                                 <td class="score is--section-score top-perfomer">
@@ -305,7 +305,7 @@
                                 <td class="top-tier-score">
                                     {% comment %} TODO add single top perfomers {% endcomment %}
                                     {% comment %} Eg: 15 out of 120, this is a link{% endcomment %}
-                                    <a href="#" class="mx-auto" style="text-transform: none">15 out of 120</a>
+                                    <a href="#" class="mx-auto" style="text-transform: none">15 out of 120</a><span class="small d-block mt-1">councils got full marks for this section.</span>
                                 </td>
                                 <td class="button-wrapper p-0">
                                     {% comment %} TODO what would probably work for the accordion is
@@ -327,11 +327,11 @@
                                 <td data-column="question_no" class="question-no">
                                     <div>
                                         {% if answer.type == 'HEADER' %}
-                                        <div class="question-code">
+                                        <div class="question-code text-left">
                                             <a href="{% url 'question' answer.code %}">{{ answer.code }}</a>
                                         </div>
                                         {% else %}
-                                        <div class="question-code pl-2">
+                                        <div class="question-code text-left pl-2">
                                             <span>{{ answer.code }}</span>
                                         </div>
                                         {% endif %}
@@ -339,13 +339,13 @@
                                 </td>
                                 {% if answer.type == 'HEADER' %}
                                 <td data-column="answer" colspan="1">
-                                    <div class="question-content-table">
+                                    <div class="question-content-table text-left">
                                         <a href="{% url 'question' answer.code %}" class="question-no is--mobile">{{ answer.code }}</a>
                                         {{ answer.question | linebreaks }}
                                     </div>
                                 {% else %}
                                 <td data-column="answer">
-                                    <div class="question-content-table">
+                                    <div class="question-content-table text-left">
                                         <span class="question-no is--mobile">{{ answer.code }}</span>
                                         {{ answer.question | linebreaks }}
                                     </div>
@@ -383,7 +383,7 @@
                                     <span>7/10</span>
                                 </td>
                                 <td data-column="top-tier-score" class="top-tier-score">
-                                    <a href="#" class="mx-auto" style="text-transform: none">13 out of 120</a>
+                                    <a href="#" class="mx-auto" style="text-transform: none">13 out of 120</a><span class="small d-block mt-1">councils got full marks for this question.</span>
                                 </td>
                                 {% endif %}
                             </tr>

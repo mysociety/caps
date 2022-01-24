@@ -37,7 +37,7 @@ $pick-council-break-point--question: 1200px;
 
     th, td  {
         @include responsive(padding, 12, 16);
-
+        text-align: center;
     }
 
     thead th {
@@ -138,10 +138,6 @@ $pick-council-break-point--question: 1200px;
         }
 
         .question-code {
-            width: 75px;
-            overflow: hidden;
-            word-break: break-all;
-    
             a {
                 @include responsive(font-size, 13, 14);
                 background-color: transparentize($white, 0.5);
@@ -155,6 +151,13 @@ $pick-council-break-point--question: 1200px;
                     background-color: transparent;
                 }
             }
+        }
+    }
+
+    thead tr th, tbody tr td {
+        &:nth-child(3) {
+            @include border-priority-1(right);
+            @include border-priority-1(left);
         }
     }
 
@@ -177,7 +180,6 @@ $pick-council-break-point--question: 1200px;
     }
 
     // Responsiveness
-
     thead tr th, tbody tr td {
         @media only screen and (max-width: $pick-council-break-point--question) {
             &:nth-child(n+4) {
