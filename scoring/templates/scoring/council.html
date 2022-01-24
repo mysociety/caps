@@ -199,10 +199,12 @@
                     </div>
                     <div class="advanced-filter-wrapper pb-3 bg-blue-l2 popup-modal shadow" data-popup-modal="advanced-filter-one">
                         <div class="filter-header mb-4">
-                            <h5 class="filter-title">Select a filter</h5>
+                            <h5 class="filter-title">Show only councils similar to {{ council.name }} in terms of:</h5>
                             <button class="close-icon popup-modal__close" type="button"></button>
                         </div>
                         <div class="option-group">
+                            {% comment %} NOTE by default there wont't be any option selected.
+                             The "active" class has been added just for styling purposes{% endcomment %}
                             <a class="radio-btn is--with-label active" href="#">Nation</a>
                             <a class="radio-btn is--with-label" href="#">Urbanisation</a>
                             <a class="radio-btn is--with-label" href="#">Total population</a>
@@ -391,10 +393,12 @@
                     </table>
                     <div class="advanced-filter-wrapper pb-3 bg-blue-l2 popup-modal shadow" data-popup-modal="advanced-filter-two">
                         <div class="filter-header mb-4">
-                            <h5 class="filter-title">Select a filter</h5>
+                            <h5 class="filter-title">Show only councils similar to {{ council.name }} in terms of:</h5>
                             <button class="close-icon popup-modal__close" type="button"></button>
                         </div>
                         <div class="option-group">
+                             {% comment %} NOTE by default there wont't be any option selected.
+                             The "active" class has been added just for styling purposes{% endcomment %}
                             <a class="radio-btn is--with-label active" href="#">Nation</a>
                             <a class="radio-btn is--with-label" href="#">Urbanisation</a>
                             <a class="radio-btn is--with-label" href="#">Total population</a>
