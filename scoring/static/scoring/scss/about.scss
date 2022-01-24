@@ -109,3 +109,20 @@ $wall-repeat-pattern: 10;
         }
     }
 }
+
+//Mapolitical
+a.mapolitical-logo {
+    display:block;
+    width: 300px;
+    height: 0;
+    padding-left:300px;
+    padding-top: 55px;
+    overflow: hidden;
+    background-image: url('../img/mapolitical.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    @include transition(transform 0.3s ease-in-out);
+    @include hover-focus {
+        transform: scale(1.02);
+    }
+}
