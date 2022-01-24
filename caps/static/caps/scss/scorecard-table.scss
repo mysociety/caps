@@ -175,3 +175,7 @@
 .scorecard-top-performer-banner {
     background-color: $color-scorecard-top-performer;
 }
+
+.scorecard-zero-scorer {
+    background-color: mix($color-ceuk-red, #fff, 5%);
+}
