@@ -26,16 +26,16 @@
             <div class="about-section-child pt-3">
                 <h3 class="mb-3">About this council</h3>
                 {% if plan_score.top_performer %}
-                <p class="top-performer.active mb-0">This council is a top performer wthin {{ authority_type.name }} councils.</p>
+                <p class="top-performer.active mb-0">This council is a top performer within {{ authority_type.name }} councils.</p>
                 {% endif %}
-                <a href="{% url 'scoring' authority_type.slug %}">(See in context)</a>
+                <a href="{% url 'scoring' authority_type.slug %}">See council in context</a>
                 <div class="group-label-wrapper mt-5">
                     <div class="label-wrapper">
                         <p class="label pl-0">Nation</p>
                         <p>{{ council.get_country_display }}</p>
                     </div>
                     <div class="label-wrapper">
-                        <p class="label pl-0">Climate pledge target</p>
+                        <p class="label pl-0">Net-zero target date</p>
                       {% for target in targets %}
                       {% if target.scope is None %}
                         <p>No target</p>
@@ -46,7 +46,7 @@
                     </div>
                   {% if plan_score.deprivation_quintile %}
                     <div class="label-wrapper">
-                        <p class="label pl-0">Deprivation index</p>
+                        <p class="label pl-0">Index of multiple deprivation</p>
                         <p>{{ plan_score.deprivation_quintile }}</p>
                     </div>
                   {% endif %}
@@ -75,16 +75,18 @@
         <div class="col-12 col-lg-5">
             <div class="about-section-child bg-grey-gradient-darker p-3">
                 <h3 class="mb-3">About the scoring</h3>
-                <!-- TODO: New text -->
-                <p>Amet minim mollit non deserunt 
-                    ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-                </p>
-                <p>Amet minim mollit non deserunt 
-                    ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-                </p>
+                <p>Climate Emergency UK assessed plans according to 28 questions across nine sections, based on the expert-approved <a class="d-inline-block" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">checklist for Council Action Plans</a>. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between June and December 2021. Action Plans and related documents that were publicly available after September 2015 and before 20 September 2021 were marked. </p>
+              {% if plan_urls %}
+                <p>Has this council updated their Climate Action Plan? <a class="d-inline-block" href="https://data.climateemergency.uk/councils/{{ council.slug }}">Check our database to find out.</a></p>
+              {% else %}
+                <p>Has this council released a Climate Action Plan plan recently? <a class="d-inline-block" href="https://data.climateemergency.uk/councils/{{ council.slug }}">Check our database to find out.</a></p>
+              {% endif %}
+              {% if authority_type.slug == 'district' %}
+                <p>This district council is signed up to their county council's joint Climate Action Plan. Here, if the district council has a plan, they are marked on their own plan and the county plan, depending on which is relevant to each question. <a class="d-inline-block" href="{% url 'methodology' %}">You can find out more about this in the methodology.</a></p>
+              {% endif %}
               {% if plan_urls %}
                 <details>
-                    <summary class="btn btn btn-blue is--light">Display the action plans</summary>
+                    <summary class="btn btn btn-blue is--light">See which plans were marked</summary>
                     <ul class="scoring-source-links">
                       {% for plan_url in plan_urls %}
                         <li><a href="{{ plan_url.plan_url }}" title="{{ plan_url.plan_url|url_human }}">{{ plan_url.plan_url|url_human }}</a></li>
@@ -103,11 +105,10 @@
             <div class="mb-5">
                 <div class="table-header mb-4">
                     <h3>
-                        Sections
+                        Scorecard section performance
                     </h3>
                     <!-- TODO: New text -->
-                    <p>Amet minim mollit non deserunt 
-                        ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+                    <p>Climate Action Plans have been scored across nine categories, each covering the crucial information that an effective  plan should contain. The marks within these sections add up to make up the council's overall score. Here you can see where a council performs well and not so well in each section — and compare it to other councils at this granular level.
                     </p>
                     <!-- TODO: Make button work -->
                     <div class="position-relative">
@@ -118,9 +119,9 @@
                                 <button class="close-icon popup-modal__close" type="button"></button>
                             </div>
                             <div class="council-selection-wrapper bg-blue-l2">
-                                <input class="form-control searchbar blue dark mb-3" type="search" placeholder="Council name or Postcode" aria-label="Council name or Postcode">
+                                <input class="form-control searchbar blue dark mb-3" type="search" placeholder="Council name or postcode" aria-label="Council name or postcode">
                                 <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
-                                <div class="selected-council-wrapper mt-3">
+                                <div class="selected-council-wrapper mt-4">
                                     <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough</a>
                                     <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough</a>
                                     <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough with long name just for test</a>
@@ -136,7 +137,7 @@
                                     <a href="#">Wakefield Metropolitan District Council</a>
                                 </div>
 
-                                <p class="label green mt-4">Suggested <strong>top perfomers</strong> councils:</p>
+                                <p class="label green mt-4">Suggested <strong>top perfomer</strong> councils:</p>
                                 <div class="suggested-council-group">
                                     <a href="#">North Lincolnshire Council</a>
                                     <a href="#">Selby District Council</a>
@@ -150,7 +151,7 @@
                 <div class="position-relative" style="display:table">
                     <div class="mobile-message">
                         <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
-                        <p class="text-white">You can compare your council with others, also check the average score in the section and question tables.</p>
+                        <p class="text-white">You'll find more options, like the ability to compare your council's Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
                     </div>
                     <table class="table-section mb-0">
                         <thead>
@@ -200,14 +201,14 @@
                         </tbody>
                     </table>
                     <div class="table-footer mt-2">
-                        <a class="mt-3" href="">See results in context</a>
+                        <a class="mt-3" href="">See results in full list</a>
                         <div class="social-media-wrapper">
                             <a class="table-social-icon facebook mr-1" href=""></a>
                             <a class="table-social-icon twitter" href=""></a>
                         </div>
                     </div>
                     <div class="advanced-filter-wrapper pb-3 bg-blue-l2 popup-modal shadow" data-popup-modal="advanced-filter-one">
-                        <div class="filter-header mb-3">
+                        <div class="filter-header mb-4">
                             <p class="filter-title">Show <strong>only</strong> councils similar to <strong>{{ council.name }}</strong> in terms of:</p>
                             <button class="close-icon popup-modal__close" type="button"></button>
                         </div>
@@ -218,7 +219,7 @@
                             <a class="radio-btn is--with-label" href="#">Urbanisation</a>
                             <a class="radio-btn is--with-label" href="#">Total population</a>
                             <a class="radio-btn is--with-label" href="#">Index of multiple deprivation </a>
-                            <a class="radio-btn is--with-label" href="#">Climate pledge</a>
+                            <a class="radio-btn is--with-label" href="#">Net-zero target date</a>
                             <a class="radio-btn is--with-label" href="#">Current political control</a>
                         </div>
                     </div>
@@ -228,11 +229,10 @@
             <div class="mb-5">
                 <div class="table-header mb-4">
                     <h3>
-                        Questions
+                        Individual question performance
                     </h3>
                     <!-- TODO: New text -->
-                    <p>Amet minim mollit non deserunt 
-                        ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+                    <p>Each category on the Scorecards is broken down into several individual questions, as guided by Climate Emergency UK's <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/" class="d-inline-block">checklist for councils' Action Plans</a>. This is the most granular data we hold for each councils’ Scorecard.
                     </p>
                     <div class="position-relative">
                         <button class="btn btn-blue is--light open-modal popup-trigger" data-popup-trigger="two">Choose councils to compare</button>
@@ -242,9 +242,9 @@
                                 <button class="close-icon popup-modal__close" type="button"></button>
                             </div>
                             <div class="council-selection-wrapper bg-blue-l2">
-                                <input class="form-control searchbar blue dark mb-3" type="search" placeholder="Council name or Postcode" aria-label="Council name or Postcode">
+                                <input class="form-control searchbar blue dark mb-3" type="search" placeholder="Council name or postcode" aria-label="Council name or postcode">
                                 <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
-                                <div class="selected-council-wrapper mt-3">
+                                <div class="selected-council-wrapper mt-4">
                                     <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough</a>
                                     <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough</a>
                                     <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough with long name just for test</a>
@@ -260,7 +260,7 @@
                                     <a href="#">Wakefield Metropolitan District Council</a>
                                 </div>
 
-                                <p class="label green mt-4">Suggested <strong>top perfomers</strong> councils:</p>
+                                <p class="label green mt-4">Suggested <strong>top perfomer</strong> councils:</p>
                                 <div class="suggested-council-group">
                                     <a href="#">North Lincolnshire Council</a>
                                     <a href="#">Selby District Council</a>
@@ -412,7 +412,7 @@
                             <a class="radio-btn is--with-label" href="#">Urbanisation</a>
                             <a class="radio-btn is--with-label" href="#">Total population</a>
                             <a class="radio-btn is--with-label" href="#">Index of multiple deprivation </a>
-                            <a class="radio-btn is--with-label" href="#">Climate pledge</a>
+                            <a class="radio-btn is--with-label" href="#">Net-zero target date</a>
                             <a class="radio-btn is--with-label" href="#">Current political control</a>
                         </div>
                     </div>
