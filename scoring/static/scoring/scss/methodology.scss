@@ -28,11 +28,14 @@
     table {
         p {
             color: $color-scorecard-grey-900;
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
 
         td, th {
             border: 1px solid transparentize($color: $black, $amount: 0.8);
-            padding: 8px;
+            padding: 12px 8px;
             text-align: center;
         }
 
@@ -95,6 +98,7 @@
 
         h5 {
             box-shadow: none;
+            @include responsive(font-size, 15, 16);
         }
 
         tr.header-question {
