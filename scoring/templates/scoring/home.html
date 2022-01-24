@@ -5,12 +5,9 @@
 
     <div class="container-fluid hero home">
         <h1 class="text-center mb-3">About the scoring</h1>
-        <p class="text-center mx-auto" style="max-width: 650px;">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.
-            Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt 
-            nostrud amet. Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet 
-            sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat 
-            sunt nostrud amet.</p>
-        <a class="cta mx-auto" href="#methodology">Learn more about the scoring</a>
+        <p class="text-center mx-auto  mb-4" style="max-width: 650px;">Climate Emergency UK assessed plans according to 28 questions across nine sections, based on the expert-approved <a class="d-inline" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">checklist for Council Action Plans</a>. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between June and December 2021.  
+        </p>
+        <a class="cta mx-auto" href="{% url 'methodology' %}"> Learn more about the methodology</a>
 
         <div class="table-filter row justify-content-md-center mx-auto mt-5 pb-5" style="max-width: 1100px;">
             <div class="col-12 col-lg-6 bg-blue-l2 left py-3">
@@ -19,7 +16,7 @@
 
             <div class="col-12 col-lg-6 py-3 bg-green-l2 right">
                 <form action="{% url 'location_results' %}" class="form">
-                    <label for="check-score-input" class="h6 mb-3">Check for a council’s complete score</label>
+                    <label for="check-score-input" class="h6 mb-3">See a council’s Scorecard in more detail</label>
                     <input class="form-control searchbar green dark js-location-search-autocomplete" type="search" name="pc" id="check-score-input" placeholder="Postcode">
                     <!-- TODO: Do we need a submit button? -->
                 </form>
@@ -47,9 +44,9 @@
                 {% endif %}
             </div>
 
-            <div class="advanced-filter-wrapper bg-blue-l2 popup-modal shadow" data-popup-modal="categories">
+            <div class="advanced-filter-wrapper bg-blue-l2 popup-modal shadow" data-popup-modal="three">
                 <div class="filter-header">
-                    <p class="filter-title">Select which section you want to display</p>
+                    <h5 class="filter-title">Select a section:</h5>
                     <button class="close-icon popup-modal__close mr-0 mt-0" type="button"></button>
                 </div>
                 <form class="flex-column">
@@ -97,6 +94,7 @@
                     </div>
                     <button type="submit" class="btn btn-blue mb-3 d-block mx-auto mt-3">Apply filters</button>
                 </form>
+                <a class="my-3" href="{% url 'methodology' %}scoring-system">Learn more about each section</a>
             </div>
 
             <div class="scorecard-table-wrapper">
@@ -287,7 +285,7 @@
                                 <div class="category">
                                     <span>Total Score</span>
                                     <button class="hamburguer open-modal popup-trigger"
-                                        data-popup-trigger="categories" type="button">
+                                        data-popup-trigger="three" type="button">
                                     </button>
                                 </div>
                             </th>
@@ -394,6 +392,24 @@
         {{ form }}
          <input type="submit" value="Sort">
     </form>
+
+    <script>
+            // Display modals
+    const modalTriggers = document.querySelectorAll('.popup-trigger')
+    const modalCloseTrigger = document.querySelector('.popup-modal__close')
+    
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const { popupTrigger } = trigger.dataset;
+            const popupModal = document.querySelector(`[data-popup-modal="${popupTrigger}"]`);
+            popupModal.classList.add('is--visible');
+
+            popupModal.querySelector('.popup-modal__close').addEventListener('click', () => {
+            popupModal.classList.remove('is--visible');
+            })
+        })
+    })
+    </script>
 
 
 {% endblock %}

@@ -2,7 +2,7 @@
 data-popup-trigger="one" type="button">Advanced filters</button>
 <div class="advanced-filter-wrapper bg-blue-l2 popup-modal shadow" data-popup-modal="one">
     <div class="filter-header mb-3">
-        <p class="filter-title">Select which criteria you would like to filter:</p>
+        <p class="filter-title">Select a filter:</p>
         <button class="close-icon popup-modal__close mt-0 mr-0" type="button"></button>
     </div>
     <form action=".">
@@ -36,7 +36,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
 
             <fieldset class="criteria-group-wrapper">
                 <legend>
-                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Urbanization</button>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Urbanisation</button>
                 </legend>
                 <div class="option-group open-div">
                     <div class="radio-wrapper">
@@ -52,6 +52,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
                 </div>
             </fieldset>
 
+          {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
             <fieldset class="criteria-group-wrapper">
                 <legend>
                     <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Current political control</button>
@@ -119,6 +120,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
                     </div>
                 </div>
             </fieldset>
+          {% endif %}
 
             <fieldset class="criteria-group-wrapper">
                 <legend>
