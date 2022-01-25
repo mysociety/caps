@@ -30,11 +30,11 @@
                 <a href="{% url 'scoring' authority_type.slug %}">(See in context)</a>
                 <div class="group-label-wrapper mt-5">
                     <div class="label-wrapper">
-                        <p class="label green">Nation</p>
+                        <p class="label pl-0">Nation</p>
                         <p>{{ council.get_country_display }}</p>
                     </div>
                     <div class="label-wrapper">
-                        <p class="label green">Climate pledge target</p>
+                        <p class="label pl-0">Climate pledge target</p>
                       {% for target in targets %}
                       {% if target.scope is None %}
                         <p>No target</p>
@@ -45,25 +45,25 @@
                     </div>
                   {% if plan_score.deprivation_quintile %}
                     <div class="label-wrapper">
-                        <p class="label green">Deprivation index</p>
+                        <p class="label pl-0">Deprivation index</p>
                         <p>{{ plan_score.deprivation_quintile }}</p>
                     </div>
                   {% endif %}
                   {% if plan_score.population %}
                     <div class="label-wrapper">
-                        <p class="label green">Total population</p>
+                        <p class="label pl-0">Total population</p>
                         <p>{{ plan_score.population }}</p>
                     </div>
                   {% endif %}
                   {% if plan_score.get_ruc_cluster_display %}
                     <div class="label-wrapper">
-                        <p class="label green">Urbanization</p>
+                        <p class="label pl-0">Urbanisation</p>
                         <p>{{ plan_score.get_ruc_cluster_display }}</p>
                     </div>
                   {% endif %}
                   {% if plan_score.political_control %}
                     <div class="label-wrapper">
-                        <p class="label green">Current political control</p>
+                        <p class="label pl-0">Current political control</p>
                         <p>{{ plan_score.political_control }}</p>
                     </div>
                   {% endif %}
