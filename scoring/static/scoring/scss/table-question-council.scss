@@ -264,3 +264,9 @@ $pick-council-break-point--question: 1200px;
         }
     }
 }
+
+.js-collapse-children {
+    summary + * {
+        margin-top: 1rem;
+    }
+}

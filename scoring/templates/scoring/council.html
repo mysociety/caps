@@ -346,7 +346,9 @@
                                 <td data-column="answer">
                                     <div class="question-content-table text-left">
                                         <span class="question-no is--mobile">{{ answer.pretty_code }}</span>
-                                        {{ answer.question | linebreaks }}
+                                        <div class="js-collapse-children">
+                                            {{ answer.question | linebreaks }}
+                                        </div>
                                     </div>
                                 {% endif %}
                                 </td>

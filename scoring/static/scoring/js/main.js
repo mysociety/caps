@@ -213,3 +213,20 @@ forEachElement('.js-toggle-council-question-table-section', function(trigger){
         thisTbody.scrollIntoView({ behavior: 'smooth' });
     });
 });
+
+forEachElement('.js-collapse-children', function(wrapper){
+    var children = Array.prototype.slice.call(wrapper.children);
+
+    if ( children.length > 1 ) {
+        var details = document.createElement('details');
+        var summary = document.createElement('summary');
+        summary.textContent = 'Show more';
+        details.appendChild(summary);
+
+        for ( var i=1; i < children.length; i++ ) {
+            details.appendChild(children[i]);
+        }
+
+        wrapper.appendChild(details);
+    }
+});
