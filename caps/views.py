@@ -165,14 +165,10 @@ class CouncilDetailView(DetailView):
                     "example_section": top_scoring_sections[0]["description"],
                 }
 
-        except PlanScore.DoesNotExist:
-            context["no_scoring"] = True
+            context["scoring_hidden"] = getattr(settings, "SCORECARDS_PRIVATE", False)
 
-        # TODO: will user.is_authenticated carry over from the *other* Django site?
-        context["scoring_hidden"] = (
-            getattr(settings, "SCORECARDS_PRIVATE", False)
-            and not self.request.user.is_authenticated
-        )
+        except PlanScore.DoesNotExist:
+            context["scoring_hidden"] = True
 
         context["related_councils"] = council.get_related_councils()
         context["promises"] = council.promise_set.filter(has_promise=True).order_by(
