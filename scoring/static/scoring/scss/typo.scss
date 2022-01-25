@@ -145,3 +145,13 @@ h6, .h6 {
     max-width: 100% !important;
     margin-bottom: 0;
 }
+
+// Across tables
+table {
+    p {
+        color: $color-scorecard-grey-900;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
