@@ -43,7 +43,7 @@ $pick-council-break-point--question: 1200px;
     thead th {
         @include table-header;
 
-        .top-perfomer {
+        .top-performer {
             background-image: url('../img/star-teal.svg');
             background-size: 15px;
             background-repeat: no-repeat;
@@ -168,7 +168,7 @@ $pick-council-break-point--question: 1200px;
             @include responsive (font-size, 13, 14);
         }
         &.is--header-score, &.is--section-score {
-            &.top-perfomer {
+            &.top-performer {
                 span {
                     background-image: url('../img/star.svg');
                     background-size: 13px;

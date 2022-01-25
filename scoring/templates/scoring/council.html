@@ -8,7 +8,6 @@
         <a class="cta reverse white" href="{% url 'home' %}">Back to scorecards plan</a>
         <h1 class="text-white mt-3">{{ council.name }}</h1>
         <div class="mt-3">
-            <!-- TODO: Real data -->
             {% if plan_score.top_performer %}
             <span class="top-performer hero-sub">Top Performer · </span>
             {% endif %}
@@ -107,7 +106,6 @@
                     <h3>
                         Scorecard section performance
                     </h3>
-                    <!-- TODO: New text -->
                     <p>Climate Action Plans have been scored across nine categories, each covering the crucial information that an effective  plan should contain. The marks within these sections add up to make up the council's overall score. Here you can see where a council performs well and not so well in each section — and compare it to other councils at this granular level.
                     </p>
                     <!-- TODO: Make button work -->
@@ -137,7 +135,7 @@
                                     <a href="#">Wakefield Metropolitan District Council</a>
                                 </div>
 
-                                <p class="label green mt-4">Suggested <strong>top perfomer</strong> councils:</p>
+                                <p class="label green mt-4">Suggested <strong>top performer</strong> councils:</p>
                                 <div class="suggested-council-group">
                                     <a href="#">North Lincolnshire Council</a>
                                     <a href="#">Selby District Council</a>
@@ -151,7 +149,7 @@
                 <div class="position-relative" style="display:table">
                     <div class="mobile-message">
                         <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
-                        <p class="text-white">You'll find more options, like the ability to compare your council's Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
+                        <p class="text-white">You’ll find more options, like the ability to compare your council's Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
                     </div>
                     <table class="table-section mb-0">
                         <thead>
@@ -201,7 +199,7 @@
                         </tbody>
                     </table>
                     <div class="table-footer mt-2">
-                        <a class="mt-3" href="">See results in full list</a>
+                        <a class="mt-3" href="{% url 'scoring' council.get_scoring_group.slug %}">See results in full list</a>
                         <div class="social-media-wrapper">
                             <a class="table-social-icon facebook mr-1" href=""></a>
                             <a class="table-social-icon twitter" href=""></a>
@@ -231,7 +229,6 @@
                     <h3>
                         Individual question performance
                     </h3>
-                    <!-- TODO: New text -->
                     <p>Each category on the Scorecards is broken down into several individual questions, as guided by Climate Emergency UK's <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/" class="d-inline-block">checklist for councils' Action Plans</a>. This is the most granular data we hold for each councils’ Scorecard.
                     </p>
                     <div class="position-relative">
@@ -260,7 +257,7 @@
                                     <a href="#">Wakefield Metropolitan District Council</a>
                                 </div>
 
-                                <p class="label green mt-4">Suggested <strong>top perfomer</strong> councils:</p>
+                                <p class="label green mt-4">Suggested <strong>top performer</strong> councils:</p>
                                 <div class="suggested-council-group">
                                     <a href="#">North Lincolnshire Council</a>
                                     <a href="#">Selby District Council</a>
@@ -277,13 +274,12 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col" class="text-left">Questions</th>
-                                {% comment %} TODO Instead of score, let's use the name of the council {% endcomment %}
                                 <th scope="col" class="current-council-score">{{ council.name }}</th>
                                 <th scope="col" class="comparisson-council">Birmingham City Council</th>
                                 <th scope="col" class="comparisson-council">Bradford Metropolitan District Council</th>
                                 <th scope="col" class="comparisson-council">East Riding of Yorkshire Council</th>
                                 <th scope="col" class="top-tier-head">
-                                    <p class="top-perfomer">Councils with full scores</p>
+                                    <p class="top-performer">Councils with full scores</p>
                                     <span class="filter-active">Single Tier</span>
                                     <span class="filter-active">·</span>
                                     <span class="filter-active">Urban</span>
@@ -298,7 +294,7 @@
                                 <td colspan="1" class="section-cell text-left">
                                     {{ section.description }}
                                 </td>
-                                <td class="score is--section-score top-perfomer">
+                                <td class="score is--section-score top-performer">
                                     <span>{{ section.score }}/{{ section.max_score }}</span>
                                 </td>
                                 {% comment %} The following three td are "comparisson councils" {% endcomment %}
@@ -312,7 +308,6 @@
                                     <span>{{ section.score }}/{{ section.max_score }}</span>
                                 </td>
                                 <td class="top-tier-score">
-                                    {% comment %} TODO add single top perfomers {% endcomment %}
                                     {% comment %} Eg: 15 out of 120, this is a link{% endcomment %}
                                     <a href="#" class="mx-auto" style="text-transform: none">15 out of 120</a><span class="small d-block mt-1">councils got full marks for this section.</span>
                                 </td>
@@ -376,19 +371,19 @@
                                     <span>{{ answer.score }}/{{ answer.max }}</span>
                                 </td>
                                 {% else %}
-                                <td data-column="score" class="score is--header-score top-perfomer">
+                                <td data-column="score" class="score is--header-score top-performer">
                                     {% comment %}TODO score obtained / the total points for the header question {% endcomment %}
                                     <span>7/10</span>
                                 </td>
                                 {% comment %} The following three "td" are the markup for councils 
                                 added to compare with the current council{% endcomment %}
-                                <td data-column="score" class="score is--header-score top-perfomer">
+                                <td data-column="score" class="score is--header-score top-performer">
                                     <span>7/10</span>
                                 </td>
-                                <td data-column="score" class="score is--header-score top-perfomer">
+                                <td data-column="score" class="score is--header-score top-performer">
                                     <span>7/10</span>
                                 </td>
-                                <td data-column="score" class="score is--header-score top-perfomer">
+                                <td data-column="score" class="score is--header-score top-performer">
                                     <span>7/10</span>
                                 </td>
                                 <td data-column="top-tier-score" class="top-tier-score">
