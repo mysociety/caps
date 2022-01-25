@@ -1,17 +1,17 @@
 <button class="advanced-filter btn open-modal popup-trigger"
 data-popup-trigger="one" type="button">Advanced filters</button>
 <div class="advanced-filter-wrapper bg-blue-l2 popup-modal shadow" data-popup-modal="one">
-    <div class="filter-header mb-4 mb-sm-5">
-        <h5 class="filter-title">Select which criteria you would like to filter:</h5>
-        <button class="close-icon popup-modal__close" type="button"></button>
+    <div class="filter-header mb-3">
+        <p class="filter-title">Select which criteria you would like to filter:</p>
+        <button class="close-icon popup-modal__close mt-0 mr-0" type="button"></button>
     </div>
     <form action=".">
-        <div class="d-flex flex-wrap justify-content-space-between">
+        <div class="d-flex flex-wrap justify-content-between">
 
           {% if authority_type == 'single' %}
             <fieldset class="criteria-group-wrapper">
                 <legend>
-                    <button class="btn-open-div mb-2" type="button">Nation</button>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Nation</button>
                 </legend>
                 <div class="option-group open-div">
                     <div class="radio-wrapper">
@@ -19,15 +19,15 @@ data-popup-trigger="one" type="button">Advanced filters</button>
                         <label for="country_all">Any</label>
                     </div>
                     <div class="radio-wrapper">
-                        <input type="radio" id="england" name="country" value="1"{% if filter_params.country == 1 %} checked{% endif %}>
+                        <input type="radio" id="england" name="country" value="1"{% if filter_params.country == "1" %} checked{% endif %}>
                         <label for="england">England</label>
                     </div>
                     <div class="radio-wrapper">
-                        <input type="radio" id="scotland" name="country" value="2"{% if filter_params.country == 2 %} checked{% endif %}>
+                        <input type="radio" id="scotland" name="country" value="2"{% if filter_params.country == "2" %} checked{% endif %}>
                         <label for="scotland">Scotland</label>
                     </div>
                     <div class="radio-wrapper">
-                        <input type="radio" id="wales" name="country" value="3"{% if filter_params.country == 3 %} checked{% endif %}>
+                        <input type="radio" id="wales" name="country" value="3"{% if filter_params.country == "3" %} checked{% endif %}>
                         <label for="wales">Wales</label>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
 
             <fieldset class="criteria-group-wrapper">
                 <legend>
-                    <button class="btn-open-div mb-2" type="button">Urbanization</button>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Urbanization</button>
                 </legend>
                 <div class="option-group open-div">
                     <div class="radio-wrapper">
@@ -54,7 +54,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
 
             <fieldset class="criteria-group-wrapper">
                 <legend>
-                    <button class="btn-open-div mb-2" type="button">Current political control</button>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Current political control</button>
                 </legend>
                 <div class="option-group open-div">
                     <div class="radio-wrapper">
@@ -90,7 +90,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
 
             <fieldset class="criteria-group-wrapper">
                 <legend>
-                    <button class="btn-open-div mb-2" type="button">Index of multiple deprivation</button>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Index of multiple deprivation</button>
                 </legend>
                 <div class="option-group open-div">
                     <div class="radio-wrapper">
@@ -122,11 +122,11 @@ data-popup-trigger="one" type="button">Advanced filters</button>
 
             <fieldset class="criteria-group-wrapper">
                 <legend>
-                    <button class="btn-open-div mb-2" type="button">Total population</button>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Total population</button>
                 </legend>
                 <div class="option-group open-div">
                     <div class="radio-wrapper">
-                        <input type="radio" id="poulation_all" name="population" value=""{{ option.0 }}"{% if filter_params.population == "" or filter_params.population is None %} checked{% endif %}>
+                        <input type="radio" id="poulation_all" name="population" value=""{% if filter_params.population == "" or filter_params.population is None %} checked{% endif %}>
                         <label for="population_all">Any</label>
                     </div>
                   {% for option in population_filter %}
@@ -140,7 +140,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
 
         </div>
 
-        <button type="submit" class="btn btn-blue btn-block mb-3">Apply filters</button>
+        <button type="submit" class="btn btn-blue mb-3 d-inline-block mx-auto">Apply filters</button>
 
     </form>
 </div>
@@ -168,19 +168,4 @@ data-popup-trigger="one" type="button">Advanced filters</button>
             }
         })
     }
-    // Display modals
-    const modalTriggers = document.querySelectorAll('.popup-trigger')
-    const modalCloseTrigger = document.querySelector('.popup-modal__close')
-    
-    modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', () => {
-            const { popupTrigger } = trigger.dataset;
-            const popupModal = document.querySelector(`[data-popup-modal="${popupTrigger}"]`);
-            popupModal.classList.add('is--visible');
-
-            popupModal.querySelector('.popup-modal__close').addEventListener('click', () => {
-            popupModal.classList.remove('is--visible');
-            })
-        })
-    })
 </script>
