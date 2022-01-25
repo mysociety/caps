@@ -31,8 +31,14 @@
                 <div>
                     <h3 class="underline-green">
                         <span>{{ authority_type_label }}</span>
+                        {% if filter_descs %}
                         <span>·</span>
-                        <span>urban</span>
+                        {% if filter_descs|length > 1 %}
+                        <span>Multiple Filters</span>
+                        {% else %}
+                        <span>{{ filter_descs.0 }}</span>
+                        {% endif %}
+                        {% endif %}
                     </h3>
                     <p class="subtitle mb-0">councils plan scorecard</p>
                 </div>

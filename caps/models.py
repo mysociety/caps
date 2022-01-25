@@ -307,6 +307,13 @@ class Council(models.Model):
         return slug
 
     @classmethod
+    def country_description(cls, country_code):
+        codes_to_descriptions = dict(
+            (code, country) for code, country in Council.COUNTRY_CHOICES
+        )
+        return codes_to_descriptions.get(int(country_code))
+
+    @classmethod
     def country_code(cls, country_entry):
         """
         Return a country code given a text description, or None if the description

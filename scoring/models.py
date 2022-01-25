@@ -84,6 +84,13 @@ class PlanScore(models.Model):
     )
     political_control = models.CharField(max_length=100, null=True, blank=True)
 
+    @classmethod
+    def ruc_cluster_description(cls, ruc_cluster):
+        codes_to_descriptions = dict(
+            (cluster, description) for cluster, description in cls.RUC_TYPES
+        )
+        return codes_to_descriptions.get(ruc_cluster)
+
 
 class PlanSection(models.Model):
     """

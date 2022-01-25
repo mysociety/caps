@@ -121,7 +121,23 @@ class HomePageView(CheckForDownPageMixin, FilterView):
         context["page_title"] = "MISSING TITLE"
         context["current_page"] = "home-page"
         if getattr(context["filter"].form, "cleaned_data", None) is not None:
-            context["filter_params"] = context["filter"].form.cleaned_data
+            params = context["filter"].form.cleaned_data
+            descs = []
+            if params["population"] and params["population"] != "":
+                descs.append(params["population"])
+            if params["control"] and params["control"] != "":
+                descs.append(params["control"])
+            if params["ruc_cluster"] and params["ruc_cluster"] != "":
+                descs.append(PlanScore.ruc_cluster_description(params["ruc_cluster"]))
+            if params["imdq"] and params["imdq"] != "":
+                descs.append("deprivation quintile {}".format(params["imdq"]))
+            if params["country"] and params["country"] != "":
+                descs.append(Council.country_description(params["country"]))
+
+            print(descs)
+            context["filter_params"] = params
+            context["filter_descs"] = descs
+
         return context
 
 
