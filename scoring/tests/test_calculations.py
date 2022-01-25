@@ -13,7 +13,7 @@ class TestAverageSectionScores(TestCase):
         self.assertEquals(
             averages,
             {
-                "total": {"score": 23, "max": 37, "percentage": 62},
+                "total": {"score": 23, "max": 25, "percentage": 23},
                 "s1_gov": {"score": 13, "max": 19},
                 "s2_m_a": {"score": 10, "max": 18},
             },
@@ -25,7 +25,7 @@ class TestAverageSectionScores(TestCase):
         self.assertEqual(
             averages,
             {
-                "total": {"score": 23, "max": 37, "percentage": 62},
+                "total": {"score": 23, "max": 25, "percentage": 23},
                 "s1_gov": {"score": 13, "max": 19},
                 "s2_m_a": {"score": 10, "max": 18},
             },
@@ -41,7 +41,7 @@ class TestAverageSectionScores(TestCase):
         self.assertEqual(
             averages,
             {
-                "total": {"score": 23, "max": 37, "percentage": 62},
+                "total": {"score": 23, "max": 25, "percentage": 23},
                 "s1_gov": {"score": 13, "max": 19},
                 "s2_m_a": {"score": 10, "max": 18},
             },

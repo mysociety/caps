@@ -116,14 +116,23 @@ class PlanSection(models.Model):
         return cls.objects.distinct("code").values_list("code", flat=True)
 
     @classmethod
-    def get_average_scores(cls):
+    def get_average_scores(cls, council_group=None):
         """
         This excludes plans with zero score as it's assumed that if they have 0 then they
         were not marked, or the council has no plan, and hence including them would artificially
         reduce the average.
         """
         has_score = PlanScore.objects.filter(total__gt=0)
-        has_score_avg = has_score.aggregate(average=Avg("weighted_total"))
+        if council_group is not None:
+            group = Council.SCORING_GROUPS[council_group]
+            has_score = has_score.filter(
+                council__authority_type__in=group["types"],
+                council__country__in=group["countries"],
+            )
+
+        has_score_avg = has_score.aggregate(
+            maximum=Max("weighted_total"), average=Avg("weighted_total")
+        )
         has_score_list = has_score.values_list("pk", flat=True)
 
         scores = cls.objects.filter(
@@ -134,24 +143,22 @@ class PlanSection(models.Model):
         )
 
         averages = {}
-        max_score = 0
         for score in scores:
-            max_score = max_score + score.max_score
             averages[score.code] = {
                 "score": round(score.average_score),
                 "max": score.max_score,
             }
 
+        max_score = 0
         avg_score = 0
-        percentage = 0
         if has_score_avg["average"] is not None:
             avg_score = round(has_score_avg["average"])
-            percentage = avg_score / max_score
+            max_score = round(has_score_avg["maximum"])
 
         averages["total"] = {
             "score": avg_score,
             "max": max_score,
-            "percentage": round(percentage * 100),
+            "percentage": round(avg_score),
         }
 
         return averages

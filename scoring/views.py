@@ -79,10 +79,12 @@ class HomePageView(CheckForDownPageMixin, FilterView):
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
 
+        authority_type = self.get_authority_type()
+
         councils = context["object_list"].values()
         context["plan_sections"] = PlanSection.objects.filter(year=2021).all()
 
-        averages = PlanSection.get_average_scores()
+        averages = PlanSection.get_average_scores(authority_type["slug"])
         all_scores = PlanSectionScore.get_all_council_scores()
 
         for council in councils:
@@ -108,7 +110,6 @@ class HomePageView(CheckForDownPageMixin, FilterView):
         else:
             form = ScoringSort()
 
-        authority_type = self.get_authority_type()
         context["authority_type"] = authority_type["slug"]
         context["authority_type_label"] = authority_type["name"]
         context["population_filter"] = PlanScore.POPULATION_FILTER_CHOICES[
