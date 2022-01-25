@@ -72,34 +72,29 @@ $pick-council-break-point--question: 1200px;
         padding: 0 !important;
         min-width: 44px;
         min-height: 44px;
-        button.accordion {
-            width: 100%;
-            min-height: 44px;
-            background-color: $green;
-            background-position: center;
-            @include transition(background-color 0.3s ease-in-out);
+    }
+
+    button.accordion {
+        width: 100%;
+        min-height: 44px;
+        background-color: $green;
+        background-position: center;
+        @include transition(background-color 0.3s ease-in-out);
+
+        div {
+            width: 15px;
+            height: 10px;
+            background-image: url('../img/chevron-black-down.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            @include transition(transform 0.3s ease-in-out);
+        }
+
+        @include hover-focus() {
+            background-color: $color-scorecard-green-d1;
 
             div {
-                width: 15px;
-                height: 10px;
-                background-image: url('../img/chevron-black-down.svg');
-                background-repeat: no-repeat;
-                background-size: contain;
-                @include transition(transform 0.3s ease-in-out);
-            }
-
-            @include hover-focus() {
-                background-color: $color-scorecard-green-d1;
-                div{
-                    transform: rotate(180deg);
-                }
-                
-            }
-
-            &.active {
-                div{
-                    background-image: url('../img/chevron-black-up.svg');
-                }
+                transform: rotate(180deg);
             }
         }
     }
@@ -154,7 +149,8 @@ $pick-council-break-point--question: 1200px;
         }
     }
 
-    thead tr th, tbody tr td {
+    thead tr th,
+    tbody tr td {
         &:nth-child(3) {
             @include border-priority-1(right);
             @include border-priority-1(left);
@@ -243,5 +239,28 @@ $pick-council-break-point--question: 1200px;
 .top-tier-score {
     .small {
         line-height: 1.4;
+    }
+}
+
+// JavaScript-powered .js-toggle-council-question-table-section
+.accordion-enabled {
+    tbody {
+        .header-question,
+        .subpoint-question {
+            display: none;
+        }
+    }
+
+    tbody.open {
+        .header-question,
+        .subpoint-question {
+            display: table-row;
+        }
+
+        button.accordion {
+            div {
+                background-image: url('../img/chevron-black-up.svg');
+            }
+        }
     }
 }

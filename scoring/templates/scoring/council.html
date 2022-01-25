@@ -287,8 +287,8 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {% for section in sections %}
+                      {% for section in sections %}
+                        <tbody class="table-question-council__section">
                             <tr data-has-plan="no" class="bg-green section-row">
                                 <td></td>
                                 <td colspan="1" class="section-cell text-left">
@@ -312,15 +312,10 @@
                                     <a href="#" class="mx-auto" style="text-transform: none">15 out of 120</a><span class="small d-block mt-1">councils got full marks for this section.</span>
                                 </td>
                                 <td class="button-wrapper p-0">
-                                    {% comment %} TODO what would probably work for the accordion is
-                                    to add a class to the "tr" element below this one with the section name, and then
-                                    the button just an active state to all the "tr" that share the same class.
-                                    {% endcomment %}
-                                    <button type="button" class="accordion">
+                                    <button type="button" class="accordion js-toggle-council-question-table-section" aria-label="Expand this section" title="Expand this section">
                                         <div class="mx-auto"></div>
                                     </button>
                                 </td>
-
                             </tr>
                             {% for answer in section.answers %}
                             {% if answer.type == 'HEADER' %}
@@ -392,8 +387,8 @@
                                 {% endif %}
                             </tr>
                             {% endfor %}
-                            {% endfor %}
                         </tbody>
+                      {% endfor %}
                     </table>
                     <div class="advanced-filter-wrapper pb-3 bg-blue-l2 popup-modal shadow" data-popup-modal="advanced-filter-two">
                         <div class="filter-header mb-3">

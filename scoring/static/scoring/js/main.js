@@ -194,3 +194,22 @@ forEachElement('.popup-trigger', function(trigger){
         });
     });
 });
+
+forEachElement('.js-toggle-council-question-table-section', function(trigger){
+    var table = trigger.closest('table');
+    var thisTbody = trigger.closest('tbody');
+
+    table.classList.add('accordion-enabled');
+
+    trigger.addEventListener('click', function(){
+        if ( thisTbody.classList.contains('open') ) {
+            thisTbody.classList.remove('open');
+        } else {
+            forEachElement(table, 'tbody.open', function(tbody){
+                tbody.classList.remove('open');
+            });
+            thisTbody.classList.add('open');
+        }
+        thisTbody.scrollIntoView({ behavior: 'smooth' });
+    });
+});
