@@ -379,19 +379,13 @@
         </div>    
     </div>
 
-    <p>
-        <a href="{% url 'scoring' 'single' %}">Single Tier</a> :
-        <a href="{% url 'scoring' 'district' %}">District</a> :
-        <a href="{% url 'scoring' 'county' %}">County</a> :
-        <a href="{% url 'scoring' 'combined' %}">Combined</a> :
-        <a href="{% url 'scoring' 'northern-ireland' %}">Northern Ireland</a>
-    </p>
-
-    <p>
+    {% comment %}
+    <!-- TODO use this server-side sorting! -->
     <form method="GET">
         {{ form }}
          <input type="submit" value="Sort">
     </form>
+    {% endcomment %}
 
     <script>
             // Display modals
