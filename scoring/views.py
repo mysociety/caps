@@ -84,7 +84,26 @@ class HomePageView(CheckForDownPageMixin, FilterView):
         councils = context["object_list"].values()
         context["plan_sections"] = PlanSection.objects.filter(year=2021).all()
 
-        averages = PlanSection.get_average_scores(authority_type["slug"])
+        if getattr(context["filter"].form, "cleaned_data", None) is not None:
+            params = context["filter"].form.cleaned_data
+            descs = []
+            if params["population"] and params["population"] != "":
+                descs.append(params["population"])
+            if params["control"] and params["control"] != "":
+                descs.append(params["control"])
+            if params["ruc_cluster"] and params["ruc_cluster"] != "":
+                descs.append(PlanScore.ruc_cluster_description(params["ruc_cluster"]))
+            if params["imdq"] and params["imdq"] != "":
+                descs.append("deprivation quintile {}".format(params["imdq"]))
+            if params["country"] and params["country"] != "":
+                descs.append(Council.country_description(params["country"]))
+
+            context["filter_params"] = params
+            context["filter_descs"] = descs
+
+        averages = PlanSection.get_average_scores(
+            authority_type["slug"], filter=context.get("filter_params", None)
+        )
         all_scores = PlanSectionScore.get_all_council_scores()
 
         for council in councils:
@@ -122,23 +141,6 @@ class HomePageView(CheckForDownPageMixin, FilterView):
         context["averages"] = averages
         context["page_title"] = "MISSING TITLE"
         context["current_page"] = "home-page"
-        if getattr(context["filter"].form, "cleaned_data", None) is not None:
-            params = context["filter"].form.cleaned_data
-            descs = []
-            if params["population"] and params["population"] != "":
-                descs.append(params["population"])
-            if params["control"] and params["control"] != "":
-                descs.append(params["control"])
-            if params["ruc_cluster"] and params["ruc_cluster"] != "":
-                descs.append(PlanScore.ruc_cluster_description(params["ruc_cluster"]))
-            if params["imdq"] and params["imdq"] != "":
-                descs.append("deprivation quintile {}".format(params["imdq"]))
-            if params["country"] and params["country"] != "":
-                descs.append(Council.country_description(params["country"]))
-
-            print(descs)
-            context["filter_params"] = params
-            context["filter_descs"] = descs
 
         return context
 

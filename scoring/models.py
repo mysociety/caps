@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from django.db import models
-from django.db.models import Avg, Max
+from django.db.models import Avg, Max, Q
 
 from caps.models import Council
 
@@ -104,6 +104,14 @@ class PlanSection(models.Model):
     Details of a section in the scoring
     """
 
+    FILTER_FIELD_MAP = {
+        "imdq": "deprivation_quintile",
+        "ruc_cluster": "ruc_cluster",
+        "control": "political_control",
+        "population": "population",
+        "councils": "council__country",
+    }
+
     code = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -116,7 +124,7 @@ class PlanSection(models.Model):
         return cls.objects.distinct("code").values_list("code", flat=True)
 
     @classmethod
-    def get_average_scores(cls, council_group=None):
+    def get_average_scores(cls, council_group=None, filter=None):
         """
         This excludes plans with zero score as it's assumed that if they have 0 then they
         were not marked, or the council has no plan, and hence including them would artificially
@@ -129,6 +137,14 @@ class PlanSection(models.Model):
                 council__authority_type__in=group["types"],
                 council__country__in=group["countries"],
             )
+
+        if filter is not None:
+            kwargs = {}
+            for field in PlanSection.FILTER_FIELD_MAP.keys():
+                if filter.get(field):
+                    kwargs[PlanSection.FILTER_FIELD_MAP[field]] = filter[field]
+
+            has_score = has_score.filter(Q(**kwargs))
 
         has_score_avg = has_score.aggregate(
             maximum=Max("weighted_total"), average=Avg("weighted_total")
