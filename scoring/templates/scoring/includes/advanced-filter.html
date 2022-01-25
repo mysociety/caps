@@ -5,134 +5,143 @@ data-popup-trigger="one" type="button">Advanced filters</button>
         <h5 class="filter-title">Select which criteria you would like to filter:</h5>
         <button class="close-icon popup-modal__close" type="button"></button>
     </div>
-    <form>
-        {% if authority_type == 'single' %}
-        <div class="criteria-group-wrapper">
-            <button class="btn-open-div mb-2" type="button">
-                Nation
-            </button>
-            <div class="option-group open-div">
-                <div class="radio-wrapper">
-                    <input type="radio" id="england" name="country" value="1">
-                    <label for="england">England</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="scotland" name="country" value="2">
-                    <label for="scotland">Scotland</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="wales" name="country" value="3">
-                    <label for="wales">Wales</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="country_all" name="country" value=" ">
-                    <label for="country_all">Any</label>
-                </div>
-            </div>
-        </div>
-        {% endif %}
+    <form action=".">
+        <div class="d-flex flex-wrap justify-content-space-between">
 
-        <div class="criteria-group-wrapper">
-            <button class="btn-open-div mb-2" type="button">Urbanization</button>
-            <div class="option-group open-div">
-                {% for option in urbanisation_filter %}
-                <div class="radio-wrapper">
-                    <input type="radio" id="{{ option.0|slugify }}" name="ruc_cluster" value="{{ option.0 }}">
-                    <label for="{{ option.0|slugify }}">{{ option.1 }}</label>
+          {% if authority_type == 'single' %}
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mb-2" type="button">Nation</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="country_all" name="country" value=""{% if filter_params.country == "" or filter_params.country is None %} checked{% endif %}>
+                        <label for="country_all">Any</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="england" name="country" value="1"{% if filter_params.country == 1 %} checked{% endif %}>
+                        <label for="england">England</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="scotland" name="country" value="2"{% if filter_params.country == 2 %} checked{% endif %}>
+                        <label for="scotland">Scotland</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="wales" name="country" value="3"{% if filter_params.country == 3 %} checked{% endif %}>
+                        <label for="wales">Wales</label>
+                    </div>
                 </div>
-                {% endfor %}
-                <div class="radio-wrapper">
-                    <input type="radio" id="urban_all" name="ruc_cluster" value="">
-                    <label for="urban_all">All</label>
+            </fieldset>
+          {% endif %}
+
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mb-2" type="button">Urbanization</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="urban_all" name="ruc_cluster" value=""{% if filter_params.ruc_cluster == "" or filter_params.ruc_cluster is None %} checked{% endif %}>
+                        <label for="urban_all">All</label>
+                    </div>
+                  {% for option in urbanisation_filter %}
+                    <div class="radio-wrapper">
+                        <input type="radio" id="{{ option.0|slugify }}" name="ruc_cluster" value="{{ option.0 }}"{% if filter_params.ruc_cluster == option.0 %} checked{% endif %}>
+                        <label for="{{ option.0|slugify }}">{{ option.1 }}</label>
+                    </div>
+                  {% endfor %}
                 </div>
-            </div>
+            </fieldset>
+
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mb-2" type="button">Current political control</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_all" name="control" value=""{% if filter_params.control == "" or filter_params.control is None %} checked{% endif %}>
+                        <label for="control_all">All</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_coalition" name="control" value="Coalition/Minority"{% if filter_params.control == "Coalition/Minority" %} checked{% endif %}>
+                        <label for="control_coalition">Coalition/Minority</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_conservative" name="control" value="Conservative"{% if filter_params.control == "Conservative" %} checked{% endif %}>
+                        <label for="control_conservative">Conservative</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_independant" name="control" value="Independent"{% if filter_params.control == "Independent" %} checked{% endif %}>
+                        <label for="control_independant">Independent</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_labour" name="control" value="Labour"{% if filter_params.control == "Labour" %} checked{% endif %}>
+                        <label for="control_labour">Labour</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_libdem" name="control" value="Liberal Democrat"{% if filter_params.control == "Liberal Democrat" %} checked{% endif %}>
+                        <label for="control_libdem">Liberal Democrat</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_plaid" name="control" value="Plaid Cymru"{% if filter_params.control == "Plaid Cymru" %} checked{% endif %}>
+                        <label for="control_plaid">Plaid Cymru</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mb-2" type="button">Index of multiple deprivation</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_all" name="imdq" value=""{% if filter_params.imdq == "" or filter_params.imdq is None %} checked{% endif %}>
+                        <label for="imdq_all">All</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_1" name="imdq" value="1"{% if filter_params.imdq == 1 %} checked{% endif %}>
+                        <label for="imdq_1">1 (most deprived)</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_2" name="imdq" value="2"{% if filter_params.imdq == 2 %} checked{% endif %}>
+                        <label for="imdq_2">2</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_3" name="imdq" value="3"{% if filter_params.imdq == 3 %} checked{% endif %}>
+                        <label for="imdq_3">3</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_4" name="imdq" value="4"{% if filter_params.imdq == 4 %} checked{% endif %}>
+                        <label for="imdq_4">4</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_5" name="imdq" value="5"{% if filter_params.imdq == 5 %} checked{% endif %}>
+                        <label for="imdq_5">5 (least deprived)</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mb-2" type="button">Total population</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="poulation_all" name="population" value=""{{ option.0 }}"{% if filter_params.population == "" or filter_params.population is None %} checked{% endif %}>
+                        <label for="population_all">Any</label>
+                    </div>
+                  {% for option in population_filter %}
+                    <div class="radio-wrapper">
+                        <input type="radio" id="{{ option.0|slugify }}" name="population" value="{{ option.0 }}"{% if filter_params.population == option.0 %} checked{% endif %}>
+                        <label for="{{ option.0|slugify }}">{{ option.1 }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+            </fieldset>
+
         </div>
 
-        <div class="criteria-group-wrapper">
-            <button class="btn-open-div mb-2" type="button">
-                Current political control
-            </button>
-            <div class="option-group open-div">
-                <div class="radio-wrapper">
-                    <input type="radio" id="control_coalition" name="control" value="Coalition/Minority">
-                    <label for="control_coalition">Coalition/Minority</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="control_conservative" name="control" value="Conservative">
-                    <label for="control_conservative">Conservative</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="control_independant" name="control" value="Independent">
-                    <label for="control_independant">Independent</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="control_labour" name="control" value="Labour">
-                    <label for="control_labour">Labour</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="control_libdem" name="control" value="Liberal Democrat">
-                    <label for="control_libdem">Liberal Democrat</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="control_plaid" name="control" value="Plaid Cymru">
-                    <label for="control_plaid">Plaid Cymru</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="control_all" name="control" value="">
-                    <label for="control_all">All</label>
-                </div>
-            </div>
-        </div>
+        <button type="submit" class="btn btn-blue btn-block mb-3">Apply filters</button>
 
-        <div class="criteria-group-wrapper">
-            <button class="btn-open-div mb-2" type="button">
-                Index of multiple deprivation
-            </button>
-            <div class="option-group open-div">
-                <div class="radio-wrapper">
-                    <input type="radio" id="imdq_1" name="imdq" value="1">
-                    <label for="imdq_1">1 (most deprived)</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="imdq_2" name="imdq" value="2">
-                    <label for="imdq_2">2</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="imdq_3" name="imdq" value="3">
-                    <label for="imdq_3">3</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="imdq_4" name="imdq" value="4">
-                    <label for="imdq_4">4</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="imdq_5" name="imdq" value="5">
-                    <label for="imdq_5">5 (least deprived)</label>
-                </div>
-                <div class="radio-wrapper">
-                    <input type="radio" id="imdq_all" name="imdq" value="">
-                    <label for="imdq_all">All</label>
-                </div>
-            </div>
-        </div>
-
-        <div class="criteria-group-wrapper">
-            <button class="btn-open-div mb-2" type="button">
-                Total population
-            </button>
-            <div class="option-group open-div">
-                {% for option in population_filter %}
-                <div class="radio-wrapper">
-                    <input type="radio" id="{{ option.0|slugify }}" name="population" value="{{ option.0 }}">
-                    <label for="{{ option.0|slugify }}">{{ option.1 }}</label>
-                </div>
-                {% endfor %}
-                <div class="radio-wrapper">
-                    <input type="radio" id="poulation_all" name="population" value="">
-                    <label for="population_all">Any</label>
-                </div>
-            </div>
-        </div>
     </form>
 </div>
 
@@ -140,7 +149,7 @@ data-popup-trigger="one" type="button">Advanced filters</button>
     // Open div for each group of filters
     let buttonOpen = document.getElementsByClassName('btn-open-div');
     for (let i = 0; i < buttonOpen.length; i++) {
-        let openDiv = buttonOpen[i].nextElementSibling;
+        let openDiv = buttonOpen[i].parentNode.nextElementSibling;
         buttonOpen[i].addEventListener('click', () => {
             buttonOpen[i].classList.toggle('active');
             if(!openDiv.classList.contains('active')) {

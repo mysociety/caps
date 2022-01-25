@@ -1,35 +1,32 @@
-.advanced-filter-wrapper, .category-filter-wrapper {
+.advanced-filter-wrapper {
     max-width: 480px;
     padding: 25px 16px 0px 16px;
     border: 1px solid transparentize($blue, 0.7);
     border-radius: $border-radius;
+
     .filter-header {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
+
         .filter-title {
             flex-basis: 80%;
         }
-    }
-
-    form {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
     }
 
     .criteria-group-wrapper {
         max-width: 190px;
         flex-basis: 50%;
         margin-bottom: 30px;
+
         @include media-breakpoint-down('xs') {
             flex-basis: 100%;
             max-width: none;
             margin-bottom: 0;
            padding-top: 20px;
         }
+
         button {
             width: 100%;
         }

@@ -120,6 +120,8 @@ class HomePageView(CheckForDownPageMixin, FilterView):
         context["averages"] = averages
         context["page_title"] = "MISSING TITLE"
         context["current_page"] = "home-page"
+        if getattr(context["filter"].form, "cleaned_data", None) is not None:
+            context["filter_params"] = context["filter"].form.cleaned_data
         return context
 
 
