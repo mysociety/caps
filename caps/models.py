@@ -99,7 +99,7 @@ class Council(models.Model):
         "combined": {
             "name": "Combined Authority",
             "slug": "combined",
-            "types": ["COMB"],
+            "types": ["COMB", "SRA"],
             "countries": [ENGLAND, SCOTLAND, WALES],
         },
         "northern-ireland": {
@@ -218,7 +218,7 @@ class Council(models.Model):
             group = "county"
         elif self.country == self.NORTHERN_IRELAND:
             group = "northern-ireland"
-        elif self.authority_type == "COMB":
+        elif self.authority_type in ["COMB", "SRA"]:
             group = "combined"
         else:
             group = "single"
