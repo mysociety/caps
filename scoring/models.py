@@ -249,9 +249,9 @@ class PlanQuestion(models.Model):
         question = [x for x in parts if x[0] == "q"][0][1:]
         if "SP" in self.code.upper():
             sub_point = [x for x in parts if x.startswith("sp")][0][2:]
-            return f"Section {section}, Question {question}, Subpoint {sub_point}"
+            return f"{section}.{question}.{sub_point}"
         else:
-            return f"Section {section}, Question {question}"
+            return f"{section}.{question}"
 
 
 class PlanQuestionScore(models.Model):
