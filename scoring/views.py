@@ -131,9 +131,9 @@ class HomePageView(CheckForDownPageMixin, FilterView):
 
         context["authority_type"] = authority_type["slug"]
         context["authority_type_label"] = authority_type["name"]
-        context["population_filter"] = PlanScore.POPULATION_FILTER_CHOICES[
+        context["population_filter"] = PlanScore.POPULATION_FILTER_CHOICES.get(
             authority_type["slug"]
-        ]
+        )
         context["urbanisation_filter"] = PlanScore.RUC_TYPES
 
         context["form"] = form
