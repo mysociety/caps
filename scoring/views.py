@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Subquery, OuterRef, Q, Avg
 from django.shortcuts import redirect, resolve_url
+from django.utils.text import Truncator
 
 from django_filters.views import FilterView
 
@@ -139,7 +140,20 @@ class HomePageView(CheckForDownPageMixin, FilterView):
         context["form"] = form
         context["council_data"] = councils
         context["averages"] = averages
-        context["page_title"] = "{} councils".format(authority_type["name"])
+
+        title_format_strings = {
+            "single": "Council Climate Plan Scorecards",
+            "district": "{name} Councils’ Climate Plan Scorecards",
+            "county": "{name} Councils’ Climate Plan Scorecards",
+            "combined": "{name} Climate Plan Scorecards",
+            "northern-ireland": "{name} Councils’ Climate Plan Scorecards",
+        }
+
+        context["page_title"] = title_format_strings[authority_type["slug"]].format(
+            name=authority_type["name"]
+        )
+        context["site_title"] = "Climate Emergency UK"
+
         context["current_page"] = "home-page"
 
         return context
@@ -232,7 +246,14 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         context["sections"] = sorted(
             sections.values(), key=lambda section: section["code"]
         )
-        context["page_title"] = council.name
+        context["page_title"] = "{name} Climate Plan Scorecards".format(
+            name=council.name
+        )
+        context[
+            "page_description"
+        ] = "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
+            name=council.name
+        )
         return context
 
 
@@ -258,7 +279,7 @@ class QuestionView(CheckForDownPageMixin, DetailView):
 
         context["question"] = question
         context["answers"] = answers
-        context["page_title"] = question.code
+        context["page_title"] = Truncator(question.text).chars(75)
         return context
 
 
@@ -270,6 +291,7 @@ class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
         context[
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
+        context["page_title"] = "Choose a council"
         return context
 
 
@@ -333,7 +355,7 @@ class AboutView(CheckForDownPageMixin, TemplateView):
         context[
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
-        context["page_title"] = "About us"
+        context["page_title"] = "About"
         context["current_page"] = "about-page"
         return context
 
@@ -346,7 +368,7 @@ class ContactView(CheckForDownPageMixin, TemplateView):
         context[
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
-        context["page_title"] = "Contact us"
+        context["page_title"] = "Contact"
         context["current_page"] = "contact-page"
         return context
 
@@ -359,6 +381,6 @@ class HowToUseView(TemplateView):
         context[
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
-        context["page_title"] = "How to use the scorecards"
+        context["page_title"] = "How to use the Scorecards"
         context["current_page"] = "how-to-page"
         return context
