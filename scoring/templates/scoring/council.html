@@ -332,11 +332,11 @@
                                     <div>
                                         {% if answer.type == 'HEADER' %}
                                         <div class="question-code text-left">
-                                            <a href="{% url 'question' answer.code %}">{{ answer.code }}</a>
+                                            <a href="{% url 'question' answer.code %}">{{ answer.pretty_code }}</a>
                                         </div>
                                         {% else %}
                                         <div class="question-code text-left pl-2">
-                                            <span>{{ answer.code }}</span>
+                                            <span>{{ answer.pretty_code }}</span>
                                         </div>
                                         {% endif %}
                                     </div>
@@ -344,13 +344,13 @@
                                 {% if answer.type == 'HEADER' %}
                                 <td data-column="answer" colspan="1">
                                     <div class="question-content-table text-left">
-                                        <a href="{% url 'question' answer.code %}" class="question-no is--mobile">{{ answer.code }}</a>
+                                        <a href="{% url 'question' answer.code %}" class="question-no is--mobile">{{ answer.pretty_code }}</a>
                                         {{ answer.question | linebreaks }}
                                     </div>
                                 {% else %}
                                 <td data-column="answer">
                                     <div class="question-content-table text-left">
-                                        <span class="question-no is--mobile">{{ answer.code }}</span>
+                                        <span class="question-no is--mobile">{{ answer.pretty_code }}</span>
                                         {{ answer.question | linebreaks }}
                                     </div>
                                 {% endif %}
