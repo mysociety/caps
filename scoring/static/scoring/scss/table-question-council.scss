@@ -1,5 +1,5 @@
 
-$mobile-breakpoint-question-table: 600px;
+$mobile-breakpoint-question-table: 800px;
 $pick-council-break-point--question: 1200px;
 
 .table-question-council {
@@ -90,7 +90,7 @@ $pick-council-break-point--question: 1200px;
             @include transition(transform 0.3s ease-in-out);
         }
 
-        @include hover-focus() {
+        &:hover {
             background-color: $color-scorecard-green-d1;
 
             div {
@@ -185,6 +185,30 @@ $pick-council-break-point--question: 1200px;
                 display: table-cell;
             }
         }
+        @media (max-width:$table-section-mobile-breakpoint) {
+            &:last-child {
+                display: none;
+            }
+        }
+    }
+
+    tbody .section-row td {
+        @media only screen and (max-width: $pick-council-break-point--question) {
+            &:nth-last-child(2) {
+                display: none;
+            }
+        }
+    }
+
+    tbody tr td {
+        @media (max-width:$table-section-mobile-breakpoint) {
+            &:last-child {
+                display: table-cell;
+            }
+        }
+    }
+
+    tbody .header-question td, tbody .subpoint-question td {
         @media (max-width:$table-section-mobile-breakpoint) {
             &:last-child {
                 display: none;
