@@ -86,6 +86,7 @@ class Command(BaseCommand):
 
     DEFAULT_TOP_PERFORMER_COUNT = 10
     TOP_PERFORMER_COUNT = {
+        "single": 3,
         "northern-ireland": 0,
         "combined": 1,
         "section": 5,
