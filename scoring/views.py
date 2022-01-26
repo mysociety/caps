@@ -3,6 +3,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Subquery, OuterRef, Q, Avg
 from django.shortcuts import redirect, resolve_url
 from django.utils.text import Truncator
+from django.urls import reverse
 
 from django_filters.views import FilterView
 
@@ -253,6 +254,15 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             "page_description"
         ] = "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
             name=council.name
+        )
+        context[
+            "twitter_tweet_text"
+        ] = "Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking {name}’s Climate Action Plan on 📋 #CouncilClimateScorecards".format(
+            name=(
+                "@{}".format(council.twitter_name)
+                if council.twitter_name
+                else council.name
+            )
         )
         return context
 

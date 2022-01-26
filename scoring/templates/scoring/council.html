@@ -151,8 +151,8 @@
                     <div class="table-footer mt-2">
                         <a class="mt-3" href="{% url 'scoring' council.get_scoring_group.slug %}">See results in full list</a>
                         <div class="social-media-wrapper">
-                            <a class="table-social-icon facebook mr-1" href=""></a>
-                            <a class="table-social-icon twitter" href=""></a>
+                            <a class="table-social-icon facebook mr-1" title="Share this page on Facebook" aria-label="Share this page on Facebook" href="https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri|urlencode }}"></a>
+                            <a class="table-social-icon twitter" title="Share this page on Twitter" aria-label="Share this page on Twitter" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&amp;text={{ twitter_tweet_text|urlencode }}"></a>
                         </div>
                     </div>
                 </div>
