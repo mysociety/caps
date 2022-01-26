@@ -108,43 +108,6 @@
                     </h3>
                     <p>Climate Action Plans have been scored across nine categories, each covering the crucial information that an effective  plan should contain. The marks within these sections add up to make up the council's overall score. Here you can see where a council performs well and not so well in each section — and compare it to other councils at this granular level.
                     </p>
-                    <!-- TODO: Make button work -->
-                    <div class="position-relative">
-                        <button class="btn btn-blue is--light open-modal popup-trigger" data-popup-trigger="one">Choose councils to compare</button>
-                        <div class="council-compare-wrapper popup-modal shadow bg-white" data-popup-modal="one">
-                            <div class="filter-header mb-3">
-                                <p class="filter-title mb-0">Search for councils to compare</p>
-                                <button class="close-icon popup-modal__close" type="button"></button>
-                            </div>
-                            <div class="council-selection-wrapper bg-blue-l2">
-                                <input class="form-control searchbar blue dark mb-3" type="search" placeholder="Council name or postcode" aria-label="Council name or postcode">
-                                <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
-                                <div class="selected-council-wrapper mt-4">
-                                    <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough</a>
-                                    <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough</a>
-                                    <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough with long name just for test</a>
-                                </div>
-                                <a href="#" class="mt-3">Clear all</a>
-                            </div>
-                            <div class="council-suggestion-wrappers bg-green-l2 mt-3">
-                                <p class="label green">Suggested <strong>nearby</strong> councils:</p>
-                                <div class="suggested-council-group">
-                                    <a href="#">North Lincolnshire Council</a>
-                                    <a href="#">Selby District Council</a>
-                                    <a href="#">Sheffield City Region Combined Authority</a>
-                                    <a href="#">Wakefield Metropolitan District Council</a>
-                                </div>
-
-                                <p class="label green mt-4">Suggested <strong>top performer</strong> councils:</p>
-                                <div class="suggested-council-group">
-                                    <a href="#">North Lincolnshire Council</a>
-                                    <a href="#">Selby District Council</a>
-                                    <a href="#">Sheffield City Region Combined Authority</a>
-                                    <a href="#">Wakefield Metropolitan District Council</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="position-relative" style="display:table">
                     <div class="mobile-message">
@@ -156,16 +119,7 @@
                             <tr>
                                 <th scope="col" class="text-left">Sections</th>
                                 <th scope="col">{{ council.name }}</th>
-                                <th scope="col">Birmingham City Council</th>
-                                <th scope="col">Bradford Metropolitan District Council</th>
-                                <th scope="col">East Riding of Yorkshire Council</th>
-                                <th scope="col">
-                                    <p>Average Score</p>
-                                    <span class="filter-active">Single Tier</span>
-                                    <span class="filter-active">·</span>
-                                    <span class="filter-active">Urban</span>
-                                    <button class="advanced-filter-simple open-modal popup-trigger mx-auto d-block mt-1" data-popup-trigger="advanced-filter-one" type="button"></button>
-                                </th>
+                                <th scope="col">Average {{ authority_type.name }} council score</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -185,14 +139,8 @@
                                     {{ section.score }}/{{ section.max_score }}
                                     </span>
                                 </td>
-                                    {% comment %} The following three "td" are the markup for councils 
-                                    added to compare with the current council{% endcomment %}
-                                <td>{{ section.score }}/{{ section.max_score }}</td>
-                                <td>{{ section.score }}/{{ section.max_score }}</td>
-                                <td>{{ section.score }}/{{ section.max_score }}</td>
                                 <td>
-                                    {% comment %}TODO change from decimal to fractions{% endcomment %}
-                                    {{ section.avg }}
+                                    {{ section.avg }}/{{ section.max_score }}
                                 </td>
                             </tr>
                           {% endfor %}
@@ -205,22 +153,6 @@
                             <a class="table-social-icon twitter" href=""></a>
                         </div>
                     </div>
-                    <div class="advanced-filter-wrapper pb-3 bg-blue-l2 popup-modal shadow" data-popup-modal="advanced-filter-one">
-                        <div class="filter-header mb-4">
-                            <p class="filter-title">Show <strong>only</strong> councils similar to <strong>{{ council.name }}</strong> in terms of:</p>
-                            <button class="close-icon popup-modal__close" type="button"></button>
-                        </div>
-                        <div class="option-group">
-                            {% comment %} NOTE by default there wont't be any option selected.
-                             The "active" class has been added just for styling purposes{% endcomment %}
-                            <a class="radio-btn is--with-label active" href="#">Nation</a>
-                            <a class="radio-btn is--with-label" href="#">Urbanisation</a>
-                            <a class="radio-btn is--with-label" href="#">Total population</a>
-                            <a class="radio-btn is--with-label" href="#">Index of multiple deprivation </a>
-                            <a class="radio-btn is--with-label" href="#">Net-zero target date</a>
-                            <a class="radio-btn is--with-label" href="#">Current political control</a>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -231,42 +163,6 @@
                     </h3>
                     <p>Each category on the Scorecards is broken down into several individual questions, as guided by Climate Emergency UK’s <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/" class="d-inline-block">checklist for councils’ Action Plans</a>. This is the most granular data we hold for each councils’ Scorecard.
                     </p>
-                    <div class="position-relative">
-                        <button class="btn btn-blue is--light open-modal popup-trigger" data-popup-trigger="two">Choose councils to compare</button>
-                        <div class="council-compare-wrapper popup-modal shadow bg-white" data-popup-modal="two">
-                            <div class="filter-header mb-3">
-                                <p class="filter-title mb-0">Search for councils to compare</p>
-                                <button class="close-icon popup-modal__close" type="button"></button>
-                            </div>
-                            <div class="council-selection-wrapper bg-blue-l2">
-                                <input class="form-control searchbar blue dark mb-3" type="search" placeholder="Council name or postcode" aria-label="Council name or postcode">
-                                <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
-                                <div class="selected-council-wrapper mt-4">
-                                    <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough</a>
-                                    <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough</a>
-                                    <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1">Council borough with long name just for test</a>
-                                </div>
-                                <a href="#" class="mt-3">Clear all</a>
-                            </div>
-                            <div class="council-suggestion-wrappers bg-green-l2 mt-3">
-                                <p class="label green">Suggested <strong>nearby</strong> councils:</p>
-                                <div class="suggested-council-group">
-                                    <a href="#">North Lincolnshire Council</a>
-                                    <a href="#">Selby District Council</a>
-                                    <a href="#">Sheffield City Region Combined Authority</a>
-                                    <a href="#">Wakefield Metropolitan District Council</a>
-                                </div>
-
-                                <p class="label green mt-4">Suggested <strong>top performer</strong> councils:</p>
-                                <div class="suggested-council-group">
-                                    <a href="#">North Lincolnshire Council</a>
-                                    <a href="#">Selby District Council</a>
-                                    <a href="#">Sheffield City Region Combined Authority</a>
-                                    <a href="#">Wakefield Metropolitan District Council</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="position-relative" style="display: table">
                     <table class="table-question-council mb-0">
@@ -275,16 +171,6 @@
                                 <th scope="col">#</th>
                                 <th scope="col" class="text-left">Questions</th>
                                 <th scope="col" class="current-council-score">{{ council.name }}</th>
-                                <th scope="col" class="comparisson-council">Birmingham City Council</th>
-                                <th scope="col" class="comparisson-council">Bradford Metropolitan District Council</th>
-                                <th scope="col" class="comparisson-council">East Riding of Yorkshire Council</th>
-                                <th scope="col" class="top-tier-head">
-                                    <p class="top-performer">Councils with full scores</p>
-                                    <span class="filter-active">Single Tier</span>
-                                    <span class="filter-active">·</span>
-                                    <span class="filter-active">Urban</span>
-                                    <button class="advanced-filter-simple open-modal popup-trigger mx-auto d-block mt-1" data-popup-trigger="advanced-filter-two" type="button"></button>
-                                </th>
                             </tr>
                         </thead>
                       {% for section in sections %}
@@ -294,22 +180,8 @@
                                 <td colspan="1" class="section-cell text-left">
                                     {{ section.description }}
                                 </td>
-                                <td class="score is--section-score top-performer">
+                                <td class="score is--section-score {% if section.top_performer %}top-performer{% endif %}">
                                     <span>{{ section.score }}/{{ section.max_score }}</span>
-                                </td>
-                                {% comment %} The following three td are "comparisson councils" {% endcomment %}
-                                <td class="score is--section-score">
-                                    <span>{{ section.score }}/{{ section.max_score }}</span>
-                                </td>
-                                <td class="score is--section-score">
-                                    <span>{{ section.score }}/{{ section.max_score }}</span>
-                                </td>
-                                <td class="score is--section-score">
-                                    <span>{{ section.score }}/{{ section.max_score }}</span>
-                                </td>
-                                <td class="top-tier-score">
-                                    {% comment %} Eg: 15 out of 120, this is a link{% endcomment %}
-                                    <a href="#" class="mx-auto" style="text-transform: none">15 out of 120</a><span class="small d-block mt-1">councils got full marks for this section.</span>
                                 </td>
                                 <td class="button-wrapper p-0">
                                     <button type="button" class="accordion js-toggle-council-question-table-section" aria-label="Expand this section" title="Expand this section">
@@ -317,12 +189,8 @@
                                     </button>
                                 </td>
                             </tr>
-                            {% for answer in section.answers %}
-                            {% if answer.type == 'HEADER' %}
-                            <tr class="header-question">
-                            {% else %}
-                            <tr class="subpoint-question">
-                            {% endif %}
+                          {% for answer in section.answers %}
+                            <tr class="{% if answer.type == 'HEADER' %}header-question{% else %}subpoint-question{% endif %}">
                                 <td data-column="question_no" class="question-no">
                                     <div>
                                         {% if answer.type == 'HEADER' %}
@@ -336,13 +204,13 @@
                                         {% endif %}
                                     </div>
                                 </td>
-                                {% if answer.type == 'HEADER' %}
+                              {% if answer.type == 'HEADER' %}
                                 <td data-column="answer" colspan="1">
                                     <div class="question-content-table text-left">
                                         <a href="{% url 'question' answer.code %}" class="question-no is--mobile">{{ answer.pretty_code }}</a>
                                         {{ answer.question | linebreaks }}
                                     </div>
-                                {% else %}
+                              {% else %}
                                 <td data-column="answer">
                                     <div class="question-content-table text-left">
                                         <span class="question-no is--mobile">{{ answer.pretty_code }}</span>
@@ -350,45 +218,17 @@
                                             {{ answer.question | linebreaks }}
                                         </div>
                                     </div>
-                                {% endif %}
+                              {% endif %}
                                 </td>
-                                {% if answer.type != 'HEADER' %}
+                              {% if answer.type != 'HEADER' %}
                                 <td data-column="score" class="score">
                                     <span>{{ answer.score }}/{{ answer.max }}</span>
                                 </td>
-                                 {% comment %} The following three "td" are the markup for councils 
-                                added to compare with the current council{% endcomment %}
-                                <td data-column="score" class="score">
-                                    <span>{{ answer.score }}/{{ answer.max }}</span>
-                                </td>
-                                <td data-column="score" class="score">
-                                    <span>{{ answer.score }}/{{ answer.max }}</span>
-                                </td>
-                                <td data-column="score" class="score">
-                                    <span>{{ answer.score }}/{{ answer.max }}</span>
-                                </td>
-                                {% else %}
-                                <td data-column="score" class="score is--header-score top-performer">
-                                    {% comment %}TODO score obtained / the total points for the header question {% endcomment %}
-                                    <span>7/10</span>
-                                </td>
-                                {% comment %} The following three "td" are the markup for councils 
-                                added to compare with the current council{% endcomment %}
-                                <td data-column="score" class="score is--header-score top-performer">
-                                    <span>7/10</span>
-                                </td>
-                                <td data-column="score" class="score is--header-score top-performer">
-                                    <span>7/10</span>
-                                </td>
-                                <td data-column="score" class="score is--header-score top-performer">
-                                    <span>7/10</span>
-                                </td>
-                                <td data-column="top-tier-score" class="top-tier-score">
-                                    <a href="#" class="mx-auto" style="text-transform: none">13 out of 120</a><span class="small d-block mt-1">councils got full marks for this question.</span>
-                                </td>
-                                {% endif %}
+                              {% else %}
+                                <td></td>
+                              {% endif %}
                             </tr>
-                            {% endfor %}
+                          {% endfor %}
                         </tbody>
                       {% endfor %}
                     </table>

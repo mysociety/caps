@@ -48,11 +48,7 @@ $pick-council-break-point--question: 1200px;
             background-size: 15px;
             background-repeat: no-repeat;
             background-position: left 0px top 4px;
-            padding-left: 13px;
-        }
-
-        &.comparisson-council {
-            @include responsive(font-size, 13, 14);
+            padding-left: 20px;
         }
     }
 
@@ -175,58 +171,11 @@ $pick-council-break-point--question: 1200px;
         }
     }
 
-    // Responsiveness
-    thead tr th, tbody tr td {
-        @media only screen and (max-width: $pick-council-break-point--question) {
-            &:nth-child(n+4) {
-                display: none;
-            }
-            &:last-child {
-                display: table-cell;
-            }
-        }
-        @media (max-width:$table-section-mobile-breakpoint) {
-            &:last-child {
-                display: none;
-            }
-        }
-    }
-
-    tbody .section-row td {
-        @media only screen and (max-width: $pick-council-break-point--question) {
-            &:nth-last-child(2) {
-                display: none;
-            }
-        }
-    }
-
-    tbody tr td {
-        @media (max-width:$table-section-mobile-breakpoint) {
-            &:last-child {
-                display: table-cell;
-            }
-        }
-    }
-
-    tbody .header-question td, tbody .subpoint-question td {
-        @media (max-width:$table-section-mobile-breakpoint) {
-            &:last-child {
-                display: none;
-            }
-        }
-    }
-
     @media only screen and (max-width: $mobile-breakpoint-question-table) {
 
         @include border-priority-2(left);
 
-        thead th {
-            // Hiding question column
-            &:first-child {
-                display: none;
-            }
-        }
-
+        thead th,
         tbody td {
             // Hiding question column
             &:first-child {
@@ -257,12 +206,6 @@ $pick-council-break-point--question: 1200px;
             padding-top: 10px;
             padding-bottom: 10px;
         }
-    }
-}
-
-.top-tier-score {
-    .small {
-        line-height: 1.4;
     }
 }
 
