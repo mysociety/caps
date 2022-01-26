@@ -87,9 +87,12 @@ $border-table: 1px solid transparentize($color: $black, $amount: 0.8);
 }
 
 tbody th.council-name {
+    min-height: 62px;
+}
+
+tbody th.council-name .council-name-flex-cell{
     display: flex;
     flex-direction: row;
-    min-height: 62px;
     align-items: center;
 }
 
@@ -247,7 +250,7 @@ tbody th.council-name {
 
     thead {
         .second-row th {
-            top:109px;
+            top:110px;
             height: auto;
             padding: 5px 10px;
             padding-bottom: 14px;
@@ -262,7 +265,7 @@ tbody th.council-name {
 
     tbody th {
         position: relative;
-        left: 0;
+        left: 0px;
     }
 
     tbody tr {
