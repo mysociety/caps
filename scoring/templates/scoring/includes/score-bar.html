@@ -9,7 +9,7 @@
     <span class="score-fraction">{{ score }}/{{ max }}</span>
     <div class="progress-bar" style="width: {% widthratio score max 100 %}%;"></div>
   {% else %}
-    <span class="score-fraction">0/0</span>
+    <span class="score-fraction">0/{{ max }}</span>
     <div class="progress-bar" style="width: 0%;"></div>
   {% endif %}
   {% if average %}
