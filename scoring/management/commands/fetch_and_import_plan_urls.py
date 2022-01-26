@@ -35,7 +35,7 @@ def import_scored_plans():
     PlanScoreDocument.objects.all().delete()
 
     df = pd.read_csv(settings.SCORED_PLANS_CSV)
-    df["Plans"] = df["Plans"].fillna("")
+    df["Plans Marked in Audit (Final)"] = df["Plans Marked in Audit (Final)"].fillna("")
     documents = []
 
     # avoid matching URLs in the middle of other URLs
