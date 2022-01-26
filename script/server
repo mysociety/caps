@@ -27,7 +27,7 @@ if [ "$ACTION" == "--docker" ]; then
   sassc --style compressed static/scoring/scss/main.scss static/css/scoring.css
   cp -rf static/caps/img/* static/img/
   cp -rf static/scoring/img/* static/img/
-  gunicorn proj.wsgi:application --bind 0.0.0.0:8000 --worker-tmp-dir /dev/shm --log-file=- --access-logfile=-
+  gunicorn proj.wsgi:application --workers 3 --threads 2 --bind 0.0.0.0:8000 --worker-tmp-dir /dev/shm --log-file=- --access-logfile=-
 else
   script/migrate
   python3 manage.py runserver 0.0.0.0:8000
