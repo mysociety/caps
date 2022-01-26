@@ -117,15 +117,12 @@ class CouncilDetailView(DetailView):
 
             group = council.get_scoring_group()
 
-            average_total = (
-                PlanScore.objects.filter(
-                    total__gt=0,
-                    council__authority_type__in=group["types"],
-                    council__country__in=group["countries"],
-                    year=2021,
-                )
-                .aggregate(average_score=Avg("weighted_total"))
-            )
+            average_total = PlanScore.objects.filter(
+                total__gt=0,
+                council__authority_type__in=group["types"],
+                council__country__in=group["countries"],
+                year=2021,
+            ).aggregate(average_score=Avg("weighted_total"))
 
             # get average section scores for authorities of the same type
             section_avgs = (
