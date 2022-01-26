@@ -247,11 +247,23 @@ class PlanQuestion(models.Model):
         section = parts[0][1:]
         section_text = parts[1]
         question = [x for x in parts if x[0] == "q"][0][1:]
+        components = [section, question]
         if "SP" in self.code.upper():
             sub_point = [x for x in parts if x.startswith("sp")][0][2:]
-            return f"{section}.{question}.{sub_point}"
-        else:
-            return f"{section}.{question}"
+            components.append(sub_point)
+        if parts[-1] == "b":
+            components.append("b")
+
+        code = ".".join(components)
+
+        # 4.13.1 was deleted
+        # easier to fix here than rename all references
+        if code == "4.13.2":
+            code = "4.13.1"
+        if code == "4.13.3":
+            code = "4.13.2"
+
+        return code
 
 
 class PlanQuestionScore(models.Model):
