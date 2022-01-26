@@ -52,7 +52,7 @@ $wall-repeat-pattern: 10;
             padding: 8px;
             border-radius: $border-radius;
             border: 1px solid transparentize($color: $black, $amount: 0.8);
-            margin: 0 5px;
+            margin: 5px 5px;
             font-family: $headings-font-family;
             letter-spacing: 0.01em;
             white-space: nowrap;
@@ -125,9 +125,117 @@ $wall-repeat-pattern: 10;
             }
         }
 
-        &:nth-child(n+6) {
+        &:nth-child(6) {
+            margin-left: -5px;
+            margin-right:-5px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(7) {
+            margin-left: -2px;
+            margin-right:-2px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(8) {
+            margin-left: -10px;
+            margin-right:-10px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(9) {
+            margin-left: -1px;
+            margin-right:-1px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(10) {
             margin-left: -8px;
             margin-right:-8px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(11) {
+            margin-left: 5px;
+            margin-right:5px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(11) {
+            margin-left: -5px;
+            margin-right:-5px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(12) {
+            margin-left: -10px;
+            margin-right:-10px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(13) {
+            margin-left: -6px;
+            margin-right:-6px;
+            .names-wall-row-item {
+                @for $i from 1 through $wall-repeat-pattern {
+                    &:nth-child(#{length($colors)}n+#{$i}) {
+                        background: transparentize(nth($colors, random(length($colors))), 0.8);
+                    }
+                }
+            }
+        }
+
+        &:nth-child(14) {
+            margin-left: -2px;
+            margin-right:-2px;
             .names-wall-row-item {
                 @for $i from 1 through $wall-repeat-pattern {
                     &:nth-child(#{length($colors)}n+#{$i}) {
