@@ -124,8 +124,7 @@ class CouncilDetailView(DetailView):
                     council__country__in=group["countries"],
                     year=2021,
                 )
-                .values("year")
-                .annotate(average_score=Avg("weighted_total"))
+                .aggregate(average_score=Avg("weighted_total"))
             )
 
             # get average section scores for authorities of the same type
@@ -152,7 +151,7 @@ class CouncilDetailView(DetailView):
                 sections.values(), key=lambda section: section["code"]
             )
 
-            context["average_total"] = average_total.first()["average_score"]
+            context["average_total"] = average_total["average_score"]
 
             top_scoring_sections = [
                 section for section in sections.values() if section["top_performer"]
