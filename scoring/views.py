@@ -139,7 +139,7 @@ class HomePageView(CheckForDownPageMixin, FilterView):
         context["form"] = form
         context["council_data"] = councils
         context["averages"] = averages
-        context["page_title"] = "MISSING TITLE"
+        context["page_title"] = "{} councils".format(authority_type["name"])
         context["current_page"] = "home-page"
 
         return context
