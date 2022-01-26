@@ -24,6 +24,7 @@ from scoring.models import (
 
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files import File
+from django.db.models import F
 from django.template.defaultfilters import pluralize
 
 from django.conf import settings
@@ -91,8 +92,9 @@ class Command(BaseCommand):
         "single": 3,
         "northern-ireland": 0,
         "combined": 1,
-        "section": 5,
     }
+
+    SKIP_SECTION_PERFORMERS = ["s6_cb"]
 
     SECTIONS = {
         "s1_gov": "Governance, development and funding",
@@ -303,17 +305,17 @@ class Command(BaseCommand):
                 plan_score.top_performer = group_tag
                 plan_score.save()
 
-            for section in plan_sections.all():
-                section_count = self.TOP_PERFORMER_COUNT["section"]
-                top_section_scores = PlanSectionScore.objects.filter(
-                    plan_section=section,
-                    plan_score__council__authority_type__in=group_params["types"],
-                    plan_score__council__country__in=group_params["countries"],
-                ).order_by("-weighted_score")
+        for section in plan_sections.all():
+            if section.code in self.SKIP_SECTION_PERFORMERS:
+                continue
 
-                for section_score in top_section_scores.all()[:section_count]:
-                    section_score.top_performer = group_tag
-                    section_score.save()
+            top_section_scores = PlanSectionScore.objects.filter(
+                plan_section=section, score=F("max_score")
+            )
+
+            for section_score in top_section_scores.all():
+                section_score.top_performer = section.code
+                section_score.save()
 
     def handle(self, *args, **options):
         self.get_files()
