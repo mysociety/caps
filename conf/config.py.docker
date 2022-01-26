@@ -30,4 +30,4 @@ MAILCHIMP_KEY = os.environ.get("MAILCHIMP_KEY", "")
 MAILCHIMP_SERVER_PREFIX = os.environ.get("MAILCHIMP_SERVER_PREFIX", "us9")
 MAILCHIMP_LIST_ID = os.environ.get("MAILCHIMP_LIST_ID", "48e077419a")
 
-SCORECARDS_PRIVATE = strtobool(os.environ.get("SCORECARDS_PRIVATE", False))
+SCORECARDS_PRIVATE = strtobool(os.environ.get("SCORECARDS_PRIVATE", "False"))
