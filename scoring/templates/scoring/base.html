@@ -14,6 +14,19 @@
     <title>{{ page_title }} – Council Climate Plan Scorecards</title>
 
     {% stylesheet 'scoring' %}
+    {% if GOOGLE_ANALYTICS_SCORECARDS %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_SCORECARDS }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '{{ GOOGLE_ANALYTICS_SCORECARDS }}', {
+                'client_storage': 'none'
+            });
+        </script>
+    {% endif %}
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
     <nav class="scorecards navbar navbar-expand-xl navbar-light justify-content-between bg-green-gradient">
