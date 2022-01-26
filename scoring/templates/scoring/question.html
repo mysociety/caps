@@ -273,14 +273,15 @@
     // Open div questions in the about section
     let questionItems = document.getElementsByClassName('question-content');
     for (let i = 0; i < questionItems.length; i++) {
-        let questionItemsOffHeight = questionItems[i].offsetHeight;
+        let questionItemsOffHeight = questionItems[i].clientHeight;
+        let questionItemsOffHeightMargin = questionItems[i].clientHeight + 16;
         let questionItemsScrollHeight = questionItems[i].scrollHeight;
         let buttonQuestion = questionItems[i].nextElementSibling;
-        
-        if (questionItemsOffHeight < questionItemsScrollHeight) {
+        if (questionItemsOffHeightMargin < questionItemsScrollHeight) {
             buttonQuestion.style.display = 'inline-block';
         } else {
             buttonQuestion.style.display = 'none';
+            questionItems[i].style.height = "auto";
         }
         buttonQuestion.addEventListener('click', () => {
             if(!questionItems[i].classList.contains('active')) {
@@ -289,12 +290,12 @@
                 questionItems[i].style.height = "auto";
                 buttonQuestion.textContent="Display less";
                 let height = questionItems[i].clientHeight + "px";
-                questionItems[i].style.height = "65px";
+                questionItems[i].style.height = "70px";
                 setTimeout(() => {
                     questionItems[i].style.height = height;
                 }, 0) 
             } else {
-                questionItems[i].style.height = "65px";
+                questionItems[i].style.height = "70px";
                 questionItems[i].addEventListener('transitionend', () => {
                     questionItems[i].classList.remove('active');
                     buttonQuestion.textContent="Display more";
@@ -308,13 +309,15 @@
     let questionItemsAccordion = document.getElementsByClassName('question-text');
     for (let i = 0; i < questionItemsAccordion.length; i++) {
         let questionItemsAccordionOffHeight = questionItemsAccordion[i].offsetHeight;
+        let questionItemsAccordionOffHeightMargin = questionItemsAccordion[i].offsetHeight + 16;
         let questionItemsAccordionScrollHeight = questionItemsAccordion[i].scrollHeight;
         let accordionDisplayMoreQ = questionItemsAccordion[i].nextElementSibling;
 
-        if (questionItemsAccordionOffHeight < questionItemsAccordionScrollHeight) {
+        if (questionItemsAccordionOffHeightMargin < questionItemsAccordionScrollHeight) {
             accordionDisplayMoreQ.style.display = 'inline-block';
         } else {
             accordionDisplayMoreQ.style.display = 'none';
+            questionItemsAccordion[i].style.height = "auto";
         }
         accordionDisplayMoreQ.addEventListener('click', () => {
             if(!questionItemsAccordion[i].classList.contains('active')) {
@@ -323,12 +326,12 @@
                 questionItemsAccordion[i].style.height = "auto";
                 accordionDisplayMoreQ.textContent="Display less";
                 let height = questionItemsAccordion[i].clientHeight + "px";
-                questionItemsAccordion[i].style.height = "65px";
+                questionItemsAccordion[i].style.height = "81px";
                 setTimeout(() => {
                     questionItemsAccordion[i].style.height = height;
                 }, 0) 
             } else {
-                questionItemsAccordion[i].style.height = "65px";
+                questionItemsAccordion[i].style.height = "81px";
                 questionItemsAccordion[i].addEventListener('transitionend', () => {
                     questionItemsAccordion[i].classList.remove('active');
                     accordionDisplayMoreQ.textContent="Display more";

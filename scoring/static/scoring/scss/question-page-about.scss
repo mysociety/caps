@@ -14,7 +14,7 @@
 }
 
 .question-content {
-    height: 65px;
+    height: 80px;
     overflow-y: hidden;
     @include transition(height, 0.3s ease-in-out);
 }

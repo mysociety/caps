@@ -63,7 +63,7 @@
         }
 
         .question-text {
-            height: 65px;
+            height: 60px;
             overflow-y: hidden;
             @include transition(height, 0.3s ease-in-out);
         }
