@@ -86,6 +86,8 @@ class Command(BaseCommand):
 
     DEFAULT_TOP_PERFORMER_COUNT = 10
     TOP_PERFORMER_COUNT = {
+        "district": 3,
+        "county": 1,
         "single": 3,
         "northern-ireland": 0,
         "combined": 1,
