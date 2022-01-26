@@ -239,6 +239,20 @@ class PlanQuestion(models.Model):
     max_score = models.PositiveSmallIntegerField(default=0)
     question_type = models.CharField(max_length=100)  # needs choices
 
+    def pretty_code(self):
+        """
+        returns a more human-readable version of the question code
+        """
+        parts = self.code.split("_")
+        section = parts[0][1:]
+        section_text = parts[1]
+        question = [x for x in parts if x[0] == "q"][0][1:]
+        if "SP" in self.code.upper():
+            sub_point = [x for x in parts if x.startswith("sp")][0][2:]
+            return f"Section {section}, Question {question}, Subpoint {sub_point}"
+        else:
+            return f"Section {section}, Question {question}"
+
 
 class PlanQuestionScore(models.Model):
     """

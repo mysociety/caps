@@ -26,6 +26,7 @@ class TestAnswerView(TestCase):
                     "answers": [
                         {
                             "code": "s1_gov_q1",
+                            "pretty_code": "Section 1, Question 1",
                             "display_code": "q1",
                             "question": "This is a sub header",
                             "answer": "-",
@@ -36,6 +37,7 @@ class TestAnswerView(TestCase):
                         },
                         {
                             "code": "s1_gov_q1_sp1",
+                            "pretty_code": "Section 1, Question 1, Subpoint 1",
                             "display_code": "q1_sp1",
                             "question": "The answer is True or False",
                             "answer": "True",
@@ -84,6 +86,7 @@ class TestAnswerView(TestCase):
                     "answers": [
                         {
                             "code": "s1_gov_q1",
+                            "pretty_code": "Section 1, Question 1",
                             "display_code": "q1",
                             "question": "This is a sub header",
                             "answer": "-",
@@ -94,6 +97,7 @@ class TestAnswerView(TestCase):
                         },
                         {
                             "code": "s1_gov_q1_sp1",
+                            "pretty_code": "Section 1, Question 1, Subpoint 1",
                             "display_code": "q1_sp1",
                             "question": "The answer is True or False",
                             "answer": "True",
@@ -142,6 +146,7 @@ class TestAnswerView(TestCase):
                     "answers": [
                         {
                             "code": "s1_gov_q1",
+                            "pretty_code": "Section 1, Question 1",
                             "display_code": "q1",
                             "question": "This is a sub header",
                             "answer": "-",
@@ -152,6 +157,7 @@ class TestAnswerView(TestCase):
                         },
                         {
                             "code": "s1_gov_q1_sp1",
+                            "pretty_code": "Section 1, Question 1, Subpoint 1",
                             "display_code": "q1_sp1",
                             "question": "The answer is True or False",
                             "answer": "True",
@@ -198,6 +204,7 @@ class TestAnswerView(TestCase):
                     "answers": [
                         {
                             "code": "s1_gov_q1",
+                            "pretty_code": "Section 1, Question 1",
                             "display_code": "q1",
                             "question": "This is a sub header",
                             "answer": "-",
@@ -208,6 +215,7 @@ class TestAnswerView(TestCase):
                         },
                         {
                             "code": "s1_gov_q1_sp1",
+                            "pretty_code": "Section 1, Question 1, Subpoint 1",
                             "display_code": "q1_sp1",
                             "question": "The answer is True or False",
                             "answer": "True",
@@ -280,6 +288,7 @@ class TestTopPerormersInViews(TestCase):
                     "answers": [
                         {
                             "code": "s1_gov_q1",
+                            "pretty_code": "Section 1, Question 1",
                             "display_code": "q1",
                             "question": "This is a sub header",
                             "answer": "-",
@@ -290,6 +299,7 @@ class TestTopPerormersInViews(TestCase):
                         },
                         {
                             "code": "s1_gov_q1_sp1",
+                            "pretty_code": "Section 1, Question 1, Subpoint 1",
                             "display_code": "q1_sp1",
                             "question": "The answer is True or False",
                             "answer": "True",

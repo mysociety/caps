@@ -212,6 +212,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             section = question.section_code
             q = {
                 "code": question.code,
+                "pretty_code": question.pretty_code(),
                 "display_code": question.code.replace(
                     "{}_".format(question.section_code), "", 1
                 ),
