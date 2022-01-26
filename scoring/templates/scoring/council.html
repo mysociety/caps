@@ -30,7 +30,7 @@
                 <p class="top-performer.active mb-0">This council is a top performer within {{ authority_type.name }} councils.</p>
                 {% endif %}
                 <a href="{% url 'scoring' authority_type.slug %}">See council in context</a>
-                <div class="group-label-wrapper mt-5">
+                <div class="group-label-wrapper mt-3">
                     <div class="label-wrapper">
                         <p class="label pl-0">Nation</p>
                         <p>{{ council.get_country_display }}</p>
@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="col-12 col-lg-2"></div>
-        <div class="col-12 col-lg-5">
+        <div class="col-12 col-lg-5 mt-4 mt-lg-0">
             <div class="about-section-child bg-grey-gradient-darker p-3">
                 <h3 class="mb-3">About the scoring</h3>
                 <p>Climate Emergency UK assessed plans according to 28 questions across nine sections, based on the expert-approved <a class="d-inline-block" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">checklist for Council Action Plans</a>. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between June and December 2021. Action Plans and related documents that were publicly available after September 2015 and before 20 September 2021 were marked. </p>
@@ -87,7 +87,7 @@
               {% endif %}
               {% if plan_urls %}
                 <details>
-                    <summary class="btn btn btn-blue is--light">See which plans were marked</summary>
+                    <summary class="btn btn btn-blue is--light mt-2 mt-sm-3">See which plans were marked</summary>
                     <ul class="scoring-source-links">
                       {% for plan_url in plan_urls %}
                         <li><a href="{{ plan_url.plan_url }}" title="{{ plan_url.plan_url|url_human }}">{{ plan_url.plan_url|url_human }}</a></li>
