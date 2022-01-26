@@ -433,15 +433,16 @@ $flex-basis-mobile-council: 80%;
     }
 }
 
-.scorecard-table {
+.scorecard-table,
+.scorecard-table-mobile {
     .top-performer {
         display: block;
         width: 20px;
         height: 20px;
         position: relative;
-        @media only screen and (max-width: $table-desktop-breakpoint) {
-            flex-basis: calc(100% - #{$flex-basis-mobile-council});
-        }
+        flex: 0 0 auto;
+        background: transparent url('../img/star.svg') 0 0 no-repeat;
+        background-size: 16px auto;
 
         .hover-message {
             opacity: 0;
@@ -451,13 +452,6 @@ $flex-basis-mobile-council: 80%;
             width: 0;
             z-index: 1000;
         }
-    }
-
-    .top-performer.active {
-        background-image: url('../img/star.svg');
-        background-repeat: no-repeat;
-        background-size: 16px auto;
-        background-position: left;
 
         &:hover {
             .hover-message {
