@@ -107,6 +107,12 @@ tbody th.council-name .council-name-flex-cell{
     @media only screen and (max-width: $table-desktop-breakpoint) {
         border:1px solid transparentize($color: $black, $amount: 0.8);
     }
+
+    .highlight {
+        th, td {
+            background: lighten($color-scorecard-yellow, 30%) !important;
+        }
+    }
 }
 
 .scorecard-table {
@@ -273,12 +279,6 @@ tbody th.council-name .council-name-flex-cell{
             th, td{
                 background-color: #F8F8F8;
             }
-        }
-    }
-
-    .highlight {
-        th, td {
-            background: lighten($color-scorecard-yellow, 30%) !important;
         }
     }
 
