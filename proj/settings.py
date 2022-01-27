@@ -26,13 +26,6 @@ DEFAULT_HOST = "cape"
 HIDE_DEBUG_TOOLBAR = False
 DEBUG = True
 
-if DEBUG:
-    IS_LIVE = False
-    STATICFILES_STORAGE = "pipeline.storage.NonPackagingPipelineStorage"
-else:
-    IS_LIVE = True
-    STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
-
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "testserver",
@@ -42,6 +35,14 @@ ALLOWED_HOSTS = [
 ]
 
 from conf.config import *  # stores database and key outside repo
+
+if DEBUG:
+    IS_LIVE = False
+    STATICFILES_STORAGE = "pipeline.storage.NonPackagingPipelineStorage"
+else:
+    IS_LIVE = True
+    STATICFILES_STORAGE = "pipeline.storage.PipelineManifestStorage"
+
 
 LANGUAGE_CODE = "en-uk"
 
@@ -121,6 +122,7 @@ PIPELINE = {
         },
     },
     "CSS_COMPRESSOR": "django_pipeline_csscompressor.CssCompressor",
+    "JS_COMPRESSOR": "pipeline.compressors.NoopCompressor",
     "DISABLE_WRAPPER": True,
     "COMPILERS": ("pipeline.compilers.sass.SASSCompiler",),
     "SHOW_ERRORS_INLINE": False,
