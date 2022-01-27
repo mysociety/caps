@@ -44,6 +44,8 @@ $theme-colors: (
     'white': $white,
 );
 
+$yiq-contrasted-threshold: 200;
+
 // Options
 
 $enable-deprecation-messages: false;

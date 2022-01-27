@@ -4,6 +4,10 @@
     font-size: 0.8rem;
     line-height: 1em;
 
+    cursor: pointer;
+    text-decoration: none !important;
+    color: $link-color;
+
     svg {
         width: auto;
         height: 100%;
@@ -21,16 +25,10 @@
         background: $color-ceuk-grey-200;
         font-weight: bold;
     }
-}
-
-a.ceuk-tag {
-    cursor: pointer;
-    text-decoration: none;
-    color: $link-color !important;
 
     &:hover,
     &:focus {
-        color: $link-hover-color !important;
+        color: $link-hover-color;
 
         svg {
             fill: $color-ceuk-grey-100;
@@ -44,24 +42,34 @@ a.ceuk-tag {
 
 @each $color, $value in $theme-colors {
     .ceuk-tag--#{$color} {
+        color: color-yiq($value, #000, #fff);
+
+        $fill: $value;
+
         svg {
-            fill: mix($value, #fff, 15%);
+            fill: $fill;
         }
 
         span {
-            background: mix($value, #fff, 15%);
+            background: $fill;
         }
-    }
 
-    a.ceuk-tag--#{$color} {
         &:hover,
         &:focus {
+            color: color-yiq($value, #000, #fff);
+
+            @if ( color-yiq($value, true, false) ) {
+                $fill: lighten($value, 10%);
+            } @else {
+                $fill: darken($value, 10%);
+            }
+
             svg {
-                fill: mix($value, #fff, 10%);
+                fill: $fill;
             }
 
             span {
-                background: mix($value, #fff, 10%);
+                background: $fill;
             }
         }
     }
