@@ -62,7 +62,7 @@ $navbar-mobile-breakpoint: 1200px;
 
     .navbar-collapse {
         height: 0;
-        overflow: hidden;
+        overflow: visible;
         @include transition(height 0.3s ease-in-out);
         &.show-height {
             height: auto;
@@ -78,6 +78,10 @@ $navbar-mobile-breakpoint: 1200px;
                 display: block;
                 height: 0;
             }
+        }
+
+        @media only screen and (max-width: $navbar-mobile-breakpoint) {
+            overflow: hidden;
         }
     }
 }
