@@ -109,7 +109,7 @@ class PlanSection(models.Model):
         "ruc_cluster": "ruc_cluster",
         "control": "political_control",
         "population": "population",
-        "councils": "council__country",
+        "country": "council__country",
     }
 
     code = models.CharField(max_length=100)
