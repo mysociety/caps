@@ -4,6 +4,8 @@ from django.db.models import Subquery, OuterRef, Q, Avg
 from django.shortcuts import redirect, resolve_url
 from django.utils.text import Truncator
 from django.urls import reverse
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_control
 
 from django_filters.views import FilterView
 
@@ -23,6 +25,11 @@ from scoring.forms import ScoringSort
 from caps.views import BaseLocationResultsView
 from scoring.mixins import CheckForDownPageMixin
 
+cache_settings = {
+    "max-age": 60,
+    "s-maxage": 3600,
+}
+
 
 class DownPageView(TemplateView):
     template_name = "scoring/down.html"
@@ -40,6 +47,7 @@ class LogoutView(LogoutView):
     next_page = "home"
 
 
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class HomePageView(CheckForDownPageMixin, FilterView):
     filterset_class = PlanScoreFilter
     template_name = "scoring/home.html"
@@ -160,6 +168,7 @@ class HomePageView(CheckForDownPageMixin, FilterView):
         return context
 
 
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class CouncilView(CheckForDownPageMixin, DetailView):
     model = Council
     context_object_name = "council"
@@ -267,6 +276,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         return context
 
 
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class QuestionView(CheckForDownPageMixin, DetailView):
     model = PlanQuestion
     context_object_name = "question"
@@ -293,6 +303,7 @@ class QuestionView(CheckForDownPageMixin, DetailView):
         return context
 
 
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
     template_name = "scoring/location_results.html"
 
@@ -305,6 +316,7 @@ class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
         return context
 
 
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class MethodologyView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/methodology.html"
 
@@ -357,6 +369,7 @@ class MethodologyView(CheckForDownPageMixin, TemplateView):
         return context
 
 
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class AboutView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/about.html"
 
@@ -370,6 +383,7 @@ class AboutView(CheckForDownPageMixin, TemplateView):
         return context
 
 
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class ContactView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/contact.html"
 
@@ -383,6 +397,7 @@ class ContactView(CheckForDownPageMixin, TemplateView):
         return context
 
 
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class HowToUseView(TemplateView):
     template_name = "scoring/how-to-use-the-scorecards.html"
 
