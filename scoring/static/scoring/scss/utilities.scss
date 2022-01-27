@@ -175,6 +175,22 @@
     }
 }
 
+// Radio-wrapper
+
+.radio-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    
+    label {
+        margin-bottom: 0;
+        margin-left: 5px;
+    }
+}
+
 .pending {
     padding: 16px;
     background-color: rgb(247, 12, 122);
