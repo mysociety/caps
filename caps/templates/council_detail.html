@@ -204,36 +204,51 @@
         </div>
       {% endif %}
 
-      {% if not no_emissions_data %}
+      {% if emissions_data %}
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
             <div class="card-header">
                 <h2>Emissions data</h2>
             </div>
-            <div class="card-body">
-
-                <div class="row justify-content-between pr-lg-3">
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="js-sparkline mr-2">
-                            <canvas width="100" height="32" data-values="{% for datapoint in council.datapoint_set.all %}{% if datapoint.data_type.name == 'Per Capita Emissions' %} {{ datapoint.value }} {% endif %}{% endfor %}"></canvas>
+            <div class="emissions-breakdown">
+                <div class="emissions-breakdown__totals">
+                    <div class="emissions-breakdown__stat">
+                        <div>
+                            <span class="h3">{{ latest_year_total_emissions|floatformat }}</span>
+                            <abbr title="Kilotonnes of Carbon Dioxide Equivalent">ktCO2e</abbr>
                         </div>
+                        <p>Total {{ latest_year }} emissions</p>
                     </div>
-                    <div class="col-sm-6 col-lg-auto">
-                        <span class="h3 line-height-1 mb-0">{{ latest_year_total_emissions|floatformat }}</span>
-                        <abbr title="Kilotonnes of Carbon Dioxide Equivalent">ktCO2e</abbr>
-                        <p>{{ latest_year }} emissions</p>
-                    </div>
-                    <div class="col-sm-6 col-lg-auto">
-                        <span class="h3 line-height-1 mb-0">{{ latest_year_per_capita_emissions|floatformat }}</span>
-                        <abbr title="Tonnes of Carbon Dioxide Equivalent">tCO2e</abbr>
+                    <div class="emissions-breakdown__stat">
+                        <div>
+                            <span class="h3">{{ latest_year_per_capita_emissions|floatformat }}</span>
+                            <abbr title="Tonnes of Carbon Dioxide Equivalent">tCO2e</abbr>
+                        </div>
                         <p>per capita</p>
                     </div>
-                    <div class="col-sm-6 col-lg-auto">
-                        <span class="h3 line-height-1 mb-0">{{ latest_year_per_km2_emissions|floatformat }}</span>
-                        <abbr title="Kilotonnes of Carbon Dioxide Equivalent">ktCO2e</abbr>
+                    <div class="emissions-breakdown__stat">
+                        <div>
+                            <span class="h3">{{ latest_year_per_km2_emissions|floatformat }}</span>
+                            <abbr title="Kilotonnes of Carbon Dioxide Equivalent">ktCO2e</abbr>
+                        </div>
                         <p>per km<sup>2</sup></p>
                     </div>
                 </div>
-
+                <div class="emissions-breakdown__sectors">
+                  {% for n, row in current_emissions_breakdown.iterrows %}
+                    <div class="emissions-breakdown__stat">
+                      <div>
+                          <span class="h3">{{row.percentage}}</span>
+                      </div>
+                      <p>
+                          <span class="emissions-color-chip emissions-color-chip--{{row.emissions_type|slugify}}"></span>
+                          {{row.emissions_type}}
+                      </p>
+                    </div>
+                  {% endfor %}
+                </div>
+            </div>
+            <div class="card-body">
+                {% include 'charting/includes/chart-display.html' with chart=chart_collection.multi_emissions %}
                 <p class="text-muted mb-0"><small>Latest CO<sub>2</sub> estimates from <a href="https://www.gov.uk/government/statistics/uk-local-authority-and-regional-carbon-dioxide-emissions-national-statistics-2005-to-2019">the Department of Business, Energy &amp; Industrial Strategy</a>. County and combined authority data combined from constituent authorities.</small></p>
 
             </div>

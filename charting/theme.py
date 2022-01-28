@@ -138,12 +138,13 @@ font = "Lato"
 
 mysoc_theme = {
     "config": {
-        "padding": {"left": 5, "top": 5, "right": 20, "bottom": 5},
+        "padding": {"left": 0, "top": 0, "right": 0, "bottom": 0},
         "title": {
             "font": font,
-            "fontSize": 30,
+            "fontSize": 18,
             "anchor": "start",
-            "subtitleFontSize": 20,
+            "offset": 18,
+            "subtitleFontSize": 14,
             "subtitleFont": font,
         },
         "axis": {

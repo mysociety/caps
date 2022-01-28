@@ -30,6 +30,11 @@ from caps.mapit import (
     InternalServerErrorException,
     ForbiddenException,
 )
+
+import caps.charts as charts
+
+from charting import ChartCollection
+
 from caps.utils import file_size
 
 from scoring.models import (
@@ -77,6 +82,7 @@ class CouncilDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         council = context.get("council")
 
+        context["emissions_data"] = False
         try:
             latest_year = council.datapoint_set.aggregate(Max("year"))["year__max"]
             context["latest_year"] = latest_year
@@ -94,8 +100,17 @@ class CouncilDetailView(DetailView):
             ] = latest_year_per_capita_emissions
             context["latest_year_per_km2_emissions"] = latest_year_per_km2_emissions
             context["latest_year_total_emissions"] = latest_year_total_emissions
+            context["emissions_data"] = True
         except DataPoint.DoesNotExist:
-            context["no_emissions_data"] = True
+            pass
+
+        if context["emissions_data"]:
+            context[
+                "current_emissions_breakdown"
+            ] = council.current_emissions_breakdown()
+            multi_emission_chart = charts.multi_emissions_chart(council)
+            context["chart_collection"] = ChartCollection()
+            context["chart_collection"].register(multi_emission_chart)
 
         # this covers no scoring data at all
         try:

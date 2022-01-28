@@ -1,0 +1,88 @@
+$emissions-breakdown-accent-color: $color-ceuk-purple;
+$emissions-sector-colors: (
+    "commercial": $color-ceuk-blue,
+    "domestic": $color-ceuk-navy,
+    "industry": $color-ceuk-red,
+    "public-sector": $color-ceuk-orange,
+    "transport": $color-ceuk-yellow,
+);
+
+.emissions-breakdown {
+
+}
+
+.emissions-breakdown__totals {
+    display: flex;
+
+    & > :first-child {
+        background: $emissions-breakdown-accent-color;
+        color: color-yiq($emissions-breakdown-accent-color);
+        margin-bottom: -1px;
+        position: relative;
+
+        &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+            border-top: 0;
+            border-right: 0.5rem solid transparent;
+            border-bottom: 0.5rem solid mix($emissions-breakdown-accent-color, $card-bg, 5%);
+            border-left: 0.5rem solid transparent;
+        }
+    }
+
+    & > * + * {
+        border-right: 1px solid $border-color;
+
+        @include media-breakpoint-down('xs') {
+            display: none;
+        }
+    }
+}
+
+.emissions-breakdown__sectors {
+    background: mix($emissions-breakdown-accent-color, $card-bg, 5%);
+    border-top: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
+    display: flex;
+    overflow-x: auto;
+}
+
+.emissions-breakdown__stat {
+    padding: 1.25rem $card-spacer-x;
+
+    .h3 {
+        line-height: 1;
+    }
+
+    p {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0;
+        margin-top: 0.25rem;
+        line-height: 1;
+        white-space: nowrap;
+
+        & > * {
+            flex: 0 0 auto;
+        }
+    }
+}
+
+.emissions-color-chip {
+    display: inline-block;
+    width: 0.7em;
+    height: 0.7em;
+    margin-right: 0.25rem;
+    border-radius: $border-radius-sm;
+}
+
+@each $sector, $color in $emissions-sector-colors {
+    .emissions-color-chip--#{$sector} {
+        background-color: $color;
+        border: 1px solid mix($color, #000, 90%);
+    }
+}

@@ -5,7 +5,7 @@ import re
 from copy import deepcopy
 from itertools import groupby, chain
 from pathlib import Path
-from typing import Optional, Type, List
+from typing import Optional, Type, List, Callable, Union, Tuple
 from collections import defaultdict
 
 import dateutil.parser
@@ -43,6 +43,37 @@ def save_df_to_model(model: Type[models.Model], df: pd.DataFrame):
     records = df[good_cols].to_dict("records")
     items = [model(**kwargs) for kwargs in records]
     model.objects.bulk_create(items, batch_size=1000)
+
+
+class CustomQuerySet(models.QuerySet):
+    """
+    Include some extra functions on querysets avaliable to models
+    """
+
+    def pipe(self, item: Callable):
+        return item(self)
+
+    def to_dataframe(
+        self, *args: Union[str, Tuple[str, str]], **kwargs
+    ) -> pd.DataFrame:
+        """
+        Args will be passed to queryset.values.
+        A tuple can be passed to rename a field in the dataframe.
+        e.g. ("field_in_other_model__name", "model_name")
+        will return a model name
+        """
+        rename_map = {x[0]: x[1] for x in args if isinstance(x, tuple)}
+        items = [x[0] if isinstance(x, tuple) else x for x in args]
+        return (
+            self.values(*items, **kwargs).pipe(pd.DataFrame).rename(columns=rename_map)
+        )
+
+
+class CapsModel(models.Model):
+    objects = CustomQuerySet.as_manager()
+
+    class Meta:
+        abstract = True
 
 
 class Council(models.Model):
@@ -208,6 +239,33 @@ class Council(models.Model):
             )
 
         return results
+
+    def current_emissions_breakdown(self) -> pd.DataFrame:
+        """
+        Get emissions breakdown for current year by Emissions profile
+        """
+
+        totals = [
+            "Industry Total",
+            "Commercial Total",
+            "Public Sector Total",
+            "Transport Total",
+            "Domestic Total",
+        ]
+
+        df = (
+            DataPoint.objects.filter(
+                council=self, data_type__name_in_source__in=totals, year=2019
+            )
+            .to_dataframe(("data_type__name_in_source", "emissions_type"), "value")
+            .assign(percentage=lambda df: df["value"] / df["value"].sum())
+            .sort_values("emissions_type")
+        )
+
+        df["emissions_type"] = df["emissions_type"].str.replace(" Total", "")
+        df["percentage"] = df["percentage"].apply("{:.0%}".format)
+
+        return df
 
     def get_scoring_group(self):
         if self.authority_type in ("CC", "LBO", "MD", "UA"):
@@ -579,7 +637,7 @@ class DataType(models.Model):
         return self.name
 
 
-class DataPoint(models.Model):
+class DataPoint(CapsModel):
 
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -864,7 +922,9 @@ class ComparisonLabelAssignment(models.Model):
     Relation of label to council
     """
 
-    label = models.ForeignKey(ComparisonLabel, on_delete=models.CASCADE)
+    label = models.ForeignKey(
+        ComparisonLabel, on_delete=models.CASCADE, related_name="assignments"
+    )
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
 
     @classmethod
