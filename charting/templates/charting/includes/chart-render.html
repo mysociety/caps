@@ -1,0 +1,21 @@
+{% load static %}
+
+<script src="{% static 'vega/vega.5.9.0.js' %}"></script>
+<script src="{% static 'vega/vega-lite.4.8.1.js' %}"></script>
+<script src="{% static 'vega/vega-embed.6.2.1.js' %}"></script>
+<script src="{% static 'charting/js/altair_fallback.js' %}"></script>
+
+
+<script type="text/javascript">
+
+      async function drawCharts() {
+        {% for chart in chart_collection %}
+            {% include 'charting/includes/chart-js.html' with chart=chart%}
+        {% endfor %}
+      }
+      
+document.addEventListener('DOMContentLoaded', function() {
+      document.fonts.ready.then(() => drawCharts())
+}, false);
+
+</script>

@@ -1,0 +1,25 @@
+var {{chart.ident}}_spec = {{chart.spec|safe}};
+const {{chart.ident}} = document.getElementById('{{chart.ident}}');
+{% if chart.ratio %}
+height = {{chart.ident}}.clientWidth / {{chart.ratio}}
+{{chart.ident}}.style.height = height + "px";
+{% endif %}
+{% if chart.facet_width %}
+    facet_width = {{chart.ident}}.clientWidth / {{chart.facet_width}}
+    {{chart.ident}}_spec["width"] = Math.floor(facet_width);
+{% endif %}
+results = await vegaEmbed("#{{chart.ident}}", {{chart.ident}}_spec, embed_opt);
+const {{chart.ident}}_view = results.view;
+
+if (window.hasOwnProperty('ClipboardItem')) {
+    {{chart.ident}}_print_action = document.createElement('a');
+    {{chart.ident}}_print_action.href = "#";
+    {{chart.ident}}_print_action.textContent = "Copy (for print)";
+    {{chart.ident}}_print_action.onclick = function(event) {toClipboardPrint({{chart.ident}}, {{chart.ident}}_view, {{chart.ident}}_spec,); event.preventDefault();};
+    {{chart.ident}}.querySelector('.vega-actions').appendChild({{chart.ident}}_print_action)
+    {{chart.ident}}_web_action = document.createElement('a');
+    {{chart.ident}}_web_action.href = "#";
+    {{chart.ident}}_web_action.textContent = "Copy (for web)";
+    {{chart.ident}}_web_action.onclick = function(event) {toClipboard({{chart.ident}}, {{chart.ident}}_view, {{chart.ident}}_spec, "{{chart.data_source|safe}}", "{{chart.logo_src}}"); event.preventDefault();};
+    {{chart.ident}}.querySelector('.vega-actions').appendChild({{chart.ident}}_web_action)
+}

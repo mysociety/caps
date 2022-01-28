@@ -119,7 +119,7 @@ PIPELINE = {
     },
     "JAVASCRIPT": {
         "caps": {
-            "source_filenames": ("caps/js/main.js",),
+            "source_filenames": ("caps/js/main.js"),
             "output_filename": "js/caps.js",
         },
     },
@@ -184,6 +184,7 @@ INSTALLED_APPS = [
     "simple_history",
     "caps",
     "scoring",
+    "charting",
 ]
 
 HAYSTACK_CONNECTIONS = {

@@ -1,0 +1,16 @@
+<div class="chart-and-title">
+    <div id="{{chart.ident}}" style="width:100%" role="img" alt="Chart: {{chart.alt_title}}" longdesc="#longdesc_{{chart.ident}}"></div>
+    {% comment %}
+    # Issue with long uris from this chart, commented out until fixed.
+    <img _src="{{chart.image_url|safe}}" class="es5" alt="Chart: {{chart.alt_title}}" longdesc="#longdesc_{{chart.ident}}" style="display:none">
+    <noscript>
+    <img src="{{chart.image_url|safe}}" class="" alt="Chart: {{chart.alt_title}}" longdesc="#longdesc_{{chart.ident}}">
+    </noscript>
+    {% endcomment %}
+</div>
+
+<div id="longdesc_{{chart.ident}}" class="longdesc" style="display:none">
+    <p>Dataframe for chart: {{chart.alt_title}}<p>
+    
+    {{chart.df.to_html|safe}}
+    </div>

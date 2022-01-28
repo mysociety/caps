@@ -65,6 +65,11 @@
     <script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'chartjs/Chart.min.js' %}"></script>
     <script src="{% static 'caps/js/main.js' %}"></script>
+
+    {% if chart_collection %}
+    {% include 'charting/includes/chart-render.html' %}
+    {% endif %}
+
     {% block extrafooterscript %}{% endblock %}
 </body>
 </html>
