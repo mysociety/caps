@@ -90,6 +90,10 @@ STATICFILES_DIRS = (
         os.path.join(BASE_DIR, "vendor", "chartjs"),
     ),
     (
+        "vega",
+        os.path.join(BASE_DIR, "vendor", "vega"),
+    ),
+    (
         "awesomplete",
         os.path.join(BASE_DIR, "vendor", "awesomplete"),
     ),
