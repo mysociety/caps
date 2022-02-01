@@ -1,27 +1,72 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 
-<div style="max-width: 40em">
+<h1 class="mb-4 mb-lg-5">About this project</h1>
 
-    <h1 class="mb-4">About this project</h1>
+<div class="row">
+    <div class="col-md-4 col-lg-3">
 
-    <p>This is the first public demo of a site that collects UK Council Climate Action Plans in a single database, alongside some data on area emissions estimates within the scope of influence of councils.</p>
+        {% include "includes/about-subnav.html" %}
 
-    <p>It’s being developed by <a href="https://www.climateemergency.uk/">ClimateEmergency.uk</a> and <a href="https://www.mysociety.org">mySociety</a>, with input from a range of council climate officers, climate specialists, researchers, and journalists. We hope that it will soon allow anyone to quickly and easily find out if their council has a plan, and put those plans into context.</p>
+    </div>
+    <div class="col-md-8 offset-lg-1">
 
-    <p><a href="https://www.mysociety.org/2020/11/06/making-it-easier-to-explore-council-climate-action-plans/">Read more about the project background, here.</a></p>
+        <p>The <strong>Climate Action Plan Explorer</strong> collects UK Council Climate Action Plans in a single database, alongside some data on area emissions estimates within the scope of influence of councils.</p>
 
-    <h2 class="mt-5">Data sources</h2>
+        <p>It’s being developed by <a href="https://www.climateemergency.uk/">Climate Emergency UK</a> and <a href="https://www.mysociety.org">mySociety</a>, with input from a range of council climate officers, climate specialists, researchers, and journalists. We hope that it will soon allow anyone to quickly and easily find out if their council has a plan, and put those plans into context.</p>
 
-    <p>There is more about our both the source of our data and how you can access it on the <a href="{% url 'about_data' %}">Our data</a> page.
+        <p class="mt-4"><a class="d-inline-flex align-items-center" href="https://www.mysociety.org/2020/11/06/making-it-easier-to-explore-council-climate-action-plans/">
+            Read more about the project background.
+            {% include 'icons/chevron-right.html' with classes='ml-1' %}
+        </a></p>
 
-    <h2 class="mt-5">Got feedback? Want to contribute?</h2>
+        <h2 class="mt-5 mb-4" id="sources">Data sources</h2>
 
-    <p>Take <a href="{{settings.SURVEY_URL}}">our user survey</a> to give us feedback about the kind of groups using the service.</p>
-    
-    <p>If you have more detailed feedback or questions, email us at <a href="mailto:climate-councils@mysociety.org">climate-councils@mysociety.org</a>.</p>
+        <div class="mt-4 d-flex flex-wrap">
+            <a href="https://climateemergency.uk">
+                <img src="{% static 'caps/img/logo-ceuk.png' %}" width="340" height="150" alt="Climate Emergency UK" class="d-block mr-3 mb-3 rounded shadow-sm" style="height: 75px; width: auto;">
+            </a>
+        </div>
 
+        <p>Much of our data is crowdsourced by an army of volunteers filling in Google spreadsheets. This is then combined with some standard data to enable it to be matched up across sources.</a>
+
+        <p>Links to council climate action plans were crowdsourced <a href="https://docs.google.com/spreadsheets/d/1tEnjJRaWsdXtCkMwA25-ZZ8D75zAY6c2GOOeUchZsnU/edit">in this spreadsheet</a>. If you find a plan document that we’ve missed, <a href="https://docs.google.com/document/d/1oGFkzhZkTCfEBUeJIdMb9aOfuqPoCHkUMTJxROsRRow/edit">read our guide</a> on what we consider a climate action plan and how to add one to our spreadsheet.</p>
+
+        <p>Council climate emergency declarations and net zero commitments were largely collated by <a href="https://www.climateemergency.uk/">Climate Emergency UK</a> staff.</p>
+
+        <div class="mt-4 d-flex flex-wrap">
+            <a href="https://www.gov.uk/government/organisations/department-for-business-energy-and-industrial-strategy">
+                <img src="{% static 'caps/img/logo-beis.png' %}" width="260" height="150" alt="Department of Business, Energy &amp; Industrial Strategy" class="d-block mr-3 mb-3 rounded shadow-sm" style="height: 75px; width: auto;">
+            </a>
+        </div>
+
+        <p>Local authority CO<sub>2</sub> emissions estimates are collated by <a href="https://www.gov.uk/government/statistics/uk-local-authority-and-regional-carbon-dioxide-emissions-national-statistics-2005-to-2019">the Department of Business, Energy &amp; Industrial Strategy</a>.</p>
+
+        <div class="mt-4 d-flex flex-wrap">
+            <a href="https://councilclimatescorecards.uk">
+                <img src="{% static 'caps/img/logo-scorecards.png' %}" width="380" height="150" alt="Council Climate Plan Scorecards" class="d-block mr-3 mb-3 rounded shadow-sm" style="height: 75px; width: auto;">
+            </a>
+            <a href="https://www.mapolitical.com">
+                <img src="{% static 'caps/img/logo-mapolitical.png' %}" width="580" height="150" alt="Mapolitical" class="d-block mr-3 mb-3 rounded shadow-sm" style="height: 75px; width: auto;">
+            </a>
+        </div>
+
+        <p>We make use of data from our <a href="https://councilclimatescorecards.uk">Council Climate Plan Scorecards</a> project, which was collected with the support of <a href="https://www.mapolitical.com/">Mapolitical</a>, who donated their UK Government Political Stakeholder data and Look-up API to help us communicate with local authority officers. <a href="https://councilclimatescorecards.uk/about/">Read more on the Council Climate Plan Scorecards site.</a></p>
+
+        <p class="mt-4"><a class="d-inline-flex align-items-center" href="{% url 'about_data' %}">
+            Read more about how to understand and re-use our data.
+            {% include 'icons/chevron-right.html' with classes='ml-1' %}
+        </a>
+
+        <h2 class="mt-5 mb-4" id="feedback">Got feedback? Want to contribute?</h2>
+
+        <p>Take <a href="{{settings.SURVEY_URL}}">our user survey</a> to give us feedback about the kind of groups using the service.</p>
+
+        <p>If you have more detailed feedback or questions, email us at <a href="mailto:climate-councils@mysociety.org">climate-councils@mysociety.org</a>.</p>
+
+    </div>
 </div>
 
 {% endblock %}
