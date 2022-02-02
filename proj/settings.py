@@ -161,6 +161,13 @@ SCORED_PLANS_CSV_SHEET_NAME = "Council Tracker"
 SCORED_PLANS_CSV_NAME = "scored_plans.csv"
 SCORED_PLANS_CSV = os.path.join(DATA_DIR, SCORED_PLANS_CSV_NAME)
 
+TAGS_CSV_KEY = "1MwNlJIh8DhGxx3DD7oJPh8DQQqO1wt4LqcwvxnH-Agk"
+TAGS_CSV_NAME = "tags.csv"
+TAGS_CSV = os.path.join(DATA_DIR, TAGS_CSV_NAME)
+COUNCIL_TAGS_CSV_SHEET_NAME = "Councils for Tag"
+COUNCIL_TAGS_CSV_NAME = "council_tags.csv"
+COUNCIL_TAGS_CSV = os.path.join(DATA_DIR, COUNCIL_TAGS_CSV_NAME)
+
 # Application definition
 
 INSTALLED_APPS = [

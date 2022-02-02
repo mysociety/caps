@@ -4,7 +4,12 @@ from django.test import TestCase
 
 import unittest
 from django.core.management import call_command
-from caps.models import Council, PlanDocument, Promise
+from caps.models import Council, PlanDocument, Promise, Tag, CouncilTag
+
+from caps.management.commands.import_council_tags import (
+    create_tags,
+    create_council_tags,
+)
 
 
 class ImportTestCase(TestCase):
@@ -299,3 +304,44 @@ class ImportPromisesTestCase(ImportTestCase):
             self.assertEqual(council.name, "East Borsetshire")
 
             self.assertEqual(Promise.objects.filter(council=council).count(), 0)
+
+
+class ImportTagsTestCase(TestCase):
+    fixtures = ["test_council_tags.json"]
+
+    def test_import_tags(self):
+        with self.settings(TAGS_CSV="caps/tests/test_tags.csv"):
+            create_tags()
+
+            tag = Tag.objects.get(slug="a-tag")
+            self.assertEqual(tag.name, "A Tag")
+            self.assertEqual(tag.colour, "red")
+            self.assertEqual(tag.description_singular, "Singular description")
+            self.assertEqual(tag.description_plural, "Plural description")
+            self.assertEqual(tag.image_url, "http://example.org/image.png")
+
+    def test_import_council_tags(self):
+        with self.settings(
+            TAGS_CSV="caps/tests/test_tags.csv",
+            COUNCIL_TAGS_CSV="caps/tests/test_council_tags.csv",
+        ):
+            create_tags()
+            create_council_tags()
+
+            tag = Tag.objects.get(slug="a-tag")
+            council = Council.objects.get(authority_code="BRS")
+
+            council_tag = CouncilTag.objects.get(tag=tag, council=council)
+            self.assertIsNotNone(council_tag)
+
+            tag = Tag.objects.get(slug="top-gov")
+            count = CouncilTag.objects.filter(tag=tag).count()
+            self.assertEqual(count, 1)
+
+            tag = Tag.objects.get(slug="listed")
+            count = CouncilTag.objects.filter(tag=tag).count()
+            self.assertEqual(count, 2)
+
+            tag = Tag.objects.get(slug="question")
+            count = CouncilTag.objects.filter(tag=tag).count()
+            self.assertEqual(count, 2)

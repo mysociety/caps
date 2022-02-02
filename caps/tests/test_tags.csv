@@ -1,0 +1,5 @@
+name,slug,description_singular,description_plural,colour,image_url,top_scorer,top_section_scorer,full_q_marks,listed
+A Tag,a-tag,Singular description,Plural description,red,http://example.org/image.png,1,,,
+Top gov,top-gov,Singular description,Plural description,red,http://example.org/image.png,0,s1_gov,,
+Listed,listed,Singular description,Plural description,red,http://example.org/image.png,0,,,1
+Question,question,Singular description,Plural description,red,http://example.org/image.png,0,,s1_gov_q1_sp1,
