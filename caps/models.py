@@ -983,3 +983,17 @@ class Distance(models.Model):
         df = df[has_both]
         cls.objects.all().delete()
         save_df_to_model(cls, df)
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.CharField(max_length=200, unique=True)
+    description_singular = models.TextField()
+    description_plural = models.TextField()
+    colour = models.CharField(max_length=50)
+    image_url = models.URLField(blank=True)
+
+
+class CouncilTag(models.Model):
+    council = models.ForeignKey(Council, on_delete=models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
