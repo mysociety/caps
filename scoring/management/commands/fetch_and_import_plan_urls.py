@@ -1,32 +1,26 @@
 import os
 import re
-import requests
-import urllib3
 
 import pandas as pd
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.db import transaction
 
-from caps.import_utils import add_authority_codes, add_gss_codes
+from caps.import_utils import get_google_sheet_as_csv
 
 from scoring.models import PlanScore, PlanScoreDocument
 
-import ssl
-
-ssl._create_default_https_context = ssl._create_unverified_context
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 SCORED_PLANS_CSV = os.path.join(settings.DATA_DIR, "scored_plans.csv")
 
 
 def get_scored_plans():
-    # Get the google doc as a CSV file
-    sheet_url = f"https://docs.google.com/spreadsheets/d/{settings.SCORED_PLANS_CSV_KEY}/gviz/tq?tqx=out:csv&sheet={settings.SCORED_PLANS_CSV_SHEET_NAME}"
-    r = requests.get(sheet_url)
-    with open(settings.SCORED_PLANS_CSV, "wb") as outfile:
-        outfile.write(r.content)
+    get_google_sheet_as_csv(
+        settings.SCORED_PLANS_CSV_KEY,
+        settings.SCORED_PLANS_CSV,
+        settings.SCORED_PLANS_CSV_SHEET_NAME,
+    )
 
 
 @transaction.atomic

@@ -14,6 +14,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
 from caps.models import PlanDocument
+from caps.import_utils import get_google_sheet_as_csv, replace_csv_headers
 
 import ssl
 
@@ -112,39 +113,38 @@ def get_individual_plans(get_all):
 
 
 def get_plans_csv():
-    # Get the google doc as a CSV file
-    sheet_url = f"https://docs.google.com/spreadsheets/d/{settings.PLANS_CSV_KEY}/gviz/tq?tqx=out:csv&sheet={settings.PLANS_CSV_SHEET_NAME}"
-    r = requests.get(sheet_url)
-    with open(settings.RAW_CSV, "wb") as outfile:
-        outfile.write(r.content)
+    get_google_sheet_as_csv(
+        settings.PLANS_CSV_KEY,
+        settings.RAW_CSV,
+        sheet_name=settings.PLANS_CSV_SHEET_NAME,
+    )
 
 
 # Replace the column header lines
 def replace_headers():
-    df = pd.read_csv(settings.RAW_CSV)
-    df = df.dropna(axis="columns", how="all")
-
-    df.columns = [
-        "council",
-        "search_link",
-        "unfound",
-        "credit",
-        "url",
-        "date_retrieved",
-        "time_period",
-        "type",
-        "scope",
-        "status",
-        "homepage_mention",
-        "dedicated_page",
-        "well_presented",
-        "baseline_analysis",
-        "notes",
-        "plan_due",
-        "title",
-        "title_checked",
-    ]
-    df.to_csv(open(settings.PROCESSED_CSV, "w"), index=False, header=True)
+    replace_csv_headers(
+        settings.RAW_CSV,
+        [
+            "council",
+            "search_link",
+            "unfound",
+            "credit",
+            "url",
+            "date_retrieved",
+            "time_period",
+            "type",
+            "scope",
+            "status",
+            "homepage_mention",
+            "dedicated_page",
+            "well_presented",
+            "baseline_analysis",
+            "notes",
+            "plan_due",
+            "title",
+            "title_checked",
+        ],
+    )
 
 
 class Command(BaseCommand):

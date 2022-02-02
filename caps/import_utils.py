@@ -22,6 +22,25 @@ AUTHORITY_DATA_NAME = "uk_local_authorities.csv"
 AUTHORITY_DATA = join(settings.DATA_DIR, AUTHORITY_DATA_NAME)
 
 
+def get_google_sheet_as_csv(key, outfile, sheet_name=None):
+    sheet_url = f"https://docs.google.com/spreadsheets/d/{key}/gviz/tq?tqx=out:csv"
+    if sheet_name is not None:
+        sheet_url = f"{sheet_url}&sheet={sheet_name}"
+    r = requests.get(sheet_url)
+
+    with open(outfile, "wb") as outfile:
+        outfile.write(r.content)
+
+
+def replace_csv_headers(csv_file, new_headers, drop_empty_columns=True):
+    df = pd.read_csv(csv_file)
+    if drop_empty_columns:
+        df = df.dropna(axis="columns", how="all")
+
+    df.columns = new_headers
+    df.to_csv(open(csv_file, "w"), index=False, header=True)
+
+
 def get_data_files():
 
     data_files = [

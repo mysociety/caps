@@ -1,31 +1,29 @@
-import requests
-import urllib3
-
 from time import sleep
 
 import pandas as pd
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.db import transaction
 
 from caps.models import Council, PlanDocument, EmergencyDeclaration
-from caps.import_utils import add_authority_codes, add_gss_codes
+from caps.import_utils import (
+    add_authority_codes,
+    add_gss_codes,
+    get_google_sheet_as_csv,
+    replace_csv_headers,
+)
 
-import ssl
-
-ssl._create_default_https_context = ssl._create_unverified_context
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 good_data = False
 
 
 def get_promises():
-    # Get the google doc as a CSV file
-    sheet_url = f"https://docs.google.com/spreadsheets/d/{settings.DECLARATIONS_CSV_KEY}/gviz/tq?tq=options%20no_format&tqx=out:csv&sheet={settings.DECLARATIONS_CSV_SHEET_NAME}"
-    r = requests.get(sheet_url)
-    with open(settings.DECLARATIONS_CSV, "wb") as outfile:
-        outfile.write(r.content)
+    get_google_sheet_as_csv(
+        settings.DECLARATIONS_CSV_KEY,
+        settings.DECLARATIONS_CSV,
+        sheet_name=settings.DECLARATIONS_CSV_SHEET_NAME,
+    )
 
 
 def check_sheet_ok(header):
@@ -67,30 +65,29 @@ def fetch_promises():
 
 # Replace the column header lines
 def replace_headers():
-    df = pd.read_csv(settings.DECLARATIONS_CSV)
-    df = df.dropna(axis="columns", how="all")
-
-    df.columns = [
-        "council",
-        "council_type",
-        "council_region",
-        "control_at_declaration",
-        "control_now",
-        "leader",
-        "proposer",
-        "made_declaration",
-        "date_made",
-        "motion_link",
-        "ref_to_adaptation",
-        "ecological_emergency",
-        "ref_to_nature",
-        "call_to_gov",
-        "carbon_neutral_date",
-        "carbon_neutral_whole_date",
-        "notes",
-        "motion_url",
-    ]
-    df.to_csv(open(settings.DECLARATIONS_CSV, "w"), index=False, header=True)
+    replace_csv_headers(
+        settings.DECLARATIONS_CSV,
+        [
+            "council",
+            "council_type",
+            "council_region",
+            "control_at_declaration",
+            "control_now",
+            "leader",
+            "proposer",
+            "made_declaration",
+            "date_made",
+            "motion_link",
+            "ref_to_adaptation",
+            "ecological_emergency",
+            "ref_to_nature",
+            "call_to_gov",
+            "carbon_neutral_date",
+            "carbon_neutral_whole_date",
+            "notes",
+            "motion_url",
+        ],
+    )
 
 
 """
