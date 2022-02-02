@@ -1,4 +1,11 @@
-<a href="{{ href }}" class="ceuk-tag {{ classes }}">
+{% if tag %}
+<a href="{% url "tag" tag.slug %}" class="ceuk-tag ceuk-tag--{{ tag.colour }}" title="{{ tag.description_singular }}">
     <svg width="10" height="20" viewBox="0 10 10 20" xmlns="http://www.w3.org/2000/svg"><path d="M20 0v40L0 20 20 0ZM8 18a2 2 0 1 1-.001 4.001A2 2 0 0 1 8 18Z"/></svg>
-    <span>{{ content }}</span>
+    <span>{{ tag.name }}</span>
 </a>
+{% else %}
+<a href="{{ href }}" class="ceuk-tag {% if colour %}ceuk-tag--{{ colour }}{% endif %}" title="{{ description }}">
+    <svg width="10" height="20" viewBox="0 10 10 20" xmlns="http://www.w3.org/2000/svg"><path d="M20 0v40L0 20 20 0ZM8 18a2 2 0 1 1-.001 4.001A2 2 0 0 1 8 18Z"/></svg>
+    <span>{{ name }}</span>
+</a>
+{% endif %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block before_content %}
+
+<div class="council-hero">
+    <div class="container-fluid">
+        <a href="{% url 'tag_list' %}" class="d-inline-flex align-items-center">
+            {% include 'icons/chevron-left.html' with classes="mr-1" %}
+            Back to all features
+        </a>
+        <h1 class="mt-3">{{ tag.name }}</h1>
+        <p class="mt-2 mb-0 lead">{{ tag.description_plural }}</p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-8">
+
+        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+            <div class="card-header">
+                <h3>{{ councils|length }} council{{ councils|pluralize }}</h3>
+            </div>
+            <div class="ceuk-data-table">
+                {% include 'includes/council-table.html' with councils=councils %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -313,6 +313,21 @@
     </div>
     <div class="col-md-5 col-lg-4 order-md-1">
 
+      {% if tags %}
+        <div class="card ceuk-card ceuk-card--purple mb-gutter">
+            <div class="card-header">
+                <h2>Features</h2>
+            </div>
+            <div class="card-body">
+                <div class="ceuk-tag-list">
+                  {% for tag in tags %}
+                    {% include 'includes/tag.html' with tag=tag.tag %}
+                  {% endfor %}
+                </div>
+            </div>
+        </div>
+      {% endif %}
+
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
             <div class="card-header">
                 <h2>Powers &amp; Responsibilities</h2>

@@ -1,4 +1,4 @@
-from random import shuffle
+from random import shuffle, sample, randint
 
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
@@ -21,6 +21,8 @@ from caps.models import (
     DataPoint,
     SavedSearch,
     ComparisonType,
+    Tag,
+    CouncilTag,
 )
 from caps.forms import HighlightedSearchForm
 from caps.mapit import (
@@ -189,6 +191,11 @@ class CouncilDetailView(DetailView):
         context["last_updated"] = council.plandocument_set.aggregate(
             last_update=Max("updated_at"), last_found=Max("date_first_found")
         )
+
+        context["tags"] = CouncilTag.objects.filter(council=council).select_related(
+            "tag"
+        )
+
         context["page_title"] = council.name
 
         if council.emergencydeclaration_set.count() > 0:
@@ -200,7 +207,7 @@ class CouncilListView(FilterView):
 
     filterset_class = CouncilFilter
     template_name = "council_list.html"
-    extra_context = {"page_title": "All councils"}
+    extra_context = {"page_title": "Find a council"}
 
     def get_queryset(self):
         return Council.objects.annotate(
@@ -310,6 +317,42 @@ class LocationResultsView(BaseLocationResultsView):
             context["page_title"] = "Find your council’s action plan"
 
         return context
+
+
+class TagDetailView(DetailView):
+
+    model = Tag
+    context_object_name = "tag"
+    template_name = "tag_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        tag = context["tag"]
+        context["page_title"] = "Feature: {}".format(tag.name)
+
+        tagged = CouncilTag.objects.filter(tag=tag).values_list("council", flat=True)
+
+        councils = Council.objects.filter(id__in=list(tagged)).annotate(
+            num_plans=Count("plandocument"),
+            has_promise=Count("promise"),
+            earliest_promise=Min("promise__target_year"),
+            declared_emergency=Min("emergencydeclaration__date_declared"),
+            last_plan_update=Max("plandocument__updated_at"),
+        )
+        context["councils"] = councils
+
+        return context
+
+
+class TagListView(ListView):
+    model = Tag
+    context_object_name = "tags"
+    template_name = "tag_list.html"
+    extra_context = {"page_title": "Browse councils by feature"}
+
+    def get_queryset(self):
+        return Tag.objects.annotate(num_councils=Count("counciltag"))
 
 
 class AboutView(TemplateView):

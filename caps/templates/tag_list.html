@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block before_content %}
+
+<div class="council-hero">
+    <div class="container-fluid">
+        <h1 class="my-0">Browse by feature</h1>
+        <p class="mt-2 mb-0 lead">We’ve selected the councils with the most exemplary plans in a number of topic areas</p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  {% for tag in tags %}
+    <div class="col-sm-6 col-lg-4 mb-gutter">
+        <div class="card h-100">
+            <img class="card-img-top" src="{{ tag.image_url }}">
+            <div class="card-body d-flex flex-column">
+                <h2 class="h4 card-title">
+                    <a href="{% url 'tag' tag.slug %}" class="stretched-link">{{ tag.name }}</a>
+                </h2>
+                <div class="card-text d-flex flex-column flex-grow-1">
+                    <p>
+                        {{ tag.description_plural }}
+                    </p>
+                    <p class="mt-auto mb-0 text-muted">
+                        <span class="badge badge-pill badge-secondary mr-1" style="vertical-align: 0.05em;">{{ tag.num_councils }}</span> council{{ tag.num_councils|pluralize }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+  {% endfor %}
+</div>
+  
+{% endblock %}
