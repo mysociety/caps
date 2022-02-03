@@ -24,13 +24,13 @@
 
         <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
             <div class="card-header">
-                <h3>
+                <h2>
                   {% if filter.qs.count == 1 %}
                     {{ filter.qs.count }} council
                   {% else %}
                     {{ filter.qs.count }} councils
                   {% endif %}
-                </h3>
+                </h2>
             </div>
             <div class="ceuk-data-table">
               {% if filter.qs %}
