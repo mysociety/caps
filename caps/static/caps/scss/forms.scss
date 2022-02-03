@@ -1,0 +1,16 @@
+.form-control {
+    &:focus {
+        outline: 2px solid darken($color-ceuk-purple, 30%);
+        border-color: darken($color-ceuk-purple, 30%);
+        box-shadow: 0 0 0 5px $color-ceuk-yellow;
+    }
+}
+
+.btn {
+    &:focus {
+        background-color: $color-ceuk-yellow !important;
+        color: darken($color-ceuk-purple, 30%) !important;
+        border-color: darken($color-ceuk-purple, 30%);
+        box-shadow: 0 0 0 2px darken($color-ceuk-purple, 30%);
+    }
+}
