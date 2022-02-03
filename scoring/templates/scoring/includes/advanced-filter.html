@@ -7,6 +7,9 @@ data-popup-trigger="one" type="button">Advanced filters</button>
     </div>
     <form action=".">
         <div class="d-flex flex-wrap justify-content-between">
+            {% if filter_auth_type %}
+            <input type="hidden" name="council_type" value="{{ authority_type }}">
+            {% endif %}
 
           {% if authority_type == 'single' %}
             <fieldset class="criteria-group-wrapper">

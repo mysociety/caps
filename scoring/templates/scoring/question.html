@@ -38,22 +38,13 @@
                         <div class="question-content">{{ question.text | linebreaks }}</div>
                         <button class="btn-open-question mt-3" type="button">Display more</button>
                     </div>
-                    {% comment %} TODO a list with all the subpoint questions {% endcomment %}
+                    {% for sub_question in sub_questions %}
                     <div class="label-wrapper horizontal ml-2" style="margin-bottom:32px">
-                        <p class="label is--smaller green-light mb-2">{{ question.code }}</p>
-                        <div class="question-content">{{ question.text | linebreaks }}</div>
+                        <p class="label is--smaller green-light mb-2">{{ sub_question.code }}</p>
+                        <div class="question-content">{{ sub_question.text | linebreaks }}</div>
                         <button class="btn-open-question mt-3" type="button">Display more</button>
                     </div>
-                    <div class="label-wrapper horizontal ml-2" style="margin-bottom:32px">
-                        <p class="label is--smaller green-light mb-2">{{ question.code }}</p>
-                        <div class="question-content">{{ question.text | linebreaks }}</div>
-                        <button class="btn-open-question mt-3" type="button">Display more</button>
-                    </div>
-                    <div class="label-wrapper horizontal ml-2" style="margin-bottom:32px">
-                        <p class="label is--smaller green-light mb-2">{{ question.code }}</p>
-                        <div class="question-content">{{ question.text | linebreaks }}</div>
-                        <button class="btn-open-question mt-3" type="button">Display more</button>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -65,11 +56,23 @@
         <h3 class="mb-4 mb-lg-5">Individual question performance</h3>
         <div id="top-filter" class="row bg-white mx-auto" style="max-width:100%">
             <div class="table-filter col-12 col-lg-7 py-3">
-                    {% include 'scoring/includes/main-filter.html' %}
+                <form class="form">
+                    <h6 class="mb-3">Find your council’s Scorecard</h6>
+                    <input class="form-control searchbar blue light js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
+                    <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+                    <h6 class="mt-4 mt-lg-5 mb-2">Filter the table by type of council</h6>
+                    <div class="type-council-option-wrapper">
+                        <a class="radio-btn is--with-label{% if authority_type == 'single' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=single">Single Tier</a>
+                        <a class="radio-btn is--with-label{% if authority_type == 'district' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=district">District</a>
+                        <a class="radio-btn is--with-label{% if authority_type == 'county' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=county">County</a>
+                        <a class="radio-btn is--with-label{% if authority_type == 'combined' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=combined">Combined</a>
+                        <a class="radio-btn is--with-label{% if authority_type == 'northern-ireland' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=northern-ireland">Northern Ireland</a>
+                    </div>
+                </form>
             </div>
             <div class="table-filter col-12 col-lg-5 py-3">
                 <div class="float-left float-md-right">
-                    {% include 'scoring/includes/advanced-filter.html' %}
+                    {% include 'scoring/includes/advanced-filter.html' with filter_auth_type=1 %}
                 </div>
             </div>
         </div>
@@ -89,98 +92,12 @@
         <div id="filter-result" class="row bg-white mb-4 mb-lg-5 mx-auto" style="max-width:100%">
             <div class="d-flex flex-row align-items-center px-3 p-3">
                 <p class="label green mb-0 mr-2">Number of councils</p>
-                {% comment %} TODO real data that displays the number of councils{% endcomment %}
-                <p class="mb-0">XXXX councils in this list</p>
+                <p class="mb-0">{{ council_count }} council{{ council_count|pluralize }} in this list</p>
             </div>
         </div>
 
         <div class="accordion-wrapper rounded">
             <div class="question-accordion-item is--main">
-                <div class="question-info">
-                    <p class="label grey mb-0 mr-3">{{ question.code }}</p>
-                    <div>
-                        <div class="question-text">{{ question.text | linebreaks }}</div>
-                        <button class="btn-open-question is--smaller mt-3" type="button">Display more</button>
-                    </div>
-                    <button class="btn-open-accordion ml-auto" type="button"></button>
-                </div>
-                <div class="question-data">
-                    <div class="row question-data-inner">
-                        <div class="col-12 col-lg-5 data-summary mb-4">
-                            <div class="data-summary-item main">
-                                <p class="result">30%</p>
-                                <p> of councils scored</p>
-                                <div class="total-points">
-                                    {% comment %} TODO Max score {% endcomment %}
-                                     <span>3</span>
-                                     <span>out of</span>
-                                    {% comment %} TODO Max score {% endcomment %}
-                                    <span>3</span>
-                                </div>
-                            </div>
-                            <div class="data-summary-item">
-                                <p class="result">20%</p>
-                                <p> of councils scored</p>
-                                <div class="total-points">
-                                    {% comment %} TODO Max score {% endcomment %}
-                                     <span>2</span>
-                                     <span>out of</span>
-                                    {% comment %} TODO Max score {% endcomment %}
-                                    <span>3</span>
-                                </div>
-                            </div>
-                            <div class="data-summary-item">
-                                <p class="result">10%</p>
-                                <p> of councils scored</p>
-                                <div class="total-points">
-                                    {% comment %} TODO Max score {% endcomment %}
-                                     <span>1</span>
-                                     <span>out of</span>
-                                    {% comment %} TODO Max score {% endcomment %}
-                                    <span>3</span>
-                                </div>
-                            </div>
-                            <div class="data-summary-item">
-                                <p class="result">40%</p>
-                                <p> of councils scored</p>
-                                <div class="total-points">
-                                    {% comment %} TODO Max score {% endcomment %}
-                                     <span>0</span>
-                                     <span>out of</span>
-                                    {% comment %} TODO Max score {% endcomment %}
-                                    <span>3</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-7">
-                            <div class="question-table-wrapper rounded">
-                                <table class="rounded">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Council No</th>
-                                            <th scope="col">Score</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for answer in answers %}
-                                        <tr>
-                                            <td data-column="council">
-                                                {{ answer.plan_score.council.name }}
-                                            </td>
-                                            <td data-column="score" class="text-center">
-                                                {{ answer.score }}/{{ question.max_score }}
-                                            </td>
-                                        </tr>
-                                      {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="question-accordion-item is--subpoint-question">
                 <div class="question-info">
                     <p class="label grey mb-0 mr-2">{{ question.code }}</p>
                     <div>
@@ -192,50 +109,17 @@
                 <div class="question-data">
                     <div class="row question-data-inner">
                         <div class="col-12 col-lg-5 data-summary mb-4">
+                            {% for stat in overall_stats %}
                             <div class="data-summary-item main">
-                                <p class="result">30%</p>
+                                <p class="result">{{ stat.percentage }}%</p>
                                 <p> of councils scored</p>
                                 <div class="total-points">
-                                    {% comment %} TODO Max score {% endcomment %}
-                                     <span>3</span>
+                                    <span>{{ stat.score }}</span>
                                      <span>out of</span>
-                                    {% comment %} TODO Max score {% endcomment %}
-                                    <span>3</span>
+                                    <span>{{ stat.max_total }}</span>
                                 </div>
                             </div>
-                            <div class="data-summary-item">
-                                <p class="result">20%</p>
-                                <p> of councils scored</p>
-                                <div class="total-points">
-                                    {% comment %} TODO Max score {% endcomment %}
-                                     <span>2</span>
-                                     <span>out of</span>
-                                    {% comment %} TODO Max score {% endcomment %}
-                                    <span>3</span>
-                                </div>
-                            </div>
-                            <div class="data-summary-item">
-                                <p class="result">10%</p>
-                                <p> of councils scored</p>
-                                <div class="total-points">
-                                    {% comment %} TODO Max score {% endcomment %}
-                                     <span>1</span>
-                                     <span>out of</span>
-                                    {% comment %} TODO Max score {% endcomment %}
-                                    <span>3</span>
-                                </div>
-                            </div>
-                            <div class="data-summary-item">
-                                <p class="result">40%</p>
-                                <p> of councils scored</p>
-                                <div class="total-points">
-                                    {% comment %} TODO Max score {% endcomment %}
-                                     <span>0</span>
-                                     <span>out of</span>
-                                    {% comment %} TODO Max score {% endcomment %}
-                                    <span>3</span>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                         <div class="col-12 col-lg-7">
                             <div class="question-table-wrapper rounded">
@@ -247,13 +131,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for answer in answers %}
+                                        {% for council in overall_totals %}
                                         <tr>
                                             <td data-column="council">
-                                                {{ answer.plan_score.council.name }}
+                                                {{ council.name }}
                                             </td>
                                             <td data-column="score" class="text-center">
-                                                {{ answer.score }}/{{ question.max_score }}
+                                                {{ council.total }}/{{ council.max_total }}
                                             </td>
                                         </tr>
                                       {% endfor %}
@@ -263,6 +147,59 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            {% for sub_question in sub_questions %}
+            <div class="question-accordion-item is--subpoint-question">
+                <div class="question-info">
+                    <p class="label grey mb-0 mr-2">{{ sub_question.code }}</p>
+                    <div>
+                        <div class="question-text">{{ sub_question.text | linebreaks }}</div>
+                        <button class="btn-open-question is--smaller mt-3" type="button">Display more</button>
+                    </div>
+                    <button class="btn-open-accordion ml-auto" type="button"></button>
+                </div>
+                <div class="question-data">
+                    <div class="row question-data-inner">
+                        <div class="col-12 col-lg-5 data-summary mb-4">
+                            {% for stat in sub_question.stats %}
+                            <div class="data-summary-item main">
+                                <p class="result">{{ stat.percentage }}%</p>
+                                <p> of councils scored</p>
+                                <div class="total-points">
+                                    <span>{{ stat.score }}</span>
+                                     <span>out of</span>
+                                    <span>{{ stat.max_score }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="question-table-wrapper rounded">
+                                <table class="rounded">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Council No</th>
+                                            <th scope="col">Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for score in sub_question.scores %}
+                                        <tr>
+                                            <td data-column="council">
+                                                {{ score.plan_score.council.name }}
+                                            </td>
+                                            <td data-column="score" class="text-center">
+                                                {{ score.score }}/{{ score.plan_question.max_score }}
+                                            </td>
+                                        </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
 

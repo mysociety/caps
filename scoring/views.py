@@ -1,6 +1,8 @@
+from collections import defaultdict
+
 from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
-from django.db.models import Subquery, OuterRef, Q, Avg
+from django.db.models import Subquery, OuterRef, Avg, Count, Sum
 from django.shortcuts import redirect, resolve_url
 from django.utils.text import Truncator
 from django.urls import reverse
@@ -18,12 +20,12 @@ from scoring.models import (
     PlanQuestion,
     PlanQuestionScore,
 )
-from scoring.filters import PlanScoreFilter
+from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 
 from scoring.forms import ScoringSort
 
 from caps.views import BaseLocationResultsView
-from scoring.mixins import CheckForDownPageMixin
+from scoring.mixins import CheckForDownPageMixin, AdvancedFilterMixin
 
 cache_settings = {
     "max-age": 60,
@@ -48,7 +50,7 @@ class LogoutView(LogoutView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class HomePageView(CheckForDownPageMixin, FilterView):
+class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
     filterset_class = PlanScoreFilter
     template_name = "scoring/home.html"
 
@@ -94,22 +96,7 @@ class HomePageView(CheckForDownPageMixin, FilterView):
         councils = context["object_list"].values()
         context["plan_sections"] = PlanSection.objects.filter(year=2021).all()
 
-        if getattr(context["filter"].form, "cleaned_data", None) is not None:
-            params = context["filter"].form.cleaned_data
-            descs = []
-            if params["population"] and params["population"] != "":
-                descs.append(params["population"])
-            if params["control"] and params["control"] != "":
-                descs.append(params["control"])
-            if params["ruc_cluster"] and params["ruc_cluster"] != "":
-                descs.append(PlanScore.ruc_cluster_description(params["ruc_cluster"]))
-            if params["imdq"] and params["imdq"] != "":
-                descs.append("deprivation quintile {}".format(params["imdq"]))
-            if params["country"] and params["country"] != "":
-                descs.append(Council.country_description(params["country"]))
-
-            context["filter_params"] = params
-            context["filter_descs"] = descs
+        context = self.setup_filter_context(context, context["filter"], authority_type)
 
         averages = PlanSection.get_average_scores(
             authority_type["slug"], filter=context.get("filter_params", None)
@@ -141,10 +128,6 @@ class HomePageView(CheckForDownPageMixin, FilterView):
 
         context["authority_type"] = authority_type["slug"]
         context["authority_type_label"] = authority_type["name"]
-        context["population_filter"] = PlanScore.POPULATION_FILTER_CHOICES.get(
-            authority_type["slug"]
-        )
-        context["urbanisation_filter"] = PlanScore.RUC_TYPES
 
         context["form"] = form
         context["council_data"] = councils
@@ -277,11 +260,20 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class QuestionView(CheckForDownPageMixin, DetailView):
+class QuestionView(CheckForDownPageMixin, AdvancedFilterMixin, DetailView):
     model = PlanQuestion
     context_object_name = "question"
     template_name = "scoring/question.html"
     slug_field = "code"
+
+    def get_authority_type(self):
+        authority_type = self.request.GET.get("council_type", "")
+        try:
+            group = Council.SCORING_GROUPS[authority_type]
+        except KeyError:
+            group = Council.SCORING_GROUPS["single"]
+
+        return group
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -289,17 +281,155 @@ class QuestionView(CheckForDownPageMixin, DetailView):
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
 
+        filter_args = {
+            "data": self.request.GET or None,
+            "request": self.request,
+        }
+
+        # manually create these filters because we need one for councils and one for
+        # questions
+        q_filter = QuestionScoreFilter(**filter_args)
+        c_filter = PlanScoreFilter(**filter_args)
+
         question = context.get("question")
 
-        answers = (
-            PlanQuestionScore.objects.filter(plan_question=question)
-            .select_related("plan_score", "plan_score__council")
+        authority_type = self.get_authority_type()
+
+        council_total = context["all_councils"].filter(
+            authority_type__in=authority_type["types"],
+            country__in=authority_type["countries"],
+        )
+
+        # set up a queryset to filter the scores table for displaying the list
+        # of per question council scores
+        council_scores = (
+            PlanQuestionScore.objects.filter(
+                plan_score__council__authority_type__in=authority_type["types"],
+                plan_score__council__country__in=authority_type["countries"],
+            )
+            .select_related(
+                "plan_score",
+                "plan_score__council",
+                "plan_question",
+            )
             .order_by("plan_score__council__name")
         )
 
+        score_counts = (
+            PlanQuestionScore.objects.filter(
+                plan_question__code__contains=question.code,
+                plan_score__council__authority_type__in=authority_type["types"],
+                plan_score__council__country__in=authority_type["countries"],
+            )
+            .values(
+                "score",
+                "plan_question__code",
+                "plan_question__max_score",
+                "plan_question__text",
+            )
+            .annotate(score_count=Count("pk"))
+            .order_by("plan_question__code", "score")
+        )
+
+        overall_totals = Council.objects.filter(
+            authority_type__in=authority_type["types"],
+            country__in=authority_type["countries"],
+        ).annotate(
+            total=Subquery(
+                PlanQuestionScore.objects.filter(
+                    plan_question__parent=question.code,
+                    plan_score__council=OuterRef("id"),
+                )
+                .values("plan_score__council")
+                .annotate(
+                    total=Sum("score"),
+                )
+                .values("total")
+            ),
+            max_total=Subquery(
+                PlanQuestionScore.objects.filter(
+                    plan_question__parent=question.code,
+                    plan_score__council=OuterRef("id"),
+                )
+                .values("plan_score__council")
+                .annotate(
+                    total=Sum("plan_question__max_score"),
+                )
+                .values("total")
+            ),
+        )
+
+        if q_filter.is_valid():
+            council_scores = q_filter.filter_queryset(council_scores)
+            score_counts = q_filter.filter_queryset(score_counts)
+            c_filter.is_valid()
+            council_total = c_filter.filter_queryset(council_total)
+            overall_totals = c_filter.filter_queryset(overall_totals)
+
+        council_count = council_total.count()
+
+        overall_stats = (
+            overall_totals.values("total", "max_total")
+            .annotate(total_count=Count("pk"))
+            .order_by("total")
+        )
+
+            overall = []
+            for score in overall_stats:
+                overall.append(
+                    {
+                        "total": score["total_count"],
+                        "score": score["total"],
+                        "max_total": score["max_total"],
+                        "percentage": round(
+                            (score["total_count"] / council_count) * 100
+                        ),
+                    }
+                )
+
+        questions = []
+        current_question = None
+        for score in score_counts.all():
+            if (
+                current_question is None
+                or current_question["code"] != score["plan_question__code"]
+            ):
+                if current_question is not None:
+                    questions.append(current_question)
+
+                current_scores = council_scores.filter(
+                    plan_question__code=score["plan_question__code"]
+                )
+                current_question = {
+                    "code": score["plan_question__code"],
+                    "text": score["plan_question__text"],
+                    "scores": current_scores,
+                    "total": current_scores.count(),
+                    "stats": [],
+                }
+            current_question["stats"].append(
+                {
+                    "score": score["score"],
+                    "count": score["score_count"],
+                    "percentage": round(
+                        (score["score_count"] / current_question["total"]) * 100
+                    ),
+                    "max_score": score["plan_question__max_score"],
+                }
+            )
+
+        questions.append(current_question)
+
+        context = self.setup_filter_context(context, q_filter, authority_type)
+
+        context["authority_type"] = authority_type["slug"]
         context["question"] = question
-        context["answers"] = answers
+        context["council_count"] = council_count
+        context["sub_questions"] = questions
+        context["overall_totals"] = overall_totals
+        context["overall_stats"] = overall
         context["page_title"] = Truncator(question.text).chars(75)
+        context["filter"] = q_filter
         return context
 
 
