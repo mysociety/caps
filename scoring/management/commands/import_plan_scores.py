@@ -225,16 +225,17 @@ class Command(BaseCommand):
             question, created = PlanQuestion.objects.get_or_create(
                 code=code, section=plan_section
             )
-            if created:
-                max_score = 0
-                if q_type != "HEADER":
-                    scores = PlanDocument.char_from_text(row["Scores"])
-                    scores = scores.split(",")
-                    max_score = max(scores)
-                question.max_score = int(float(max_score))
-                question.text = row["Question description"]
-                question.question_type = q_type
-                question.save()
+            max_score = 0
+            if q_type != "HEADER":
+                scores = PlanDocument.char_from_text(row["Scores"])
+                scores = scores.split(",")
+                max_score = max(scores)
+                parent = re.sub(r"([^q]*q[0-9]*).*", r"\1", code)
+                question.parent = parent
+            question.max_score = int(float(max_score))
+            question.text = row["Question description"]
+            question.question_type = q_type
+            question.save()
 
     def import_question_scores(self):
         # import related fields in bulk at the start
