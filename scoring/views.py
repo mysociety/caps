@@ -1,11 +1,8 @@
-from collections import defaultdict
-
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import DetailView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Subquery, OuterRef, Avg, Count, Sum
-from django.shortcuts import redirect, resolve_url
+from django.shortcuts import resolve_url
 from django.utils.text import Truncator
-from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_control
 
