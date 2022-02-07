@@ -246,7 +246,8 @@ class Command(BaseCommand):
                 changed = True
 
             if (
-                council.twitter_name != twitter_name
+                council.twitter_name != ""
+                or council.twitter_name != twitter_name
                 or council.twitter_url != twitter_url
             ):
                 council.twitter_url = twitter_url

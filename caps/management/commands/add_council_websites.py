@@ -41,24 +41,18 @@ def get_england_and_wales():
         print("problem getting England and Wales URL data: {}".format(e))
         return []
 
-    table = dom.find("div", class_="table-responsive")
-    body = table.find("tbody")
-    rows = body.find_all("tr")
+    council_list = dom.find("dl", class_="ckeditor-accordion")
+    rows = council_list.find_all("p")
     for row in rows:
-        link = row.find("th").find("a")
+        link = row.find("a")
         if link is None:
             continue
         council = link.text
         website_url = link["href"]
-        twitter_link = row.find("td").find(href=re.compile(r"twitter.com"))
-        twitter_url = twitter_link["href"]
-        twitter_name = parse_twitter_name(twitter_link.text)
         councils.append(
             {
                 "council": council,
                 "url": website_url,
-                "twitter_url": twitter_url,
-                "twitter_name": twitter_name,
             }
         )
     return councils
