@@ -238,6 +238,7 @@ class PlanQuestion(models.Model):
     text = models.TextField(null=True, default="")
     max_score = models.PositiveSmallIntegerField(default=0)
     question_type = models.CharField(max_length=100)  # needs choices
+    parent = models.CharField(max_length=100, null=True, default="")
 
     def pretty_code(self):
         """
