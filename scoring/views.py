@@ -223,7 +223,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
                 "question": question.text,
                 "type": question.question_type,
                 "max": question.max_score,
-                "section": question.section.code,
+                "section": question.section_code,
                 "answer": question.answer or "-",
                 "score": question.score or 0,
             }
