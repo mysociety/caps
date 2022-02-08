@@ -99,7 +99,7 @@
         </div>
 
         <div class="accordion-wrapper rounded">
-            {% if is_header_question %}
+          {% if is_header_question %}
             <div class="question-accordion-item is--main">
                 <div class="question-info">
                     <p class="label grey mb-0 mr-2">{{ question.code }}</p>
@@ -134,7 +134,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for council in overall_totals %}
+                                      {% for council in overall_totals %}
                                         <tr>
                                             <td data-column="council">
                                                 {{ council.name }}
@@ -151,8 +151,9 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
-            {% for sub_question in sub_questions %}
+          {% endif %}
+
+          {% for sub_question in sub_questions %}
             <div class="question-accordion-item is--subpoint-question">
                 <div class="question-info">
                     <p class="label grey mb-0 mr-2">{{ sub_question.code }}</p>
@@ -165,7 +166,7 @@
                 <div class="question-data">
                     <div class="row question-data-inner">
                         <div class="col-12 col-lg-5 data-summary mb-4">
-                            {% for stat in sub_question.stats %}
+                          {% for stat in sub_question.stats %}
                             <div class="data-summary-item main">
                                 <p class="result">{{ stat.percentage }}%</p>
                                 <p> of councils scored</p>
@@ -175,7 +176,7 @@
                                     <span>{{ stat.max_score }}</span>
                                 </div>
                             </div>
-                            {% endfor %}
+                          {% endfor %}
                         </div>
                         <div class="col-12 col-lg-7">
                             <div class="question-table-wrapper rounded">
@@ -187,7 +188,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for score in sub_question.scores %}
+                                      {% for score in sub_question.scores %}
                                         <tr>
                                             <td data-column="council">
                                                 {{ score.plan_score.council.name }}
@@ -203,10 +204,10 @@
                         </div>
                     </div>
                 </div>
-                {% endfor %}
             </div>
-        </div>
+          {% endfor %}
 
+        </div>
     </div>
 </div>
 
