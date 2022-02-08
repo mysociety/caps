@@ -38,6 +38,7 @@
                         <div class="question-content">{{ question.text | linebreaks }}</div>
                         <button class="btn-open-question mt-3" type="button">Display more</button>
                     </div>
+                    {% if is_header_question %}
                     {% for sub_question in sub_questions %}
                     <div class="label-wrapper horizontal ml-2" style="margin-bottom:32px">
                         <p class="label is--smaller green-light mb-2">{{ sub_question.code }}</p>
@@ -45,6 +46,7 @@
                         <button class="btn-open-question mt-3" type="button">Display more</button>
                     </div>
                     {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -97,6 +99,7 @@
         </div>
 
         <div class="accordion-wrapper rounded">
+            {% if is_header_question %}
             <div class="question-accordion-item is--main">
                 <div class="question-info">
                     <p class="label grey mb-0 mr-2">{{ question.code }}</p>
@@ -148,6 +151,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% for sub_question in sub_questions %}
             <div class="question-accordion-item is--subpoint-question">
                 <div class="question-info">

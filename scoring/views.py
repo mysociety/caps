@@ -290,6 +290,10 @@ class QuestionView(CheckForDownPageMixin, AdvancedFilterMixin, DetailView):
 
         question = context.get("question")
 
+        is_header = True
+        if question.question_type != "HEADER":
+            is_header = False
+
         authority_type = self.get_authority_type()
 
         council_total = context["all_councils"].filter(
@@ -328,55 +332,57 @@ class QuestionView(CheckForDownPageMixin, AdvancedFilterMixin, DetailView):
             .order_by("plan_question__code", "score")
         )
 
-        overall_totals = Council.objects.filter(
-            authority_type__in=authority_type["types"],
-            country__in=authority_type["countries"],
-        ).annotate(
-            total=Subquery(
-                PlanQuestionScore.objects.filter(
-                    plan_question__parent=question.code,
-                    plan_score__council=OuterRef("id"),
-                )
-                .values("plan_score__council")
-                .annotate(
-                    total=Sum("score"),
-                )
-                .values("total")
-            ),
-            max_total=Subquery(
-                PlanQuestionScore.objects.filter(
-                    plan_question__parent=question.code,
-                    plan_score__council=OuterRef("id"),
-                )
-                .values("plan_score__council")
-                .annotate(
-                    total=Sum("plan_question__max_score"),
-                )
-                .values("total")
-            ),
-        )
+        if is_header:
+            overall_totals = Council.objects.filter(
+                authority_type__in=authority_type["types"],
+                country__in=authority_type["countries"],
+            ).annotate(
+                total=Subquery(
+                    PlanQuestionScore.objects.filter(
+                        plan_question__parent=question.code,
+                        plan_score__council=OuterRef("id"),
+                    )
+                    .values("plan_score__council")
+                    .annotate(
+                        total=Sum("score"),
+                    )
+                    .values("total")
+                ),
+                max_total=Subquery(
+                    PlanQuestionScore.objects.filter(
+                        plan_question__parent=question.code,
+                        plan_score__council=OuterRef("id"),
+                    )
+                    .values("plan_score__council")
+                    .annotate(
+                        total=Sum("plan_question__max_score"),
+                    )
+                    .values("total")
+                ),
+            )
 
         if q_filter.is_valid():
             council_scores = q_filter.filter_queryset(council_scores)
             score_counts = q_filter.filter_queryset(score_counts)
             c_filter.is_valid()
             council_total = c_filter.filter_queryset(council_total)
-            overall_totals = c_filter.filter_queryset(overall_totals)
+            if is_header:
+                overall_totals = c_filter.filter_queryset(overall_totals)
 
         council_count = council_total.count()
 
-        overall_stats = (
-            overall_totals.values("total", "max_total")
-            .annotate(total_count=Count("pk"))
-            .order_by("total")
-        )
+        if is_header:
+            overall_stats = (
+                overall_totals.values("total", "max_total")
+                .annotate(total_count=Count("pk"))
+                .order_by("total")
+            )
 
             overall = []
             for score in overall_stats:
                 overall.append(
                     {
                         "total": score["total_count"],
-                        "score": score["total"],
                         "max_total": score["max_total"],
                         "percentage": round(
                             (score["total_count"] / council_count) * 100
@@ -419,12 +425,14 @@ class QuestionView(CheckForDownPageMixin, AdvancedFilterMixin, DetailView):
 
         context = self.setup_filter_context(context, q_filter, authority_type)
 
+        if is_header:
+            context["overall_totals"] = overall_totals
+            context["overall_stats"] = overall
+        context["is_header_question"] = is_header
         context["authority_type"] = authority_type["slug"]
         context["question"] = question
         context["council_count"] = council_count
         context["sub_questions"] = questions
-        context["overall_totals"] = overall_totals
-        context["overall_stats"] = overall
         context["page_title"] = Truncator(question.text).chars(75)
         context["filter"] = q_filter
         return context
