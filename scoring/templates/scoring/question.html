@@ -56,6 +56,8 @@
 <div class="container-fluid question-page bg-grey-gradient question-table-section">
     <div class="mx-auto" style="max-width: 910px">
         <h3 class="mb-4 mb-lg-5">Individual question performance</h3>
+
+        {% comment %}
         <div id="top-filter" class="row bg-white mx-auto" style="max-width:100%">
             <div class="table-filter col-12 col-lg-7 py-3">
                 <form class="form">
@@ -97,6 +99,7 @@
                 <p class="mb-0">{{ council_count }} council{{ council_count|pluralize }} in this list</p>
             </div>
         </div>
+        {% endcomment %}
 
         <div class="accordion-wrapper rounded">
           {% if is_header_question %}
