@@ -197,7 +197,7 @@
                                     <div>
                                         {% if answer.type == 'HEADER' %}
                                         <div class="question-code text-left">
-                                            {{ answer.pretty_code }}
+                                            <a href="{% url 'question' answer.code %}">{{ answer.pretty_code }}</a
                                         </div>
                                         {% else %}
                                         <div class="question-code text-left pl-2">
