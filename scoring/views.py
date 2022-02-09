@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
-from django.db.models import Subquery, OuterRef, Avg, Count, Sum
+from django.db.models import Subquery, OuterRef, Avg, Count, Sum, F
 from django.shortcuts import resolve_url
 from django.utils.text import Truncator
 from django.utils.decorators import method_decorator
@@ -178,11 +178,19 @@ class CouncilView(CheckForDownPageMixin, DetailView):
                 "code": section.plan_section.code,
                 "description": section.plan_section.description,
                 "max_score": section.max_score,
+                # default this to zero as the query below won't return a row if no
+                # councils got full marks
+                "max_count": 0,
                 "score": section.score,
                 "answers": [],
             }
 
         group = council.get_scoring_group()
+
+        council_count = Council.objects.filter(
+            authority_type__in=group["types"],
+            country__in=group["countries"],
+        ).count()
 
         # get average section scores for authorities of the same type
         section_avgs = (
@@ -201,6 +209,23 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             sections[section["plan_section__code"]]["avg"] = round(
                 section["avg_score"], 1
             )
+
+        section_top_marks = (
+            PlanSectionScore.objects.select_related("plan_section")
+            .filter(
+                score=F("max_score"),
+                plan_score__council__authority_type__in=group["types"],
+                plan_score__council__country__in=group["countries"],
+                plan_section__year=2021,
+            )
+            .values("plan_section__code")
+            .annotate(max_score_count=Count("pk"))
+        )
+
+        for section in section_top_marks.all():
+            sections[section["plan_section__code"]]["max_count"] = section[
+                "max_score_count"
+            ]
 
         # do this in raw SQL as otherwise we need a third query and an extra loop below
         questions = PlanQuestion.objects.raw(
@@ -229,6 +254,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             }
             sections[section]["answers"].append(q)
 
+        context["council_count"] = council_count
         context["targets"] = promises
         context["authority_type"] = group
         context["plan_score"] = plan_score

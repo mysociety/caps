@@ -173,6 +173,9 @@
                                 <th scope="col">#</th>
                                 <th scope="col" class="text-left">Questions</th>
                                 <th scope="col" class="current-council-score">{{ council.name }}</th>
+                                <th scope="col" class="top-tier-head">
+                                     <p class="top-performer">Councils with full scores</p>
+                                 </th>
                             </tr>
                         </thead>
                       {% for section in sections %}
@@ -184,6 +187,9 @@
                                 </td>
                                 <td class="score is--section-score {% if section.top_performer %}top-performer{% endif %}">
                                     <span>{{ section.score }}/{{ section.max_score }}</span>
+                                </td>
+                                <td class="top-tier-score">
+                                  <a href="#" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a><span class="small d-block mt-1">councils got full marks for this section.</span>
                                 </td>
                                 <td class="button-wrapper p-0">
                                     <button type="button" class="accordion js-toggle-council-question-table-section" aria-label="Expand this section" title="Expand this section">
