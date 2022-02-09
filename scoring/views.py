@@ -395,32 +395,10 @@ class QuestionView(CheckForDownPageMixin, AdvancedFilterMixin, DetailView):
         )
 
         if is_header:
-            overall_totals = Council.objects.filter(
-                authority_type__in=authority_type["types"],
-                country__in=authority_type["countries"],
-            ).annotate(
-                total=Subquery(
-                    PlanQuestionScore.objects.filter(
-                        plan_question__parent=question.code,
-                        plan_score__council=OuterRef("id"),
-                    )
-                    .values("plan_score__council")
-                    .annotate(
-                        total=Sum("score"),
-                    )
-                    .values("total")
-                ),
-                max_total=Subquery(
-                    PlanQuestionScore.objects.filter(
-                        plan_question__parent=question.code,
-                        plan_score__council=OuterRef("id"),
-                    )
-                    .values("plan_score__council")
-                    .annotate(
-                        total=Sum("plan_question__max_score"),
-                    )
-                    .values("total")
-                ),
+            overall_totals = PlanQuestionScore.objects.filter(
+                plan_question__code=question.code,
+                plan_score__council__authority_type__in=authority_type["types"],
+                plan_score__council__country__in=authority_type["countries"],
             )
 
         if q_filter.is_valid():
@@ -429,25 +407,34 @@ class QuestionView(CheckForDownPageMixin, AdvancedFilterMixin, DetailView):
             c_filter.is_valid()
             council_total = c_filter.filter_queryset(council_total)
             if is_header:
-                overall_totals = c_filter.filter_queryset(overall_totals)
+                overall_totals = q_filter.filter_queryset(overall_totals)
 
         council_count = council_total.count()
 
         if is_header:
             overall_stats = (
-                overall_totals.values("total", "max_total")
-                .annotate(total_count=Count("pk"))
-                .order_by("total")
+                overall_totals.values(
+                    "score",
+                    "plan_question__code",
+                    "max_score",
+                    "plan_question__text",
+                )
+                .annotate(score_count=Count("pk"))
+                .order_by("plan_question__code", "score")
             )
+
+            overall_totals = overall_totals.select_related(
+                "plan_score__council"
+            ).order_by("plan_score__council__name")
 
             overall = []
             for score in overall_stats:
                 overall.append(
                     {
-                        "total": score["total_count"],
-                        "max_total": score["max_total"],
+                        "total": score["score"],
+                        "max_total": score["max_score"],
                         "percentage": round(
-                            (score["total_count"] / council_count) * 100
+                            (score["score_count"] / council_count) * 100
                         ),
                     }
                 )

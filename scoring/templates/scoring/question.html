@@ -129,13 +129,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                      {% for council in overall_totals %}
+                                        {% for score in overall_totals %}
                                         <tr>
                                             <td data-column="council">
-                                                {{ council.name }}
+                                                {{ score.plan_score.council.name }}
                                             </td>
                                             <td data-column="score" class="text-center">
-                                                {{ council.total }}/{{ council.max_total }}
+                                                {{ score.score }}/{{ score.max_score }}
                                             </td>
                                         </tr>
                                       {% endfor %}
