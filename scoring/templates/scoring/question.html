@@ -59,10 +59,7 @@
         <div id="top-filter" class="row bg-white mx-auto" style="max-width:100%">
             <div class="table-filter col-12 col-lg-7 py-3">
                 <form class="form">
-                    <h6 class="mb-3">Find your council’s Scorecard</h6>
-                    <input class="form-control searchbar blue light js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
-                    <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-                    <h6 class="mt-4 mt-lg-5 mb-2">Filter the table by type of council</h6>
+                    <h6 class="mb-2">Filter question performance by type of council</h6>
                     <div class="type-council-option-wrapper">
                         <a class="radio-btn is--with-label{% if authority_type == 'single' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=single">Single Tier</a>
                         <a class="radio-btn is--with-label{% if authority_type == 'district' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=district">District</a>
@@ -79,22 +76,10 @@
             </div>
         </div>
 
-        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
-            <div class="card-header">
-                <h3>
-                    {{ question.code }}
-                </h3>
-
-                <div>
-                    {{ question.text | linebreaks }}
-                </div>
-            </div>
-        </div>
-
-        <div id="filter-result" class="row bg-white mb-4 mb-lg-5 mx-auto" style="max-width:100%">
+        <div id="filter-result" class="row bg-white mb-4 mb-lg-5 mx-auto border-top" style="max-width:100%">
             <div class="d-flex flex-row align-items-center px-3 p-3">
                 <p class="label green mb-0 mr-2">Number of councils</p>
-                <p class="mb-0">{{ council_count }} council{{ council_count|pluralize }} in this list</p>
+                <p class="mb-0">{{ council_count }} council{{ council_count|pluralize }} match these filters</p>
             </div>
         </div>
 
