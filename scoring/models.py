@@ -278,4 +278,5 @@ class PlanQuestionScore(models.Model):
     )
     answer = models.TextField(null=True, default="")
     score = models.PositiveSmallIntegerField(default=0)
+    max_score = models.PositiveSmallIntegerField(default=0)
     notes = models.TextField(null=True, default="")
