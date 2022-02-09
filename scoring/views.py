@@ -237,6 +237,34 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             [plan_score.id],
         )
 
+        header_scores = (
+            PlanQuestionScore.objects.filter(plan_score=plan_score)
+            .exclude(plan_question__question_type="HEADER")
+            .values("plan_question__parent")
+            .annotate(total=Sum("score"), total_max=Sum("plan_question__max_score"))
+        )
+
+        headers = {}
+        for header in header_scores:
+            headers[header["plan_question__parent"]] = {
+                "score": header["total"],
+                "max": header["total_max"],
+            }
+
+        max_counts = (
+            PlanQuestionScore.objects.filter(
+                plan_score__council__authority_type__in=group["types"],
+                plan_score__council__country__in=group["countries"],
+                score=F("plan_question__max_score"),
+            )
+            .values("plan_question__code")
+            .annotate(council_count=Count("pk"))
+        )
+
+        question_max_counts = {}
+        for count in max_counts:
+            question_max_counts[count["plan_question__code"]] = count["council_count"]
+
         for question in questions:
             section = question.section_code
             q = {
@@ -251,6 +279,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
                 "section": question.section_code,
                 "answer": question.answer or "-",
                 "score": question.score or 0,
+                "council_count": question_max_counts.get(question.code, 0),
             }
             sections[section]["answers"].append(q)
 
