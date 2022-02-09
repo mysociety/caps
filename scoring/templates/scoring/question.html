@@ -105,8 +105,8 @@
           {% if is_header_question %}
             <div class="question-accordion-item is--main">
                 <div class="question-info">
-                    <p class="label grey mb-0 mr-2">{{ question.code }}</p>
                     <div>
+                        <p class="label grey mb-2">{{ question.code }}</p>
                         <div class="question-text">{{ question.text | linebreaks }}</div>
                         <button class="btn-open-question is--smaller mt-3" type="button">Display more</button>
                     </div>
@@ -159,8 +159,8 @@
           {% for sub_question in sub_questions %}
             <div class="question-accordion-item is--subpoint-question">
                 <div class="question-info">
-                    <p class="label grey mb-0 mr-2">{{ sub_question.code }}</p>
                     <div>
+                        <p class="label grey mb-2">{{ sub_question.code }}</p>
                         <div class="question-text">{{ sub_question.text | linebreaks }}</div>
                         <button class="btn-open-question is--smaller mt-3" type="button">Display more</button>
                     </div>

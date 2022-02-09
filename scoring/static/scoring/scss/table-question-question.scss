@@ -21,8 +21,11 @@
         border-bottom: none;
 
         &.is--subpoint-question {
-            .label {
+            .label, .question-text, .btn-open-question {
                 margin-left: calc(1em / 2);
+            }
+            .label {
+                font-size: 12px !important;
             }
         }
 
@@ -40,6 +43,7 @@
 
     .question-info {
         padding: $padding;
+        padding-top: 15px;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
