@@ -24,7 +24,7 @@ from scoring.models import (
 
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files import File
-from django.db.models import F
+from django.db.models import F, Sum
 from django.template.defaultfilters import pluralize
 
 from django.conf import settings
@@ -278,6 +278,29 @@ class Command(BaseCommand):
             to_create.append(score_obj)
         PlanQuestionScore.objects.bulk_create(to_create)
 
+    def create_header_scores(self):
+        plan_questions = {}
+        questions = PlanQuestion.objects.all()
+        for question in questions:
+            plan_questions[question.code] = question
+
+        header_totals = PlanQuestionScore.objects.values(
+            "plan_score", "plan_question__parent"
+        ).annotate(total=Sum("score"), max_total=Sum("plan_question__max_score"))
+
+        header_scores = []
+        for total in header_totals.all():
+            q = PlanQuestionScore(
+                plan_score_id=total["plan_score"],
+                plan_question=plan_questions[total["plan_question__parent"]],
+                score=total["total"],
+                max_score=total["max_total"],
+            )
+
+            header_scores.append(q)
+
+        PlanQuestionScore.objects.bulk_create(header_scores)
+
     def label_top_performers(self):
         plan_sections = PlanSection.objects.filter(year=2021)
 
@@ -325,4 +348,5 @@ class Command(BaseCommand):
         self.import_overall_scores()
         self.import_questions()
         self.import_question_scores()
+        self.create_header_scores()
         self.label_top_performers()
