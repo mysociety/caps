@@ -283,6 +283,18 @@
     "pk": 1,
     "fields": {
       "plan_score": 1,
+      "plan_question": 1,
+      "answer": "",
+      "score": 1,
+      "max_score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 2,
+    "fields": {
+      "plan_score": 1,
       "plan_question": 2,
       "answer": "True",
       "score": 1,
@@ -291,7 +303,19 @@
   },
   {
     "model": "scoring.planquestionscore",
-    "pk": 2,
+    "pk": 3,
+    "fields": {
+      "plan_score": 2,
+      "plan_question": 1,
+      "answer": "",
+      "max_score": 1,
+      "score": 0,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 4,
     "fields": {
       "plan_score": 2,
       "plan_question": 2,
@@ -302,7 +326,19 @@
   },
   {
     "model": "scoring.planquestionscore",
-    "pk": 3,
+    "pk": 5,
+    "fields": {
+      "plan_score": 3,
+      "plan_question": 1,
+      "answer": "",
+      "max_score": 1,
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 6,
     "fields": {
       "plan_score": 3,
       "plan_question": 2,

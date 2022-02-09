@@ -229,7 +229,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
         # do this in raw SQL as otherwise we need a third query and an extra loop below
         questions = PlanQuestion.objects.raw(
-            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score \
+            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score, a.max_score as header_max \
             from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
             left join scoring_planquestionscore a on q.id = a.plan_question_id \
             where s.year = '2021' and ( a.plan_score_id = %s or a.plan_score_id is null) and (q.question_type = 'HEADER' or a.plan_question_id is not null)\
@@ -237,25 +237,25 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             [plan_score.id],
         )
 
-        header_scores = (
-            PlanQuestionScore.objects.filter(plan_score=plan_score)
-            .exclude(plan_question__question_type="HEADER")
-            .values("plan_question__parent")
-            .annotate(total=Sum("score"), total_max=Sum("plan_question__max_score"))
-        )
-
-        headers = {}
-        for header in header_scores:
-            headers[header["plan_question__parent"]] = {
-                "score": header["total"],
-                "max": header["total_max"],
-            }
-
         max_counts = (
             PlanQuestionScore.objects.filter(
                 plan_score__council__authority_type__in=group["types"],
                 plan_score__council__country__in=group["countries"],
                 score=F("plan_question__max_score"),
+            )
+            .exclude(
+                plan_question__question_type="HEADER",
+            )
+            .values("plan_question__code")
+            .annotate(council_count=Count("pk"))
+        )
+
+        header_max_counts = (
+            PlanQuestionScore.objects.filter(
+                plan_question__question_type="HEADER",
+                plan_score__council__authority_type__in=group["types"],
+                plan_score__council__country__in=group["countries"],
+                score=F("max_score"),
             )
             .values("plan_question__code")
             .annotate(council_count=Count("pk"))
@@ -263,6 +263,9 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
         question_max_counts = {}
         for count in max_counts:
+            question_max_counts[count["plan_question__code"]] = count["council_count"]
+
+        for count in header_max_counts:
             question_max_counts[count["plan_question__code"]] = count["council_count"]
 
         for question in questions:
@@ -281,6 +284,10 @@ class CouncilView(CheckForDownPageMixin, DetailView):
                 "score": question.score or 0,
                 "council_count": question_max_counts.get(question.code, 0),
             }
+
+            if question.question_type == "HEADER":
+                q["max"] = question.header_max
+
             sections[section]["answers"].append(q)
 
         context["council_count"] = council_count
@@ -373,7 +380,7 @@ class QuestionView(CheckForDownPageMixin, AdvancedFilterMixin, DetailView):
 
         score_counts = (
             PlanQuestionScore.objects.filter(
-                plan_question__code__contains=question.code,
+                plan_question__parent=question.code,
                 plan_score__council__authority_type__in=authority_type["types"],
                 plan_score__council__country__in=authority_type["countries"],
             )

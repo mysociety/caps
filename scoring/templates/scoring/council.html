@@ -230,11 +230,11 @@
                                 </td>
                               {% if answer.type != 'HEADER' %}
                                 <td data-column="score" class="score">
+                              {% else %}
+                                <td data-column="score" class="score is--header-score">
+                              {% endif %}
                                     <span>{{ answer.score }}/{{ answer.max }}</span>
                                 </td>
-                              {% else %}
-                                <td></td>
-                              {% endif %}
                               <td class="top-tier-score">
                                 <a href="#" class="mx-auto" style="text-transform: none">{{ answer.council_count }} out of {{ council_count }}</a><span class="small d-block mt-1">councils got full marks for this question.</span>
                                 </td>
