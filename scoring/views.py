@@ -1,10 +1,11 @@
 from django.views.generic import DetailView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
-from django.db.models import Subquery, OuterRef, Avg, Count, Sum, F
+from django.db.models import Subquery, OuterRef, Count, Sum, F
 from django.shortcuts import resolve_url
 from django.utils.text import Truncator
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_control
+from django.conf import settings
 
 from django_filters.views import FilterView
 
@@ -161,114 +162,37 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         ] = Council.objects.all()  # for location search autocomplete
 
         council = context.get("council")
-        promises = Promise.objects.filter(council=council).all()
-
-        plan_score = PlanScore.objects.get(council=council, year=2021)
-
-        plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
-
-        section_qs = PlanSectionScore.objects.select_related("plan_section").filter(
-            plan_score__council=council, plan_section__year=2021
-        )
-
-        sections = {}
-        for section in section_qs.all():
-            sections[section.plan_section.code] = {
-                "top_performer": section.top_performer,
-                "code": section.plan_section.code,
-                "description": section.plan_section.description,
-                "max_score": section.max_score,
-                # default this to zero as the query below won't return a row if no
-                # councils got full marks
-                "max_count": 0,
-                "score": section.score,
-                "answers": [],
-            }
-
         group = council.get_scoring_group()
 
-        council_count = Council.objects.filter(
-            authority_type__in=group["types"],
-            country__in=group["countries"],
-        ).count()
+        promises = Promise.objects.filter(council=council).all()
+        plan_score = PlanScore.objects.get(council=council, year=2021)
+        plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
+        sections = PlanSectionScore.sections_for_council(
+            council=council, plan_year=settings.PLAN_YEAR
+        )
 
         # get average section scores for authorities of the same type
-        section_avgs = (
-            PlanSectionScore.objects.select_related("plan_section")
-            .filter(
-                plan_score__total__gt=0,
-                plan_score__council__authority_type__in=group["types"],
-                plan_score__council__country__in=group["countries"],
-                plan_section__year=2021,
-            )
-            .values("plan_section__code")
-            .annotate(avg_score=Avg("score"))
-        )  # , distinct=True))
-
+        section_avgs = PlanSectionScore.get_all_section_averages(
+            council_group=group, plan_year=settings.PLAN_YEAR
+        )
         for section in section_avgs.all():
             sections[section["plan_section__code"]]["avg"] = round(
                 section["avg_score"], 1
             )
 
-        section_top_marks = (
-            PlanSectionScore.objects.select_related("plan_section")
-            .filter(
-                score=F("max_score"),
-                plan_score__council__authority_type__in=group["types"],
-                plan_score__council__country__in=group["countries"],
-                plan_section__year=2021,
-            )
-            .values("plan_section__code")
-            .annotate(max_score_count=Count("pk"))
+        section_top_marks = PlanSectionScore.get_all_section_top_mark_counts(
+            council_group=group, plan_year=settings.PLAN_YEAR
         )
-
         for section in section_top_marks.all():
             sections[section["plan_section__code"]]["max_count"] = section[
                 "max_score_count"
             ]
 
-        # do this in raw SQL as otherwise we need a third query and an extra loop below
-        questions = PlanQuestion.objects.raw(
-            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score, a.max_score as header_max \
-            from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
-            left join scoring_planquestionscore a on q.id = a.plan_question_id \
-            where s.year = '2021' and ( a.plan_score_id = %s or a.plan_score_id is null) and (q.question_type = 'HEADER' or a.plan_question_id is not null)\
-            order by q.code",
-            [plan_score.id],
+        question_max_counts = PlanQuestionScore.all_question_max_score_counts(
+            council_group=group, plan_year=settings.PLAN_YEAR
         )
 
-        max_counts = (
-            PlanQuestionScore.objects.filter(
-                plan_score__council__authority_type__in=group["types"],
-                plan_score__council__country__in=group["countries"],
-                score=F("plan_question__max_score"),
-            )
-            .exclude(
-                plan_question__question_type="HEADER",
-            )
-            .values("plan_question__code")
-            .annotate(council_count=Count("pk"))
-        )
-
-        header_max_counts = (
-            PlanQuestionScore.objects.filter(
-                plan_question__question_type="HEADER",
-                plan_score__council__authority_type__in=group["types"],
-                plan_score__council__country__in=group["countries"],
-                score=F("max_score"),
-            )
-            .values("plan_question__code")
-            .annotate(council_count=Count("pk"))
-        )
-
-        question_max_counts = {}
-        for count in max_counts:
-            question_max_counts[count["plan_question__code"]] = count["council_count"]
-
-        for count in header_max_counts:
-            question_max_counts[count["plan_question__code"]] = count["council_count"]
-
-        for question in questions:
+        for question in plan_score.questions_answered():
             section = question.section_code
             q = {
                 "code": question.code,
@@ -289,6 +213,11 @@ class CouncilView(CheckForDownPageMixin, DetailView):
                 q["max"] = question.header_max
 
             sections[section]["answers"].append(q)
+
+        council_count = Council.objects.filter(
+            authority_type__in=group["types"],
+            country__in=group["countries"],
+        ).count()
 
         context["council_count"] = council_count
         context["targets"] = promises

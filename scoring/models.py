@@ -1,9 +1,29 @@
 from collections import defaultdict
 
 from django.db import models
-from django.db.models import Avg, Max, Q
+from django.db.models import Avg, Max, Q, F, Count
 
 from caps.models import Council
+
+
+# define this here as mixins imports PlanScore so if we import that then we get
+# circular references
+class ScoreFilterMixin:
+    @classmethod
+    def filter_for_council_and_plan_year(
+        cls, queryset, council_group=None, plan_year=None
+    ):
+        if council_group is not None:
+            queryset = queryset.filter(
+                plan_score__council__authority_type__in=council_group["types"],
+                plan_score__council__country__in=council_group["countries"],
+            )
+
+        if plan_year is not None:
+            year_filter = {cls.year_filter: plan_year}
+            queryset = queryset.filter(**year_filter)
+
+        return queryset
 
 
 class PlanScore(models.Model):
@@ -83,6 +103,19 @@ class PlanScore(models.Model):
         max_length=100, choices=RUC_TYPES, null=True, blank=True
     )
     political_control = models.CharField(max_length=100, null=True, blank=True)
+
+    def questions_answered(self):
+        # do this in raw SQL as otherwise we need an extra query
+        questions = PlanQuestion.objects.raw(
+            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score, a.max_score as header_max \
+            from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
+            left join scoring_planquestionscore a on q.id = a.plan_question_id \
+            where s.year = %s and ( a.plan_score_id = %s or a.plan_score_id is null) and (q.question_type = 'HEADER' or a.plan_question_id is not null)\
+            order by q.code",
+            [self.year, self.id],
+        )
+
+        return questions
 
     @classmethod
     def ruc_cluster_description(cls, ruc_cluster):
@@ -180,10 +213,12 @@ class PlanSection(models.Model):
         return averages
 
 
-class PlanSectionScore(models.Model):
+class PlanSectionScore(ScoreFilterMixin, models.Model):
     """
     Score for a section of a council's plan
     """
+
+    year_filter = "plan_section__year"
 
     plan_score = models.ForeignKey(PlanScore, on_delete=models.CASCADE)
     plan_section = models.ForeignKey(PlanSection, on_delete=models.CASCADE)
@@ -196,6 +231,29 @@ class PlanSectionScore(models.Model):
     top_performer = models.CharField(
         max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
     )
+
+    @classmethod
+    def sections_for_council(cls, council=None, plan_year=None):
+        sections = {}
+        section_qs = cls.objects.select_related("plan_section").filter(
+            plan_score__council=council, plan_section__year=plan_year
+        )
+
+        sections = {}
+        for section in section_qs.all():
+            sections[section.plan_section.code] = {
+                "top_performer": section.top_performer,
+                "code": section.plan_section.code,
+                "description": section.plan_section.description,
+                "max_score": section.max_score,
+                # default this to zero as the query below won't return a row if no
+                # councils got full marks
+                "max_count": 0,
+                "score": section.score,
+                "answers": [],
+            }
+
+        return sections
 
     @classmethod
     def get_all_council_scores(cls):
@@ -224,6 +282,36 @@ class PlanSectionScore(models.Model):
             }
 
         return councils
+
+    @classmethod
+    def get_all_section_averages(cls, council_group=None, plan_year=None):
+        section_avgs = cls.objects.select_related("plan_section").filter(
+            plan_score__total__gt=0
+        )
+        section_avgs = cls.filter_for_council_and_plan_year(
+            section_avgs, council_group=council_group, plan_year=plan_year
+        )
+
+        section_avgs = section_avgs.values("plan_section__code").annotate(
+            avg_score=Avg("score")
+        )
+
+        return section_avgs
+
+    @classmethod
+    def get_all_section_top_mark_counts(cls, council_group=None, plan_year=None):
+        section_top_marks = cls.objects.select_related("plan_section").filter(
+            score=F("max_score")
+        )
+        section_top_marks = cls.filter_for_council_and_plan_year(
+            section_top_marks, council_group=council_group, plan_year=plan_year
+        )
+
+        section_top_marks = section_top_marks.values("plan_section__code").annotate(
+            max_score_count=Count("pk")
+        )
+
+        return section_top_marks
 
 
 class PlanQuestion(models.Model):
@@ -267,10 +355,12 @@ class PlanQuestion(models.Model):
         return code
 
 
-class PlanQuestionScore(models.Model):
+class PlanQuestionScore(ScoreFilterMixin, models.Model):
     """
     Score for an individual question for a council's plan
     """
+
+    year_filter = "plan_score__year"
 
     plan_score = models.ForeignKey(PlanScore, on_delete=models.CASCADE)
     plan_question = models.ForeignKey(
@@ -280,3 +370,41 @@ class PlanQuestionScore(models.Model):
     score = models.PositiveSmallIntegerField(default=0)
     max_score = models.PositiveSmallIntegerField(default=0)
     notes = models.TextField(null=True, default="")
+
+    @classmethod
+    def all_question_max_score_counts(cls, council_group=None, plan_year=None):
+        max_counts = PlanQuestionScore.objects.filter(
+            score=F("plan_question__max_score"),
+        ).exclude(
+            plan_question__question_type="HEADER",
+        )
+
+        max_counts = cls.filter_for_council_and_plan_year(
+            max_counts, council_group=council_group, plan_year=plan_year
+        )
+
+        max_counts = max_counts.values("plan_question__code").annotate(
+            council_count=Count("pk")
+        )
+
+        header_max_counts = PlanQuestionScore.objects.filter(
+            plan_question__question_type="HEADER",
+            score=F("max_score"),
+        )
+
+        header_max_counts = cls.filter_for_council_and_plan_year(
+            header_max_counts, council_group=council_group, plan_year=plan_year
+        )
+
+        header_max_counts = header_max_counts.values("plan_question__code").annotate(
+            council_count=Count("pk")
+        )
+
+        question_max_counts = {}
+        for count in max_counts:
+            question_max_counts[count["plan_question__code"]] = count["council_count"]
+
+        for count in header_max_counts:
+            question_max_counts[count["plan_question__code"]] = count["council_count"]
+
+        return question_max_counts
