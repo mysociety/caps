@@ -152,7 +152,7 @@ PLAN_YEAR = 2021
 PLAN_SCORECARD_DATASET_DETAILS = {
     "org": "mysociety",
     "repo": "climate_scorecard_data",
-    "tag": "1.0.2",
+    "tag": "1.1.0",
     "private": True,
 }
 
