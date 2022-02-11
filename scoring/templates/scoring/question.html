@@ -76,6 +76,16 @@
             </div>
         </div>
 
+      {% if council_count == 0 %}
+
+        <div id="filter-result" class="row bg-white mb-4 mb-lg-5 mx-auto border-top" style="max-width:100%">
+            <div class="d-flex flex-row align-items-center px-3 p-3">
+                <p class="mb-0">No councils match these filters</p>
+            </div>
+        </div>
+
+      {% else %}
+
         <div id="filter-result" class="row bg-white mb-4 mb-lg-5 mx-auto border-top" style="max-width:100%">
             <div class="d-flex flex-row align-items-center px-3 p-3">
                 <p class="label green mb-0 mr-2">Number of councils</p>
@@ -193,6 +203,9 @@
           {% endfor %}
 
         </div>
+
+      {% endif %}
+
     </div>
 </div>
 
