@@ -118,7 +118,6 @@ tbody th.council-name .council-name-flex-cell{
 .scorecard-table {
     th, td {
         vertical-align: middle;
-        background-color: $white;
         position: relative;
         z-index: 0;
     }
@@ -276,14 +275,16 @@ tbody th.council-name .council-name-flex-cell{
 
     tbody tr {
         &:nth-child(odd) {
-            th, td{
                 background-color: #F8F8F8;
-            }
         }
     }
 
     .council-total-score, .total-score {
         left: 250px;
+    }
+
+    .has-no-plan {
+        padding-left: 32.5px; // match the `margin: auto` on .score-bar
     }
 }
 
@@ -581,6 +582,7 @@ $padding-left: 8px;
 
     tbody th, tbody td {
         word-break: break-word;
+        line-height: 1.2; // rather than the 150% inherited from body
     }
 
     .council-link {
@@ -593,9 +595,7 @@ $padding-left: 8px;
         border: $border-table;
         border-top: none;
         &:nth-child(odd) {
-            th, td {
                 background-color: #F8F8F8;
-            }
         }
     }
 
