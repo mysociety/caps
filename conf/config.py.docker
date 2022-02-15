@@ -35,3 +35,5 @@ SCORECARDS_PRIVATE = strtobool(os.environ.get("SCORECARDS_PRIVATE", "False"))
 
 VEGALITE_SERVER_URL = os.environ.get("VEGALITE_SERVER_URL", "")
 VEGALITE_ENCRYPT_KEY = os.environ.get("VEGALITE_ENCRYPT_KEY", "")
+
+HIDE_DEBUG_TOOLBAR = strtobool(os.environ.get("HIDE_DEBUG_TOOLBAR", "False"))

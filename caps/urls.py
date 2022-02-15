@@ -1,5 +1,6 @@
 from django.urls import include, path
 from django.contrib import admin
+from django.conf import settings
 
 import haystack.generic_views
 from caps.forms import HighlightedSearchForm
@@ -41,3 +42,10 @@ urlpatterns = [
         name="council-commitments",
     ),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ]

@@ -23,6 +23,7 @@ SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 ROOT_HOSTCONF = "proj.hosts"
 DEFAULT_HOST = "cape"
 
+HIDE_DEBUG_TOOLBAR = False
 DEBUG = True
 
 if DEBUG:
@@ -209,7 +210,7 @@ DATABASES = {
     }
 }
 
-MIDDLEWARE = (
+MIDDLEWARE = [
     "django_hosts.middleware.HostsRequestMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -220,7 +221,7 @@ MIDDLEWARE = (
     "htmlmin.middleware.HtmlMinifyMiddleware",
     "htmlmin.middleware.MarkRequestMiddleware",
     "django_hosts.middleware.HostsResponseMiddleware",
-)
+]
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -244,6 +245,30 @@ USE_TZ = True
 BOOTSTRAP4 = {
     "success_css_class": None,
 }
+
+if DEBUG and HIDE_DEBUG_TOOLBAR == False:
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[:-1] + "1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+
+    # debug toolbar has to come after django_hosts middleware
+    MIDDLEWARE.insert(1, "debug_toolbar.middleware.DebugToolbarMiddleware")
+
+    INSTALLED_APPS += ("debug_toolbar",)
+
+    DEBUG_TOOLBAR_PANELS = [
+        "debug_toolbar.panels.versions.VersionsPanel",
+        "debug_toolbar.panels.timer.TimerPanel",
+        "debug_toolbar.panels.settings.SettingsPanel",
+        "debug_toolbar.panels.headers.HeadersPanel",
+        "debug_toolbar.panels.request.RequestPanel",
+        "debug_toolbar.panels.sql.SQLPanel",
+        "debug_toolbar.panels.staticfiles.StaticFilesPanel",
+        "debug_toolbar.panels.templates.TemplatesPanel",
+        "debug_toolbar.panels.cache.CachePanel",
+        "debug_toolbar.panels.signals.SignalsPanel",
+        "debug_toolbar.panels.logging.LoggingPanel",
+        "debug_toolbar.panels.redirects.RedirectsPanel",
+    ]
 
 # mainting pre 3.2 auto increment field
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

@@ -15,6 +15,7 @@ django-import-export==2.0.2
 django-markitup==4.0.0
 djangorestframework==3.12.4
 django-simple-history==3.0.0
+django-debug-toolbar==3.2.2
 -e git+https://github.com/mysociety/django-pipeline@c67514ae828f79454320a37b0aeb154c7359e19c#egg=django_pipeline
 -e git+https://github.com/mysociety/django-pipeline-csscompressor@6a88fde5045d68746f1c7ee816deda86615c5581#egg=django_pipeline_csscompressor
 git+https://github.com/jazzband/django-hosts/@55634e5dd5cce33619dcb641c5e3c6a9c85e7caa#egg=django_hosts

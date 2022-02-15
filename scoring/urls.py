@@ -1,5 +1,6 @@
 from django.urls import include, path
 from django.contrib import admin
+from django.conf import settings
 
 import scoring.views as views
 
@@ -21,3 +22,10 @@ urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
     path("logout/", views.LogoutView.as_view(), name="logout"),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ]
