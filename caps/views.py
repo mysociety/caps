@@ -118,20 +118,6 @@ class CouncilDetailView(DetailView):
         try:
             plan_score = PlanScore.objects.get(council=council, year=2021)
 
-            section_qs = PlanSectionScore.objects.select_related("plan_section").filter(
-                plan_score__council=council, plan_section__year=2021
-            )
-
-            sections = {}
-            for section in section_qs.all():
-                sections[section.plan_section.code] = {
-                    "top_performer": section.top_performer,
-                    "code": section.plan_section.code,
-                    "description": section.plan_section.description,
-                    "max_score": section.max_score,
-                    "score": section.score,
-                }
-
             group = council.get_scoring_group()
 
             average_total = PlanScore.objects.filter(
@@ -141,17 +127,13 @@ class CouncilDetailView(DetailView):
                 year=2021,
             ).aggregate(average_score=Avg("weighted_total"))
 
+            sections = PlanSectionScore.sections_for_council(
+                council=council, plan_year=settings.PLAN_YEAR
+            )
+
             # get average section scores for authorities of the same type
-            section_avgs = (
-                PlanSectionScore.objects.select_related("plan_section")
-                .filter(
-                    plan_score__total__gt=0,
-                    plan_score__council__authority_type__in=group["types"],
-                    plan_score__council__country__in=group["countries"],
-                    plan_section__year=2021,
-                )
-                .values("plan_section__code")
-                .annotate(avg_score=Avg("score"))
+            section_avgs = PlanSectionScore.get_all_section_averages(
+                council_group=group, plan_year=settings.PLAN_YEAR
             )
 
             for section in section_avgs.all():
