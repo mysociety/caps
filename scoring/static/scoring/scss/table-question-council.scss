@@ -121,7 +121,6 @@ $pick-council-break-point--question: 1200px;
         padding: 16px 10px;
         text-transform: uppercase;
         @include responsive(font-size, 11, 12);
-        vertical-align: top;
 
         &.is--mobile {
             display: none;

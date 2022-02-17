@@ -216,7 +216,7 @@
                                 <td data-column="answer" colspan="1">
                                     <div class="question-content-table text-left">
                                         <a href="{% url 'question' answer.code %}" class="question-no is--mobile">{{ answer.pretty_code }}</a>
-                                        {{ answer.question | linebreaks }}
+                                        <a href="{% url 'question' answer.code %}">{{ answer.question | linebreaks }}</a>
                                     </div>
                               {% else %}
                                 <td data-column="answer">
