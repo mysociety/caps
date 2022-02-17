@@ -111,9 +111,11 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
         codes = PlanSection.section_codes()
 
         form = ScoringSort(self.request.GET)
+        sorted_by = None
         if form.is_valid():
             sort = form.cleaned_data["sort_by"]
             if sort != "":
+                sorted_by = sort
                 councils = sorted(
                     councils,
                     key=lambda council: 0
@@ -128,6 +130,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
         context["authority_type_label"] = authority_type["name"]
 
         context["form"] = form
+        context["sorted_by"] = sorted_by
         context["council_data"] = councils
         context["averages"] = averages
 
