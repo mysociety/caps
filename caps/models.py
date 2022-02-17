@@ -268,14 +268,14 @@ class Council(models.Model):
         return df
 
     def get_scoring_group(self):
-        if self.authority_type in ("CC", "LBO", "MD", "UA"):
+        if self.country == self.NORTHERN_IRELAND:
+            group = "northern-ireland"
+        elif self.authority_type in ("CC", "LBO", "MD", "UA"):
             group = "single"
         elif self.authority_type == "NMD":
             group = "district"
         elif self.authority_type == "CTY":
             group = "county"
-        elif self.country == self.NORTHERN_IRELAND:
-            group = "northern-ireland"
         elif self.authority_type in ["COMB", "SRA"]:
             group = "combined"
         else:
