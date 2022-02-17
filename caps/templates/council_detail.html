@@ -140,12 +140,12 @@
                     <p class="mb-0 mr-lg-5">
                         {{ council.name }} was a <strong>top performer</strong>
                       {% if scoring_accolades.overall %}
-                        amongst {{ scoring_group.name|lower }} councils.
+                        amongst {% include 'includes/authority_type.html' with group=scoring_group %} councils.
                       {% elif scoring_accolades.num_sections == 1 %}
-                        amongst {{ scoring_group.name|lower }} councils,
+                        amongst {% include 'includes/authority_type.html' with group=scoring_group %} councils,
                         in the <strong>{{ scoring_accolades.example_section }}</strong> section.
                       {% else %}
-                        amongst {{ scoring_group.name|lower }} councils,
+                        amongst {% include 'includes/authority_type.html' with group=scoring_group %} councils,
                         in {{ scoring_accolades.num_sections|apnumber }} sections
                         including <strong>{{ scoring_accolades.example_section }}</strong>.
                       {% endif %}
@@ -159,7 +159,7 @@
                         <tr>
                             <th scope="col">Section</th>
                             <th scope="col"><a href="https://councilclimatescorecards.uk/councils/{{ council.slug }}/">{{ council.name|truncatechars:40 }}{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a></th>
-                            <th scope="col">Average {{ scoring_group.name|lower }} council</th>
+                            <th scope="col">Average {% include 'includes/authority_type.html' with group=scoring_group %} council</th>
                         </tr>
                     </thead>
                     <tr class="total {% if scoring_score.top_performer %}top-performer{% endif %}">
