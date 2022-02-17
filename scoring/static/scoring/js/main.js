@@ -111,6 +111,50 @@ forEachElement('.js-location-jump-autocomplete', function(input){
     });
 });
 
+forEachElement('.js-location-compare-autocomplete', function(input){
+    var ac = new Awesomplete(
+        input,
+        {
+            list: councils.map(function(council){
+                return council.name;
+            }),
+            minChars: 3,
+            autoFirst: true
+        }
+    );
+    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
+        var council = findItem(councils, {'name': data.text });
+        var sp = new URLSearchParams(window.location.search)
+        var comparisons = sp.getAll('comparisons');
+
+        if (!comparisons.includes(council.slug)) {
+            comparisons.push(council.slug);
+        }
+        sp.delete('comparisons');
+        for (comparison of comparisons.values()) {
+            sp.append('comparisons', comparison);
+        }
+        window.location.href = window.location.pathname + '?' + sp.toString();
+    });
+});
+
+forEachElement('.js-comparison-council', function(link){
+    link.addEventListener('click', function(data){
+        data.preventDefault();
+        var slug = this.getAttribute('data-slug');
+
+        var sp = new URLSearchParams(window.location.search)
+        var comparisons = sp.getAll('comparisons');
+        comparisons = comparisons.filter(comparison => comparison != slug);
+        sp.delete('comparisons');
+        for (comparison of comparisons.values()) {
+            sp.append('comparisons', comparison);
+        }
+        window.location.href = window.location.pathname + '?' + sp.toString();
+        return false;
+    });
+});
+
 var navbarButton = document.getElementById("navbar-toggler");
 var navbarContent = document.getElementById("navbarSupportedContent");
 navbarButton.addEventListener('click', function(){

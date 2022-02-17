@@ -50,11 +50,6 @@ $pick-council-break-point--question: 1200px;
             background-position: left 0px top 4px;
             padding-left: 13px;
         }
-
-        &.comparison-council {
-            @include responsive(font-size, 13, 14);
-            padding-left: 20px;
-        }
     }
 
     //Section cell

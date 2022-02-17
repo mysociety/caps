@@ -181,12 +181,13 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
-
         council = context.get("council")
         group = council.get_scoring_group()
+
+        context["all_councils"] = Council.objects.filter(
+            authority_type__in=group["types"],
+            country__in=group["countries"],
+        )
 
         promises = Promise.objects.filter(council=council).all()
         plan_score = PlanScore.objects.get(council=council, year=2021)
