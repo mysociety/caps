@@ -5,7 +5,7 @@ var councils = [
         name: "{{ council.name }}",
         slug: "{{ council.slug }}",
         council_url: "{% url 'council' council.slug %}",
-        scoring_url: "{% if council.get_scoring_group.slug == 'single'%}{% url 'home' %}{% else %}{% url 'scoring' council.get_scoring_group.slug %}{% endif %}"
+        scoring_url: "{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}"
     },
   {% endfor %}
 ];
