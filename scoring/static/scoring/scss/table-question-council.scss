@@ -209,6 +209,16 @@ $pick-council-break-point--question: 1200px;
     }
 }
 
+.top-tier-score {
+    span {
+        display: block;
+        max-width: 14em;
+        margin: 0.25rem auto 0 auto;
+        font-size: 80%;
+        line-height: 1.3;
+    }
+}
+
 // JavaScript-powered .js-toggle-council-question-table-section
 .accordion-enabled {
     tbody {

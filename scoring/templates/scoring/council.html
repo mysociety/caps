@@ -174,7 +174,7 @@
                                 <th scope="col" class="text-left">Questions</th>
                                 <th scope="col" class="current-council-score">{{ council.name }}</th>
                                 <th scope="col" class="top-tier-head">
-                                     <p class="top-performer">Councils with full scores</p>
+                                     <p class="top-performer">Councils with full marks</p>
                                  </th>
                             </tr>
                         </thead>
@@ -189,7 +189,7 @@
                                     <span>{{ section.score }}/{{ section.max_score }}</span>
                                 </td>
                                 <td class="top-tier-score">
-                                  <a href="#" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a><span class="small d-block mt-1">councils got full marks for this section.</span>
+                                  <a href="#LINK_TO_AUTHORITY_TYPE_HOMEPAGE_SORTED_BY_THIS_SECTION" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span>AUTHORITY_TYPE councils got full marks for this section.</span>
                                 </td>
                                 <td class="button-wrapper p-0">
                                     <button type="button" class="accordion js-toggle-council-question-table-section" aria-label="Expand this section" title="Expand this section">
@@ -236,7 +236,7 @@
                                     <span>{{ answer.score }}/{{ answer.max }}</span>
                                 </td>
                               <td class="top-tier-score">
-                                <a href="#" class="mx-auto" style="text-transform: none">{{ answer.council_count }} out of {{ council_count }}</a><span class="small d-block mt-1">councils got full marks for this question.</span>
+                                <a href="#LINK_TO_AUTHORITY_TYPE_HOMEPAGE_SORTED_BY_THIS_SECTION" class="mx-auto" style="text-transform: none">{{ answer.council_count }} out of {{ council_count }}</a> <span>AUTHORITY_TYPE councils got full marks for this question.</span>
                                 </td>
                             </tr>
                           {% endfor %}
