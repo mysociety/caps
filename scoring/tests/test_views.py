@@ -35,6 +35,7 @@ class TestAnswerView(TestCase):
                             "score": 1,
                             "type": "HEADER",
                             "council_count": 2,
+                            "comparisons": [],
                         },
                         {
                             "code": "s1_gov_q1_sp1",
@@ -47,6 +48,7 @@ class TestAnswerView(TestCase):
                             "score": 1,
                             "type": "CHECKBOX",
                             "council_count": 2,
+                            "comparisons": [],
                         },
                     ],
                     "avg": 13.0,
@@ -54,6 +56,7 @@ class TestAnswerView(TestCase):
                     "max_count": 0,
                     "description": "Governance, development and funding",
                     "score": 15,
+                    "comparisons": [],
                 },
                 {
                     "top_performer": None,
@@ -64,6 +67,7 @@ class TestAnswerView(TestCase):
                     "max_count": 0,
                     "description": "Mitigation and adaptation",
                     "score": 10,
+                    "comparisons": [],
                 },
             ],
         )
@@ -99,6 +103,7 @@ class TestAnswerView(TestCase):
                             "score": 1,
                             "type": "HEADER",
                             "council_count": 1,
+                            "comparisons": [],
                         },
                         {
                             "code": "s1_gov_q1_sp1",
@@ -111,6 +116,7 @@ class TestAnswerView(TestCase):
                             "score": 1,
                             "type": "CHECKBOX",
                             "council_count": 1,
+                            "comparisons": [],
                         },
                     ],
                     "avg": 13.7,
@@ -118,6 +124,7 @@ class TestAnswerView(TestCase):
                     "max_count": 0,
                     "description": "Governance, development and funding",
                     "score": 15,
+                    "comparisons": [],
                 },
                 {
                     "top_performer": None,
@@ -128,6 +135,7 @@ class TestAnswerView(TestCase):
                     "max_count": 0,
                     "description": "Mitigation and adaptation",
                     "score": 10,
+                    "comparisons": [],
                 },
             ],
         )
@@ -163,6 +171,7 @@ class TestAnswerView(TestCase):
                             "score": 1,
                             "type": "HEADER",
                             "council_count": 2,
+                            "comparisons": [],
                         },
                         {
                             "code": "s1_gov_q1_sp1",
@@ -175,6 +184,7 @@ class TestAnswerView(TestCase):
                             "score": 1,
                             "type": "CHECKBOX",
                             "council_count": 2,
+                            "comparisons": [],
                         },
                     ],
                     "avg": 10.2,
@@ -182,6 +192,7 @@ class TestAnswerView(TestCase):
                     "max_count": 0,
                     "description": "Governance, development and funding",
                     "score": 15,
+                    "comparisons": [],
                 },
                 {
                     "top_performer": None,
@@ -192,6 +203,7 @@ class TestAnswerView(TestCase):
                     "max_count": 0,
                     "description": "Mitigation and adaptation",
                     "score": 10,
+                    "comparisons": [],
                 },
             ],
         )
@@ -225,6 +237,7 @@ class TestAnswerView(TestCase):
                             "score": 1,
                             "type": "HEADER",
                             "council_count": 2,
+                            "comparisons": [],
                         },
                         {
                             "code": "s1_gov_q1_sp1",
@@ -237,6 +250,7 @@ class TestAnswerView(TestCase):
                             "score": 1,
                             "type": "CHECKBOX",
                             "council_count": 2,
+                            "comparisons": [],
                         },
                     ],
                     "avg": 13.7,
@@ -244,6 +258,7 @@ class TestAnswerView(TestCase):
                     "max_count": 0,
                     "description": "Governance, development and funding",
                     "score": 15,
+                    "comparisons": [],
                 },
                 {
                     "top_performer": None,
@@ -254,6 +269,7 @@ class TestAnswerView(TestCase):
                     "max_count": 0,
                     "description": "Mitigation and adaptation",
                     "score": 10,
+                    "comparisons": [],
                 },
             ],
         )
@@ -313,6 +329,7 @@ class TestTopPerormersInViews(TestCase):
                             "score": 1,
                             "type": "HEADER",
                             "council_count": 1,
+                            "comparisons": [],
                         },
                         {
                             "code": "s1_gov_q1_sp1",
@@ -325,6 +342,7 @@ class TestTopPerormersInViews(TestCase):
                             "score": 1,
                             "type": "CHECKBOX",
                             "council_count": 2,
+                            "comparisons": [],
                         },
                     ],
                     "avg": 13.0,
@@ -332,6 +350,7 @@ class TestTopPerormersInViews(TestCase):
                     "max_count": 0,
                     "description": "Governance, development and funding",
                     "score": 15,
+                    "comparisons": [],
                 },
                 {
                     "top_performer": None,
@@ -342,6 +361,7 @@ class TestTopPerormersInViews(TestCase):
                     "max_count": 0,
                     "description": "Mitigation and adaptation",
                     "score": 10,
+                    "comparisons": [],
                 },
             ],
         )

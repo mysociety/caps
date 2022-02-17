@@ -195,6 +195,20 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             council_group=group, plan_year=settings.PLAN_YEAR
         )
 
+        comparison_slugs = self.request.GET.getlist("comparisons")
+        comparisons = None
+        if comparison_slugs:
+            comparisons = (
+                PlanScore.objects.select_related("council")
+                .filter(council__slug__in=comparison_slugs)
+                .order_by("council__name")
+            )
+            comparison_sections = PlanSectionScore.sections_for_plans(
+                plans=comparisons, plan_year=settings.PLAN_YEAR
+            )
+            for section, details in comparison_sections.items():
+                sections[section]["comparisons"] = details
+
         for question in plan_score.questions_answered():
             section = question.section_code
             q = {
@@ -233,6 +247,8 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         context["page_title"] = "{name} Climate Plan Scorecards".format(
             name=council.name
         )
+
+        context["comparisons"] = comparisons
         context[
             "page_description"
         ] = "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(

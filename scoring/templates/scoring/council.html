@@ -121,6 +121,9 @@
                             <tr>
                                 <th scope="col" class="text-left">Sections</th>
                                 <th scope="col">{{ council.name }}</th>
+                                {% for comparison in comparisons %}
+                                <th scope="col">{{ comparison.council.name }}</th>
+                                {% endfor %}
                                 <th scope="col">Average {% include 'includes/authority_type.html' with group=authority_type %} council score</th>
                             </tr>
                         </thead>
@@ -141,6 +144,17 @@
                                     {{ section.score }}/{{ section.max_score }}
                                     </span>
                                 </td>
+                                {% for comparison in section.comparisons %}
+                                <td>
+                                    {% if comparison.top_performer %}
+                                    <span class="top-performer">
+                                    {% else %}
+                                    <span>
+                                    {% endif %}
+                                    {{ comparison.score }}/{{ comparison.max_score }}
+                                    </span>
+                                </td>
+                                {% endfor %}
                                 <td>
                                     {{ section.avg }}/{{ section.max_score }}
                                 </td>

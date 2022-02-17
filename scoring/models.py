@@ -233,6 +233,21 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
     )
 
     @classmethod
+    def make_section_object(cls, section):
+        return {
+            "top_performer": section.top_performer,
+            "code": section.plan_section.code,
+            "description": section.plan_section.description,
+            "max_score": section.max_score,
+            # default this to zero as the query below won't return a row if no
+            # councils got full marks
+            "max_count": 0,
+            "score": section.score,
+            "answers": [],
+            "comparisons": [],
+        }
+
+    @classmethod
     def sections_for_council(cls, council=None, plan_year=None):
         sections = {}
         section_qs = cls.objects.select_related("plan_section").filter(
@@ -241,17 +256,22 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
 
         sections = {}
         for section in section_qs.all():
-            sections[section.plan_section.code] = {
-                "top_performer": section.top_performer,
-                "code": section.plan_section.code,
-                "description": section.plan_section.description,
-                "max_score": section.max_score,
-                # default this to zero as the query below won't return a row if no
-                # councils got full marks
-                "max_count": 0,
-                "score": section.score,
-                "answers": [],
-            }
+            sections[section.plan_section.code] = cls.make_section_object(section)
+
+        return sections
+
+    @classmethod
+    def sections_for_plans(cls, plans=None, plan_year=None):
+        sections = {}
+        section_qs = (
+            cls.objects.select_related("plan_section")
+            .filter(plan_score__in=plans, plan_section__year=plan_year)
+            .order_by("plan_section__code", "plan_score__council__name")
+        )
+
+        sections = defaultdict(list)
+        for section in section_qs.all():
+            sections[section.plan_section.code].append(cls.make_section_object(section))
 
         return sections
 
