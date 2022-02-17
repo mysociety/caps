@@ -187,6 +187,9 @@
                                 <th scope="col">#</th>
                                 <th scope="col" class="text-left">Questions</th>
                                 <th scope="col" class="current-council-score">{{ council.name }}</th>
+                                {% for comparison in comparisons %}
+                                <th scope="col" class="comparison-council">{{ comparison.council.name }}</th>
+                                {% endfor %}
                                 <th scope="col" class="top-tier-head">
                                      <p class="top-performer">Councils with full marks</p>
                                  </th>
@@ -202,6 +205,11 @@
                                 <td class="score is--section-score {% if section.top_performer %}top-performer{% endif %}">
                                     <span>{{ section.score }}/{{ section.max_score }}</span>
                                 </td>
+                                {% for comparison in section.comparisons %}
+                                <td class="score is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
+                                    {{ comparison.score }}/{{ comparison.max_score }}
+                                </td>
+                                {% endfor %}
                                 <td class="top-tier-score">
                                   <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span>{% include 'includes/authority_type.html' with group=authority_type %} councils got full marks for this section.</span>
                                 </td>
@@ -249,6 +257,17 @@
                               {% endif %}
                                     <span>{{ answer.score }}/{{ answer.max }}</span>
                                 </td>
+                              {% if answer.type != 'HEADER' %}
+                              {% for comparison in comparisons %}
+                                <td></td>
+                              {% endfor %}
+                              {% else %}
+                              {% for comparison in answer.comparisons %}
+                                <td data-column="score" class="score is--header-score">
+                                    <span>{{ comparison.score }}/{{ comparison.max }}</span>
+                                </td>
+                              {% endfor %}
+                              {% endif %}
                               <td class="top-tier-score">
                                 <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ answer.council_count }} out of {{ council_count }}</a> <span>{% include 'includes/authority_type.html' with group=authority_type %} councils got full marks for this question.</span>
                                 </td>

@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.views.generic import DetailView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Subquery, OuterRef, Count, Sum, F
@@ -158,6 +160,25 @@ class CouncilView(CheckForDownPageMixin, DetailView):
     context_object_name = "council"
     template_name = "scoring/council.html"
 
+    def make_question_obj(self, question):
+        q = {
+            "code": question.code,
+            "pretty_code": question.pretty_code(),
+            "display_code": question.code.replace(
+                "{}_".format(question.section_code), "", 1
+            ),
+            "question": question.text,
+            "type": question.question_type,
+            "max": question.max_score,
+            "section": question.section_code,
+            "answer": question.answer or "-",
+            "score": question.score or 0,
+        }
+        if question.question_type == "HEADER":
+            q["max"] = question.header_max
+
+        return q
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context[
@@ -197,6 +218,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
         comparison_slugs = self.request.GET.getlist("comparisons")
         comparisons = None
+        comparison_answers = defaultdict(list)
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
@@ -209,25 +231,19 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             for section, details in comparison_sections.items():
                 sections[section]["comparisons"] = details
 
+            comparison_ids = [p.id for p in comparisons]
+            for question in PlanScore.questions_answered_for_councils(
+                plan_ids=comparison_ids, plan_year=settings.PLAN_YEAR
+            ):
+                q = self.make_question_obj(question)
+                comparison_answers[question.code].append(q)
+
         for question in plan_score.questions_answered():
             section = question.section_code
-            q = {
-                "code": question.code,
-                "pretty_code": question.pretty_code(),
-                "display_code": question.code.replace(
-                    "{}_".format(question.section_code), "", 1
-                ),
-                "question": question.text,
-                "type": question.question_type,
-                "max": question.max_score,
-                "section": question.section_code,
-                "answer": question.answer or "-",
-                "score": question.score or 0,
-                "council_count": question_max_counts.get(question.code, 0),
-            }
 
-            if question.question_type == "HEADER":
-                q["max"] = question.header_max
+            q = self.make_question_obj(question)
+            q["council_count"] = question_max_counts.get(question.code, 0)
+            q["comparisons"] = comparison_answers[question.code]
 
             sections[section]["answers"].append(q)
 
