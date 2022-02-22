@@ -126,6 +126,7 @@ PIPELINE = {
 
 DATA_DIR = "data"
 PLANS_DIR = os.path.join(DATA_DIR, "plans")
+SCOTTISH_DIR = os.path.join(DATA_DIR, "scottish")
 PLANS_CSV_KEY = "1tEnjJRaWsdXtCkMwA25-ZZ8D75zAY6c2GOOeUchZsnU"
 PLANS_CSV_SHEET_NAME = "Councils"
 RAW_CSV_NAME = "raw_plans.csv"
