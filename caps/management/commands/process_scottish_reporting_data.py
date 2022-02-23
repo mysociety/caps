@@ -74,14 +74,21 @@ class Command(BaseCommand):
                 fetched = self.extract_emissions_data_from_sheet()
                 parsed["emissions"] = fetched
 
-    def make_data_point(self, point_type, point_value):
+            if parsed.get("sources", 0) != 1:
+                fetched = self.extract_emissions_sources_from_sheet()
+                parsed["sources"] = fetched
+
+    def make_data_point(self, point_type, point_value, sub_type="", units="", scope=""):
         data_point = {
             "council": self.report_data["council"],
             "authority_code": self.report_data["authority_code"],
             "start_year": self.report_data["start_year"],
             "end_year": self.report_data["end_year"],
             "data_type": point_type,
+            "sub_type": sub_type,
             "data_value": point_value,
+            "units": units,
+            "scope": scope,
         }
 
         return data_point
@@ -156,12 +163,70 @@ class Command(BaseCommand):
                 emissions_df.columns = emissions.iloc[0].values
 
                 for index, row in emissions_df.iterrows():
+                    units = row["Units"]
                     for scope in ["Scope 1", "Scope 2", "Scope 3"]:
                         if pd.isna(row[scope]):
                             continue
-                        point_type = "{} emissions ({})".format(scope, row["Year"])
-                        data_point = self.make_data_point(point_type, row[scope])
+                        point_type = "scope emissions ({})".format(row["Year"])
+                        data_point = self.make_data_point(
+                            point_type, row[scope], scope=scope, units=units
+                        )
                         self.data.append(data_point)
+                    if not pd.isna(row["Total"]):
+                        point_type = "overall emissions ({})".format(row["Year"])
+                        data_point = self.make_data_point(
+                            point_type, row["Total"], units=units
+                        )
+                        self.data.append(data_point)
+
+                return 1
+        except Exception as e:
+            print(
+                "problem parsing sheet {} for emissions in {}: {}".format(
+                    self.sheet_name, self.report, e
+                )
+            )
+
+        return 0
+
+    def extract_emissions_sources_from_sheet(self):
+        column = self.get_description_column()
+        if column == -1:
+            return 0
+
+        try:
+            titles = self.sheet.iloc[:, column]
+            if titles.str.contains(r"Emission source").any():
+                start_count = 0
+                end_count = 0
+                for index, item in titles.items():
+                    if item == "Emission source":
+                        start_count = index
+                    if start_count > 0 and pd.isna(item):
+                        end_count = index
+                        break
+
+                emissions = self.sheet.iloc[start_count:end_count, column:]
+                emissions = emissions.dropna(axis="columns", how="all")
+                emissions_df = emissions.iloc[1:]
+                emissions_df.columns = emissions.iloc[0].values
+
+                for index, row in emissions_df.iterrows():
+                    point_type = row["Emission source"]
+                    point_data = row["Emissions (tCO2e)"]
+                    if point_type in [
+                        "Please select from drop down box",
+                        "Other (please specify in comments)",
+                    ]:
+                        continue
+                    data_point = self.make_data_point(
+                        "emissions source",
+                        point_data,
+                        sub_type=point_type,
+                        scope=row["Scope"],
+                        units="tCO2e",
+                    )
+                    self.data.append(data_point)
 
                 return 1
         except Exception as e:
