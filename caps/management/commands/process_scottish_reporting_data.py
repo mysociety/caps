@@ -11,6 +11,11 @@ class Command(BaseCommand):
 
     data = []
 
+    report = None
+    sheet = None
+    sheet_name = None
+    report_data = None
+
     def handle(self, *args, **options):
         self.process_data()
         self.save_data()
@@ -21,7 +26,8 @@ class Command(BaseCommand):
 
         for index, row in df.iterrows():
             try:
-                self.process_report(row)
+                self.report_data = row
+                self.process_report()
                 # if index == 20:
                 # break
             except Exception as e:
@@ -40,103 +46,100 @@ class Command(BaseCommand):
             )
             return
 
-        report = join(settings.SCOTTISH_DIR, data["file"])
+        self.report = join(settings.SCOTTISH_DIR, self.report_data["file"])
 
-        xls = pd.ExcelFile(report)
+        xls = pd.ExcelFile(self.report)
         parsed = {}
         for sheet_name in xls.sheet_names:
+            self.sheet_name = sheet_name
             # skip this as it's a title page
             if sheet_name == "Guide":
                 continue
 
             try:
-                sheet = pd.read_excel(report, sheet_name)
+                self.sheet = pd.read_excel(self.report, sheet_name)
             except Exception as e:
                 print(
                     "problem reading sheet {} for council data in {}: {}".format(
-                        sheet_name, report, e
+                        sheet_name, self.report, e
                     )
                 )
                 return
 
             if parsed.get("council", 0) != 1:
-                fetched = self.extract_council_data_from_sheet(
-                    sheet, sheet_name, report, data
-                )
+                fetched = self.extract_council_data_from_sheet()
                 parsed["council"] = fetched
 
             if parsed.get("emissions", 0) != 1:
-                fetched = self.extract_emissions_data_from_sheet(
-                    sheet, sheet_name, report, data
-                )
+                fetched = self.extract_emissions_data_from_sheet()
                 parsed["emissions"] = fetched
 
-    def make_data_point(self, data, point_type, point_value):
+    def make_data_point(self, point_type, point_value):
         data_point = {
-            "council": data["council"],
-            "authority_code": data["authority_code"],
-            "start_year": data["start_year"],
-            "end_year": data["end_year"],
+            "council": self.report_data["council"],
+            "authority_code": self.report_data["authority_code"],
+            "start_year": self.report_data["start_year"],
+            "end_year": self.report_data["end_year"],
             "data_type": point_type,
             "data_value": point_value,
         }
 
         return data_point
 
-    def extract_council_data_from_sheet(self, sheet, sheet_name, report, data):
+    def get_description_column(self):
         column = 1
 
         # doesn't hold any useful data and just generated warnings
-        if data["start_year"] == 2014 and sheet_name == "Sheet2":
-            return 0
+        if self.report_data["start_year"] == 2014 and self.sheet_name == "Sheet2":
+            column = -1
 
-        if data["start_year"] >= 2020:
+        if self.report_data["start_year"] >= 2020:
             column = 2
 
-        if len(sheet.columns) <= column:
+        if len(self.sheet.columns) <= column:
+            column = -1
+
+        return column
+
+    def extract_council_data_from_sheet(self):
+        column = self.get_description_column()
+        if column == -1:
             return 0
 
         try:
-            titles = sheet.iloc[:, column]
+            titles = self.sheet.iloc[:, column]
             if titles.str.contains(
                 r"Name of (?:the organisation|reporting body)"
             ).any():
                 last = ""
                 for item in titles:
                     if last == "Budget":
-                        data_point = self.make_data_point(data, "Budget", item)
+                        data_point = self.make_data_point("Budget", item)
                         self.data.append(data_point)
                     elif (
                         type(last) is str
                         and last.find("full-time equivalent staff") > -1
                     ):
-                        data_point = self.make_data_point(data, "FTE", item)
+                        data_point = self.make_data_point("FTE", item)
                         self.data.append(data_point)
                     last = item
                 return 1
         except Exception as e:
             print(
                 "problem parsing sheet {} for council data in {}: {}".format(
-                    sheet_name, report, e
+                    self.sheet_name, self.report, e
                 )
             )
 
         return 0
 
-    def extract_emissions_data_from_sheet(self, sheet, sheet_name, report, data):
-        # doesn't hold any useful data and just generated warnings
-        if data["start_year"] == 2014 and sheet_name == "Sheet2":
-            return 0
-
-        column = 1
-        if data["start_year"] >= 2020:
-            column = 2
-
-        if len(sheet.columns) <= column:
+    def extract_emissions_data_from_sheet(self):
+        column = self.get_description_column()
+        if column == -1:
             return 0
 
         try:
-            titles = sheet.iloc[:, column]
+            titles = self.sheet.iloc[:, column]
             if titles.str.contains(r"Baseline Year").any():
                 start_count = 0
                 end_count = 0
@@ -147,7 +150,7 @@ class Command(BaseCommand):
                         end_count = index
                         break
 
-                emissions = sheet.iloc[start_count:end_count, column:]
+                emissions = self.sheet.iloc[start_count:end_count, column:]
                 emissions = emissions.dropna(axis="columns", how="all")
                 emissions_df = emissions.iloc[1:]
                 emissions_df.columns = emissions.iloc[0].values
@@ -157,14 +160,14 @@ class Command(BaseCommand):
                         if pd.isna(row[scope]):
                             continue
                         point_type = "{} emissions ({})".format(scope, row["Year"])
-                        data_point = self.make_data_point(data, point_type, row[scope])
+                        data_point = self.make_data_point(point_type, row[scope])
                         self.data.append(data_point)
 
                 return 1
         except Exception as e:
             print(
                 "problem parsing sheet {} for emissions in {}: {}".format(
-                    sheet_name, report, e
+                    self.sheet_name, self.report, e
                 )
             )
 
