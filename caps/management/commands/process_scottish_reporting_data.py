@@ -18,7 +18,36 @@ class Command(BaseCommand):
     sheet_name = None
     report_data = None
 
+    subsets = {
+        "council_data": "basic council data",
+        "emissions": "emissions data",
+        "sources": "emissions sources data",
+    }
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--all",
+            default=True,
+            action="store_true",
+            help="Update all data",
+        )
+
+        for arg, desc in self.subsets.items():
+            parser.add_argument(
+                "--{}".format(arg),
+                action="store_true",
+                help="Update {}".format(desc),
+            )
+
     def handle(self, *args, **options):
+        self.options = options
+
+        get_all = options["all"]
+        for option in self.subsets.keys():
+            if options[option]:
+                self.options["all"] = False
+                break
+
         self.process_data()
         self.save_data()
 
@@ -68,15 +97,21 @@ class Command(BaseCommand):
                 )
                 return
 
-            if parsed.get("council", 0) != 1:
+            if (self.options["all"] or self.options["council_data"]) and parsed.get(
+                "council", 0
+            ) != 1:
                 fetched = self.extract_council_data_from_sheet()
                 parsed["council"] = fetched
 
-            if parsed.get("emissions", 0) != 1:
+            if (self.options["all"] or self.options["emissions"]) and parsed.get(
+                "emissions", 0
+            ) != 1:
                 fetched = self.extract_emissions_data_from_sheet()
                 parsed["emissions"] = fetched
 
-            if parsed.get("sources", 0) != 1:
+            if (self.options["all"] or self.options["sources"]) and parsed.get(
+                "sources", 0
+            ) != 1:
                 fetched = self.extract_emissions_sources_from_sheet()
                 parsed["sources"] = fetched
 
@@ -165,7 +200,6 @@ class Command(BaseCommand):
                 df.columns = row_range.iloc[0].values
 
         return df
-
 
     def extract_emissions_data_from_sheet(self):
         column = self.get_description_column()
