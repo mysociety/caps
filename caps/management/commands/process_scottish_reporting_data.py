@@ -22,6 +22,7 @@ class Command(BaseCommand):
         "council_data": "basic council data",
         "emissions": "emissions data",
         "sources": "emissions sources data",
+        "targets": "reduction targets data",
     }
 
     def add_arguments(self, parser):
@@ -115,7 +116,15 @@ class Command(BaseCommand):
                 fetched = self.extract_emissions_sources_from_sheet()
                 parsed["sources"] = fetched
 
-    def make_data_point(self, point_type, point_value, sub_type="", units="", scope=""):
+            if (self.options["all"] or self.options["targets"]) and parsed.get(
+                "targets", 0
+            ) != 1:
+                fetched = self.extract_targets_from_sheet()
+                parsed["targets"] = fetched
+
+    def make_data_point(
+        self, point_type, point_value, sub_type="", units="", scope="", target_year=""
+    ):
         data_point = {
             "council": self.report_data["council"],
             "authority_code": self.report_data["authority_code"],
@@ -126,6 +135,7 @@ class Command(BaseCommand):
             "data_value": point_value,
             "units": units,
             "scope": scope,
+            "target_year": target_year,
         }
 
         return data_point
@@ -269,6 +279,46 @@ class Command(BaseCommand):
                 )
             )
 
+        return 0
+
+    def extract_targets_from_sheet(self):
+        column = self.get_description_column()
+        if column == -1:
+            return 0
+
+        try:
+            targets_df = self.get_row_range(column, r"Name of [Tt]arget")
+            if targets_df is not None:
+                type_header = "Name of Target"
+                if type_header not in targets_df.columns:
+                    type_header = "Name of target"
+
+                for index, row in targets_df.iterrows():
+                    point_type = row[type_header]
+                    point_data = row["Target"]
+                    point_units = row["Units"]
+                    year = row["Target completion year"]
+                    if point_data in [
+                        "Please select from drop down box",
+                        "Other (please specify in comments)",
+                    ]:
+                        continue
+                    data_point = self.make_data_point(
+                        "target",
+                        point_data,
+                        sub_type=point_type,
+                        units=point_units,
+                        target_year=year,
+                    )
+                    self.data.append(data_point)
+
+                return 1
+        except Exception as e:
+            print(
+                "problem parsing sheet {} for targets in {}: {}".format(
+                    self.sheet_name, self.report, e
+                )
+            )
         return 0
 
     def save_data(self):
