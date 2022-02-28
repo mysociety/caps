@@ -1,3 +1,5 @@
+import re
+
 from os.path import join
 
 import pandas as pd
@@ -140,28 +142,39 @@ class Command(BaseCommand):
 
         return 0
 
+    def get_row_range(self, column, header_text, start_text=None):
+        if start_text is None:
+            start_text = header_text
+
+        titles = self.sheet.iloc[:, column]
+        df = None
+        if titles.str.contains(header_text).any():
+            start_count = 0
+            end_count = 0
+            for index, item in titles.items():
+                if type(item) == str and re.match(start_text, item) is not None:
+                    start_count = index
+                if start_count > 0 and pd.isna(item):
+                    end_count = index
+                    break
+
+            if end_count > start_count:
+                row_range = self.sheet.iloc[start_count:end_count, column:]
+                row_range = row_range.dropna(axis="columns", how="all")
+                df = row_range.iloc[1:]
+                df.columns = row_range.iloc[0].values
+
+        return df
+
+
     def extract_emissions_data_from_sheet(self):
         column = self.get_description_column()
         if column == -1:
             return 0
 
         try:
-            titles = self.sheet.iloc[:, column]
-            if titles.str.contains(r"Baseline Year").any():
-                start_count = 0
-                end_count = 0
-                for index, item in titles.items():
-                    if item == "Reference year":
-                        start_count = index
-                    if start_count > 0 and pd.isna(item):
-                        end_count = index
-                        break
-
-                emissions = self.sheet.iloc[start_count:end_count, column:]
-                emissions = emissions.dropna(axis="columns", how="all")
-                emissions_df = emissions.iloc[1:]
-                emissions_df.columns = emissions.iloc[0].values
-
+            emissions_df = self.get_row_range(column, "Baseline Year", "Reference year")
+            if emissions_df is not None:
                 for index, row in emissions_df.iterrows():
                     units = row["Units"]
                     for scope in ["Scope 1", "Scope 2", "Scope 3"]:
@@ -195,23 +208,9 @@ class Command(BaseCommand):
             return 0
 
         try:
-            titles = self.sheet.iloc[:, column]
-            if titles.str.contains(r"Emission source").any():
-                start_count = 0
-                end_count = 0
-                for index, item in titles.items():
-                    if item == "Emission source":
-                        start_count = index
-                    if start_count > 0 and pd.isna(item):
-                        end_count = index
-                        break
-
-                emissions = self.sheet.iloc[start_count:end_count, column:]
-                emissions = emissions.dropna(axis="columns", how="all")
-                emissions_df = emissions.iloc[1:]
-                emissions_df.columns = emissions.iloc[0].values
-
-                for index, row in emissions_df.iterrows():
+            sources_df = self.get_row_range(column, "Emission source")
+            if sources_df is not None:
+                for index, row in sources_df.iterrows():
                     point_type = row["Emission source"]
                     point_data = row["Emissions (tCO2e)"]
                     if point_type in [
