@@ -39,6 +39,11 @@ class Command(BaseCommand):
             "method": "extract_targets_from_sheet",
             "header_text": r"Name of [Tt]arget",
         },
+        "projects": {
+            "desc": "emission reduction projects data",
+            "method": "extract_projects_from_sheet",
+            "header_text": "Project name",
+        },
     }
 
     def add_arguments(self, parser):
@@ -298,6 +303,19 @@ class Command(BaseCommand):
                 sub_type=point_type,
                 units=point_units,
                 target_year=year,
+            )
+            self.data.append(data_point)
+
+        return 1
+
+    def extract_projects_from_sheet(self, targets_df):
+        for index, row in targets_df.iterrows():
+            point_type = row["Project name"]
+            point_data = row["Estimated carbon savings per year (tCO2e/annum)"]
+            data_point = self.make_data_point(
+                "project",
+                point_data,
+                sub_type=point_type,
             )
             self.data.append(data_point)
 
