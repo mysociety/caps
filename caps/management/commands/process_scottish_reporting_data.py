@@ -144,20 +144,15 @@ class Command(BaseCommand):
 
                     parsed[name] = fetched
 
-    def make_data_point(
-        self, point_type, point_value, sub_type="", units="", scope="", target_year=""
-    ):
+    def make_data_point(self, point_type, point_data, **kwargs):
         data_point = {
             "council": self.report_data["council"],
             "authority_code": self.report_data["authority_code"],
             "start_year": self.report_data["start_year"],
             "end_year": self.report_data["end_year"],
             "data_type": point_type,
-            "sub_type": sub_type,
-            "data_value": point_value,
-            "units": units,
-            "scope": scope,
-            "target_year": target_year,
+            "data_value": point_data,
+            **kwargs,
         }
 
         self.data[self.data_type].append(data_point)
@@ -257,11 +252,16 @@ class Command(BaseCommand):
                     continue
                 point_type = "scope emissions ({})".format(row["Year"])
                 self.make_data_point(
-                    point_type, row[scope], scope=scope, units=units
+                    point_type=point_type,
+                    point_data=row[scope],
+                    scope=scope,
+                    units=units,
                 )
             if not pd.isna(row["Total"]):
                 point_type = "overall emissions ({})".format(row["Year"])
-                self.make_data_point(point_type, row["Total"], units=units)
+                self.make_data_point(
+                    point_type=point_type, point_data=row["Total"], units=units
+                )
 
         return 1
 
@@ -275,8 +275,8 @@ class Command(BaseCommand):
             ]:
                 continue
             self.make_data_point(
-                "emissions source",
-                point_data,
+                point_type="emissions source",
+                point_data=point_data,
                 sub_type=point_type,
                 scope=row["Scope"],
                 units="tCO2e",
@@ -300,8 +300,8 @@ class Command(BaseCommand):
             ]:
                 continue
             self.make_data_point(
-                "target",
-                point_data,
+                point_type="target",
+                point_data=point_data,
                 sub_type=point_type,
                 units=point_units,
                 target_year=year,
@@ -314,8 +314,8 @@ class Command(BaseCommand):
             point_type = row["Project name"]
             point_data = row["Estimated carbon savings per year (tCO2e/annum)"]
             self.make_data_point(
-                "project",
-                point_data,
+                point_type="project",
+                point_data=point_data,
                 sub_type=point_type,
             )
 
