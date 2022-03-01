@@ -19,10 +19,26 @@ class Command(BaseCommand):
     report_data = None
 
     subsets = {
-        "council_data": "basic council data",
-        "emissions": "emissions data",
-        "sources": "emissions sources data",
-        "targets": "reduction targets data",
+        "council_data": {
+            "desc": "basic council data",
+            "method": "extract_council_data_from_sheet",
+        },
+        "emissions": {
+            "desc": "emissions data",
+            "method": "extract_emissions_data_from_sheet",
+            "header_text": "Baseline Year",
+            "start_text": "Reference year",
+        },
+        "sources": {
+            "desc": "emissions sources data",
+            "method": "extract_emissions_sources_from_sheet",
+            "header_text": "Emission source",
+        },
+        "targets": {
+            "desc": "reduction targets data",
+            "method": "extract_targets_from_sheet",
+            "header_text": r"Name of [Tt]arget",
+        },
     }
 
     def add_arguments(self, parser):
@@ -98,29 +114,23 @@ class Command(BaseCommand):
                 )
                 return
 
-            if (self.options["all"] or self.options["council_data"]) and parsed.get(
-                "council", 0
-            ) != 1:
-                fetched = self.extract_council_data_from_sheet()
-                parsed["council"] = fetched
+            for name, args in self.subsets.items():
+                if (self.options["all"] or self.options[name]) and parsed.get(
+                    name, 0
+                ) != 1:
+                    fetched = 0
+                    method = getattr(self, args["method"])
+                    if args.get("header_text", "") != "":
+                        fetched = self.process_row_range(
+                            name,
+                            method,
+                            args["header_text"],
+                            args.get("start_text", None),
+                        )
+                    else:
+                        fetched = method()
 
-            if (self.options["all"] or self.options["emissions"]) and parsed.get(
-                "emissions", 0
-            ) != 1:
-                fetched = self.extract_emissions_data_from_sheet()
-                parsed["emissions"] = fetched
-
-            if (self.options["all"] or self.options["sources"]) and parsed.get(
-                "sources", 0
-            ) != 1:
-                fetched = self.extract_emissions_sources_from_sheet()
-                parsed["sources"] = fetched
-
-            if (self.options["all"] or self.options["targets"]) and parsed.get(
-                "targets", 0
-            ) != 1:
-                fetched = self.extract_targets_from_sheet()
-                parsed["targets"] = fetched
+                    parsed[name] = fetched
 
     def make_data_point(
         self, point_type, point_value, sub_type="", units="", scope="", target_year=""
@@ -211,115 +221,87 @@ class Command(BaseCommand):
 
         return df
 
-    def extract_emissions_data_from_sheet(self):
+    def process_row_range(self, name, processor, header_text, start_text=""):
         column = self.get_description_column()
         if column == -1:
             return 0
 
         try:
-            emissions_df = self.get_row_range(column, "Baseline Year", "Reference year")
-            if emissions_df is not None:
-                for index, row in emissions_df.iterrows():
-                    units = row["Units"]
-                    for scope in ["Scope 1", "Scope 2", "Scope 3"]:
-                        if pd.isna(row[scope]):
-                            continue
-                        point_type = "scope emissions ({})".format(row["Year"])
-                        data_point = self.make_data_point(
-                            point_type, row[scope], scope=scope, units=units
-                        )
-                        self.data.append(data_point)
-                    if not pd.isna(row["Total"]):
-                        point_type = "overall emissions ({})".format(row["Year"])
-                        data_point = self.make_data_point(
-                            point_type, row["Total"], units=units
-                        )
-                        self.data.append(data_point)
-
-                return 1
+            df = self.get_row_range(column, header_text, start_text)
+            if df is not None:
+                return processor(df)
         except Exception as e:
             print(
-                "problem parsing sheet {} for emissions in {}: {}".format(
-                    self.sheet_name, self.report, e
+                "problem parsing sheet {} for {} in {}: {}".format(
+                    self.sheet_name, name, self.report, e
                 )
             )
 
         return 0
 
-    def extract_emissions_sources_from_sheet(self):
-        column = self.get_description_column()
-        if column == -1:
-            return 0
-
-        try:
-            sources_df = self.get_row_range(column, "Emission source")
-            if sources_df is not None:
-                for index, row in sources_df.iterrows():
-                    point_type = row["Emission source"]
-                    point_data = row["Emissions (tCO2e)"]
-                    if point_type in [
-                        "Please select from drop down box",
-                        "Other (please specify in comments)",
-                    ]:
-                        continue
-                    data_point = self.make_data_point(
-                        "emissions source",
-                        point_data,
-                        sub_type=point_type,
-                        scope=row["Scope"],
-                        units="tCO2e",
-                    )
-                    self.data.append(data_point)
-
-                return 1
-        except Exception as e:
-            print(
-                "problem parsing sheet {} for emissions in {}: {}".format(
-                    self.sheet_name, self.report, e
+    def extract_emissions_data_from_sheet(self, emissions_df):
+        for index, row in emissions_df.iterrows():
+            units = row["Units"]
+            for scope in ["Scope 1", "Scope 2", "Scope 3"]:
+                if pd.isna(row[scope]):
+                    continue
+                point_type = "scope emissions ({})".format(row["Year"])
+                data_point = self.make_data_point(
+                    point_type, row[scope], scope=scope, units=units
                 )
+                self.data.append(data_point)
+            if not pd.isna(row["Total"]):
+                point_type = "overall emissions ({})".format(row["Year"])
+                data_point = self.make_data_point(point_type, row["Total"], units=units)
+                self.data.append(data_point)
+
+        return 1
+
+    def extract_emissions_sources_from_sheet(self, sources_df):
+        for index, row in sources_df.iterrows():
+            point_type = row["Emission source"]
+            point_data = row["Emissions (tCO2e)"]
+            if point_type in [
+                "Please select from drop down box",
+                "Other (please specify in comments)",
+            ]:
+                continue
+            data_point = self.make_data_point(
+                "emissions source",
+                point_data,
+                sub_type=point_type,
+                scope=row["Scope"],
+                units="tCO2e",
             )
+            self.data.append(data_point)
 
-        return 0
+        return 1
 
-    def extract_targets_from_sheet(self):
-        column = self.get_description_column()
-        if column == -1:
-            return 0
+    def extract_targets_from_sheet(self, targets_df):
+        type_header = "Name of Target"
+        if type_header not in targets_df.columns:
+            type_header = "Name of target"
 
-        try:
-            targets_df = self.get_row_range(column, r"Name of [Tt]arget")
-            if targets_df is not None:
-                type_header = "Name of Target"
-                if type_header not in targets_df.columns:
-                    type_header = "Name of target"
-
-                for index, row in targets_df.iterrows():
-                    point_type = row[type_header]
-                    point_data = row["Target"]
-                    point_units = row["Units"]
-                    year = row["Target completion year"]
-                    if point_data in [
-                        "Please select from drop down box",
-                        "Other (please specify in comments)",
-                    ]:
-                        continue
-                    data_point = self.make_data_point(
-                        "target",
-                        point_data,
-                        sub_type=point_type,
-                        units=point_units,
-                        target_year=year,
-                    )
-                    self.data.append(data_point)
-
-                return 1
-        except Exception as e:
-            print(
-                "problem parsing sheet {} for targets in {}: {}".format(
-                    self.sheet_name, self.report, e
-                )
+        for index, row in targets_df.iterrows():
+            point_type = row[type_header]
+            point_data = row["Target"]
+            point_units = row["Units"]
+            year = row["Target completion year"]
+            if point_data in [
+                "Please select from drop down box",
+                "Other (please specify in comments)",
+            ]:
+                continue
+            data_point = self.make_data_point(
+                "target",
+                point_data,
+                sub_type=point_type,
+                units=point_units,
+                target_year=year,
             )
-        return 0
+            self.data.append(data_point)
+
+        return 1
 
     def save_data(self):
         df = pd.DataFrame(self.data)
