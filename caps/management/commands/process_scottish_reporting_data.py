@@ -310,13 +310,50 @@ class Command(BaseCommand):
         return 1
 
     def extract_projects_from_sheet(self, targets_df):
+        """
+        we don't replace the columns with our own as sadly they aren't always in the
+        same order so instead we have to do some comparison to work out which column to use.
+        Note that some of them are the same, only with spaces at the end.
+        """
+        measurement_columns = [
+            "Are these savings figures estimated or actual? ",
+            "Are these savings figures estimated or actual?",
+            "Savings figures are estimated or actual ",
+            "Savings figures are estimated or actual",
+        ]
+
+        valid_cols = [x for x in targets_df.columns if x in measurement_columns]
+        assert len(valid_cols) == 1
+        measurement = valid_cols[0]
+
+        for col in [
+            "Primary fuel/emission source saved",
+            measurement,
+            "First full year of CO2e savings",
+        ]:
+            targets_df[col] = targets_df[col].replace(
+                "Please select from drop down box", ""
+            )
+
         for index, row in targets_df.iterrows():
-            point_type = row["Project name"]
+            point_type = row["Project name"].strip()
             point_data = row["Estimated carbon savings per year (tCO2e/annum)"]
+            funding_source = row["Funding source"]
+            if type(funding_source) == str:
+                funding_source = funding_source.strip()
             self.make_data_point(
                 point_type="project",
                 point_data=point_data,
                 sub_type=point_type,
+                lifetime=row["Project lifetime (years)"],
+                cost=row["Capital cost (£)"],
+                funding_source=funding_source,
+                emission_source=row["Primary fuel/emission source saved"],
+                annual_cost=row["Operational cost (£/annum)"],
+                annual_savings=row["Estimated costs savings (£/annum)"],
+                measurement=row[measurement],
+                savings_start=row["First full year of CO2e savings"],
+                comments=row["Comments"],
             )
 
         return 1
