@@ -1,4 +1,5 @@
 import re
+from collections import defaultdict
 
 from os.path import join
 
@@ -11,12 +12,13 @@ from django.conf import settings
 class Command(BaseCommand):
     help = "processing scottish council climate data"
 
-    data = []
+    data = defaultdict(list)
 
     report = None
     sheet = None
     sheet_name = None
     report_data = None
+    data_type = None
 
     subsets = {
         "council_data": {
@@ -120,6 +122,7 @@ class Command(BaseCommand):
                 return
 
             for name, args in self.subsets.items():
+                self.data_type = name
                 if (self.options["all"] or self.options[name]) and parsed.get(
                     name, 0
                 ) != 1:
@@ -153,7 +156,7 @@ class Command(BaseCommand):
             "target_year": target_year,
         }
 
-        return data_point
+        self.data[self.data_type].append(data_point)
 
     def get_description_column(self):
         column = 1
@@ -183,14 +186,12 @@ class Command(BaseCommand):
                 last = ""
                 for item in titles:
                     if last == "Budget":
-                        data_point = self.make_data_point("Budget", item)
-                        self.data.append(data_point)
+                        self.make_data_point("Budget", item)
                     elif (
                         type(last) is str
                         and last.find("full-time equivalent staff") > -1
                     ):
-                        data_point = self.make_data_point("FTE", item)
-                        self.data.append(data_point)
+                        self.make_data_point("FTE", item)
                     last = item
                 return 1
         except Exception as e:
@@ -251,14 +252,12 @@ class Command(BaseCommand):
                 if pd.isna(row[scope]):
                     continue
                 point_type = "scope emissions ({})".format(row["Year"])
-                data_point = self.make_data_point(
+                self.make_data_point(
                     point_type, row[scope], scope=scope, units=units
                 )
-                self.data.append(data_point)
             if not pd.isna(row["Total"]):
                 point_type = "overall emissions ({})".format(row["Year"])
-                data_point = self.make_data_point(point_type, row["Total"], units=units)
-                self.data.append(data_point)
+                self.make_data_point(point_type, row["Total"], units=units)
 
         return 1
 
@@ -271,14 +270,13 @@ class Command(BaseCommand):
                 "Other (please specify in comments)",
             ]:
                 continue
-            data_point = self.make_data_point(
+            self.make_data_point(
                 "emissions source",
                 point_data,
                 sub_type=point_type,
                 scope=row["Scope"],
                 units="tCO2e",
             )
-            self.data.append(data_point)
 
         return 1
 
@@ -297,14 +295,13 @@ class Command(BaseCommand):
                 "Other (please specify in comments)",
             ]:
                 continue
-            data_point = self.make_data_point(
+            self.make_data_point(
                 "target",
                 point_data,
                 sub_type=point_type,
                 units=point_units,
                 target_year=year,
             )
-            self.data.append(data_point)
 
         return 1
 
@@ -312,19 +309,17 @@ class Command(BaseCommand):
         for index, row in targets_df.iterrows():
             point_type = row["Project name"]
             point_data = row["Estimated carbon savings per year (tCO2e/annum)"]
-            data_point = self.make_data_point(
+            self.make_data_point(
                 "project",
                 point_data,
                 sub_type=point_type,
             )
-            self.data.append(data_point)
 
         return 1
 
     def save_data(self):
-        df = pd.DataFrame(self.data)
+        for name, data in self.data.items():
+            df = pd.DataFrame(data)
 
-        outfile = join(settings.SCOTTISH_DIR, "extracted_data.csv")
-        df.to_csv(open(outfile, "w"), index=False, header=True)
-
-        return outfile
+            outfile = join(settings.SCOTTISH_DIR, "{}_data.csv".format(name))
+            df.to_csv(open(outfile, "w"), index=False, header=True)
