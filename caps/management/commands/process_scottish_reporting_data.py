@@ -56,6 +56,12 @@ class Command(BaseCommand):
             help="Update all data",
         )
 
+        parser.add_argument(
+            "--sample",
+            action="store_true",
+            help="Just process the first 20 rows for testing",
+        )
+
         for arg, desc in self.subsets.items():
             parser.add_argument(
                 "--{}".format(arg),
@@ -77,14 +83,12 @@ class Command(BaseCommand):
 
     def process_data(self):
         data = join(settings.SCOTTISH_DIR, "data_list.csv")
-        df = pd.read_csv(data)
+        df = pd.read_csv(data, nrows=20 if self.options["sample"] else None)
 
         for index, row in df.iterrows():
             try:
                 self.report_data = row
                 self.process_report()
-                # if index == 20:
-                # break
             except Exception as e:
                 print(
                     "problem processing report {} for council {}: {}".format(
