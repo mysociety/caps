@@ -137,7 +137,7 @@ def import_emissions_data() -> None:
 
         # need to recreate because cannot be calculated from sum
 
-        for hdf in [county_df, combined_df]:
+        for hdf in [df, county_df, combined_df]:
             # both total emissions and population are stored in 1000s, so this keeps to tons
             hdf["Per Capita Emissions"] = hdf["Total Emissions"] / hdf["Population"]
             hdf["Emissions per km2"] = hdf["Total Emissions"] / hdf["Area"]
