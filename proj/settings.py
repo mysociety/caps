@@ -115,14 +115,7 @@ PIPELINE = {
             "output_filename": "css/scoring.css",
         },
     },
-    "JAVASCRIPT": {
-        "caps": {
-            "source_filenames": ("caps/js/main.js"),
-            "output_filename": "js/caps.js",
-        },
-    },
     "CSS_COMPRESSOR": "django_pipeline_csscompressor.CssCompressor",
-    "JS_COMPRESSOR": "pipeline.compressors.NoopCompressor",
     "DISABLE_WRAPPER": True,
     "COMPILERS": ("pipeline.compilers.sass.SASSCompiler",),
     "SHOW_ERRORS_INLINE": False,
