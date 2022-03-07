@@ -4,6 +4,7 @@ from collections import defaultdict
 from os.path import join
 
 import pandas as pd
+import numpy as np
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
@@ -45,6 +46,12 @@ class Command(BaseCommand):
             "desc": "emission reduction projects data",
             "method": "extract_projects_from_sheet",
             "header_text": "Project name",
+        },
+        "generation": {
+            "desc": "renewables generation data",
+            "method": "extract_generation_from_sheet",
+            "header_text": "Generation, consumption and export of renewable energy",
+            "start_text": "Technology",
         },
     }
 
@@ -357,6 +364,92 @@ class Command(BaseCommand):
             )
 
         return 1
+
+    def extract_generation_from_sheet(self, df):
+        """
+        The generation section uses merged cells in some templates so we need to handle different
+        potential layouts for how this appears to pandas which we detect with columns count as
+        pandas counts merged cells as a single column. The options are:
+
+            Technology |  Renewable Energy   |   Renewable Heat
+                       | consumed | exported | consumed | exported | comments
+            or
+
+            Technology | consumed | exported | consumed | exported | comments
+
+        For the former that means we need to add one to the start_count to skip over the "headers"
+        and then push technology in to the comments list as pandas sees the second row as having a
+        blank header for the first column.
+
+        There is also annoyance caused by having two columns with the same name which pandas copes
+        with ok, but we need to fetch the non empty value out of them as only one of them is
+        every populated.
+        """
+        col = self.get_description_column()
+        titles = self.sheet.iloc[:, col]
+        start_count = 0
+        end_count = 0
+        for index, item in titles.items():
+            if (
+                type(item) == str
+                and re.match(self.subsets["generation"]["start_text"], item) is not None
+            ):
+                if len(df.columns) == 3:
+                    start_count = index + 1
+                else:
+                    start_count = index
+            if start_count > 0 and index > start_count and pd.isna(item):
+                end_count = index
+                break
+
+        if end_count > start_count:
+            row_range = self.sheet.iloc[start_count:end_count, col:]
+            row_range = row_range.dropna(axis="columns", how="all")
+            df = row_range.iloc[1:]
+
+            columns = row_range.iloc[0, 1:].values
+            columns = np.insert(columns, 0, "Technology")
+            df.columns = columns
+
+            consumed_col = None
+            for name in [
+                "Total consumed by the body (kWh)",
+                "Total consumed by the organisation (kWh)",
+            ]:
+                if name in df.columns:
+                    consumed_col = name
+            if consumed_col is None:
+                raise ValueError(
+                    "consumed col is None, cols are: {}".format(df.columns)
+                )
+
+            data = {}
+
+            for index, row in df.iterrows():
+                if row["Technology"] == "Please select from drop down box":
+                    break
+
+                consumed = 0
+                exported = 0
+                # there are two columns for this in the spreadsheet for generation and heating but only
+                # one ever has a value so use that. For our purposes we don't care about the nature of the
+                # consumption, only the consumption
+                for v in row[consumed_col].values:
+                    if v > 0:
+                        consumed = v
+                for v in row["Total exported (kWh)"].values:
+                    if v > 0:
+                        exported = v
+
+                self.make_data_point(
+                    point_type="generation",
+                    point_data=row["Technology"],
+                    exported=exported,
+                    consumed=consumed,
+                    comments=row["Comments"],
+                )
+
+            return 1
 
     def save_data(self):
         for name, data in self.data.items():
