@@ -144,6 +144,7 @@ def replace_headers():
             "title",
             "title_checked",
         ],
+        outfile=settings.PROCESSED_CSV,
     )
 
 

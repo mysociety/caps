@@ -32,13 +32,16 @@ def get_google_sheet_as_csv(key, outfile, sheet_name=None):
         outfile.write(r.content)
 
 
-def replace_csv_headers(csv_file, new_headers, drop_empty_columns=True):
+def replace_csv_headers(csv_file, new_headers, drop_empty_columns=True, outfile=None):
+    if outfile is None:
+        outfile = csv_file
+
     df = pd.read_csv(csv_file)
     if drop_empty_columns:
         df = df.dropna(axis="columns", how="all")
 
     df.columns = new_headers
-    df.to_csv(open(csv_file, "w"), index=False, header=True)
+    df.to_csv(open(outfile, "w"), index=False, header=True)
 
 
 def get_data_files():
