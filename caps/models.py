@@ -421,7 +421,9 @@ class Council(models.Model):
         """
         with_plan = (
             cls.objects.annotate(num_plans=Count("plandocument"))
-            .filter(num_plans__gt=0)
+            .filter(
+                plandocument__document_type=PlanDocument.ACTION_PLAN, num_plans__gt=0
+            )
             .count()
         )
         total = cls.objects.all().count()

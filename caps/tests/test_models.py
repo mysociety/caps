@@ -120,6 +120,7 @@ class CouncilPercentWithPlanTestCase(TestCase):
             country=Council.ENGLAND,
         )
         plan = PlanDocument.objects.create(
+            document_type=PlanDocument.ACTION_PLAN,
             council=plan_council,
             url="http://example.com",
             url_hash="xxxxxxx",
@@ -132,10 +133,25 @@ class CouncilPercentWithPlanTestCase(TestCase):
             authority_code="SBOR",
             country=Council.ENGLAND,
         )
+        non_plan_doc_council = Council.objects.create(
+            name="West Borsetshire",
+            slug="west_borsetshire",
+            gss_code="E00000003",
+            authority_code="WBOR",
+            country=Council.ENGLAND,
+        )
+
+        not_plan = PlanDocument.objects.create(
+            document_type=PlanDocument.CLIMATE_STRATEGY,
+            council=non_plan_doc_council,
+            url="http://example.com",
+            url_hash="xxxxxxx",
+            file_type="PDF",
+        )
 
     def test_councils_percent_with_plan(self):
         actual = Council.percent_with_plan()
-        self.assertEqual(50, actual)
+        self.assertEqual(33, actual)
 
 
 class SavedSearchesTestCase(TestCase):
