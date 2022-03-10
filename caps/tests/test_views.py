@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from django.urls import reverse
 
-from caps.models import Council, Promise
+from caps.models import Council, Promise, PlanDocument, EmergencyDeclaration
 
 
 class TestPageRenders(TestCase):
@@ -182,4 +182,95 @@ class TestCouncilDetailPage(TestCase):
         self.assertRegex(
             response.content,
             rb"checked whether this council has made any climate pledges",
+        )
+
+
+class TestCouncilListPage(TestCase):
+    def setUp(self):
+        plan_council = Council.objects.create(
+            name="Borsetshire",
+            slug="borsetshire",
+            authority_code="BORS",
+            gss_code="E00000001",
+            country=Council.ENGLAND,
+        )
+        plan = PlanDocument.objects.create(
+            document_type=PlanDocument.ACTION_PLAN,
+            council=plan_council,
+            url="http://example.com",
+            url_hash="xxxxxxx",
+            file_type="PDF",
+        )
+        not_plan_for_plan_council = PlanDocument.objects.create(
+            document_type=PlanDocument.CLIMATE_STRATEGY,
+            council=plan_council,
+            url="http://example.org",
+            url_hash="xxxxxxy",
+            file_type="PDF",
+        )
+        no_plan_council = Council.objects.create(
+            name="Setborshire",
+            slug="Setborshire",
+            gss_code="E00000002",
+            authority_code="SBOR",
+            country=Council.ENGLAND,
+        )
+        promise_first = Promise.objects.create(
+            council=no_plan_council,
+            target_year=2030,
+        )
+        promise_second = Promise.objects.create(
+            council=no_plan_council,
+            target_year=2050,
+        )
+
+        non_plan_doc_council = Council.objects.create(
+            name="West Borsetshire",
+            slug="west_borsetshire",
+            gss_code="E00000003",
+            authority_code="WBOR",
+            country=Council.ENGLAND,
+        )
+
+        not_plan = PlanDocument.objects.create(
+            document_type=PlanDocument.CLIMATE_STRATEGY,
+            council=non_plan_doc_council,
+            url="http://example.net",
+            url_hash="xxxxxxz",
+            file_type="PDF",
+        )
+        declaration = EmergencyDeclaration.objects.create(
+            council=non_plan_doc_council,
+            date_declared="2020-04-20",
+        )
+
+    def test_council_list(self):
+        url = reverse("council_list")
+        response = self.client.get(url)
+        context = response.context
+        councils = context["filter"].qs
+
+        self.assertEqual(councils.count(), 3)
+        councils = councils.values(
+            "num_plans", "name", "has_promise", "earliest_promise", "declared_emergency"
+        )
+
+        self.assertEqual(councils[0]["name"], "Borsetshire")
+        self.assertEqual(councils[0]["num_plans"], 1)
+        self.assertEqual(councils[0]["has_promise"], 0)
+        self.assertEqual(councils[0]["earliest_promise"], None)
+        self.assertEqual(councils[0]["declared_emergency"], None)
+
+        self.assertEqual(councils[1]["name"], "Setborshire")
+        self.assertEqual(councils[1]["num_plans"], None)
+        self.assertEqual(councils[1]["has_promise"], 2)
+        self.assertEqual(councils[1]["earliest_promise"], 2030)
+        self.assertEqual(councils[1]["declared_emergency"], None)
+
+        self.assertEqual(councils[2]["name"], "West Borsetshire")
+        self.assertEqual(councils[2]["num_plans"], None)
+        self.assertEqual(councils[2]["has_promise"], 0)
+        self.assertEqual(councils[2]["earliest_promise"], None)
+        self.assertEqual(
+            councils[2]["declared_emergency"].strftime("%Y-%m-%d"), "2020-04-20"
         )

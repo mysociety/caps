@@ -15,7 +15,7 @@ import pandas as pd
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import models
-from django.db.models import Count, Max, Min, Q, Sum
+from django.db.models import Count, Max, Min, Q, Sum, Subquery, OuterRef
 from django.forms import Select, TextInput
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
@@ -207,7 +207,14 @@ class Council(models.Model):
         councils = self.related_authorities.filter(
             distances__position__lte=cut_off + 2
         ).annotate(
-            num_plans=Count("plandocument"),
+            num_plans=Subquery(
+                PlanDocument.objects.filter(
+                    council_id=OuterRef("id"), document_type=PlanDocument.ACTION_PLAN
+                )
+                .values("council_id")
+                .annotate(num_plans=Count("id"))
+                .values("num_plans")
+            ),
             has_promise=Count("promise"),
             earliest_promise=Min("promise__target_year"),
             declared_emergency=Min("emergencydeclaration__date_declared"),

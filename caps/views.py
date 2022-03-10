@@ -3,7 +3,7 @@ from random import shuffle, sample, randint
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import View, DetailView, ListView, TemplateView
-from django.db.models import Q, Count, Max, Min, Avg
+from django.db.models import Q, Count, Max, Min, Avg, Subquery, OuterRef
 from django.shortcuts import redirect
 from django.conf import settings
 from django.core.mail import send_mail
@@ -223,7 +223,14 @@ class CouncilListView(FilterView):
 
     def get_queryset(self):
         return Council.objects.annotate(
-            num_plans=Count("plandocument"),
+            num_plans=Subquery(
+                PlanDocument.objects.filter(
+                    council_id=OuterRef("id"), document_type=PlanDocument.ACTION_PLAN
+                )
+                .values("council_id")
+                .annotate(num_plans=Count("id"))
+                .values("num_plans")
+            ),
             has_promise=Count("promise"),
             earliest_promise=Min("promise__target_year"),
             declared_emergency=Min("emergencydeclaration__date_declared"),
