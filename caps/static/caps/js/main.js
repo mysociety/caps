@@ -69,6 +69,21 @@ $(function() {
             plan_id: plan_id
         }).done(callback);
     });
+
+    $('.js-select-text-on-click').on('click', function(){
+        if ( window.getSelection && document.createRange ) {
+            var selection = window.getSelection();
+            if ( selection.toString() == '' ) {
+                var element = $(this)[0];
+                window.setTimeout(function(){
+                    range = document.createRange();
+                    range.selectNodeContents(element);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }, 1);
+            }
+        }
+    });
 });
 
 var shouldShowInterstitial = function() {
