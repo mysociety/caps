@@ -72,4 +72,8 @@
     td[data-column="has-plan"] {
         white-space: nowrap;
     }
+
+    td.number-cell {
+        text-align: right;
+    }
 }

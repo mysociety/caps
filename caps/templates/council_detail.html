@@ -318,6 +318,42 @@
         </div>
       {% endif %}
 
+      {% if projects %}
+        <div class="card ceuk-card ceuk-card--purple mb-gutter">
+          <div class="card-header">
+            <h2>Emission reductions projects</h2>
+          </div>
+          <div class="ceuk-data-table">
+            <table class="table table-responsive mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Annual Emissions Saved (tCO2e)</th>
+                        <th scope="col">Emission Source</th>
+                        <th scope="col">Cost</th>
+                        <th scope="col">Funding</th>
+                        <th scope="col">Lifespan (years)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for project in projects %}
+                  <tr>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.year }}</td>
+                    <td>{{ project.emission_savings|floatformat|intcomma }}</td>
+                    <td>{{ project.emission_source }}</td>
+                    <td class="number-cell">{% if project.capital_cost > 0 %}£{{ project.capital_cost|floatformat:0|intcomma }}{% endif %}</td>
+                    <td>{{ project.funding }}</td>
+                    <td>{% if project.lifespan > 0 %}{{ project.lifespan|floatformat }}{% endif %}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+          </div>
+        </div>
+      {% endif %}
+
     </div>
     <div class="col-md-5 col-lg-4 order-md-1">
 

@@ -23,6 +23,7 @@ from caps.models import (
     ComparisonType,
     Tag,
     CouncilTag,
+    CouncilProject,
 )
 from caps.forms import HighlightedSearchForm
 from caps.mapit import (
@@ -176,6 +177,10 @@ class CouncilDetailView(DetailView):
 
         context["tags"] = CouncilTag.objects.filter(council=council).select_related(
             "tag"
+        )
+
+        context["projects"] = CouncilProject.objects.filter(council=council).order_by(
+            "start_year"
         )
 
         context["page_title"] = council.name
