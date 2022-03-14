@@ -82,8 +82,16 @@
                         {% include 'icons/file.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' %}
                       {% endif %}
                         <div>
+                            {% if plandocument.title %}
+                            <strong class="d-block">{{ plandocument.title|title }}</strong>
+                            {% else %}
                             <strong class="d-block">{{ council.name }} {{ plandocument.get_document_type|title }}</strong>
+                            {% endif %}
                             <p class="d-inline-block text-muted mb-0">
+                                {% if plandocument.title %}
+                                {{ plandocument.get_document_type|title }}
+                                <span class="mx-2">&middot;</span>
+                                {% endif %}
                                 {{ plandocument.file_type|upper }}
                                 <span class="mx-2">&middot;</span>
                                 {{ plandocument.get_status|title }}
