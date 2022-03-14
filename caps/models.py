@@ -478,6 +478,7 @@ class PlanDocument(models.Model):
     text = models.TextField(blank=True)
     file = models.FileField("plans", storage=overwrite_storage)
     history = HistoricalRecords()
+    title = models.CharField(max_length=800, blank=True)
 
     @property
     def get_document_type(self):
