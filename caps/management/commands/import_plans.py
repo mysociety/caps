@@ -313,7 +313,11 @@ class Command(BaseCommand):
             "start_year": start_year,
             "end_year": end_year,
             "date_last_found": PlanDocument.date_from_text(row["date_retrieved"]),
+            "title": "",
         }
+        if PlanDocument.char_from_text(row["title_checked"]).lower() == "y":
+            defaults["title"] = PlanDocument.char_from_text(row["title"])
+
         return defaults
 
     def print_change(self, text, *args, **kwargs):
