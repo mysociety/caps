@@ -998,3 +998,26 @@ class Tag(models.Model):
 class CouncilTag(models.Model):
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+
+
+class CouncilProject(models.Model):
+    MEASUREMENT_TYPE_CHOICES = [
+        ("Actual", "actual"),
+        ("Estimated", "estimated"),
+    ]
+
+    council = models.ForeignKey(Council, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    year = models.IntegerField(default=0)
+    funding = models.CharField(max_length=300, blank=True, default="")
+    emission_source = models.CharField(max_length=100, blank=True, default="")
+    emission_savings = models.FloatField(default=0)
+    capital_cost = models.FloatField(default=0)
+    annual_cost = models.FloatField(default=0)
+    annual_savings = models.FloatField(default=0)
+    measurement_type = models.CharField(
+        max_length=30, blank=True, choices=MEASUREMENT_TYPE_CHOICES
+    )
+    lifespan = models.FloatField(default=0)
+    start_year = models.IntegerField(default=0)
+    comments = models.TextField(blank=True)
