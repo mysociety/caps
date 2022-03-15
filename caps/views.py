@@ -201,6 +201,16 @@ class CouncilDetailView(DetailView):
         return context
 
 
+class CouncilProjectsListView(ListView):
+    model = CouncilProject
+    context_object_name = "projects"
+    template_name = "projects_list.html"
+    extra_context = {"page_title": "Browse council emission reductions projects"}
+
+    def get_queryset(self):
+        return CouncilProject.objects.select_related("council")
+
+
 class CouncilListView(FilterView):
 
     filterset_class = CouncilFilter

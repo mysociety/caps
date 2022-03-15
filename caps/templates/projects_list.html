@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+            <div class="card-header">
+                <h2>
+                    Projects
+                </h2>
+            </div>
+            <div class="ceuk-data-table">
+              <table class="table table-responsive mb-0">
+                  <thead>
+                      <tr>
+                          <th scope="col">Council name</th>
+                          <th scope="col">Project name</th>
+                          <th scope="col">Year</th>
+                          <th scope="col">Annual Emissions Saved (tCO2e)</th>
+                          <th scope="col">Emission Source</th>
+                          <th scope="col">Capital Cost</th>
+                          <th scope="col">Funding</th>
+                          <th scope="col">Annual Cost Saved</th>
+                          <th scope="col">Annual Cost</th>
+                          <th scope="col">Lifespan (years)</th>
+                          <th scope="col">Notes</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for project in projects %}
+                      <tr>
+                        <td>{{ project.council.name }}</td>
+                        <td>{{ project.name }}</td>
+                        <td>{{ project.year }}</td>
+                        <td>{{ project.emission_savings|floatformat|intcomma }}</td>
+                        <td>{{ project.emission_source }}</td>
+                        <td class="number-cell">{% if project.capital_cost > 0 %}£{{ project.capital_cost|floatformat:0|intcomma }}{% endif %}</td>
+                        <td>{{ project.funding }}</td>
+                        <td class="number-cell">{% if project.annual_savings > 0 %}£{{ project.annual_savings|floatformat:0|intcomma }}{% endif %}</td>
+                        <td class="number-cell">{% if project.annual_cost > 0 %}£{{ project.annual_cost|floatformat:0|intcomma }}{% endif %}</td>
+                        <td>{% if project.lifespan > 0 %}{{ project.lifespan|floatformat }}{% endif %}</td>
+                        <td>{{ project.comments }}</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -15,6 +15,11 @@ router.register(r"commitments", api_views.CommitmentsViewSet)
 
 urlpatterns = [
     path("", views.HomePageView.as_view(), name="home"),
+    path(
+        "councils/projects/",
+        views.CouncilProjectsListView.as_view(),
+        name="council_projects",
+    ),
     path("councils/<slug:slug>/", views.CouncilDetailView.as_view(), name="council"),
     path("features/<slug:slug>/", views.TagDetailView.as_view(), name="tag"),
     path(
