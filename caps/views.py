@@ -24,6 +24,7 @@ from caps.models import (
     Tag,
     CouncilTag,
     CouncilProject,
+    ProjectFilter,
 )
 from caps.forms import HighlightedSearchForm
 from caps.mapit import (
@@ -201,14 +202,16 @@ class CouncilDetailView(DetailView):
         return context
 
 
-class CouncilProjectsListView(ListView):
-    model = CouncilProject
+class CouncilProjectsListView(FilterView):
+    filterset_class = ProjectFilter
     context_object_name = "projects"
     template_name = "projects_list.html"
     extra_context = {"page_title": "Browse council emission reductions projects"}
 
     def get_queryset(self):
-        return CouncilProject.objects.select_related("council")
+        return CouncilProject.objects.select_related("council").order_by(
+            "council__name", "start_year"
+        )
 
 
 class CouncilListView(FilterView):

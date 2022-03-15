@@ -7,10 +7,27 @@
 <div class="row">
     <div class="col-md-12">
 
+        <div class="card ceuk-card mb-gutter position-sticky" style="top: 1rem;">
+            <div class="card-body">
+                <h1 class="mb-3">Find a project</h1>
+
+                <form method="get" class="mb-n3">
+                    {% bootstrap_form filter.form %}
+                    {% buttons %}
+                    <button type="submit" class="btn btn-primary btn-block mt-4">Filter list</button>
+                    {% endbuttons %}
+                </form>
+            </div>
+        </div>
+
         <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
             <div class="card-header">
                 <h2>
-                    Projects
+                  {% if filter.qs.count == 1 %}
+                    {{ filter.qs.count }} project
+                  {% else %}
+                    {{ filter.qs.count }} projects
+                  {% endif %}
                 </h2>
             </div>
             <div class="ceuk-data-table">

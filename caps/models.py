@@ -1021,3 +1021,13 @@ class CouncilProject(models.Model):
     lifespan = models.FloatField(default=0)
     start_year = models.IntegerField(default=0)
     comments = models.TextField(blank=True)
+
+
+class ProjectFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr="icontains")
+    comments = django_filters.CharFilter(lookup_expr="icontains")
+    funding = django_filters.CharFilter(lookup_expr="icontains")
+
+    class Meta:
+        model = CouncilProject
+        fields = []
