@@ -1028,6 +1028,26 @@ class ProjectFilter(django_filters.FilterSet):
     comments = django_filters.CharFilter(lookup_expr="icontains")
     funding = django_filters.CharFilter(lookup_expr="icontains")
 
+    sort = DefaultSecondarySortFilter(
+        secondary="council__name",
+        label="Sort by",
+        empty_label=None,
+        fields=(
+            ("council__name", "council_name"),
+            ("start_year", "start_year"),
+            ("emission_savings", "emission_savings"),
+            ("capital_cost", "capital_cost"),
+            ("annual_savings", "annual_savings"),
+        ),
+        field_labels={
+            "council__name": "Council name",
+            "start_year": "Start year",
+            "emission_savings": "Annual emission savings",
+            "capital_cost": "Capital cost",
+            "annual_savings": "Annual savings",
+        },
+    )
+
     class Meta:
         model = CouncilProject
         fields = []
