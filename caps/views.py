@@ -179,9 +179,20 @@ class CouncilDetailView(DetailView):
             "tag"
         )
 
-        context["projects"] = CouncilProject.objects.filter(council=council).order_by(
-            "start_year"
-        )
+        project_stats = {"total_savings": 0, "total_cost": 0}
+        projects = CouncilProject.objects.filter(council=council).order_by("start_year")
+        for project in projects.all():
+            project_stats["total_savings"] = (
+                project_stats["total_savings"] + project.emission_savings
+            )
+            project_stats["total_cost"] = (
+                project_stats["total_cost"] + project.capital_cost
+            )
+
+        project_stats["total_savings"] = project_stats["total_savings"] / 1000
+
+        context["projects"] = projects
+        context["project_stats"] = project_stats
 
         context["page_title"] = council.name
 
