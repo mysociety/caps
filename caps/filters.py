@@ -4,6 +4,9 @@ import django_filters as filters
 
 class NullsAlwaysLastOrderingFilter(filters.OrderingFilter):
     def filter(self, qs, value):
+        if value is None:
+            return qs
+
         ordering = [self.get_ordering_value(param) for param in value]
 
         if ordering:
@@ -31,7 +34,7 @@ class DefaultSecondarySortFilter(NullsAlwaysLastOrderingFilter):
 
     def filter(self, qs, value):
         qs = super().filter(qs, value)
-        if self.secondary == "":
+        if self.secondary == "" or value is None:
             return qs
 
         if self.secondary not in value and self.rsecondary not in value:
