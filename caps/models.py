@@ -16,7 +16,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.db.models import Count, Max, Min, Q, Sum
-from django.forms import Select
+from django.forms import Select, TextInput
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
 from caps.filters import DefaultSecondarySortFilter
@@ -1024,9 +1024,18 @@ class CouncilProject(models.Model):
 
 
 class ProjectFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr="icontains")
-    comments = django_filters.CharFilter(lookup_expr="icontains")
-    funding = django_filters.CharFilter(lookup_expr="icontains")
+    search = django_filters.CharFilter(
+        method="custom_project_freetext_filter",
+        label="Search by project details",
+        widget=TextInput(attrs={"type": "search", "placeholder": ""}),
+    )
+    council = django_filters.ModelChoiceFilter(
+        label="Search by council",
+        queryset=Council.objects.filter(
+            country=2
+        ),  # TODO: Yuck, mystery number (2 == SCOTLAND)
+        empty_label="All councils",
+    )
 
     sort = DefaultSecondarySortFilter(
         secondary="council__name",
@@ -1048,6 +1057,15 @@ class ProjectFilter(django_filters.FilterSet):
         },
     )
 
+    def custom_project_freetext_filter(self, queryset, name, value):
+        return queryset.filter(
+            Q(name__icontains=value)
+            | Q(comments__icontains=value)
+            | Q(funding__icontains=value)
+            | Q(emission_source__icontains=value)
+        )
+
     class Meta:
         model = CouncilProject
+        ordering = ["-emission_savings"]
         fields = []

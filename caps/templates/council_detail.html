@@ -212,6 +212,48 @@
         </div>
       {% endif %}
 
+      {% if project_stats %}
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--purple mb-gutter">
+            <div class="card-header">
+                <h2>Emission reductions projects</h2>
+            </div>
+            <div class="card-body d-flex align-items-center border-bottom">
+                {% include 'icons/info.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' %}
+                <div>
+                    <p class="mb-2">
+                        Local authorities in Scotland are required to <a href="https://sustainablescotlandnetwork.org/reports">publish yearly data</a> on their compliance with their climate change duties – including the emission reduction projects they are undertaking.
+                    </p>
+                    <p class="mb-0">
+                        <a href="{% url "council_projects" %}?council={{ council.id }}" class="d-inline-flex align-items-center">See all of {{ council.name }}’s projects {% include 'icons/chevron-right.html' with classes="ml-1" %}</a>
+                    </p>
+                </div>
+            </div>
+            <div class="emissions-breakdown">
+                <div class="d-flex">
+                    <a class="d-block emissions-breakdown__stat" href="{% url "council_projects" %}?council={{ council.id }}">
+                        <div>
+                            <span class="h3">{{ project_stats.total_projects|floatformat }}</span>
+                        </div>
+                        <p>Projects</p>
+                    </a>
+                    <div class="emissions-breakdown__stat">
+                        <div>
+                            <span class="h3">{{ project_stats.total_savings|floatformat|intcomma }}</span>
+                            <abbr title="Kilotonnes of Carbon Dioxide">ktCO2 per year</abbr>
+                        </div>
+                        <p>Total annual emissions savings</p>
+                    </div>
+                    <div class="emissions-breakdown__stat">
+                        <div>
+                            <span class="h3">£{{ project_stats.total_cost|floatformat|intcomma }}</span>
+                        </div>
+                        <p>Total capital cost</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      {% endif %}
+
       {% if emissions_data %}
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
             <div class="card-header">
@@ -315,59 +357,6 @@
                 </div>
               {% endfor %}
             </div>
-        </div>
-      {% endif %}
-
-      {% if projects %}
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
-          <div class="card-header">
-            <h2>Emission reductions projects</h2>
-          </div>
-          <div class="emissions-breakdown">
-            <div class="emissions-breakdown__totals">
-              <div class="emissions-breakdown__stat">
-                <div>
-                  <span class="h3">{{ project_stats.total_savings|floatformat|intcomma }}</span>
-                  <abbr title="Kilotonnes of Carbon Dioxide">ktCO2 per year</abbr>
-                </div>
-                <p>Total annual emissions savings</p>
-              </div>
-              <div class="emissions-breakdown__stat">
-                <div>
-                    <span class="h3">£{{ project_stats.total_cost|floatformat|intcomma }}</span>
-                </div>
-                <p>Total capital cost</p>
-              </div>
-            </div>
-          </div>
-          <div class="ceuk-data-table">
-            <table class="table table-responsive mb-0">
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Year</th>
-                        <th scope="col">Annual Emissions Saved (tCO2e)</th>
-                        <th scope="col">Emission Source</th>
-                        <th scope="col">Cost</th>
-                        <th scope="col">Funding</th>
-                        <th scope="col">Lifespan (years)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  {% for project in projects %}
-                  <tr>
-                    <td>{{ project.name }}</td>
-                    <td>{{ project.year }}</td>
-                    <td>{{ project.emission_savings|floatformat|intcomma }}</td>
-                    <td>{{ project.emission_source }}</td>
-                    <td class="number-cell">{% if project.capital_cost > 0 %}£{{ project.capital_cost|floatformat:0|intcomma }}{% endif %}</td>
-                    <td>{{ project.funding }}</td>
-                    <td>{% if project.lifespan > 0 %}{{ project.lifespan|floatformat }}{% endif %}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-            </table>
-          </div>
         </div>
       {% endif %}
 

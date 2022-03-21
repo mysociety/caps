@@ -2,25 +2,124 @@
 {% load bootstrap4 %}
 {% load humanize %}
 
+{% block before_content %}
+
+<div class="council-hero">
+    <div class="container-fluid">
+        <h1 class="my-0">Emission reduction projects</h1>
+        <p class="mt-2 mb-0 lead" style="max-width: 42em">Local authorities in Scotland are required to <a href="https://sustainablescotlandnetwork.org/reports">publish yearly data</a> on their compliance with their climate change duties – including the emission reduction projects they are undertaking.</p>
+    </div>
+</div>
+
+{% endblock %}
+
 {% block content %}
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-4">
 
         <div class="card ceuk-card mb-gutter position-sticky" style="top: 1rem;">
             <div class="card-body">
-                <h1 class="mb-3">Find a project</h1>
-
                 <form method="get" class="mb-n3">
                     {% bootstrap_form filter.form %}
                     {% buttons %}
-                    <button type="submit" class="btn btn-primary btn-block mt-4">Filter list</button>
+                    <button type="submit" class="btn btn-primary btn-block mt-4">Search projects</button>
                     {% endbuttons %}
                 </form>
             </div>
         </div>
 
-        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+    </div>
+    <div class="col-md-8">
+
+        <div class="card ceuk-card ceuk-card--red ceuk-card--muted mb-3 mb-lg-4">
+            <div class="card-header border-bottom-0">
+                <h2>
+                  {% if filter.qs.count == 1 %}
+                    {{ filter.qs.count }} project
+                  {% else %}
+                    {{ filter.qs.count }} projects
+                  {% endif %}
+                </h2>
+            </div>
+        </div>
+
+      {% for project in projects %}
+
+        <div class="card ceuk-card ceuk-card--blue mb-3 mb-lg-4">
+            <a class="card-header d-flex align-items-center line-height-1 font-weight-bold" href="{% url "council" project.council.slug %}">
+                {{ project.council.name }}
+                {% include 'icons/chevron-right.html' with classes="ml-1" %}
+            </a>
+            <div class="card-body">
+                <h2 class="text-body mt-n1">
+                    {{ project.name }}
+                  {% if project.year %}
+                    ({{ project.year }})
+                  {% endif %}
+                </h2>
+
+                {% if project.comments %}
+                <p>{{ project.comments }}</p>
+              {% endif %}
+
+                <dl class="row mt-4 mb-0">
+                  {% if project.funding %}
+                    <dt class="col-sm-3 mt-0 text-muted">Funding source</h3>
+                    <dd class="col-sm-9">
+                        {{ project.funding }}
+                    </dd>
+                  {% endif %}
+                  {% if project.lifespan > 0 %}
+                    <dt class="col-sm-3 mt-0 text-muted">Lifespan</h3>
+                    <dd class="col-sm-9">
+                        {{ project.lifespan|floatformat }}
+                        year{{ project.lifespan|pluralize }}
+                    </dd>
+                  {% endif %}
+                  {% if project.emission_source %}
+                    <dt class="col-sm-3 mt-0 text-muted">Emission source</h3>
+                    <dd class="col-sm-9">
+                        {{ project.emission_source }}
+                    </dd>
+                  {% endif %}
+                  {% if project.emission_savings > 0 %}
+                    <dt class="col-sm-3 mt-0 text-muted">Emissions saved</h3>
+                    <dd class="col-sm-9">
+                        {{ project.emission_savings|floatformat|intcomma }}
+                        <abbr title="Tonnes of Carbon Dioxide equivalent">tCO2e</abbr>
+                        per year
+                    </dd>
+                  {% endif %}
+                  {% if project.capital_cost > 0 %}
+                    <dt class="col-sm-3 mt-0 text-muted">Capital cost</h3>
+                    <dd class="col-sm-9">
+                        £{{ project.capital_cost|floatformat:0|intcomma }}
+                    </dd>
+                  {% endif %}
+                  {% if project.annual_cost > 0 %}
+                    <dt class="col-sm-3 mt-0 text-muted">Annual cost</h3>
+                    <dd class="col-sm-9">
+                        £{{ project.annual_cost|floatformat:0|intcomma }}
+                    </dd>
+                  {% endif %}
+                  {% if project.annual_savings > 0 %}
+                    <dt class="col-sm-3 mt-0 text-muted">Annual savings</h3>
+                    <dd class="col-sm-9">
+                        £{{ project.annual_savings|floatformat:0|intcomma }}
+                    </dd>
+                  {% endif %}
+                </dl>
+            </div>
+        </div>
+
+      {% empty %}
+
+        <p>Sorry, no projects match those search criteria.</p>
+
+      {% endfor %}
+
+        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5" style="display: none">
             <div class="card-header">
                 <h2>
                   {% if filter.qs.count == 1 %}
