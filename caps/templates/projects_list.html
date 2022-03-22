@@ -2,9 +2,11 @@
 {% load bootstrap4 %}
 {% load humanize %}
 
+{% block bodyclass %}page-projects{% endblock %}
+
 {% block before_content %}
 
-<div class="council-hero">
+<div class="site-hero">
     <div class="container-fluid">
         <h1 class="my-0">Emission reduction projects</h1>
         <p class="mt-2 mb-0 lead" style="max-width: 42em">Local authorities in Scotland are required to <a href="https://sustainablescotlandnetwork.org/reports">publish yearly data</a> on their compliance with their climate change duties – including the emission reduction projects they are undertaking.</p>
@@ -32,7 +34,7 @@
     </div>
     <div class="col-md-8">
 
-        <div class="card ceuk-card ceuk-card--red ceuk-card--muted mb-3 mb-lg-4">
+        <div class="card ceuk-card ceuk-card--navy ceuk-card--muted mb-3 mb-lg-4">
             <div class="card-header border-bottom-0">
                 <h2>
                   {% if filter.qs.count == 1 %}

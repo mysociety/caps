@@ -1,0 +1,76 @@
+.site-hero {
+    padding: 1rem 0 1.5rem;
+
+    @include media-breakpoint-up('md') {
+        padding: 1.5rem 0 2rem;
+    }
+
+    @include media-breakpoint-up('lg') {
+        padding: 2.5rem 0 3rem;
+    }
+
+    color: #fff;
+    background: darken($color-ceuk-red, 4%) linear-gradient(0deg, darken($color-ceuk-red, 4%), darken($color-ceuk-red, 6%)) 0 0 repeat-x;
+    background-size: 2rem 2rem;
+
+    .page-blue & {
+        background-color: darken($color-ceuk-blue, 4%);
+        background-image: linear-gradient(0deg, darken($color-ceuk-blue, 4%), darken($color-ceuk-blue, 6%));
+    }
+
+    .page-navy &,
+    .page-projects & {
+        background-color: darken($color-ceuk-navy, 2%);
+        background-image: linear-gradient(0deg, darken($color-ceuk-navy, 2%), darken($color-ceuk-navy, 4%));
+    }
+
+    .page-purple &,
+    .page-tags & {
+        background-color: darken($color-ceuk-purple, 2%);
+        background-image: linear-gradient(0deg, darken($color-ceuk-purple, 2%), darken($color-ceuk-purple, 4%));
+    }
+
+    .page-pink & {
+        background-color: darken($color-ceuk-pink, 4%);
+        background-image: linear-gradient(0deg, darken($color-ceuk-pink, 4%), darken($color-ceuk-pink, 6%));
+    }
+
+    .page-red & {
+        background-color: darken($color-ceuk-red, 4%);
+        background-image: linear-gradient(0deg, darken($color-ceuk-red, 4%), darken($color-ceuk-red, 6%));
+    }
+
+    .page-orange & {
+        background-color: darken($color-ceuk-orange, 4%);
+        background-image: linear-gradient(0deg, darken($color-ceuk-orange, 4%), darken($color-ceuk-orange, 6%));
+    }
+
+    .page-yellow & {
+        background-color: darken($color-ceuk-yellow, 4%);
+        background-image: linear-gradient(0deg, darken($color-ceuk-yellow, 4%), darken($color-ceuk-yellow, 6%));
+        color: $black;
+    }
+
+    .page-green & {
+        background-color: darken($color-ceuk-green, 4%);
+        background-image: linear-gradient(0deg, darken($color-ceuk-green, 4%), darken($color-ceuk-green, 6%));
+    }
+
+    .page-cyan & {
+        background-color: darken($color-ceuk-cyan, 6%);
+        background-image: linear-gradient(0deg, darken($color-ceuk-cyan, 6%), darken($color-ceuk-cyan, 8%));
+    }
+
+    .page-grey & {
+        background-color: darken($color-ceuk-grey-600, 4%);
+        background-image: linear-gradient(0deg, darken($color-ceuk-grey-600, 4%), darken($color-ceuk-grey-600, 6%));
+    }
+
+    a {
+        color: inherit;
+    }
+
+    p a {
+        text-decoration: underline;
+    }
+}

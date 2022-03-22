@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
+{% block bodyclass %}page-{{ tag.colour|default:"tags" }}{% endblock %}
+
 {% block before_content %}
 
-<div class="council-hero">
+<div class="site-hero">
     <div class="container-fluid">
         <a href="{% url 'tag_list' %}" class="d-inline-flex align-items-center">
             {% include 'icons/chevron-left.html' with classes='mr-1' role='presentation' %}

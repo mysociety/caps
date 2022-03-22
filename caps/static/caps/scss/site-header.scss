@@ -72,6 +72,60 @@
 .site-subheader {
     background: $color-ceuk-red;
 
+    .page-blue & {
+        background-color: $color-ceuk-blue;
+    }
+
+    .page-navy &,
+    .page-projects & {
+        background-color: $color-ceuk-navy;
+    }
+
+    .page-purple &,
+    .page-tags & {
+        background-color: $color-ceuk-purple;
+    }
+
+    .page-pink & {
+        background-color: $color-ceuk-pink;
+    }
+
+    .page-red & {
+        background-color: $color-ceuk-red;
+    }
+
+    .page-orange & {
+        background-color: $color-ceuk-orange;
+    }
+
+    .page-yellow & {
+        background-color: $color-ceuk-yellow;
+
+        .navbar-brand,
+        .nav-link,
+        .navbar-toggler,
+        .navbar-text,
+        .navbar-text a {
+            color: $black !important; // override navbar-dark styles
+        }
+
+        .navbar-toggler-icon {
+            background-image: escape-svg($navbar-light-toggler-icon-bg);
+        }
+    }
+
+    .page-green & {
+        background-color: $color-ceuk-green;
+    }
+
+    .page-cyan & {
+        background-color: $color-ceuk-cyan;
+    }
+
+    .page-grey & {
+        background-color: $color-ceuk-grey-600;
+    }
+
     .navbar {
         padding: 1rem;
 
