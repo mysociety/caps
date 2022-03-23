@@ -21,10 +21,10 @@
             </td>
             <td data-column="has-plan">
               {% if council.num_plans > 0 %}
-                {% include 'icons/check-circle-fill.html' with classes='mr-1' %}
+                {% include 'icons/check-circle-fill.html' with classes='mr-1' role='presentation' %}
                 Yes
               {% else %}
-                {% include 'icons/question-circle.html' with classes='mr-1' %}
+                {% include 'icons/question-circle.html' with classes='mr-1' role='presentation' %}
                 No
               {% endif %}
             </td>

@@ -8,7 +8,7 @@
 <div class="council-hero">
     <div class="container-fluid">
         <a href="{% url 'council_list' %}" class="d-inline-flex align-items-center">
-            {% include 'icons/chevron-left.html' with classes="mr-1" %}
+            {% include 'icons/chevron-left.html' with classes='mr-1' role='presentation' %}
             Back to all councils
         </a>
         <h1 class="mt-3 mb-0">{{ council.name }}</h1>
@@ -77,9 +77,9 @@
                   {% for plandocument in council.plandocument_set.all %}
                     <a href="{{ plandocument.link }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}" class="d-flex align-items-center mb-3">
                       {% if plandocument.file_type == 'pdf' %}
-                        {% include 'icons/pdf.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' %}
+                        {% include 'icons/pdf.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' role='presentation' %}
                       {% else %}
-                        {% include 'icons/file.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' %}
+                        {% include 'icons/file.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' role='presentation' %}
                       {% endif %}
                         <div>
                             {% if plandocument.title %}
@@ -122,18 +122,18 @@
                 <h2>Climate Plan Scorecard</h2>
             </div>
             <div class="card-body d-flex align-items-center">
-                {% include 'icons/info.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' %}
+                {% include 'icons/info.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' role='presentation' %}
                 <div>
                     <p class="mb-2">This council’s climate plans as of 20th September 2021 were assessed and scored by trained Climate Emergency UK volunteers, as part of the Council Climate Plan Scorecards project.</p>
                     <p class="mb-0 d-flex flex-wrap">
-                        <a href="https://councilclimatescorecards.uk/councils/{{ council.slug }}/" class="d-flex align-items-center mr-4 font-weight-bold">Show the full Scorecard{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a>
+                        <a href="https://councilclimatescorecards.uk/councils/{{ council.slug }}/" class="d-flex align-items-center mr-4 font-weight-bold">Show the full Scorecard{% include 'icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a>
                         <a href="https://councilclimatescorecards.uk/methodology/" class="d-flex align-items-center mr-4">Read more about the scoring process</a>
                     </p>
                 </div>
             </div>
           {% if scoring_score.weighted_total == 0 %}
             <div class="card-body d-flex align-items-center border-top scorecard-zero-scorer">
-                {% include 'icons/question-circle.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-red' %}
+                {% include 'icons/question-circle.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-red' role='presentation' %}
                 <div>
                     <p class="mb-0">
                         {{ council.name }} scored <strong>zero points</strong> in this assessment. This is because the council either didn’t have any published plans at the time of the assessment, or <a href="https://councilclimatescorecards.uk/methodology/">the plans didn’t qualify</a>.
@@ -143,7 +143,7 @@
           {% endif %}
           {% if scoring_accolades %}
             <div class="card-body d-flex align-items-center border-top scorecard-top-performer-banner">
-                {% include 'icons/scorecards-star.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0' %}
+                {% include 'icons/scorecards-star.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0' role='presentation' %}
                 <div>
                     <p class="mb-0 mr-lg-5">
                         {{ council.name }} was a <strong>top performer</strong>
@@ -166,7 +166,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Section</th>
-                            <th scope="col"><a href="https://councilclimatescorecards.uk/councils/{{ council.slug }}/">{{ council.name|truncatechars:40 }}{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a></th>
+                            <th scope="col"><a href="https://councilclimatescorecards.uk/councils/{{ council.slug }}/">{{ council.name|truncatechars:40 }}{% include 'icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></th>
                             <th scope="col">Average {% include 'includes/authority_type.html' with group=scoring_group %} council</th>
                         </tr>
                     </thead>
@@ -287,7 +287,7 @@
               {% for group in related_councils %}
                 <div class="tab-pane {% if group.type.slug == "composite" %}show active{% endif %}" id="{{group.type.slug}}-content" role="tabpanel" aria-labelledby="{{group.type.slug}}-tab">
                     <div class="card-body d-flex align-items-center">
-                        {% include 'icons/info.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' %}
+                        {% include 'icons/info.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' role='presentation' %}
                         <p class="mb-0">
                           {% if group.type.slug == "composite" %}
                             These councils are the most similar to <strong>{{ council.name }}</strong> in terms of emissions profile, deprivation, rural/urban population density, and geographical nearness.
@@ -308,7 +308,7 @@
                     </div>
                     <div class="card-footer">
                         <a href="{% url 'search_results' %}?similar_council={{ council.slug }}&amp;similar_type={{ group.type.slug }}" class="d-flex align-items-center justify-content-start">
-                            {% include 'icons/search.html' with classes='mr-2' %}
+                            {% include 'icons/search.html' with classes='mr-2' role='presentation' %}
                             Search inside these councils’ plans
                         </a>
                     </div>
@@ -352,21 +352,21 @@
             </div>
             <div class="card-body">
                 <dl class="mt-n1 mb-0">
-                    <dt><a href="{{ council.website_url }}">{{ council.website_url|domain_human }}{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a></dt>
+                    <dt><a href="{{ council.website_url }}">{{ council.website_url|domain_human }}{% include 'icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
                     <dd>{{ council.name }}’s official homepage.</dd>
                   {% if council.twitter_url %}
-                    <dt><a href="{{ council.twitter_url }}">@{{ council.twitter_name }}{% include 'icons/external-link.html' with classes="external-link ml-1" %}</a></dt>
+                    <dt><a href="{{ council.twitter_url }}">@{{ council.twitter_name }}{% include 'icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
                     <dd>{{ council.name }}’s Twitter account.</dd>
                   {% endif %}
                   {% if council.is_upper_tier is False %}
                     <dt><a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/" class="d-flex align-items-center" target="_blank">
-                        Tyndall Centre Carbon Budget report{% include 'icons/external-link.html' with classes="external-link ml-1" %}
+                        Tyndall Centre Carbon Budget report{% include 'icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
                     </a></dt>
                     <dd>Check {{ council.name }}’s ‘carbon budget’ – their share towards meeting the UK’s Paris agreement targets.</dd>
                   {% endif %}
                   {% if council.foe_slug != '' %}
                     <dt><a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}" class="d-flex align-items-center" target="_blank">
-                        Friends of the Earth ‘Near You’ tool{% include 'icons/external-link.html' with classes="external-link ml-1" %}
+                        Friends of the Earth ‘Near You’ tool{% include 'icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
                     </a></dt>
                     <dd>Discover climate groups in this area, data about {{ council.name }}’s climate performance, and actions you can take.</dd>
                   {% endif %}

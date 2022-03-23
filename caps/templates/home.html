@@ -19,11 +19,11 @@
                 </div>
                 <a href="{% url 'council_list' %}" class="d-flex align-items-center mt-auto" data-show-interstitial>
                     Browse and compare all {{ total_councils }} councils
-                    {% include 'icons/chevron-right.html' with classes='ml-1' %}
+                    {% include 'icons/chevron-right.html' with classes='ml-1' role='presentation' %}
                 </a>
                 <a href="{{ MEDIA_URL }}data/plans/plans.zip" class="d-flex align-items-center mt-3">
                     Download ZIP archive of {{ total_plans }} plans ({{ plan_zip_size }})
-                    {% include 'icons/download.html' with classes='ml-1' %}
+                    {% include 'icons/download.html' with classes='ml-1' role='presentation' %}
                 </a>
                 <div class="mt-3">
                     <small>Last updated: {{ last_update }}.</small>
