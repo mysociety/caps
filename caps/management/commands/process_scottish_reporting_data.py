@@ -151,16 +151,18 @@ class Command(BaseCommand):
 
                     parsed[name] = fetched
 
-    def make_data_point(self, point_type, point_data, **kwargs):
+    def make_data_point(self, point_type, point_data=None, **kwargs):
         data_point = {
             "council": self.report_data["council"],
             "authority_code": self.report_data["authority_code"],
             "start_year": self.report_data["start_year"],
             "end_year": self.report_data["end_year"],
             "data_type": point_type,
-            "data_value": point_data,
             **kwargs,
         }
+
+        if point_data is not None:
+            data_point["data_point"] = point_data
 
         self.data[self.data_type].append(data_point)
 
@@ -343,15 +345,15 @@ class Command(BaseCommand):
             )
 
         for index, row in targets_df.iterrows():
-            point_type = row["Project name"].strip()
-            point_data = row["Estimated carbon savings per year (tCO2e/annum)"]
+            project_name = row["Project name"].strip()
+            emission_savings = row["Estimated carbon savings per year (tCO2e/annum)"]
             funding_source = row["Funding source"]
             if type(funding_source) == str:
                 funding_source = funding_source.strip()
             self.make_data_point(
                 point_type="project",
-                point_data=point_data,
-                sub_type=point_type,
+                emission_savings=emission_savings,
+                project_name=project_name,
                 lifetime=row["Project lifetime (years)"],
                 cost=row["Capital cost (£)"],
                 funding_source=funding_source,

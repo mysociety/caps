@@ -26,7 +26,13 @@ class Command(BaseCommand):
         data = join(settings.SCOTTISH_DIR, "projects_data.csv")
         df = pd.read_csv(data)
 
-        for col in ["data_value", "cost", "annual_cost", "annual_savings", "lifetime"]:
+        for col in [
+            "emission_savings",
+            "cost",
+            "annual_cost",
+            "annual_savings",
+            "lifetime",
+        ]:
             # remove cruft
             df[col] = df[col].str.replace(",", "", regex=False)
             df[col] = df[col].str.replace("£", "", regex=False)
@@ -61,9 +67,9 @@ class Command(BaseCommand):
 
                 project = CouncilProject.objects.get_or_create(
                     council=council,
-                    name=row["sub_type"],
+                    name=row["project_name"],
                     year=row["start_year"],
-                    emission_savings=row["data_value"],
+                    emission_savings=row["emission_savings"],
                     funding=row["funding_source"],
                     emission_source=row["emission_source"],
                     capital_cost=row["cost"],
