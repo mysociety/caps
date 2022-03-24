@@ -206,6 +206,7 @@ class CouncilProjectsListView(FilterView):
     context_object_name = "projects"
     template_name = "projects_list.html"
     extra_context = {"page_title": "Browse council emissions reduction projects"}
+    paginate_by = 20
 
     def get_queryset(self):
         return CouncilProject.objects.select_related("council").order_by(
