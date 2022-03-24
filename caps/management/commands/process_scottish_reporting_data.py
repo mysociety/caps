@@ -2,6 +2,7 @@ import re
 from collections import defaultdict
 
 from os.path import join
+from shutil import copy
 
 import pandas as pd
 import numpy as np
@@ -457,5 +458,9 @@ class Command(BaseCommand):
         for name, data in self.data.items():
             df = pd.DataFrame(data)
 
-            outfile = join(settings.SCOTTISH_DIR, "{}_data.csv".format(name))
+            file_name = "{}_data.csv".format(name)
+            outfile = join(settings.SCOTTISH_DIR, file_name)
             df.to_csv(open(outfile, "w"), index=False, header=True)
+
+            dst = join(settings.MEDIA_ROOT, "data", file_name)
+            copy(outfile, dst)
