@@ -55,6 +55,8 @@
             <li><a href="{{ MEDIA_URL }}data/declarations.csv">Council climate emergency declarations</a>.</li>
         </ul>
 
+        <p>All the above CSV files include the council GSS code, and a three letter council code you can use with the API, to enable matching data across files, and with other sources.</p>
+
         <p>While most of the details in the plans CSV are hopefully fairly straightforward there are a few which require further explanations:</p>
 
         <ul>
@@ -64,7 +66,28 @@
             <li><b>scope</b> - Council only means the plan only deals with the council's operations. Whole area means the plan covers non council activities within council boundaries as well.</li>
         </ul>
 
-        <p>All CSV files include the council GSS code, and a three letter council code you can use with the API, to enable matching data across files, and with other sources.</p>
+        <p>There is also a <a href="{{ MEDIA_URL }}data/projects_data.csv">CSV of the emissions reduction projects data</a> with the following data:</p>
+
+        <ul>
+            <li><b>council_name</b></li>
+            <li><b>authority_code</b> - Three letter council code as above</li>
+            <li><b>start_year</b> - Reporting start year</li>
+            <li><b>end_year</b> - Reporting end year</li>
+            <li><b>data_type</b> - This is always 'projects'</li>
+            <li><b>emission_savings</b> - Emissions saved in tCO2e</li>
+            <li><b>project_name</b> - Name of the project</li>
+            <li><b>lifetime</b> - Length of the project in years</li>
+            <li><b>cost</b> - Capital cost of the project</li>
+            <li><b>funding_source</b> - Where the funding for the project came from</li>
+            <li><b>emission_source</b> - Where the emissions savings come from</li>
+            <li><b>annual_savings</b> - Annual cost savings</li>
+            <li><b>measurement</b> - If the emissions savings are measured or estimated</li>
+            <li><b>savings_start</b> - Year the savings start</li>
+            <li><b>comments</b></li>
+        </ul>
+
+        <p>Full explanations of the data can be found in the <a href="https://sustainablescotlandnetwork.org/uploads/store/mediaupload/1592/file/CC%20Reporting%20Master%20Guidance%202021%2005.10.2021.pdf">guidance on the Sustainable Scotland Network site</a>.</p>
+
 
         <h2 class="mt-5 mb-4" id="licensing">Licensing</h2>
 
