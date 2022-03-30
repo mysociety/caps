@@ -18,7 +18,7 @@
 
         <h2 class="mb-4" id="plans">Council plans</h2>
 
-        <p>You can <a href="{{ MEDIA_URL }}data/plans/plans.zip">download a zip file of all the plans</a>. As well as the PDFs, or HTML pages, of the plans, this includes a CSV file (plans.csv) with details and sources for all the included files, along with information like GSS codes to enable linking to other data. The CSV file is available separately, see below for details.</p>
+        <p>You can <a class="data-download" href="{{ MEDIA_URL }}data/plans/plans.zip">download a zip file of all the plans</a>. As well as the PDFs, or HTML pages, of the plans, this includes a CSV file (plans.csv) with details and sources for all the included files, along with information like GSS codes to enable linking to other data. The CSV file is available separately, see below for details.</p>
 
         <h2 class="mt-5 mb-4" id="similarity">Similar councils</h2>
 
@@ -50,9 +50,9 @@
         <p>If you need to use our data in your own spreadsheets then the following data is available to download as CSV files:<p>
 
         <ul>
-            <li><a href="{{ MEDIA_URL }}data/plans.csv">Council plans</a>.</li>
-            <li><a href="{{ MEDIA_URL }}data/promises.csv">Council net zero commitments</a>.</li>
-            <li><a href="{{ MEDIA_URL }}data/declarations.csv">Council climate emergency declarations</a>.</li>
+            <li><a class="data-download" href="{{ MEDIA_URL }}data/plans.csv">Council plans</a>.</li>
+            <li><a class="data-download" href="{{ MEDIA_URL }}data/promises.csv">Council net zero commitments</a>.</li>
+            <li><a class="data-download" href="{{ MEDIA_URL }}data/declarations.csv">Council climate emergency declarations</a>.</li>
         </ul>
 
         <p>All the above CSV files include the council GSS code, and a three letter council code you can use with the API, to enable matching data across files, and with other sources.</p>
@@ -93,6 +93,35 @@
 
         <p>The API data and CSV files are licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. The ZIP file is unlicensed as it contains work issued by local authorities under many licenses.</p>
 
+    </div>
+</div>
+
+<div class="modal feedback-modal" tabindex="-1" id="data-feedback-modal" aria-labelledby="data-feedback-modal-title">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content shadow-lg" data-ajax-submit method="POST" action="{% url 'feedback_email' %}">
+            {% csrf_token %}
+
+            <div class="modal-header">
+                <h2 class="modal-title" id="data-feedback-modal-title">Hello!</h2>
+                <button type="button" class="close" data-dismiss="modal">Download</button>
+            </div>
+
+            <div class="modal-body">
+                <p>If you find this data useful we’d love to <a href="mailto:climate-councils@mysociety.org">hear from you</a> about how it was used. It’s helpful for guiding future work, providing examples to others and for talking to existing and current funders.</p>
+
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" name="feedback-email" value="" id="feedback-email">
+                    <label class="mb-0 ml-2" for="feedback-email">
+                        Email address
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <input type="hidden" name="data-downloaded" id="data-downloaded">
+                <button id="feedback-submit" type="submit" class="btn btn-primary btn-lg">Send and download</button>
+            </div>
+        </form>
     </div>
 </div>
 

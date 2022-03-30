@@ -142,6 +142,29 @@ $('#interstitial-audience-survey').on('change', 'input', function(e){
     });
 });
 
+$('.data-download').on('click', function(e){
+    e.preventDefault();
+    $('#data-downloaded').val(e.currentTarget.href);
+    $('#data-feedback-modal').modal('show');
+});
+
+$('#data-feedback-modal').on('hide.bs.modal', function(e){
+    window.location = $('#data-downloaded').val();
+});
+
+$('form[data-ajax-feedback-submit]').on('submit', function(e){
+    e.preventDefault();
+    var $form = $(this);
+
+    $form.parents('.modal').modal('hide');
+
+    $.ajax({
+        method: $form.attr('method'),
+        url: $form.attr('action'),
+        data: $form.serialize()
+    });
+});
+
 $('.conditional-fields').each(function(){
     var $conditional = $(this);
     var $prevInput = $(this).prev().find('input');

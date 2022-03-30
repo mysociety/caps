@@ -2,7 +2,7 @@
 
 <div class="modal interstitial-modal" tabindex="-1" id="interstitial-modal" aria-labelledby="interstitial-modal-title">
     <div class="modal-dialog modal-dialog-centered">
-        <form class="modal-content shadow-lg" data-ajax-submit method="POST" action="{% url 'mailchimp_hook' %}">
+        <form class="modal-content shadow-lg" id="interstitial-form" data-ajax-feedback-submit method="POST" action="{% url 'mailchimp_hook' %}">
             {% csrf_token %}
 
             <div class="modal-header">
