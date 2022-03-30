@@ -161,7 +161,7 @@ class TestCouncilDetailPage(TestCase):
         url = reverse("council", args=["borsetshire"])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertRegex(response.content, br"this is a promise")
+        self.assertRegex(response.content, rb"this is a promise")
 
     def test_council_has_no_promise(self):
         self.promise.has_promise = False
@@ -171,7 +171,7 @@ class TestCouncilDetailPage(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertRegex(
             response.content,
-            br"We couldn\xe2\x80\x99t find any climate pledges from this council",
+            rb"We couldn\xe2\x80\x99t find any climate pledges from this council",
         )
 
     def test_council_no_promise_data(self):
@@ -181,5 +181,5 @@ class TestCouncilDetailPage(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertRegex(
             response.content,
-            br"checked whether this council has made any climate pledges",
+            rb"checked whether this council has made any climate pledges",
         )
