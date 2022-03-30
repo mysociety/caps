@@ -6,6 +6,7 @@ from django.views.generic import View, DetailView, ListView, TemplateView
 from django.db.models import Q, Count, Max, Min, Avg
 from django.shortcuts import redirect
 from django.conf import settings
+from django.core.mail import send_mail
 import mailchimp_marketing as MailchimpMarketing
 from mailchimp_marketing.api_client import ApiClientError
 
@@ -440,3 +441,24 @@ class StyleView(TemplateView):
 
     template_name = "style.html"
     extra_context = {"page_title": "Styles"}
+
+
+class FeedbackEmail(View):
+    def post(self, request):
+        email = request.POST.get("feedback-email")
+        data = request.POST.get("data-downloaded")
+
+        send_mail(
+            "CAPE data downloaded",
+            "email: {}\ndata: {}".format(email, data),
+            settings.FEEDBACK_EMAIL,
+            [settings.FEEDBACK_EMAIL],
+            fail_silently=True,
+        )
+
+        content = {"email_address": email, "status": "sent"}
+
+        http_status = 200
+        response_data = {"data": content}
+
+        return JsonResponse(response_data, status=http_status)

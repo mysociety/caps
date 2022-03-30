@@ -24,12 +24,16 @@ services:
       # this is just a random valid key for fernet
       - VEGALITE_ENCRYPT_KEY=${VEGALITE_ENCRYPT_KEY:-FeVpOxEnN5zplY0M1OWWNh4SRj3Nbn9B9kSF_JxHUjA=}
       - VEGALITE_SERVER_URL=${VEGALITE_SERVER_URL:-xxx}
+      - FEEDBACK_EMAIL=${FEEDBACK_EMAIL:-xxx}
+      - EMAIL_HOST=${EMAIL_HOST:-localhost}
+      - EMAIL_PORT=${EMAIL_PORT:-25}
 
     depends_on:
       - postgres
       - solr
     ports:
       - ${PORT:-8000}:8000
+      - 25:25
 
   postgres:
     image: postgres:11

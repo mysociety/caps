@@ -40,6 +40,7 @@ urlpatterns = [
     ),
     path("style/", views.StyleView.as_view(), name="style"),
     path("admin/", admin.site.urls),
+    path("feedback_email/", views.FeedbackEmail.as_view(), name="feedback_email"),
     path("api/", include(router.urls)),
     path(
         "api/councils/<str:authority_code>/commitments",

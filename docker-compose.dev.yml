@@ -22,6 +22,10 @@ services:
       # this is just a random valid key for fernet
       - VEGALITE_ENCRYPT_KEY=${VEGALITE_ENCRYPT_KEY:-FeVpOxEnN5zplY0M1OWWNh4SRj3Nbn9B9kSF_JxHUjA=}
       - VEGALITE_SERVER_URL=${VEGALITE_SERVER_URL:-xxx}
+      - FEEDBACK_EMAIL=${FEEDBACK_EMAIL:-xxx}
+      - EMAIL_HOST=${EMAIL_HOST:-xxx}
+      - EMAIL_PORT=${EMAIL_PORT:-xxx}
+
 
     depends_on:
       - postgres
@@ -37,6 +41,16 @@ services:
     extends:
       file: docker-compose.yml
       service: solr
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    restart: always
+    ports:
+      - 1035:1025
+      - 8035:8025
+    networks:
+     default:
+       aliases:
+         - email.svc
 
 volumes:
   postgres_data:
