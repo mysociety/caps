@@ -100,6 +100,21 @@ class Council(models.Model):
         ("UA", "Unitary Authority"),
     ]
 
+    REGION_CHOICES = [
+        ("East Midlands", "East Midlands"),
+        ("East of England", "East of England"),
+        ("London", "London"),
+        ("North East", "North East"),
+        ("North West", "North West"),
+        ("Northern Ireland", "Northern Ireland"),
+        ("Scotland", "Scotland"),
+        ("South East", "South East"),
+        ("South West", "South West"),
+        ("Wales", "Wales"),
+        ("West Midlands", "West Midlands"),
+        ("Yorkshire and The Humber", "Yorkshire and The Humber"),
+    ]
+
     SCORING_GROUP_CHOICES = [
         ("single", "Single Tier"),
         ("county", "County Council"),
@@ -173,6 +188,8 @@ class Council(models.Model):
     )
     twitter_name = models.CharField(max_length=200, null=True)
     twitter_url = models.URLField(null=True)
+    region = models.CharField(max_length=200, null=True, choices=REGION_CHOICES)
+    county = models.CharField(max_length=200, null=True)
 
     class Meta:
         ordering = ["name"]
