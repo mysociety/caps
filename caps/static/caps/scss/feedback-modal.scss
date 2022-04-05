@@ -2,10 +2,6 @@
     --modal-outer-padding: 1rem;
 
     @include media-breakpoint-up(sm) {
-        .modal-dialog {
-            max-width: 600px;
-        }
-
         --modal-outer-padding: 1.5rem;
     }
 
@@ -18,34 +14,24 @@
         font-size: 1.125rem; // 18px
     }
 
-    .modal-header {
-        border-bottom: none;
-        align-items: center;
-        padding: var(--modal-outer-padding) var(--modal-outer-padding) 0 var(--modal-outer-padding);
-
-        h2 {
-            line-height: 1;
+    .modal-dialog {
+        @include media-breakpoint-up(sm) {
+            max-width: 760px;
         }
     }
 
-    .modal-body {
-        padding: 1rem var(--modal-outer-padding);
-    }
-
-    .modal-footer {
-        border-top: none;
-        justify-content: flex-start;
-        padding: 0 var(--modal-outer-padding) var(--modal-outer-padding) var(--modal-outer-padding);
-
-        .btn {
-            margin: 0;
+    .modal-content {
+        @include media-breakpoint-up(sm) {
+            background: $white linear-gradient(90deg, $white 50%, $color-ceuk-grey-100 50%, $white 60%);
         }
     }
 
-    .close {
-        background: transparent;
-        border: none;
-        color: $color-ceuk-grey-600;
-        font-size: 1rem;
+    .no-gutters > * {
+        padding: 2.5rem;
+        padding: var(--modal-outer-padding);
+
+        @include media-breakpoint-up(sm) {
+            border: none !important;
+        }
     }
 }

@@ -152,6 +152,15 @@ $('#data-feedback-modal').on('hide.bs.modal', function(e){
     window.location = $('#data-downloaded').val();
 });
 
+$('#feedback-email').on('keyup change', function(){
+    var hasProvidedEmail = $(this).val() && $(this).is(':valid');
+    if ( hasProvidedEmail ) {
+        $('#feedback-submit').removeClass('btn-secondary').addClass('btn-primary').attr('disabled', null);
+    } else {
+        $('#feedback-submit').addClass('btn-secondary').removeClass('btn-primary').attr('disabled', true);
+    }
+})
+
 $('form[data-ajax-feedback-submit]').on('submit', function(e){
     e.preventDefault();
     var $form = $(this);
