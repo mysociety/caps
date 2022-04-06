@@ -149,7 +149,16 @@ $('a[data-show-feedback-modal]').on('click', function(e){
 });
 
 $('#data-feedback-modal').on('hide.bs.modal', function(e){
-    window.location = $('#data-downloaded').val();
+    download = $('#data-downloaded').val();
+    if (download) {
+        window.location = download;
+    }
+});
+
+$('#data-feedback-modal').on('keydown', function(e){
+    if (e.originalEvent.key == 'Escape') {
+        $('#data-downloaded').val('');
+    }
 });
 
 $('#feedback-email').on('keyup change', function(){
