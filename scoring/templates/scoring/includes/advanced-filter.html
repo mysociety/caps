@@ -1,5 +1,10 @@
 <button class="advanced-filter btn open-modal popup-trigger"
-data-popup-trigger="one" type="button">Advanced filters</button>
+data-popup-trigger="one" type="button">
+  {% if filter_descs %}
+    <span class="badge badge-red mr-2">{{ filter_descs|length }} active</span>
+  {% endif %}
+    Advanced filters
+</button>
 <div class="advanced-filter-wrapper bg-blue-l2 popup-modal shadow" data-popup-modal="one">
     <div class="filter-header mb-3">
         <p class="filter-title">Select a filter:</p>
