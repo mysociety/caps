@@ -142,7 +142,7 @@ $('#interstitial-audience-survey').on('change', 'input', function(e){
     });
 });
 
-$('.data-download').on('click', function(e){
+$('a[data-show-feedback-modal]').on('click', function(e){
     e.preventDefault();
     $('#data-downloaded').val(e.currentTarget.href);
     $('#data-feedback-modal').modal('show');

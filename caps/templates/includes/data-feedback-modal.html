@@ -1,0 +1,27 @@
+<div class="modal feedback-modal" tabindex="-1" id="data-feedback-modal" aria-labelledby="data-feedback-modal-title">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="modal-content shadow-lg" data-ajax-submit method="POST" action="{% url 'feedback_email' %}">
+            {% csrf_token %}
+            <input type="hidden" name="data-downloaded" id="data-downloaded">
+
+            <div class="row no-gutters">
+                <div class="col-sm-6">
+                    <h2 class="h3" id="data-feedback-modal-title">Help us measure our&nbsp;impact</h2>
+                    <p>We’re so excited you’re interested in our&nbsp;data! ❤️</p>
+                    <p>May we follow up with you in the future, to find out what impact our service is having?</p>
+                    <div class="form-group">
+                        <label for="feedback-email" class="form-label font-weight-bold">Your email address</label>
+                        <input type="email" name="feedback-email" id="feedback-email" class="form-control">
+                    </div>
+                    <button id="feedback-submit" type="submit" class="btn btn-secondary btn-block mt-md-4" disabled>Download data</button>
+                </div>
+                <div class="col-sm-6 border-top d-flex flex-column text-muted">
+                    <h2 class="h3">…or don’t</h2>
+                    <p class="mt-auto mb-md-0">Don’t want to share your email this time? No problem.</p>
+                    <button type="button" class="btn btn-outline-primary btn-block mt-md-4" data-dismiss="modal">Just give me the data</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

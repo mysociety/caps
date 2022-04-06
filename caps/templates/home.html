@@ -21,7 +21,7 @@
                     Browse and compare all {{ total_councils }} councils
                     {% include 'icons/chevron-right.html' with classes='ml-1' role='presentation' %}
                 </a>
-                <a href="{{ MEDIA_URL }}data/plans/plans.zip" class="d-flex align-items-center mt-3">
+                <a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans/plans.zip" class="d-flex align-items-center mt-3">
                     Download ZIP archive of {{ total_plans }} plans ({{ plan_zip_size }})
                     {% include 'icons/download.html' with classes='ml-1' role='presentation' %}
                 </a>
@@ -51,6 +51,8 @@
 
     </div>
 </div>
+
+{% include 'includes/data-feedback-modal.html' %}
 
 {% endblock %}
 
