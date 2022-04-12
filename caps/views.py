@@ -432,7 +432,7 @@ class NetZeroLocalHeroView(TemplateView):
     template_name = "net_zero_local_hero.html"
     extra_context = {
         "page_title": "Be a Net Zero Local Hero",
-        "og_image_path": "/static/img/og-image-nzlh.jpg",
+        "og_image_path": "/static/caps/img/og-image-nzlh.jpg",
     }
 
 
