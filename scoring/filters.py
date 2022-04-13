@@ -24,6 +24,15 @@ class PlanScoreFilter(django_filters.FilterSet):
 
     control = django_filters.CharFilter(field_name="planscore__political_control")
 
+    region = django_filters.ChoiceFilter(
+        field_name="planscore__council__region", choices=Council.REGION_CHOICES
+    )
+
+    county = django_filters.ChoiceFilter(
+        field_name="planscore__council__county",
+        choices=Council.get_county_choices(),
+    )
+
     class Meta:
         model = Council
         fields = []

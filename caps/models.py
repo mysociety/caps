@@ -427,6 +427,14 @@ class Council(models.Model):
         total = cls.objects.all().count()
         return round(with_plan / total * 100)
 
+    @classmethod
+    def get_county_choices(cls):
+        choices = cls.objects.filter(authority_type="CTY").values_list(
+            "authority_code", "name"
+        )
+
+        return choices
+
 
 class OverwriteStorage(FileSystemStorage):
     """

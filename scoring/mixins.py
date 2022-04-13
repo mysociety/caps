@@ -35,6 +35,10 @@ class AdvancedFilterMixin:
                 descs.append("deprivation quintile {}".format(params["imdq"]))
             if params["country"] and params["country"] != "":
                 descs.append(Council.country_description(params["country"]))
+            if params["region"] and params["region"] != "":
+                descs.append(params["region"])
+            if params["county"] and params["county"] != "":
+                descs.append(params["county"])
 
             context["filter_params"] = params
             context["filter_descs"] = descs
@@ -43,5 +47,6 @@ class AdvancedFilterMixin:
         context["population_filter"] = PlanScore.POPULATION_FILTER_CHOICES.get(
             authority_type["slug"]
         )
+        context["county_filter"] = Council.get_county_choices()
 
         return context
