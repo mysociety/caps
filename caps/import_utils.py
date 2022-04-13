@@ -85,6 +85,26 @@ def add_authority_codes(filename):
     plans_df.to_csv(open(filename, "w"), index=False, header=True)
 
 
+def add_region_and_county(filename):
+    authority_df = pd.read_csv(AUTHORITY_DATA)
+    plans_df = pd.read_csv(filename)
+
+    rows = len(plans_df["council"])
+    plans_df["region"] = pd.Series([None] * rows, index=plans_df.index)
+    plans_df["county"] = pd.Series([None] * rows, index=plans_df.index)
+
+    for index, row in plans_df.iterrows():
+        authority_code = row["authority_code"]
+        if not pd.isnull(authority_code):
+            authority_match = authority_df[
+                authority_df["local-authority-code"] == authority_code
+            ]
+            plans_df.at[index, "region"] = authority_match["region"].values[0]
+            plans_df.at[index, "county"] = authority_match["county-la"].values[0]
+
+    plans_df.to_csv(open(filename, "w"), index=False, header=True)
+
+
 def add_gss_codes(filename):
 
     authority_df = pd.read_csv(AUTHORITY_DATA)

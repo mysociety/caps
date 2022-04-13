@@ -200,6 +200,8 @@ class Command(BaseCommand):
             council_url = PlanDocument.char_from_text(row["website_url"])
             twitter_url = PlanDocument.char_from_text(row["twitter_url"])
             twitter_name = PlanDocument.char_from_text(row["twitter_name"])
+            region = PlanDocument.char_from_text(row["region"])
+            county = PlanDocument.char_from_text(row["county"])
             council, created = Council.objects.get_or_create(
                 authority_code=PlanDocument.char_from_text(row["authority_code"]),
                 country=Council.country_code(row["country"]),
@@ -217,6 +219,8 @@ class Command(BaseCommand):
                     "website_url": council_url,
                     "twitter_url": twitter_url,
                     "twitter_name": twitter_name,
+                    "county": county,
+                    "region": region,
                 },
             )
 
@@ -252,6 +256,14 @@ class Command(BaseCommand):
             ):
                 council.twitter_url = twitter_url
                 council.twitter_name = twitter_name
+                changed = True
+
+            if council.region != region:
+                council.region = region
+                changed = True
+
+            if council.county != county:
+                council.county = county
                 changed = True
 
             if changed is True:
