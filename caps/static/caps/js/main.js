@@ -161,6 +161,16 @@ $('#data-feedback-modal').on('keydown', function(e){
     }
 });
 
+$('.modal-content').on('click', function(e) {
+    e.originalEvent.clickedInsideDialog = 1;
+});
+
+$('#data-feedback-modal').on('click', function(e){
+    if (e.originalEvent.clickedInsideDialog !== 1) {
+        $('#data-downloaded').val('');
+    }
+});
+
 $('#feedback-email').on('keyup change', function(){
     var hasProvidedEmail = $(this).val() && $(this).is(':valid');
     if ( hasProvidedEmail ) {
