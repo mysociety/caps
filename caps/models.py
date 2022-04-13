@@ -433,7 +433,26 @@ class Council(models.Model):
             "authority_code", "name"
         )
 
+        choices = [
+            (code, name.replace(" County Council", "")) for (code, name) in choices
+        ]
+
         return choices
+
+    @classmethod
+    def region_filter_choices(cls):
+        countries = cls.COUNTRY_CHOICES
+        regions = [
+            r for r in cls.REGION_CHOICES if r[0] not in dict(countries).values()
+        ]
+
+        counties = [c for c in cls.get_county_choices()]
+
+        return (
+            ("Countries", (countries)),
+            ("Regions of England", (regions)),
+            ("English Counties", (counties)),
+        )
 
 
 class OverwriteStorage(FileSystemStorage):
@@ -804,8 +823,10 @@ class CouncilFilter(django_filters.FilterSet):
     authority_type = django_filters.ChoiceFilter(
         choices=Council.AUTHORITY_TYPE_CHOICES, empty_label="All"
     )
-    country = django_filters.ChoiceFilter(
-        choices=Council.COUNTRY_CHOICES, empty_label="All"
+    region = django_filters.ChoiceFilter(
+        method="filter_region",
+        choices=[],
+        empty_label="All",
     )
 
     promise_combined = django_filters.ChoiceFilter(
@@ -850,6 +871,31 @@ class CouncilFilter(django_filters.FilterSet):
             return queryset.filter(**{"has_promise__gte": 1, "earliest_promise": None})
         else:
             return queryset.filter(**{"earliest_promise__lte": value})
+
+    def filter_region(self, queryset, name, value):
+        if value is None:
+            return queryset
+        elif value in dict(Council.REGION_CHOICES):
+            return queryset.filter(**{"region": value})
+        elif value in dict(Council.get_county_choices()):
+            q = Q(county=value) | Q(authority_code=value)
+            return queryset.filter(q)
+        else:
+            try:
+                value = int(value)
+                return queryset.filter(**{"country": value})
+            except ValueError:
+                return queryset
+
+    # we do this here as otherwise region_filter_choices is called before
+    # migrations have been run which causes problems for tests on github
+    # and also causes unhelpful errors if we can't access the database
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        try:
+            self.filters["region"].extra["choices"] = Council.region_filter_choices()
+        except (KeyError, AttributeError):
+            pass
 
     class Meta:
         model = Council
