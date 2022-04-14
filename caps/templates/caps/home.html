@@ -1,11 +1,11 @@
-{% extends "base.html" %}
+{% extends "caps/base.html" %}
 
 {% block content %}
 
 <div class="p-3 p-md-4 p-lg-5 mb-gutter rounded homepage-hero">
     <h1>Tracking the UK’s journey towards carbon zero</h1>
     <p>What’s happening in your area?</p>
-    {% include 'includes/location-search-form.html' %}
+    {% include 'caps/includes/location-search-form.html' %}
 </div>
 
 <div class="row">
@@ -19,11 +19,11 @@
                 </div>
                 <a href="{% url 'council_list' %}" class="d-flex align-items-center mt-auto" data-show-interstitial>
                     Browse and compare all {{ total_councils }} councils
-                    {% include 'icons/chevron-right.html' with classes='ml-1' role='presentation' %}
+                    {% include 'caps/icons/chevron-right.html' with classes='ml-1' role='presentation' %}
                 </a>
                 <a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans/plans.zip" class="d-flex align-items-center mt-3">
                     Download ZIP archive of {{ total_plans }} documents ({{ plan_zip_size }})
-                    {% include 'icons/download.html' with classes='ml-1' role='presentation' %}
+                    {% include 'caps/icons/download.html' with classes='ml-1' role='presentation' %}
                 </a>
                 <div class="mt-3">
                     <small>Last updated: {{ last_update }}.</small>
@@ -37,7 +37,7 @@
         <div class="card ceuk-card ceuk-card--purple mb-gutter homepage-search-plans">
             <div class="card-body p-md-4 p-lg-5">
                 <h2>The UK’s open database of council climate action plans</h2>
-                {% include 'includes/text-search-form.html' %}
+                {% include 'caps/includes/text-search-form.html' %}
               {% if popular_searches %}
                 <h3 class="mt-4 mb-2">Popular searches:</h3>
                 <ul class="list-inline mb-0">
@@ -52,10 +52,10 @@
     </div>
 </div>
 
-{% include 'includes/data-feedback-modal.html' %}
+{% include 'caps/includes/data-feedback-modal.html' %}
 
 {% endblock %}
 
 {% block extrafooterscript %}
-{% include 'includes/location-search-autocomplete.html' %}
+{% include 'caps/includes/location-search-autocomplete.html' %}
 {% endblock %}

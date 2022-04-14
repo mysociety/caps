@@ -27,7 +27,7 @@
             <div class="about-section-child pt-3">
                 <h3 class="mb-3">About this council</h3>
                 {% if plan_score.top_performer %}
-                <p class="top-performer.active mb-0">This council is a top performer within {% include 'includes/authority_type.html' with group=authority_type %} councils.</p>
+                <p class="top-performer.active mb-0">This council is a top performer within {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.</p>
                 {% endif %}
                 <a href="{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}">See council in context</a>
                 <div class="group-label-wrapper mt-3">
@@ -153,7 +153,7 @@
                               {% for comparison in comparisons %}
                                 <th scope="col">{{ comparison.council.name }}</th>
                               {% endfor %}
-                                <th scope="col">Average {% include 'includes/authority_type.html' with group=authority_type %} council score</th>
+                                <th scope="col">Average {% include 'caps/includes/authority_type.html' with group=authority_type %} council score</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -240,7 +240,7 @@
                                 </td>
                               {% endfor %}
                                 <td class="top-tier-score">
-                                  <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span>{% include 'includes/authority_type.html' with group=authority_type %} councils got full marks for this section.</span>
+                                  <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this section.</span>
                                 </td>
                                 <td class="button-wrapper p-0">
                                     <button type="button" class="accordion js-toggle-council-question-table-section" aria-label="Expand this section" title="Expand this section">
@@ -298,7 +298,7 @@
                               {% endfor %}
                               {% endif %}
                               <td class="top-tier-score">
-                                <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ answer.council_count }} out of {{ council_count }}</a> <span>{% include 'includes/authority_type.html' with group=authority_type %} councils got full marks for this question.</span>
+                                <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ answer.council_count }} out of {{ council_count }}</a> <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this question.</span>
                                 </td>
                             </tr>
                           {% endfor %}

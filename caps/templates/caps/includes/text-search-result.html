@@ -2,7 +2,7 @@
     <div class="card-body mb-n3">
         <h2 class="h4"><a href="{% url 'council' result.object.council.slug %}">{{ result.object.council.name }}</a></h2>
         <a class="d-flex align-items-center mb-3" data-plan-id="{{ result.object.id }}" data-council-slug="{{ result.object.council.slug }}" href="{{ result.object.file.url }}">
-            {% include 'icons/file.html' with classes='mr-2' role='presentation' %}
+            {% include 'caps/icons/file.html' with classes='mr-2' role='presentation' %}
             Direct link to {{ result.object.get_document_type }} ({{ result.object.file_type|upper }})
         </a>
       {% for text in result.highlighted.text %}

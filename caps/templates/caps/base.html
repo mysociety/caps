@@ -44,22 +44,22 @@
 <body class="{% block bodyclass %}{% endblock %}">
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
-    {% include 'includes/site-header.html' %}
+    {% include 'caps/includes/site-header.html' %}
 
-    {% include 'includes/site-subheader.html' %}
+    {% include 'caps/includes/site-subheader.html' %}
 
     {% block before_content %}{% endblock %}
 
     <div class="site-content">
         <div class="container-fluid">
             {% block content %}{% endblock %}
-            {% include 'includes/alpha-banner.html' %}
+            {% include 'caps/includes/alpha-banner.html' %}
         </div>
     </div>
 
-    {% include 'includes/site-footer.html' %}
+    {% include 'caps/includes/site-footer.html' %}
 
-    {% include 'includes/interstitial-modal.html' %}
+    {% include 'caps/includes/interstitial-modal.html' %}
 
     <script src="{% static 'jquery/jquery.min.js' %}"></script>
     <script src="{% static 'bootstrap/bootstrap.bundle.min.js' %}"></script>

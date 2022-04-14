@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "caps/base.html" %}
 
 {% block content %}
 
@@ -43,7 +43,7 @@
                   {% endif %}
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block mt-4 d-flex align-items-center justify-content-center">
-                            {% include 'icons/search.html' with classes='mr-2' role='presentation' %}
+                            {% include 'caps/icons/search.html' with classes='mr-2' role='presentation' %}
                             Search
                         </button>
                     </div>
@@ -69,7 +69,7 @@
             <div class="card-body mb-n3">
                 <h2 class="h4 mb-3">Looking for your local council?</h2>
                 <p><a href="{% url 'location_results' %}?pc={{ postcode }}" class="btn btn-orange d-inline-flex align-items-center">
-                    {% include 'icons/search.html' with role='presentation' %}
+                    {% include 'caps/icons/search.html' with role='presentation' %}
                     <span class="ml-2">Show councils covering {{ query }}</span>
                 </a></p>
             </div>
@@ -77,7 +77,7 @@
       {% endif %}
 
       {% for result in page_obj.object_list %}
-        {% include 'includes/text-search-result.html' with result=result %}
+        {% include 'caps/includes/text-search-result.html' with result=result %}
       {% empty %}
         <p>No results found.</p>
       {% endfor %}

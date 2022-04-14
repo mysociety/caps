@@ -18,26 +18,26 @@ class TestPageRenders(TestCase):
         url = reverse("home")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "home.html")
+        self.assertTemplateUsed(response, "caps/home.html")
 
     def test_council_detail(self):
         url = reverse("council", args=["borsetshire"])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "council_detail.html")
+        self.assertTemplateUsed(response, "caps/council_detail.html")
 
     @patch("caps.forms.HighlightedSearchForm.search")
     def test_search_results(self, search):
         url = reverse("search_results")
         response = self.client.get(url, {"q": "ev charging"})
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "search_results.html")
+        self.assertTemplateUsed(response, "caps/search_results.html")
 
     def test_council_list(self):
         url = reverse("council_list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "council_list.html")
+        self.assertTemplateUsed(response, "caps/council_list.html")
 
 
 class TestPostcodeSearch(TestCase):
@@ -111,7 +111,7 @@ class TestPostcodeSearch(TestCase):
             }
         }
         response = self.client.get("/location/?pc=BO11AE", follow=True)
-        self.assertTemplateUsed(response, "location_results.html")
+        self.assertTemplateUsed(response, "caps/location_results.html")
 
     @patch("caps.mapit.session")
     def test_postcode_to_council_and_combined_authority_shows_results(
@@ -129,11 +129,11 @@ class TestPostcodeSearch(TestCase):
             }
         }
         response = self.client.get("/location/?pc=BO11AF", follow=True)
-        self.assertTemplateUsed(response, "location_results.html")
+        self.assertTemplateUsed(response, "caps/location_results.html")
 
     def test_empty_submission_shows_results_page(self):
         response = self.client.get("/location/?pc=")
-        self.assertTemplateUsed(response, "location_results.html")
+        self.assertTemplateUsed(response, "caps/location_results.html")
 
 
 class TestCouncilDetailPage(TestCase):
@@ -281,5 +281,5 @@ class TestSearchPage(TestCase):
         url = reverse("search_results")
         response = self.client.get(url, {"q": "EH99 1SP"})
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "search_results.html")
+        self.assertTemplateUsed(response, "caps/search_results.html")
         self.assertRegex(response.content, rb"Looking for your local council")

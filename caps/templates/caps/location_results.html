@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "caps/base.html" %}
 
 {% block content %}
 
 <div class="mb-5">
     <h1 class="line-height-1">Find your council’s action plan</h1>
-    {% include 'includes/location-search-form.html' %}
+    {% include 'caps/includes/location-search-form.html' %}
 </div>
 
 {% if error %}
@@ -19,7 +19,7 @@
     <div class="card-body">
         <h2 class="mb-0 d-flex align-items-center">
             {{ council.name }}
-            {% include 'icons/chevron-right.html' with classes='ml-3' role='presentation' %}
+            {% include 'caps/icons/chevron-right.html' with classes='ml-3' role='presentation' %}
         </h2>
     </div>
 </a>
@@ -29,5 +29,5 @@
 {% endblock %}
 
 {% block extrafooterscript %}
-{% include 'includes/location-search-autocomplete.html' %}
+{% include 'caps/includes/location-search-autocomplete.html' %}
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "caps/base.html" %}
 {% load bootstrap4 %}
 
 {% block content %}
@@ -34,7 +34,7 @@
             </div>
             <div class="ceuk-data-table">
               {% if filter.qs %}
-                {% include 'includes/council-table.html' with councils=filter.qs  show_last_updated=True %}
+                {% include 'caps/includes/council-table.html' with councils=filter.qs  show_last_updated=True %}
               {% endif %}
             </div>
         </div>

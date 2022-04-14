@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "caps/base.html" %}
 
 {% block bodyclass %}page-{{ tag.colour|default:"tags" }}{% endblock %}
 
@@ -7,7 +7,7 @@
 <div class="site-hero">
     <div class="container-fluid">
         <a href="{% url 'tag_list' %}" class="d-inline-flex align-items-center">
-            {% include 'icons/chevron-left.html' with classes='mr-1' role='presentation' %}
+            {% include 'caps/icons/chevron-left.html' with classes='mr-1' role='presentation' %}
             Back to all features
         </a>
         <h1 class="mt-3">{{ tag.name }}</h1>
@@ -27,7 +27,7 @@
                 <h3>{{ councils|length }} council{{ councils|pluralize }}</h3>
             </div>
             <div class="ceuk-data-table">
-                {% include 'includes/council-table.html' with councils=councils %}
+                {% include 'caps/includes/council-table.html' with councils=councils %}
             </div>
         </div>
 

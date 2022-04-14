@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "caps/base.html" %}
 {% load bootstrap4 %}
 {% load humanize %}
 
@@ -51,7 +51,7 @@
         <div class="card ceuk-card ceuk-card--blue mb-3 mb-lg-4">
             <a class="card-header d-flex align-items-center line-height-1 font-weight-bold" href="{% url "council" project.council.slug %}">
                 {{ project.council.name }}
-                {% include 'icons/chevron-right.html' with classes="ml-1" %}
+                {% include 'caps/icons/chevron-right.html' with classes="ml-1" %}
             </a>
             <div class="card-body">
                 <h2 class="text-body mt-n1">

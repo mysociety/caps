@@ -51,7 +51,7 @@ from scoring.models import (
 
 class HomePageView(TemplateView):
 
-    template_name = "home.html"
+    template_name = "caps/home.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -81,7 +81,7 @@ class CouncilDetailView(DetailView):
 
     model = Council
     context_object_name = "council"
-    template_name = "council_detail.html"
+    template_name = "caps/council_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -205,7 +205,7 @@ class CouncilDetailView(DetailView):
 class CouncilProjectsListView(FilterView):
     filterset_class = ProjectFilter
     context_object_name = "projects"
-    template_name = "projects_list.html"
+    template_name = "caps/projects_list.html"
     extra_context = {"page_title": "Browse council emissions reduction projects"}
     paginate_by = 20
 
@@ -218,7 +218,7 @@ class CouncilProjectsListView(FilterView):
 class CouncilListView(FilterView):
 
     filterset_class = CouncilFilter
-    template_name = "council_list.html"
+    template_name = "caps/council_list.html"
     extra_context = {"page_title": "Find a council"}
 
     def get_queryset(self):
@@ -240,7 +240,7 @@ class CouncilListView(FilterView):
 
 class SearchResultsView(HaystackSearchView):
 
-    template_name = "search_results.html"
+    template_name = "caps/search_results.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -328,7 +328,7 @@ class BaseLocationResultsView(TemplateView):
 
 
 class LocationResultsView(BaseLocationResultsView):
-    template_name = "location_results.html"
+    template_name = "caps/location_results.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -347,7 +347,7 @@ class TagDetailView(DetailView):
 
     model = Tag
     context_object_name = "tag"
-    template_name = "tag_detail.html"
+    template_name = "caps/tag_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -372,7 +372,7 @@ class TagDetailView(DetailView):
 class TagListView(ListView):
     model = Tag
     context_object_name = "tags"
-    template_name = "tag_list.html"
+    template_name = "caps/tag_list.html"
     extra_context = {"page_title": "Browse councils by feature"}
 
     def get_queryset(self):
@@ -381,13 +381,13 @@ class TagListView(ListView):
 
 class AboutView(TemplateView):
 
-    template_name = "about.html"
+    template_name = "caps/about.html"
     extra_context = {"page_title": "About"}
 
 
 class AboutDataView(TemplateView):
 
-    template_name = "about_data.html"
+    template_name = "caps/about_data.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -442,7 +442,7 @@ class MailchimpView(View):
 
 class NetZeroLocalHeroView(TemplateView):
 
-    template_name = "net_zero_local_hero.html"
+    template_name = "caps/net_zero_local_hero.html"
     extra_context = {
         "page_title": "Be a Net Zero Local Hero",
         "og_image_path": "/static/caps/img/og-image-nzlh.jpg",
@@ -451,7 +451,7 @@ class NetZeroLocalHeroView(TemplateView):
 
 class StyleView(TemplateView):
 
-    template_name = "style.html"
+    template_name = "caps/style.html"
     extra_context = {
         "page_title": "Styles",
         "colors": [
