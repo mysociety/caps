@@ -5,6 +5,12 @@ import math
 import pandas as pd
 
 from caps.models import Council, PlanDocument
+from caps.utils import (
+    boolean_from_text,
+    char_from_text,
+    date_from_text,
+    integer_from_text,
+)
 
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files import File
@@ -72,7 +78,7 @@ class Command(BaseCommand):
         ).count()
 
         for index, row in df.iterrows():
-            gss_code = PlanDocument.char_from_text(row["gss_code"])
+            gss_code = char_from_text(row["gss_code"])
             councils_in_sheet.update([gss_code])
 
             council_exists = Council.objects.filter(gss_code=gss_code).exists()
@@ -205,25 +211,21 @@ class Command(BaseCommand):
     def update_database(self):
         df = pd.read_csv(settings.PROCESSED_CSV)
         for index, row in df.iterrows():
-            council_url = PlanDocument.char_from_text(row["website_url"])
-            twitter_url = PlanDocument.char_from_text(row["twitter_url"])
-            twitter_name = PlanDocument.char_from_text(row["twitter_name"])
-            region = PlanDocument.char_from_text(row["region"])
-            county = PlanDocument.char_from_text(row["county"])
+            council_url = char_from_text(row["website_url"])
+            twitter_url = char_from_text(row["twitter_url"])
+            twitter_name = char_from_text(row["twitter_name"])
+            region = char_from_text(row["region"])
+            county = char_from_text(row["county"])
             council, created = Council.objects.get_or_create(
-                authority_code=PlanDocument.char_from_text(row["authority_code"]),
+                authority_code=char_from_text(row["authority_code"]),
                 country=Council.country_code(row["country"]),
                 defaults={
-                    "authority_type": PlanDocument.char_from_text(
-                        row["authority_type"]
-                    ),
+                    "authority_type": char_from_text(row["authority_type"]),
                     "name": row["council"],
                     "slug": PlanDocument.council_slug(row["council"]),
-                    "gss_code": PlanDocument.char_from_text(row["gss_code"]),
-                    "whatdotheyknow_id": PlanDocument.integer_from_text(row["wdtk_id"]),
-                    "mapit_area_code": PlanDocument.char_from_text(
-                        row["mapit_area_code"]
-                    ),
+                    "gss_code": char_from_text(row["gss_code"]),
+                    "whatdotheyknow_id": integer_from_text(row["wdtk_id"]),
+                    "mapit_area_code": char_from_text(row["mapit_area_code"]),
                     "website_url": council_url,
                     "twitter_url": twitter_url,
                     "twitter_name": twitter_name,
@@ -235,13 +237,8 @@ class Command(BaseCommand):
             # check the council things that might change
             changed = False
 
-            if (
-                PlanDocument.char_from_text(row["authority_type"])
-                != council.authority_type
-            ):
-                council.authority_type = PlanDocument.char_from_text(
-                    row["authority_type"]
-                )
+            if char_from_text(row["authority_type"]) != council.authority_type:
+                council.authority_type = char_from_text(row["authority_type"])
                 changed = True
 
             if row["council"] != council.name:
@@ -249,8 +246,8 @@ class Command(BaseCommand):
                 council.slug = PlanDocument.council_slug(row["council"])
                 changed = True
 
-            if PlanDocument.char_from_text(row["gss_code"]) != council.gss_code:
-                council.gss_code = PlanDocument.char_from_text(row["gss_code"])
+            if char_from_text(row["gss_code"]) != council.gss_code:
+                council.gss_code = char_from_text(row["gss_code"])
                 changed = True
 
             if council_url != "" and council.website_url != council_url:
@@ -290,7 +287,7 @@ class Command(BaseCommand):
                     defaults=defaults,
                 )
                 if created:
-                    plan_document.date_first_found = PlanDocument.date_from_text(
+                    plan_document.date_first_found = date_from_text(
                         row["date_retrieved"]
                     )
                     plan_document.save()
@@ -330,21 +327,19 @@ class Command(BaseCommand):
             "document_type": PlanDocument.document_type_code(row["type"]),
             "scope": PlanDocument.scope_code(row["scope"]),
             "status": PlanDocument.status_code(row["status"]),
-            "well_presented": PlanDocument.boolean_from_text(row["well_presented"]),
-            "baseline_analysis": PlanDocument.boolean_from_text(
-                row["baseline_analysis"]
-            ),
-            "notes": PlanDocument.char_from_text(row["notes"]),
-            "file_type": PlanDocument.char_from_text(row["file_type"]),
-            "charset": PlanDocument.char_from_text(row["charset"]),
-            "text": PlanDocument.char_from_text(row["text"]),
+            "well_presented": boolean_from_text(row["well_presented"]),
+            "baseline_analysis": boolean_from_text(row["baseline_analysis"]),
+            "notes": char_from_text(row["notes"]),
+            "file_type": char_from_text(row["file_type"]),
+            "charset": char_from_text(row["charset"]),
+            "text": char_from_text(row["text"]),
             "start_year": start_year,
             "end_year": end_year,
-            "date_last_found": PlanDocument.date_from_text(row["date_retrieved"]),
+            "date_last_found": date_from_text(row["date_retrieved"]),
             "title": "",
         }
-        if PlanDocument.char_from_text(row["title_checked"]).lower() == "y":
-            defaults["title"] = PlanDocument.char_from_text(row["title"])
+        if char_from_text(row["title_checked"]).lower() == "y":
+            defaults["title"] = char_from_text(row["title"])
 
         return defaults
 

@@ -6,7 +6,8 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.db import transaction
 
-from caps.models import Council, PlanDocument, EmergencyDeclaration
+from caps.models import Council, EmergencyDeclaration
+from caps.utils import char_from_text, date_from_text
 from caps.import_utils import (
     add_authority_codes,
     add_gss_codes,
@@ -109,7 +110,7 @@ def import_declarations():
 
     df = pd.read_csv(settings.DECLARATIONS_CSV)
     for index, row in df.iterrows():
-        made_declaration = PlanDocument.char_from_text(row["made_declaration"])
+        made_declaration = char_from_text(row["made_declaration"])
         # skip unless starts with Y
         if not made_declaration.startswith("Y"):
             continue
@@ -131,8 +132,8 @@ def import_declarations():
 
             declaration = EmergencyDeclaration.objects.create(
                 council=council,
-                date_declared=PlanDocument.date_from_text(row["date_made"]),
-                source_url=PlanDocument.char_from_text(row["motion_url"]),
+                date_declared=date_from_text(row["date_made"]),
+                source_url=char_from_text(row["motion_url"]),
             )
 
 

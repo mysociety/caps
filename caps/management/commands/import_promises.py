@@ -8,6 +8,7 @@ from django.db import transaction
 
 from caps.models import Council, PlanDocument, Promise
 from caps.import_utils import add_authority_codes, add_gss_codes
+from caps.utils import char_from_text
 
 """
 Wrap this in a transaction and delete all the things as it makes more sense
@@ -45,7 +46,7 @@ def import_promises():
             target_year = None
             non_numbers = re.compile(r"^(\d{4}).*$")
             # needs to be a string for the regexp to work
-            target = str(PlanDocument.char_from_text(row["target"]))
+            target = str(char_from_text(row["target"]))
 
             # some of the entries in the sheet are not years or have slight
             # clarifications so remove those
@@ -56,11 +57,11 @@ def import_promises():
             promise = Promise.objects.create(
                 council=council,
                 scope=PlanDocument.scope_code(scope),
-                source=PlanDocument.char_from_text(row["source_url"]),
-                source_name=PlanDocument.char_from_text(row["source_name"]),
+                source=char_from_text(row["source_url"]),
+                source_name=char_from_text(row["source_name"]),
                 target_year=target_year,
-                text=PlanDocument.char_from_text(row["wording"]),
-                notes=PlanDocument.char_from_text(row["notes"]),
+                text=char_from_text(row["wording"]),
+                notes=char_from_text(row["notes"]),
                 has_promise=True,
             )
 

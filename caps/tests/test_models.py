@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 from caps.models import Council, PlanDocument, SavedSearch
+from caps.utils import boolean_from_text
 
 
 class PlanDocumentStartEndEndYearsFromTimePeriodTestCase(TestCase):
@@ -91,22 +92,22 @@ class PlanDocumentStatusCodeTestCase(TestCase):
 class PlanDocumentBooleanFromTextTestCase(TestCase):
     def test_simple_case(self):
         expected = False
-        actual = PlanDocument.boolean_from_text("N")
+        actual = boolean_from_text("N")
         self.assertEqual(expected, actual)
 
     def test_capitalisation(self):
         expected = True
-        actual = PlanDocument.boolean_from_text("y")
+        actual = boolean_from_text("y")
         self.assertEqual(expected, actual)
 
     def test_yes_no(self):
         expected = True
-        actual = PlanDocument.boolean_from_text("yes")
+        actual = boolean_from_text("yes")
         self.assertEqual(expected, actual)
 
     def test_invalid_entry(self):
         expected = None
-        actual = PlanDocument.boolean_from_text("yawp")
+        actual = boolean_from_text("yawp")
         self.assertEqual(expected, actual)
 
 

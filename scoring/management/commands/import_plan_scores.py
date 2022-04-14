@@ -13,7 +13,8 @@ import urllib3
 import tempfile
 import zipfile
 
-from caps.models import Council, PlanDocument
+from caps.models import Council
+from caps.utils import char_from_text, integer_from_text
 from scoring.models import (
     PlanScore,
     PlanSection,
@@ -155,9 +156,9 @@ class Command(BaseCommand):
 
             score = 0
             if not pd.isnull(row["score"]):
-                score = PlanDocument.integer_from_text(row["score"])
+                score = integer_from_text(row["score"])
 
-            max_score = PlanDocument.integer_from_text(row["max_score"])
+            max_score = integer_from_text(row["max_score"])
 
             section_score, created = PlanSectionScore.objects.get_or_create(
                 plan_section=section,
@@ -227,7 +228,7 @@ class Command(BaseCommand):
             )
             max_score = 0
             if q_type != "HEADER":
-                scores = PlanDocument.char_from_text(row["Scores"])
+                scores = char_from_text(row["Scores"])
                 scores = scores.split(",")
                 max_score = max(scores)
                 parent = re.sub(r"([^q]*q[0-9]*).*", r"\1", code)

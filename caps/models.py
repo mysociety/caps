@@ -638,47 +638,6 @@ class PlanDocument(models.Model):
         )
         return descriptions_to_codes.get(status_entry.lower().strip())
 
-    @classmethod
-    def date_from_text(cls, date_entry):
-        """
-        Return a date object given a text date, or none if there is no parsable
-        date. This will strip any time information from the parsed date.
-        """
-        if pd.isnull(date_entry):
-            return None
-        return dateutil.parser.parse(date_entry, dayfirst=True).date()
-
-    @classmethod
-    def integer_from_text(cls, entry):
-        """
-        Return a value from a pandas data field is it's not null
-        """
-        if pd.isnull(entry):
-            return None
-        else:
-            return entry
-
-    @classmethod
-    def char_from_text(cls, entry):
-        """
-        Return a value from a pandas data field is it's not null
-        """
-        if pd.isnull(entry):
-            return ""
-        else:
-            return entry
-
-    @classmethod
-    def boolean_from_text(cls, entry):
-        """
-        Return a boolean value given a text description, or None if the
-        description isn't a coercible entry
-        """
-        if pd.isnull(entry):
-            return None
-        descriptions_to_booleans = {"y": True, "n": False, "yes": True, "no": False}
-        return descriptions_to_booleans.get(entry.strip().lower())
-
 
 class DataType(models.Model):
 
