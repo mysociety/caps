@@ -18,6 +18,12 @@ from caps.api.serializers import (
 )
 
 
+class BiggerPageSize(PageNumberPagination):
+    page_size = 250
+    page_size_query_param = "page_size"
+    max_page_size = 1000
+
+
 class InvalidParamException(APIException):
     status_code = 400
     default_status = "bad_request"
@@ -141,9 +147,11 @@ class CommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = (
         Promise.objects.order_by("council__name", "target_year")
         .select_related("council")
+        .order_by("target_year")
         .all()
     )
     serializer_class = PromiseSerializer
+    pagination_class = BiggerPageSize
 
 
 class CouncilCommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
