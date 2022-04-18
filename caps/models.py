@@ -169,6 +169,15 @@ class Council(models.Model):
         ("urban-rural-areas", "Urban with rural areas"),
         ("sparse-rural", "Sparse and rural"),
     ]
+
+    POPULATION_FILTER_CHOICES = [
+        ("0k", "0k - 100k"),
+        ("100k", "100k - 250k"),
+        ("250k", "250k - 500k"),
+        ("500k", "500k - 750k"),
+        ("750k", "750k - 1m"),
+        ("1m", "1m+"),
+    ]
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     name = models.CharField(max_length=100)
@@ -840,6 +849,13 @@ class CouncilFilter(django_filters.FilterSet):
         choices=Council.PLAN_GEOGRAPHY_CHOICES,
     )
 
+    population = django_filters.ChoiceFilter(
+        method="filter_population",
+        label="Population",
+        empty_label="All",
+        choices=Council.POPULATION_FILTER_CHOICES,
+    )
+
     sort = DefaultSecondarySortFilter(
         secondary="name",
         label="Sort by",
@@ -913,6 +929,24 @@ class CouncilFilter(django_filters.FilterSet):
                 [settings.PLAN_YEAR, value],
             )
             return queryset.filter(**{"id__in": plans})
+
+    def filter_population(self, queryset, name, value):
+        if value is None:
+            return queryset
+
+        filter = {"population__lt": 100000}
+        if value == "100k":
+            filter = {"population__gt": 100000, "population__lt": 250000}
+        elif value == "250k":
+            filter = {"population__gt": 250000, "population__lt": 500000}
+        elif value == "500":
+            filter = {"population__gt": 500000, "population__lt": 750000}
+        elif value == "750k":
+            filter = {"population__gt": 750000, "population__lt": 1000000}
+        elif value == "1m":
+            filter = {"population__gt": 1000000}
+
+        return queryset.filter(**filter)
 
     # we do this here as otherwise region_filter_choices is called before
     # migrations have been run which causes problems for tests on github
