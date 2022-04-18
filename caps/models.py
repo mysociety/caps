@@ -99,6 +99,7 @@ class Council(models.Model):
         ("MD", "Metropolitan District"),
         ("NMD", "Non-Metropolitan District"),
         ("UA", "Unitary Authority"),
+        ("NID", "Northern Irish Council"),
     ]
 
     REGION_CHOICES = [
