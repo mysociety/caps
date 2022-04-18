@@ -12,7 +12,6 @@ from caps.import_utils import (
     get_data_files,
     add_extra_authority_info,
     add_authority_codes,
-    add_region_and_county,
 )
 
 
@@ -39,5 +38,3 @@ class Command(BaseCommand):
         add_extra_authority_info(settings.PROCESSED_CSV)
         print("check for missing authorities")
         check_missing_authorities()
-        print("adding region and county data")
-        add_region_and_county(settings.PROCESSED_CSV)

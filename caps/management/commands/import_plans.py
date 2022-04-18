@@ -216,6 +216,7 @@ class Command(BaseCommand):
             twitter_name = char_from_text(row["twitter_name"])
             region = char_from_text(row["region"])
             county = char_from_text(row["county"])
+            population = integer_from_text(row["population"]) or 0
             council, created = Council.objects.get_or_create(
                 authority_code=char_from_text(row["authority_code"]),
                 country=Council.country_code(row["country"]),
@@ -231,6 +232,7 @@ class Command(BaseCommand):
                     "twitter_name": twitter_name,
                     "county": county,
                     "region": region,
+                    "population": population,
                 },
             )
 
@@ -269,6 +271,10 @@ class Command(BaseCommand):
 
             if council.county != county:
                 council.county = county
+                changed = True
+
+            if council.population != population:
+                council.population = population
                 changed = True
 
             if changed is True:
