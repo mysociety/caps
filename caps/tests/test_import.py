@@ -22,6 +22,7 @@ class ImportTestCase(TestCase):
             gss_code="E00000001",
             country=Council.ENGLAND,
             whatdotheyknow_id=80,
+            population=100000
         )
 
     def call_command(self, *args, **kwargs):
