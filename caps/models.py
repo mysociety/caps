@@ -16,6 +16,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.db.models import Count, Max, Min, Q, Sum
+from django.db.models.expressions import RawSQL
 from django.forms import Select, TextInput
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
@@ -160,6 +161,13 @@ class Council(models.Model):
         (None, "All"),
         (True, "Yes"),
         (False, "No"),
+    ]
+
+    PLAN_GEOGRAPHY_CHOICES = [
+        ("urban", "Urban"),
+        ("rural", "Rural"),
+        ("urban-rural-areas", "Urban with rural areas"),
+        ("sparse-rural", "Sparse and rural"),
     ]
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -844,6 +852,13 @@ class CouncilFilter(django_filters.FilterSet):
         widget=Select(choices=Council.PLAN_FILTER_CHOICES),
     )
 
+    geography = django_filters.ChoiceFilter(
+        method="filter_geography",
+        label="Geography",
+        empty_label="All",
+        choices=Council.PLAN_GEOGRAPHY_CHOICES,
+    )
+
     sort = DefaultSecondarySortFilter(
         secondary="name",
         label="Sort by",
@@ -886,6 +901,17 @@ class CouncilFilter(django_filters.FilterSet):
                 return queryset.filter(**{"country": value})
             except ValueError:
                 return queryset
+
+    def filter_geography(self, queryset, name, value):
+        if value is None:
+            return queryset
+        else:
+            # can't use planscores as importing scoring models results in a circular reference hence raw
+            plans = RawSQL(
+                "select distinct council_id from scoring_planscore ps where ps.year = %s and ps.ruc_cluster = %s",
+                [settings.PLAN_YEAR, value],
+            )
+            return queryset.filter(**{"id__in": plans})
 
     # we do this here as otherwise region_filter_choices is called before
     # migrations have been run which causes problems for tests on github
