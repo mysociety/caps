@@ -146,7 +146,7 @@ def add_extra_authority_info(filename):
     # merge two dataframes using the authority_code as the common reference
     df = plans_df.merge(df, on="authority_code", how="left")
 
-    is_non_english = df["country"].isin(["Wales", "Scotland", "Northern Ireland"])
+    is_non_english = df["country"].isin(["Wales", "Scotland"])
     df.loc[is_non_english, "authority_type"] = "UA"
 
     df.to_csv(filename, index=False, header=True)
