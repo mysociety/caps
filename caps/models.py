@@ -198,6 +198,7 @@ class Council(models.Model):
     twitter_url = models.URLField(null=True)
     region = models.CharField(max_length=200, null=True, choices=REGION_CHOICES)
     county = models.CharField(max_length=200, null=True)
+    population = models.IntegerField(default=0)
 
     class Meta:
         ordering = ["name"]
