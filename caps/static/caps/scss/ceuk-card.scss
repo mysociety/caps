@@ -54,6 +54,10 @@
             background-color: $color-ceuk-grey-100;
         }
     }
+
+    .card-footer {
+        background: transparent !important;
+    }
 }
 
 .ceuk-card--emphasised {
@@ -88,6 +92,10 @@ $ceuk-card-colors: (
 
         &.ceuk-card--emphasised {
             border-top-color: $color;
+        }
+
+        .card-footer {
+            background-color: rgba($color, 0.05);
         }
     }
 }

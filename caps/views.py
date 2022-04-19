@@ -447,7 +447,20 @@ class NetZeroLocalHeroView(TemplateView):
 class StyleView(TemplateView):
 
     template_name = "style.html"
-    extra_context = {"page_title": "Styles"}
+    extra_context = {
+        "page_title": "Styles",
+        "colors": [
+            "blue",
+            "navy",
+            "purple",
+            "pink",
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "cyan",
+        ],
+    }
 
 
 class FeedbackEmail(View):

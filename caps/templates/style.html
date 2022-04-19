@@ -10,7 +10,10 @@
                 <h2>Card, no colour</h2>
             </div>
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <p class="mb-0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+            </div>
+            <div class="card-footer">
+                <p class="mb-0">Lorem ipsum dolor sit amet.</p>
             </div>
         </div>
 
@@ -22,7 +25,10 @@
                 <h2>Emphasised, no colour</h2>
             </div>
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <p class="mb-0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+            </div>
+            <div class="card-footer">
+                <p class="mb-0">Lorem ipsum dolor sit amet.</p>
             </div>
         </div>
 
@@ -34,47 +40,61 @@
                 <h2>Muted, no colour</h2>
             </div>
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <p class="mb-0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+            </div>
+            <div class="card-footer">
+                <p class="mb-0">Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
+
+    </div>
+  {% for color in colors %}
+    <div class="col-md-4 mb-gutter">
+
+        <div class="card ceuk-card ceuk-card--{{ color }}">
+            <div class="card-header">
+                <h2>Card, {{ color }}</h2>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+            </div>
+            <div class="card-footer">
+                <p class="mb-0">Lorem ipsum dolor sit amet.</p>
             </div>
         </div>
 
     </div>
     <div class="col-md-4 mb-gutter">
 
-        <div class="card ceuk-card ceuk-card--blue">
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--{{ color }}">
             <div class="card-header">
-                <h2>Card, blue</h2>
+                <h2>Emphasised, {{ color }}</h2>
             </div>
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <p class="mb-0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+            </div>
+            <div class="card-footer">
+                <p class="mb-0">Lorem ipsum dolor sit amet.</p>
             </div>
         </div>
 
     </div>
     <div class="col-md-4 mb-gutter">
 
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--blue">
+        <div class="card ceuk-card ceuk-card--muted ceuk-card--{{ color }}">
             <div class="card-header">
-                <h2>Emphasised, blue</h2>
+                <h2>Muted, {{ color }}</h2>
             </div>
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <p class="mb-0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+            </div>
+            <div class="card-footer">
+                <p class="mb-0">Lorem ipsum dolor sit amet.</p>
             </div>
         </div>
 
     </div>
-    <div class="col-md-4 mb-gutter">
-
-        <div class="card ceuk-card ceuk-card--muted ceuk-card--blue">
-            <div class="card-header">
-                <h2>Muted, blue</h2>
-            </div>
-            <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-            </div>
-        </div>
-
-    </div>
+  {% endfor %}
     <div class="col-md-4 mb-gutter">
 
         <div class="card ceuk-card ceuk-card--blue">
@@ -90,7 +110,7 @@
                 </li>
             </ul>
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <p class="mb-0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
             </div>
         </div>
 
@@ -110,7 +130,7 @@
                 </li>
             </ul>
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <p class="mb-0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
             </div>
         </div>
 
@@ -130,7 +150,7 @@
                 </li>
             </ul>
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                <p class="mb-0">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
             </div>
         </div>
 
