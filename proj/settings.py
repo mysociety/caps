@@ -165,6 +165,8 @@ COUNCIL_TAGS_CSV_SHEET_NAME = "Councils for Tag"
 COUNCIL_TAGS_CSV_NAME = "council_tags.csv"
 COUNCIL_TAGS_CSV = os.path.join(DATA_DIR, COUNCIL_TAGS_CSV_NAME)
 
+FEEDBACK_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeWM8CBVwaksqmEy79JAmgfecodR7skmYBIwhRrc0rho1nisA/viewform"
+
 # Application definition
 
 INSTALLED_APPS = [
