@@ -196,6 +196,7 @@ class CouncilDetailView(DetailView):
         context["project_stats"] = project_stats
 
         context["page_title"] = council.name
+        context["feedback_form_url"] = settings.FEEDBACK_FORM
 
         if council.emergencydeclaration_set.count() > 0:
             context["declared_emergency"] = council.emergencydeclaration_set.all()[0]
@@ -382,7 +383,10 @@ class TagListView(ListView):
 class AboutView(TemplateView):
 
     template_name = "caps/about.html"
-    extra_context = {"page_title": "About"}
+    extra_context = {
+        "page_title": "About",
+        "feedback_form_url": settings.FEEDBACK_FORM,
+    }
 
 
 class AboutDataView(TemplateView):
