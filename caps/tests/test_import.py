@@ -41,9 +41,7 @@ class ImportPlansTestCase(ImportTestCase):
     command = "import_plans"
     processed_output = "adding new plan for Borsetshire\nadding new council: East Borsetshire\nadding new plan for East Borsetshire\nadding new council: West Borsetshire\n2 councils will be added\n2 plans will be added\n"
     processed_output = "adding new plan for Borsetshire\nadding new council: East Borsetshire\nadding new plan for East Borsetshire\nadding new council: West Borsetshire\n2 councils will be added\n2 plans will be added\n"
-    summary_output = (
-        "Councils with a plan went from 0 to 2\nNumber of plans went from 0 to 2\n"
-    )
+    summary_output = "Councils with a plan went from 0 to 2\nNumber of documents went from 0 to 2\nNumber of plans went from 0 to 2\n"
 
     def test_import(self):
         with self.settings(PROCESSED_CSV="caps/tests/test_processed.csv"):
@@ -57,7 +55,7 @@ class ImportPlansTestCase(ImportTestCase):
 
             plan = PlanDocument.objects.get(council=council)
             self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
-            self.assertEqual(plan.document_type, PlanDocument.PRE_PLAN)
+            self.assertEqual(plan.document_type, PlanDocument.ACTION_PLAN)
             self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY)
             self.assertEqual(plan.file_type, "pdf")
             self.assertEqual(plan.date_last_found.isoformat(), "2021-02-11")
@@ -67,7 +65,7 @@ class ImportPlansTestCase(ImportTestCase):
 
             plan = PlanDocument.objects.get(council=council)
             self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
-            self.assertEqual(plan.document_type, PlanDocument.PRE_PLAN)
+            self.assertEqual(plan.document_type, PlanDocument.ACTION_PLAN)
             self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY)
             self.assertEqual(plan.file_type, "pdf")
             self.assertEqual(plan.date_last_found.isoformat(), "2021-11-02")
@@ -107,21 +105,28 @@ class ImportPlansTestCase(ImportTestCase):
             out = self.call_command(confirm_changes=1)
             self.assertEquals(
                 out,
-                "1 plan will be added\n1 plan will be updated\nCouncils with a plan went from 2 to 3\nNumber of plans went from 2 to 3\n",
+                "1 plan will be added\n1 plan will be updated\nCouncils with a plan went from 2 to 3\nNumber of documents went from 2 to 3\nNumber of plans went from 2 to 3\n",
             )
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
             out = self.call_command(confirm_changes=1)
             self.assertEquals(
                 out,
-                "1 plan will be added\n1 plan will be deleted\nCouncils with a plan is unchanged at 3\nNumber of plans is unchanged at 3\n",
+                "1 plan will be added\n1 plan will be deleted\nCouncils with a plan is unchanged at 3\nNumber of documents is unchanged at 3\nNumber of plans is unchanged at 3\n",
             )
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_add_plan.csv"):
             out = self.call_command(confirm_changes=1)
             self.assertEquals(
                 out,
-                "1 plan will be added\nCouncils with a plan is unchanged at 3\nNumber of plans went from 3 to 4\n",
+                "1 plan will be added\nCouncils with a plan is unchanged at 3\nNumber of documents went from 3 to 4\nNumber of plans went from 3 to 4\n",
+            )
+
+        with self.settings(PROCESSED_CSV="caps/tests/test_processed_add_non_plan.csv"):
+            out = self.call_command(confirm_changes=1)
+            self.assertEquals(
+                out,
+                "1 plan will be added\nCouncils with a plan is unchanged at 3\nNumber of documents went from 4 to 5\nNumber of plans is unchanged at 4\n",
             )
 
         with self.settings(
@@ -130,7 +135,7 @@ class ImportPlansTestCase(ImportTestCase):
             out = self.call_command(confirm_changes=1)
             self.assertEquals(
                 out,
-                "1 plan will be added\n1 council will be completely removed: [ East Borsetshire ]\nCouncils with a plan went from 3 to 2\nNumber of plans is unchanged at 4\n",
+                "1 plan will be added\n1 council will be completely removed: [ East Borsetshire ]\nCouncils with a plan went from 3 to 2\nNumber of documents went from 5 to 4\nNumber of plans is unchanged at 4\n",
             )
 
     def test_detailed_changes_message(self):
@@ -147,14 +152,14 @@ class ImportPlansTestCase(ImportTestCase):
             out = self.call_command(confirm_changes=1, verbosity=2)
             self.assertEquals(
                 out,
-                "updating plan for Borsetshire\nadding new plan for West Borsetshire\n1 plan will be added\n1 plan will be updated\nCouncils with a plan went from 2 to 3\nNumber of plans went from 2 to 3\n",
+                "updating plan for Borsetshire\nadding new plan for West Borsetshire\n1 plan will be added\n1 plan will be updated\nCouncils with a plan went from 2 to 3\nNumber of documents went from 2 to 3\nNumber of plans went from 2 to 3\n",
             )
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
             out = self.call_command(confirm_changes=1, verbosity=2)
             self.assertEquals(
                 out,
-                "adding new plan for Borsetshire\ndeleting plan for Borsetshire\n1 plan will be added\n1 plan will be deleted\nCouncils with a plan is unchanged at 3\nNumber of plans is unchanged at 3\n",
+                "adding new plan for Borsetshire\ndeleting plan for Borsetshire\n1 plan will be added\n1 plan will be deleted\nCouncils with a plan is unchanged at 3\nNumber of documents is unchanged at 3\nNumber of plans is unchanged at 3\n",
             )
 
     def test_update_properties(self):
@@ -164,7 +169,7 @@ class ImportPlansTestCase(ImportTestCase):
 
             plan = PlanDocument.objects.get(council=council)
             self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
-            self.assertEqual(plan.document_type, PlanDocument.PRE_PLAN)
+            self.assertEqual(plan.document_type, PlanDocument.ACTION_PLAN)
             self.assertEqual(plan.scope, PlanDocument.COUNCIL_ONLY)
             self.assertEqual(plan.file_type, "pdf")
             self.assertEqual(plan.date_first_found.isoformat(), "2021-02-11")
@@ -247,7 +252,7 @@ class ImportPlansTestCase(ImportTestCase):
             out = self.call_command(confirm_changes=1)
             self.assertEquals(
                 out,
-                "1 council will have all plans removed\n2 councils will be completely removed: [ Borsetshire, North Borsetshire ]\nCouncils with a plan went from 3 to 1\nNumber of plans went from 3 to 1\n",
+                "1 council will have all plans removed\n2 councils will be completely removed: [ Borsetshire, North Borsetshire ]\nCouncils with a plan went from 3 to 1\nNumber of documents went from 3 to 1\nNumber of plans went from 3 to 1\n",
             )
 
             bors_exists = Council.objects.filter(authority_code="BORS").exists()

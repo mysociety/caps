@@ -142,7 +142,7 @@ class CouncilPercentWithPlanTestCase(TestCase):
         )
 
         not_plan = PlanDocument.objects.create(
-            document_type=PlanDocument.CLIMATE_STRATEGY,
+            document_type=PlanDocument.SUMMARY_DOCUMENT,
             council=non_plan_doc_council,
             url="http://example.com",
             url_hash="xxxxxxx",

@@ -9,7 +9,7 @@ from caps.models import Council, PlanDocument
 from django.core.management.base import BaseCommand, CommandError
 from django.core.files import File
 from django.template.defaultfilters import pluralize
-from django.db.models import Count
+from django.db.models import Count, Q
 
 from django.conf import settings
 
@@ -58,10 +58,18 @@ class Command(BaseCommand):
 
         self.start_council_plan_count = (
             Council.objects.annotate(num_plans=Count("plandocument"))
-            .filter(num_plans__gt=0)
+            .filter(
+                Q(plandocument__document_type=PlanDocument.ACTION_PLAN)
+                | Q(plandocument__document_type=PlanDocument.CLIMATE_STRATEGY),
+                num_plans__gt=0,
+            )
             .count()
         )
-        self.start_plan_count = PlanDocument.objects.count()
+        self.start_document_count = PlanDocument.objects.count()
+        self.start_plan_count = PlanDocument.objects.filter(
+            Q(document_type=PlanDocument.ACTION_PLAN)
+            | Q(document_type=PlanDocument.CLIMATE_STRATEGY)
+        ).count()
 
         for index, row in df.iterrows():
             gss_code = PlanDocument.char_from_text(row["gss_code"])
@@ -301,10 +309,18 @@ class Command(BaseCommand):
 
         self.end_council_plan_count = (
             Council.objects.annotate(num_plans=Count("plandocument"))
-            .filter(num_plans__gt=0)
+            .filter(
+                Q(plandocument__document_type=PlanDocument.ACTION_PLAN)
+                | Q(plandocument__document_type=PlanDocument.CLIMATE_STRATEGY),
+                num_plans__gt=0,
+            )
             .count()
         )
-        self.end_plan_count = PlanDocument.objects.count()
+        self.end_document_count = PlanDocument.objects.count()
+        self.end_plan_count = PlanDocument.objects.filter(
+            Q(document_type=PlanDocument.ACTION_PLAN)
+            | Q(document_type=PlanDocument.CLIMATE_STRATEGY)
+        ).count()
 
     def get_plan_defaults_from_row(self, row):
         (start_year, end_year) = PlanDocument.start_and_end_year_from_time_period(
@@ -348,6 +364,17 @@ class Command(BaseCommand):
                 "Councils with a plan went from %d to %d",
                 self.start_council_plan_count,
                 self.end_council_plan_count,
+            )
+
+        if self.start_document_count == self.end_document_count:
+            self.print_change(
+                "Number of documents is unchanged at %d", self.end_document_count
+            )
+        else:
+            self.print_change(
+                "Number of documents went from %d to %d",
+                self.start_document_count,
+                self.end_document_count,
             )
 
         if self.start_plan_count == self.end_plan_count:
