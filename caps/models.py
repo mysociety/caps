@@ -429,7 +429,9 @@ class Council(models.Model):
         with_plan = (
             cls.objects.annotate(num_plans=Count("plandocument"))
             .filter(
-                plandocument__document_type=PlanDocument.ACTION_PLAN, num_plans__gt=0
+                Q(plandocument__document_type=PlanDocument.ACTION_PLAN)
+                | Q(plandocument__document_type=PlanDocument.CLIMATE_STRATEGY),
+                num_plans__gt=0,
             )
             .count()
         )
