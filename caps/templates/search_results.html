@@ -53,22 +53,6 @@
 
     </div>
     <div class="col-md-8">
-      {% if postcode %}
-        <div class="card ceuk-card ceuk-card--red ceuk-card--muted mb-3 mb-lg-4">
-            <div class="card-header border-bottom-0">
-                <h2>
-                  Are you looking for a council?
-                </h2>
-
-            </div>
-        </div>
-
-        <p>
-        It looks like you've searched for a postcode. Do you want to <a href="{% url "location_results" %}?pc={{ postcode }}">look up the council</a> for that postcode?
-        </p>
-        {% endif %}
-
-
       {% if query %}
 
         <div class="card ceuk-card ceuk-card--red ceuk-card--muted mb-3 mb-lg-4">
@@ -79,6 +63,18 @@
                 </h2>
             </div>
         </div>
+
+      {% if postcode %}
+        <div class="ceuk-card card ceuk-card--orange ceuk-card--emphasised mb-3 mb-lg-4">
+            <div class="card-body mb-n3">
+                <h2 class="h4 mb-3">Looking for your local council?</h2>
+                <p><a href="{% url 'location_results' %}?pc={{ postcode }}" class="btn btn-orange d-inline-flex align-items-center">
+                    {% include 'icons/search.html' with role='presentation' %}
+                    <span class="ml-2">Show councils covering {{ query }}</span>
+                </a></p>
+            </div>
+        </div>
+      {% endif %}
 
       {% for result in page_obj.object_list %}
         {% include 'includes/text-search-result.html' with result=result %}
