@@ -274,3 +274,12 @@ class TestCouncilListPage(TestCase):
         self.assertEqual(
             councils[2]["declared_emergency"].strftime("%Y-%m-%d"), "2020-04-20"
         )
+
+
+class TestSearchPage(TestCase):
+    def test_search_results_detects_postcode(self):
+        url = reverse("search_results")
+        response = self.client.get(url, {"q": "EH99 1SP"})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "search_results.html")
+        self.assertRegex(response.content, rb"Looking for your local council")

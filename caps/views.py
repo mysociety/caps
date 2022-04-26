@@ -40,7 +40,7 @@ import caps.charts as charts
 
 from charting import ChartCollection
 
-from caps.utils import file_size
+from caps.utils import file_size, is_valid_postcode
 
 from scoring.models import (
     PlanScore,
@@ -256,6 +256,11 @@ class SearchResultsView(HaystackSearchView):
             context["page_title"] = "{} – Search results".format(context["query"])
         else:
             context["page_title"] = "Search plans"
+
+        query = context["query"]
+        pc = is_valid_postcode(query)
+        if pc is not None:
+            context["postcode"] = pc
 
         return context
 

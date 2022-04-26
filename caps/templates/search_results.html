@@ -7,7 +7,7 @@
 
         <div class="card ceuk-card mb-gutter position-sticky" style="top: 1rem;">
             <div class="card-body">
-                
+
               {% if form.similar_council.value %}
                 <h1 class="mb-3">Search councils similar to {{form.cleaned_data.similar_council.name}}</h1>
               {% else %}
@@ -53,6 +53,21 @@
 
     </div>
     <div class="col-md-8">
+      {% if postcode %}
+        <div class="card ceuk-card ceuk-card--red ceuk-card--muted mb-3 mb-lg-4">
+            <div class="card-header border-bottom-0">
+                <h2>
+                  Are you looking for a council?
+                </h2>
+
+            </div>
+        </div>
+
+        <p>
+        It looks like you've searched for a postcode. Do you want to <a href="{% url "location_results" %}?pc={{ postcode }}">look up the council</a> for that postcode?
+        </p>
+        {% endif %}
+
 
       {% if query %}
 
