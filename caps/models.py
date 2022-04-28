@@ -784,9 +784,7 @@ class EmergencyDeclaration(models.Model):
 class CouncilFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(lookup_expr="icontains")
     has_plan = django_filters.BooleanFilter(
-        field_name="plandocument",
-        lookup_expr="isnull",
-        exclude=True,
+        method="filter_plandocument",
         label="Has plan",
         widget=Select(choices=Council.PLAN_FILTER_CHOICES),
     )
@@ -831,6 +829,26 @@ class CouncilFilter(django_filters.FilterSet):
             "last_update": "Last update",
         },
     )
+
+    def filter_plandocument(self, queryset, name, value):
+        if value:
+            return queryset.filter(
+                **{
+                    "plandocument__document_type__in": [
+                        PlanDocument.ACTION_PLAN,
+                        PlanDocument.CLIMATE_STRATEGY,
+                    ]
+                }
+            )
+
+        return queryset.exclude(
+            **{
+                "plandocument__document_type__in": [
+                    PlanDocument.ACTION_PLAN,
+                    PlanDocument.CLIMATE_STRATEGY,
+                ]
+            }
+        )
 
     def filter_promise(self, queryset, name, value):
         if value is None:
