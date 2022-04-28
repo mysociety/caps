@@ -98,7 +98,7 @@
 
             <div class="card-body">
                 <div class="mb-n3">
-                  {% for plandocument in council.plandocument_set.all %}
+                  {% for plandocument in documents%}
                     <a href="{{ plandocument.link }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}" class="d-flex align-items-center mb-3">
                       {% if plandocument.file_type == 'pdf' %}
                         {% include 'caps/icons/pdf.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' role='presentation' %}
@@ -124,31 +124,9 @@
                             </p>
                         </div>
                     </a>
-                  {% empty %}
-                    <p class="text-muted mb-3">
-                        We couldn’t find any climate action plans for this council.
-                    </p>
-                  {% endfor %}
-                </div>
-            </div>
-
-            <div class="card-footer bg-yellow-light">
-                <p class="mb-0"><strong>Are these plans out of date?</strong></p>
-                <small class="mb-0">
-                  <a href="{{ feedback_form_url }}?usp=pp_url&entry.393810903={{ council.name }}">Fill in this form</a> to let us know where to find the latest plans from this council.
-                </small>
-          </div>
-        </div>
-
-        {% if plan_changes %}
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--red mb-gutter">
-            <div class="card-header d-sm-flex align-items-center">
-                <h2 class="mr-auto pr-3 mb-1 mb-sm-0">Document history</h2>
-            </div>
-            <div class="card-body">
-                <div class="mb-n3">
-                  <ul>
-                      {% for change in plan_changes %}
+                    {% if plandocument.changes %}
+                    <ul>
+                    {% for change in plandocument.changes %}
                       {% if change.type == 'add' %}
                       <li>{{ change.change.history_date|date:"M d, Y" }}: <a href="{{ change.change.url }}">{{ change.change.document_type|document_type|title }} added</a>{% if change.change.title %} - {{ change.change.title }}{% endif %}</li>
                       {% elif change.type == 'del' %}
@@ -167,7 +145,36 @@
                           </li>
                           {% endif %}
                       {% endif %}
-                      {% endfor %}
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
+                  {% empty %}
+                    <p class="text-muted mb-3">
+                        We couldn’t find any climate action plans for this council.
+                    </p>
+                  {% endfor %}
+                </div>
+            </div>
+
+            <div class="card-footer bg-yellow-light">
+                <p class="mb-0"><strong>Are these plans out of date?</strong></p>
+                <small class="mb-0">
+                  <a href="{{ feedback_form_url }}?usp=pp_url&entry.393810903={{ council.name }}">Fill in this form</a> to let us know where to find the latest plans from this council.
+                </small>
+          </div>
+        </div>
+
+        {% if removed_documents %}
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--red mb-gutter">
+            <div class="card-header d-sm-flex align-items-center">
+                <h2 class="mr-auto pr-3 mb-1 mb-sm-0">Removed documents</h2>
+            </div>
+            <div class="card-body">
+                <div class="mb-n3">
+                  <ul>
+                  {% for removed in removed_documents %}
+                    <li>{{ removed.change.history_date|date:"M d Y" }}: <a href="{{ removed.change.url }}">{{ removed.change.document_type|document_type|title }} removed</a>{% if removed.change.title %} - {{ removed.change.title }}{% endif %}</li>
+                  {% endfor %}
                   </ul>
               </div>
           </div>
