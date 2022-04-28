@@ -487,12 +487,24 @@ class PlanDocument(models.Model):
     SUMMARY_DOCUMENT = 3
     PRE_PLAN = 4
     MEETING_MINUTES = 5
+    BIODIVERSITY_PLAN = 6
+    BASELINE_REVIEW = 7
+    SUPPORTING_EVIDENCE = 8
+    ENGAGEMENT_PLAN = 9
+    OTHER_PLAN = 10
+    PROGRESS_REPORT = 11
     DOCUMENT_TYPE_CHOICES = [
         (ACTION_PLAN, "Action plan"),
         (CLIMATE_STRATEGY, "Climate strategy"),
         (SUMMARY_DOCUMENT, "Summary document"),
         (PRE_PLAN, "Pre-plan"),
         (MEETING_MINUTES, "Meeting minutes"),
+        (BIODIVERSITY_PLAN, "Biodiversity plan"),
+        (BASELINE_REVIEW, "Baseline review"),
+        (SUPPORTING_EVIDENCE, "Supporting evidence"),
+        (ENGAGEMENT_PLAN, "Engagement plan"),
+        (OTHER_PLAN, "Other plan"),
+        (PROGRESS_REPORT, "Progress report"),
     ]
 
     COUNCIL_ONLY = 1
