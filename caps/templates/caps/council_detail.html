@@ -88,9 +88,9 @@
                       {% endif %}
                         <div>
                             {% if plandocument.title %}
-                            <strong class="d-block">{{ plandocument.title|title }}</strong>
+                            <strong class="d-block">{{ plandocument.title|document_title }}</strong>
                             {% else %}
-                            <strong class="d-block">{{ council.name }} {{ plandocument.get_document_type|title }}</strong>
+                            <strong class="d-block">{{ council.name }} {{ plandocument.get_document_type|document_title }}</strong>
                             {% endif %}
                             <p class="d-inline-block text-muted mb-0">
                                 {% if plandocument.title %}
