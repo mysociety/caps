@@ -1,5 +1,6 @@
 from haystack import indexes
 from caps.models import PlanDocument
+from django.utils.html import strip_tags
 
 
 class PlanDocumentIndex(indexes.SearchIndex, indexes.Indexable):
@@ -17,3 +18,10 @@ class PlanDocumentIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_council_name(self, document):
         return document.council.name
+
+    def prepare_text(self, document):
+        file = document.file.open()
+        extracted_data = self.get_backend().extract_file_contents(file)
+
+        # data is converted to html as part of the extraction
+        return strip_tags(extracted_data["contents"])
