@@ -97,5 +97,15 @@ $ceuk-card-colors: (
         .card-footer {
             background-color: rgba($color, 0.05);
         }
+
+        .card-body.is-emphasised-section {
+            background-color: rgba($color, 0.05);
+        }
+    }
+}
+
+@each $name, $color in $ceuk-card-colors {
+    .card--#{$name} {
+        background-color: rgba($color, 0.05) !important;
     }
 }
