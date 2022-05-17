@@ -14,3 +14,19 @@
         box-shadow: 0 0 0 2px darken($color-ceuk-purple, 30%);
     }
 }
+
+.find-council {
+    overflow-y: scroll;
+    max-height: 360px;
+
+    .form-group {
+        &:last-child {
+            position: sticky;
+            bottom: 0;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            margin-bottom: 0;
+            background-color: #fff;
+        }
+    }
+}
