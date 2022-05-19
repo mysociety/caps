@@ -86,19 +86,47 @@
 @import "net-zero-local-hero";
 @import "feedback-modal";
 
-#find-council-filter {
+.filter-header, .dropdown-wrapper, .toggle-wrapper {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+}
 
+$form-lg-padding: 25px;
+
+.dropdown-wrapper {
+    flex-wrap: wrap;
     .form-group {
-        padding-right: 15px;
-        flex-basis: 33%;
+        flex-basis: 100%;
+        @media (min-width: 576px) and (max-width: 768px) {
+            flex-basis: 50%;
+            padding-right: $form-lg-padding;
+        }
+        @media (min-width: 768px) {
+            flex-basis: 33%;
+            padding-right: $form-lg-padding;
+        }
     }
 }
 
+#button-find-council, .search-bar-wrapper {
+    width: 100%;
+    @media (min-width: 576px) and (max-width: 768px) {
+        width: calc(50% - #{$form-lg-padding});
+    }
+    @media (min-width: 768px) {
+        width: calc(33% - #{$form-lg-padding});
+    }
+}
+
+
 // Tweak these to change the style of the toggle
-$toggle-background-color-on: dodgerblue;
+.toggle-wrapper {
+    .form-group {
+        min-width: 150px;
+    }
+}
+
+$toggle-background-color-on: $color-ceuk-cyan;
 $toggle-background-color-off: darkgray;
 $toggle-control-color: white;
 $toggle-width: 75px;
@@ -169,4 +197,48 @@ $toggle-control-size: $toggle-height - ($toggle-gutter * 2);
       margin-left: 5px;
       padding: 5px 0px;
   }
+}
+
+// END OF TOGGLE
+
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content;}
+    &:-moz-placeholder           {@content;}
+    &::-moz-placeholder          {@content;}
+    &:-ms-input-placeholder      {@content;}
+    &::placeholder               {@content;}
+}
+
+.search-bar-wrapper {
+    position: relative;
+    input {
+        padding-left: 32px;
+        border-radius: 10px;
+        background-color: transparentize($color: $color-ceuk-cyan, $amount: 0.7);
+        @include placeholder {color: #495057 !important;}
+    }
+
+    svg {
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        opacity: 0.7;
+    }
+}
+
+.sort-by-wrapper {
+    position: relative;
+    select {
+        padding-left: 30px;
+        background-color: transparentize($color: $color-ceuk-cyan, $amount: 0.9);
+    }
+
+    svg {
+        width: 20px;
+        height: auto;
+        position: absolute;
+        left: 10px;
+        top: 9px;
+        opacity: 0.5;
+    } 
 }
