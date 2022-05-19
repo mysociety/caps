@@ -338,7 +338,6 @@ class Command(BaseCommand):
             "notes": char_from_text(row["notes"]),
             "file_type": char_from_text(row["file_type"]),
             "charset": char_from_text(row["charset"]),
-            "text": char_from_text(row["text"]),
             "start_year": start_year,
             "end_year": end_year,
             "date_last_found": date_from_text(row["date_retrieved"]),

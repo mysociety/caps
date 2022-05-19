@@ -14,5 +14,4 @@ cd `dirname $0`/..
 "$(dirname "$0")/manage" preprocess
 "$(dirname "$0")/manage" add_authority_codes
 "$(dirname "$0")/manage" add_council_websites
-"$(dirname "$0")/manage" add_text
 "$(dirname "$0")/manage" import_plans "$@"
