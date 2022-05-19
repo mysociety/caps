@@ -268,6 +268,30 @@ $('.scorecard-table').each(function(){
     $btn.appendTo($table);
 });
 
+$('.council-list-filters').each(function(){
+    var $form = $(this);
+    var $footer = $(this).find('.card-footer');
+    var $btn = $('<button>');
+    $btn.attr('type', 'button');
+    $btn.addClass('btn btn-link py-0');
+
+    var updateUI = function(){
+        if ( $form.is('.open') ) {
+            $btn.text('Show fewer filters…');
+        } else {
+            $btn.text('Filter by authority type and more…');
+        }
+    }
+
+    $btn.on('click', function(){
+        $form.toggleClass('open');
+        updateUI();
+    });
+
+    $btn.appendTo($footer);
+    updateUI();
+});
+
 $('.nzlh-landing-page').on('click', 'a[href]', function(e){
     var href = $(e.currentTarget).attr('href');
 
@@ -295,3 +319,37 @@ $('.nzlh-landing-page').on('click', 'a[href]', function(e){
         'destination': href
     }).done(callback);
 });
+
+$('.sort-by-wrapper #id_sort').on('change', function(){
+    var table = $('#council_list'), sort_by = $('.sort-by-wrapper #id_sort').val(), asc = true;
+    // update the form so clicking submit to filter retains the search order
+    $('#id_sort').val(sort_by);
+    if ( sort_by.substring(0,1) == '-' ) {
+        sort_by = sort_by.substring(1);
+        asc = false;
+    }
+    var col = $('[data-sortable="' + sort_by + '"]');
+    var rows = table.find('tr:gt(0)').toArray().sort(compare_cells(col.index()));
+    if (!asc){rows = rows.reverse()}
+    // make sure that 0 values are always at the bottom of the list
+    var zero_rows = Array();
+    for (var i = 0; i < rows.length; i++){
+        if (get_value_from_cell(rows[i], col.index()) == '0') {
+            zero_rows.push(rows[i]);
+        } else {
+            table.append(rows[i]);
+        }
+    }
+    for (var i = 0; i < zero_rows.length; i++){
+        table.append(zero_rows[i]);
+    }
+})
+function compare_cells(index) {
+    return function(a, b) {
+        var valA = get_value_from_cell(a, index), valB = get_value_from_cell(b, index);
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
+    }
+}
+function get_value_from_cell(row, index){
+    return $(row).children('td').eq(index).data('sortvalue');
+}
