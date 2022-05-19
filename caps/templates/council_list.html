@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="row">
-  <div class="col-md-10 mx-auto">
+  <div class="col-md-12 mx-auto">
 
     <div class="card ceuk-card mb-gutter position-sticky" style="top: 1rem;">
         <div class="card-body">
@@ -14,7 +14,7 @@
                 <div class="filter-header mb-4">
                   <div class="search-bar-wrapper">
                     <input type="text" name="name" class="form-control" placeholder="Name contains" title="" id="id_name2">
-                    {% include 'caps/icons/search.html' with classes='mr-2' role='presentation' %}
+                    {% include 'icons/search.html' with classes='mr-2' role='presentation' %}
                   </div>
                   {% comment %} <div class="sort-by-wrapper">
                     <select name="sort" class="form-control" title="" style="max-width: 300px;">
@@ -86,7 +86,7 @@
                       <option value="last_update">Last update</option>
                       <option value="-last_update">Last update (descending)</option>
                     </select>
-                    {% include 'caps/icons/sort.html' with width="1.5em" height="1.5em" classes='mr-2' role='presentation' %}
+                    {% include 'icons/sort.html' with width="1.5em" height="1.5em" classes='mr-2' role='presentation' %}
                   </div>
             </div>
             {% comment %} <div class="card-header" style="display: flex;justify-content: space-between;">
