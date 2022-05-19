@@ -1,14 +1,15 @@
-<table class="table table-responsive mb-0">
+<div class="table-responsive">
+  <table id="council_list" class="table mb-0">
     <thead>
         <tr>
-            <th scope="col">Council name</th>
+            <th scope="col" data-sortable="name">Council name</th>
             <th scope="col">Has plan</th>
             {% if filter.request.GET.sort != 'last_update' and filter.request.GET.sort != '-last_update' %}
-            <th scope="col">Carbon Neutral by</th>
-            <th scope="col">Declared emergency</th>
+            <th scope="col" data-sortable="promise_year">Carbon Neutral by</th>
+            <th scope="col" data-sortable="declaration_date">Declared emergency</th>
             {% else %}
             {% if show_last_updated %}
-            <th scope="col">Last updated</th>
+            <th scope="col"i data-sortable="last_update">Last updated</th>
             {% endif %}
             {% endif %}
         </tr>
@@ -16,7 +17,7 @@
     <tbody>
       {% for council in councils %}
         <tr data-has-plan="{% if council.num_plans > 0 %}yes{% else %}no{% endif %}">
-            <td data-column="council-name">
+            <td data-column="council-name" data-sortvalue="{{ council.name|lower }}">
                 <a href="{% url 'council' council.slug %}">{{ council.name }}</a>
             </td>
             <td data-column="has-plan">
@@ -29,23 +30,27 @@
               {% endif %}
             </td>
             {% if filter.request.GET.sort != 'last_update' and filter.request.GET.sort != '-last_update' %}
-            <td data-column="promise">
               {% if council.earliest_promise > 0 %}
+            <td data-column="promise" data-sortvalue="{{ council.earliest_promise }}">
                 {{ council.earliest_promise }}
               {% elif council.has_promise %}
+            <td data-column="promise" data-sortvalue="0">
                 No target
+              {% else %}
+            <td data-column="promise" data-sortvalue="0">
               {% endif %}
             </td>
-            <td data-column="declared-emergency">
               {% if council.declared_emergency %}
+            <td data-column="declared-emergency" data-sortvalue="{{  council.declared_emergency.isoformat }}">
               {{ council.declared_emergency }}
               {% else %}
+            <td data-column="declared-emergency" data-sortvalue="0">
               No
               {% endif %}
             </td>
             {% else %}
               {% if show_last_updated %}
-              <td>
+              <td data-sortvalue="{{  council.last_plan_update.isoformat }}">
                 {% if council.num_plans > 0 %}
                   {{ council.last_plan_update }}
                 {% endif %}
@@ -55,4 +60,5 @@
         </tr>
       {% endfor %}
     </tbody>
-</table>
+  </table>
+</div>

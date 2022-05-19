@@ -1,0 +1,7 @@
+.js-enabled {
+    @each $value in $displays {
+        .d-js-#{$value} {
+            display: $value !important;
+        }
+    }
+}
