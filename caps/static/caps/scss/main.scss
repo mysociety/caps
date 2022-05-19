@@ -85,3 +85,88 @@
 @import "emissions-breakdown";
 @import "net-zero-local-hero";
 @import "feedback-modal";
+
+#find-council-filter {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .form-group {
+        padding-right: 15px;
+        flex-basis: 33%;
+    }
+}
+
+// Tweak these to change the style of the toggle
+$toggle-background-color-on: dodgerblue;
+$toggle-background-color-off: darkgray;
+$toggle-control-color: white;
+$toggle-width: 75px;
+$toggle-height: 35px;
+$toggle-gutter: 5px;
+$toggle-radius: 50%;
+$toggle-control-speed: .15s;
+$toggle-control-ease: ease-in;
+
+// These are our computed variables
+// change at your own risk.
+$toggle-radius: $toggle-height / 2;
+$toggle-control-size: $toggle-height - ($toggle-gutter * 2);
+
+.toggle-control {
+  display: block;
+  position: relative;
+//   padding-left: $toggle-width;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+  height: calc(#{$toggle-height * 2});
+
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  input:checked ~ .control {
+    background-color: $toggle-background-color-on;
+    
+    &:after {
+      left: $toggle-width - $toggle-control-size - $toggle-gutter;
+    }
+  }
+
+  .control {
+    position: absolute;
+    // top: 0;
+    // left: 0;
+    bottom: 0;
+    left: 0;
+    height: $toggle-height;
+    width: $toggle-width;
+    border-radius: $toggle-radius;
+    background-color: $toggle-background-color-off;
+    transition: background-color $toggle-control-speed $toggle-control-ease;
+
+    &:after {
+      content: "";
+      position: absolute;
+      left: $toggle-gutter;
+      top: $toggle-gutter;
+      width: $toggle-control-size;
+      height: $toggle-control-size;
+      border-radius: $toggle-radius;
+      background: $toggle-control-color;
+      transition: left $toggle-control-speed $toggle-control-ease;
+    }
+  }
+
+  .label-info {
+      font-size: 16px;
+      margin-left: 5px;
+      padding: 5px 0px;
+  }
+}
