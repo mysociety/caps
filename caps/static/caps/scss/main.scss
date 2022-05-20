@@ -93,7 +93,7 @@
 
 $form-lg-padding: 25px;
 
-.dropdown-wrapper {
+.dropdown-wrapper, .filter-header {
     flex-wrap: wrap;
     .form-group {
         flex-basis: 100%;
@@ -102,7 +102,7 @@ $form-lg-padding: 25px;
             padding-right: $form-lg-padding;
         }
         @media (min-width: 768px) {
-            flex-basis: 25%;
+            flex-basis: 10%;
             padding-right: $form-lg-padding;
         }
     }
@@ -241,4 +241,19 @@ $toggle-control-size: $toggle-height - ($toggle-gutter * 2);
         top: 9px;
         opacity: 0.5;
     } 
+}
+
+// From current prototype
+.site-content {
+    position: relative;
+}
+
+#filter-wrapper {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+#council-table {
+    padding-top: 250px;
 }

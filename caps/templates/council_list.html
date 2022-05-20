@@ -3,66 +3,60 @@
 
 {% block content %}
 
-<div class="row">
-  <div class="col-md-12 mx-auto">
+<div id="filter-wrapper" class="card ceuk-card mb-gutter" style="top: 1rem;">
+  <div class="card-body">
+      {% comment %} <h1 class="mb-4">Find a council</h1> {% endcomment %}
 
-    <div class="card ceuk-card mb-gutter position-sticky" style="top: 1rem;">
-        <div class="card-body">
-            <h1 class="mb-4">Find a council</h1>
+      <form id="find-council-filter" method="get" class="mb-n3">
+          <div class="filter-header mb-4">
+            <div class="search-bar-wrapper">
+              <input type="text" name="name" class="form-control" placeholder="Name contains" title="" id="id_name2">
+              {% include 'icons/search.html' with classes='mr-2' role='presentation' %}
+            </div>
+            {% comment %} <div class="sort-by-wrapper">
+              <select name="sort" class="form-control" title="" style="max-width: 300px;">
+                <option value="name">Council name</option>
+                <option value="-name">Council name (descending)</option>
+                <option value="promise_year">Carbon neutral target</option>
+                <option value="-promise_year">Carbon neutral target (descending)</option>
+                <option value="declaration_date">Declaration date</option>
+                <option value="-declaration_date">Declaration date (descending)</option>
+                <option value="last_update">Last update</option>
+                <option value="-last_update">Last update (descending)</option>
+              </select>
+              {% include 'caps/icons/sort.html' with width="1.5em" height="1.5em" classes='mr-2' role='presentation' %}
+            </div> {% endcomment %}
+          </div>
 
-            <form id="find-council-filter" method="get" class="mb-n3">
-                <div class="filter-header mb-4">
-                  <div class="search-bar-wrapper">
-                    <input type="text" name="name" class="form-control" placeholder="Name contains" title="" id="id_name2">
-                    {% include 'icons/search.html' with classes='mr-2' role='presentation' %}
-                  </div>
-                  {% comment %} <div class="sort-by-wrapper">
-                    <select name="sort" class="form-control" title="" style="max-width: 300px;">
-                      <option value="name">Council name</option>
-                      <option value="-name">Council name (descending)</option>
-                      <option value="promise_year">Carbon neutral target</option>
-                      <option value="-promise_year">Carbon neutral target (descending)</option>
-                      <option value="declaration_date">Declaration date</option>
-                      <option value="-declaration_date">Declaration date (descending)</option>
-                      <option value="last_update">Last update</option>
-                      <option value="-last_update">Last update (descending)</option>
-                    </select>
-                    {% include 'caps/icons/sort.html' with width="1.5em" height="1.5em" classes='mr-2' role='presentation' %}
-                  </div> {% endcomment %}
-                </div>
+          <div class="dropdown-wrapper mb-2">
+            {% bootstrap_form filter.form %}
+          </div>
 
-                <div class="dropdown-wrapper mb-2">
-                  {% bootstrap_form filter.form %}
-                </div>
+          {% comment %} <div class="toggle-wrapper">
+            <div class="form-group">
+              <label class="toggle-control">
+                <span class="label-info">Has a plan</span>
+                <input type="checkbox" checked="checked">
+                <span class="control"></span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="toggle-control">
+                <span class="label-info">Declared emergency</span>
+                <input type="checkbox" checked="checked">
+                <span class="control"></span>
+              </label>
+            </div>
+          </div> {% endcomment %}
 
-                {% comment %} <div class="toggle-wrapper">
-                  <div class="form-group">
-                    <label class="toggle-control">
-                      <span class="label-info">Has a plan</span>
-                      <input type="checkbox" checked="checked">
-                      <span class="control"></span>
-                    </label>
-                  </div>
-                  <div class="form-group">
-                    <label class="toggle-control">
-                      <span class="label-info">Declared emergency</span>
-                      <input type="checkbox" checked="checked">
-                      <span class="control"></span>
-                    </label>
-                  </div>
-                </div> {% endcomment %}
-
-                {% buttons %}
-                <button id="button-find-council" type="submit" class="btn btn-primary btn-block">Filter list</button>
-                {% endbuttons %}
-            </form>
-        </div>
-    </div>
-
+          {% buttons %}
+          <button id="button-find-council" type="submit" class="btn btn-primary btn-block">Filter list</button>
+          {% endbuttons %}
+      </form>
   </div>
 </div>
 
-<div class="row">
+<div id="council-table" class="row">
 
     <div class="col-md-10 mx-auto">
 
@@ -128,6 +122,11 @@
     //$( "#id_has_plan" ).parent().css( "display", "none" );
     //$( "#id_declared_emergency" ).parent().css( "display", "none" );
     $( "#id_sort" ).parent().css( "display", "none" );
+    
+    // Move the filter fields
+
+    $( "#id_declared_emergency" ).parent().appendTo( ".filter-header" )
+    $( "#id_has_plan" ).parent().appendTo( ".filter-header" )
  }, 10);
 </script>
 
