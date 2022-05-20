@@ -79,7 +79,7 @@
             </div>
 
             {% if council.plandocument_set.all %}
-            <div class="card-body is-emphasised-section">
+            <div class="card-body bg-red-light">
                 <form action="{% url 'search_results' %}" data-show-interstitial class="form-row flex-wrap align-items-center">
                     <div class="col-auto flex-shrink-1 flex-grow-1" style="max-width: 450px">
                         <input type="text" class="form-control form-control-sm" name="q" id="search-this-councils-documents" value="{{ q|default_if_none:'' }}" placeholder="Search inside these documents">
@@ -130,7 +130,7 @@
                   {% endfor %}
                 </div>
             </div>
-            <div class="card-footer card--yellow">
+            <div class="card-footer bg-yellow-light">
                 <p class="mb-0"><strong>Do you know about an updated action plan?</strong></p>
                 <small class="mb-0">
                   If you think there is a more up to date Action Plan than the one listed on this page then please <a href="{{ feedback_form_url }}?usp=pp_url&entry.393810903={{ council.name }}">fill in this form</a> to let us know.
