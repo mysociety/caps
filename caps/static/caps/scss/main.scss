@@ -86,14 +86,41 @@
 @import "net-zero-local-hero";
 @import "feedback-modal";
 
-.filter-header, .dropdown-wrapper, .toggle-wrapper {
-    display: flex;
-    flex-direction: row;
-}
-
 $form-lg-padding: 25px;
 
-.dropdown-wrapper, .filter-header {
+@mixin top-label {
+    position: relative;
+    min-width: 200px;
+    label {
+        position: absolute;
+        font-size: 13px;
+        padding-left: 7px;
+        background-color: transparentize($color: $color-ceuk-grey-200, $amount: 0);
+        border-radius: 2px;
+        padding: 0 7px;
+        left: 1px;
+        top: 1px;
+        width: calc(100% - #{$form-lg-padding} - 2px);
+    }
+
+    select {
+        padding-top: 21px;
+        height: 44px;
+        font-size: 0.75rem;
+    }
+}
+
+
+.filter-header {
+    align-items: center;
+    .form-group {
+        padding-right: $form-lg-padding;
+        @include top-label;
+        margin-bottom: 0;
+    }
+}
+
+.dropdown-wrapper {
     flex-wrap: wrap;
     .form-group {
         flex-basis: 100%;
@@ -102,13 +129,15 @@ $form-lg-padding: 25px;
             padding-right: $form-lg-padding;
         }
         @media (min-width: 768px) {
-            flex-basis: 10%;
+            flex-basis: 20%;
             padding-right: $form-lg-padding;
         }
+
+        @include top-label;
     }
 }
 
-#button-find-council, .search-bar-wrapper {
+.search-bar-wrapper {
     width: 100%;
     @media (min-width: 576px) and (max-width: 768px) {
         width: calc(50% - #{$form-lg-padding});
@@ -211,10 +240,11 @@ $toggle-control-size: $toggle-height - ($toggle-gutter * 2);
 
 .search-bar-wrapper {
     position: relative;
+    padding-right: $form-lg-padding;
     input {
         padding-left: 32px;
-        border-radius: 10px;
-        background-color: transparentize($color: $color-ceuk-cyan, $amount: 0.7);
+        border-radius: 20px;
+        // background-color: transparentize($color: $color-ceuk-cyan, $amount: 0.7);
         @include placeholder {color: #495057 !important;}
     }
 
@@ -249,11 +279,12 @@ $toggle-control-size: $toggle-height - ($toggle-gutter * 2);
 }
 
 #filter-wrapper {
-    position: absolute;
+    position: relative;
     width: 100%;
     left: 0;
-    top: 0;
+    top: 0 !important;
+    z-index: 3;
 }
 #council-table {
-    padding-top: 250px;
+    padding-top: 20px;
 }
