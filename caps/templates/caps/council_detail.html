@@ -82,7 +82,8 @@
             <div class="card-body bg-red-light">
                 <form action="{% url 'search_results' %}" data-show-interstitial class="form-row flex-wrap align-items-center">
                     <div class="col-auto flex-shrink-1 flex-grow-1" style="max-width: 450px">
-                        <input type="text" class="form-control form-control-sm" name="q" id="search-this-councils-documents" value="{{ q|default_if_none:'' }}" placeholder="Search inside these documents">
+                        <label for="search-this-councils-documents" class="sr-only">Search inside these documents</label>
+                        <input type="search" class="form-control form-control-sm" name="q" id="search-this-councils-documents" value="{{ q|default_if_none:'' }}" placeholder="Search inside these documents">
                         <input type="hidden" name="council_name" id="council_name" value="&quot;{{ council.name }}&quot;">
                     </div>
                     <div class="col-auto flex-shrink-0 d-flex">
