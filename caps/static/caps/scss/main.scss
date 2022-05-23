@@ -110,6 +110,7 @@ $form-lg-padding: 25px;
 .dropdown-wrapper {
     display: none;
     flex-wrap: wrap;
+    justify-content: center;
     .form-group {
         flex-basis: 100%;
         @media (min-width: 576px) and (max-width: 768px) {
@@ -117,7 +118,7 @@ $form-lg-padding: 25px;
             padding-right: $form-lg-padding;
         }
         @media (min-width: 768px) {
-            flex-basis: 20%;
+            flex-basis: 33%;
             padding-right: $form-lg-padding;
         }
 
@@ -248,7 +249,6 @@ $toggle-control-size: $toggle-height - ($toggle-gutter * 2);
     position: relative;
     select {
         padding-left: 30px;
-        background-color: transparentize($color: $color-ceuk-cyan, $amount: 0.9);
     }
 
     svg {
