@@ -43,3 +43,5 @@ conf/env.sh.deployed
 conf/stack.yml
 conf/stack.yml.deployed
 conf/config.py.deployed
+conf/httpd.conf
+conf/httpd.conf.deployed
