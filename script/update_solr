@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+#
+# abort on any errors
+set -e
+
+cd "$(dirname $BASH_SOURCE)"/..
+SOLR_CONF=/opt/solr/server/solr/caps/conf
+RELOAD="0"
+
+# solrconfig.xml
+if [ ! diff conf/solrconfig.xml ${SOLR_CONF}/solrconfig.xml >/dev/null 2>&1 ]; then
+    echo "Solr: Updating solrconfig.xml..."
+    cp conf/solrconfig.xml ${SOLR_CONF}/solrconfig.xml
+    chown solr:solr ${SOLR_CONF}/solrconfig.xml
+    RELOAD="1"
+fi
+
+# schema.xml
+if [ ! diff conf/schema.xml ${SOLR_CONF}/schema.xml >/dev/null 2>&1 ]; then
+    echo "Solr: Updating schema.xml..."
+    cp conf/schema.xml ${SOLR_CONF}/schema.xml
+    chown solr:solr ${SOLR_CONF}/schema.xml
+    RELOAD="1"
+fi
+
+# Conditional reload
+if [ "$RELOAD" = "1" ]; then
+    echo "Solr: Reloading core..."
+    curl 'http://localhost:8983/solr/admin/cores?action=RELOAD&core=caps'
+fi
