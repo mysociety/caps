@@ -24,7 +24,7 @@ YEAR = settings.PLAN_YEAR
 
 
 def get_data():
-    token = os.environ.get("PERSONAL_ACCESS_TOKEN", None)
+    token = settings.PERSONAL_ACCESS_TOKEN
     headers = {"Authorization": "token " + token}
     r = requests.get(FILTER_DATA_URL, headers=headers)
     with open(FILTER_CSV, "wb") as outfile:

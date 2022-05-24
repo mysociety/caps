@@ -45,7 +45,7 @@ def download_github_release(
 
     headers = None
     if private:
-        token = os.environ.get("PERSONAL_ACCESS_TOKEN", None)
+        token = settings.PERSONAL_ACCESS_TOKEN
         if token is None:
             raise ValueError(
                 "Tried to access private repo, but no PERSONAL_ACCESS_TOKEN envkey."
