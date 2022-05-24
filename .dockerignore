@@ -21,3 +21,4 @@ Vagrantfile
 docker-compose.yml
 production.yml
 development.yml
+.venv

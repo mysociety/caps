@@ -36,6 +36,7 @@ DS_Store
 data
 .env
 /src
+.venv
 
 # Deployment
 conf/env.sh
