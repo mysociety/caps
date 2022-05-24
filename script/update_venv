@@ -1,0 +1,11 @@
+#/bin/bash
+
+set -e
+
+cd "$(dirname $BASH_SOURCE)"/..
+
+source .venv/bin/activate
+
+export PYTHONDONTWRITEBYTECODE=1
+pip3 install --requirement requirements.txt
+find . -name '*.pyc' -delete
