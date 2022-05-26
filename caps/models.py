@@ -21,10 +21,15 @@ from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
 from caps.filters import DefaultSecondarySortFilter
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    # This doesn't really exists on django so it always need to be imported this way
+    from django.db.models.manager import RelatedManager
 
 def query_lookup(
     query: models.QuerySet, key: str, value: str, default: Optional[str] = None
-) -> dict:
+) -> Callable:
     """
     convert a query to a lookup function with a default value
     """
@@ -65,12 +70,13 @@ class CustomQuerySet(models.QuerySet):
         rename_map = {x[0]: x[1] for x in args if isinstance(x, tuple)}
         items = [x[0] if isinstance(x, tuple) else x for x in args]
         return (
-            self.values(*items, **kwargs).pipe(pd.DataFrame).rename(columns=rename_map)
+            pd.DataFrame(list(self.values(*items, **kwargs))).rename(columns=rename_map)
         )
 
+CustomManager = models.Manager.from_queryset(CustomQuerySet)
 
 class CapsModel(models.Model):
-    objects = CustomQuerySet.as_manager()
+    objects: CustomManager = CustomManager()
 
     class Meta:
         abstract = True
@@ -161,6 +167,7 @@ class Council(models.Model):
         (True, "Yes"),
         (False, "No"),
     ]
+    id: int 
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     name = models.CharField(max_length=100)
@@ -191,6 +198,9 @@ class Council(models.Model):
     region = models.CharField(max_length=200, null=True, choices=REGION_CHOICES)
     county = models.CharField(max_length=200, null=True)
 
+    if TYPE_CHECKING:
+        distances = RelatedManager["Distance"]()
+
     class Meta:
         ordering = ["name"]
 
@@ -213,7 +223,7 @@ class Council(models.Model):
                 )
                 .values("council_id")
                 .annotate(num_plans=Count("id"))
-                .values("num_plans")
+                .values("num_plans")  # type: ignore
             ),
             has_promise=Count("promise"),
             earliest_promise=Min("promise__target_year"),
@@ -729,7 +739,7 @@ class SavedSearch(models.Model):
         max_length=1000, help_text="The text used to restrict by council", default=""
     )
 
-    objects = SavedSearchManager()
+    objects: SavedSearchManager = SavedSearchManager()
 
     class Meta:
         verbose_name_plural = "Saved Searches"
@@ -919,13 +929,13 @@ class ComparisonType(models.Model):
         return self
 
     @classmethod
-    def combine_files(cls, filename: str):
+    def combine_files(cls, filename: str) -> pd.DataFrame:
         """
         combine the same file from different types into a
         single dataframe, with a `type_slug` column.
         """
 
-        dfs = []
+        dfs: List[pd.DataFrame] = []
         for slug in cls.TYPES.keys():
             file_path = Path("data", "comparisons", slug, filename)
             df = pd.read_csv(file_path)
@@ -983,7 +993,7 @@ class ComparisonLabelAssignment(models.Model):
         # possibility of duplicate label names in different types
         # need to join on both the type and label name to get the id
         q = ComparisonLabel.objects.all().values("id", "name", "type_id")
-        label_df = pd.DataFrame(q).rename(columns={"name": "label", "id": "label_id"})
+        label_df = pd.DataFrame(list(q)).rename(columns={"name": "label", "id": "label_id"})
         df = df.merge(label_df, on=["type_id", "label"], how="left")
         cls.objects.all().delete()
         save_df_to_model(cls, df)
@@ -993,10 +1003,11 @@ class Distance(models.Model):
     """
     match score between two councils
     """
-
+    council_a_id: int
     council_a = models.ForeignKey(
         Council, on_delete=models.CASCADE, related_name="distances"
     )
+    council_b_id: int
     council_b = models.ForeignKey(
         Council, on_delete=models.CASCADE, related_name="reverse_distance"
     )
@@ -1010,7 +1021,7 @@ class Distance(models.Model):
         df = ComparisonType.combine_files("distance_map.csv")
 
         # will never access almost all distances, only save the top 30
-        df = df[lambda x: x["position"] <= 31]
+        df = df.loc[lambda x: x["position"] <= 31]
 
         slug_to_id = query_lookup(ComparisonType.objects.all(), "slug", "id")
         code_to_id = query_lookup(Council.objects.all(), "authority_code", "id")

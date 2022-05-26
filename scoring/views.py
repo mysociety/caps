@@ -181,7 +181,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        council = context.get("council")
+        council = context["council"]
         group = council.get_scoring_group()
 
         context["all_councils"] = Council.objects.filter(

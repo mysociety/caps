@@ -5,8 +5,9 @@ import csv
 from os.path import join
 
 import pandas as pd
+from typing import Any
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
@@ -116,7 +117,13 @@ def get_ni():
         print("problem getting Northern Ireland URL data: {}".format(e))
         return []
 
-    table = dom.find("div", class_="item-list")
+    def must_be_tag(value: Any) -> Tag:
+        if isinstance(input, Tag):
+            return value
+        else:
+            raise TypeError(f"Expected {value} to be Tag, but was {type(value)}")
+
+    table = must_be_tag(dom.find("div", class_="item-list"))
     rows = table.find_all("span", class_="field-content")
     for row in rows:
         link = row.find("a")

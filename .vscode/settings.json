@@ -6,7 +6,7 @@
     "[python]": {
         "editor.formatOnSave": true
     },
-
+    "python.analysis.typeCheckingMode": "basic",
     "python.formatting.provider": "black",
     "files.exclude": {
         "**/.git": true,

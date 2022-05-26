@@ -9,6 +9,7 @@ import string
 import pandas as pd
 import numpy as np
 
+
 la_lookup_url = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/uk_local_authorities.csv"
 name_lookup_url = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/lookup_name_to_registry.csv"
 gss_code = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/lookup_gss_to_registry.csv"
@@ -80,8 +81,9 @@ def name_registry_lookup(allow_none: bool = False) -> Callable:
 
     return convert
 
+import pandas.api as pd_api
 
-@pd.api.extensions.register_dataframe_accessor("la")
+@pd_api.extensions.register_dataframe_accessor("la")
 class LAPDAccessor(object):
     """
     extention to pandas dataframe

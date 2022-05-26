@@ -137,7 +137,7 @@ class TestPostcodeSearch(TestCase):
 
 
 class TestCouncilDetailPage(TestCase):
-    promise = None
+
 
     def setUp(self):
         council = Council.objects.create(

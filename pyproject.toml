@@ -2,3 +2,7 @@
 exclude = '''/(
   migrations
 )/'''
+
+
+[tool.pyright]
+typeCheckingMode='basic'
