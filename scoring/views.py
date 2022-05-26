@@ -396,7 +396,7 @@ class QuestionView(CheckForDownPageMixin, AdvancedFilterMixin, DetailView):
             for score in overall_stats:
                 overall.append(
                     {
-                        "total": score["score"],
+                        "score": score["score"],
                         "max_total": score["max_score"],
                         "percentage": round(
                             (score["score_count"] / council_count) * 100
