@@ -13,50 +13,42 @@
     </div>
     <div class="col-md-8 offset-lg-1">
 
-        <p>The <strong>Climate Action Plan Explorer</strong> collects UK Council Climate Action Plans in a single database, alongside some data on area emissions estimates within the scope of influence of councils.</p>
+        <p>The <strong>Climate Action Plan Explorer</strong> collects UK Council Climate Action Plans in a single database, alongside some data on area emissions estimates within the scope of influence of councils. It allows anyone to quickly and easily find out if their council has a plan, and put those plans into context.</p>
 
-        <p>It’s being developed by <a href="https://www.climateemergency.uk/">Climate Emergency UK</a> and <a href="https://www.mysociety.org">mySociety</a>, with input from a range of council climate officers, climate specialists, researchers, and journalists. We hope that it will soon allow anyone to quickly and easily find out if their council has a plan, and put those plans into context.</p>
+        <p>It was started by <a href="https://www.climateemergency.uk/">Climate Emergency UK</a> and <a href="https://www.mysociety.org">mySociety</a>, and is still under active development with input from council climate officers, climate specialists, researchers, and journalists.</p>
 
         <p class="mt-4"><a class="d-inline-flex align-items-center" href="https://www.mysociety.org/2020/11/06/making-it-easier-to-explore-council-climate-action-plans/">
             Read more about the project background.
             {% include 'caps/icons/chevron-right.html' with classes='ml-1' role='presentation' %}
         </a></p>
 
-        <h2 class="mt-5 mb-4" id="sources">Data sources</h2>
+        <h2 class="mt-5 mb-2 d-flex flex-wrap" id="mysociety">
+            <a class="mr-3 mb-3" href="https://www.mysociety.org">
+                <img src="{% static 'caps/img/logo-mysociety.png' %}" width="460" height="150" alt="mySociety" class="rounded shadow-sm" style="height: 75px; width: auto;">
+            </a>
+        </h2>
 
-        <div class="mt-4 d-flex flex-wrap">
+        <p><strong>mySociety</strong> is a not-for-profit social enterprise, based in the UK but working with partners internationally. Their technology, research and data are used by individual citizens, journalists, and civil society in over 40 countries around the world.</p>
+
+        <p>Their UK services — like <a href="https://www.fixmystreet.com">FixMyStreet</a>, <a href="https://www.theyworkforyou.com">TheyWorkForYou</a>, <a href="https://www.whatdotheyknow.com">WhatDoTheyKnow</a>, and <a href="https://www.writetothem.com">WriteToThem</a> — are used by millions of people every year, to interact with local government, and hold decision-makers to account. And their climate programme is exploring how similar digital services could reduce the emissions within the influence of local authorities.</p>
+
+        <p class="mt-4"><a class="d-inline-flex align-items-center" href="https://www.mysociety.org/climate/">
+            Read more about mySociety’s climate programme
+            {% include 'caps/icons/chevron-right.html' with classes='ml-1' role='presentation' %}
+        </a>
+
+        <h2 class="mt-5 mb-2 d-flex flex-wrap" id="ceuk">
             <a class="mr-3 mb-3" href="https://climateemergency.uk">
                 <img src="{% static 'caps/img/logo-ceuk.png' %}" width="340" height="150" alt="Climate Emergency UK" class="rounded shadow-sm" style="height: 75px; width: auto;">
             </a>
-        </div>
+        </h2>
 
-        <p>Much of our data is crowdsourced by an army of volunteers filling in Google spreadsheets. This is then combined with some standard data to enable it to be matched up across sources.</a>
+        <p><strong>Climate Emergency UK</strong> aims to inspire and organise action to respond to the climate and ecological emergency. Their not-for-profit work supports local authorities in creating climate action plans, by providing accessible information about best practice and building a network where local authorities, activists, NGOs, business and local communities can work together.</p>
 
-        <p>Links to council climate action plans were crowdsourced <a href="https://docs.google.com/spreadsheets/d/1tEnjJRaWsdXtCkMwA25-ZZ8D75zAY6c2GOOeUchZsnU/edit">in this spreadsheet</a>. If you find a plan document that we’ve missed, <a href="https://docs.google.com/document/d/1oGFkzhZkTCfEBUeJIdMb9aOfuqPoCHkUMTJxROsRRow/edit">read our guide</a> on what we consider a climate action plan and how to add one to our spreadsheet.</p>
+        <p>Their <a href="https://www.climateemergency.uk/local-authority-checklist/">Climate Action Plan Checklist</a> provides local authorities with a step-by-step guide for creating, presenting, and engaging on climate action plans. And their incredibly ambitious <a href="https://councilclimatescorecards.uk/">Council Climate Plan Scorecards</a> project continues to assess the quality of local authorities’ climate action plans.</p>
 
-        <p>Council climate emergency declarations and net zero commitments were largely collated by <a href="https://www.climateemergency.uk/">Climate Emergency UK</a> staff.</p>
-
-        <div class="mt-4 d-flex flex-wrap">
-            <a class="mr-3 mb-3" href="https://www.gov.uk/government/organisations/department-for-business-energy-and-industrial-strategy">
-                <img src="{% static 'caps/img/logo-beis.png' %}" width="260" height="150" alt="Department of Business, Energy &amp; Industrial Strategy" class="rounded shadow-sm" style="height: 75px; width: auto;">
-            </a>
-        </div>
-
-        <p>Local authority CO<sub>2</sub> emissions estimates are collated by <a href="https://www.gov.uk/government/statistics/uk-local-authority-and-regional-carbon-dioxide-emissions-national-statistics-2005-to-2019">the Department of Business, Energy &amp; Industrial Strategy</a>.</p>
-
-        <div class="mt-4 d-flex flex-wrap">
-            <a class="mr-3 mb-3" href="https://councilclimatescorecards.uk">
-                <img src="{% static 'caps/img/logo-scorecards.png' %}" width="380" height="150" alt="Council Climate Plan Scorecards" class="rounded shadow-sm" style="height: 75px; width: auto;">
-            </a>
-            <a class="mr-3 mb-3" href="https://www.mapolitical.com">
-                <img src="{% static 'caps/img/logo-mapolitical.png' %}" width="580" height="150" alt="Mapolitical" class="rounded shadow-sm" style="height: 75px; width: auto;">
-            </a>
-        </div>
-
-        <p>We make use of data from our <a href="https://councilclimatescorecards.uk">Council Climate Plan Scorecards</a> project, which was collected with the support of <a href="https://www.mapolitical.com/">Mapolitical</a>, who donated their UK Government Political Stakeholder data and Look-up API to help us communicate with local authority officers. <a href="https://councilclimatescorecards.uk/about/">Read more on the Council Climate Plan Scorecards site.</a></p>
-
-        <p class="mt-4"><a class="d-inline-flex align-items-center" href="{% url 'about_data' %}">
-            Read more about how to understand and re-use our data.
+        <p class="mt-4"><a class="d-inline-flex align-items-center" href="https://www.climateemergency.uk/">
+            Read more about Climate Emergency UK’s work
             {% include 'caps/icons/chevron-right.html' with classes='ml-1' role='presentation' %}
         </a>
 

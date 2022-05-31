@@ -46,30 +46,6 @@
 }
 
 .site-header {
-    .navbar {
-        padding: 1rem;
-    }
-
-    .navbar-brand {
-        flex-shrink: 0;
-        display: inline-block;
-        height: 0;
-        padding-top: 40px;
-        width: 114px;
-        overflow: hidden;
-        @include img-retina('../img/site-logo.png', '../img/site-logo@2x.png', 114px, 40px);
-        background-repeat: no-repeat;
-        background-position: 50% 50%;
-    }
-
-    .nav-link {
-        text-transform: uppercase;
-        white-space: nowrap;
-        font-size: 1em * (14/16);
-    }
-}
-
-.site-subheader {
     background: $color-ceuk-red;
 
     .page-blue & {
