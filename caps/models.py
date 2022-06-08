@@ -388,6 +388,20 @@ class Council(models.Model):
 
         return slug
 
+    def has_plan(self):
+        """
+        Return true if a council has an associated climate action plan document.
+        """
+        plan_count = self.plandocument_set.filter(
+            document_type__in=(
+                PlanDocument.CLIMATE_ACTION_PLAN,
+                PlanDocument.CLIMATE_STRATEGY,
+            )
+        ).count()
+
+        if plan_count > 0:
+            return True
+
     @classmethod
     def country_description(cls, country_code):
         codes_to_descriptions = dict(
