@@ -268,14 +268,27 @@ tbody th.council-name .council-name-flex-cell{
         z-index: 2;
     }
 
-    tbody th {
-        position: relative;
-        left: 0px;
-    }
+    tbody {
 
-    tbody tr {
-        &:nth-child(odd) {
-                background-color: #F8F8F8;
+        th {
+            position: relative;
+            left: 0px;
+        }
+
+        tr {
+            &:nth-child(odd) {
+                background-color: $color-scorecard-grey-100;
+                th {
+                    background-color: $color-scorecard-grey-100;
+                }
+            }
+    
+            &:nth-child(even) {
+                background-color: $white;
+                th {
+                    background-color: $white;
+                }
+            }
         }
     }
 
