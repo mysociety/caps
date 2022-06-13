@@ -186,8 +186,8 @@ class Command(BaseCommand):
                 council=council, year=self.YEAR
             )
 
-            plan_score.total = round(row["raw_total"] * 100, 1)
-            plan_score.weighted_total = round(row["weighted_total"] * 100, 1)
+            plan_score.total = round(row["raw_total"] * 100, 3)
+            plan_score.weighted_total = round(row["weighted_total"] * 100, 3)
             plan_score.save()
 
             for code in self.SECTIONS.keys():
