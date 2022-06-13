@@ -1,0 +1,46 @@
+name: 'Cached build'
+description: 'Assuming a top-level Dockerfile and docker-compose, build cached images to the current repo register'
+inputs:
+  run: 
+    description: 'Commands to run inside context'
+    required: true
+  shell: 
+    description: 'shell to run command on inside docker'
+    default: 'bash --noprofile --norc -eo pipefail'
+  app: 
+    description: 'docker-compose app to run command in'
+    required: true
+    default: 'app'
+  use_dev_image:
+    description: 'Can this use the current dev image or should it rebuild from scratch (still some layer caching benefits)'
+    default: 'false'
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Build image from docker-compose
+      if: ${{ inputs.use_dev_image == 'false' }}
+      uses: ./.github/actions/cached-build
+      with:
+        branch: ${{ github.ref_name }}
+        push_to_registry: false
+    
+    - name: construct docker command
+      shell: bash
+      run: |
+        if [ "$USE_DEV_IMAGE" = "true" ]; then
+            composeFiles="-f docker-compose.yml -f .devcontainer/docker-compose-extend-cached-image.yml"
+        else
+            composeFiles="-f docker-compose.yml"
+        fi
+        shellCommands='$@'
+        echo "docker-compose $composeFiles run --volume /home/runner:/home/runner/ ${{ inputs.app }} ${{ inputs.shell }} $shellCommands" >> ${{ github.action_path }}/docker_command.sh
+        echo "${{ github.action_path }}" >> $GITHUB_PATH
+      env:
+        USE_DEV_IMAGE: ${{ inputs.use_dev_image}}
+
+    - name: Run script in docker
+      shell: bash docker_command.sh {0}
+      run: |
+        ${{ inputs.run }}
