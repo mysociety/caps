@@ -2,14 +2,18 @@ version: '3.7'
 
 services:
   app:
-    image: mysocietyorg/caps:${TAG:-latest}
+    image: mysociety/caps:${TAG:-latest}
     build:
       context: .
       dockerfile: Dockerfile
-    command: /usr/src/app/script/server
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+      cache_from:
+       - ghcr.io/mysociety/caps:container-rationalization
+    command: /workspaces/caps/script/server
     volumes:
-      - ./:/usr/src/app/
-      - ./conf/config.py.docker:/usr/src/app/conf/config.py
+      - ./:/workspaces/caps/
+      - ./conf/config.py.docker:/workspaces/caps/conf/config.py
     environment:
       - REPOSITORY_DB_PASS=${REPOSITORY_DB_PASS:-caps}
       - SECRET_KEY=${SECRET_KEY:-xx}

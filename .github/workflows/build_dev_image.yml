@@ -1,0 +1,30 @@
+name: Create CAPS docker image
+
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main, "container-rationalization" ]
+  workflow_dispatch :
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+
+      - name: Build image
+        uses: ./.github/actions/cached-build
+        with:
+          github_token: ${{ secrets.github_token }}
+          branch: ${{ github.ref_name }}
+          push_to_registry: true

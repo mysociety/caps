@@ -1,5 +1,0 @@
-FROM ghcr.io/mysociety/caps:master
-
-RUN apt-get install -qq git postgresql-client
-COPY requirements.dev.txt /
-RUN pip install -r /requirements.dev.txt
