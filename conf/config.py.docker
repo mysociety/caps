@@ -41,3 +41,5 @@ HIDE_DEBUG_TOOLBAR = strtobool(os.environ.get("HIDE_DEBUG_TOOLBAR", "False"))
 FEEDBACK_EMAIL = os.environ.get("FEEDBACK_EMAIL", "")
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "localhost")
 EMAIL_PORT = os.environ.get("EMAIL_PORT", "25")
+
+PERSONAL_ACCESS_TOKEN = os.environ.get("PERSONAL_ACCESS_TOKEN", None)
