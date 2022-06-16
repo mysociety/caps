@@ -132,24 +132,6 @@
                 </div>
             </div>
 
-          {% if council.plandocument_set.all %}
-            <div class="card-footer">
-                <form action="{% url 'search_results' %}" data-show-interstitial class="form-row flex-wrap align-items-center">
-                    <label for="search-this-councils-documents" class="col-12 col-lg-auto font-weight-bold mr-3 mb-2 mb-lg-0">Search inside these documents</label>
-                    <div class="col-auto flex-shrink-1 flex-grow-1">
-                        <input type="text" class="form-control form-control-sm" name="q" id="search-this-councils-documents" value="{{ q|default_if_none:'' }}">
-                        <input type="hidden" name="council_name" id="council_name" value="&quot;{{ council.name }}&quot;">
-                    </div>
-                    <div class="col-auto flex-shrink-0 d-flex">
-                        <button type="submit" class="btn btn-purple btn-sm d-flex align-items-center">
-                            {% include 'caps/icons/search.html' with role='presentation' %}
-                            <span class="ml-2">Search</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-          {% endif %}
-
             <div class="card-footer bg-yellow-light">
                 <p class="mb-0"><strong>Are these plans out of date?</strong></p>
                 <small class="mb-0">
