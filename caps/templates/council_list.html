@@ -13,22 +13,32 @@
                   <input type="text" name="name" class="form-control" placeholder="Name contains" title="" id="id_name2">
                   {% include 'icons/search.html' with classes='mr-2' role='presentation' %}
                 </div>
+
+                {% bootstrap_field filter.form.declared_emergency %}
+                {% bootstrap_field filter.form.has_plan %}
+                {% bootstrap_field filter.form.sort %}
+
+                {% buttons %}
+                <button id="button-find-council" type="submit" class="btn btn-primary btn-block mb-0">Filter list</button>
+                {% endbuttons %}
               </div>
 
               {% buttons %}
-              <button type="button" id="button-advanced-filter" class="btn-block pt-3 mb-0">
+              <label type="button" id="button-advanced-filter" class="btn-block pt-3 mb-0 houdini-label" for="input1">
                 {% include 'icons/chevron-down.html' with width="1em" height="1em" classes='mr-1' role='presentation' %}
                 Filter by authority type and others...
               </button>
               {% endbuttons %}
+              <input class="houdini-input" type="checkbox" id="input1">
 
-              <div class="dropdown-wrapper mb-2 flex-row">
-                {% bootstrap_form filter.form %}
+              <div class="houdini-target-flex dropdown-wrapper mb-2 flex-row">
+                {% bootstrap_field filter.form.promise_combined %}
+                {% bootstrap_field filter.form.authority_type %}
+                {% bootstrap_field filter.form.region %}
+                {% bootstrap_field filter.form.geography %}
+                {% bootstrap_field filter.form.population %}
               </div>
 
-              {% buttons %}
-              <button id="button-find-council" type="submit" class="btn btn-primary btn-block mb-0">Filter list</button>
-              {% endbuttons %}
           </form>
       </div>
     </div>
@@ -49,18 +59,9 @@
                     {{ filter.qs.count }} councils
                   {% endif %}
                 </h2>
-                <div class="sort-by-wrapper">
-                    <select name="sort" class="form-control" title="" style="max-width: 300px;">
-                      <option value="name">Council name</option>
-                      <option value="-name">Council name (descending)</option>
-                      <option value="promise_year">Carbon neutral target</option>
-                      <option value="-promise_year">Carbon neutral target (descending)</option>
-                      <option value="declaration_date">Declaration date</option>
-                      <option value="-declaration_date">Declaration date (descending)</option>
-                      <option value="last_update">Last update</option>
-                      <option value="-last_update">Last update (descending)</option>
-                    </select>
-                    {% include 'icons/sort.html' with width="1.5em" height="1.5em" classes='mr-2' role='presentation' %}
+                <div class="sort-by-wrapper d-none">
+                  {% bootstrap_field filter.form.sort show_label=False form_group_class="d-inline" %}
+                  {% include 'icons/sort.html' with width="1.5em" height="1.5em" classes='mr-2' role='presentation' %}
                   </div>
             </div>
             <div class="ceuk-data-table">
@@ -72,35 +73,5 @@
 
     </div>
 </div>
-
-<script>
-  setTimeout(function(){
-    $( "#id_name" ).parent().css( "display", "none" );
-    $( "#id_sort" ).parent().css( "display", "none" );
-    
-    // Move the filter fields
-
-    $( "#id_declared_emergency" ).parent().appendTo( ".filter-header" )
-    $( "#id_has_plan" ).parent().appendTo( ".filter-header" )
-    $( "#id_has_plan" ).parent().appendTo( ".filter-header" )
-    $( "#button-find-council" ).parent().appendTo( ".filter-header" )
-
-    var $btnFilter = $('#button-advanced-filter');
-    var $filterWrapper = $('.dropdown-wrapper');
-
-    $btnFilter.on('click', function(){
-        if ( $filterWrapper.is('.d-flex') ) {
-            $filterWrapper.removeClass('d-flex');
-            $btnFilter.removeClass('active-button');
-            $btnFilter.text('Filter by authority type and other filters...');
-        } else {
-            $filterWrapper.addClass('d-flex');
-            $btnFilter.addClass('active-button');
-            $btnFilter.text('Show less filters');
-        }
-    });
-
- }, 10);
-</script>
 
 {% endblock %}
