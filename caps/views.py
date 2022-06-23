@@ -1,4 +1,5 @@
 from random import shuffle, sample, randint
+from collections import defaultdict
 
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
@@ -201,7 +202,8 @@ class CouncilDetailView(DetailView):
         if council.emergencydeclaration_set.count() > 0:
             context["declared_emergency"] = council.emergencydeclaration_set.all()[0]
 
-        documents = council.plandocument_set.all()
+        documents = council.plandocument_set.order_by("-updated_at").all()
+        grouped_documents = defaultdict(list)
         for document in documents:
             last_change = {}
             plan_changes = []
@@ -220,8 +222,12 @@ class CouncilDetailView(DetailView):
                 last_change[change.id] = change
 
             document.changes = plan_changes
+            grouped_documents[document.get_document_type].append(document)
 
         context["documents"] = documents
+        # need to convert to a dict as items doesn't work on defaultdicts
+        # in django templates
+        context["grouped_documents"] = dict(grouped_documents)
 
         deletions = PlanDocument.history.filter(council=council).order_by(
             "history_date"
