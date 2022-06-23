@@ -115,14 +115,20 @@
                             {% endif %}
                             <p class="d-inline-block text-muted mb-0">
                                 {% if plandocument.title %}
-                                {{ plandocument.get_document_type|title }}
-                                <span class="mx-2">&middot;</span>
+                                  {{ plandocument.get_document_type|title }}
                                 {% endif %}
-                                {{ plandocument.file_type|upper }}
-                                <span class="mx-2">&middot;</span>
-                                {{ plandocument.get_status|title }}
-                                <span class="mx-2">&middot;</span>
-                                {{ plandocument.get_scope|title }}
+                                {% if plandocument.file_type %}
+                                  <span class="mx-2">&middot;</span>
+                                  {{ plandocument.file_type|upper }}
+                                {% endif %}
+                                {% if plandocument.get_status %}
+                                  <span class="mx-2">&middot;</span>
+                                  {{ plandocument.get_status|title }}
+                                {% endif %}
+                                {% if plandocument.get_scope %}
+                                  <span class="mx-2">&middot;</span>
+                                  {{ plandocument.get_scope|title }}
+                                {% endif %}
                             </p>
                         </div>
                     </a>
