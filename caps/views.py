@@ -220,6 +220,13 @@ class CouncilListView(FilterView):
     filterset_class = CouncilFilter
     template_name = "council_list.html"
     extra_context = {"page_title": "Find a council"}
+    advanced_filters = [
+        "promise_combined",
+        "authority_type",
+        "region",
+        "geography",
+        "population",
+    ]
 
     def get_queryset(self):
         return Council.objects.annotate(
@@ -229,6 +236,24 @@ class CouncilListView(FilterView):
             declared_emergency=Min("emergencydeclaration__date_declared"),
             last_plan_update=Max("plandocument__updated_at"),
         ).order_by("name")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = context["filter"].form
+
+        if hasattr(form, "cleaned_data"):
+            active_filters = {}
+            active_advanced_filters = {}
+            for field, value in form.cleaned_data.items():
+                if field != "sort" and value is not None and value != "":
+                    active_filters[field] = 1
+                    if field in self.advanced_filters:
+                        active_advanced_filters[field] = 1
+
+            context["active_filters"] = active_filters
+            context["active_advanced_filters"] = active_advanced_filters
+
+        return context
 
 
 class SearchResultsView(HaystackSearchView):

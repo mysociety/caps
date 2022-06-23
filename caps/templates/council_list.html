@@ -29,7 +29,7 @@
                 Filter by authority type and others...
               </button>
               {% endbuttons %}
-              <input class="houdini-input" type="checkbox" id="input1">
+              <input class="houdini-input" type="checkbox" id="input1"{% if active_advanced_filters %} checked{% endif %}>
 
               <div class="houdini-target-flex dropdown-wrapper mb-2 flex-row">
                 {% bootstrap_field filter.form.promise_combined %}
