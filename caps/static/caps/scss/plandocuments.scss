@@ -1,0 +1,16 @@
+.council-documents {
+    summary {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    summary:focus {
+        background-color: inherit !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    .deleted-document {
+        color: grey;
+    }
+}

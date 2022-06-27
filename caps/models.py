@@ -500,6 +500,20 @@ class OverwriteStorage(FileSystemStorage):
 overwrite_storage = OverwriteStorage()
 
 
+class PlanDocumentHistoricalModel(models.Model):
+    is_deleted = False
+
+    @property
+    def get_document_type(self):
+        for choice in PlanDocument.DOCUMENT_TYPE_CHOICES:
+            if choice[0] == self.document_type:
+                return choice[1].lower()
+        return "document"
+
+    class Meta:
+        abstract = True
+
+
 class PlanDocument(models.Model):
 
     ACTION_PLAN = 1
@@ -564,7 +578,7 @@ class PlanDocument(models.Model):
     charset = models.CharField(max_length=50, blank=True)
     text = models.TextField(blank=True)
     file = models.FileField("plans", storage=overwrite_storage)
-    history = HistoricalRecords()
+    history = HistoricalRecords(bases=[PlanDocumentHistoricalModel])
     title = models.CharField(max_length=800, blank=True)
 
     @property
@@ -629,6 +643,13 @@ class PlanDocument(models.Model):
             return (int(match.group("start_year")), int(match.group("end_year")))
         else:
             return (None, None)
+
+    @classmethod
+    def get_document_type_from_code(self, code):
+        for choice in self.DOCUMENT_TYPE_CHOICES:
+            if choice[0] == code:
+                return choice[1].lower()
+        return "document"
 
     @classmethod
     def document_type_code(cls, document_type_entry):

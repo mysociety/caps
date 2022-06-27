@@ -97,11 +97,14 @@
             {% endif %}
 
             <div class="card-body">
-                <div class="mb-n3">
-                  {% for group, group_docs in grouped_documents.items %}
-                  <p>{{ group }}</p>
+                <div class="mb-n3 council-documents">
+                {% for group, group_docs in grouped_documents.items %}
                   {% for plandocument in group_docs %}
-                    <a href="{{ plandocument.link }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}" class="d-flex align-items-center mb-3">
+                    {% if forloop.counter == 2 %}
+                    <details class="details">
+                      <summary>Show other {{ group }} documents</summary>
+                    {% endif %}
+                    <a href="{{ plandocument.link }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}" class="d-flex align-items-center mb-3{% if plandocument.is_deleted %} deleted-document{% endif %}">
                       {% if plandocument.file_type == 'pdf' %}
                         {% include 'caps/icons/pdf.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' role='presentation' %}
                       {% else %}
@@ -116,9 +119,9 @@
                             <p class="d-inline-block text-muted mb-0">
                                 {% if plandocument.title %}
                                   {{ plandocument.get_document_type|title }}
+                                  <span class="mx-2">&middot;</span>
                                 {% endif %}
                                 {% if plandocument.file_type %}
-                                  <span class="mx-2">&middot;</span>
                                   {{ plandocument.file_type|upper }}
                                 {% endif %}
                                 {% if plandocument.get_status %}
@@ -132,36 +135,17 @@
                             </p>
                         </div>
                     </a>
-                    {% if plandocument.changes %}
-                    <ul>
-                    {% for change in plandocument.changes %}
-                      {% if change.type == 'add' %}
-                      <li>{{ change.change.history_date|date:"M d, Y" }}: <a href="{{ change.change.url }}">{{ change.change.document_type|document_type|title }} added</a>{% if change.change.title %} - {{ change.change.title }}{% endif %}</li>
-                      {% elif change.type == 'del' %}
-                          <li>{{ change.change.history_date|date:"M d Y" }}: <a href="{{ change.change.url }}">{{ change.change.document_type|document_type|title }} deleted</a>{% if change.change.title %} - {{ change.change.title }}{% endif %}</li>
-                      {% else %}
-                          {% if change.updates.changes %}
-                          <li>{{ change.change.history_date|date:"M d Y" }}:
-                              <a href="{{ change.change.url }}">{{ change.change.document_type|document_type|title }}</a>
-                              {% for diff in change.updates.changes %}
-                                  {% if diff.old %}
-                                  {{ diff.field }} changed from <em>{{ diff.old }}</em> to <em>{{ diff.new }}.</em>
-                                  {% else %}
-                                  {{ diff.field }} changed to <em>{{ diff.new }}.</em>
-                                  {% endif %}
-                              {% endfor %}
-                          </li>
-                          {% endif %}
-                      {% endif %}
-                    {% endfor %}
-                    </ul>
+                    {% if forloop.last and group_docs|length > 1 %}
+                    </details>
                     {% endif %}
+
+                  {% endfor %}
+
                   {% empty %}
                     <p class="text-muted mb-3">
                         We couldn’t find any climate action plans for this council.
                     </p>
-                  {% endfor %}
-                  {% endfor %}
+                {% endfor %}
                 </div>
             </div>
 

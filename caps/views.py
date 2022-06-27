@@ -205,39 +205,23 @@ class CouncilDetailView(DetailView):
         documents = council.plandocument_set.order_by("-updated_at").all()
         grouped_documents = defaultdict(list)
         for document in documents:
-            last_change = {}
-            plan_changes = []
-            for change in document.history.all().reverse():
-                prev = last_change.get(change.id, None)
-                if change.history_type == "+":
-                    plan_changes.append({"change": change, "type": "add"})
-                elif change.history_type == "-":
-                    plan_changes.append({"change": change, "type": "del"})
-                elif prev is not None:
-                    changes = change.diff_against(prev)
-                    plan_changes.append(
-                        {"change": change, "type": "modify", "updates": changes}
-                    )
-
-                last_change[change.id] = change
-
-            document.changes = plan_changes
             grouped_documents[document.get_document_type].append(document)
 
         context["documents"] = documents
-        # need to convert to a dict as items doesn't work on defaultdicts
-        # in django templates
-        context["grouped_documents"] = dict(grouped_documents)
 
         deletions = PlanDocument.history.filter(council=council).order_by(
             "history_date"
         )
-        plan_changes = []
         for change in deletions.all():
             if change.history_type == "-":
-                plan_changes.append({"change": change, "type": "del"})
+                change.is_deleted = True
+                grouped_documents[
+                    PlanDocument.get_document_type_from_code(change.document_type)
+                ].append(change)
 
-        context["removed_documents"] = plan_changes
+        # need to convert to a dict as items doesn't work on defaultdicts
+        # in django templates
+        context["grouped_documents"] = dict(grouped_documents)
 
         if council.emergencydeclaration_set.count() > 0:
             context["declared_emergency"] = council.emergencydeclaration_set.all()[0]
