@@ -180,7 +180,7 @@ $('#feedback-email').on('keyup change', function(){
     }
 })
 
-$('form[data-ajax-feedback-submit]').on('submit', function(e){
+$('form[data-ajax-submit]').on('submit', function(e){
     e.preventDefault();
     var $form = $(this);
 
@@ -204,7 +204,7 @@ $('.conditional-fields').each(function(){
     });
 });
 
-$('form[data-ajax-submit]').on('submit', function(e){
+$('form[data-ajax-feedback-submit]').on('submit', function(e){
     e.preventDefault();
     var $form = $(this);
 
