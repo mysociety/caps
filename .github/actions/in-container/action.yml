@@ -1,5 +1,5 @@
 name: 'In container action'
-description: 'Runs specified commands inside the specified container.
+description: 'Runs specified commands inside the specified container.'
 inputs:
   run: 
     description: 'Commands to run inside context'
