@@ -1,5 +1,5 @@
-name: 'Cached build'
-description: 'Assuming a top-level Dockerfile and docker-compose, build cached images to the current repo register'
+name: 'In container action'
+description: 'Runs specified commands inside the specified container.
 inputs:
   run: 
     description: 'Commands to run inside context'
@@ -23,7 +23,7 @@ runs:
       if: ${{ inputs.use_dev_image == 'false' }}
       uses: ./.github/actions/cached-build
       with:
-        branch: ${{ github.ref_name }}
+        branch: "container-rationalization"
         push_to_registry: false
     
     - name: construct docker command
@@ -35,7 +35,7 @@ runs:
             composeFiles="-f docker-compose.yml"
         fi
         shellCommands='$@'
-        echo "docker-compose $composeFiles run --volume /home/runner:/home/runner/ ${{ inputs.app }} ${{ inputs.shell }} $shellCommands" >> ${{ github.action_path }}/docker_command.sh
+        echo "docker-compose $composeFiles run --volume /home/runner:/home/runner/ ${{ inputs.app }} ${{ inputs.shell }} $shellCommands" > ${{ github.action_path }}/docker_command.sh
         echo "${{ github.action_path }}" >> $GITHUB_PATH
       env:
         USE_DEV_IMAGE: ${{ inputs.use_dev_image}}
