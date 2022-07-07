@@ -20,7 +20,7 @@ mkdir -p media/data/plans
 mkdir -p static/css
 
 echo "==> Getting stored data..."
-git clone https://github.com/mysociety/caps_data data
+git clone https://$DATA_REPO_TOKEN@github.com/mysociety/caps_data data
 
 echo "==> restoring database"
 PGPASSWORD="caps" pg_restore -U caps -h postgres -d caps -Fd data/sql_backup/

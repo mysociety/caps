@@ -2,20 +2,25 @@ version: '3.7'
 
 services:
   app:
-    image: mysocietyorg/caps:${TAG:-latest}
+    image: mysociety/caps:${TAG:-latest}
     build:
       context: .
       dockerfile: Dockerfile
-    command: /usr/src/app/script/server
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+      cache_from:
+       - ghcr.io/mysociety/caps:master
+    command: /workspaces/caps/script/server
     volumes:
-      - ./:/usr/src/app/
-      - ./conf/config.py.docker:/usr/src/app/conf/config.py
+      - ./:/workspaces/caps/
+      - ./conf/config.py.docker:/workspaces/caps/conf/config.py
     environment:
       - REPOSITORY_DB_PASS=${REPOSITORY_DB_PASS:-caps}
       - SECRET_KEY=${SECRET_KEY:-xx}
       - DEBUG=${DEBUG:-1}
       - MAPIT_API_KEY=${MAPIT_API_KEY:-xxx}
       - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS:-xxx}
+      - DATA_REPO_TOKEN=${DATA_REPO_TOKEN:-xxx}
       - GOOGLE_ANALYTICS_SCORECARDS=${GOOGLE_ANALYTICS_SCORECARDS:-xxx}
       - MAILCHIMP_KEY=${MAILCHIMP_KEY:-xxx}
       - PERSONAL_ACCESS_TOKEN=${PERSONAL_ACCESS_TOKEN:-xxx}

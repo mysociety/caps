@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# script/back-up-dev-data : Store dev data in an external repo
+
+# abort on any errors
+set -e
+
+# check that we are in the expected directory
+cd `dirname $0`/..
+
+cd "data"
+
+echo "==> dumping database"
+rm -rf sql_backup
+PGPASSWORD="caps" pg_dump -U caps -h postgres -d caps -F d -f sql_backup
+
+echo "==> adding all files to git archive"
+git add *
+git commit -m "Update database"
+
+echo "==> returning to git archive"
+git push origin

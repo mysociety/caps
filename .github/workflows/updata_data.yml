@@ -1,0 +1,28 @@
+name: Update data backup
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 3 * * Mon'
+
+env:
+    DATA_REPO_TOKEN: ${{ secrets.DATA_REPO_TOKEN }}
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout repo content
+        uses: actions/checkout@v2
+
+      - name: Run update scripts
+        uses: ./.github/actions/in-container
+        with:
+          use_dev_image: true
+          run: |
+            git config --global user.email "action@github.com"
+            git config --global user.name "GitHub Action"
+            script/restore-dev-data
+            script/update
+            script/backup-dev-data

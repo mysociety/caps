@@ -59,7 +59,7 @@ def get_plan(row, index, df):
         "User-Agent": "mySociety Council climate action plans search",
     }
     try:
-        r = requests.get(url, headers=headers, verify=False)
+        r = requests.get(url, headers=headers, verify=False, timeout=10)
         r.raise_for_status()
         set_file_attributes(df, index, r.headers.get("content-type"), extension)
         new_filename = new_filename + "." + df.at[index, "file_type"]
@@ -91,6 +91,7 @@ def update_plan(row, index, df, get_all):
             local_path = join(settings.PLANS_DIR, new_filename)
             df.at[index, "plan_path"] = local_path
         except PlanDocument.DoesNotExist:
+            print(f"fetching: {url} ({url_hash}) ")
             get_plan(row, index, df)
 
 
@@ -165,4 +166,8 @@ class Command(BaseCommand):
         print("replacing headers")
         replace_headers()
         print("getting plans")
+        if get_all:
+            print("Fetching all files")
+        else:
+            print("Fetching only new files")
         get_individual_plans(get_all)

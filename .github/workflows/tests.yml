@@ -1,0 +1,27 @@
+name: Run project tests
+
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout repo content
+        uses: actions/checkout@v2
+
+      - name: Run django tests
+        uses: ./.github/actions/in-container
+        with:
+          use_dev_image: false
+          # remove additional dev packages in case we're accidentally leaning on them
+          run: |
+            apt-get remove -qq git postgresql-client
+            script/bootstrap
+            script/test

@@ -2,11 +2,11 @@
 {
 	"name": "caps",
 
-	"dockerComposeFile": ["../docker-compose.yml", "docker-compose-extend-cached-image.yml"],
+	"dockerComposeFile": "../docker-compose.yml",
 	"service": "app",
 	"workspaceFolder": "/workspaces/caps",
 	"overrideCommand": true,
-	"onCreateCommand": "script/restore-dev-data",
+	"onCreateCommand": "script/restore-data",
 
 	"extensions": [
 		"ms-vscode.test-adapter-converter",
