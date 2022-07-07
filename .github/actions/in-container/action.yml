@@ -23,7 +23,7 @@ runs:
       if: ${{ inputs.use_dev_image == 'false' }}
       uses: ./.github/actions/cached-build
       with:
-        branch: "container-rationalization"
+        branch: "master"
         push_to_registry: false
     
     - name: construct docker command

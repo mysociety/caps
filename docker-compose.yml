@@ -9,7 +9,7 @@ services:
       args:
         BUILDKIT_INLINE_CACHE: 1
       cache_from:
-       - ghcr.io/mysociety/caps:container-rationalization
+       - ghcr.io/mysociety/caps:master
     command: /workspaces/caps/script/server
     volumes:
       - ./:/workspaces/caps/

@@ -1,1 +1,1 @@
-FROM ghcr.io/mysociety/caps:container-rationalization
+FROM ghcr.io/mysociety/caps:master
