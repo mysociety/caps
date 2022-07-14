@@ -397,6 +397,37 @@ class AboutDataView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["comparison_types"] = ComparisonType.objects.all()
 
+        context["csv_field_explanations"] = [
+            [
+                "last_update",
+                "This is the date we last updated any information about the plan. It is not the date the plan was last updated.",
+            ],
+            ["url", "The URL where the plan was fetched."],
+            ["plan_path", "This is the path to download the plan from our website."],
+            [
+                "scope",
+                "Council only means the plan only deals with the council’s operations. Whole area means the plan covers non council activities within council boundaries as well.",
+            ],
+        ]
+
+        context["projects_field_explanations"] = [
+            ["council_name", "Human-readable name for the council"],
+            ["authority_code", "Three letter council code as above"],
+            ["start_year", "Reporting start year"],
+            ["end_year", "Reporting end year"],
+            ["data_type", "This is always “projects”"],
+            ["emission_savings", "Emissions saved in tCO2e"],
+            ["project_name", "Name of the project"],
+            ["lifetime", "Length of the project in years"],
+            ["cost", "Capital cost of the project"],
+            ["funding_source", "Where the funding for the project came from"],
+            ["emission_source", "Where the emissions savings come from"],
+            ["annual_savings", "Annual cost savings"],
+            ["measurement", "If the emissions savings are measured or estimated"],
+            ["savings_start", "Year the savings start"],
+            ["comments", "Optional comments about this project"],
+        ]
+
         context["page_title"] = "Our data"
 
         return context

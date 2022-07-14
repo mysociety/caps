@@ -48,52 +48,83 @@
 
         <h2 class="mt-5 mb-4" id="plans">Download all plans</h2>
 
-        <p>You can <a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans/plans.zip">download a zip file of all the documents</a>. This includes all the documents we've found including Climate Action Plans, Climate strategies, pre plans etc. As well as the PDFs, or HTML pages, of the plans, this includes a CSV file (plans.csv) with details and sources for all the included files, along with information like GSS codes to enable linking to other data. The CSV file is available separately, see below for details.</p>
+        <p style="max-width: 24em;">
+            <a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans/plans.zip" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+                Download ZIP archive of all documents
+                {% include 'caps/icons/download.html' with classes='ml-auto' role='presentation' %}
+            </a>
+        </p>
+
+        <p>This includes all the documents we’ve found including Climate Action Plans, Climate strategies, pre plans etc. As well as the PDFs, or HTML pages, of the plans, this includes a CSV file (plans.csv) with details and sources for all the included files, along with information like GSS codes to enable linking to other data. The CSV file is available separately, see below for details.</p>
 
         <h2 class="mt-5 mb-4" id="api">API</h2>
 
-        <p>We have <a href="{% url 'api-root' %}">an API</a> through which an increasing quantity of our data will be available. The API page includes a full description of the data available.</p>
+        <p style="max-width: 24em;">
+            <a href="{% url 'api-root' %}" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+                Access our JSON API
+                {% include 'caps/icons/chevron-right.html' with classes='ml-auto' role='presentation' %}
+            </a>
+        </p>
+
+        <p>We are working to expose an increasing quantity of our data through our JSON API. <a href="{% url 'api-root' %}">The API pages themselves</a> include a full description of the data available.</p>
 
         <h2 class="mt-5 mb-4" id="csv">CSV files</h2>
 
         <p>If you need to use our data in your own spreadsheets then the following data is available to download as CSV files:<p>
 
-        <ul>
-            <li><a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans.csv">Council plans</a>.</li>
-            <li><a data-show-feedback-modal href="{{ MEDIA_URL }}data/promises.csv">Council net zero commitments</a>.</li>
-            <li><a data-show-feedback-modal href="{{ MEDIA_URL }}data/declarations.csv">Council climate emergency declarations</a>.</li>
-        </ul>
+        <p style="max-width: 24em;">
+            <a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans/plans.csv" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+                Download council plan metadata
+                {% include 'caps/icons/download.html' with classes='ml-auto' role='presentation' %}
+            </a>
+        </p>
+
+        <p style="max-width: 24em;">
+            <a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans/promises.csv" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+                Download council net zero commitments
+                {% include 'caps/icons/download.html' with classes='ml-auto' role='presentation' %}
+            </a>
+        </p>
+
+        <p style="max-width: 24em;">
+            <a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans/declarations.csv" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+                Download climate emergency declarations
+                {% include 'caps/icons/download.html' with classes='ml-auto' role='presentation' %}
+            </a>
+        </p>
+
+        <p style="max-width: 24em;">
+            <a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans/projects_data.csv" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+                Download emissions reduction projects
+                {% include 'caps/icons/download.html' with classes='ml-auto' role='presentation' %}
+            </a>
+        </p>
 
         <p>All the above CSV files include the council GSS code, and a three letter council code you can use with the API, to enable matching data across files, and with other sources.</p>
 
         <p>While most of the details in the plans CSV are hopefully fairly straightforward there are a few which require further explanations:</p>
 
-        <ul>
-            <li><b>last_update</b> - This is the date we last updated any information about the plan. It is not the date the plan was last updated.</li>
-            <li><b>url</b> - The URL where the plan was fetched.</li>
-            <li><b>plan_path</b> - This is the path to download the plan from our website.</li>
-            <li><b>scope</b> - Council only means the plan only deals with the council's operations. Whole area means the plan covers non council activities within council boundaries as well.</li>
-        </ul>
+        <table class="table my-4">
+          {% for csv_field in csv_field_explanations %}
+            <tr>
+                <th scope="row" class="pt-4 pl-0">{{ csv_field.0 }}</th>
+                <td class="pt-4 pr-0">{{ csv_field.1 }}</td>
+            </tr>
+          {% endfor %}
+        </table>
 
-        <p>There is also a <a data-show-feedback-modal href="{{ MEDIA_URL }}data/projects_data.csv">CSV of the emissions reduction projects data</a> with the following data:</p>
+        <p>The CSV of emissions reduction projects is limited to Scottish local authorities (<a href="#projects">see reasoning below</a>), and contains the following data:</p>
 
-        <ul>
-            <li><b>council_name</b></li>
-            <li><b>authority_code</b> - Three letter council code as above</li>
-            <li><b>start_year</b> - Reporting start year</li>
-            <li><b>end_year</b> - Reporting end year</li>
-            <li><b>data_type</b> - This is always 'projects'</li>
-            <li><b>emission_savings</b> - Emissions saved in tCO2e</li>
-            <li><b>project_name</b> - Name of the project</li>
-            <li><b>lifetime</b> - Length of the project in years</li>
-            <li><b>cost</b> - Capital cost of the project</li>
-            <li><b>funding_source</b> - Where the funding for the project came from</li>
-            <li><b>emission_source</b> - Where the emissions savings come from</li>
-            <li><b>annual_savings</b> - Annual cost savings</li>
-            <li><b>measurement</b> - If the emissions savings are measured or estimated</li>
-            <li><b>savings_start</b> - Year the savings start</li>
-            <li><b>comments</b></li>
-        </ul>
+        <table class="table my-4">
+          {% for projects_field in projects_field_explanations %}
+            <tr>
+                <th scope="row" class="pt-4 pl-0">{{ projects_field.0 }}</th>
+                <td class="pt-4 pr-0">{{ projects_field.1 }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+
+        <p>Full explanations of the data can be found in the <a href="https://sustainablescotlandnetwork.org/uploads/store/mediaupload/1592/file/CC%20Reporting%20Master%20Guidance%202021%2005.10.2021.pdf">guidance on the Sustainable Scotland Network site</a>.</p>
 
         <h2 class="mt-5 mb-4" id="licensing">Licensing</h2>
 
