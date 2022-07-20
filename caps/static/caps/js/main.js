@@ -84,9 +84,6 @@ $(function() {
             }
         }
     });
-
-    $('.sort-by-wrapper').removeClass('d-none');
-    $('.filter-header #id_sort').parent().addClass('d-none');
 });
 
 var shouldShowInterstitial = function() {
@@ -269,6 +266,30 @@ $('.scorecard-table').each(function(){
         }
     });
     $btn.appendTo($table);
+});
+
+$('.council-list-filters').each(function(){
+    var $form = $(this);
+    var $footer = $(this).find('.card-footer');
+    var $btn = $('<button>');
+    $btn.attr('type', 'button');
+    $btn.addClass('btn btn-link py-0');
+
+    var updateUI = function(){
+        if ( $form.is('.open') ) {
+            $btn.text('Show fewer filters…');
+        } else {
+            $btn.text('Filter by authority type and more…');
+        }
+    }
+
+    $btn.on('click', function(){
+        $form.toggleClass('open');
+        updateUI();
+    });
+
+    $btn.appendTo($footer);
+    updateUI();
 });
 
 $('.nzlh-landing-page').on('click', 'a[href]', function(e){

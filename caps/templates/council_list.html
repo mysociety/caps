@@ -2,75 +2,87 @@
 {% load bootstrap4 %}
 
 {% block content %}
-<div class="row">
-  <div class="col-md-10 mx-auto">
-    <div id="filter-wrapper" class="card ceuk-card mb-gutter" style="top: 1rem;">
-      <div class="card-body">
 
-          <form id="find-council-filter" method="get" class="mb-n3">
-              <div class="filter-header mb-4 mx-auto d-flex justify-content-center flex-row">
-                <div class="search-bar-wrapper">
-                  <input type="text" name="name" class="form-control" placeholder="Name contains" title="" id="id_name2">
-                  {% include 'icons/search.html' with classes='mr-2' role='presentation' %}
+<form id="council-list-filters" class="card card-ceuk mb-4 council-list-filters {% if active_advanced_filters %} open{% endif %}" method="get">
+    <div class="card-body">
+        <div class="row mb-n3">
+            <div class="col-sm-6 col-md-4 col-lg">
+                <div class="form-group">
+                    <label for="id_name">Name contains</label>
+                    <div class="search-bar-wrapper">
+                        {% bootstrap_field filter.form.name show_label=False form_group_class="d-block" %}
+                        {% include 'icons/search.html' with classes='mr-2' role='presentation' %}
+                    </div>
                 </div>
-
-                {% bootstrap_field filter.form.declared_emergency %}
-                {% bootstrap_field filter.form.has_plan %}
-                {% bootstrap_field filter.form.sort %}
-
-                {% buttons %}
-                <button id="button-find-council" type="submit" class="btn btn-primary btn-block mb-0">Filter list</button>
-                {% endbuttons %}
-              </div>
-
-              {% buttons %}
-              <label type="button" id="button-advanced-filter" class="btn-block pt-3 mb-0 houdini-label" for="input1">
-                {% include 'icons/chevron-down.html' with width="1em" height="1em" classes='mr-1' role='presentation' %}
-                Filter by authority type and others...
-              </button>
-              {% endbuttons %}
-              <input class="houdini-input" type="checkbox" id="input1"{% if active_advanced_filters %} checked{% endif %}>
-
-              <div class="houdini-target-flex dropdown-wrapper mb-2 flex-row">
-                {% bootstrap_field filter.form.promise_combined %}
-                {% bootstrap_field filter.form.authority_type %}
-                {% bootstrap_field filter.form.region %}
-                {% bootstrap_field filter.form.geography %}
-                {% bootstrap_field filter.form.population %}
-              </div>
-
-          </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div id="council-table" class="row">
-
-    <div class="col-md-10 mx-auto">
-
-        <div class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
-            <div class="card-header d-flex justify-content-between flex-column flex-md-row align-items-center">
-                <h2 class="mb-3 mb-md-0">
-                  {% if filter.qs.count == 1 %}
-                    {{ filter.qs.count }} council
-                  {% else %}
-                    {{ filter.qs.count }} councils
-                  {% endif %}
-                </h2>
-                <div class="sort-by-wrapper d-none">
-                  {% bootstrap_field filter.form.sort show_label=False form_group_class="d-inline" %}
-                  {% include 'icons/sort.html' with width="1.5em" height="1.5em" classes='mr-2' role='presentation' %}
-                  </div>
             </div>
-            <div class="ceuk-data-table">
-              {% if filter.qs %}
-                {% include 'includes/council-table.html' with councils=filter.qs  show_last_updated=True %}
-              {% endif %}
+            <div class="col-6 col-md-4 col-lg">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.declared_emergency %}
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.has_plan %}
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg advanced-filter">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.promise_combined %}
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg advanced-filter">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.authority_type %}
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg advanced-filter">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.region %}
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg advanced-filter">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.geography %}
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg advanced-filter">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.population %}
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg d-js-none">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.sort %}
+                </div>
+            </div>
+            <div class="col col-md-4 col-lg d-flex flex-column justify-content-end">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block mb-0">Filter list</button>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="card-footer text-center d-none d-js-block"></div>
+</form>
 
+<div id="council-table" class="card ceuk-card ceuk-card--red mb-3 mb-md-4 mb-lg-5">
+    <div class="card-header d-flex justify-content-between flex-column flex-md-row align-items-center">
+        <h2 class="mb-3 mb-md-0">
+          {% if filter.qs.count == 1 %}
+            {{ filter.qs.count }} council
+          {% else %}
+            {{ filter.qs.count }} councils
+          {% endif %}
+        </h2>
+        <div class="sort-by-wrapper d-none d-js-block">
+            {% bootstrap_field filter.form.sort show_label=False form_group_class="d-inline" %}
+            {% include 'icons/sort.html' with width="1.5em" height="1.5em" classes='mr-2' role='presentation' %}
+        </div>
+    </div>
+    <div class="ceuk-data-table">
+      {% if filter.qs %}
+        {% include 'includes/council-table.html' with councils=filter.qs  show_last_updated=True %}
+      {% endif %}
     </div>
 </div>
 

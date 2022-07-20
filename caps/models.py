@@ -831,7 +831,10 @@ class EmergencyDeclaration(models.Model):
 
 
 class CouncilFilter(django_filters.FilterSet):
-    name = django_filters.CharFilter(lookup_expr="icontains")
+    name = django_filters.CharFilter(
+        lookup_expr="icontains",
+        widget=TextInput(attrs={"type": "search", "placeholder": ""}),
+    )
     has_plan = django_filters.BooleanFilter(
         field_name="plandocument",
         lookup_expr="isnull",
