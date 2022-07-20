@@ -1,0 +1,26 @@
+.council-documents {
+    margin-bottom: -1.5rem;
+
+    .details {
+        margin-left: 4rem; // 3rem icon plus 1rem margin
+        padding-left: 0;
+        margin-top: -1rem; // move closer to parent
+    }
+
+    summary {
+        display: inline-block;
+        @include font-size($font-size-sm);
+        margin-bottom: 1rem;
+        margin-left: 0;
+    }
+}
+
+.council-document {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.council-document--deleted {
+    color: $text-muted;
+}
