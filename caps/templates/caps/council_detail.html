@@ -108,6 +108,9 @@
 
                       {% if plandocument.is_deleted %}
                         <div class="council-document council-document--deleted">
+                        {% if plandocument.file_exists %}
+                        <a href="{{ MEDIA_URL }}{{ plandocument.file }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}" class="council-document">
+                        {% endif %}
                       {% else %}
                         <a href="{{ plandocument.link }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}" class="council-document">
                           {% endif %}
@@ -140,7 +143,7 @@
                                       <span class="mx-2">&middot;</span>
                                       {{ plandocument.get_scope|title }}
                                     {% endif %}
-                                    {% if plandocument.is_deleted %}
+                                    {% if plandocument.is_deleted and not plandocument.file_exists %}
                                       <span class="mx-2">&middot;</span>
                                       We no longer hold a copy of this document
                                     {% endif %}
@@ -148,6 +151,9 @@
                             </div>
 
                       {% if plandocument.is_deleted %}
+                        {% if plandocument.file_exists %}
+                        </a>
+                        {% endif %}
                         </div>
                       {% else %}
                         </a>

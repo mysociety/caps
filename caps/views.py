@@ -11,7 +11,7 @@ from django.core.mail import send_mail
 import mailchimp_marketing as MailchimpMarketing
 from mailchimp_marketing.api_client import ApiClientError
 
-from os.path import join
+from os.path import join, exists
 
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
@@ -218,6 +218,7 @@ class CouncilDetailView(DetailView):
                 grouped_documents[
                     PlanDocument.get_document_type_from_code(change.document_type)
                 ].append(change)
+                change.file_exists = exists(change.file)
 
         # need to convert to a dict as items doesn't work on defaultdicts
         # in django templates
