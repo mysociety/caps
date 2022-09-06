@@ -153,7 +153,7 @@ class Council(models.Model):
         "northern-ireland": {
             "name": "Northern Ireland",
             "slug": "northern-ireland",
-            "types": ["UA"],
+            "types": ["NID"],
             "countries": [NORTHERN_IRELAND],
         },
     }

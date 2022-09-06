@@ -6,6 +6,37 @@ from caps.models import Council
 from scoring.models import PlanSectionScore, PlanScore
 
 
+class TestHomePageView(TestCase):
+    fixtures = ["test_homepage.json"]
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_homepage(self):
+        url = reverse("home", urlconf="scoring.urls")
+        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+
+        councils = response.context["council_data"]
+        self.assertEquals(len(councils), 1)
+        self.assertEquals(councils[0]["name"], "Borsetshire County")
+
+    def test_council_lists(self):
+        types = {
+            "district": "South Borsetshire",
+            "combined": "North Borsetshire",
+            "county": "West Borsetshire",
+            "northern-ireland": "East Borsetshire",
+        }
+
+        for slug, name in types.items():
+            url = reverse("scoring", urlconf="scoring.urls", args=[slug])
+            response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+
+            councils = response.context["council_data"]
+            self.assertEquals(len(councils), 1)
+            self.assertEquals(councils[0]["name"], name)
+
+
 class TestAnswerView(TestCase):
     fixtures = ["test_answers.json"]
 
