@@ -7,7 +7,7 @@ from itertools import groupby, chain
 from pathlib import Path
 from typing import Optional, Type, List, Callable, Union, Tuple
 from collections import defaultdict
-
+import json
 import dateutil.parser
 import django_filters
 import markdown
@@ -979,7 +979,7 @@ class ComparisonType(models.Model):
     TYPES = {
         "composite": "Overall",
         "emissions": "Emissions",
-        "geographic_distance": "Nearby",
+        "physical": "Nearby",
         "imd": "IMD",
         "ruc": "Rural/Urban",
     }
@@ -1008,9 +1008,11 @@ class ComparisonType(models.Model):
         """
         read in markdown description
         """
-        file_path = Path("data", "comparisons", self.slug, "description.md")
+        file_path = Path(
+            "data", "comparisons", self.slug + "_distance", "datapackage.json"
+        )
         with open(file_path, "r") as f:
-            self.desc = f.read()
+            self.desc = json.load(f)["description"]
         return self
 
     @classmethod
@@ -1022,7 +1024,7 @@ class ComparisonType(models.Model):
 
         dfs = []
         for slug in cls.TYPES.keys():
-            file_path = Path("data", "comparisons", slug, filename)
+            file_path = Path("data", "comparisons", slug + "_distance", filename)
             df = pd.read_csv(file_path)
             df["type_slug"] = slug
             dfs.append(df)
