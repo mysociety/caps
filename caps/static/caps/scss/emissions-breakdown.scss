@@ -5,6 +5,7 @@ $emissions-sector-colors: (
     "industry": $color-ceuk-red,
     "public-sector": $color-ceuk-orange,
     "transport": $color-ceuk-yellow,
+    "agriculture": #D4C2FC,
 );
 
 .emissions-breakdown {
@@ -52,7 +53,7 @@ $emissions-sector-colors: (
 }
 
 .emissions-breakdown__stat {
-    padding: 1.25rem $card-spacer-x;
+    padding: 1.25rem 1rem;
 
     .h3 {
         line-height: 1;

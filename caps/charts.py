@@ -7,7 +7,7 @@ import pandas as pd
 from charting import ChartBundle
 
 
-def multi_emissions_chart(council: Council):
+def multi_emissions_chart(council: Council, year: int):
 
     # get just the total emissions data
     totals = [
@@ -16,6 +16,7 @@ def multi_emissions_chart(council: Council):
         "Public Sector Total",
         "Transport Total",
         "Domestic Total",
+        "Agriculture Total",
     ]
 
     df = DataPoint.objects.filter(
@@ -57,6 +58,7 @@ def multi_emissions_chart(council: Council):
                         "Industry",
                         "Public Sector",
                         "Transport",
+                        "Agriculture",
                     ],
                     range=[
                         "#00aeee",  # $color-ceuk-blue
@@ -64,6 +66,7 @@ def multi_emissions_chart(council: Council):
                         "#e11d21",  # $color-ceuk-red
                         "#f29e1a",  # $color-ceuk-orange
                         "#ffd80b",  # $color-ceuk-yellow
+                        "#D4C2FC",  # $color-ceuk-purple
                     ],
                 ),
             ),
@@ -78,7 +81,7 @@ def multi_emissions_chart(council: Council):
         )
         .properties(
             title=alt.TitleParams(
-                "Historic emissions by sector, 2005–2019",
+                f"Historic emissions by sector, 2005–{year}",
                 subtitle=[f"{council.name}, ktCO2e"],
             ),
             width="container",

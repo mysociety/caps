@@ -283,7 +283,7 @@ class Council(models.Model):
 
         return results
 
-    def current_emissions_breakdown(self) -> pd.DataFrame:
+    def current_emissions_breakdown(self, year: int) -> pd.DataFrame:
         """
         Get emissions breakdown for current year by Emissions profile
         """
@@ -294,15 +294,16 @@ class Council(models.Model):
             "Public Sector Total",
             "Transport Total",
             "Domestic Total",
+            "Agriculture Total",
         ]
 
         df = (
             DataPoint.objects.filter(
-                council=self, data_type__name_in_source__in=totals, year=2019
+                council=self, data_type__name_in_source__in=totals, year=year
             )
             .to_dataframe(("data_type__name_in_source", "emissions_type"), "value")
             .assign(percentage=lambda df: df["value"] / df["value"].sum())
-            .sort_values("emissions_type")
+            .sort_values("percentage", ascending=False)
         )
 
         df["emissions_type"] = df["emissions_type"].str.replace(" Total", "")

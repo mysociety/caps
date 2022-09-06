@@ -85,14 +85,14 @@ class CouncilDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        council = context.get("council")
+        council: Council = context.get("council")
 
         context["emissions_data"] = False
         try:
             latest_year = council.datapoint_set.aggregate(Max("year"))["year__max"]
             context["latest_year"] = latest_year
             latest_year_per_capita_emissions = council.datapoint_set.get(
-                year=latest_year, data_type__name="Per Capita Emissions"
+                year=latest_year, data_type__name="Per Person Emissions"
             ).value
             latest_year_per_km2_emissions = council.datapoint_set.get(
                 year=latest_year, data_type__name="Emissions per km2"
@@ -112,8 +112,8 @@ class CouncilDetailView(DetailView):
         if context["emissions_data"]:
             context[
                 "current_emissions_breakdown"
-            ] = council.current_emissions_breakdown()
-            multi_emission_chart = charts.multi_emissions_chart(council)
+            ] = council.current_emissions_breakdown(year=latest_year)
+            multi_emission_chart = charts.multi_emissions_chart(council, latest_year)
             context["chart_collection"] = ChartCollection()
             context["chart_collection"].register(multi_emission_chart)
 
