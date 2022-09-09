@@ -5,16 +5,28 @@ import pandas as pd
 from caps.models import Council, DataPoint, DataType
 from django.core.management.base import BaseCommand
 from django.db.models import Count
+from mysoc_dataset import get_dataset_url
+from functools import lru_cache, wraps
 
-from .common import cache_and_wrap, get_dataset_url
+
+def cache_and_wrap(func):
+    cached_function = lru_cache(func)
+
+    @wraps(func)
+    def inner(*args, **kwargs):
+        return cached_function(*args, **kwargs)
+
+    return inner
 
 
+@cache_and_wrap
 def get_emissions_url() -> str:
     emissions_df = get_dataset_url(
-        "la-emissions-data",
-        "uk_local_authority_emissions_data",
-        "1",
-        "local_authority_emissions.csv",
+        repo_name="la-emissions-data",
+        package_name="uk_local_authority_emissions_data",
+        version_name="1",
+        file_name="local_authority_emissions.csv",
+        done_survey=True,
     )
     return emissions_df
 
