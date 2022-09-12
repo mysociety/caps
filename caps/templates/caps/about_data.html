@@ -68,61 +68,44 @@
 
         <p>We are working to expose an increasing quantity of our data through our JSON API. <a href="{% url 'api-root' %}">The API pages themselves</a> include a full description of the data available.</p>
 
-        <h2 class="mt-5 mb-4" id="csv">CSV files</h2>
+        <h2 class="mt-5 mb-4" id="csv">CSV/Excel files</h2>
 
-        <p>If you need to use our data in your own spreadsheets then the following data is available to download as CSV files:<p>
+        <p>All our public climate and local authority data is avaliable through <a href="https://data.mysociety.org/">our data portal</a>. </p>
+
+        <p>The following files are avaliable as CSV and Excel files.</p>
+        <p>If you'd like help working with our data to include it in your service, please <a href="/about/#feedback">get in touch</a> and we will help you do that.<p>
 
         <p style="max-width: 24em;">
-            <a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans.csv" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+            <a href="https://mysociety.github.io/la-plans-promises/datasets/local_authority_climate_plans_metadata/latest" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
                 Download council plan metadata
                 {% include 'caps/icons/download.html' with classes='ml-auto' role='presentation' %}
             </a>
         </p>
 
         <p style="max-width: 24em;">
-            <a data-show-feedback-modal href="{{ MEDIA_URL }}data/promises.csv" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+            <a href="https://mysociety.github.io/la-plans-promises/datasets/local_authority_net_zero_commitments/latest" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
                 Download council net zero commitments
                 {% include 'caps/icons/download.html' with classes='ml-auto' role='presentation' %}
             </a>
         </p>
 
         <p style="max-width: 24em;">
-            <a data-show-feedback-modal href="{{ MEDIA_URL }}data/declarations.csv" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+            <a href="https://mysociety.github.io/la-plans-promises/datasets/local_authority_climate_emergency_declarations/latest" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
                 Download climate emergency declarations
                 {% include 'caps/icons/download.html' with classes='ml-auto' role='presentation' %}
             </a>
         </p>
 
         <p style="max-width: 24em;">
-            <a data-show-feedback-modal href="{{ MEDIA_URL }}data/projects_data.csv" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+            <a  href="https://mysociety.github.io/scotland-climate-projects-data/datasets/scotland_climate_emissions_projects/latest" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
                 Download emissions reduction projects
                 {% include 'caps/icons/download.html' with classes='ml-auto' role='presentation' %}
             </a>
         </p>
 
-        <p>All the above CSV files include the council GSS code, and a three letter council code you can use with the API, to enable matching data across files, and with other sources.</p>
+        <p>All the above CSV files include the council GSS code, and a three letter council code you can use with the API, to enable matching data across files, and with other sources. The links contain full descriptions of all columns.</p>
 
-        <p>While most of the details in the plans CSV are hopefully fairly straightforward there are a few which require further explanations:</p>
-
-        <table class="table my-4">
-          {% for csv_field in csv_field_explanations %}
-            <tr>
-                <th scope="row" class="pt-4 pl-0">{{ csv_field.0 }}</th>
-                <td class="pt-4 pr-0">{{ csv_field.1 }}</td>
-            </tr>
-          {% endfor %}
-        </table>
-
-        <p>The CSV of emissions reduction projects is limited to Scottish local authorities (<a href="#projects">see reasoning below</a>), and contains the following data:</p>
-
-        <table class="table my-4">
-          {% for projects_field in projects_field_explanations %}
-            <tr>
-                <th scope="row" class="pt-4 pl-0">{{ projects_field.0 }}</th>
-                <td class="pt-4 pr-0">{{ projects_field.1 }}</td>
-            </tr>
-          {% endfor %}
-        </table>
+        <p>The CSV of emissions reduction projects is limited to Scottish local authorities (<a href="#projects">see reasoning below</a>)</p>
 
         <p>Full explanations of the data can be found in the <a href="https://sustainablescotlandnetwork.org/uploads/store/mediaupload/1592/file/CC%20Reporting%20Master%20Guidance%202021%2005.10.2021.pdf">guidance on the Sustainable Scotland Network site</a>.</p>
 
@@ -133,6 +116,13 @@
         <h2 class="mt-5 mb-4" id="similarity">Similar councils</h2>
 
         <p>We have built on open datasets to provide comparisons between councils that are similar in a number of dimensions. You can <a href="https://www.mysociety.org/2022/01/13/new-in-cape-five-different-ways-of-finding-similar-councils/">read a detailed breakdown of how we calculated these dimensions on our blog</a>, but here’s a high-level summary:</p>
+        
+        <p style="max-width: 24em;">
+            <a  href="https://mysociety.github.io/local-authority-similarity/" class="btn btn-primary d-flex align-items-center justify-content-start text-left">
+                Download our nearest neighbour datasets.
+                {% include 'caps/icons/download.html' with classes='ml-auto' role='presentation' %}
+            </a>
+        </p>
 
         <table class="table my-4">
           {% for comparison_type in comparison_types %}
