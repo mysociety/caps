@@ -1,23 +1,31 @@
-import os
-import tempfile
-from zipfile import ZipFile
 from pathlib import Path
-from shutil import copytree
-from io import BytesIO
 
 import requests
 from caps.models import (
     ComparisonLabel,
     ComparisonLabelAssignment,
     ComparisonType,
-    Council,
     Distance,
 )
 from django.core.management.base import BaseCommand, CommandError
-from django.db.models import Count
 
-DISTANCE_VERSION = "1.0"
-DISTANCE_REPO_ZIP = f"https://github.com/mysociety/la_distance/archive/refs/tags/v{DISTANCE_VERSION}.zip"
+from mysoc_dataset import get_dataset_url
+
+SIMILARITY_TYPES = [
+    "emissions_distance",
+    "imd_distance",
+    "physical_distance",
+    "ruc_distance",
+    "composite_distance",
+]
+SIMILARITY_FILES = [
+    "distance_map.csv",
+    "la_labels.csv",
+    "label_desc.csv",
+    "datapackage.json",
+]
+SIMILARITY_REPO = "local-authority-similarity"
+SIMLARITY_VERSION = "1"
 
 
 def download_data():
@@ -27,13 +35,23 @@ def download_data():
     dst = Path("data", "comparisons")
     dst.mkdir(exist_ok=True)
 
-    r = requests.get(DISTANCE_REPO_ZIP)
-    z = ZipFile(BytesIO(r.content))
-
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        z.extractall(tmpdirname)
-        src = Path(tmpdirname, f"la_distance-{DISTANCE_VERSION}", "data", "outputs")
-        copytree(src, dst, dirs_exist_ok=True)
+    for type in SIMILARITY_TYPES:
+        type_dst = dst / type
+        type_dst.mkdir(exist_ok=True)
+        for file in SIMILARITY_FILES:
+            url = get_dataset_url(
+                repo_name=SIMILARITY_REPO,
+                package_name=type,
+                version_name=SIMLARITY_VERSION,
+                file_name=file,
+                done_survey=True,
+            )
+            print(f"Downloading {url}")
+            r = requests.get(url)
+            if r.status_code != 200:
+                raise CommandError(f"Failed to download {url}")
+            with open(type_dst / file, "wb") as f:
+                f.write(r.content)
 
 
 def add_related_councils():
