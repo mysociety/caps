@@ -9,7 +9,7 @@ from caps.models import (
 )
 from django.core.management.base import BaseCommand, CommandError
 
-from .common import get_dataset_url
+from mysoc_dataset import get_dataset_url
 
 SIMILARITY_TYPES = [
     "emissions_distance",
@@ -39,7 +39,13 @@ def download_data():
         type_dst = dst / type
         type_dst.mkdir(exist_ok=True)
         for file in SIMILARITY_FILES:
-            url = get_dataset_url(SIMILARITY_REPO, type, SIMLARITY_VERSION, file)
+            url = get_dataset_url(
+                repo_name=SIMILARITY_REPO,
+                package_name=type,
+                version_name=SIMLARITY_VERSION,
+                file_name=file,
+                done_survey=True,
+            )
             print(f"Downloading {url}")
             r = requests.get(url)
             if r.status_code != 200:
