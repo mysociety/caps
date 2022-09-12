@@ -324,7 +324,7 @@
             <div class="card-body">
                 {% include 'charting/includes/chart-display.html' with chart=chart_collection.multi_emissions %}
                 <p class="text-muted text-smaller mt-4 mb-0">
-                    Data from <a href="https://www.gov.uk/government/statistics/uk-local-authority-and-regional-carbon-dioxide-emissions-national-statistics-2005-to-2019">the Department of Business, Energy &amp; Industrial Strategy</a> “subset dataset”, representing carbon dioxide emissions within the scope of influence of local authorities.
+                    Data from <a href="https://mysociety.github.io/la-emissions-data/">the Department of Business, Energy &amp; Industrial Strategy</a> “subset dataset”, representing carbon dioxide emissions within the scope of influence of local authorities.
                   {% if council.authority_type == 'CTY' or council.authority_type == 'COMB' %}
                     Data has been combined from constituent local authorities.
                   {% endif %}

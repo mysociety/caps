@@ -15,4 +15,4 @@ jobs:
         with:
           options: "--check --diff"
           src: "."
-          version: "22.3.0"
+          version: "22.8.0"
