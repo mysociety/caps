@@ -13,7 +13,7 @@ django-haystack==3.0
 django-htmlmin==0.11.0
 django-import-export==2.0.2
 django-markitup==4.0.0
-djangorestframework==3.12.4
+djangorestframework==3.13.1
 django-simple-history==3.0.0
 django-debug-toolbar==3.2.2
 -e git+https://github.com/mysociety/django-pipeline@c67514ae828f79454320a37b0aeb154c7359e19c#egg=django_pipeline
@@ -27,7 +27,7 @@ html5lib==1.1
 idna==2.10
 jdcal==1.4.1
 libsass==0.12.3
-Markdown==2.6.8
+Markdown==3.4.1
 MarkupPy==1.14
 numpy==1.22.0
 odfpy==1.4.1
