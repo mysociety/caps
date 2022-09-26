@@ -218,6 +218,14 @@ def get_unindexed():
             "council": "West Yorkshire Combined Authority",
             "url": "https://www.westyorks-ca.gov.uk/",
         },
+        {
+            "council": "South Yorkshire Mayoral Combined Authority",
+            "url": "https://southyorkshire-ca.gov.uk/",
+        },
+        {
+            "council": "Greater London Authority",
+            "url": "https://www.london.gov.uk/",
+        },
     ]
 
 
@@ -230,6 +238,7 @@ def alternative_names(council_name):
         "Sheffield City Region Combined Authority": "South Yorkshire (@SheffCityRegion) Combined Authority",
         "Mid Ulster District Council": "Mid Ulster District Council - Dungannon",
         "Fermanagh and Omagh District Council": "Fermanagh and Omagh District Council - Enniskillen Office",
+        "Broxbourne Borough Council": "Borough of Broxbourne",
     }
     alternative_names = [council_name, council_name.replace("The ", "")]
     if alternative_mappings.get(council_name):
