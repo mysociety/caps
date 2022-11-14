@@ -533,6 +533,20 @@ class AboutView(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
+class Methodology2023View(CheckForDownPageMixin, TemplateView):
+    template_name = "scoring/methodology2023.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
+        context["page_title"] = "Draft methodology"
+        context["current_page"] = "methodology2023-page"
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class ContactView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/contact.html"
 
