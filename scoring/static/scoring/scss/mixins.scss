@@ -139,3 +139,30 @@ $max-viewport: 1792;
     opacity: 1;
     border-color: $green;
 }
+
+// Show height for hidden content div
+
+@mixin show-height {
+    height: 0;
+    overflow: visible;
+    @include transition(height 0.3s ease-in-out);
+    &.show-height {
+        height: auto;
+        overflow: visible;
+    }
+    &.collapse:not(.show-height) {
+        display: block;
+    }
+    &.collapse:not(.show) {
+        display: flex;
+        height: auto;
+        @media only screen and (max-width: $navbar-mobile-breakpoint) {
+            display: block;
+            height: 0;
+        }
+    }
+
+    @media only screen and (max-width: $navbar-mobile-breakpoint) {
+        overflow: hidden;
+    }
+}

@@ -61,28 +61,7 @@ $navbar-mobile-breakpoint: 1200px;
     }
 
     .navbar-collapse {
-        height: 0;
-        overflow: visible;
-        @include transition(height 0.3s ease-in-out);
-        &.show-height {
-            height: auto;
-            overflow: visible;
-        }
-        &.collapse:not(.show-height) {
-            display: block;
-        }
-        &.collapse:not(.show) {
-            display: flex;
-            height: auto;
-            @media only screen and (max-width: $navbar-mobile-breakpoint) {
-                display: block;
-                height: 0;
-            }
-        }
-
-        @media only screen and (max-width: $navbar-mobile-breakpoint) {
-            overflow: hidden;
-        }
+        @include show-height;
     }
 }
 
@@ -146,5 +125,71 @@ nav.subheader {
     @include hover-focus {
         border-color: $color-scorecard-green-d1;
         background-color: $color-scorecard-green-l1;
+    }
+}
+
+// CONTENT NAVBAR
+#mobile-content-navbar {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    $button-size: 44px;
+    height: $button-size;
+    width: $button-size;
+    border-radius: $button-size;
+    border: 2px solid $white;
+    background-image: url('../img/hamburguer-white.svg');
+    background-repeat: no-repeat;
+    background-size: 22px auto;
+    background-position: center;
+    background-color: $color-scorecard-blue-d1;
+    z-index: 999;
+
+    @media only screen and (min-width: $navbar-mobile-breakpoint) {
+        display: none;
+    }
+
+    &:focus {
+        background-image: url('../img/hamburguer-black.svg');
+        background-color: $color-scorecard-yellow;
+        outline: 3px solid $color-scorecard-yellow;
+        border-color: $black;
+    }
+
+    &:hover {
+        background-image: url('../img/hamburguer-black.svg');
+        background-color: $color-scorecard-blue;
+        border-color: $color-scorecard-blue-d1;
+    }
+
+    &.close {
+        background-image: url('../img/close-grey.svg');
+        background-size: 18px auto;
+    }
+}
+
+#content-navbar {
+    @include show-height;
+    max-width: 250px;
+    right: 0;
+    z-index: 9999;
+    bottom: 65px;
+
+    ul {
+        padding-inline-start: 0;
+        list-style: none;
+        ul {
+            padding-inline-start: 1rem;
+        }
+    }
+
+    @media only screen and (min-width: $navbar-mobile-breakpoint) {
+        display: block;
+        height: auto;
+    }
+
+    @media only screen and (min-width: 1650px) {
+        // In big screen the content navbar doesn't get lost in the right side
+        left:0;
     }
 }
