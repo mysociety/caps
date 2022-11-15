@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 
 {% block content %}
-    <div class="methodology-content">
+    <div class="methodology-2023-content">
         <div class="hero container-fluid bg-dark-grey">
             <div style="max-width: 1110px" class="mx-auto">
                 <a class="cta reverse white" href="{% url 'home' %}">Back to the Scorecards</a>
@@ -57,10 +57,169 @@
                         </div>
                     </div>
                 </div>
+
             </div>
     
             <div id="developing-the-scoring" class="container medium">
-                <h3 class="mb-4">Developing the Scoring System</h3>
+                <div class="row">
+                    <div class="col-12 col-lg-7">
+                        <h2 class="mb-4">Methodology question</h2>
+                    </div>
+                </div>
+                <div class="js-dynamic-content">
+                    <div class="row">
+                        <div class="col-12 col-lg-7">
+                            {% include 'scoring/includes/main-filter-methodology.html' %}
+                            <div class="alert alert-warning mt-3 mt-lg-4" role="alert">
+                                <p class="label pl-0">Currently displaying</p>
+                                <h3 class="js-default">Select a council</h3>
+                                <h3 class="js-single-tier">Single tier</h3>
+                                <h3 class="js-district">District</h3>
+                                <h3 class="js-county">County</h3>
+                                <h3 class="js-northern-ireland">Northren Ireland</h3>
+                                <p class="js-default">To see the sections & questions, select a council or a type of council.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4 mt-lg-5">
+                        <div class="col-12 col-lg-9">
+                            <div id="section-weight">
+                                <h4 class="mb-3 underline-green">Section Weightings</h4>
+                                <table class="minimal-table">
+                                    <thead>
+                                        <tr class="bg-white">
+                                            <th>Section</th>
+                                            <th class="js-highlight-single-tier">Single tier</th>
+                                            <th class="js-highlight-district">District</th>
+                                            <th class="js-highlight-county">County</th>
+                                            <th class="js-highlight-northern-ireland">Northern Ireland</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Buildings & Heating</td>
+                                            <td class="js-highlight-single-tier">20%</td>
+                                            <td class="js-highlight-district">25%</td>
+                                            <td class="js-highlight-county">20%%</td>
+                                            <td class="js-highlight-northern-ireland">20%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Transport</td>
+                                            <td class="js-highlight-single-tier">20%</td>
+                                            <td class="js-highlight-district">5%</td>
+                                            <td class="js-highlight-county">30%</td>
+                                            <td class="js-highlight-northern-ireland">15%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Planning & Land Use</td>
+                                            <td class="js-highlight-single-tier">15%</td>
+                                            <td class="js-highlight-district">25%</td>
+                                            <td class="js-highlight-county">5%</td>
+                                            <td class="js-highlight-northern-ireland">15%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Governance & Finance</td>
+                                            <td class="js-highlight-single-tier">15%</td>
+                                            <td class="js-highlight-district">15%</td>
+                                            <td class="js-highlight-county">15%</td>
+                                            <td class="js-highlight-northern-ireland">20%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Biodiversity</td>
+                                            <td class="js-highlight-single-tier">10%</td>
+                                            <td class="js-highlight-district">10%</td>
+                                            <td class="js-highlight-county">10%</td>
+                                            <td class="js-highlight-northern-ireland">10%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Collaboration & Engagement</td>
+                                            <td class="js-highlight-single-tier">10%</td>
+                                            <td class="js-highlight-district">10%</td>
+                                            <td class="js-highlight-county">10%</td>
+                                            <td class="js-highlight-northern-ireland">10%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Waste Reduction & Food</td>
+                                            <td class="js-highlight-single-tier">10%</td>
+                                            <td class="js-highlight-district">10%</td>
+                                            <td class="js-highlight-county">10%</td>
+                                            <td class="js-highlight-northern-ireland">10%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4 mt-lg-5">
+                        <div class="col-12 col-lg-9">
+                            <div id="section-weight">
+                                <h4 class="mb-3 underline-green">How will this be marked?</h4>
+                                <table class="minimal-table">
+                                    <thead>
+                                        <tr class="bg-white">
+                                            <th>Section</th>
+                                            <th>FOI</th>
+                                            <th>National data</th>
+                                            <th>Volunteer Research</th>
+                                            <th>National data & Volunteer research</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Buildings & Heating</td>
+                                            <td>20%</td>
+                                            <td>25%</td>
+                                            <td>20%%</td>
+                                            <td>20%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Transport</td>
+                                            <td>20%</td>
+                                            <td>5%</td>
+                                            <td>30%</td>
+                                            <td>15%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Planning & Land Use</td>
+                                            <td>15%</td>
+                                            <td>25%</td>
+                                            <td>5%</td>
+                                            <td>15%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Governance & Finance</td>
+                                            <td>15%</td>
+                                            <td>15%</td>
+                                            <td>15%</td>
+                                            <td>20%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Biodiversity</td>
+                                            <td>10%</td>
+                                            <td>10%</td>
+                                            <td>10%</td>
+                                            <td>10%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Collaboration & Engagement</td>
+                                            <td>10%</td>
+                                            <td>10%</td>
+                                            <td>10%</td>
+                                            <td>10%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Waste Reduction & Food</td>
+                                            <td>10%</td>
+                                            <td>10%</td>
+                                            <td>10%</td>
+                                            <td>10%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="sub-topic mb-4">
                     <h4 class="mb-3">Checklist</h4>
                     <div style="max-width:550px">
@@ -117,7 +276,7 @@
                     {% comment %} TODO for future releases would be great to get the 
                     data from the database {% endcomment %}
                     <table class="weighting-table">
-                        <thead>
+                        <thead class="bg-white">
                             <tr>
                                 <th>Section</th>
                                 <th>Maximum points available in this section</th>
