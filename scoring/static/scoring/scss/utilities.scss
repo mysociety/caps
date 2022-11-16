@@ -143,7 +143,7 @@
             @include transition(background-color, 0.3s ease-in-out);
             &.active {
                 background-color: $color-scorecard-grey-900;
-                p, span, button {
+                p, span, button, h5 {
                     color: $white;
                 }
                 .btn-open-question {

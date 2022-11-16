@@ -186,6 +186,7 @@ nav.subheader {
     @media only screen and (min-width: $navbar-mobile-breakpoint) {
         display: block;
         height: auto;
+        bottom: auto;
     }
 
     @media only screen and (min-width: 1650px) {

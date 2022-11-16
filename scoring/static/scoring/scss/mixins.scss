@@ -144,7 +144,7 @@ $max-viewport: 1792;
 
 @mixin show-height {
     height: 0;
-    overflow: visible;
+    overflow: hidden;
     @include transition(height 0.3s ease-in-out);
     &.show-height {
         height: auto;

@@ -8,5 +8,12 @@
             background-repeat: no-repeat;
             background-position: left 0 center;
         }
+
+        &.is-red {
+            background-color: lighten($color-scorecard-red, 40%);
+            border-color: $color-scorecard-red;
+        }
     }
+
+
 }

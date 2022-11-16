@@ -96,7 +96,7 @@
         <div class="accordion-wrapper rounded">
           {% if is_header_question %}
             <div class="question-accordion-item is--main">
-                <div class="question-info">
+                <div class="question-info accordion-heading">
                     <div>
                         <p class="label grey mb-2">{{ question.code }}</p>
                         <div class="question-text">{{ question.text | linebreaks }}</div>
@@ -104,7 +104,7 @@
                     </div>
                     <button class="btn-open-accordion ml-auto" type="button"></button>
                 </div>
-                <div class="question-data">
+                <div class="question-data accordion-data">
                     <div class="row question-data-inner">
                         <div class="col-12 col-lg-5 data-summary mb-4">
                             {% for stat in overall_stats %}

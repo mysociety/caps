@@ -88,6 +88,7 @@ h4, .h4 {
     line-height: 130%;
     letter-spacing: 0.04em;
     color: $color-scorecard-grey-900;
+    text-transform: none;
 }
 
 h5, .h5 {
@@ -99,6 +100,7 @@ h5, .h5 {
     letter-spacing: 0.03em;
     color: $color-scorecard-grey-900;
     font-weight: 600;
+    text-transform: none;
 }
 
 h6, .h6 {
@@ -110,7 +112,6 @@ h6, .h6 {
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: $color-scorecard-grey-900;
-    opacity: 0.82;
 
     @include media-breakpoint-down('xs') {
         text-transform: none;

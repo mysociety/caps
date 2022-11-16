@@ -297,3 +297,90 @@ secondaryNavbarButton.addEventListener('click', function(){
         }, {once: true})
     }
 });
+
+// Open accordion item
+let accordionItemData = document.getElementsByClassName('accordion-data');
+let accordionItemQuestion = document.getElementsByClassName('accordion-heading');
+
+for (let i = 0; i < accordionItemData.length; i++) {
+    let accordionItemDataOffHeight = accordionItemData[i].offsetHeight;
+    let accordionItemDataScrollHeight = accordionItemData[i].scrollHeight;
+    let buttonAccordion = accordionItemQuestion[i].querySelector('.btn-open-accordion');  
+    buttonAccordion.addEventListener('click', () => {
+        if(!accordionItemData[i].classList.contains('active')) {
+            accordionItemData[i].classList.toggle('active');
+            buttonAccordion.classList.toggle('active');
+            accordionItemQuestion[i].classList.toggle('active');
+            accordionItemData[i].style.height = "auto";
+            let height = accordionItemData[i].clientHeight + "px";
+            accordionItemData[i].style.height = "0px";
+            setTimeout(() => {
+                accordionItemData[i].style.height = height;
+            }, 0) 
+        } else {
+            accordionItemData[i].style.height = "0px";
+            accordionItemData[i].addEventListener('transitionend', () => {
+                accordionItemData[i].classList.remove('active');
+                accordionItemQuestion[i].classList.remove('active');
+                buttonAccordion.classList.remove('active');
+            }, {once: true})
+        }
+    })
+}
+
+// Question display details
+const openDetailsbutton = secondaryNavbarButton = document.getElementById('display-complete-content');
+const accordionSection = document.getElementById('accordion-sections');
+let sectionQuestionContent = document.getElementsByClassName('section-question-content');
+let sectionQuestionHeading = document.getElementsByClassName('section-question-heading');
+var openedAccordions = document.getElementsByClassName('accordion-data active');
+openDetailsbutton.addEventListener('change', (event) => {
+    for (let k = 0; k < openedAccordions.length; k++) {
+        openedAccordions[k].style.height = "auto";
+    };
+
+    if (event.target.checked) {
+        accordionSection.classList.toggle('open-details');
+        accordionSection.classList.remove('close-details');
+        for (let l = 0; l < sectionQuestionContent.length; l++) {
+            sectionQuestionContent[l].classList.add('show-height');
+            sectionQuestionContent[l].style.height = "auto";
+            sectionQuestionContent[l].style.visibility = "visible";
+        };
+    } else {
+        accordionSection.classList.remove('open-details');
+        accordionSection.classList.add('close-details');
+        for (let l = 0; l < sectionQuestionContent.length; l++) {
+            sectionQuestionContent[l].classList.remove('show-height');
+            sectionQuestionContent[l].style.height = "0";
+            sectionQuestionContent[l].style.visibility = "hidden";
+        };
+    }
+});
+
+
+
+for (let j = 0; j < sectionQuestionContent.length; j++) {
+    let sectionQuestionButton = sectionQuestionHeading[j].querySelector('.btn-display-question-details');
+    let closestAccordion = sectionQuestionButton.closest('.accordion-data');
+
+    sectionQuestionButton.addEventListener('click', () => {
+        if(!sectionQuestionContent[j].classList.contains('show-height')) {
+            sectionQuestionContent[j].classList.toggle('show-height');
+            sectionQuestionContent[j].style.height = "auto";
+            let sectionQuestionheight = sectionQuestionContent[j].clientHeight + "px";
+            sectionQuestionContent[j].style.height = "0px";
+            sectionQuestionContent[j].style.visibility = "hidden";
+            setTimeout(() => {
+                sectionQuestionContent[j].style.visibility = "visible";
+                sectionQuestionContent[j].style.height = sectionQuestionheight;
+                closestAccordion.style.height = "auto";
+            }, 0);
+        } else {
+            sectionQuestionContent[j].style.height = "0px";
+            sectionQuestionContent[j].style.visibility = "hidden";
+            closestAccordion.style.height = "auto";
+            sectionQuestionContent[j].classList.remove('show-height');
+        }
+    })
+}
