@@ -196,3 +196,46 @@
     background-color: rgb(247, 12, 122);
     color: white;
 }
+
+// TOOLTIP
+// Use when a term needs a hover message to clarify it.
+/* Usage
+
+<span class="scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
+    <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border"> Look at me I'm a nice hidden message</span>
+</span>
+
+*/
+
+.scorecards-tooltip {
+    display: inline-block;
+    padding-right: 27px !important;
+    background-image: url('../img/question-circle-black.svg');
+    background-size: auto 70%;
+    background-repeat: no-repeat;
+    background-position: center right 5px;
+    position: relative;
+
+    &.text-white {
+        background-image: url('../img/question-circle-white.svg');
+    }
+
+    .hidden-message {
+        max-width: 300px;
+        min-width: 250px;
+        text-transform: none;
+        @extend .body;
+        padding: 10px;
+        display: none;
+        position: absolute;
+        border-radius: $border-radius;
+        background-color: $color-scorecard-grey-200;
+    }
+
+    @include hover-focus {
+        .hidden-message {
+            display: block;
+            z-index: 9999;
+        }
+    }
+}
