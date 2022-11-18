@@ -148,41 +148,58 @@
 }
 
 // METHODOLOGY 2023
-.js-single-tier,
-.js-district,
-.js-county,
-.js-northern-ireland,
-.js-scotland,
-.js-wales {
-    display: none;
-}
+$council-types: (
+    'single-tier',
+    'district',
+    'county',
+    'northern-ireland'
+);
 
-.is-single-tier,
-.is-district,
-.is-county,
-.is-northern-ireland {
-    .js-default {
+@each $council-type in $council-types {
+    // Hide all council-specific elements by default
+    .js-#{$council-type} { 
         display: none;
     }
-}
 
-.is-scotland .js-scotland,
-.is-wales .js-wales {
-    display: block;
-}
+    // When an active council type has been selected…
+    [data-methodology-active-council-type="#{$council-type}"] {
+        // Hide any default (non-council-typed) elements
+        .js-default {
+            display: none;
+        }
 
-.is-single-tier .js-single-tier,
-.is-district .js-district,
-.is-county .js-county,
-.is-northern-ireland .js-northern-ireland {
-    display: block;
-}
+        // Show the relevant council type elements
+        .js-#{$council-type} {
+            display: block;
+        }
 
-.is-single-tier table.js-single-tier,
-.is-district table.js-district,
-.is-county table.js-county,
-.is-northern-ireland table.js-northern-ireland {
-    display: table;
+        // Special case for tables!
+        table.js-#{$council-type} {
+            display: table;
+        }
+
+        // Highlight the relevant council type table headers
+        th.js-highlight-#{$council-type} {
+            background-color: $color-scorecard-green-d1;
+        }
+
+        // Highlight the relevant council type table cells
+        td.js-highlight-#{$council-type} {
+            background-color: transparentize($color-scorecard-green-d1, 0.8);
+        }
+
+        // Fake "active" styling for the activated trigger
+        [data-methodology-switch-council-type="#{$council-type}"] {
+            &.radio-btn.is--with-label {
+                background-color: $blue;
+                color: $white;
+            }
+
+            &.scorecards-tooltip {
+                background-image: url('../img/question-circle-white.svg');
+            }
+        }
+    }
 }
 
 .section-question-meta-wrapper {
@@ -251,18 +268,4 @@
             font-weight: 700;
         }
     }
-}
-
-.is-single-tier th.js-highlight-single-tier,
-.is-district th.js-highlight-district,
-.is-county th.js-highlight-county,
-.is-northern-ireland th.js-highlight-northern-ireland {
-    background-color: $color-scorecard-green-d1;
-}
-
-.is-single-tier td.js-highlight-single-tier,
-.is-district td.js-highlight-district,
-.is-county td.js-highlight-county,
-.is-northern-ireland td.js-highlight-northern-ireland {
-    background-color: transparentize($color-scorecard-green-d1, 0.8);
 }

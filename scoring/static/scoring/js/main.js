@@ -358,8 +358,6 @@ openDetailsbutton.addEventListener('change', (event) => {
     }
 });
 
-
-
 for (let j = 0; j < sectionQuestionContent.length; j++) {
     let sectionQuestionButton = sectionQuestionHeading[j].querySelector('.btn-display-question-details');
     let closestAccordion = sectionQuestionButton.closest('.accordion-data');
@@ -384,3 +382,13 @@ for (let j = 0; j < sectionQuestionContent.length; j++) {
         }
     })
 }
+
+forEachElement('[data-methodology-switch-council-type]', function(trigger){
+    trigger.addEventListener('click', function(){
+        var councilType = trigger.getAttribute('data-methodology-switch-council-type');
+        var container = document.querySelector('.js-dynamic-content');
+        container.setAttribute('data-methodology-active-council-type', councilType);
+    });
+})
+
+

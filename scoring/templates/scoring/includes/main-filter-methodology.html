@@ -1,16 +1,14 @@
-<form class="form bg-blue-l2 p-3 mb-4">
-    <!-- TODO -->
-    <p><strong>To know which questions apply to your council just use the search bar or filter by tiper of council.</strong></p>
-    <input class="form-control searchbar blue light js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
-    <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
-    <p class="mt-3 mt-lg-4 mb-3">Filter the table by type of council</p>
+<div class="bg-blue-l2 p-3 mb-4">
+    <label for="questions-council-name" class="d-block">Show questions for a specific council</label>
+    <input class="form-control searchbar blue light" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
+    <p class="mt-3 mt-lg-4 mb-0">Or show questions by type of council</p>
     <div class="type-council-option-wrapper">
-        <a aria-describedby="scorecards-tooltip-1" class="mr-1 scorecards-tooltip d-inline radio-btn is--with-label{% if authority_type == 'single' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='single' %}">
+        <button class="radio-btn is--with-label scorecards-tooltip" data-methodology-switch-council-type="single-tier" aria-describedby="scorecards-tooltip-1">
             Single Tier
             <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">This includes all London, Welsh and Scottish councils as well as Metropolitan Borough Councils and Unitary Councils.</span>
-        </a>
-        <a class="d-inline radio-btn is--with-label{% if authority_type == 'district' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='district' %}">District</a>
-        <a class="d-inline radio-btn is--with-label{% if authority_type == 'county' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='county' %}">County</a>
-        <a class="d-inline radio-btn is--with-label{% if authority_type == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
+        </button>
+        <button class="radio-btn is--with-label" data-methodology-switch-council-type="district">District</button>
+        <button class="radio-btn is--with-label" data-methodology-switch-council-type="county">County</button>
+        <button class="radio-btn is--with-label" data-methodology-switch-council-type="northern-ireland">Northern Ireland</button>
     </div>
-</form>
+</div>

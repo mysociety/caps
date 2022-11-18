@@ -209,12 +209,13 @@
 
 .scorecards-tooltip {
     display: inline-block;
-    padding-right: 27px !important;
+    padding-right: 30px !important;
     background-image: url('../img/question-circle-black.svg');
-    background-size: auto 70%;
+    background-size: 1rem;
     background-repeat: no-repeat;
-    background-position: center right 5px;
+    background-position: center right 8px;
     position: relative;
+    white-space: normal; // make text wrap, even when used inside a <button>
 
     &.text-white {
         background-image: url('../img/question-circle-white.svg');
