@@ -543,6 +543,43 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
         ] = Council.objects.all()  # for location search autocomplete
         context["page_title"] = "Draft methodology"
         context["current_page"] = "methodology2023-page"
+        context["sections"] = [
+            {
+                "title": "Building & Heating",
+                "description": "Buildings and Heating is one of the biggest sectors of carbon and other greenhouse gas emissions in the UK. This section aims to cover the main actions that councils can take to support both private rented and owned homes and socially renting households to reduce the emissions from their homes.",
+                "weightings": {
+                    "single-tier": "20%",
+                    "district": "25%",
+                    "county": "20%",
+                    "northern-ireland": "20%",
+                },
+                "questions": [
+                    {
+                        "council_types": ["single-tier", "district", "county", "northern-ireland"],
+                        "code": "1",
+                        "name": "Does the council provide a service to support private homeowners to make their homes more energy efficient?",
+                        "topic": "Homeowner support - retrofit",
+                        "importance": "Low",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if the council have done any of the following extensive retrofit works for any one of its significant buildings:</p>
+                            <ul class="mb-3">
+                                <li>created on-site renewable energy</li>
+                                <li>whole building retrofitting, including heat pump installations</li>
+                                <li>extensive insulation of walls and floors</li>
+                                <li>replacing gas boilers or installing a combined heating system</li>
+                            </ul>
+                            <p class="mb-0">Additional points awarded if the retrofit has been awarded a standard such as BREEAM Refurbishment and fit-out (any level), AECB Retrofit standard (Bronze, Silver or Gold) or any other recognised standard.</p>
+                            """,
+                        "clarifications": """
+                            <p>Significant council buildings refers to leisure centres, libraries, council town halls or offices, community centres, schools & colleges (not academies or private schools) or care homes.</p>                                                                     
+                            <p>Extensive retrofit (sometimes called deep retrofit) refers to significant works of size or scale that result in a fundamental change to the building structure and/or services. This could be a collection of lots of small retrofit enhancements, or a single larger and disruptive measure, such as installing a combined heat system.</p>
+                            <p class="mb-0">The work must be completed, not in progress.</p>
+                            """,
+                    },
+                ],
+            },
+        ]
         return context
 
 

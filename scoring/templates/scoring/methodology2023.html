@@ -5,6 +5,7 @@
 <!-- TODO Change medium -> Medium-->
 <!-- TODO Change high -> Medium-->
 <!-- TODO Erase this comment  <p></p>  <p class="mb-0"></p>  -->
+<!-- TODO Erase {% include 'scoring/includes/question-warning.html' %} from questions that don't need it-->
 {% block content %}
     <div class="methodology-2023-content">
         <div class="hero container-fluid bg-dark-grey">
@@ -437,29 +438,74 @@
                                 </label>
                             </form>
                             <div id="accordion-sections" class="accordion-wrapper rounded js-single-tier js-district js-county js-northern-ireland">
-                                <div id="accordion-section-1" class="accordion-item">
+
+                                {% for section in sections %}
+                                    
+                                <div id="accordion-section-{{forloop.counter }}" class="accordion-item">
                                     <div class="accordion-heading">
-                                        <h5 class="mb-0">Buildings & Heating</h5>
+                                        <h5 class="mb-0">{{section.title}}</h5>
                                         <button class="btn-open-accordion ml-auto" type="button" aria-label="Open section"></button>
                                     </div>
                                     <div class="accordion-data">
                                         <div class="accordion-data-inner">
                                             <div class="my-3">
-                                                <div class="js-single-tier">
-                                                    <span>15%</span><span class="label ml-1">section weight of total score</span>
-                                                </div>
-                                                <div class="js-district">
-                                                    <span>15%</span><span class="label ml-1">section weight of total score</span>
-                                                </div>
-                                                <div class="js-county">
-                                                    <span>15%</span><span class="label ml-1">section weight of total score</span>
-                                                </div>
-                                                <div class="js-northern-ireland">
-                                                    <span>15%</span><span class="label ml-1">section weight of total score</span>
-                                                </div>
-                                            </div>
-                                            <p>Buildings and Heating is one of the biggest sectors of carbon and other greenhouse gas emissions in the UK. This section aims to cover the main actions that councils can take to support both private rented and owned homes and socially renting households to reduce the emissions from their homes.</p>
+                                                {% for council_type, weighting in section.weightings.items %}
+                                                  <div class="js-{{ council_type }}">
+                                                      <span>{{ weighting }}</span><span class="label ml-1">section weight of total score</span>
+                                                  </div>
+                                                {% endfor %}
+                                              </div>
+                                            <p>{{section.description}}</p>
                                             <div class="section-question-list-wrapper">
+                                                {% for question in section.questions %}
+                                                <div class="question-card rounded border mb-3 mb-sm-4 {% for council_type in question.council_types %}js-{{ council_type }} {% endfor %}">
+                                                    {% include 'scoring/includes/question-warning.html' %}
+                                                    <div class="section-question-heading p-3 bg-green-l2">
+                                                        <!-- QUESTION CODE-->
+                                                        <p class="label pl-0">{{ section.title }} · Question {{ question.code }}</p>
+                                                        <!-- QUESTION NAME-->
+                                                        <h6 class="h5">{{ question.name }}</h6>
+                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
+                                                    </div>
+                                                    <div class="section-question-content">
+                                                        <div class="p-3">
+                                                            <div class="section-question-meta-wrapper mb-3">
+                                                                <div class="section-question-meta-item">
+                                                                    <!-- QUESTION TOPIC-->
+                                                                    <p class="label pl-0 mb-0">Topic</p>
+                                                                    <p>{{ question.topic}}</p>
+                                                                </div>
+                                                                <div class="section-question-meta-item">
+                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
+                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
+                                                                    </span>
+                                                                    <!-- QUESTION IMPORTANCE-->
+                                                                    <p>{{ question.importance}}</p>
+                                                                </div>
+                                                                <div class="section-question-meta-item">
+                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
+                                                                    <!-- QUESTION HOW WILL BE MARKED -->
+                                                                    <p>{{ question.how_marked}}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="section-question-criteria mb-3 mb-4">
+                                                                <h6 class="underline-green mb-2">Criteria</h6>
+                                                                <!-- QUESTION CRITERIA -->
+                                                                {% autoescape off %}
+                                                                    {{ question.criteria}}
+                                                                {% endautoescape %}
+                                                            </div>
+
+                                                            <!-- QUESTION CLARIFICATION -->
+                                                            <div class="section-question-clarification">
+                                                                <h6 class="underline-green mb-2">Clarifications</h6>
+                                                                {% autoescape off %}
+                                                                    {{ question.clarifications}}
+                                                                {% endautoescape %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <!-- QUESTION TEMPLATE -->
                                                 <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
@@ -997,16 +1043,68 @@
                                                                 <h6 class="underline-green mb-2">Clarifications</h6>
                                                                 <p>If the project is being led by the County Council and all other district councils are involved too, then all those district councils will be awarded the points. </p>
                                                                 <p>The project cannot be a trial project.</p>
-                                                                <p class="mb-0">Marked using data provided by <a href="https://solarstreets.co.uk/" class"d-inline-block">Solar Streets</a> and <a href="https://solartogether.co.uk/landing" class"d-inline-block">Solar Together</a></p>
+                                                                <p class="mb-0">Marked using data provided by <a href="https://solarstreets.co.uk/" class="d-inline-block">Solar Streets</a> and <a href="https://solartogether.co.uk/landing" class="d-inline-block">Solar Together</a></p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
+                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
+
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district js-county js-northern-ireland">
+                                                    {% include 'scoring/includes/question-warning.html' %}
+                                                    <div class="section-question-heading p-3 bg-green-l2">
+                                                        <!-- QUESTION CODE-->
+                                                        <p class="label pl-0">Buildings & Heating · Question 12b</p>
+                                                        <!-- QUESTION NAME-->
+                                                        <h6 class="h5">Has the council supported local community renewable energy creation?</h6>
+                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
+                                                    </div>
+                                                    <div class="section-question-content">
+                                                        <div class="p-3">
+                                                            <div class="section-question-meta-wrapper mb-3">
+                                                                <div class="section-question-meta-item">
+                                                                    <!-- QUESTION TOPIC-->
+                                                                    <p class="label pl-0 mb-0">Topic</p>
+                                                                    <p>Community Renewable Energy</p>
+                                                                </div>
+                                                                <div class="section-question-meta-item">
+                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
+                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
+                                                                    </span>
+                                                                    <!-- QUESTION IMPORTANCE-->
+                                                                    <p>medium</p>
+                                                                </div>
+                                                                <div class="section-question-meta-item">
+                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
+                                                                    <!-- QUESTION HOW WILL BE MARKED -->
+                                                                    <p>National Data and Volunteer Research</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="section-question-criteria mb-3 mb-4">
+                                                                <h6 class="underline-green mb-2">Criteria</h6>
+                                                                <!-- QUESTION CRITERIA -->
+                                                                <p>Criteria met if there is public information about a council working with a local community energy generation infrastructure project, such as wind, solar or hydro. Evidence of this could include: </p>
+                                                                <ul class="mb-0">
+                                                                    <li>Being formally listed as a partner on the community energy projects' website</li>
+                                                                    <li>Evidence on the councils' website of the council providing funding, land or other support to the community energy project. </li>
+                                                                </ul>
+                                                            </div>
+                                                            <!-- QUESTION CLARIFICATION -->
+                                                            <!-- <p></p>  <p class="mb-0"></p> -->
+                                                            <div class="section-question-clarification">
+                                                                <h6 class="underline-green mb-2">Clarifications</h6>
+                                                                <p class="mb-0">Marked using data provided by Community Energy England</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
