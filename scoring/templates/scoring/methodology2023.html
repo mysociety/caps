@@ -78,14 +78,14 @@
                         <div class="col-12 col-lg-7">
                             {% include 'scoring/includes/main-filter-methodology.html' %}
                             <div class="alert alert-warning mt-3 mt-lg-4 bg-grey border" role="alert">
-                                <p class="label pl-0 js-single-tier js-district js-county js-northern-ireland">Currently displaying</p>
+                                <p class="label pl-0 js-single js-district js-county js-northern-ireland">Currently displaying</p>
                                 <p class="js-default label pl-0">No council has been selected</p>
                                 <h3 class="js-default">Select a council</h3>
-                                <h3 class="js-single-tier">Single tier</h3>
+                                <h3 class="js-single">Single tier</h3>
                                 <h3 class="js-district">District</h3>
                                 <h3 class="js-county">County</h3>
                                 <h3 class="js-northern-ireland">Northren Ireland</h3>
-                                <p class="js-single-tier">A small number of questions might not apply to your council and they are highlighted with a warning icon.</p>
+                                <p class="js-single">A small number of questions might not apply to your council and they are highlighted with a warning icon.</p>
                             </div>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                                 <thead>
                                     <tr class="bg-green">
                                         <th>Section</th>
-                                        <th class="js-highlight-single-tier">Single tier</th>
+                                        <th class="js-highlight-single">Single tier</th>
                                         <th class="js-highlight-district">District</th>
                                         <th class="js-highlight-county">County</th>
                                         <th class="js-highlight-northern-ireland">Northern Ireland</th>
@@ -112,49 +112,49 @@
                                 <tbody>
                                     <tr>
                                         <td>Buildings & Heating</td>
-                                        <td class="js-highlight-single-tier">20%</td>
+                                        <td class="js-highlight-single">20%</td>
                                         <td class="js-highlight-district">25%</td>
                                         <td class="js-highlight-county">20%%</td>
                                         <td class="js-highlight-northern-ireland">20%</td>
                                     </tr>
                                     <tr>
                                         <td>Transport</td>
-                                        <td class="js-highlight-single-tier">20%</td>
+                                        <td class="js-highlight-single">20%</td>
                                         <td class="js-highlight-district">5%</td>
                                         <td class="js-highlight-county">30%</td>
                                         <td class="js-highlight-northern-ireland">15%</td>
                                     </tr>
                                     <tr>
                                         <td>Planning & Land Use</td>
-                                        <td class="js-highlight-single-tier">15%</td>
+                                        <td class="js-highlight-single">15%</td>
                                         <td class="js-highlight-district">25%</td>
                                         <td class="js-highlight-county">5%</td>
                                         <td class="js-highlight-northern-ireland">15%</td>
                                     </tr>
                                     <tr>
                                         <td>Governance & Finance</td>
-                                        <td class="js-highlight-single-tier">15%</td>
+                                        <td class="js-highlight-single">15%</td>
                                         <td class="js-highlight-district">15%</td>
                                         <td class="js-highlight-county">15%</td>
                                         <td class="js-highlight-northern-ireland">20%</td>
                                     </tr>
                                     <tr>
                                         <td>Biodiversity</td>
-                                        <td class="js-highlight-single-tier">10%</td>
+                                        <td class="js-highlight-single">10%</td>
                                         <td class="js-highlight-district">10%</td>
                                         <td class="js-highlight-county">10%</td>
                                         <td class="js-highlight-northern-ireland">10%</td>
                                     </tr>
                                     <tr>
                                         <td>Collaboration & Engagement</td>
-                                        <td class="js-highlight-single-tier">10%</td>
+                                        <td class="js-highlight-single">10%</td>
                                         <td class="js-highlight-district">10%</td>
                                         <td class="js-highlight-county">10%</td>
                                         <td class="js-highlight-northern-ireland">10%</td>
                                     </tr>
                                     <tr>
                                         <td>Waste Reduction & Food</td>
-                                        <td class="js-highlight-single-tier">10%</td>
+                                        <td class="js-highlight-single">10%</td>
                                         <td class="js-highlight-district">10%</td>
                                         <td class="js-highlight-county">10%</td>
                                         <td class="js-highlight-northern-ireland">10%</td>
@@ -170,7 +170,7 @@
                                 <p class="mb-0">To see this table select a council or type of council.
                                 </p>
                             </div>
-                            <table class="minimal-table js-single-tier">
+                            <table class="minimal-table js-single">
                                 <thead>
                                     <tr class="bg-green">
                                         <th>Section</th>
@@ -431,12 +431,12 @@
                                 <p>We have not yet published the draft methodology for the Council Climate Action Scorecards for Combined Authorities. Combined Authorities have varying powers within themselves and a lot of the Scorecard questions can't be applied. We will score all Combined Authorities and publish the results in 2023. The draft methodology for Combined Authorities will be published prior to this. We plan to share the amended Scorecards for Combined Authorities soon.
                                 </p>
                             </div>
-                            <form class="radio-wrapper bg-blue-l2 p-3 mb-3 border rounded js-single-tier js-district js-county js-northern-ireland">
+                            <form class="radio-wrapper bg-blue-l2 p-3 mb-3 border rounded js-single js-district js-county js-northern-ireland">
                                 <input class="mr-1" type="checkbox" id="display-complete-content" name="display-complete-content">
                                 <label for="display-complete-content">Show all text for the criteria and clarification as default.
                                 </label>
                             </form>
-                            <div id="accordion-sections" class="accordion-wrapper rounded js-single-tier js-district js-county js-northern-ireland">
+                            <div id="accordion-sections" class="accordion-wrapper rounded js-single js-district js-county js-northern-ireland">
 
                                 {% for section in sections %}
                                     
@@ -507,8 +507,8 @@
                                                 </div>
 
                                                 <!-- QUESTION TEMPLATE -->
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district js-county js-northern-ireland">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -563,8 +563,8 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district js-county js-northern-ireland">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -610,8 +610,8 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -660,8 +660,8 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -710,8 +710,8 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district js-county js-northern-ireland">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -764,8 +764,8 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district js-county js-northern-ireland">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -806,8 +806,8 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district js-northern-ireland">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-northern-ireland">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -856,8 +856,8 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -906,8 +906,8 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district js-county js-northern-ireland">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -952,8 +952,8 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district js-county js-northern-ireland">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -998,8 +998,8 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district js-county js-northern-ireland">
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
@@ -1048,9 +1048,9 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- QUESTION CLASES js-single-tier js-district js-county js-northern-ireland-->
+                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
 
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single-tier js-district js-county js-northern-ireland">
+                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
                                                     {% include 'scoring/includes/question-warning.html' %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->

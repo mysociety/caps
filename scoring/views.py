@@ -548,14 +548,14 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 "title": "Building & Heating",
                 "description": "Buildings and Heating is one of the biggest sectors of carbon and other greenhouse gas emissions in the UK. This section aims to cover the main actions that councils can take to support both private rented and owned homes and socially renting households to reduce the emissions from their homes.",
                 "weightings": {
-                    "single-tier": "20%",
+                    "single": "20%",
                     "district": "25%",
                     "county": "20%",
                     "northern-ireland": "20%",
                 },
                 "questions": [
                     {
-                        "council_types": ["single-tier", "district", "county", "northern-ireland"],
+                        "council_types": ["single", "district", "county", "northern-ireland"],
                         "code": "1",
                         "name": "Does the council provide a service to support private homeowners to make their homes more energy efficient?",
                         "topic": "Homeowner support - retrofit",
