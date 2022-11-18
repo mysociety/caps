@@ -388,7 +388,27 @@ forEachElement('[data-methodology-switch-council-type]', function(trigger){
         var councilType = trigger.getAttribute('data-methodology-switch-council-type');
         var container = document.querySelector('.js-dynamic-content');
         container.setAttribute('data-methodology-active-council-type', councilType);
+        forEachElement('.js-methodology-council-autocomplete', function(input){
+            input.value = '';
+        });
     });
 })
 
-
+forEachElement('.js-methodology-council-autocomplete', function(input){
+    var ac = new Awesomplete(
+        input,
+        {
+            list: councils.map(function(council){
+                return council.name;
+            }),
+            minChars: 3,
+            autoFirst: true
+        }
+    );
+    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
+        var council = findItem(councils, {'name': data.text });
+        console.log(council);
+        var container = document.querySelector('.js-dynamic-content');
+        container.setAttribute('data-methodology-active-council-type', council.council_type);
+    });
+});
