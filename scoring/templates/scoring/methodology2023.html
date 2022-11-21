@@ -1,11 +1,6 @@
 {% extends "scoring/base.html" %}
 {% load bootstrap4 %}
 {% load static %}
-<!-- TODO Change low -> Low -->
-<!-- TODO Change medium -> Medium-->
-<!-- TODO Change high -> Medium-->
-<!-- TODO Erase this comment  <p></p>  <p class="mb-0"></p>  -->
-<!-- TODO Erase {% include 'scoring/includes/question-warning.html' %} from questions that don't need it-->
 {% block content %}
     <div class="methodology-2023-content">
         <div class="hero container-fluid bg-dark-grey">
@@ -33,6 +28,7 @@
                     </li>
                 </ul>
             </nav>
+<!-- h2 SECTION SUMMARY -->
             <div id="summary-section" class="container medium">
                 <div class="row mb-3">
                     <div class="col-12 col-lg-6">
@@ -67,13 +63,16 @@
                 </div>
 
             </div>
-            <div id="methodology-draft-section" class="container medium">
+<!-- h2 QUESTION CRITERIA -->
+            <div id="question-criteria-section" class="container medium">
                 <div id="methodology-question" class="row">
                     <div class="col-12 col-lg-7">
-                        <h2 class="mb-4">Council Climate Action Scorecards Draft Methodology</h2>
+                        <h2 class="mb-3">Question Criteria</h3>
+                        <p>Below you can see each of the questions that councils will be scored on in 2023, along with some further clarification of the question criteria. We’ve also shown how each question will be scored: whether from volunteer research, FOI responses from councils, the use of national data or through a mixture of volunteer research and national data. Unless otherwise stated, we are marking council climate action from 1st January 2019 up until March 2023 (exact date to be confirmed). For questions that use national data we will take the most recent data up until 1st August 2023. For questions that use FOI requests, unless otherwise stated, we are marking council climate action from 1st January 2019 up until January 2023 when the FOI requests will be sent out. Strategies and Policies that we mark must also be in date and active (except for Local Plans where draft ones will be accepted).</p>
+                        <p>Different council types have different powers. Therefore, questions are only being asked to a council where they have power or influence on that topic. For example, County Councils are not Planning Authorities so there are only two questions in the Planning section that apply to County Councils. To understand more about the different powers that different councils have, <a href="https://www.instituteforgovernment.org.uk/explainers/local-government">check out this blog from the Institute of Governance.</a></p>
                     </div>
                 </div>
-                <div class="js-dynamic-content">
+                <div class="js-dynamic-content" data-methodology-active-council-type="single">
                     <div class="row">
                         <div class="col-12 col-lg-7">
                             {% include 'scoring/includes/main-filter-methodology.html' %}
@@ -89,16 +88,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-4 mt-lg-5">
-                        <div class="col-12 col-lg-7">
-                            <h2 class="mb-3">Question Criteria</h3>
-                            <p>In the following four tables you can see each of the questions that councils will be scored on in 2023, along with some further clarification of the question criteria. The table also shows how each question will be scored: whether from volunteer research, FOI responses from councils, the use of national data or through a mixture of volunteer research and national data. Unless otherwise stated, <strong>we are marking council climate action from 1st January 2019</strong> up until March 2023 (exact date to be confirmed). For questions that use national data we will take the most recent data up until 1st August 2023. For questions that use FOI requests, unless otherwise stated, we are marking council climate action from 1st January 2019 up until January 2023 when the FOI requests will be sent out. Strategies and Policies that we mark must also be in date and active (except for Local Plans where draft ones will be accepted).</p>
-                            <p>Different council types have different powers. Therefore, questions are only being asked to a council where they have power or influence on that topic. For example, County Councils are not Planning Authorities so there are only two questions in the Planning section that apply to County Councils. To understand more about the different powers that different councils have, <a href="https://www.instituteforgovernment.org.uk/explainers/local-government">check out this blog from the Institute of Governance.</a></p>
-                        </div>
-                    </div>
+
+                    <!-- h3 Sections Weighting -->
                     <div class="row mt-4 mt-lg-5">
                         <div class="col-12 col-lg-9">
-                            <h3 class="h4 mb-3 underline-green">Section Weightings</h3>
+                            <h3 class="mb-3">Section Weightings</h3>
                             <table class="minimal-table">
                                 <thead>
                                     <tr class="bg-green">
@@ -163,269 +157,11 @@
                             </table>
                         </div>
                     </div>
-                    <div class="row mt-4 mt-lg-5">
-                        <div class="col-12 col-lg-9">
-                            <h3 class="h4 mb-3 underline-green">How will this be marked?</h3>
-                            <div class="alert alert-warning js-default border-yellow rounded" role="alert" style="max-width:635px">
-                                <p class="mb-0">To see this table select a council or type of council.
-                                </p>
-                            </div>
-                            <table class="minimal-table js-single">
-                                <thead>
-                                    <tr class="bg-green">
-                                        <th>Section</th>
-                                        <th>FOI</th>
-                                        <th>National data</th>
-                                        <th>Volunteer Research</th>
-                                        <th>National data & Volunteer research</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Buildings & Heating</td>
-                                        <td>20%</td>
-                                        <td>25%</td>
-                                        <td>20%%</td>
-                                        <td>20%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Transport</td>
-                                        <td>20%</td>
-                                        <td>5%</td>
-                                        <td>30%</td>
-                                        <td>15%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Planning & Land Use</td>
-                                        <td>15%</td>
-                                        <td>25%</td>
-                                        <td>5%</td>
-                                        <td>15%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Governance & Finance</td>
-                                        <td>15%</td>
-                                        <td>15%</td>
-                                        <td>15%</td>
-                                        <td>20%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Biodiversity</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Collaboration & Engagement</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Waste Reduction & Food</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
 
-                            <table class="minimal-table js-district">
-                                <thead>
-                                    <tr class="bg-green">
-                                        <th>Section</th>
-                                        <th>FOI</th>
-                                        <th>National data</th>
-                                        <th>Volunteer Research</th>
-                                        <th>National data & Volunteer research</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Buildings & Heating</td>
-                                        <td>20%</td>
-                                        <td>25%</td>
-                                        <td>20%%</td>
-                                        <td>20%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Transport</td>
-                                        <td>20%</td>
-                                        <td>5%</td>
-                                        <td>30%</td>
-                                        <td>15%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Planning & Land Use</td>
-                                        <td>15%</td>
-                                        <td>25%</td>
-                                        <td>5%</td>
-                                        <td>15%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Governance & Finance</td>
-                                        <td>15%</td>
-                                        <td>15%</td>
-                                        <td>15%</td>
-                                        <td>20%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Biodiversity</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Collaboration & Engagement</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Waste Reduction & Food</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="minimal-table js-county">
-                                <thead>
-                                    <tr class="bg-green">
-                                        <th>Section</th>
-                                        <th>FOI</th>
-                                        <th>National data</th>
-                                        <th>Volunteer Research</th>
-                                        <th>National data & Volunteer research</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Buildings & Heating</td>
-                                        <td>20%</td>
-                                        <td>25%</td>
-                                        <td>20%%</td>
-                                        <td>20%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Transport</td>
-                                        <td>20%</td>
-                                        <td>5%</td>
-                                        <td>30%</td>
-                                        <td>15%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Planning & Land Use</td>
-                                        <td>15%</td>
-                                        <td>25%</td>
-                                        <td>5%</td>
-                                        <td>15%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Governance & Finance</td>
-                                        <td>15%</td>
-                                        <td>15%</td>
-                                        <td>15%</td>
-                                        <td>20%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Biodiversity</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Collaboration & Engagement</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Waste Reduction & Food</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table class="minimal-table js-northern-ireland">
-                                <thead>
-                                    <tr class="bg-green">
-                                        <th>Section</th>
-                                        <th>FOI</th>
-                                        <th>National data</th>
-                                        <th>Volunteer Research</th>
-                                        <th>National data & Volunteer research</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Buildings & Heating</td>
-                                        <td>20%</td>
-                                        <td>25%</td>
-                                        <td>20%%</td>
-                                        <td>20%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Transport</td>
-                                        <td>20%</td>
-                                        <td>5%</td>
-                                        <td>30%</td>
-                                        <td>15%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Planning & Land Use</td>
-                                        <td>15%</td>
-                                        <td>25%</td>
-                                        <td>5%</td>
-                                        <td>15%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Governance & Finance</td>
-                                        <td>15%</td>
-                                        <td>15%</td>
-                                        <td>15%</td>
-                                        <td>20%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Biodiversity</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Collaboration & Engagement</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Waste Reduction & Food</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                        <td>10%</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <!-- h3 List of questions -->
                     <div class="row mt-4 mt-lg-5">
                         <div class="col-12 col-lg-7">
-                            <h3 class="h4 mb-3 underline-green">Section & Questions</h3>
+                            <h3 class="mb-3">List of questions</h3>
                             <div class="alert alert-warning mt-3 mt-lg-4 border-yellow" role="alert">
                                 <h3>Combined Authorities</h3>
                                 <p>We have not yet published the draft methodology for the Council Climate Action Scorecards for Combined Authorities. Combined Authorities have varying powers within themselves and a lot of the Scorecard questions can't be applied. We will score all Combined Authorities and publish the results in 2023. The draft methodology for Combined Authorities will be published prior to this. We plan to share the amended Scorecards for Combined Authorities soon.
@@ -433,13 +169,11 @@
                             </div>
                             <form class="radio-wrapper bg-blue-l2 p-3 mb-3 border rounded js-single js-district js-county js-northern-ireland">
                                 <input class="mr-1" type="checkbox" id="display-complete-content" name="display-complete-content">
-                                <label for="display-complete-content">Show all text for the criteria and clarification as default.
+                                <label for="display-complete-content" style="vertical-align:super">Show all text for the criteria and clarification as default.
                                 </label>
                             </form>
                             <div id="accordion-sections" class="accordion-wrapper rounded js-single js-district js-county js-northern-ireland">
-
                                 {% for section in sections %}
-                                    
                                 <div id="accordion-section-{{forloop.counter }}" class="accordion-item">
                                     <div class="accordion-heading">
                                         <h5 class="mb-0">{{section.title}}</h5>
@@ -458,7 +192,9 @@
                                             <div class="section-question-list-wrapper">
                                                 {% for question in section.questions %}
                                                 <div class="question-card rounded border mb-3 mb-sm-4 {% for council_type in question.council_types %}js-{{ council_type }} {% endfor %}">
-                                                    {% include 'scoring/includes/question-warning.html' %}
+                                                    {% if question.england_only == "yes" %}
+                                                        {% include 'scoring/includes/question-warning.html' %}
+                                                    {% endif %}
                                                     <div class="section-question-heading p-3 bg-green-l2">
                                                         <!-- QUESTION CODE-->
                                                         <p class="label pl-0">{{ section.title }} · Question {{ question.code }}</p>
@@ -496,605 +232,14 @@
                                                             </div>
 
                                                             <!-- QUESTION CLARIFICATION -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                {% autoescape off %}
-                                                                    {{ question.clarifications}}
-                                                                {% endautoescape %}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION TEMPLATE -->
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 1</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Has the council completed extensive retrofit work on any of its significant buildings to make them low carbon?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Council buildings - retrofit</p>
+                                                            {% if question.clarifications %}
+                                                                <div class="section-question-clarification">
+                                                                    <h6 class="underline-green mb-2">Clarifications</h6>
+                                                                    {% autoescape off %}
+                                                                        {{ question.clarifications}}
+                                                                    {% endautoescape %}
                                                                 </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>Low</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>Volunteer Research</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <p>Criteria met if the council have done any of the following extensive retrofit works for any one of its significant buildings:</p>
-                                                                <ul class="mb-3">
-                                                                    <li>created on-site renewable energy</li>
-                                                                    <li>whole building retrofitting, including heat pump installations</li>
-                                                                    <li>extensive insulation of walls and floors</li>
-                                                                    <li>replacing gas boilers or installing a combined heating system</li>
-                                                                </ul>
-                                                                <p class="mb-0">Additional points awarded if the retrofit has been awarded a standard such as BREEAM Refurbishment and fit-out (any level), AECB Retrofit standard (Bronze, Silver or Gold) or any other recognised standard.</p>
-                                                            </div>
-
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-
-                                                                <p>Significant council buildings refers to leisure centres, libraries, council town halls or offices, community centres, schools & colleges (not academies or private schools) or care homes.</p>
-                                                                <p>Extensive retrofit (sometimes called deep retrofit) refers to significant works of size or scale that result in a fundamental change to the building structure and/or services. This could be a collection of lots of small retrofit enhancements, or a single larger and disruptive measure, such as installing a combined heat system.</p>
-                                                                <p class="mb-0">The work must be completed, not in progress.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 2</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Are the council's operations powered by renewable energy?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Council buildings - renewable energy tariff</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>Low</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>FOI</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <p>Criteria met if the council has a green tariff that is 100% renewable or if the council creates its own energy equivalent to 20% of more of its energy consumption through energy from waste.</p>
-                                                                <p class="mb-0">Additional points awarded if the council has a green tariff with Green Energy UK plc, Good Energy Limited or Ecotricity, or if the council creates its own renewable energy equivalent to 20% or its energy consumption. This could be through on-site energy generation, or if the council has built or bought a solar/wind farm elsewhere. </p>
-                                                            </div>
-
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                <p class="mb-0">This includes all energy that the council is directly responsible for, in council offices and any other buildings leased and managed by the council where the council pays the energy tariff. This does not include homes owned or managed by the council.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 3</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Are the homes owned and managed by the council energy efficient?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Council homes - EPC ratings</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>Medium</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>FOI</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <p><strong>Three Tier Criteria</strong></p>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <p>Criteria met if 50% or more of the council's homes receive C or above in their Environmental Performance Certificate ratings.</p>
-                                                                <p class="mb-0">Additional points awarded if 60% or more, and then if 90% or more of their buildings received C or above EPC ratings.</p>
-                                                            </div>
-
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                <p>Environmental Performance Certificates (EPCs) show home buyers or tenants how energy efficient the building is. The EPC contains information on potential energy costs and carbon dioxide emissions.</p>
-                                                                <p>Council owned or managed homes includes arms-length management organisation (ALMO) if the homes are owned by the Council but not Housing Associations. </p>
-                                                                <p class="mb-0">This question applies only to homes that councils have an available EPC rating for. This question applies only to councils that own or manage any number of council homes.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 4</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Does the council have a target to retrofit all council owned and managed homes and has this been costed?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Council homes - target to retrofit</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>Low</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>Volunteer Research</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <p><strong>Three Tier Criteria</strong></p>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <p>Criteria met if the council has completed an exercise to measure how much, approximately, it will cost them to retrofit all homes (to EPC C or higher, or equivalent) and there is a target date provided. </p>
-                                                                <p class="mb-0">Additional points will be awarded depending on the councils' target dates, with tiers for 2030, 2040 and 2050.</p>
-                                                            </div>
-
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                <p>Home retrofit is the process of making changes to existing buildings so that energy consumption and emissions are reduced. These changes also provide more comfortable and healthier homes with lower fuel bills.</p>
-                                                                <p>The council doesn't need to have all the funds available for the retrofit.</p>
-                                                                <p class="mb-0">This question applies only to councils that own or manage any number of homes. </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 5</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Is the council part of a programme or partnership to support home retrofitting, through providing the skills and training needed or in other ways?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Retrofit partnerships</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>Medium</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>Volunteer Research</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <ul class="mb-0">
-                                                                    <li>The council convenes or is a member of a local retrofit partnership, that focuses on developing the skills and training needed for retrofit or sharing knowledge around retrofitting. 
-                                                                        Evidence of this partnership is needed. At least two of the following must be visible:</li>
-                                                                        <ol>
-                                                                            <li>A named partnership with a public membership list</li>
-                                                                            <li>A terms of reference or aims of the group</li>
-                                                                            <li>Evidence of previous meetings, via notes, agendas, videos or in news stories</li>
-                                                                        </ol>
-                                                                    <li>Alternatively, the criteria will be met if the council convenes or supports a programme for retrofitting locally through providing training or skills support.</li>
-                                                                </ul>
-                                                            </div>
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                <p class="mb-0">The criteria will be met if this partnership is a council task and finish group or sub-committee group with external members.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 6</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Does the council have a staff member employed to work on retrofitting across the council area?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Staff working on retrofit</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>Medium</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>FOI</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <p>Criteria met if a staff member is employed to work on retrofitting for 3 or more days a week and is working on any retrofit projects, including council buildings, council homes or private rented or owned households. </p>
-                                                                <p class="mb-0">
-                                                                    Staff can be as a project manager or officer on 3 or more days a week. We would accept contractors as long as they are equivalent to 3 days or more a week (0.6 FTE).</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-northern-ireland">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 7</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Are the homes and buildings in the council area energy efficient?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>EPC ratings - whole areas</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>Low</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>National Data</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <strong>Three Tier Criteria</strong>
-                                                                <p>Criteria met if 50% or more of buildings in the area that have an EPC rating are rated C or above.</p>
-                                                                <p class="mb-0">Additional points awarded if the more than 60% and then more than 90% of buildings in the area that have an EPC rating are rated C or above.</p>
-                                                            </div>
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <!-- <p></p>  <p class="mb-0"></p> -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                <p>Environmental Performance Certificates (EPCs) show home buyers or tenants how energy efficient the building is. The EPC contains information on potential energy costs and carbon dioxide emissions. </p>
-                                                                <p>Not all buildings in the area have an EPC rating. We will be looking at only the ratings of the buildings that do have a rating. </p>
-                                                                <p class="mb-0">Marked using data provided by UK Government, Scottish EPC Register and the Department of Finance NI</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 8</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Is the council actively enforcing Minimum Energy Efficiency Standards of homes in the private rented sector?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Housing Efficiency Standards Enforcement</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>high</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>FOI</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <p><strong>Two Tier Criteria</strong></p>
-                                                                <p>Criteria met if the council has carried out 1-100 compliance or enforcement notices in the last financial year 2021/22.</p>
-                                                                <p class="mb-0">Additional points if more than 100 compliance or enforcement notices have been carried out by a council.</p>
-                                                            </div>
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <!-- <p></p>  <p class="mb-0"></p> -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                <p>This question is applicable to English and Welsh District and Single tier councils only. </p>
-                                                                <p class="mb-0">
-                                                                    All district and single tier councils have legal powers to enforce Minimum Energy Efficiency Standards. This legislation states that a home cannot be rented out by a landlord if the home has an EPC rating of E or lower. The council can enforce this requirement through enforcement notices and fining landlords if they continue to rent out homes that have an EPC rating of E or lower. </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 10</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Does the council provide a service to support private homeowners to make their homes more energy efficient?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Homeowner support - retrofit</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>low</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>Volunteer Research</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <p class="mb-0">Criteria is met if the council is either providing a tailor-made advice to residents on home energy efficiency, or connecting residents with local trades people and suppliers for energy efficiency measures that can be carried out in their homes.</p>
-                                                            </div>
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <!-- <p></p>  <p class="mb-0"></p> -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                <p class="mb-0">Points will not be awarded for webpages with standardised information on the council website. There must be links to a wider project or product being offered.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 11</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Does the council offer funding to private renters or homeowners to retrofit their homes?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Homeowner funding - retrofit</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>medium</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>Volunteer Research</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <p class="mb-0">Criteria met if the council provides any amount of funding to any number of private renters, landlords or homeowners to retrofit their homes. This would include grant funding councils have secured from the Green Homes Grants and the Sustainable Warmth national government programmes if the council are administering them.</p>
-                                                            </div>
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <!-- <p></p>  <p class="mb-0"></p> -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                <p class="mb-0">This does not include services provided under the Energy Companies Obligation to replace or upgrade boilers to homes on low income as this is already required and administered by councils. The project cannot be a trial project.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 12a</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Does the council have a scheme to allow residents to purchase renewable energy cheaply, through collective buying?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Renewable Energy purchasing schemes</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>low</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>National Data and Volunteer Research</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <p><strong>Two Tier Criteria</strong></p>
-                                                                <p>Criteria met if the council is running a Solar Streets or equivalent collective energy buying project.</p>
-                                                                <p class="mb-0">Additional points awarded if the council is running a Solar Together or equivalent project, such as iChoosr. Points awarded to any other scheme councils are doing that are on a similar scale to Solar Together. </p>
-                                                            </div>
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <!-- <p></p>  <p class="mb-0"></p> -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                <p>If the project is being led by the County Council and all other district councils are involved too, then all those district councils will be awarded the points. </p>
-                                                                <p>The project cannot be a trial project.</p>
-                                                                <p class="mb-0">Marked using data provided by <a href="https://solarstreets.co.uk/" class="d-inline-block">Solar Streets</a> and <a href="https://solartogether.co.uk/landing" class="d-inline-block">Solar Together</a></p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- QUESTION CLASES js-single js-district js-county js-northern-ireland-->
-
-                                                <div class="question-card rounded border mb-3 mb-sm-4 js-single js-district js-county js-northern-ireland">
-                                                    {% include 'scoring/includes/question-warning.html' %}
-                                                    <div class="section-question-heading p-3 bg-green-l2">
-                                                        <!-- QUESTION CODE-->
-                                                        <p class="label pl-0">Buildings & Heating · Question 12b</p>
-                                                        <!-- QUESTION NAME-->
-                                                        <h6 class="h5">Has the council supported local community renewable energy creation?</h6>
-                                                        <button class="btn-display-question-details btn btn btn-blue is--light mt-2">Display question details</button>
-                                                    </div>
-                                                    <div class="section-question-content">
-                                                        <div class="p-3">
-                                                            <div class="section-question-meta-wrapper mb-3">
-                                                                <div class="section-question-meta-item">
-                                                                    <!-- QUESTION TOPIC-->
-                                                                    <p class="label pl-0 mb-0">Topic</p>
-                                                                    <p>Community Renewable Energy</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                        <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Look at me I'm a nice hidden message</span>
-                                                                    </span>
-                                                                    <!-- QUESTION IMPORTANCE-->
-                                                                    <p>medium</p>
-                                                                </div>
-                                                                <div class="section-question-meta-item">
-                                                                    <p class="label pl-0 mb-0">How will this be marked?</p>
-                                                                    <!-- QUESTION HOW WILL BE MARKED -->
-                                                                    <p>National Data and Volunteer Research</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="section-question-criteria mb-3 mb-4">
-                                                                <h6 class="underline-green mb-2">Criteria</h6>
-                                                                <!-- QUESTION CRITERIA -->
-                                                                <p>Criteria met if there is public information about a council working with a local community energy generation infrastructure project, such as wind, solar or hydro. Evidence of this could include: </p>
-                                                                <ul class="mb-0">
-                                                                    <li>Being formally listed as a partner on the community energy projects' website</li>
-                                                                    <li>Evidence on the councils' website of the council providing funding, land or other support to the community energy project. </li>
-                                                                </ul>
-                                                            </div>
-                                                            <!-- QUESTION CLARIFICATION -->
-                                                            <!-- <p></p>  <p class="mb-0"></p> -->
-                                                            <div class="section-question-clarification">
-                                                                <h6 class="underline-green mb-2">Clarifications</h6>
-                                                                <p class="mb-0">Marked using data provided by Community Energy England</p>
-                                                            </div>
+                                                            {% endif %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1216,10 +361,9 @@
 
                             <div class="mt-3 mt-lg-4">
                                 <h3 class="mb-2 mb-lg-3">Freedom of Information Requests</h3>
-                                <p>You can see the current draft list of the FOI requests we plan to send <a href="https://docs.google.com/document/d/1MA1fv-25x_QdJ2d6V-KUgfQXAI5QXAQJp0-6-8LImMg/edit?usp=sharing" class="d-inline-block">here</a>. 
+                                <p>You can see the current draft list of the FOI requests we plan to send <a href="https://www.google.com/url?q=https://drive.google.com/file/d/1fH6QHJfLpbQ6YsrAEixPtPF5SaU4_yo_/view?usp%3Dshare_link" class="d-inline-block">here</a>. 
                                     We will be sending FOI requests using WhatDoTheyKnow (run by mySociety). All FOI responses sent via <a class="d-inline-block" href="https://www.whatdotheyknow.com/">WhatDoTheyKnow</a> will be made public and linked to the Scorecards when published. Unless otherwise stated in the FOI request, we are marking council climate action from 1st January 2019 up until January 2023 when the FOI requests will be sent out.</p>
-                                <!--TODO Insert link to blog -->
-                                <p>To find out more about how we created each section and why questions or topics were or were not included, check out our blog series on the draft methodology <a class="d-inline-block" href="">here</a></p>
+                                <p>To find out more about how we created each section and why questions or topics were or were not included, check out our blog series on the draft methodology <a class="d-inline-block" href="https://www.google.com/url?q=https://www.climateemergency.uk/draft-methodology-blog-series/">here</a></p>
                             </div>
 
                             <div class="mt-3 mt-lg-4">
@@ -1315,7 +459,6 @@
                         <div>
                             <h3 class="mb-3">Section Weightings</h3>
                             <p class="mt-2">Different sections have been weighted differently, and the reasons for this are explained below.</p>
-                            <!-- TODO Should table go here? -->
 
                             <h4 class="d-inline underline-green">Transport and Buildings & Heating</h4>
                             <p class="mt-2">These are the areas where councils can have the biggest impact on area wide greenhouse gas emissions. It is also where single tier councils can take the most effective action to reduce emissions; therefore they have been given the highest weighting. County councils have more powers over transport than district councils, which is why this section is weighted higher for county councils and a lot lower for district councils. </p>
@@ -1334,7 +477,7 @@
                 <div id="further-info-section" class="row mt-4 mt-lg-5">
                     <div class="col-12 col-lg-7">
                         <h2 class="mb-3">Further Info</h2>
-                        <p>To find out more about Climate Emergency UK please <a href="" class="d-inline-block">visit our website</a>. You can also explore  the Council Climate Plan Scorecards from January 2023.</p>
+                        <p>To find out more about Climate Emergency UK please <a href="https://www.climateemergency.uk/" class="d-inline-block">visit our website</a>. You can also explore  the Council Climate Plan Scorecards from January 2023.</p>
                         <p>If you have any further comments, questions or feedback <a href-"https://councilclimatescorecards.uk/contact/" class="d-inline-block">please use our contact form here</a>.</p>
                     </div>
                 </div>
@@ -1342,12 +485,20 @@
                     <div class="col-12 col-lg-7">
                         <h2 class="mb-3">Thank You</h2>
                         <p>These Scorecards would not have been possible without the advice, comments and feedback from the many different organisations we spoke to, as well as our trial volunteer markers. Special thanks to mySociety, who have provided technical support in the creation of the Scorecard methodology. We also want to thank the many councillors and council staff we spoke to, who represented all council types and work across the four nations. Thank you also to the more than 75 different organisations we spoke to for comment and advice on the Scorecards, on specific questions, sections or general advice. The vast majority of the organisations we spoke to are listed here in alphabetical order. Thank you to:</p>
-                        <ul>
+                        <ul class="thanks-grid">
                             <li>20’s Plenty for Us</li>
                             <li>Abundance Investment</li>
                             <li>Anthesis</li>
                             <li>Architects Action Network</li>
                             <li>Association of Local Government Ecologists</li>
+                            <li>Badvertising</li>
+                            <li>Brighton Peace and Environment Centre</li>
+                            <li>British Lung Foundation</li>
+                            <li>Buglife</li>
+                            <li>Campaign for Better Transport</li>
+                            <li>Carbon Co-op</li>
+                            <li>Badvertising</li>
+                            <li>Badvertising</li>
                             <li>Badvertising</li>
                         </ul>
                     </div>

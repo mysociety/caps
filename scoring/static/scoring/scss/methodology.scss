@@ -232,10 +232,6 @@ $council-types: (
     }
 
     &.close-details {
-        // .accordion-data.active {
-        //     height: auto;
-        // }
-
         .section-question-content {
             height: 0;
             overflow: hidden;
@@ -267,5 +263,15 @@ $council-types: (
             text-align: left;
             font-weight: 700;
         }
+    }
+}
+
+// Thanks grid
+.thanks-grid {
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem 3rem;
+    @media (min-width: 600px) {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
