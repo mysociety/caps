@@ -485,22 +485,43 @@
                     <div class="col-12 col-lg-7">
                         <h2 class="mb-3">Thank You</h2>
                         <p>These Scorecards would not have been possible without the advice, comments and feedback from the many different organisations we spoke to, as well as our trial volunteer markers. Special thanks to mySociety, who have provided technical support in the creation of the Scorecard methodology. We also want to thank the many councillors and council staff we spoke to, who represented all council types and work across the four nations. Thank you also to the more than 75 different organisations we spoke to for comment and advice on the Scorecards, on specific questions, sections or general advice. The vast majority of the organisations we spoke to are listed here in alphabetical order. Thank you to:</p>
-                        <ul class="thanks-grid">
-                            <li>20’s Plenty for Us</li>
-                            <li>Abundance Investment</li>
-                            <li>Anthesis</li>
-                            <li>Architects Action Network</li>
-                            <li>Association of Local Government Ecologists</li>
-                            <li>Badvertising</li>
-                            <li>Brighton Peace and Environment Centre</li>
-                            <li>British Lung Foundation</li>
-                            <li>Buglife</li>
-                            <li>Campaign for Better Transport</li>
-                            <li>Carbon Co-op</li>
-                            <li>Badvertising</li>
-                            <li>Badvertising</li>
-                            <li>Badvertising</li>
+                        <ul class="thanks-grid mb-5">
+                            {% for organisation in organisations %}
+                                <li>{{ organisation.name }}</li>
+                            {% endfor %}
                         </ul>
+
+                        <div style="display:table" class="">
+                            <div style="max-width:550px" class="pt-3">
+                                <h6 class="mb-3 text-left">And a special thanks to our trial volunteer markers</h6>
+                            </div>
+                            <div class="names-wall align-items-start p-0">
+                                <div class="names-wall-row ml-0 mr-0">
+                                    <span class="names-wall-row-item">Les G</span>
+                                    <span class="names-wall-row-item">Kiran C</span>
+                                    <span class="names-wall-row-item">Edward H</span>
+                                </div>
+                                <div class="names-wall-row ml-0 mr-0">
+                                    <span class="names-wall-row-item">Kristina</span>
+                                    <span class="names-wall-row-item">Alan S</span>
+                                </div>
+                                <div class="names-wall-row ml-0 mr-0">
+                                    <span class="names-wall-row-item">Rebecca C</span>
+                                    <span class="names-wall-row-item">Katherine W-G</span>
+                                    <span class="names-wall-row-item">Heloisa D</span>
+                                </div>
+                                <div class="names-wall-row ml-0 mr-0">
+                                    <span class="names-wall-row-item">Murali T</span>
+                                    <span class="names-wall-row-item"> Terry J</span>
+                                </div>
+                                <div class="names-wall-row ml-0 mr-0">
+                                    <span class="names-wall-row-item mr-1">Jenny P</span>
+                                    <span class="names-wall-row-item">Hardip D</span>
+                                    <span class="names-wall-row-item">Deborah C</span>
+                                    <span class="names-wall-row-item">Matt L</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

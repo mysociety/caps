@@ -706,7 +706,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     },
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
-                        "code": "10",
+                        "code": "9",
                         "name": "Does the council provide a service to support private homeowners to make their homes more energy efficient?",
                         "topic": "Homeowner support - retrofit",
                         "importance": "Low",
@@ -720,7 +720,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     },
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
-                        "code": "11",
+                        "code": "10",
                         "name": "Does the council offer funding to private renters or homeowners to retrofit their homes?",
                         "topic": "Homeowner funding - retrofit",
                         "importance": "Medium",
@@ -734,7 +734,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     },
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
-                        "code": "12a",
+                        "code": "11",
                         "name": "Does the council have a scheme to allow residents to purchase renewable energy cheaply, through collective buying?",
                         "topic": "Renewable Energy purchasing schemes",
                         "importance": "Low",
@@ -752,7 +752,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     },
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
-                        "code": "12b",
+                        "code": "12",
                         "name": "Has the council supported local community renewable energy creation?",
                         "topic": "Community Renewable Energy",
                         "importance": "Medium",
@@ -1094,7 +1094,6 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">A fabric first approach by a council would require improvements on the national standard thereby ensuring new homes are energy efficient.</p>
                             """,
                     },
-                    # Two Tier
                     {
                         "council_types": ["single", "district", "northern-ireland"],
                         "code": "3c",
@@ -1313,7 +1312,6 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Environmental risks of climate change in the local area include flooding, extreme heat, air pollution or other extreme weather events.</p>
                             """,
                     },
-                    # Two Tier
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
                         "code": "3a",
@@ -1338,7 +1336,6 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations' supply chain, such as the emissions produced in making the computers or paper that the council buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
                             """,
                     },
-                
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
                         "code": "3b",
@@ -1623,7 +1620,6 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">Marked using data provided by <a href="https://www.gov.uk/government/statistical-data-sets/env10-local-sites-in-positive-conservation-management" class="d-inline">DEFRA</a></p>
                             """,
                     },
-                
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
                         "code": "5",
@@ -1764,7 +1760,6 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">Scottish councils are obliged to publish statutory annual reports which will meet the criteria for an annual report, but they must release a more easy-to-read version with reference to SMART targets for further points.</p>
                             """,
                     },
-                    # Two Tier
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
                         "code": "3",
@@ -1781,7 +1776,6 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">The criteria will be met if councils have worked on specific, climate-related issues, provided climate is cited as a reason to take action. For example, asking for measures to improve local bus provision will meet the criteria if reducing carbon emissions is cited as a reason to do so.</p>
                             """,
                     },
-                
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
                         "code": "4",
@@ -2076,7 +2070,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     },
                     {
                         "council_types": ["single", "county"],
-                        "code": "5b",
+                        "code": "6",
                         "name": "Do schools in the council area serve less meat in school meals?",
                         "topic": "School Catering",
                         "importance": "Medium",
@@ -2097,7 +2091,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     },
                     {
                         "council_types": ["single", "district", "northern-ireland"],
-                        "code": "6",
+                        "code": "7",
                         "name": "Does the council provide kerbside food waste recycling?",
                         "topic": "Kerbside Food Waste Recycling",
                         "importance": "Medium",
@@ -2108,7 +2102,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     },
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
-                        "code": "7",
+                        "code": "8",
                         "name": "How high is the councils' area wide annual recycling rate?",
                         "topic": "Recycling Rate",
                         "importance": "Medium",
@@ -2124,7 +2118,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     },
                     {
                         "council_types": ["single", "district", "county", "northern-ireland"],
-                        "code": "8",
+                        "code": "9",
                         "name": "How low is the councils' area wide level of household waste produced?",
                         "topic": "Household Waste Amount",
                         "importance": "Low",
@@ -2141,6 +2135,82 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     },
                 ],
             },
+        ]
+        context["organisations"] = [
+            {"name": "20’s Plenty for Us"},
+            {"name": "Abundance Investment"},
+            {"name": "Active Travel Academy"},
+            {"name": "Ad Free Cities"},
+            {"name": "ADEPT"},
+            {"name": "Anthesis"},
+            {"name": "Architects Action Network"},
+            {"name": "Association of Local Government Ecologists"},
+            {"name": "Badvertising"},
+            {"name": "Brighton Peace and Environment Centre"},
+            {"name": "British Lung Foundation"},
+            {"name": "Buglife"},
+            {"name": "Campaign for Better Transport"},
+            {"name": "Carbon Co-op"},
+            {"name": "Chartered Institute of Public Finance and Accountancy"},
+            {"name": "CLES"},
+            {"name": "Climate Conversations"},
+            {"name": "Climate Emergency Manchester"},
+            {"name": "Climate Museum UK"},
+            {"name": "Collective for Climate Action"},
+            {"name": "Community Energy England"},
+            {"name": "Community Rights Planning"},
+            {"name": "CoMoUK"},
+            {"name": "Crossing Footprints"},
+            {"name": "Culture Declares Emergency"},
+            {"name": "Cycle Streets"},
+            {"name": "Cycling UK"},
+            {"name": "Democracy Club"},
+            {"name": "Department of Transport"},
+            {"name": "Energy Savings Trust"},
+            {"name": "Food For Life"},
+            {"name": "Food Matters"},
+            {"name": "Friends of the Earth"},
+            {"name": "Generation Rent"},
+            {"name": "Green Finance Institute"},
+            {"name": "Green Flag (Keep Britain Tidy)"},
+            {"name": "Institute for Local Government"},
+            {"name": "Involve"},
+            {"name": "Living Streets"},
+            {"name": "Local Partnerships"},
+            {"name": "London Cycling Campaign"},
+            {"name": "Making Places Together"},
+            {"name": "mySociety"},
+            {"name": "National Farmers' Union"},
+            {"name": "Passivhaus Homes"},
+            {"name": "Pesticides Action Network"},
+            {"name": "PETA (People for the Ethical Treatment of Animals)"},
+            {"name": "Place Based Carbon Calculator"},
+            {"name": "Planning Aid Wales"},
+            {"name": "Planning Scotland"},
+            {"name": "Plantlife"},
+            {"name": "Plastic Free Communities"},
+            {"name": "Possible"},
+            {"name": "ProVeg"},
+            {"name": "Quantum Strategy & Technology"},
+            {"name": "Solar Together"},
+            {"name": "Southampton Climate Action Network"},
+            {"name": "Sustain"},
+            {"name": "Sustrans"},
+            {"name": "The Campaign to Protect Rural England"},
+            {"name": "The Climate Change Committee"},
+            {"name": "The Soil Association"},
+            {"name": "The Wildlife Trusts"},
+            {"name": "Town and Country Planning Association"},
+            {"name": "Transport Action Network"},
+            {"name": "Transport for New Homes"},
+            {"name": "Tree Economics"},
+            {"name": "Turing Institute"},
+            {"name": "UK Divest"},
+            {"name": "Waste Data Flow"},
+            {"name": "Wirral Environmental Network"},
+            {"name": "Wildlife & Countryside Link"},
+            {"name": "Winchester Action on Climate Change"},
+            {"name": "Zap Map"},
         ]
         return context
 
