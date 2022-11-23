@@ -53,6 +53,12 @@ $navbar-mobile-breakpoint: 1200px;
             border-color: darken(#A8F0E4,30%);
         }
 
+        &:focus {
+            background-color:$color-scorecard-yellow;
+            text-decoration: underline;
+            color: $black;
+        }
+
         @media only screen and (max-width: $navbar-mobile-breakpoint) {
             padding-top: 15px !important;
             padding-bottom: 15px !important;

@@ -44,9 +44,21 @@ a {
     @include transition(color 0.3s ease-in-out);
     @include responsive(font-size, 14, 15);
     letter-spacing: 0.05em;
+    text-underline-offset: 3px;
  
     &:hover {
         color: $color-scorecard-grey-900;
+        text-decoration-thickness: 3px;
+    }
+
+    &:focus {
+        background-color: $color-scorecard-yellow;
+        color: $black;
+        text-decoration-thickness: 3px;
+    }
+
+    &:visited {
+        color: darken($color-scorecard-purple, 10%);
     }
 }
 
@@ -111,6 +123,14 @@ a.cta {
     padding: 7px;
     text-decoration: none;
     white-space: nowrap;
+
+    &:focus {
+        background-color:$color-scorecard-yellow !important;
+        color: $black !important;
+        border-color: $black !important;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
 }
 
 // Color button
@@ -119,7 +139,7 @@ a.cta {
     background-color: $color-scorecard-blue-l1;
     border: 1px solid $color-scorecard-blue;
 
-    @include hover-focus {
+    &:hover {
         color: $color-scorecard-blue-d1;
         background-color: $color-scorecard-blue-l2;
         border: 1px solid $color-scorecard-blue;
@@ -127,7 +147,7 @@ a.cta {
 
     &.is--light {
         background-color: $color-scorecard-blue-l2;
-        @include hover-focus {
+        &:hover {
             color: $black;
             background-color: $color-scorecard-blue-l1;
             border: 1px solid $color-scorecard-blue;
@@ -139,7 +159,7 @@ a.cta {
     background-color: $color-scorecard-green-d1;
     border: 1px solid $color-scorecard-green-d1;
 
-    @include hover-focus {
+    &:hover {
         color: $color-scorecard-green-d1;
         background-color: $color-scorecard-green-l1;
         border: 1px solid $green;
@@ -149,7 +169,7 @@ a.cta {
         background-color: transparentize($color-scorecard-green-l1, 0.7);
         border: 1px solid $white;
         color: $color-scorecard-grey-900;
-        @include hover-focus {
+        &:hover {
             color: $white;
             background-color: $color-scorecard-green-d1;
             border: 1px solid $color-scorecard-green;
@@ -192,9 +212,15 @@ a.cta {
         @include transition(color 0.3s ease-in-out);
     }
 
+    &:focus {
+        outline: 3px solid $color-scorecard-yellow;
+        @include box-shadow(0px, 0px, 0px, 5px, $black);
+        background-color: $white !important;
+    }
+
     &.green.dark {
         background-color: $color-scorecard-green-d1;
-        @include hover-focus {
+        &:hover {
             background-color: $white;
             color: $color-scorecard-grey-900;
             border: 1px solid $color-scorecard-green-d1;
@@ -210,7 +236,7 @@ a.cta {
     &.blue.light {
         background-color: $color-scorecard-blue-l1;
         border: 1px solid $blue;
-        @include hover-focus {
+        &:hover {
             background-color: $white;
             color: $color-scorecard-blue-d1;
             border: 1px solid $color-scorecard-blue-d1;
@@ -234,7 +260,7 @@ a.cta {
             color: $white !important;
         }
 
-        @include hover-focus {
+        &:hover {
             background-image: url('../img/search-icon.svg');
             background-color: #7BD2F8;
             color: $color-scorecard-grey-900;

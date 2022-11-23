@@ -33,8 +33,14 @@ input[type="checkbox"], input[type="radio"] {
     @include transition(background-color, color 0.3s ease-in-out);
     margin-top: 10px;
 
-    @include hover-focus {
+    &:hover {
         background-color: $color-scorecard-blue-l1;
+    }
+
+    &:focus {
+        background-color: $color-scorecard-yellow;
+        outline: 2px solid $black;
+        border-color: $black;
     }
 
     &.active {

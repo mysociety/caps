@@ -63,6 +63,9 @@ footer {
             opacity: 0.8;
             transform: translateX(3px);
         }
+        &:visited {
+            color: lighten($color-scorecard-purple, 20%)
+        }
         &:last-child {
             margin-bottom: 0 !important;
         }

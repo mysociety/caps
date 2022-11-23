@@ -59,6 +59,12 @@ h1, .h1 {
     }
 }
 
+h2, .h2 {
+    font-family: $font-family-sans-serif;
+    font-weight: 700;
+    color: $color-scorecard-grey-800;
+}
+
 h3, .h3 {
     font-family: $headings-font-family;
     font-style: normal;
@@ -68,7 +74,6 @@ h3, .h3 {
     /* or 31px */
 
     letter-spacing: 0.04em;
-    text-transform: uppercase;
     color: $color-scorecard-grey-900;
 }
 

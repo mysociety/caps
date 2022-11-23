@@ -166,3 +166,13 @@ $max-viewport: 1792;
         overflow: hidden;
     }
 }
+
+// Cross-browser mixin
+/* Usage for input focus
+    @include box-shadow(0px, 0px, 0px, 5px, $black);
+*/
+@mixin box-shadow($top, $left, $blur, $size, $color) {
+    -webkit-box-shadow: $top $left $blur $size $color;
+    -moz-box-shadow: $top $left $blur $size $color;
+    box-shadow: $top $left $blur $size $color;
+ }
