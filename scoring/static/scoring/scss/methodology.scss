@@ -161,6 +161,15 @@ $council-types: (
         display: none;
     }
 
+    // Hide non-selectec council type cells on smaller screens
+    th.js-highlight-#{$council-type},
+    td.js-highlight-#{$council-type} {
+        display: none;
+        @media (min-width: 700px) {
+            display: table-cell;
+        }
+    }
+
     // When an active council type has been selected…
     [data-methodology-active-council-type="#{$council-type}"] {
         // Hide any default (non-council-typed) elements
@@ -181,11 +190,13 @@ $council-types: (
         // Highlight the relevant council type table headers
         th.js-highlight-#{$council-type} {
             background-color: $color-scorecard-green-d1;
+            display: table-cell;
         }
 
         // Highlight the relevant council type table cells
         td.js-highlight-#{$council-type} {
             background-color: transparentize($color-scorecard-green-d1, 0.8);
+            display: table-cell;
         }
 
         // Fake "active" styling for the activated trigger
