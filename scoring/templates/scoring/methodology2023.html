@@ -25,8 +25,7 @@
                         <nav class="list-group list-group-flush">
                             <a class="list-group-item text-decoration-none" href="#section-summary">Summary</a>
                             <a class="list-group-item text-decoration-none" href="#section-question-criteria">Question Criteria</a>
-                            <a class="list-group-item text-decoration-none pl-5" href="#section-weightings">Section Weightings</a>
-                            <a class="list-group-item text-decoration-none pl-5" href="#section-list-of-questions">List of questions</a>
+                            <a class="list-group-item text-decoration-none" href="#section-weightings">Section Weightings</a>
                             <a class="list-group-item text-decoration-none" href="#section-question-weighting-within">Question Weighting within Sections</a>
                             <a class="list-group-item text-decoration-none" href="#section-what-will-we-be-marking">What Will We Be Marking?</a>
                             <a class="list-group-item text-decoration-none" href="#section-developing-the-scoring-system">Developing the Scoring System</a>
@@ -67,94 +66,21 @@
                     <p>Below you can see each of the questions that councils will be scored on in 2023, along with some further clarification of the question criteria. We’ve also shown how each question will be scored: whether from volunteer research, FOI responses from councils, the use of national data or through a mixture of volunteer research and national data. Unless otherwise stated, we are marking council climate action from 1st January 2019 up until March 2023 (exact date to be confirmed). For questions that use national data we will take the most recent data up until 1st August 2023. For questions that use FOI requests, unless otherwise stated, we are marking council climate action from 1st January 2019 up until January 2023 when the FOI requests will be sent out. Strategies and Policies that we mark must also be in date and active (except for Local Plans where draft ones will be accepted).</p>
                     <p>Different council types have different powers. Therefore, questions are only being asked to a council where they have power or influence on that topic. For example, County Councils are not Planning Authorities so there are only two questions in the Planning section that apply to County Councils. To understand more about the different powers that different councils have, <a class="d-inline-block" href="https://www.instituteforgovernment.org.uk/explainers/local-government">check out this blog from the Institute of Governance.</a></p>
 
-                    <div class="alert alert-warning mt-3 mt-lg-4 border-yellow" role="alert">
-                        <h3>Combined Authorities</h3>
-                        <p>We have not yet published the draft methodology for the Council Climate Action Scorecards for Combined Authorities. Combined Authorities have varying powers within themselves and a lot of the Scorecard questions can't be applied. We will score all Combined Authorities and publish the results in 2023. The draft methodology for Combined Authorities will be published prior to this. We plan to share the amended Scorecards for Combined Authorities soon.</p>
-                    </div>
+                    <h3 class="mt-5 mb-3"><span class="underline-green">See the questions</span></h3>
 
                     <div class="js-dynamic-content mt-4">
                         {% include 'scoring/includes/main-filter-methodology.html' %}
-                        <div class="alert alert-warning mt-3 mt-lg-4 bg-grey border" role="alert">
-                            <p class="label pl-0 js-single js-district js-county js-northern-ireland">Currently displaying</p>
-                            <p class="js-default label pl-0">No council has been selected</p>
-                            <h3 class="js-default">Select a council</h3>
-                            <h3 class="js-single">Single tier</h3>
-                            <h3 class="js-district">District</h3>
-                            <h3 class="js-county">County</h3>
-                            <h3 class="js-northern-ireland">Northren Ireland</h3>
-                            <p class="js-single">A small number of questions might not apply to your council and they are highlighted with a warning icon.</p>
-                        </div>
 
-                        <h3 id="section-weightings" class="mt-5 mb-3"><span class="underline-green">Section Weightings</span></h3>
-                        <table class="minimal-table">
-                            <thead>
-                                <tr class="bg-green">
-                                    <th>Section</th>
-                                    <th class="js-highlight-single">Single tier</th>
-                                    <th class="js-highlight-district">District</th>
-                                    <th class="js-highlight-county">County</th>
-                                    <th class="js-highlight-northern-ireland">Northern Ireland</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Buildings &amp; Heating</td>
-                                    <td class="js-highlight-single">20%</td>
-                                    <td class="js-highlight-district">25%</td>
-                                    <td class="js-highlight-county">20%%</td>
-                                    <td class="js-highlight-northern-ireland">20%</td>
-                                </tr>
-                                <tr>
-                                    <td>Transport</td>
-                                    <td class="js-highlight-single">20%</td>
-                                    <td class="js-highlight-district">5%</td>
-                                    <td class="js-highlight-county">30%</td>
-                                    <td class="js-highlight-northern-ireland">15%</td>
-                                </tr>
-                                <tr>
-                                    <td>Planning &amp; Land Use</td>
-                                    <td class="js-highlight-single">15%</td>
-                                    <td class="js-highlight-district">25%</td>
-                                    <td class="js-highlight-county">5%</td>
-                                    <td class="js-highlight-northern-ireland">15%</td>
-                                </tr>
-                                <tr>
-                                    <td>Governance &amp; Finance</td>
-                                    <td class="js-highlight-single">15%</td>
-                                    <td class="js-highlight-district">15%</td>
-                                    <td class="js-highlight-county">15%</td>
-                                    <td class="js-highlight-northern-ireland">20%</td>
-                                </tr>
-                                <tr>
-                                    <td>Biodiversity</td>
-                                    <td class="js-highlight-single">10%</td>
-                                    <td class="js-highlight-district">10%</td>
-                                    <td class="js-highlight-county">10%</td>
-                                    <td class="js-highlight-northern-ireland">10%</td>
-                                </tr>
-                                <tr>
-                                    <td>Collaboration &amp; Engagement</td>
-                                    <td class="js-highlight-single">10%</td>
-                                    <td class="js-highlight-district">10%</td>
-                                    <td class="js-highlight-county">10%</td>
-                                    <td class="js-highlight-northern-ireland">10%</td>
-                                </tr>
-                                <tr>
-                                    <td>Waste Reduction &amp; Food</td>
-                                    <td class="js-highlight-single">10%</td>
-                                    <td class="js-highlight-district">10%</td>
-                                    <td class="js-highlight-county">10%</td>
-                                    <td class="js-highlight-northern-ireland">10%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <h3 id="section-list-of-questions" class="mt-5 mb-3"><span class="underline-green">List of questions</span></h3>
                         <form class="radio-wrapper bg-blue-l2 p-3 mb-3 border rounded js-single js-district js-county js-northern-ireland">
                             <input class="mr-1" type="checkbox" id="display-complete-content" name="display-complete-content">
                             <label for="display-complete-content" style="vertical-align:super">Show all text for the criteria and clarification as default.
                             </label>
                         </form>
+
+                        <div class="js-single alert alert-warning mt-3 mt-lg-4 bg-grey border" role="alert">
+                            <p class="mb-0">A small number of questions might not apply to your council and they are highlighted with a warning icon.</p>
+                        </div>
+
                         <div id="accordion-sections" class="accordion-wrapper rounded js-single js-district js-county js-northern-ireland">
                             {% for section in sections %}
                             <div id="accordion-section-{{forloop.counter }}" class="accordion-item">
@@ -233,18 +159,88 @@
                             </div>
                             {% endfor %}
                         </div>
+
+                        <h3 class="mt-5 mb-3"><span class="underline-green">Combined Authorities</span></h3>
+
+                        <p>We have not yet published the draft methodology for the Council Climate Action Scorecards for Combined Authorities. Combined Authorities have varying powers within themselves and a lot of the Scorecard questions can't be applied. We will score all Combined Authorities and publish the results in 2023. The draft methodology for Combined Authorities will be published prior to this. We plan to share the amended Scorecards for Combined Authorities soon.</p>
+
+                        <h2 id="section-weightings" class="mt-5 mb-3">Section Weightings</h2>
+
+                        <table class="minimal-table">
+                            <thead>
+                                <tr class="bg-green">
+                                    <th>Section</th>
+                                    <th class="js-highlight-single">Single tier</th>
+                                    <th class="js-highlight-district">District</th>
+                                    <th class="js-highlight-county">County</th>
+                                    <th class="js-highlight-northern-ireland">Northern Ireland</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Buildings &amp; Heating</td>
+                                    <td class="js-highlight-single">20%</td>
+                                    <td class="js-highlight-district">25%</td>
+                                    <td class="js-highlight-county">20%</td>
+                                    <td class="js-highlight-northern-ireland">20%</td>
+                                </tr>
+                                <tr>
+                                    <td>Transport</td>
+                                    <td class="js-highlight-single">20%</td>
+                                    <td class="js-highlight-district">5%</td>
+                                    <td class="js-highlight-county">30%</td>
+                                    <td class="js-highlight-northern-ireland">15%</td>
+                                </tr>
+                                <tr>
+                                    <td>Planning &amp; Land Use</td>
+                                    <td class="js-highlight-single">15%</td>
+                                    <td class="js-highlight-district">25%</td>
+                                    <td class="js-highlight-county">5%</td>
+                                    <td class="js-highlight-northern-ireland">15%</td>
+                                </tr>
+                                <tr>
+                                    <td>Governance &amp; Finance</td>
+                                    <td class="js-highlight-single">15%</td>
+                                    <td class="js-highlight-district">15%</td>
+                                    <td class="js-highlight-county">15%</td>
+                                    <td class="js-highlight-northern-ireland">20%</td>
+                                </tr>
+                                <tr>
+                                    <td>Biodiversity</td>
+                                    <td class="js-highlight-single">10%</td>
+                                    <td class="js-highlight-district">10%</td>
+                                    <td class="js-highlight-county">10%</td>
+                                    <td class="js-highlight-northern-ireland">10%</td>
+                                </tr>
+                                <tr>
+                                    <td>Collaboration &amp; Engagement</td>
+                                    <td class="js-highlight-single">10%</td>
+                                    <td class="js-highlight-district">10%</td>
+                                    <td class="js-highlight-county">10%</td>
+                                    <td class="js-highlight-northern-ireland">10%</td>
+                                </tr>
+                                <tr>
+                                    <td>Waste Reduction &amp; Food</td>
+                                    <td class="js-highlight-single">10%</td>
+                                    <td class="js-highlight-district">10%</td>
+                                    <td class="js-highlight-county">10%</td>
+                                    <td class="js-highlight-northern-ireland">10%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h2 id="section-question-weighting-within" class="mt-5 mb-3">Question Weighting within Sections</h2>
+
+                        <p>This draft methodology does not show the exact number of points allocated for each question. These will be published alongside the results of the Council Climate Action Scorecards in Autumn 2023.</p>
+                        <p>At this stage, you can see an indication as to which questions will be worth more points than others, shown as low, medium, or high importance. All of the actions that we are marking in our Scorecard questions are important: all of these actions will reduce greenhouse gas emissions and are actions that we want to see councils undertake, but within this, there are some actions that have a bigger and more direct impact on reducing emissions.</p>
+                        <p>The questions that are weighted high are those which we consider to have the biggest impact on greenhouse gas emission reductions and a sustained long-term impact. For example, low emission policies implemented in Local Plans will have a huge impact on all new homes built over the next 10 years. Questions that are also key to enabling climate actions for councils are weighted high, such as whether they are finding finance for their climate actions or whether they have an annual Climate Action Plan Update.</p>
+                        <p>Areas of action where the impact on greenhouse gas emissions is one step removed, or where the impact on emissions is reliant on other actors and actions, such as the national UK Government and devolved assemblies, are marked as medium.</p>
+                        <p>For example, employing a retrofit officer is a really important action that councils can take, but this action alone won’t reduce greenhouse gas emissions from homes and buildings. It’s the work that this person will do, with other actors and funding that will lead to emission reductions. Another example is recycling; whilst councils can have a big role in improving recycling rates, it is also dependent on residents’ behaviour, national policy and how supermarkets package their food.</p>
+                        <p>Questions that are weighted low include all actions which relate solely to the councils' own activities. These questions include: changing council processes to be more climate friendly; actions where councils have limited direct influence; and actions that are about the climate action strength of written strategies and plans. This is because council-only greenhouse gas emissions are a tiny part of an area’s overall emissions, between 2% and 7%. </p>
+                        <p>These Scorecards focus on action, so whilst there is benefit in us scoring the strength of written plans, this too is weighted low. For the Planning section, we are scoring the strength of a councils’ Local Plan and for this section, questions measuring the strength of their written Local Plan have been given low, medium and high weightings. This is because we recognise that sustainability requirements in a Local Plan are a significant change in policy. </p>
+                        <p>There are also some questions that will be scored negatively: councils will lose marks if they have taken actions that actively increase greenhouse gas emissions reduction. There are a total of three negatively scoring questions, found in the Transport, Governance &amp; Finance and Planning sections.</p>
+
                     </div>
-
-                    <h2 id="section-question-weighting-within" class="mt-5 mb-3">Question Weighting within Sections</h2>
-
-                    <p>This draft methodology does not show the exact number of points allocated for each question. These will be published alongside the results of the Council Climate Action Scorecards in Autumn 2023.</p>
-                    <p>At this stage, you can see an indication as to which questions will be worth more points than others, shown as low, medium, or high importance. All of the actions that we are marking in our Scorecard questions are important: all of these actions will reduce greenhouse gas emissions and are actions that we want to see councils undertake, but within this, there are some actions that have a bigger and more direct impact on reducing emissions.</p>
-                    <p>The questions that are weighted high are those which we consider to have the biggest impact on greenhouse gas emission reductions and a sustained long-term impact. For example, low emission policies implemented in Local Plans will have a huge impact on all new homes built over the next 10 years. Questions that are also key to enabling climate actions for councils are weighted high, such as whether they are finding finance for their climate actions or whether they have an annual Climate Action Plan Update.</p>
-                    <p>Areas of action where the impact on greenhouse gas emissions is one step removed, or where the impact on emissions is reliant on other actors and actions, such as the national UK Government and devolved assemblies, are marked as medium.</p>
-                    <p>For example, employing a retrofit officer is a really important action that councils can take, but this action alone won’t reduce greenhouse gas emissions from homes and buildings. It’s the work that this person will do, with other actors and funding that will lead to emission reductions. Another example is recycling; whilst councils can have a big role in improving recycling rates, it is also dependent on residents’ behaviour, national policy and how supermarkets package their food.</p>
-                    <p>Questions that are weighted low include all actions which relate solely to the councils' own activities. These questions include: changing council processes to be more climate friendly; actions where councils have limited direct influence; and actions that are about the climate action strength of written strategies and plans. This is because council-only greenhouse gas emissions are a tiny part of an area’s overall emissions, between 2% and 7%. </p>
-                    <p>These Scorecards focus on action, so whilst there is benefit in us scoring the strength of written plans, this too is weighted low. For the Planning section, we are scoring the strength of a councils’ Local Plan and for this section, questions measuring the strength of their written Local Plan have been given low, medium and high weightings. This is because we recognise that sustainability requirements in a Local Plan are a significant change in policy. </p>
-                    <p>There are also some questions that will be scored negatively: councils will lose marks if they have taken actions that actively increase greenhouse gas emissions reduction. There are a total of three negatively scoring questions, found in the Transport, Governance &amp; Finance and Planning sections.</p>
 
                     <h2 id="section-what-will-we-be-marking" class="mt-5 mb-3">What Will We Be Marking?</h2>
 
