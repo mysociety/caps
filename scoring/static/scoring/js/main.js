@@ -275,28 +275,10 @@ forEachElement('.js-collapse-children', function(wrapper){
     }
 });
 
-var secondaryNavbarButton = document.getElementById("mobile-content-navbar");
-var secondaryNavbarContent = document.getElementById("content-navbar");
-
-secondaryNavbarButton.addEventListener('click', function(){
-    if(!secondaryNavbarContent.classList.contains('show-height')) {
-        secondaryNavbarButton.setAttribute('aria-expanded', true);
-        secondaryNavbarButton.classList.toggle('close');
-        secondaryNavbarContent.classList.toggle('show-height');
-        secondaryNavbarContent.style.height = "auto";
-        let height = secondaryNavbarContent.clientHeight + "px";
-        secondaryNavbarContent.style.height = "0px";
-        setTimeout(function(){
-            secondaryNavbarContent.style.height = height;
-        }, 0);
-    } else {
-        secondaryNavbarButton.setAttribute('aria-expanded', false);
-        secondaryNavbarButton.classList.remove('close');
-        secondaryNavbarContent.style.height = "0px";
-        secondaryNavbarContent.addEventListener('transitionend', function(){
-            secondaryNavbarContent.classList.remove('show-height');
-        }, {once: true})
-    }
+forEachElement('.sticky-in-page-nav > button', function(button){
+    button.addEventListener('click', function(){
+        button.setAttribute( 'aria-expanded', (button.getAttribute('aria-expanded') == 'true') ? 'false' : 'true' );
+    });
 });
 
 // Open accordion item

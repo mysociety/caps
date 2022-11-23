@@ -132,12 +132,12 @@ h6, .h6 {
 
 // Underline
 .underline-green {
-    display: inline-block;
+    display: inline;
     box-shadow: inset 0 10px 0 white, inset 0 -10px 0 transparentize($color: $green, $amount: 0.4)
 }
 
 .underline-grey {
-    display: inline-block;
+    display: inline;
     box-shadow: inset 0 10px 0 white, inset 0 -4px 0 transparentize($color: $black, $amount: 0.9)
 }
 

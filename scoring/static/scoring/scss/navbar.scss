@@ -134,76 +134,40 @@ nav.subheader {
     }
 }
 
-// CONTENT NAVBAR
-#mobile-content-navbar {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    $button-size: 44px;
-    height: $button-size;
-    width: $button-size;
-    border-radius: $button-size;
-    border: 2px solid $white;
-    background-image: url('../img/hamburguer-white.svg');
-    background-repeat: no-repeat;
-    background-size: 22px auto;
-    background-position: center;
-    background-color: $color-scorecard-blue-d1;
-    z-index: 999;
-
-    @media only screen and (min-width: $navbar-mobile-breakpoint) {
+.sticky-in-page-nav {
+    & > button {
         display: none;
     }
 
-    &:focus {
-        background-image: url('../img/hamburguer-black.svg');
-        background-color: $color-scorecard-yellow;
-        outline: 3px solid $color-scorecard-yellow;
-        border-color: $black;
-    }
-
-    &:hover {
-        background-image: url('../img/hamburguer-black.svg');
-        background-color: $color-scorecard-blue;
-        border-color: $color-scorecard-blue-d1;
-    }
-
-    &.close {
-        background-image: url('../img/close-grey.svg');
-        background-size: 18px auto;
-    }
-}
-
-#content-navbar {
-    @include show-height;
-    position: fixed;
-    max-width: 250px;
-    z-index: 9999;
-    right: 0;
-    bottom: 65px;
-
-    ul {
-        padding-inline-start: 0;
-        list-style: none;
-        ul {
-            padding-inline-start: 1rem;
-        }
-    }
-
-    a {
-        text-decoration: none;
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
-    @media only screen and (min-width: $navbar-mobile-breakpoint) {
+    @include media-breakpoint-down('sm') {
         position: sticky;
-        display: block;
-        height: auto;
-        bottom: auto;
-        float: right;
-        top: 50px;
-        @include responsive(right, 0, 200);
+        top: 0;
+        margin-top: 0 !important;
+        z-index: 999;
+        background: #fff;
+        box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
+
+        & > button {
+            display: block;
+            padding: 1rem 15px 1rem 45px;
+            margin: 0 -15px;
+            width: 100vw;
+            background-image: url('../img/hamburguer-black.svg');
+            background-size: 1rem;
+            background-repeat: no-repeat;
+            background-position: 15px 50%;
+
+            &:focus {
+                background-color: $color-scorecard-yellow;
+            }
+        }
+
+        & > button[aria-expanded="false"] + * {
+            display: none;
+        }
+
+        & > button[aria-expanded="true"] + * {
+            display: block;
+        }
     }
 }
