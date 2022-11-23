@@ -277,6 +277,7 @@ forEachElement('.js-collapse-children', function(wrapper){
 
 var secondaryNavbarButton = document.getElementById("mobile-content-navbar");
 var secondaryNavbarContent = document.getElementById("content-navbar");
+
 secondaryNavbarButton.addEventListener('click', function(){
     if(!secondaryNavbarContent.classList.contains('show-height')) {
         secondaryNavbarButton.setAttribute('aria-expanded', true);

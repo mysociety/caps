@@ -13,23 +13,30 @@
             </div>
         </div>
 
+        <button id="mobile-content-navbar" aria-label="Open secondary navbar" aria-controls="content-navbar" aria-expanded="false"></button>
+        <nav id="content-navbar" aria-label="secondary">
+            <h6 class="mb-0 pt-3 px-3 bg-blue-l2" style="opacity:1">Content</h6>
+            <ul class="p-3 bg-blue-l2">
+                <li><a href="#section-summary">Summary</a></li>
+                <li class="mt-3">
+                    <a href="#section-question-criteria">Question Criteria</a>
+                    <ul class="mt-2">
+                        <li><a href="#section-weightings">Sections Weighting</a></li>
+                        <li><a href="#section-list-of-questions">List of questions </a></li>
+                    </ul>
+                </li>
+                <li class="mt-3"><a href="#section-question-weighting-within">Question Weighting within Sections</a></li>
+                <li class="mt-3"><a href="#section-what-will-we-be-marking">What Will We Be Marking?</a></li>
+                <li class="mt-3"><a href="#section-developing-the-scoring-system">Developing the Scoring System</a></li>
+                <li class="mt-3"><a href="#section-scorecard-sections-summary-and-weighting">Scorecard Sections Summary and Weighting</a></li>
+                <li class="mt-3"><a href="#section-further-info">Further Info</a></li>
+                <li class="mt-3"><a href="#section-thank-you">Thank You</a></li>
+            </ul>
+        </nav>
+
         <div class="position-relative">
-            <button id="mobile-content-navbar" aria-label="Open secondary navbar" aria-controls="content-navbar" aria-expanded="false"></button>
-            <nav id="content-navbar" aria-label="secondary" class="position-fixed">
-                <h6 class="mb-0 pt-3 px-3 bg-blue-l2" style="opacity:1">Content</h6>
-                <ul class="p-3 bg-blue-l2">
-                    <li><a href="">Example</a></li>
-                    <li><a href="">Example</a></li>
-                    <li>
-                        <ul>
-                            <li>Cook beans for 45 minutes.</li>
-                            <li>Cut vegetables in small cubes.</li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-<!-- h2 SECTION SUMMARY -->
-            <div id="summary-section" class="container medium">
+            <!-- h2 Summary -->
+            <div id="section-summary" class="container medium">
                 <div class="row mb-3">
                     <div class="col-12 col-lg-6">
                         <h2>Summary</h2>
@@ -63,16 +70,22 @@
                 </div>
 
             </div>
-<!-- h2 QUESTION CRITERIA -->
-            <div id="question-criteria-section" class="container medium">
+
+            <!-- h2 Question Criteria -->
+            <div id="section-question-criteria" class="container medium">
                 <div id="methodology-question" class="row">
                     <div class="col-12 col-lg-7">
                         <h2 class="mb-3">Question Criteria</h3>
                         <p>Below you can see each of the questions that councils will be scored on in 2023, along with some further clarification of the question criteria. We’ve also shown how each question will be scored: whether from volunteer research, FOI responses from councils, the use of national data or through a mixture of volunteer research and national data. Unless otherwise stated, we are marking council climate action from 1st January 2019 up until March 2023 (exact date to be confirmed). For questions that use national data we will take the most recent data up until 1st August 2023. For questions that use FOI requests, unless otherwise stated, we are marking council climate action from 1st January 2019 up until January 2023 when the FOI requests will be sent out. Strategies and Policies that we mark must also be in date and active (except for Local Plans where draft ones will be accepted).</p>
-                        <p>Different council types have different powers. Therefore, questions are only being asked to a council where they have power or influence on that topic. For example, County Councils are not Planning Authorities so there are only two questions in the Planning section that apply to County Councils. To understand more about the different powers that different councils have, <a href="https://www.instituteforgovernment.org.uk/explainers/local-government">check out this blog from the Institute of Governance.</a></p>
+                        <p>Different council types have different powers. Therefore, questions are only being asked to a council where they have power or influence on that topic. For example, County Councils are not Planning Authorities so there are only two questions in the Planning section that apply to County Councils. To understand more about the different powers that different councils have, <a class="d-inline-block" href="https://www.instituteforgovernment.org.uk/explainers/local-government">check out this blog from the Institute of Governance.</a></p>
+                        <div class="alert alert-warning mt-3 mt-lg-4 border-yellow" role="alert">
+                            <h3>Combined Authorities</h3>
+                            <p>We have not yet published the draft methodology for the Council Climate Action Scorecards for Combined Authorities. Combined Authorities have varying powers within themselves and a lot of the Scorecard questions can't be applied. We will score all Combined Authorities and publish the results in 2023. The draft methodology for Combined Authorities will be published prior to this. We plan to share the amended Scorecards for Combined Authorities soon.
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="js-dynamic-content" data-methodology-active-council-type="single">
+                <div class="js-dynamic-content mt-4">
                     <div class="row">
                         <div class="col-12 col-lg-7">
                             {% include 'scoring/includes/main-filter-methodology.html' %}
@@ -90,7 +103,7 @@
                     </div>
 
                     <!-- h3 Sections Weighting -->
-                    <div class="row mt-4 mt-lg-5">
+                    <div id="section-weightings" class="row mt-4 mt-lg-5">
                         <div class="col-12 col-lg-9">
                             <h3 class="mb-3">Section Weightings</h3>
                             <table class="minimal-table">
@@ -159,14 +172,9 @@
                     </div>
 
                     <!-- h3 List of questions -->
-                    <div class="row mt-4 mt-lg-5">
+                    <div id="section-list-of-questions" class="row mt-4 mt-lg-5">
                         <div class="col-12 col-lg-7">
                             <h3 class="mb-3">List of questions</h3>
-                            <div class="alert alert-warning mt-3 mt-lg-4 border-yellow" role="alert">
-                                <h3>Combined Authorities</h3>
-                                <p>We have not yet published the draft methodology for the Council Climate Action Scorecards for Combined Authorities. Combined Authorities have varying powers within themselves and a lot of the Scorecard questions can't be applied. We will score all Combined Authorities and publish the results in 2023. The draft methodology for Combined Authorities will be published prior to this. We plan to share the amended Scorecards for Combined Authorities soon.
-                                </p>
-                            </div>
                             <form class="radio-wrapper bg-blue-l2 p-3 mb-3 border rounded js-single js-district js-county js-northern-ireland">
                                 <input class="mr-1" type="checkbox" id="display-complete-content" name="display-complete-content">
                                 <label for="display-complete-content" style="vertical-align:super">Show all text for the criteria and clarification as default.
@@ -254,7 +262,8 @@
                     </div>
                 </div>
 
-                <div id="question-weighting-within-sections" class="row mt-4 mt-lg-5">
+                <!-- h2 Question Weighting within Sections -->
+                <div id="section-question-weighting-within" class="row mt-4 mt-lg-5">
                     <div class="col-12 col-lg-7">
                         <h2 class="mb-3">Question Weighting within Sections</h2>
                         <p>This draft methodology does not show the exact number of points allocated for each question. These will be published alongside the results of the Council Climate Action Scorecards in Autumn 2023.</p>
@@ -268,7 +277,8 @@
                     </div>
                 </div>
 
-                <div id="what-will-we-be-marking">
+                <!-- h2 What Will We Be Marking? -->
+                <div id="section-what-will-we-be-marking">
                     <div class="row mt-4 mt-lg-5">
                         <div class="col-12 col-lg-7">
                             <h2 class="mb-3">What Will We Be Marking?</h2>
@@ -375,7 +385,8 @@
                     </div>
                 </div>
 
-                <div id="developing-the-scoring-system" class="row mt-4 mt-lg-5">
+                <!-- h2 Developing the scoring system -->
+                <div id="section-developing-the-scoring-system" class="row mt-4 mt-lg-5">
                     <div class="col-12 col-lg-7">
                         <h2 class="mb-3">Developing the scoring system</h2>
                         <img src="{% static 'scoring/img/2023-timeline@2x.png' %}" width="700" height="150" class="d-none d-sm-block mx-auto my-4 py-4 px-2 bg-grey rounded" style="max-width: 100%; height: auto;" alt="Timeline showing: April to August 2022, research and development; July to September 2022, one-to-one and sector-wide consultations; November to December 2022, publish finalised metrics for Scorecards; February to March 2023, first marking with volunteers; April to May 2023, five week right of reply period; Summer 2023, scoring audit; and Autumn 2023, scorecards launch">
@@ -428,7 +439,8 @@
                     </div>
                 </div>
 
-                <div id="scorecard-sections-summary-and-weighting" class="row mt-4 mt-lg-5">
+                <!-- h2 Scorecard Sections Summary and Weightin -->
+                <div id="section-scorecard-sections-summary-and-weighting" class="row mt-4 mt-lg-5">
                     <div class="col-12 col-lg-7">
                         <h2 class="mb-3">Scorecard Sections Summary and Weighting</h2>
                         <div class="mb-4 mb-sm-5">
@@ -474,14 +486,17 @@
                     </div>
                 </div>
 
-                <div id="further-info-section" class="row mt-4 mt-lg-5">
+                <!-- h2 Further Info -->
+                <div id="section-further-info" class="row mt-4 mt-lg-5">
                     <div class="col-12 col-lg-7">
                         <h2 class="mb-3">Further Info</h2>
                         <p>To find out more about Climate Emergency UK please <a href="https://www.climateemergency.uk/" class="d-inline-block">visit our website</a>. You can also explore  the Council Climate Plan Scorecards from January 2023.</p>
                         <p>If you have any further comments, questions or feedback <a href-"https://councilclimatescorecards.uk/contact/" class="d-inline-block">please use our contact form here</a>.</p>
                     </div>
                 </div>
-                <div id="thank-you-section" class="row mt-4 mt-lg-5">
+
+                <!-- h2 Thank You -->
+                <div id="section-thank-you" class="row mt-4 mt-lg-5">
                     <div class="col-12 col-lg-7">
                         <h2 class="mb-3">Thank You</h2>
                         <p>These Scorecards would not have been possible without the advice, comments and feedback from the many different organisations we spoke to, as well as our trial volunteer markers. Special thanks to mySociety, who have provided technical support in the creation of the Scorecard methodology. We also want to thank the many councillors and council staff we spoke to, who represented all council types and work across the four nations. Thank you also to the more than 75 different organisations we spoke to for comment and advice on the Scorecards, on specific questions, sections or general advice. The vast majority of the organisations we spoke to are listed here in alphabetical order. Thank you to:</p>

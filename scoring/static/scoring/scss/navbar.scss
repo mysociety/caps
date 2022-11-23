@@ -170,9 +170,10 @@ nav.subheader {
 
 #content-navbar {
     @include show-height;
+    position: fixed;
     max-width: 250px;
-    right: 0;
     z-index: 9999;
+    right: 0;
     bottom: 65px;
 
     ul {
@@ -183,14 +184,20 @@ nav.subheader {
         }
     }
 
+    a {
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     @media only screen and (min-width: $navbar-mobile-breakpoint) {
+        position: sticky;
         display: block;
         height: auto;
         bottom: auto;
-    }
-
-    @media only screen and (min-width: 1650px) {
-        // In big screen the content navbar doesn't get lost in the right side
-        left:0;
+        float: right;
+        top: 50px;
+        @include responsive(right, 0, 200);
     }
 }
