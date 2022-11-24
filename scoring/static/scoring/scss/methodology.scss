@@ -276,13 +276,3 @@ $council-types: (
         }
     }
 }
-
-// Thanks grid
-.thanks-grid {
-    margin: 0 auto;
-    display: grid;
-    gap: 1rem 3rem;
-    @media (min-width: 600px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
