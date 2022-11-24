@@ -555,7 +555,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 },
                 "questions": [
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "1",
                         "name": "Does the council provide a service to support private homeowners to make their homes more energy efficient?",
                         "topic": "Homeowner support - retrofit",
@@ -578,7 +583,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "2",
                         "name": "Are the council's operations powered by renewable energy?",
                         "topic": "Council buildings - renewable energy tariff",
@@ -631,7 +641,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "5",
                         "name": "Is the council part of a programme or partnership to support home retrofitting, through providing the skills and training needed or in other ways?",
                         "topic": "Retrofit partnerships",
@@ -654,7 +669,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "6",
                         "name": "Does the council have a staff member employed to work on retrofitting across the council area?",
                         "topic": "Staff working on retrofit",
@@ -705,7 +725,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "9",
                         "name": "Does the council provide a service to support private homeowners to make their homes more energy efficient?",
                         "topic": "Homeowner support - retrofit",
@@ -719,7 +744,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "10",
                         "name": "Does the council offer funding to private renters or homeowners to retrofit their homes?",
                         "topic": "Homeowner funding - retrofit",
@@ -733,7 +763,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "11",
                         "name": "Does the council have a scheme to allow residents to purchase renewable energy cheaply, through collective buying?",
                         "topic": "Renewable Energy purchasing schemes",
@@ -751,7 +786,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "12",
                         "name": "Has the council supported local community renewable energy creation?",
                         "topic": "Community Renewable Energy",
@@ -781,7 +821,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 },
                 "questions": [
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "1",
                         "name": "What percentage of the council's fleet are electric vehicles?",
                         "topic": "Council Fleet",
@@ -795,7 +840,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "2",
                         "name": "Has the council set up or supported a shared transport scheme that can be used across their whole area?",
                         "topic": "Shared Transport Schemes",
@@ -971,7 +1021,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "10",
                         "name": "Has the council supported the expansion of a public network of electric vehicle chargers?",
                         "topic": "EV charging",
@@ -1265,7 +1320,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 },
                 "questions": [
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "1a",
                         "name": "Does the council's corporate plan include a net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Net Zero Embedded in Corporate Plan",
@@ -1282,7 +1342,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "1b",
                         "name": "Does the council's medium term financial plan include the council's net zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Net-Zero Embedded in mid-term Financial Plan",
@@ -1298,7 +1363,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "2",
                         "name": "Has the council published a climate change risk register?",
                         "topic": "Climate Change Risk Register",
@@ -1313,7 +1383,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "3a",
                         "name": "Is the council reporting on its own greenhouse gas emissions?",
                         "topic": "Emission data reduction",
@@ -1337,7 +1412,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "3b",
                         "name": "According to the council's own reporting, have the council's own greenhouse gas emissions reduced since 2019?",
                         "topic": "Emission data reduction",
@@ -1358,7 +1438,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "4",
                         "name": "Has the council's area wide carbon emissions decreased, according to UK Government data?",
                         "topic": "Emission data reduction",
@@ -1374,7 +1459,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "6",
                         "name": "Has the Council embedded climate action and waste reduction into their procurement policies?",
                         "topic": "Procurement",
@@ -1405,7 +1495,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "7",
                         "name": "Does the council have a Cabinet member or Portfolio Holder that has climate change explicitly in their remit?",
                         "topic": "Elected Climate Change portfolio holder",
@@ -1422,7 +1517,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "8",
                         "name": "What percentage of the council's overall staff work on implementing their Climate Action Plan or other climate change projects?",
                         "topic": "Staff time on climate action",
@@ -1437,7 +1537,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "9",
                         "name": "Have all senior management and councillors in the cabinet or committee chairs received climate awareness training?",
                         "topic": "Carbon literacy/awareness training",
@@ -1451,7 +1556,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "10a",
                         "name": "Has the council raised income for climate action from property development?",
                         "topic": "Funding sources",
@@ -1470,7 +1580,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "10b",
                         "name": "Has the council launched a Climate Bond, Community Municipal Investment or equivalent?",
                         "topic": "Funding sources",
@@ -1486,7 +1601,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "10c",
                         "name": "Has the council raised income for climate action from any other sources?",
                         "topic": "Funding sources",
@@ -1507,7 +1627,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "11a",
                         "name": "Has the council passed a motion in support of divestment from all fossil fuels from the councils' pension funds?",
                         "topic": "Divestment of Pension Funds",
@@ -1523,7 +1648,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "11b",
                         "name": "Has the council's pensions fund committed to divesting from all fossil fuels?",
                         "topic": "Divestment of Pension Funds",
@@ -1541,7 +1671,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "12",
                         "name": "Does the council have direct investments in airports or high carbon intensive energy industries?",
                         "topic": "Council Investments in High Carbon Industries",
@@ -1568,7 +1703,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 },
                 "questions": [
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "1",
                         "name": "Does the council use peat free compost or soil in all landscaping and horticulture?",
                         "topic": "Peat Free",
@@ -1579,7 +1719,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "2",
                         "name": "Has the council banned the use of pesticides on all council owned and managed land?",
                         "topic": "Pesticides",
@@ -1594,7 +1739,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "3",
                         "name": "Has the council committed to mowing their green spaces less for wildlife?",
                         "topic": "Mowing",
@@ -1621,7 +1771,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "5",
                         "name": "Does the council have a target to increase tree cover and is a tree management plan agreed as they grow?",
                         "topic": "Tree Cover",
@@ -1652,7 +1807,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "7",
                         "name": "Have the council's parks been awarded Green Flag status?",
                         "topic": "Green Flag Awards",
@@ -1667,7 +1827,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single","county"],
+                        "council_types": ["single", "county"],
                         "code": "8",
                         "name": "Does the council employ a planning ecologist to scrutinise planning reports for biodiversity net gain?",
                         "topic": "Planning Ecologists",
@@ -1705,7 +1865,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 },
                 "questions": [
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "1",
                         "name": "Do the council's climate pages include information about behaviour changes that residents can take, and are they easy to find?",
                         "topic": "Council website - information for residents",
@@ -1726,7 +1891,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "2a",
                         "name": "Has the council published a climate action plan with SMART targets?",
                         "topic": "Climate Action Plan",
@@ -1740,7 +1910,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "2b",
                         "name": "Has the council published an up to date and easy-to-read annual report on their Climate Action Plan?",
                         "topic": "Published Annual report",
@@ -1761,7 +1936,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "3",
                         "name": "Has the council lobbied the government for climate action?",
                         "topic": "Councils lobbying government",
@@ -1777,7 +1957,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "4",
                         "name": "Is the council working with external partners or other councils to seek to influence national governments on climate action, or to learn about and share best practice on council climate action?",
                         "topic": "Sharing Best practice between Councils",
@@ -1811,7 +1996,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "5a",
                         "name": "Does the council have an ongoing way for residents to influence the implementation of the council's Climate Action Plan?",
                         "topic": "Residents engagement",
@@ -1833,7 +2023,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "5b",
                         "name": "Does the council's ongoing engagement with residents include those most affected by climate change and climate action policy?",
                         "topic": "Representative residents engagement",
@@ -1849,7 +2044,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "6",
                         "name": "Does the council provide funding for community climate action, for example through an environment fund or climate action fund?",
                         "topic": "Funding for community climate action",
@@ -1883,7 +2083,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "8",
                         "name": "Is the council working in partnership with cultural institutions and organisations to encourage decarbonisation within culture and arts locally?",
                         "topic": "Partnerships - Culture",
@@ -1894,7 +2099,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "9",
                         "name": "Is the council working in partnership with schools or other education settings to deliver climate action that young people can engage with?",
                         "topic": "Partnerships - young people",
@@ -1913,7 +2123,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "10",
                         "name": "Is the council working in partnership with local businesses to encourage decarbonisation?",
                         "topic": "Partnerships - Businesses",
@@ -1928,7 +2143,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "11",
                         "name": "Has the council passed a motion to ban high carbon advertising?",
                         "topic": "Communications - advertising",
@@ -1954,7 +2174,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 },
                 "questions": [
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "1a",
                         "name": "Has the council banned or reduced single use plastic in its buildings and events?",
                         "topic": "Single Use Plastic",
@@ -1975,7 +2200,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "1b",
                         "name": "Has the council reduced single use plastic at external events on council land, property or public spaces such as roads and parks?",
                         "topic": "Net-Zero Embedded in mid-term Financial Plan",
@@ -1988,7 +2218,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "2",
                         "name": "Has the council taken steps to support a circular economy locally?",
                         "topic": "Circular Economy",
@@ -2007,7 +2242,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "3",
                         "name": "Does the council support initiatives to redistribute surplus food waste?",
                         "topic": "Surplus Food",
@@ -2021,7 +2261,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "4a",
                         "name": "Does the council have a sustainable food strategy?",
                         "topic": "Food Strategy",
@@ -2036,7 +2281,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "4b",
                         "name": "Is the council part of a sustainable food partnership?",
                         "topic": "Food Partnership",
@@ -2050,7 +2300,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "5a",
                         "name": "Has the council taken steps to support local food growing?",
                         "topic": "Local Food Growing",
@@ -2101,7 +2356,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "8",
                         "name": "How high is the councils' area wide annual recycling rate?",
                         "topic": "Recycling Rate",
@@ -2117,7 +2377,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "district", "county", "northern-ireland"],
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
                         "code": "9",
                         "name": "How low is the councils' area wide level of household waste produced?",
                         "topic": "Household Waste Amount",
