@@ -11,7 +11,11 @@ urlpatterns = [
     path("questions/<slug:slug>/", views.QuestionView.as_view(), name="question"),
     path("location/", views.LocationResultsView.as_view(), name="location_results"),
     path("methodology/", views.MethodologyView.as_view(), name="methodology"),
-    path("methodology2023/", views.Methodology2023View.as_view(), name="methodology2023"),
+    path(
+        "staging-methodology2023/",
+        views.Methodology2023View.as_view(),
+        name="methodology2023",
+    ),
     path("about/", views.AboutView.as_view(), name="about"),
     path("contact/", views.ContactView.as_view(), name="contact"),
     path(
