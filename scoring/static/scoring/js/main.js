@@ -282,30 +282,28 @@ forEachElement('.sticky-in-page-nav > button', function(button){
 });
 
 // Open accordion item
-let accordionItemData = document.getElementsByClassName('accordion-data');
-let accordionItemQuestion = document.getElementsByClassName('accordion-heading');
+let accordionItemContent = document.getElementsByClassName('accordion-data');
+let accordionItemHeading = document.getElementsByClassName('accordion-heading');
 
-for (let i = 0; i < accordionItemData.length; i++) {
-    let accordionItemDataOffHeight = accordionItemData[i].offsetHeight;
-    let accordionItemDataScrollHeight = accordionItemData[i].scrollHeight;
-    let buttonAccordion = accordionItemQuestion[i].querySelector('.btn-open-accordion');  
-    buttonAccordion.addEventListener('click', () => {
-        if(!accordionItemData[i].classList.contains('active')) {
-            accordionItemData[i].classList.toggle('active');
-            buttonAccordion.classList.toggle('active');
-            accordionItemQuestion[i].classList.toggle('active');
-            accordionItemData[i].style.height = "auto";
-            let height = accordionItemData[i].clientHeight + "px";
-            accordionItemData[i].style.height = "0px";
+for (let i = 0; i < accordionItemContent.length; i++) {
+
+    accordionItemHeading[i].addEventListener('click', () => {
+        if(!accordionItemContent[i].classList.contains('active')) {
+            accordionItemContent[i].classList.toggle('active');
+            accordionItemHeading[i].classList.toggle('active');
+            accordionItemHeading[i].setAttribute("aria-expanded", true);
+            accordionItemContent[i].style.height = "auto";
+            let height = accordionItemContent[i].clientHeight + "px";
+            accordionItemContent[i].style.height = "0px";
             setTimeout(() => {
-                accordionItemData[i].style.height = height;
+                accordionItemContent[i].style.height = height;
             }, 0) 
         } else {
-            accordionItemData[i].style.height = "0px";
-            accordionItemData[i].addEventListener('transitionend', () => {
-                accordionItemData[i].classList.remove('active');
-                accordionItemQuestion[i].classList.remove('active');
-                buttonAccordion.classList.remove('active');
+            accordionItemContent[i].style.height = "0px";
+            accordionItemContent[i].addEventListener('transitionend', () => {
+                accordionItemContent[i].classList.remove('active');
+                accordionItemHeading[i].classList.remove('active');
+                accordionItemHeading[i].setAttribute("aria-expanded", false);
             }, {once: true})
         }
     })

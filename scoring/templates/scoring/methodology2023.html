@@ -3,16 +3,15 @@
 {% load static %}
 {% block content %}
     <div class="methodology-2023-content">
-        <div class="bg-dark-grey">
-            <div class="container-xl hero">
-                <a class="cta reverse white" href="{% url 'home' %}">Back to the Scorecards</a>
-                <h1 class="text-white mt-3">Draft methodology</h1>
-                <div class="mt-3">
-                    <span class="hero-sub">Check out our process</span>
+            <div class="bg-dark-grey">
+                <div class="container-xl hero">
+                    <a class="cta reverse white" href="{% url 'home' %}">Back to the Scorecards</a>
+                    <h1 class="text-white mt-3">Draft methodology</h1>
+                    <div class="mt-3">
+                        <span class="hero-sub">Check out our process</span>
+                    </div>
                 </div>
             </div>
-        </div>
-
         <div class="container-xl">
             <div class="row">
                 <div class="col-md-4 offset-lg-1 col-xl-3 order-md-2 mt-5 sticky-in-page-nav">
@@ -83,10 +82,9 @@
                         <div id="accordion-sections" class="accordion-wrapper rounded js-single js-district js-county js-northern-ireland">
                             {% for section in sections %}
                             <div id="accordion-section-{{forloop.counter }}" class="accordion-item">
-                                <div class="accordion-heading">
-                                    <h5 class="mb-0">{{section.title}}</h5>
-                                    <button class="btn-open-accordion ml-auto" type="button" aria-label="Open section"></button>
-                                </div>
+                                <button class="accordion-heading" aria-label="See questions for section: {{section.title}}" aria-expanded="false" aria-live="polite">
+                                    {{section.title}}
+                                </button>
                                 <div class="accordion-data">
                                     <div class="accordion-data-inner">
                                         <div class="my-3">

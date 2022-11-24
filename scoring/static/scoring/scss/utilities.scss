@@ -109,12 +109,12 @@
 /* Usage
 <div class="accordion-wrapper rounded">
     <div class="accordion-item">
-        <div class="accordion-heading">
-            <p class="mb-0">Tweet at your council</p>
-            <button class="btn-open-accordion ml-auto" type="button"></button>
-        </div>
+        <button class="accordion-heading" aria-label="Open Section ......." aria-expanded="false" aria-live="polite">
+            This is a very long section that might use two lines
+        </button>
         <div class="accordion-data">
             <div class="accordion-data-inner">
+                loodnjdsjdns
             </div>
         </div>
     </div>
@@ -125,34 +125,53 @@
     border: 1px solid transparentize($color: $black, $amount: 0.8);
 
     .accordion-item {
-        border-top: 1px solid transparentize($color: $black, $amount: 0.8);
         border-bottom: none;
 
         &:first-child {
-            border-top: none;
+            .accordion-heading {
+                border-top: none;
+            }
         }
-
         .accordion-heading {
-            padding: 10px;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            align-items: center;
-            justify-content: space-between;
+            border-top: 1px solid transparentize($color: $black, $amount: 0.8);
             font-weight: 600;
-            @include transition(background-color, 0.3s ease-in-out);
+            width: 100%;
+            border-radius: 0;
+            padding: 10px;
+            padding-right: 50px;
+            white-space: normal;
+            background-image: url('../img/plus-black.svg');
+            background-size: 15px;
+            background-repeat: no-repeat;
+            background-position: center right 15px;
+            @include transition(background-color, background-image, border-color color 0.3s ease-in-out);
+
+
+
+            &:focus {
+                @include box-shadow(inset 0px, 0px, 0px, 2px, $black);
+                background-color: $color-scorecard-yellow;
+            }
+
+            &:hover {
+                background-color: $color-scorecard-grey-800;
+                color: $white;
+                background-image: url('../img/plus-white.svg');
+            }
+
             &.active {
+                background-size: 13px;
                 background-color: $color-scorecard-grey-900;
-                p, span, button, h5 {
+                color: $white;
+                background-image: url('../img/close-white.svg');
+                &:focus {
+                    background-color: $color-scorecard-grey-900;
                     color: $white;
                 }
-                .btn-open-question {
-                    &::after {
-                        background-image: url('../img/chevron-down-white.svg') !important;
-                    }
-                    @include hover-focus {
-                        opacity: 0.6;
-                    }
+                &:hover {
+                    box-shadow: none;
+                    background-color: $color-scorecard-grey-600;
+                    color: $white;
                 }
             }
         }
