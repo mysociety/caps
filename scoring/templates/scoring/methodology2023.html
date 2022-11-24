@@ -90,7 +90,20 @@
                                         <div class="my-3">
                                             {% for council_type, weighting in section.weightings.items %}
                                                 <div class="js-{{ council_type }}">
-                                                    <span>{{ weighting }}</span><span class="label ml-1">section weight of total score</span>
+                                                    <span>
+                                                        <strong>This section will contribute {{ weighting }} to a
+                                                            {% if council_type == 'single' %}
+                                                                single tier
+                                                            {% elif council_type == 'district' %}
+                                                                district
+                                                            {% elif council_type == 'county' %}
+                                                                county
+                                                            {% elif council_type == 'northern-ireland' %}
+                                                                Northern Irish
+                                                            {% endif %}
+                                                                council’s overall score
+                                                        </strong>
+                                                    </span>
                                                 </div>
                                             {% endfor %}
                                             </div>
