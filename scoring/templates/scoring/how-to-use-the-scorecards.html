@@ -44,90 +44,87 @@
 
         <div class="row">
             <div class="col-12 col-lg-6">
-                <div class="accordion-wrapper rounded">
-                    <div class="accordion-item">
-                        <div class="accordion-heading">
-                            <p class="mb-0">Tweet at your council</p>
-                            <button class="btn-open-accordion ml-auto" type="button"></button>
-                        </div>
-                        <div class="accordion-data">
-                            <div class="accordion-data-inner">
-                                <p>You’ll find each council’s Twitter handle on their page of the Climate Action Plans Scorecards website.</p>
-                                <img class="mb-3" width="100%" src="{% static 'scoring/img/twitter-handle-screenshot.jpg' %}">
-                                <p>You can use our suggested tweet below, check out our <a href="https://docs.google.com/document/d/1Wn6q80Lh0lvk2fUvLaVFpAwmi1OR73Wbw0azvvj2Two/edit?usp=sharing">media pack</a> for more ideas, or compose your own tweet - just remember to @ your council in.</p>
-                                <div class="bubble is--green mb-3">
-                                    <h5 class="mb-2">Suggested tweet</h5>
-                                    <p>Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking [@TWITTER NAME OF YOUR COUNCIL]’s Climate Action Plan on [LINK TO COUNCIL’S PAGE ON SCORECARDS SITE] 📋 #CouncilClimateScorecards. 
-                                    </p>
-                                </div>
-                                <div class="bubble is--blue mb-4">
-                                    <h5 class="mb-2">Why?</h5>
-                                    <p class="mb-3">It helps show your council — and your followers —  that you care about the steps they say they’re taking towards net zero, and that there's support for strong action amongst their residents.</p>
-                                </div>
+
+                <div class="toggle-section-accordion rounded">
+
+                    <div class="toggle-section">
+                        <h4 class="toggle-section__header">
+                            <button class="js-hidden-toggle" aria-controls="action-1">
+                                Tweet at your council
+                            </button>
+                        </h4>
+                        <div class="toggle-section__content" id="action-1">
+                            <p>You’ll find each council’s Twitter handle on their page of the Climate Action Plans Scorecards website.</p>
+                            <img class="mb-3" width="100%" src="{% static 'scoring/img/twitter-handle-screenshot.jpg' %}">
+                            <p>You can use our suggested tweet below, check out our <a href="https://docs.google.com/document/d/1Wn6q80Lh0lvk2fUvLaVFpAwmi1OR73Wbw0azvvj2Two/edit?usp=sharing">media pack</a> for more ideas, or compose your own tweet - just remember to @ your council in.</p>
+                            <div class="bubble is--green mb-3">
+                                <h5 class="mb-2">Suggested tweet</h5>
+                                <p class="mb-0">Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking [@TWITTER NAME OF YOUR COUNCIL]’s Climate Action Plan on [LINK TO COUNCIL’S PAGE ON SCORECARDS SITE] 📋 #CouncilClimateScorecards. 
+                                </p>
+                            </div>
+                            <div class="bubble is--blue">
+                                <h5 class="mb-2">Why?</h5>
+                                <p class="mb-0">It helps show your council — and your followers —  that you care about the steps they say they’re taking towards net zero, and that there's support for strong action amongst their residents.</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="accordion-item">
-                        <div class="accordion-heading">
-                            <p class="mb-0">Share your council’s score</p>
-                            <button class="btn-open-accordion ml-auto" type="button"></button>
-                        </div>
-                        <div class="accordion-data">
-                            <div class="accordion-data-inner">
-                                <p>With your own social networks - social media, email, word of mouth - however you can ensure more people see it.</p>
-                                <div class="bubble is--blue mb-4">
-                                    <h5 class="mb-2">Why?</h5>
-                                    <p>The more exposure the Scorecards get, the more conversation there will be around councils taking strong climate action, bringing the idea into the mainstream.</p>
-                                </div>
+                    <div class="toggle-section">
+                        <h4 class="toggle-section__header">
+                            <button class="js-hidden-toggle" aria-controls="action-2">
+                                Share your council’s score
+                            </button>
+                        </h4>
+                        <div class="toggle-section__content" id="action-2">
+                            <p>With your own social networks - social media, email, word of mouth - however you can ensure more people see it.</p>
+                            <div class="bubble is--blue">
+                                <h5 class="mb-2">Why?</h5>
+                                <p class="mb-0">The more exposure the Scorecards get, the more conversation there will be around councils taking strong climate action, bringing the idea into the mainstream.</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="accordion-item">
-                        <div class="accordion-heading">
-                            <p class="mb-0">Send a letter to the local newspaper</p>
-                            <button class="btn-open-accordion ml-auto" type="button"></button>
-                        </div>
-                        <div class="accordion-data">
-                            <div class="accordion-data-inner">
-                                <p>We've shared a template letter <a href="https://docs.google.com/document/d/1Wn6q80Lh0lvk2fUvLaVFpAwmi1OR73Wbw0azvvj2Two/edit?usp=sharing">in the media pack</a>, which you can personalise as you wish. You can find the email address for your local paper on their contact us page on their website, and put ‘letter to editor’ in the email title. </p>
-                                <div class="bubble is--blue mb-4">
-                                    <h5 class="mb-2">Why?</h5>
-                                    <p>Local press is an effective route to reaching an audience that cares about your local community.</p>
-                                </div>
+                    <div class="toggle-section">
+                        <h4 class="toggle-section__header">
+                            <button class="js-hidden-toggle" aria-controls="action-3">
+                                Send a letter to the local newspaper
+                            </button>
+                        </h4>
+                        <div class="toggle-section__content" id="action-3">
+                            <p>We've shared a template letter <a href="https://docs.google.com/document/d/1Wn6q80Lh0lvk2fUvLaVFpAwmi1OR73Wbw0azvvj2Two/edit?usp=sharing">in the media pack</a>, which you can personalise as you wish. You can find the email address for your local paper on their contact us page on their website, and put ‘letter to editor’ in the email title. </p>
+                            <div class="bubble is--blue">
+                                <h5 class="mb-2">Why?</h5>
+                                <p class="mb-0">Local press is an effective route to reaching an audience that cares about your local community.</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="accordion-item">
-                        <div class="accordion-heading">
-                            <p class="mb-0">Send a press release to your local paper or radio station/s</p>
-                            <button class="btn-open-accordion ml-auto" type="button"></button>
-                        </div>
-                        <div class="accordion-data">
-                            <div class="accordion-data-inner">
-                                <p>Here’s a <a href="https://docs.google.com/document/d/1Wn6q80Lh0lvk2fUvLaVFpAwmi1OR73Wbw0azvvj2Two/edit?usp=sharing">template</a> which you can edit and send.</p>
-                                <div class="bubble is--blue mb-4">
-                                    <h5 class="mb-2">Why?</h5>
-                                    <p>Local media really helps us get the word out, but we need your help to make sure we've covered every outlet. Councillors always read their local paper, so this is a great way to make sure your council sees the Scorecards and is encouraged to do more.</p>
-                                </div>
+                    <div class="toggle-section">
+                        <h4 class="toggle-section__header">
+                            <button class="js-hidden-toggle" aria-controls="action-4">
+                                Send a press release to your local paper or radio station/s
+                            </button>
+                        </h4>
+                        <div class="toggle-section__content" id="action-4">
+                            <p>Here’s a <a href="https://docs.google.com/document/d/1Wn6q80Lh0lvk2fUvLaVFpAwmi1OR73Wbw0azvvj2Two/edit?usp=sharing">template</a> which you can edit and send.</p>
+                            <div class="bubble is--blue">
+                                <h5 class="mb-2">Why?</h5>
+                                <p class="mb-0">Local media really helps us get the word out, but we need your help to make sure we've covered every outlet. Councillors always read their local paper, so this is a great way to make sure your council sees the Scorecards and is encouraged to do more.</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="accordion-item">
-                        <div class="accordion-heading">
-                            <p class="mb-0">Sign our petition</p>
-                            <button class="btn-open-accordion ml-auto" type="button"></button>
-                        </div>
-                        <div class="accordion-data">
-                            <div class="accordion-data-inner">
-                                <p><a href="https://actionnetwork.org/petitions/michael-gove-fund-councils-climate-action">Sign our petition</a> asking Michael Gove to allocate more funding and support to councils’ action on climate change</p>
-                                <div class="bubble is--blue mb-4">
-                                    <h5 class="mb-2">Why?</h5>
-                                    <p>Councils may be finding it hard to achieve all that they want or need to because of a lack of funds from central government.</p>
-                                </div>
+                    <div class="toggle-section">
+                        <h4 class="toggle-section__header">
+                            <button class="js-hidden-toggle" aria-controls="action-5">
+                                Sign our petition
+                            </button>
+                        </h4>
+                        <div class="toggle-section__content" id="action-5">
+                            <p><a href="https://actionnetwork.org/petitions/michael-gove-fund-councils-climate-action">Sign our petition</a> asking Michael Gove to allocate more funding and support to councils’ action on climate change</p>
+                            <div class="bubble is--blue">
+                                <h5 class="mb-2">Why?</h5>
+                                <p class="mb-0">Councils may be finding it hard to achieve all that they want or need to because of a lack of funds from central government.</p>
                             </div>
                         </div>
                     </div>

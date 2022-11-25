@@ -281,88 +281,53 @@ forEachElement('.sticky-in-page-nav > button', function(button){
     });
 });
 
-// Open accordion item
-let accordionItemContent = document.getElementsByClassName('accordion-data');
-let accordionItemHeading = document.getElementsByClassName('accordion-heading');
-
-for (let i = 0; i < accordionItemContent.length; i++) {
-
-    accordionItemHeading[i].addEventListener('click', () => {
-        if(!accordionItemContent[i].classList.contains('active')) {
-            accordionItemContent[i].classList.toggle('active');
-            accordionItemHeading[i].classList.toggle('active');
-            accordionItemHeading[i].setAttribute("aria-expanded", true);
-            accordionItemContent[i].style.height = "auto";
-            let height = accordionItemContent[i].clientHeight + "px";
-            accordionItemContent[i].style.height = "0px";
-            setTimeout(() => {
-                accordionItemContent[i].style.height = height;
-            }, 0) 
+// Example (no aria-expanded, so controlled element will start off hidden):
+//     <button class="js-hidden-toggle" aria-controls="foobar">…</button>
+//     <div id="foobar">This will start off hidden</div>
+// Can add aria-expanded=true to make controlled element start off visible:
+//     <button class="js-hidden-toggle" aria-controls="foobar" aria-expanded="true">…</button>
+//     <div id="foobar">This will start off visible</div>
+forEachElement('.js-hidden-toggle', function(trigger){
+    var content = document.querySelector('#' + trigger.getAttribute('aria-controls'));
+    var expanded = trigger.getAttribute('aria-expanded');
+    var updateUI = function(){
+        var expanded = trigger.getAttribute('aria-expanded');
+        if (expanded == 'true') {
+            content.removeAttribute('hidden');
         } else {
-            accordionItemContent[i].style.height = "0px";
-            accordionItemContent[i].addEventListener('transitionend', () => {
-                accordionItemContent[i].classList.remove('active');
-                accordionItemHeading[i].classList.remove('active');
-                accordionItemHeading[i].setAttribute("aria-expanded", false);
-            }, {once: true})
+            content.setAttribute('hidden', 'true');
         }
-    })
-}
-
-// Question display details
-const openDetailsbutton = secondaryNavbarButton = document.getElementById('display-complete-content');
-const accordionSection = document.getElementById('accordion-sections');
-let sectionQuestionContent = document.getElementsByClassName('section-question-content');
-let sectionQuestionHeading = document.getElementsByClassName('section-question-heading');
-var openedAccordions = document.getElementsByClassName('accordion-data active');
-openDetailsbutton.addEventListener('change', (event) => {
-    for (let k = 0; k < openedAccordions.length; k++) {
-        openedAccordions[k].style.height = "auto";
     };
 
-    if (event.target.checked) {
-        accordionSection.classList.toggle('open-details');
-        accordionSection.classList.remove('close-details');
-        for (let l = 0; l < sectionQuestionContent.length; l++) {
-            sectionQuestionContent[l].classList.add('show-height');
-            sectionQuestionContent[l].style.height = "auto";
-            sectionQuestionContent[l].style.visibility = "visible";
-        };
-    } else {
-        accordionSection.classList.remove('open-details');
-        accordionSection.classList.add('close-details');
-        for (let l = 0; l < sectionQuestionContent.length; l++) {
-            sectionQuestionContent[l].classList.remove('show-height');
-            sectionQuestionContent[l].style.height = "0";
-            sectionQuestionContent[l].style.visibility = "hidden";
-        };
+    // Hide controlled element, at page load, unless aria-expanded="true"
+    if ( expanded != 'true' ) {
+        trigger.setAttribute('aria-expanded', 'false');
     }
+    updateUI();
+
+    // Toggle controlled element on click
+    trigger.addEventListener('click', function(){
+        var expanded = trigger.getAttribute('aria-expanded');
+        trigger.setAttribute( 'aria-expanded', (expanded == 'true') ? 'false' : 'true' );
+        updateUI();
+    });
 });
 
-for (let j = 0; j < sectionQuestionContent.length; j++) {
-    let sectionQuestionButton = sectionQuestionHeading[j].querySelector('.btn-display-question-details');
-    let closestAccordion = sectionQuestionButton.closest('.accordion-data');
-
-    sectionQuestionButton.addEventListener('click', () => {
-        if(!sectionQuestionContent[j].classList.contains('show-height')) {
-            sectionQuestionContent[j].classList.toggle('show-height');
-            sectionQuestionContent[j].style.height = "auto";
-            let sectionQuestionheight = sectionQuestionContent[j].clientHeight + "px";
-            sectionQuestionContent[j].style.height = "0px";
-            sectionQuestionContent[j].style.visibility = "hidden";
-            setTimeout(() => {
-                sectionQuestionContent[j].style.visibility = "visible";
-                sectionQuestionContent[j].style.height = sectionQuestionheight;
-                closestAccordion.style.height = "auto";
-            }, 0);
-        } else {
-            sectionQuestionContent[j].style.height = "0px";
-            sectionQuestionContent[j].style.visibility = "hidden";
-            closestAccordion.style.height = "auto";
-            sectionQuestionContent[j].classList.remove('show-height');
-        }
-    })
-}
+document.getElementById('display-complete-content').addEventListener('change', function(){
+    if ( this.checked ) {
+        forEachElement('.section-question-heading .js-hidden-toggle', function(trigger){
+            var content = document.querySelector('#' + trigger.getAttribute('aria-controls'));
+            trigger.setAttribute('aria-expanded', 'true');
+            content.removeAttribute('hidden');
+        });
+    } else {
+        forEachElement('.section-question-heading .js-hidden-toggle', function(trigger){
+            var content = document.querySelector('#' + trigger.getAttribute('aria-controls'));
+            trigger.setAttribute('aria-expanded', 'false');
+            content.setAttribute('hidden', 'true');
+        });
+    }
+});
 
 forEachElement('[data-methodology-switch-council-type]', function(trigger){
     trigger.addEventListener('click', function(){
@@ -373,7 +338,7 @@ forEachElement('[data-methodology-switch-council-type]', function(trigger){
             input.value = '';
         });
     });
-})
+});
 
 forEachElement('.js-methodology-council-autocomplete', function(input){
     var ac = new Awesomplete(

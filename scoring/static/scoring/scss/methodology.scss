@@ -220,42 +220,6 @@ $council-types: (
     grid-template-columns: repeat(2, 1fr);
 }
 
-.section-question-content {
-    @include show-height;
-
-    .open-details & {
-        height: auto;
-        overflow: visible;
-    }
-
-    .close-details & {
-        height: 0;
-        overflow: hidden;
-    }
-}
-
-.accordion-sections {
-    &.open-details {
-        .section-question-content {
-            height: auto;
-            overflow: visible;
-        }
-    }
-
-    &.close-details {
-        .section-question-content {
-            height: 0;
-            overflow: hidden;
-        }
-
-        .section-question-content.show-height {
-            height: auto;
-            overflow: visible;
-        }
-    }
-}
-
-
 // Tables highlight
 .minimal-table {
     table-layout: fixed;

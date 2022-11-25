@@ -1,0 +1,80 @@
+.toggle-section {
+    background: #fff;
+    border: $border-width solid $border-color;
+}
+
+.toggle-section__header {
+    display: block !important;
+    margin: 0;
+    font-size: 1em !important;
+    font-weight: bold;
+    font-family: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+
+    button {
+        display: block;
+        width: 100%;
+        border-radius: 0;
+        letter-spacing: 0;
+        white-space: normal;
+        font-family: inherit;
+        font-weight: inherit;
+        font-size: inherit;
+        line-height: inherit;
+
+        padding: 10px 50px 10px 15px;
+        background: #fff url('../img/plus-black.svg') no-repeat center right;
+        background-size: 14px;
+        background-position: center right 15px;
+
+        &:focus {
+            color: $black;
+            background-color: $color-scorecard-yellow;
+            background-image: url('../img/plus-black.svg');
+            @include box-shadow(inset 0px, 0px, 0px, 2px, $black);
+        }
+
+        &:hover {
+            color: $white;
+            background-color: $color-scorecard-grey-800;
+            background-image: url('../img/plus-white.svg');
+        }
+
+        &[aria-expanded="true"] {
+            color: $white;
+            background-color: $color-scorecard-grey-900;
+            background-image: url('../img/close-white.svg');
+
+            &:focus {
+                color: $black;
+                background-color: $color-scorecard-yellow;
+                background-image: url('../img/close-black.svg');
+                @include box-shadow(inset 0px, 0px, 0px, 2px, $black);
+            }
+    
+            &:hover {
+                color: $white;
+                background-color: $color-scorecard-grey-800;
+                background-image: url('../img/close-white.svg');
+            }
+        }
+    }
+}
+
+.toggle-section__content {
+    padding: 15px;
+}
+
+.toggle-section-accordion {
+    overflow: hidden; // clip rounded corners
+    border: 1px solid transparentize($color: $black, $amount: 0.8);
+
+    .toggle-section {
+        border: none;
+    }
+
+    .toggle-section + .toggle-section {
+        border-top: $border-width solid $border-color;
+    }
+}
