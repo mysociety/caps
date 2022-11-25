@@ -109,7 +109,16 @@
                                             {% for question in section.questions %}
                                             <div class="question-card rounded border mb-3 mb-sm-4 {% for council_type in question.council_types %}js-{{ council_type }} {% endfor %}">
                                                 {% if question.england_only == "yes" %}
-                                                    {% include 'scoring/includes/question-warning.html' %}
+                                                    <div class="alert alert-warning is-red mb-0 border-0 rounded-0 js-single" role="alert">
+                                                        <span class="warning-icon"></span>
+                                                        <span class="ml-2 h5">This question might not apply to your council
+                                                        </span>
+                                                        {% if question.wales_apply == "yes" %}
+                                                            <p class="mb-0 mt-2">This question only applies to councils in England and Wales as the data is not available for councils in Scotland and Northern Ireland.</p>
+                                                        {% else %}
+                                                            <p class="mb-0 mt-2">This question only applies to councils in England as the data is not available for councils in Scotland, Wales and Northern Ireland.</p>
+                                                        {% endif %}
+                                                    </div>
                                                 {% endif %}
                                                 <div class="section-question-heading p-3 bg-green-l2">
                                                     <!-- QUESTION CODE-->

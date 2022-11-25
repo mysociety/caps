@@ -562,8 +562,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "1",
-                        "name": "Does the council provide a service to support private homeowners to make their homes more energy efficient?",
-                        "topic": "Homeowner support - retrofit",
+                        "name": "Has the council completed extensive retrofit work on any of its significant buildings to make them low carbon?",
+                        "topic": "Council buildings - retrofit",
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
                         "criteria": """
@@ -635,9 +635,9 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
 
                             """,
                         "clarifications": """
-                            <p>Significant council buildings refers to leisure centres, libraries, council town halls or offices, community centres, schools & colleges (not academies or private schools) or care homes.</p>                                                                     
-                            <p>Extensive retrofit (sometimes called deep retrofit) refers to significant works of size or scale that result in a fundamental change to the building structure and/or services. This could be a collection of lots of small retrofit enhancements, or a single larger and disruptive measure, such as installing a combined heat system.</p>
-                            <p class="mb-0">The work must be completed, not in progress.</p>
+                            <p>Home retrofit is the process of making changes to existing buildings so that energy consumption and emissions are reduced. These changes also provide more comfortable and healthier homes with lower fuel bills.</p>
+                            <p>The council doesn't need to have all the funds available for the retrofit.</p>
+                            <p class="mb-0">This question applies only to councils that own or manage any number of homes.</p>
                             """,
                     },
                     {
@@ -708,6 +708,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     },
                     {
                         "council_types": ["single", "district"],
+                        "england_only": "yes",
+                        "wales_apply": "yes",
                         "code": "8",
                         "name": "Is the council actively enforcing Minimum Energy Efficiency Standards of homes in the private rented sector?",
                         "topic": "Housing Efficiency Standards Enforcement",
@@ -782,7 +784,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "clarifications": """
                             <p>If the project is being led by the County Council and all other district councils are involved too, then all those district councils will be awarded the points. </p>
                             <p>The project cannot be a trial project.</p>
-                            <p class="mb-0">Marked using data provided by <a href="https://solarstreets.co.uk/" class="d-inline-block">Solar Streets</a> and <a href="https://solartogether.co.uk/landing" class="d-inline-block">Solar Together</a></p>
+                            <p class="mb-0">Marked partly using data provided by <a href="https://solarstreets.co.uk/" class="d-inline-block">Solar Streets</a> and <a href="https://solartogether.co.uk/landing" class="d-inline-block">Solar Together</a></p>
                             """,
                     },
                     {
@@ -805,7 +807,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             </ul>
                             """,
                         "clarifications": """
-                            <p class="mb-0">Marked using data provided by Community Energy England</p>
+                            <p class="mb-0">Marked partly using data provided by <a href="https://communityenergyengland.org/" class="d-inline">Community Energy England</a></p>
                             """,
                     },
                 ],
@@ -871,7 +873,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">Trial schemes that are active at the time of marking will be accepted.</p>
                             """,
                         "clarifications": """
-                            <p class="mb-0">Marked mainly using <a href="https://como.org.uk/" class="d-inline">Coordinated Mobility's</a> publicly available data on shared transport schemes.</p>
+                            <p class="mb-0">Marked mainly using <a href="https://como.org.uk/" class="d-inline"> CoMoUK’s </a>publicly available data on shared transport schemes.</p>
                             """,
                     },
                     {
@@ -907,7 +909,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                         "clarifications": """
                             <p>Restricted roads are roads that due to lighting frequency are usually 30mph as according to national speed limits.</p>
-                            <p>Marked using <a href="https://www.20splenty.org/20mph_places" class="d-inline">20's Plenty for Us</a> list of Councils to have implemented a 20mph default.</p>
+                            <p>Marked using <a href="https://www.20splenty.org/20mph_places" class="d-inline">20's Plenty for Us</a> list of councils to have implemented a 20mph default.</p>
                             <p class="mb-0">Where a national government has introduced 20mph as the norm for restricted roads all councils within that nation will be awarded the point.</p>
                             """,
                     },
@@ -990,7 +992,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "council_types": ["single", "county"],
                         "england_only": "yes",
                         "code": "8b",
-                        "name": "Does the council offer funding to private renters or homeowners to retrofit their homes?",
+                        "name": "Is bus ridership within the council's area high?",
                         "topic": "Buses",
                         "importance": "Medium",
                         "how_marked": "National Data",
@@ -999,7 +1001,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">The criteria to meet this question may change based on the most recent statistics, due to be released on 30th November 2022.</p>
                             """,
                         "clarifications": """
-                            <p>This question is applicable to English transport authorities only. </p>
+                            <p><strong>This question is applicable to English transport authorities only (Single Tier and County Councils).</strong></p>
                             <p>Where the data is combined at a ITA level - we are scoring all constituent councils as one. For example, all councils within Greater Manchester ITA will be scored according to the Greater Manchester ITA bus ridership figures.</p>
                             <p class="mb-0">Marked using Department for Transport data (BUS 0110): Passenger journeys on local bus services per head of population by local authority: England - <a href="https://www.gov.uk/government/statistical-data-sets/bus01-local-bus-passenger-journeys" class="d-inline">Link here</a></p>
                             """,
@@ -1111,8 +1113,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "clarifications": """
                             <p>High energy efficiency includes building new council owned or managed housing building standards such as Passivhaus/BREAM excellent or LEED standard or a similar council own standard.</p>
                             <p>For operationally net-zero policies, we will accept those that define this as only concerning regulated emissions. Definitions for operationally net-zero and regulated emissions are below.</p>
-                            <p><strong>Operationally net-zero:</strong>when the amount of carbon emissions associated with the building’s operational energy on an annual basis is zero or negative. A net zero carbon building is highly energy efficient and powered from on-site and/or off-site renewable energy sources, with any remaining carbon balance offset.” <a href="https://ukgbc.s3.eu-west-2.amazonaws.com/wp-content/uploads/2019/04/05150856/Net-Zero-Carbon-Buildings-A-framework-definition.pdf" class="d-inline"> Link to definition</a></p>
-                            <p><strong>Regulated emissions:</strong>Emissions generated through building energy consumption resulting from the specification of controlled, fixed building services and fittings, including space heating and cooling, hot water, ventilation, fans, pumps and lighting. Such energy uses are inherent in the design of a building." <a href="https://www.designingbuildings.co.uk/wiki/Regulated_and_unregulated_energy_consumption" class="d-inline">For more information</a></p>
+                            <p><strong>Operationally net-zero:</strong> when the amount of carbon emissions associated with the building’s operational energy on an annual basis is zero or negative. A net zero carbon building is highly energy efficient and powered from on-site and/or off-site renewable energy sources, with any remaining carbon balance offset.” <a href="https://ukgbc.s3.eu-west-2.amazonaws.com/wp-content/uploads/2019/04/05150856/Net-Zero-Carbon-Buildings-A-framework-definition.pdf" class="d-inline"> Link to definition</a></p>
+                            <p><strong>Regulated emissions:</strong> Emissions generated through building energy consumption resulting from the specification of controlled, fixed building services and fittings, including space heating and cooling, hot water, ventilation, fans, pumps and lighting. Such energy uses are inherent in the design of a building." <a href="https://www.designingbuildings.co.uk/wiki/Regulated_and_unregulated_energy_consumption" class="d-inline">More information</a></p>
                             <p class="mb-0">Council owned or managed housing: This includes arms-length management organisation (ALMO) if the homes are owned by the Council but not Housing Associations.</p>
                             """,
                     },
@@ -1165,7 +1167,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "clarifications": """
                             <p>For operationally net-zero policies, we will accept those that define this as only concerning regulated emissions. Definitions for operationally net-zero and regulated emissions are below.</p>
                             <p><strong>Operationally net-zero:</strong> when the amount of carbon emissions associated with the building’s operational energy on an annual basis is zero or negative. A net zero carbon building is highly energy efficient and powered from on-site and/or off-site renewable energy sources, with any remaining carbon balance offset.” <a href="https://ukgbc.s3.eu-west-2.amazonaws.com/wp-content/uploads/2019/04/05150856/Net-Zero-Carbon-Buildings-A-framework-definition.pdf" class="d-inline">Link to definition</a></p>
-                            <p><strong>Regulated emissions:</strong>  Emissions generated through building energy consumption resulting from the specification of controlled, fixed building services and fittings, including space heating and cooling, hot water, ventilation, fans, pumps and lighting. Such energy uses are inherent in the design of a building." <a href="https://www.designingbuildings.co.uk/wiki/Regulated_and_unregulated_energy_consumption" class="d-inline">For more information</a></p>
+                            <p><strong>Regulated emissions:</strong> Emissions generated through building energy consumption resulting from the specification of controlled, fixed building services and fittings, including space heating and cooling, hot water, ventilation, fans, pumps and lighting. Such energy uses are inherent in the design of a building." <a href="https://www.designingbuildings.co.uk/wiki/Regulated_and_unregulated_energy_consumption" class="d-inline">More information</a></p>
                             <p class="mb-0">There are a number of local plans in the draft stage who are requiring this policy. If these policies are deemed unsound by the Planning Inspectorate we will remove this question.</p>
                             """,
                     },
@@ -1230,7 +1232,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                         "clarifications": """
                             <p>Synonyms for 15/20 minute neighbourhoods include: <i>Healthy Streets Approach, Complete Neighbourhoods, Complete Communities</i>.</p>
-                            <p class="mb-0">This policy must be found in the Local Plan, Corporate Plan or an Area Action Plan.</p>
+                            <p class="mb-0">This policy must be found in the Local Plan, Corporate Plan or an Area Climate Action Plan</p>
                             """,
                     },
                     {
@@ -1337,7 +1339,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                         "clarifications": """
                             <p>A corporate plan is a business planning document that sets out the council's future priorities and objectives to help ensure that the council manages its resources effectively.</p>
-                            <p>For County Councils the document is called a(Strategic) Economic Plan</p>
+                            <p>For County Councils the document is called a (Strategic) Economic Plan</p>
                             <p  class="mb-0">We will accept other language for target dates being used such as carbon neutrality. </p>
                             """,
                     },
@@ -1456,6 +1458,24 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                         "clarifications": """
                             <p class="mb-0">Marked using data provided by the Department for Business, Energy and Industrial Strategy. The data that will be used is the percentage difference between the calendar years 2022 and 2019 in the "Local Authority territorial carbon dioxide (CO2) emissions estimates within the scope of influence of Local Authorities" when it is published in Summer 2023.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "single",
+                            "district",
+                            "county",
+                            "northern-ireland",
+                        ],
+                        "code": "5",
+                        "name": "Has the council adopted a new governance or decision making process to put tackling the climate emergency at the heart of every council decision made?",
+                        "topic": "Climate Change Decision Making",
+                        "importance": "Medium",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p><strong>Two tier criteria</strong></p>
+                            <p>Criteria met if climate implications are listed or referenced for all council decisions at full council. Climate implications can be considered through Environmental Implications or an Integrated Impact Assessment if this includes a climate or environmental sub-heading or section.</p>
+                            <p class="mb-0">Additional points if the council is using a detailed impact assessment tool to assess the climate implications of all council decisions. </p>
                             """,
                     },
                     {
@@ -1785,11 +1805,6 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "criteria": """
                             <p class="mb-0">Criteria met if the council has a target to increase tree cover which has been included in the Biodiversity Action Plan and/or Tree Strategy, provided the council has agreed a tree management plan to support this target.</p>
                             """,
-                        "clarifications": """
-                            <p>Scope 1 emissions are greenhouse gas emissions that an organisation owns or controls directly, such as fuel burnt from council vehicles. </p>
-                            <p>Scope 2 emissions are greenhouse gas emissions that an organisation produces indirectly when they purchase and use energy, such as the emissions created from the electricity the council buys to heat its offices. </p>
-                            <p class="mb-0">Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations' supply chain, such as the emissions produced in making the computers or paper that the council buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
-                            """,
                     },
                     {
                         "council_types": ["single", "county"],
@@ -1827,7 +1842,10 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "county"],
+                        "council_types": [
+                            "single",
+                            "district",
+                        ],
                         "code": "8",
                         "name": "Does the council employ a planning ecologist to scrutinise planning reports for biodiversity net gain?",
                         "topic": "Planning Ecologists",
@@ -1842,7 +1860,10 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": ["single", "county"],
+                        "council_types": [
+                            "single",
+                            "district",
+                        ],
                         "code": "9",
                         "name": "Does the council require a higher biodiversity net gain commitment from new developments?",
                         "topic": "Biodiversity Net-Gain",
@@ -1965,7 +1986,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         ],
                         "code": "4",
                         "name": "Is the council working with external partners or other councils to seek to influence national governments on climate action, or to learn about and share best practice on council climate action?",
-                        "topic": "Sharing Best practice between Councils",
+                        "topic": "Sharing best practice between councils",
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
                         "criteria": """
@@ -2208,7 +2229,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         ],
                         "code": "1b",
                         "name": "Has the council reduced single use plastic at external events on council land, property or public spaces such as roads and parks?",
-                        "topic": "Net-Zero Embedded in mid-term Financial Plan",
+                        "topic": "Single Use Plastic",
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
                         "criteria": """
@@ -2370,7 +2391,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "criteria": """
                             <p><strong>Three tier criteria</strong></p>
                             <p>Criteria met if the council has a recycling rate of 50% or more.</p>
-                            <p class="mb-0">CAdditional points awarded if the council has a recycling rate of 60% and further points awarded if the council has a recycling rate of 70% or more. </p>
+                            <p class="mb-0">Additional points awarded if the council has a recycling rate of 60% and further points awarded if the council has a recycling rate of 70% or more. </p>
                             """,
                         "clarifications": """
                             <p class="mb-0">Marked using data provided by DEFRA, Stats Wales, SEPA and DAERA-NI.</p>
