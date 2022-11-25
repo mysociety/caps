@@ -13,8 +13,8 @@ import urllib3
 import tempfile
 import zipfile
 
-from caps.models import Council
-from caps.utils import char_from_text, integer_from_text
+from cape.models import Council
+from cape.utils import char_from_text, integer_from_text
 from scoring.models import (
     PlanScore,
     PlanSection,

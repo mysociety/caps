@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import AccessMixin
 from django.conf import settings
 from django.shortcuts import redirect
 
-from caps.models import Council
+from cape.models import Council
 from scoring.models import PlanScore
 
 

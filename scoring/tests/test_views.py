@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 
 from django.urls import reverse
 
-from caps.models import Council
+from cape.models import Council
 from scoring.models import PlanSectionScore, PlanScore
 
 

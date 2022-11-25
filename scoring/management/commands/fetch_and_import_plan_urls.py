@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.db import transaction
 
-from caps.import_utils import get_google_sheet_as_csv
+from cape.import_utils import get_google_sheet_as_csv
 
 from scoring.models import PlanScore, PlanScoreDocument
 
