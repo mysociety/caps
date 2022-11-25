@@ -3,7 +3,7 @@ from collections import defaultdict
 from django.db import models
 from django.db.models import Avg, Max, Q, F, Count
 
-from caps.models import Council
+from cape.models import Council
 
 
 # define this here as mixins imports PlanScore so if we import that then we get

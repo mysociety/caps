@@ -11,7 +11,7 @@ from django.conf import settings
 
 from django_filters.views import FilterView
 
-from caps.models import Council, Promise
+from cape.models import Council, Promise
 from scoring.models import (
     PlanScore,
     PlanScoreDocument,
@@ -24,7 +24,7 @@ from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 
 from scoring.forms import ScoringSort
 
-from caps.views import BaseLocationResultsView
+from cape.views import BaseLocationResultsView
 from scoring.mixins import CheckForDownPageMixin, AdvancedFilterMixin
 
 cache_settings = {

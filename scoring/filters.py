@@ -1,6 +1,6 @@
 import django_filters
 
-from caps.models import Council
+from cape.models import Council
 from scoring.models import PlanScore, PlanQuestionScore
 
 

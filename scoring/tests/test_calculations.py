@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from caps.models import Council
+from cape.models import Council
 from scoring.models import PlanSection, PlanSectionScore, PlanScore
 
 

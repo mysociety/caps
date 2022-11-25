@@ -64,7 +64,7 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                "caps.context_processors.analytics",
+                "cape.context_processors.analytics",
             ],
         },
     },
@@ -107,7 +107,7 @@ STATICFILES_FINDERS = (
 PIPELINE = {
     "STYLESHEETS": {
         "caps": {
-            "source_filenames": ("caps/scss/main.scss",),
+            "source_filenames": ("cape/scss/main.scss",),
             "output_filename": "css/caps.css",
         },
         "scoring": {
@@ -184,7 +184,7 @@ INSTALLED_APPS = [
     "bootstrap4",
     "rest_framework",
     "simple_history",
-    "caps",
+    "cape",
     "scoring",
     "charting",
 ]
