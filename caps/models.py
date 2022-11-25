@@ -845,7 +845,9 @@ class CouncilFilter(django_filters.FilterSet):
         widget=Select(choices=Council.PLAN_FILTER_CHOICES),
     )
     authority_type = django_filters.ChoiceFilter(
-        choices=Council.AUTHORITY_TYPE_CHOICES, empty_label="All"
+        method="filter_authority_type",
+        choices=Council.AUTHORITY_TYPE_CHOICES,
+        empty_label="All",
     )
     region = django_filters.ChoiceFilter(
         method="filter_region",
@@ -919,6 +921,15 @@ class CouncilFilter(django_filters.FilterSet):
                 ]
             }
         )
+
+    def filter_authority_type(self, queryset, name, value):
+        """
+        London is the only strategic regional authority, but we want to treat it as a combined authority.
+        """
+        if value == "COMB":
+            return queryset.filter(**{"authority_type__in": ["COMB", "SRA"]})
+        else:
+            return queryset.filter(**{name: value})
 
     def filter_promise(self, queryset, name, value):
         if value is None:
