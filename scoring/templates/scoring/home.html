@@ -22,7 +22,7 @@
         <h1 class="text-center mb-3">About the 2021 scoring</h1>
         <p class="text-center mx-auto  mb-4" style="max-width: 650px;">Climate Emergency UK assessed plans according to 28 questions across nine sections, based on the expert-approved <a class="d-inline" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">checklist for Council Action Plans</a>. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between June and December 2021.  
         </p>
-        <a class="cta mx-auto" href="{% url 'methodology' %}"> Learn more about the methodology</a>
+        <a class="cta mx-auto" href="{% url 'methodology2022' %}"> Learn more about the methodology</a>
 
         <div class="table-filter row justify-content-md-center mx-auto mt-5 pb-5" style="max-width: 1100px;">
             <div class="col-12 col-lg-6 bg-blue-l2 left py-3">
@@ -109,7 +109,7 @@
                     </div>
                     <button type="submit" class="btn btn-blue mb-3 d-block mt-3">Apply filters</button>
                 </form>
-                <a class="my-3" href="{% url 'methodology' %}scoring-system">Learn more about each section</a>
+                <a class="my-3" href="{% url 'methodology2022' %}scoring-system">Learn more about each section</a>
             </div>
 
             <div class="scorecard-table-wrapper">
@@ -130,63 +130,63 @@
                             </th>
                             <th scope="col" class="first-row-child category-1">
                                 <div class="table-header-first-row">
-                                    <a href="{% url 'methodology' %}#sec-gov">Governance, development and funding</a>
+                                    <a href="{% url 'methodology2022' %}#sec-gov">Governance, development and funding</a>
                                     <button class="js-sort-table sort-icon{% if sorted_by == 's1_gov' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-2">
                                 <div class="table-header-first-row">
-                                    <a href="{% url 'methodology' %}#sec-ma">Mitigation and Adaptation</a>
+                                    <a href="{% url 'methodology2022' %}#sec-ma">Mitigation and Adaptation</a>
                                     <button class="js-sort-table sort-icon{% if sorted_by == 's2_m_a' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-3">
                                 <div class="table-header-first-row">
-                                    <a href="{% url 'methodology' %}#sec-ca">Commitment and Integration</a>
+                                    <a href="{% url 'methodology2022' %}#sec-ca">Commitment and Integration</a>
                                     <button class="js-sort-table sort-icon{% if sorted_by == 's3_c_a' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-4">
                                 <div class="table-header-first-row">
-                                    <a href="{% url 'methodology' %}#sec-coms">Community engagement and communications</a>
+                                    <a href="{% url 'methodology2022' %}#sec-coms">Community engagement and communications</a>
                                     <button class="js-sort-table sort-icon{% if sorted_by == 's4_coms' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-5">
                                 <div class="table-header-first-row">
-                                    <a href="{% url 'methodology' %}#sec-mset">Measuring and setting emissions targets</a>
+                                    <a href="{% url 'methodology2022' %}#sec-mset">Measuring and setting emissions targets</a>
                                     <button class="js-sort-table sort-icon{% if sorted_by == 's5_mset' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-6">
                                 <div class="table-header-first-row">
-                                    <a href="{% url 'methodology' %}#sec-co">Co-benefits</a>
+                                    <a href="{% url 'methodology2022' %}#sec-co">Co-benefits</a>
                                     <button class="js-sort-table sort-icon{% if sorted_by == 's6_cb' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-7">
                                 <div class="table-header-first-row">
-                                    <a href="{% url 'methodology' %}#sec-dsi">Diversity and Social Inclusion</a>
+                                    <a href="{% url 'methodology2022' %}#sec-dsi">Diversity and Social Inclusion</a>
                                     <button class="js-sort-table sort-icon{% if sorted_by == 's7_dsi' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-8">
                                 <div class="table-header-first-row">
-                                    <a href="{% url 'methodology' %}#sec-est">Education, Skills and Training</a>
+                                    <a href="{% url 'methodology2022' %}#sec-est">Education, Skills and Training</a>
                                     <button class="js-sort-table sort-icon{% if sorted_by == 's8_est' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
                             </th>
                             <th scope="col" class="first-row-child category-9">
                                 <div class="table-header-first-row">
-                                    <a href="{% url 'methodology' %}#sec-ee">Ecological emergency</a>
+                                    <a href="{% url 'methodology2022' %}#sec-ee">Ecological emergency</a>
                                     <button class="js-sort-table sort-icon{% if sorted_by == 's9_ee' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 <div class="table-sticky-border top"></div>
