@@ -85,7 +85,7 @@
                             <div class="toggle-section">
                                 <h4 class="toggle-section__header">
                                     <button class="js-hidden-toggle" aria-controls="section-{{ forloop.counter }}">
-                                        {{section.title}}
+                                        {{section.title|escape}}
                                     </button>
                                 </h4>
                                 <div class="toggle-section__content" id="section-{{ forloop.counter }}">
@@ -127,7 +127,7 @@
                                                 {% endif %}
                                                 <div class="section-question-heading p-3 bg-green-l2">
                                                     <!-- QUESTION CODE-->
-                                                    <p class="label pl-0">{{ section.title }} · Question {{ question.code }}</p>
+                                                    <p class="label pl-0">{{ section.title|escape }} · Question {{ question.code }}</p>
                                                     <!-- QUESTION NAME-->
                                                     <h6 class="h5">{{ question.name }}</h6>
                                                     <button class="btn btn-blue is--light mt-2 js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">Display question details</button>
