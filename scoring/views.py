@@ -784,7 +784,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "clarifications": """
                             <p>If the project is being led by the County Council and all other district councils are involved too, then all those district councils will be awarded the points. </p>
                             <p>The project cannot be a trial project.</p>
-                            <p class="mb-0">Marked partly using data provided by <a href="https://solarstreets.co.uk/" class="d-inline-block">Solar Streets</a> and <a href="https://solartogether.co.uk/landing" class="d-inline-block">Solar Together</a></p>
+                            <p class="mb-0">Marked partly using publicly available data from <a href="https://solarstreets.co.uk/" class="d-inline-block">Solar Streets</a> and <a href="https://solartogether.co.uk/landing" class="d-inline-block">Solar Together</a></p>
                             """,
                     },
                     {
