@@ -545,7 +545,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
         context["current_page"] = "methodology2023-page"
         context["sections"] = [
             {
-                "title": "Building & Heating",
+                "title": "Buildings & Heating",
                 "description": "Buildings and Heating is one of the biggest sectors of carbon and other greenhouse gas emissions in the UK. This section aims to cover the main actions that councils can take to support both private rented and owned homes and socially renting households to reduce the emissions from their homes.",
                 "weightings": {
                     "single": "20%",
