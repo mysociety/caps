@@ -1453,11 +1453,11 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "how_marked": "National Data",
                         "criteria": """
                             <p><strong>Three tier criteria</strong></p>
-                            <p>Criteria met if the council has had a 2% or more emission reduction from 2019 to 2022 data. </p>
-                            <p class="mb-0">Additional points awarded if the emission reduction is more than 5%, or further points if the reduction is more than 10% from 2019 to 2022. </p>
+                            <p>Criteria met if the council has had a 2% or more emission reduction from 2019 to 2021 data. </p>
+                            <p class="mb-0">Additional points awarded if the emission reduction is more than 5%, or further points if the reduction is more than 10% from 2019 to 2021. </p>
                             """,
                         "clarifications": """
-                            <p class="mb-0">Marked using data provided by the Department for Business, Energy and Industrial Strategy. The data that will be used is the percentage difference between the calendar years 2022 and 2019 in the "Local Authority territorial carbon dioxide (CO2) emissions estimates within the scope of influence of Local Authorities" when it is published in Summer 2023.</p>
+                            <p class="mb-0">Marked using data provided by the Department for Business, Energy and Industrial Strategy. The data that will be used is the percentage difference between the calendar years 2021 and 2019 in the "Local Authority territorial carbon dioxide (CO2) emissions estimates within the scope of influence of Local Authorities" when it is published in Summer 2023.</p>
                             """,
                     },
                     {
