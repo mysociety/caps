@@ -1,50 +1,3 @@
-.site-header,
-.site-subheader {
-    .navbar-brand {
-        @include media-breakpoint-up('md') {
-            margin: 0 1rem;
-        }
-    }
-
-    .navbar-collapse {
-        flex-grow: 0;
-    }
-
-    .navbar-nav {
-        flex-wrap: wrap;
-        justify-content: flex-end;
-        padding-top: 1rem;
-
-        @include media-breakpoint-up('md') {
-            padding-top: 0;
-
-            .nav-link {
-                padding: 0 1rem;
-            }
-        }
-    }
-
-    .navbar-collapse {
-        margin-left: auto;
-    }
-
-    .navbar-dark .nav-link {
-        border-top: 1px solid $navbar-dark-toggler-border-color;
-
-        @include media-breakpoint-up('md') {
-            border-top: none;
-        }
-    }
-
-    .navbar-light .nav-link {
-        border-top: 1px solid $navbar-light-toggler-border-color;
-
-        @include media-breakpoint-up('md') {
-            border-top: none;
-        }
-    }
-}
-
 .site-header {
     background: $color-ceuk-red;
 
@@ -110,16 +63,63 @@
         }
     }
 
+    // Heavily customised navbar-brand to include tagline
     .navbar-brand {
         font-family: $headings-font-family;
         line-height: 1;
+        font-weight: 900;
         padding: 0;
         white-space: normal;
-        flex: 1 1 8em;
+        flex: 1 0 auto;
+        display: flex;
+        align-items: center;
 
         @include media-breakpoint-up('md') {
+            margin: 0 1rem;
             flex: 0 0 auto;
-            font-size: $h4-font-size;
+        }
+
+        @include media-breakpoint-up('xl') {
+            font-size: ( $navbar-brand-font-size + 0.5rem );
+        }
+
+        small {
+            margin-left: 1em;
+            font-size: 0.35em;
+            max-width: 12em;
+            line-height: 1.2;
+            opacity: 0.8;
+
+            @media (max-width: 399px) {
+                display: none;
+            }
+        }
+    }
+
+    .navbar-nav {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        padding-top: 1rem;
+
+        @include media-breakpoint-up('md') {
+            padding-top: 0;
+
+            .nav-link {
+                padding: 0 1rem;
+            }
+        }
+    }
+
+    .navbar-collapse {
+        margin-left: auto;
+        flex-grow: 0;
+    }
+
+    .navbar-dark .nav-link {
+        border-top: 1px solid $navbar-dark-toggler-border-color;
+
+        @include media-breakpoint-up('md') {
+            border-top: none;
         }
     }
 }
