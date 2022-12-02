@@ -109,10 +109,12 @@ PIPELINE = {
         "caps": {
             "source_filenames": ("caps/scss/main.scss",),
             "output_filename": "css/caps.css",
+            "variant": "datauri",
         },
         "scoring": {
             "source_filenames": ("scoring/scss/main.scss",),
             "output_filename": "css/scoring.css",
+            "variant": "datauri",
         },
     },
     "CSS_COMPRESSOR": "django_pipeline_csscompressor.CssCompressor",
