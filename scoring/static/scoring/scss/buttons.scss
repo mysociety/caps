@@ -129,6 +129,10 @@ a.cta {
         text-decoration: underline;
         text-underline-offset: 3px;
     }
+
+    &:visited {
+        color: inherit;
+    }
 }
 
 // Color button
