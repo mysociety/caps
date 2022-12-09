@@ -2452,6 +2452,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
             {"name": "Cycling UK"},
             {"name": "Democracy Club"},
             {"name": "Department of Transport"},
+            {"name": "Ecotricity"},
             {"name": "Energy Savings Trust"},
             {"name": "Food For Life"},
             {"name": "Food Matters"},
