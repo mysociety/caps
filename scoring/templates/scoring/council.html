@@ -78,9 +78,9 @@
                 <h3 class="mb-3">About the scoring</h3>
                 <p>Climate Emergency UK assessed plans according to 28 questions across nine sections, based on the expert-approved <a class="d-inline-block" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">checklist for Council Action Plans</a>. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between June and December 2021. Action Plans and related documents that were publicly available after September 2015 and before 20 September 2021 were marked. </p>
               {% if plan_urls %}
-                <p>Has this council updated their Climate Action Plan? <a class="d-inline-block" href="https://data.climateemergency.uk/councils/{{ council.slug }}">Check our database to find out.</a></p>
+                <p>Has this council updated their Climate Action Plan? <a class="d-inline-block" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out.</a></p>
               {% else %}
-                <p>Has this council released a Climate Action Plan plan recently? <a class="d-inline-block" href="https://data.climateemergency.uk/councils/{{ council.slug }}">Check our database to find out.</a></p>
+                <p>Has this council released a Climate Action Plan plan recently? <a class="d-inline-block" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out.</a></p>
               {% endif %}
               {% if authority_type.slug == 'district' %}
                 <p>This district council is signed up to their county council's joint Climate Action Plan. Here, if the district council has a plan, they are marked on their own plan and the county plan, depending on which is relevant to each question. <a class="d-inline-block" href="{% url 'methodology2022' %}">You can find out more about this in the methodology.</a></p>
