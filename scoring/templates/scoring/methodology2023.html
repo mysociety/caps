@@ -52,15 +52,10 @@
                     <div class="alert alert-warning mt-4 mt-lg-5 bg-grey border" role="alert">
                         <h2 class="h5">Get this information in alternative formats</h2>
                         <p>The explanatory content of this page is available as a PDF:</p>
-                        <a href="https://drive.google.com/file/d/1uKisqqHsV7MaDCg63Ah0KEzinZFdlzjR/view?usp=sharing" class="btn btn btn-blue is--light mr-2 mb-3 mb-sm-4">Explanatory content (PDF)</a>
+                        <a href=" https://drive.google.com/file/d/1bceKBGSK_cbEulsNvOTtvFPlWGcrA840/view?usp=sharing" class="btn btn btn-blue is--light mr-2 mb-3 mb-sm-4">Explanatory content (PDF)</a>
                         <p>The questions and criteria are available in two additional formats:</p>
-                        <a href="https://drive.google.com/file/d/1n60Yl4uaQJ-FFuboQIZav4IOfw_ANvzg/view?usp=sharing" class="btn btn btn-blue is--light mr-2">Questions (PDF)</a>
-                        <a href="https://docs.google.com/spreadsheets/d/1HNUmAkUT-ruammN8SLFXj7LKo3jaLEn2/edit?usp=sharing&ouid=116388364551096839087&rtpof=true&sd=true" class="btn btn btn-blue is--light mt-2 mt-sm-0 mr-2">Questions (Spreadsheet)</a>
-                    </div>
-
-                    <div class="alert alert-warning mt-3 mt-lg-4 bg-green-l2 border-green" role="alert">
-                        <p>If you’re interested in volunteering to help us mark the Council Climate Action Scorecards in 2023 apply to volunteer here:</p>
-                        <a href="https://actionnetwork.org/forms/application-scorecards-volunteering/" class="btn btn btn-blue is--light">Apply to volunteer here</a>
+                        <a href=" https://drive.google.com/file/d/1ntX3GqwmwPPVjrf9ZkNQmMrNac0yr731/view?usp=sharing" class="btn btn btn-blue is--light mr-2">Questions (PDF)</a>
+                        <a href="https://drive.google.com/file/d/1b730Xuj5uJWslRLJ-aknmHtweQrGhpol/view?usp=sharing" class="btn btn btn-blue is--light mt-2 mt-sm-0 mr-2">Questions (Spreadsheet)</a>
                     </div>
 
                     <h2 id="section-question-criteria" class="mt-5 mb-3">Question criteria</h2>
@@ -82,9 +77,9 @@
                             <p class="mb-0">A small number of questions might not apply to your council and they are highlighted with a warning icon.</p>
                         </div>
 
-                        <div class="toggle-section-accordion rounded js-single js-district js-county js-northern-ireland">
+                        <div class="toggle-section-accordion rounded js-single js-district js-county js-northern-ireland js-combined">
                             {% for section in sections %}
-                            <div class="toggle-section">
+                            <div class="toggle-section {% for council_type in section.council_types %}js-{{ council_type }} {% endfor %}">
                                 <h4 class="toggle-section__header">
                                     <button class="js-hidden-toggle" aria-controls="section-{{ forloop.counter }}">
                                         {{section.title|escape}}
@@ -104,6 +99,8 @@
                                                             county
                                                         {% elif council_type == 'northern-ireland' %}
                                                             Northern Irish
+                                                        {% elif council_type == 'combined' %}
+                                                            Combined Authority
                                                         {% endif %}
                                                             council’s overall score
                                                     </strong>
@@ -152,8 +149,24 @@
                                                             <div class="section-question-meta-item">
                                                                 <p class="label pl-0 mb-0">How will this be marked?</p>
                                                                 <!-- QUESTION HOW WILL BE MARKED -->
-                                                                <p>{{ question.how_marked}}</p>
+                                                                <p>
+                                                                    {% autoescape off %}
+                                                                    {{ question.how_marked}}
+                                                                {% endautoescape %}
+                                                                </p>
                                                             </div>
+                                                            {% if question.total_points %}
+                                                            <div class="section-question-meta-item">
+                                                                <p class="label pl-0 mb-0">Points available</p>
+                                                                <!-- QUESTION HOW WILL BE MARKED -->
+                                                                <p>
+                                                                    {% autoescape off %}
+                                                                    {{ question.total_points}}
+                                                                {% endautoescape %}
+                                                                </p>
+                                                            </div>
+                                                            {% endif %}
+
                                                         </div>
                                                         <div class="section-question-criteria mb-3 mb-4">
                                                             <h6 class="mb-2"><span class="underline-green">Criteria</span></h6>
@@ -184,7 +197,7 @@
 
                         <h3 class="mt-5 mb-3"><span class="underline-green">Combined Authorities</span></h3>
 
-                        <p>We have not yet published the draft methodology for the Council Climate Action Scorecards for Combined Authorities. Combined Authorities have varying powers within themselves and a lot of the Scorecard questions can't be applied. <strong>We will score all Combined Authorities and publish the results in 2023</strong>. The draft methodology for Combined Authorities will be published prior to this. We plan to share the amended Scorecards for Combined Authorities soon.</p>
+                        <p>Combined authorities have quite different powers and responsibilities to other council structures. This is why there are fewer sections and questions for combined authorities. Of all the questions for combined authorities, just under half of these questions are the same as for other council types. The remaining questions are only applicable to combined authorities, of which some of these questions are similar to questions being asked of other council types. You can read <a href="https://www.climateemergency.uk/draft-methodology-blog-series/">our blog listed here</a> for further information on how combined authority powers differ to other council types and why we created the combined authority methodology the way we did.</p>
 
                         <h2 id="section-weightings" class="mt-5 mb-3">Section weightings</h2>
 
@@ -247,6 +260,38 @@
                                     <td class="js-highlight-district">10%</td>
                                     <td class="js-highlight-county">10%</td>
                                     <td class="js-highlight-northern-ireland">10%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 class="mt-4 mt-sm-5 mb-3">Section weightings for Combined Authorities </h3>
+                        <table class="minimal-table" style="max-width: 25em">
+                            <thead>
+                                <tr class="bg-green">
+                                    <th>Section</th>
+                                    <th>Combined Authority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Transport</td>
+                                    <td>25%</td>
+                                </tr>
+                                <tr>
+                                    <td>Buildings, Heating &amp; Green Skills</td>
+                                    <td>25%</td>
+                                </tr>
+                                <tr>
+                                    <td>Governance &amp; Finance</td>
+                                    <td>20%</td>
+                                </tr>
+                                <tr>
+                                    <td>Planning, Biodiversity and Land Use</td>
+                                    <td>10%</td>
+                                </tr>
+                                <tr>
+                                    <td>Collaboration &amp; Engagement</td>
+                                    <td>20%</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -348,7 +393,7 @@
 
                     <h3 class="mt-4 mb-2 mb-lg-3"><span class="underline-green">Freedom of Information requests</span></h3>
 
-                    <p>You can see the current draft list of the FOI requests we plan to send <a href="https://drive.google.com/file/d/1fH6QHJfLpbQ6YsrAEixPtPF5SaU4_yo_/view?usp=share_link" class="d-inline">here</a>. 
+                    <p>You can see the current draft list of the FOI requests we plan to send <a href="https://drive.google.com/file/d/18ZCmVF2QYWeQcR2fpxL_UBkK8A9HHg6A/view?usp=sharing" class="d-inline">here</a>. 
                         We will be sending FOI requests using WhatDoTheyKnow (run by mySociety). All FOI responses sent via <a class="d-inline" href="https://www.whatdotheyknow.com/">WhatDoTheyKnow</a> will be made public and linked to the Scorecards when published. Unless otherwise stated in the FOI request, we are marking council climate action from 1st January 2019 up until January 2023 when the FOI requests will be sent out.</p>
                     <p>To find out more about how we created each section and why questions or topics were or were not included, check out our blog series on the draft methodology <a class="d-inline" href="https://www.climateemergency.uk/draft-methodology-blog-series/">here</a>.</p>
 
@@ -441,6 +486,7 @@
                     <p class="mt-2">For these sections all councils have the same section weightings. This is because, while still vital, the actions scored in these three sections have the lowest direct impact on emission reduction, and within them, all council types have similar powers in relation to what they can influence. It is also harder to assess the effective engagement and communication of a council, and typically councils that effectively engage their residents will have more buy-in and be able to be more ambitious, so they will be able to score more elsewhere. </p>
                     <p>All councils have less powers over food. For biodiversity, waste reduction and food, a significant amount of actions and emissions are outside of councils’ control, so a lower weighting has been given to these sections to reflect this. This is not a reflection of the wider importance of biodiversity, food and waste to address the climate emergency. </p>
                     <p>The powers that Northern Irish councils have are different to other nations. For example, Northern Irish councils have less control over Transport, Planning &amp; Land Use and Buildings &amp; Heating </p>
+                    <p>The powers that combined authorities have are different to other council types. For example, combined authorities have almost no power or responsibility for Waste Reduction &amp; Food, other than Manchester Combined Authority which works with other councils in the area as a waste collection authority (and the Greater London Authority and theWest Midlands Combined Authority play a small role in waste regionally too). In other areas, Combined Authorities have more power, funding and influence, such as in adult education and green skills which is why these questions have been added to the Buildings &amp; Heating section, making it the Buildings, Heating and Green Skills section. Combined Authorities have less power over new and existing buildings and their carbon emissions in an area hence changing the Buildings &amp; Heating questions to include more on Green Skills.</p>
 
                     <h2 id="section-further-info" class="mt-5 mb-3">Further info</h2>
 

@@ -148,7 +148,8 @@ $council-types: (
     'single',
     'district',
     'county',
-    'northern-ireland'
+    'northern-ireland',
+    'combined'
 );
 
 @each $council-type in $council-types {
@@ -214,6 +215,7 @@ $council-types: (
     flex-direction: row;
     flex-wrap: wrap;
     grid-template-columns: repeat(2, 1fr);
+    column-gap: 1rem; // Avoids heavy length content to overlap the next column.
 }
 
 // Tables highlight

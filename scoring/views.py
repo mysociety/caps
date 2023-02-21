@@ -546,6 +546,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
         context["sections"] = [
             {
                 "title": "Buildings & Heating",
+                "council_types": [
+                    "single",
+                    "district",
+                    "county",
+                    "northern-ireland",
+                ],
                 "description": "Buildings and Heating is one of the biggest sectors of carbon and other greenhouse gas emissions in the UK. This section aims to cover the main actions that councils can take to support both private rented and owned homes and socially renting households to reduce the emissions from their homes.",
                 "weightings": {
                     "single": "20%",
@@ -813,13 +819,256 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 ],
             },
             {
+                "title": "Buildings, Heatings and Green Skills",
+                "council_types": [
+                    "combined",
+                ],
+                "weightings": {
+                    "combined": "25%",
+                },
+                "questions": [
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA1",
+                        "name": "Is the combined authority's operations powered by renewable energy?",
+                        "topic": "Renewable Tariff - combined authority buildings",
+                        "importance": "Low",
+                        "total_points": "2",
+                        "how_marked": "FOI",
+                        "criteria": """
+                            <p>Criteria is met if the combined authority has a green tariff that is 100% renewable or if the combined authority creates its own energy equivalent to 20% of more of its energy consumption through energy from waste.</p>
+                            <p>Additional points awarded if the combined authority has a green tariff with Green Energy UK plc, Good Energy Limited or Ecotricity, or if the combined authority creates its own renewable energy equivalent to 20% or more of its energy consumption. This could be through on-site energy generation, or if they have built or bought a solar/wind farm elsewhere.</p>
+                            """,
+                        "clarifications": """
+                            <p>This includes all energy that the combined authority is directly responsible for, in offices and any other buildings leased and managed by the combined authority where the combined authority pays the energy tariff.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA2",
+                        "name": "Has the combined authority supported local community renewable energy creation?",
+                        "topic": "Renewable Tariff - combined authority buildings",
+                        "importance": "Medium",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if there is public information about them working with a local community energy generation infrastructure project, such as wind, solar or hydro. Evidence of this could include:</p>
+                            <p>Being formally listed as a partner on the community energy projects' website</p>
+                            <p>Evidence on the combined authority's website of them providing funding, land or other support to the community energy project.</p>
+                            """,
+                        "clarifications": """
+                            <p>Marked partly using data provided by <a class="d-inline" href="https://communityenergyengland.org/">Community Energy England</a></p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA3",
+                        "name": "Is the combined authority part of a partnership to support retrofit in the area?",
+                        "topic": "Retrofit Partnerships",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority convenes or is a member of a local retrofit partnership, that focuses on knowledge sharing or skills. Evidence of this partnership is needed. At least two of the following must be visible:</p>
+                            <ol>
+                                <li>A named partnership with a public membership list</li>
+                                <li>A terms of reference or aims of the group</li>
+                                <li> Evidence of previous meetings, via notes, agendas, videos or in news stories</li>
+
+                            </ol>
+                            <p class="mb-0">Trial schemes that are active at the time of marking will be accepted.</p>
+                        """,
+                        "clarifications": """
+                            <p>The criteria will be met if this partnership is a combined authority task and finish group or sub-committee group with external members.</p>
+                            <p>The partnership can be with any organisation beyond the combined authority. It could include other councils, community groups, financial institutions or local businesses.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA4",
+                        "name": "Has the combined authority produced research or a strategy understanding the scale, need and opportunity of retrofitting in its area",
+                        "topic": "Retrofit Partnerships",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has contributed to research, strategy, evidence or business development in relation to home retrofit.</p>
+                        """,
+                        "clarifications": """
+                            <p>finished product or in progress? split on what would count. could be tiered whether in process or not. </p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA5",
+                        "name": "Has the combined authority successfully raised funds for decarbonising homes and buildings through national government grants?",
+                        "topic": "Funding sources",
+                        "importance": "Medium",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if a combined authority has successfully bid on a government grant since 1st January 2019. The money doesn't have to be spent or the project completed in order to meet the criteria.</p>
+                        """,
+                        "clarifications": """
+                            <p>Evidence of a news story from the combined authority or listed as a successful bidder on any of the follow national government grants:
+                            </p>
+                            <ul>
+                                <li>Public Sector Decarbonisation Scheme (1, 2, 3a, 3b)</li>
+                                <li>Social Housing Decarbonisation Fund (1 and 2)</li>
+                                <li>Green Homes Grant, local authority delivery (phase 1a, 1b, 2 and 3)</li>
+                                <li>Sustainable Warmth Competition (local authority delivery 3 and Home Upgrade Grant 1)</li>
+                            </ul>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA6",
+                        "name": "Does the combined authority have a detailed plan or strategy to create the green skills needed to mitigate and adapt to the climate emergency?",
+                        "topic": "Net-Zero Embedded in Skills Strategy",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has a skills strategy or similar which explicitly covers how they will create the green skills needed locally.</p>
+                            <p>This information could be in a combined authority's skills strategy or other strategies.</p>
+                        """,
+                        "clarifications": """
+                            <p>A chapter or equivalent on green skills in a climate action plan, corporate plan or homes or a building strategy would also be valid for a point. </p>
+                            <p>The plan must cover multiple years.</p>
+                            <p>Green Jobs and Greens Skills are ones that contribute to preserving or restoring the environment. They have a focus on either reducing carbon emissions, mproving energy and raw materials efficiency, protecting and restoring nature, minimising waste and pollution, adapting to the effects of climate change or making similar environmental improvements.</p>
+
+                            <p>Green Jobs and Skills can be in traditional sectors such as manufacturing and construction, or in new, emerging green sectors such as renewable energy and energy efficiency. Sustainability managers in businesses, green transport officers and thermal heating specialists are all examples of green jobs.</p>
+
+                            <p>Definitions from <a class="d-inline" href="https://www.ilo.org/global/topics/green-jobs/news/WCMS_220248/lang--en/index.htm">International Labour Organisation</a> and <a href="https://friendsoftheearth.uk/climate/whats-green-job-and-how-can-we-create-more-them">Friends of the Earth</a>.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA7",
+                        "name": "Is the combined authority part of a programme to support green jobs creation in the area?",
+                        "topic": "Green Skills Partnerships",
+                        "importance": "High",
+                        "total_points": "1",
+                        "how_marked": "Volunteer research from Council website or CAP updates",
+                        "criteria": """
+                            <p>This must be above and beyond providing green skills training in their adult education budget.</p>
+                            <p>If the combined authority has run a Green Skills Bootcamp or equivalent programmes this is valid for a point. The programme must guarantee interviews with potential employers after completing training to be valid for a point. </p>
+                            <p>The programme can be done in partnership with any organisation beyond the combined authority. It could include other councils, community groups, education providers, local businesses, key employers in the area or others. </p>
+                        """,
+                        "clarifications": """
+                            <p>Green Jobs and Greens Skills are ones that contribute to preserving or restoring the environment. They have a focus on either reducing carbon emissions, mproving energy and raw materials efficiency, protecting and restoring nature, minimising waste and pollution, adapting to the effects of climate change or making similar environmental improvements. </p>
+
+                            <p>Green Jobs and Skills can be in traditional sectors such as manufacturing and construction, or in new, emerging green sectors such as renewable energy and energy efficiency. Sustainability managers in businesses, green transport officers and thermal heating specialists are all examples of green jobs.</p>
+
+                            <p>Definitions from <a class="d-inline" href="https://www.ilo.org/global/topics/green-jobs/news/WCMS_220248/lang--en/index.htm">International Labour Organisation</a> and <a href="https://friendsoftheearth.uk/climate/whats-green-job-and-how-can-we-create-more-them">Friends of the Earth</a>.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA8",
+                        "name": "Does the combined authority run an employment or careers programme or project to encourage and promote green jobs?",
+                        "topic": "Greens Skills Promotion",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Point awarded if the combined authority provides a supplementary employment or careers programme to encourage and promote green jobs.</p>
+                            <p>Activities can include, but not limited to: stand alone websites, funding, or events promoting green careers at schools and colleges .</p>
+                        """,
+                        "clarifications": """
+                            <p>Green Jobs and Greens Skills are ones that contribute to preserving or restoring the environment. They have a focus on either reducing carbon emissions, mproving energy and raw materials efficiency, protecting and restoring nature, minimising waste and pollution, adapting to the effects of climate change or making similar environmental improvements. 
+                            </p>
+                            <p>Green Jobs and Skills can be in traditional sectors such as manufacturing and construction, or in new, emerging green sectors such as renewable energy and energy efficiency. Sustainability managers in businesses, green transport officers and thermal heating specialists are all examples of green jobs.</p>
+                            <p>Definitions from <a class="d-inline" href="https://www.ilo.org/global/topics/green-jobs/news/WCMS_220248/lang--en/index.htm">International Labour Organisation</a> and <a href="https://friendsoftheearth.uk/climate/whats-green-job-and-how-can-we-create-more-them">Friends of the Earth</a>.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA9a",
+                        "name": "Has the combined authority funded a significant number of adult education skills courses or training advertised as skills for Green Jobs?",
+                        "topic": "Green Skills Training",
+                        "importance": "Medium",
+                        "total_points": "2",
+                        "how_marked": "FOI",
+                        "criteria": """
+                            <p><strong>Tiered Criteria</strong></p>
+                            <p>The exact number will be determined in due course. The scoring will be tiered, with further points available for a higher number of courses provided. </p>
+                            <p>Criteria met if the combined authority has provided a minimum number of green skills adult education courses in the last three academic years.</p>
+                            <p>This is the total number of adult education courses that the combined authority advertises as Green Skills or Green Jobs that they have funded, in part of partial. If the combined authority classifies them as a green job/skill, then they will be counted.</p>
+                            <p>This includes courses related to the building of or maintaining of residential homes or commercial buildings as well as other Green Skills, such as in relation to Electric Vehicles, Digital Skills, Education, Biodiversity and Conservation management and others. </p>
+                            <p>Any accredited course is valid for a point. There is no minimum length of the course required to be valid for the point.</p>
+                            <p> Courses that are part of a Skills Bootcamp are valid. This question is not limited to Skills Bootcamps courses only, other courses are valid.</p>
+                        """,
+                        "clarifications": """
+                            <p>Green Jobs and Greens Skills are ones that contribute to preserving or restoring the environment. They have a focus on either reducing carbon emissions, mproving energy and raw materials efficiency, protecting and restoring nature, minimising waste and pollution, adapting to the effects of climate change or making similar environmental improvements.</p>
+                            <p>Green Jobs and Skills can be in traditional sectors such as manufacturing and construction, or in new, emerging green sectors such as renewable energy and energy efficiency. Sustainability managers in businesses, green transport officers and thermal heating specialists are all examples of green jobs.</p>
+
+                            <p>Definitions from <a class="d-inline" href="https://www.ilo.org/global/topics/green-jobs/news/WCMS_220248/lang--en/index.htm">International Labour Organisation</a> and <a href="https://friendsoftheearth.uk/climate/whats-green-job-and-how-can-we-create-more-them">Friends of the Earth</a>.</p>
+                            <p>The courses can be free.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA9b",
+                        "name": "Has the combined authority had a significant number of people completing adult education courses or training in the last three academic years that they funded and advertised as skills for Green jobs?",
+                        "topic": "Green Skills Training",
+                        "importance": "Medium",
+                        "total_points": "3",
+                        "how_marked": "FOI",
+                        "criteria": """
+                            <p>This question is asking how many people have been trained on the courses funded and advertised by the combined authority as Green skills/jobs in the last three academic years.</p>
+                            <p>Criteria met if the combined authority has trained a minimum number of people in green skills through adult education courses. 
+                            The exact number will be determined in due course. The scoring will be tiered, with further points available for a higher number of courses provided. </p>
+                            <p>This includes courses related to retrofitting, the building of or maintaining of residential homes or commercial buildings as well as other Green Skills, such as in relation to Electric Vehicles, Digital Skills, Education, Biodiversity and Conservation management and others. </p>
+                            <p>Any accredited course is valid for a point. There is no minimum length of the course required to be valid for the point. 
+                            Courses that are part of a Skills Bootcamp are valid. This question is not limited to Skills Bootcamps courses only, other courses are valid.</p>
+                        """,
+                        "clarifications": """
+                            <p>This is the total number of people who have completed green skills training courses in the last academic year.</p>
+                            <p>Green Jobs and Greens Skills are ones that contribute to preserving or restoring the environment. They have a focus on either reducing carbon emissions, mproving energy and raw materials efficiency, protecting and restoring nature, minimising waste and pollution, adapting to the effects of climate change or making similar environmental improvements. </p>
+                            <p>Green Jobs and Skills can be in traditional sectors such as manufacturing and construction, or in new, emerging green sectors such as renewable energy and energy efficiency. Sustainability managers in businesses, green transport officers and thermal heating specialists are all examples of green jobs.</p>
+
+                            <p>Definitions from <a class="d-inline" href="https://www.ilo.org/global/topics/green-jobs/news/WCMS_220248/lang--en/index.htm">International Labour Organisation</a> and <a href="https://friendsoftheearth.uk/climate/whats-green-job-and-how-can-we-create-more-them">Friends of the Earth</a>.</p>
+                            """,
+                    },
+                ],
+            },
+            {
                 "title": "Transport",
+                "council_types": [
+                    "single",
+                    "district",
+                    "county",
+                    "northern-ireland",
+                    "combined"
+                ],
                 "description": "Transport is the other biggest sector of greenhouse gas emissions in the UK. This section covers the main enabling actions councils can take to reduce car use and encourage more sustainable transport within their area.",
                 "weightings": {
                     "single": "20%",
                     "district": "5%",
                     "county": "30%",
                     "northern-ireland": "15%",
+                    "combined_authority": "25%",
                 },
                 "questions": [
                     {
@@ -1065,10 +1314,236 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">Built = A road/airport has been built after 2019, even if it received planning approval before 2019.</p>
                             """,
                     },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA1a",
+                        "name": "Does the combined authority's Transport Plan include the combined authority's net-zero target and make tackling the climate emergency one of its main priorities?",
+                        "topic": "Transport Plan",
+                        "importance": "Low",
+                        # "total_points": "2",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if the Transport Plan is in date and the net-zero target is included within the transport strategy, although any date would be sufficient.</p>
+                            <p>One of the key priorities in the Transport Plan must be to tackle the climate emergency or reduce emissions.</p>
+                            """,
+                        "clarifications": """
+                            <p>We will accept other language for target dates being used such as carbon neutrality.</p>
+                            <p>The net-zero target date must be an area-wide target, either the UK Government's national target, the devolved nation's target or the combined authority's area-wide net zero target.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA1b",
+                        "name": "Does the combined authority's Transport Plan include expanding or building a high carbon transport project?",
+                        "topic": "Transport Plan - High Carbon projects ",
+                        "importance": "Medium",
+                        # "total_points": "2",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Points deducted if the combined authority details the expansion or building of new roads in the Transport Strategy.</p>
+                            <p>Further points deducted if the combined authority details the expansion or building of new airports in the Transport Strategy.</p>
+                            """,
+                        "clarifications": """
+                            <p>A high carbon transport project is defined as a road or an airport.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA2",
+                        "name": "Has the combined authority set up or supported a shared transport scheme that can be used in their area?",
+                        "topic": "Shared Transport Schemes",
+                        "importance": "Low",
+                        # "total_points": "2",
+                        "how_marked": "National Data & Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met for each type of scheme where a member of the public can hire a vehicle (e.g. car/scooter/bike/mobility device) within the combined authorities area.</p>
+
+                            <ul>
+                                <li>Car share scheme of any size in the area. Including:
+                                    <ul>
+                                        <li>Community car clubs.</li>
+                                        <li>Car clubs provided by private companies</li>
+                                        <li>Hiring of combined authorities when not in use</li>
+                                    </ul>
+                                </li>
+                                <li>Bike share scheme</li>
+                                <li>E-bike or cargo bike share scheme</li>
+                                <li>E-scooter scheme</li>
+                                <li>Mobility Devices</li>
+                                <li>Wheels 2 Work scheme</li>
+                            </ul>
+                            """,
+                        "clarifications": """
+                            <p>Marked mainly using  publicly available data on shared transport schemes.<a href="https://como.org.uk/" class="d-inline"> Coordinated Mobility's </a></p>
+
+                            <p>If schemes are within the combined authority area then the combined authority will be awarded the point</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA3",
+                        "name": "Has the combined authority supported the expansion of the train network?",
+                        "topic": "Trains",
+                        "importance": "Low",
+                        # "total_points": "2",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Points awarded if the combined authority has published a rail strategy, which includes the opening of new or the reopening of any stations or train lines.</p>
+                            <p>Points awarded if the combined authority has invested in new zero emission train stock. </p>
+                            <p>Points awarded if the combined authority has provided funding for extensive retrofit or opening of new or reopening of any stations and/or train lines.</p>
+                            """,
+                        "clarifications": """
+                            <p>Zero emission train stock would include any trains that run via electric voltage or they are hydrogen powered.</p>
+                            <p>Extensive retrofit (sometimes called deep retrofit) refers to significant works of size or scale that result in a fundamental change to the building structure and/or services. </p>
+                            <p>Projects (reopenings/extensive retrofit/new train stock) which are due to happen will not be awarded points. The project must have occurred or be under way.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA4a",
+                        "name": "Does the combined authority's bus service improvement plan include a target for the bus fleet to be zero emission?",
+                        "topic": "Buses",
+                        "importance": "Low",
+                        # "total_points": "2",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Points awarded if the combined authority has a target to be completely zero emission by 2040.</p>
+                            <p>Further points awarded if the combined authority has a target to be zero emission by 2030. </p>
+                            """,
+                        "clarifications": """
+                            <p>Zero emission bus fleet could include any buses that are battery or hydrogen powered.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA4b",
+                        "name": "Is bus ridership within the combined authority area high?",
+                        "topic": "Buses",
+                        "importance": "Medium",
+                        # "total_points": "2",
+                        "how_marked": "National Data",
+                        "criteria": """
+                            <p>Points awarded if bus passenger journeys are over 75 per head of population</p>
+                            <p>Further points awarded if bus passenger journeys are over 150 per head of the population</p>
+                            """,
+                        "clarifications": """
+                            <p>This question is applicable to English transport authorities only.</p>
+                            <p>Marked using <a href="https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables#local-bus-passenger-journeys-bus01" class="d-inline">Department for Transport data (BUS 01)</a> : Passenger journeys on local bus services per head of population by local authority: England</p>
+                        """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA5",
+                        "name": "Has the combined authority introducted integrated ticketing for public transport?",
+                        "topic": "Integrated Ticketing",
+                        "importance": "High",
+                        # "total_points": "2",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Points awarded if the combined authority has implemented, or has a firm timetable with a published date, for integrated ticketing for buses within the combined authority area.</p>
+
+                            <p>Further points awarded if the combined authority has implemented, or has a firm timetable with a published date for integrated ticketing across all public transport including buses, rail, trams and shared active travel schemes - where they have these modes of transport - within the combined authority area.</p>
+                            """,
+                        "clarifications": """
+                            <p>Integrated ticketing allows a person to make a journey that involves transfers within or between different transport modes with a single ticket.</p>
+                        """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA6a",
+                        "name": "Does the combined authority have a Clean Air Zone or Low-Emission Zone within its area?",
+                        "topic": "Clean Air Zone",
+                        "importance": "Low",
+                        # "total_points": "2",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if a combined authority has implemented a Clean Air Zone or Low Emission Zone that has been in operation since 2019.</p>
+                            <p>For this question the Clean Air Zone or Low Emission Zone does not have to require charges for private vehicles.</p>
+                            """,
+                        "clarifications": """
+                            <p>A Clean Air Zone or Low Emission Zone is where targeted action is being taken to improve air quality and reduce the number of polluting vehicles and is usually defined over a certain area, such as a city centre.</p>
+                        """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA6b",
+                        "name": "Does the combined authority have a Clean Air Zone or Low-Emission Zone within its area that requires charges for private vehicles?",
+                        "topic": "Clean Air Zone",
+                        "importance": "Medium",
+                        # "total_points": "2",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if a combined authority has implemented a Clean Air Zone or Low Emission Zone that has been in operation since 2019.</p>
+                            <p>For this question the Clean Air Zone or Low Emission Zone does not have to require charges for private vehicles.</p>
+                            """,
+                        "clarifications": """
+                            <p>A Clean Air Zone or Low Emission Zone is where targeted action is being taken to improve air quality and reduce the number of polluting vehicles and is usually defined over a certain area, such as a city centre.</p>
+                        """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA7",
+                        "name": "Does the combined authority have a Clean Air Zone or Low-Emission Zone within its area that requires charges for private vehicles?",
+                        "topic": "Active Travel",
+                        "importance": "Medium",
+                        # "total_points": "2",
+                        "how_marked": "National Data",
+                        "criteria": """
+                            <p>Data is not currently available to create the criteria for this question. This will be published with the complete methodology when the Scorecard results are published. </p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA8",
+                        "name": "Has the combined authority supported the expansion of a public network of electric vehicle chargers?",
+                        "topic": "EV charging",
+                        "importance": "Low",
+                        # "total_points": "2",
+                        "how_marked": "National Data",
+                        "criteria": """
+                            <p><strong>Two-tier criteria</strong></p>
+                            <p>Points awarded if the combined authority has over 60 public chargers per 100,000 residents.</p>
+                            <p>Further points awarded if the combined authority has over 434 chargers per 100,000 residents.</p>
+                            """,
+                        "clarifications": """
+                            <p>This question is marked using the UK Government's data on publicly available EV chargers within the combined authorities area. This includes all publicly available EV chargers, rather than just council owned or installed, as combined authorities provide funding and support for public EV charger in their area.</p>
+                            <p>We have chosen the two tier criteria to challenge combined authorities. 60 public chargers per 100,000 residents has been achieved by a significant number of areas but many have also not yet reached this level. </p>
+                            <p>The higher level of 434 chargers is based on the UK Government's 2030 target for 300,000 public EV chargers. To achieve the same format we divided (300,000 by the Office for National Statistics 2030 projected population 69.2 million) and multiplied this figure by 100,000. Rounding to the nearest EV charger gave us 434 chargers per 100,000 residents.</p>
+                            <p>Marked using <a href="https://www.zap-map.com/" class="d-inline">Zap Maps</a> publicly available data on EV chargers, which is available using the <a href="https://www.gov.uk/government/statistics/electric-vehicle-charging-device-statistics-july-2022" class="d-inline">UK Government</a>. Please note, we will use the most recent available data in the 2023 scoring process.</p>
+                        """,
+                    },
                 ],
             },
             {
                 "title": "Planning & Land Use",
+                "council_types": [
+                    "single",
+                    "district",
+                    "county",
+                    "northern-ireland",
+                ],
                 "description": "These sections have a less direct impact on emissions reduction. However, they have a considerable impact on enabling climate action and embedding it in longer-term policies. All council types have similar power and responsibilities in Governance & Finance and the actions scored in this section demonstrate the council’s commitment to reducing emissions and embedding climate action across the council. Planning & Land Use is one of the areas where single tier and district councils can be the most effective and also hold a lot of power, both for mitigation and adaptation, hence the higher weighting here than for the final three sections. County councils are not planning authorities which explains their lower section weighting for the Planning & Land Use section.",
                 "weightings": {
                     "single": "15%",
@@ -1312,13 +1787,142 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 ],
             },
             {
+                "title": "Planning, Biodiversity and Land Use",
+                "council_types": [
+                    "combined"
+                ],
+                "weightings": {
+                    "combined": "10%",
+                },
+                "questions": [
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA1",
+                        "name": "Does the combined authority's Spatial Planning Strategy include the council's net-zero target and make tackling the climate emergency one of its' main priorities?",
+                        "topic": "Spatial Planning Strategy",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Criteria met if the Spatial Planning Strategy is in date and the net-zero target is included within the Spatial Planning strategy, although any date for the net-zero target would be sufficient.</p>
+                            <p>One of the key priorities in the Spatial Planning Strategy must be to tackle the climate emergency or reduce emissions. The priority to take climate action must be a stand alone priority, listed as one of the councils core priorities or equivalent. If the core priority is a more general 'Sustainability', 'Environment' or 'Greener City/Area' and climate action is a priority within this core priority this would get the point.</p>
+                            """,
+                        "clarifications": """
+                            <p>If the Spatial Planning Strategy references a national net-zero target it must still clearly be an objective of the local plan to meet the national target, and rather than the national target just being stated.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA2",
+                        "name": "Does the combined authority identify suitable areas for new solar energy, wind developments and district heat networks?",
+                        "topic": "Area wide Energy Mapping",
+                        "importance": "Medium",
+                        "total_points": "3",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Points awarded if the combined authority has a map detailing where solar energy can be built within the whole combined authority area.</p>
+                            <p>Points awarded if the combined authority has a map detailing where wind energy can be built within the whole combined authority area.</p>
+                            <p>Points awarded if the combined authority has a map detailing where a district heat network can be built within the whole combined authority area.</p>
+                            """,
+                        "clarifications": """
+                            <p>This can include if the combined authority has conducted Local Area Energy Mapping - but only if the mapping done within the area contains the mapping for either district heat, wind and/or solar. </p>
+                            <p>Critieria is not met if a constituent authority has produced maps for their own area but the combined authority has not done the mapping across the whole of the combined authorities area.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA3",
+                        "name": "Has the combined authority mapped the areas of opportunity for biodiversity?",
+                        "topic": "Mapping biodiversity opportunity areas",
+                        "importance": "Medium",
+                        "total_points": "1",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has a map across its whole region detailing the opportunity areas for biodiversity opportunities. This could include mapping done as part of creating the local nature recovering strategy.</p>
+                            """,
+                        "clarifications": """
+                            <p>Opportunity areas for biodiversity is defined as detailing the areas where biodiversity can be increased through habitat creation or improvement.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA4",
+                        "name": "Does the combined authority have a natural capital investment plan?",
+                        "topic": "Natural Capital Investment",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has a natural capital investment plan.</p>
+                            """,
+                        "clarifications": """
+                            <p>Natural Capital investment plan - a plan which details the natural resources and environmental features in a given area, regarded as having economic value or providing a service to humankind alongside the funding opportunities that can be sought to enact the plan.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA5",
+                        "name": "Does the combined authority have a target to increase tree cover across its area?",
+                        "topic": "Tree Cover",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has publicly set a target to increase tree cover.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA6",
+                        "name": "Does the combined authority provide funding for community action on biodiversity, for example through an environment fund or biodiversity action fund?",
+                        "topic": "Biodiversity Community Funding",
+                        "importance": "High",
+                        "total_points": "1",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>This is a ring-fenced fund that a combined authority has created to spend on biodiversity action locally for other organisations and volunteer groups. </p>
+                            <p>The criteria must clearly be about biodiversity action projects and those who apply must complete some sort of application to define their planned biodiversity activities.</p>
+                            <p>Point awarded if the combined authority has established a community biodiversity action fund or similar, provided the following criteria are met:</p>
+                            <ul>
+                                <li>The fund is at least £500,000 or higher. Where the overall amount of funding isn't clear, it will be assumed that funds awarding individual grants over £10,000 or up to £100,000 will meet this criteria.</li>
+                                <li>The fund is accessible to community groups, including where relevant parish councils</li>
+                            </ul>
+                            """,
+                        "clarifications": """
+                            <p>More general community or environment funds (such as the LCR Community Environment Fund) will be awarded if they specify that biodiversity projects will be supported.</p>
+                            <p>The fund must be current - either accepting nominations in 2023, or awarding funding from January 2022.</p>
+                            """,
+                    },
+                ],
+            },
+            {
                 "title": "Governance & Finance",
+                "council_types": [
+                    "single",
+                    "district",
+                    "county",
+                    "northern-ireland",
+                    "combined"
+                ],
                 "description": "This section aims to understand to what extent climate action has been incorporated and embedded across the whole of the council in all its activities and services in its decision making, forward planning and structures. This section also looks at how councils are raising funds for climate action and whether the councils’ investments are sustainable or supporting high carbon infrastructure and industries.",
                 "weightings": {
                     "single": "15%",
                     "district": "15%",
                     "county": "15%",
                     "northern-ireland": "20%",
+                    "combined": "20%"
                 },
                 "questions": [
                     {
@@ -1710,10 +2314,337 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">High carbon intensive industries is defined as coal, oil or gas production (including shale gas or unconventionally gas production).</p>
                             """,
                     },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA1",
+                        "name": "Does the combined authority's Corporate Plan include a net-zero target and make tackling the climate emergency one of its main priorities?",
+                        "topic": "Net-Zero Embedded in Corporate Plan",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if climate action (alternatively called Sustainability or Environment) is listed as one of the combined authority's core priorities or equivalent. It must have its own heading or section and a net zero target date must be referenced.</p>
+                            <p>The net-zero target date must be an area-wide target, either the UK Government's national target, the devolved nation's target or the combined authority's area-wide net zero target.</p>
+                            """,
+                        "clarifications": """
+                            <p>Points will not be awarded if the priority for climate action is part of another priority.</p>
+                            <p>It might be called a (Strategic) Economic Plan.</p>
+                            <p>We will accept other language for target dates being used such as carbon neutrality.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA1b",
+                        "name": "Does the combined authority's Medium Term Financial Plan include the combined authority's net-zero target and make tackling the climate emergency one of its main priorities?",
+                        "topic": "Net-Zero Embedded in mid-term Financial Plan",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if climate action (alternatively called sustainability or environment) is listed as one of the combined authority's core priorities or equivalent. It must have its own heading or section and a net-zero target date must be referenced.</p>
+                            <p>The net-zero target date must be an area-wide target, either the UK Government's national target, the devolved nation's target or the combined authority's area-wide net-zero target.</p>
+                            """,
+                        "clarifications": """
+                            <p>A mid-term Financial Plan is a plan (often covering four years) which sets out their commitment to provide services that meet the needs of people locally and that represent value for money within the overall resources available to the combined authority.</p>
+                            <p>We will accept other language for target dates being used such as carbon neutrality.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA2",
+                        "name": "Does the combined authority's Local Industrial Strategy include a net-zero target and make tackling the climate emergency one of its main priorities?",
+                        "topic": "Local Industrial Strategy",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Criteria met if climate action (alternatively called sustainability or environment) is listed as one of the combined authority's core priorities or equivalent. It must have its own heading or section and a net-zero target date must be referenced.</p>
+                            <p>The net-zero target date must be an area-wide target, either the UK Government's national target, the devolved nation's target or the combined authority's area-wide net-zero target.</p>
+                            """,
+                        "clarifications": """
+                            <p>A Local Industrial Strategy is a strategy led by Mayoral Combined Authorities or Local Enterprise Partnerships which aims to promote the coordination of local economic policy and national funding streams and establish new ways of working between national and local government, and the public and private sectors.</p>
+                            <p>All combined authorities will be marked on this question, whether they lead or are just part of the strategy.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA3",
+                        "name": "Has the combined authority published a climate change risk register?",
+                        "topic": "Climate change risk register",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>This can be part of the combined authority's overall risk register, or a stand alone document.</p>
+                            <p>Point would be awarded if the local authority includes climate related risk on their wider risk register.</p>
+                            <p>We are looking for how they are incorporating climate risks as part of its adaptation to climate change therefore we will only accept explicit references to climate environmental risks in the local area (such as flooding, extreme heat, migration, air pollution or others).</p>
+                            """,
+                        "clarifications": """
+                            <p>Criteria met if the combined authority has accurately identified the environmental risks of climate change to the local area, either in a stand alone climate change or adaptation risk register, or incorporated into the combined authority's corporate risk register. There must be an explicit link between climate change and the increased risk of flooding or other weather events.</p>
+                            <p>Adaptation plans are not valid, unless there is a risk register or equivalent within the adaptation plan.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA4a",
+                        "name": "Is the combined authority reporting on its own emissions? ",
+                        "topic": "Emission data reduction",
+                        "importance": "Low",
+                        "total_points": "3",
+                        "how_marked": "Volunteer Research - CAP updates/council websites",
+                        "criteria": """
+                            <p>Criteria met if the combined authority is reporting its own emissions and fulfill all of the following:</p>
+                            <ul>
+                                <li>It states whether they are using the Environmental Reporting Guidelines from Department for Environment, Food and Rural Affairs (DEFRA) or Business and Industrial Strategy (BEIS), the GCoM Common Reporting Framework (CRF), the Greenhouse Gas Accounting Tool (from the LGA), the Greenhouse Gas Protocol for Cities (Community Greenhouse Gas Emissions Inventories) or for Corporate Standards to develop their inventory. </li>
+                            </ul>
+                            <p>They must state whether they are using either: </p>
+                            <ul>
+                                <li>the inventory must cover a continuous period of 12 months, either a calendar year or a financial year</li>
+                                <li> there must be data from 2019 and 2021 (or the financial year 2021/22)</li>
+                                <li>they must be measuring their own scope 1, 2 and 3 emissions</li>
+                            </ul>
+                            """,
+                        "clarifications": """
+                                <p>Scope 1 emissions are greenhouse gas emissions that an organisation owns or controls directly, such as fuel burnt from their vehicles.</p>
+                                <p>Scope 2 emissions are greenhouse gas emissions that an organisation produces indirectly when they purchase and use energy, such as the emissions created from the electricity the combined authority buys to heat its offices.</p>
+                                <p>Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations' supply chain, such as the emissions produced in making the computers or paper that the combined authority buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA4b",
+                        "name": "According to the combined authority's own reporting, have their own emissions reduced since 2019?",
+                        "topic": "Emission data reduction",
+                        "importance": "High",
+                        # "total_points": "3",
+                        "how_marked": "Volunteer Research - CAP updates/council websites",
+                        "criteria": """
+                            <p><strong>Three tier criteria</strong></p>
+                            <p>Combined authority must meet the minimum criteria of question 3a to be able to get points for this question.</p>
+                            <p>Criteria met if, using the combined authority's own reporting mechanisms, there has been a 5% or more reduction of scope 1 and 2 emissions when comparing 2019 to 2021 (or financial years 2018/19 to 2021/22) data.</p>
+                            <p>Additional points awarded if this emission reduction has been 10% or more, or further points if the reduction has been 20% or more.</p>
+                            <p>Further points awarded if there has been any reduction from scope 3 emissions.
+                            </p>
+                            <p>We recognise that there is currently no standard way that all combined authorities use to report on emissions. We will score combined authorities own calculations, despite the differences, as long as they fulfill the requirements in 3a.</p>
+                            """,
+                        "clarifications": """
+                            <p>Scope 1 emissions are greenhouse gas emissions that an organisation owns or controls directly, such as fuel burnt from their vehicles.</p>
+                            <p>Scope 2 emissions are greenhouse gas emissions that an organisation produces indirectly when they purchase and use energy, such as the emissions created from the electricity the combined authority buys to heat its offices.</p>
+                            <p>Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations' supply chain, such as the emissions produced in making the computers or paper that the combined authority buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA5",
+                        "name": "According to national data, has the combined authority's area-wide carbon emissions decreased?",
+                        "topic": "Emission data reduction",
+                        "importance": "Medium",
+                        "total_points": "4",
+                        "how_marked": "BEIS data - 2005-19_UK_local_and_regional_CO2_emissions data is only given for single, district and county but county is just adding up all districts - so we can add up all areas in an area for the CA - agreed",
+                        "criteria": """
+                            <p><strong>Three tier criteria</strong></p>
+                            <p>Criteria met if the combined authority has had a 2% or more emission reduction from 2019 to 2021 data.</p>
+                            <p>Additional points awarded if the emission reduction is more than 5%, or further points if the reduction is more than 10% from 2019 to 2021.</p>
+                            """,
+                        "clarifications": """
+                            <p>Marked using data provided by the Department for Business, Energy and Industrial Strategy. The data that will be used is the percentage difference between the calendar years 2021 and 2019 in the "Local Authority territorial carbon dioxide (CO2) emissions estimates within the scope of influence of Local Authorities" when it is published in Summer 2023.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA6",
+                        "name": "Has the combined authority adopted a new governance or decision making process to put tackling the climate emergency at the heart of every decision made?",
+                        "topic": "Climate Change Decision Making",
+                        "importance": "Medium",
+                        "total_points": "3",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p><strong>Two tier criteria</strong></p>
+                            <p>Criteria met if climate implications are listed or referenced for all combined authority decisions at their full meetings. Climate implications can be considered through Environmental Implications or an Integrated Impact Assessment if this includes a climate or environmental sub-heading or section.</p>
+                            <p>Additional points if the combined authority is using a detailed impact assessment tool to assess the climate implications of all combined authority decisions.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA7",
+                        "name": "Has the combined authority embedded climate action and waste reduction into their procurement policies?",
+                        "topic": "Procurement",
+                        "importance": "Medium",
+                        "total_points": "3",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p><strong>Three tier criteria</strong></p>
+                            <p>Criteria met if the combined authority has a stand alone environmental or sustainable procurement policy, or a complete section on Sustainable or Responsible Procurement, Climate Change and Action or something similar, within their procurement policy that includes the following.</p>
+                            <p>Two or more of the following criteria A must be met to meet the minimum criteria for this point:</p>
+
+                            <ul>
+                                <li>The policy makes explicit reference to the combined authority's Climate Action Plan and zero carbon targets.</li>
+                                <li>The policy requests to see the carbon reduction plan of the supplier in the tendering process or asks the supplier to detail any specific steps taken in the design and manufacture of the services to increase energy efficiency and reduce any detrimental environmental impacts.</li>
+                                <li>The policy encourages or requires suppliers, through selection processes, to adopt processes and procedures to reduce their environmental impact, including energy consumption and associated carbon emissions, where practicable. For example a combined authority might allocate 5% or more of the tendering overall evaluation score to the environmental actions of the tenderer (the supplier’s contribution to carbon reduction within their own operations or other actions)</li>
+                                <li>The policy encourages or requires suppliers, through selection processes, to adopt circular economy processes and procedures where practical.</li>
+                            </ul>
+
+                            <p>Additional points if the combined authority has a mandatory requirement for tenders to do any of the following (criteria B):</p>
+                            <ul>
+                                <li>Demonstrate how they will meet energy efficiency requirements or minimise energy consumption</li>
+                                <li>Demonstrate how they will minimise waste in their products and services. This could be through recycled, natural, biodegradable or renewable materials being used, through not using single use plastic or other non-recyclable materials or through ensuring products and services last for as long as possible.</li>
+                            </ul>
+
+                            <p>Additional points if the combined authority's procurement policy includes any of the following (criteria C):</p>
+                            <ul>
+                                <li>The combined authority aims to source low or zero carbon energy wherever possible.</li>
+                                <li>The combined authority aims to phase out the use of fossil fuels from their fleet.</li>
+                                <li>The combined authority references the waste hierarchy in its policy, for example by stating that it encourages the combined authority to consider if repeat procurement requests are always needed.</li>
+                            </ul>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA8",
+                        "name": "Does the combined authority have a Portfolio Holder that has Climate Change explicitly in their remit?",
+                        "topic": "Elected Climate Change portfolio holder",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research, using ComEval data ComEval data doesn't have this for Combined Authorities",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has a role such as Chair of Environment Committee or any title or portfolio holder with the words climate change, climate action, climate emergency, environmental sustainability, environment or similar in it.</p>
+                            <p>This role can be merged with another role, such as environment and transport or split across multiple roles, such as one named person for sustainable transport and another for low carbon energy. Related role names are valid, such as: (Deputy Portfolio Holder) Low Carbon and Renewable Energy. </p>
+                            """,
+                        "clarifications": """
+                            <p>A Climate Champion (listed as a responsibility) is not valid for a point and neither is Chair or Cabinet member for Environmental Services.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA9",
+                        "name": "How many staff spend 50% or more of their time on implementing the Climate Action Plan or other climate change projects?",
+                        "topic": "Staff time on climate action",
+                        "importance": "Medium",
+                        "total_points": "2",
+                        "how_marked": "FOI",
+                        "criteria": """
+                            <p>Criteria is met if there are multiple staff members employed on 3 days a week or more to be working on the combined authority's Climate Action Plan or other climate change projects equating to a given % of the overall staff team.</p>
+                            <p>Data is not currently available to benchmark the exact % of staff that are working on implementing their Climate Action Plan or other climate change projects that will be valid for the points. This will be published with the complete methodology when the Scorecard results are published.</p>
+                            """,
+                        "clarifications": """
+                            <p>Staff is defined as all directly employed combined authority staff (excluding sub/contractors and agency staff). We accept contractors for the role of biodiversity planning officer as long as they are equivalent to 3 days or more a week.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA10",
+                        "name": "Have all senior management and councillors in the cabinet or committee chairs received climate awareness training?",
+                        "topic": "Carbon literacy/awareness training",
+                        "importance": "Low",
+                        "total_points": "1",
+                        "how_marked": "FOI",
+                        "criteria": """
+                            <p>Criteria is met if all senior management and current councillors that sit on the combined authority (elected before May 2023) on committees or equivalent have received climate awareness, carbon literacy or equivalent training.</p>
+                            """,
+                        "clarifications": """
+                            <p>If councillors have been trained by the respective local authorities, rather than via the combined authority, this is valid. If staff have been trained elsewhere, that is also valid.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA11",
+                        "name": "Does the combined authority have an environmental investment fund that small and medium-sized enterprises and/or the public sector can use?",
+                        "topic": "Funding sources",
+                        "importance": "High",
+                        "total_points": "1",
+                        "how_marked": "Volunteer Research",
+                        "criteria": """
+                            <p>Point awarded if the combined authority has established a community climate action fund by attracting external investment or similar, provided the following criteria are met:</p>
+                            <ul>
+                                <li>The fund is at least £100k or higher</li>
+                                <li>The financing of the fund has come from attracting external investment.</li>
+                                <li>The fund is accessible to small and medium-sized enterprises and/or the public sector</li>
+                                <li>More general community or environment funds will be awarded if they specify that climate change projects will be supported.</li>
+                            </ul>
+                            <p>To account for funding released in stages, the point will be awarded if the funding or support has been offered since 1st January 2022.</p>
+                            """,
+                        "clarifications": """
+                            <p>This is a ring-fenced fund that a combined authority has created by attracting external investment to spend on climate action locally, either in partnership with a local council, or directly by other public sector bodies. </p>
+                            <p>A fund created only with existing combined authority funds or only from goverment funding is not valid for a point.</p>
+                            <p>The criteria must clearly be about environmental action projects and those who apply must complete some sort of application to define their planned climate action activities. </p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA12a",
+                        "name": "Has the combined authority passed a motion in support of divestment from all fossil fuels?",
+                        "topic": "Divestment of Pension Funds",
+                        "importance": "Medium",
+                        "total_points": "2",
+                        "how_marked": """<a href="https://www.divest.org.uk/council-motions/">Divest UK data </a>""",
+                        "criteria": """
+                            <p>Points awarded if the motion supports the divestment of the combined authority's own investments.</p>
+                            <p>Points also awarded if the motion supports the divestment of the combined authority's pension investments.</p>
+                            """,
+                        "clarifications": """
+                            <p>Divestment is the opposite of investment, and consists of stocks, bonds or investment funds that are unethical, and in this case, invested in fossil fuel companies such as Shell, BP and Exxon.</p>
+                            <p>Marked using data provided by <a href="https://www.divest.org.uk/council-motions/" class="d-inline">UK Divest</a></p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA12b",
+                        "name": "Has the combined authority's pensions fund committed to divesting from all fossil fuels?",
+                        "topic": "Divestment of Pension Funds",
+                        "importance": "Medium",
+                        "total_points": "2",
+                        "how_marked": """<a href="https://www.divest.org.uk/commitments/ ">Divest UK data </a>""",
+                        "criteria": """
+                            <p><strong>Two tier criteria</strong></p>
+                            <p>Criteria met if the combined authority's pension fund has committed to partially divesting. For example, it has committed to divesting only from coal, tar sands or oil before 2030.</p>
+                            <p>Additional points if the pension fund has committed to divest from all fossil fuels before 2030.</p>
+                            """,
+                        "clarifications": """
+                            <p>Divestment is the opposite of investment, and consists of stocks, bonds or investment funds that are unethical, and in this case, invested in fossil fuel companies such as Shell, BP and Exxon.</p>
+                            <p>Where the combined authority does not have control over its own pension investments, such as where the pension fund is pooled between local authorities, we are looking for a commitment from the pooled pension fund.</p>
+                            <p>Marked using data provided by <a href="https://www.divest.org.uk/commitments/" class="d-inline">UK Divest</a></p>
+                            """,
+                    },
                 ],
             },
             {
                 "title": "Biodiversity",
+                "council_types": [
+                    "single",
+                    "district",
+                    "county",
+                    "northern-ireland",
+                ],
                 "description": "The climate emergency is deeply connected to the ecological emergency. This section looks at what councils can do to protect and increase biodiversity in the area through their direct actions, the management of their green spaces, and biodiversity net gain requirements for developers.",
                 "weightings": {
                     "single": "10%",
@@ -1877,12 +2808,20 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
             },
             {
                 "title": "Collaboration & Engagement",
+                "council_types": [
+                    "single",
+                    "district",
+                    "county",
+                    "northern-ireland",
+                    "combined"
+                ],
                 "description": "This section addresses how councils can collaborate with others to improve their own climate action and to support others in the area to decarbonise. More than half of the emissions cuts needed to reach net zero rely on people and businesses taking up low-carbon solutions, and councils can work with those in their local area to enable those solutions.",
                 "weightings": {
                     "single": "10%",
                     "district": "10%",
                     "county": "10%",
                     "northern-ireland": "10%",
+                    "combined": "20%"
                 },
                 "questions": [
                     {
@@ -2182,10 +3121,261 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">High carbon advertising includes advertisements for products and activities that emit high amounts of CO2 emissions such as fossil fuels, diesel, petrol and hybrid car engines and air travel.</p>
                             """,
                     },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA1a",
+                        "name": "Has the combined authority published a climate action plan with SMART targets?",
+                        "topic": "Climate Action Plan SMART targets",
+                        "importance": "High",
+                        "total_points": "1",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has published a climate action plan that covers the area and includes references to SMART targets since September 2015.</p>
+                            """,
+                        "clarifications": """
+                            <p>This question will be marked using the criteria for Q3.12.1 of the Climate Action Plan Scorecards.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA1b",
+                        "name": "Has the combined authority published an up to date and easy-to-read annual report on their Climate Action Plan?",
+                        "topic": "Published Annual report",
+                        "importance": "High",
+                        "total_points": "3",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Points awarded for each of the following criteria:</p>
+                            <ul>
+                                <li>The combined authority has published an annual report since 1st January 2022</li>
+                                <li>The annual report is easy-to-read</li>
+                                <li>The annual report includes reporting on progress towards the council's climate action plan SMART targets.</li>
+                            </ul>
+                            """,
+                        "clarifications": """
+                            <p>We have chosen the date 1st of January 2022 to ensure that the report is being issued on a yearly basis, while allowing for some delays.</p>
+                            <p>"Easy to read" will be defined as clearly meant for public reading, and may include features such as a contents page, an executive summary, definitions for acronyms or complex language, simple English wherever possible, and graphics or tables to aid comprehension and navigation.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA2",
+                        "name": "Has the combined authority commissioned a study of available decarbonisation pathways for their area?",
+                        "topic": "Decarbonisation pathways",
+                        "importance": "Medium",
+                        "total_points": "1",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has commissioned a study of different decarbonisation pathways and scenarios to reach net zero carbon across the region by the local area-wide target.</p>
+                            """,
+                        "clarifications": """
+                            <p>Decarbonisation pathways are modelled projected scenarios of policy, technology & behaviour change over time to reach net zero carbon emissions. They are a science-based approach to climate policymaking. The CCC's <a href="https://www.theccc.org.uk/publication/sixth-carbon-budget/" class="d-inline">Sixth Carbon Budget report</a> includes a national example. These pathways are most effective when a specific pathway is chosen and implemented.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA3a",
+                        "name": "Has the combined authority lobbied the government for more funding, powers and climate resources?",
+                        "topic": "Lobbying government",
+                        "importance": "Medium",
+                        "total_points": "1",
+                        "how_marked": "FOI",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has sent a letter or had a meeting with national or devolved governments calling for the government to take further action, or asking for councils and combined authorities to receive more funding, powers and climate resources to take climate action.</p>
+                            """,
+                        "clarifications": """
+                            <p>The criteria will be met if combined authorities have worked on specific, climate-related issues, provided climate is cited as a reason to take action. For example, asking for measures to improve local bus provision will meet the criteria if reducing carbon emissions is cited as a reason to do so.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA3b",
+                        "name": "Has the combined authority or its mayor publicly called for more climate action from the Government or other organisations?",
+                        "topic": "Lobbying government",
+                        "importance": "Low",
+                        "total_points": "2",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p><strong>Two tier criteria</strong></p>
+                            <p>Point awarded for signing or supporting at least 2 open letters or public statements, including those led by other combined authorities or organisations.</p>
+                            <p>A further point will be awarded if the combined authority or its mayor has led at least one open letter or public statement.</p>
+                            """,
+                        "clarifications": """
+                            <p>We will consider combined authority website announcements and press releases as well as local or national news coverage when marking this question. The same open letter or public statement receiving coverage in several news sites will only be counted once.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA4",
+                        "name": "Is the combined authority working with external partners or other councils to lobby national government for climate action, or to learn about and share best practice council climate action?",
+                        "topic": "Sharing best practice",
+                        "importance": "Low",
+                        "total_points": "2",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p><strong>Two tier criteria</strong></p>
+                            <p>Point awarded for membership or contributing case studies for at least one of the following organisations, with a further point available for membership or contributing case studies for three or more of the following organisations.</p>
+                            <p>Membership organisations:</p>
+                            <ul>
+                                <li>UK100</li>
+                                <li>ADEPT</li>
+                                <li>Blueprint Coalition</li>
+                                <li>ICLEI</li>
+                                <li>Carbon Neutral Cities</li>
+                                <li>C40 Cities</li>
+                                <li>Carbon Disclosure Project (including submitting to the CDP since 2019)</li>
+
+                            </ul>
+
+                            <p>Case studies:</p>
+                            <ul>
+                                <li></li>
+                                <li>Friends of the Earth & Ashden case studies</li>
+                                <li>UK100 case studies</li>
+                            </ul>
+                            """,
+                        "clarifications": """
+                            <p>Further networks or case studies may be added on a case basis if a comparable standard of quality is met.</p>
+                            <p>Working with climate consultants, while important, will not be scored as part of this question.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA5a",
+                        "name": "Does the combined authority have an on-going way for residents to influence the implementation of the combined authority's Climate Action Plan?",
+                        "topic": "Ongoing resident engagement",
+                        "importance": "High",
+                        "total_points": "2",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p><strong>Two tier criteria</strong></p>
+                            <p>Point awarded if the council has established a way for residents to influence the implementation of the council's climate action. This may be through:</p>
+                            <ul>
+                                <li>a community engagement group </li>
+                                <li>introducing community, resident or activist representation on a council climate change committee/group</li>
+                                <li>convening or using a local climate action network to improve the implementation of their climate action plan</li>
+                                <li>broader forms of community engagement work such as a series of workshops across the area for different groups of residents. </li>
+                            </ul>
+
+                            <p>A further point will be awarded if there is an overarching framework such as a dedicated climate public engagement plan to inform this work.</p>
+                            """,
+                        "clarifications": """
+                            <p>The way that councils engage with residents can include time bound engagement work such as climate assemblies provided they have been held since 1st January 2022. This is to ensure that the work is ongoing.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA5b",
+                        "name": "Does the combined authority's ongoing engagement with residents include those most affected by climate change and the transition?",
+                        "topic": "Representative ongoing engagement",
+                        "importance": "Medium",
+                        "total_points": "2",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p><strong>Two tier criteria</strong></p>
+                            <p>Point awarded if the combined authority's ongoing engagement (under 5a) specifically aims to engage those most affected by climate change and climate action policies.</p>
+                            <p>A further point available if the combined authority's climate action plan has undergone an equalities impact assessment to identify who is most affected by climate change and climate action policies.</p>
+                            """,
+                        "clarifications": """
+                            <p>Who is most affected by climate change and climate action policies depends on the local context. Therefore, this could include any community or group of people provided the combined authority has specified they are more affected. For example, this may include people who live near rivers with increasing risk of flooding, or people with physical disabilities who can be affected by policies to reduce traffic and increase active travel such as clean air zones.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA6",
+                        "name": "Has the combined authority supported a research project into climate action in their region?",
+                        "topic": "Research",
+                        "importance": "Low",
+                        "total_points": "2",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has funded or commissioned area-wide research to increase understanding of the local challenge and support constituent councils. </p>
+                            """,
+                        "clarifications": """
+                            <p>Research projects may include area-wide opinion polling on behaviour change and climate interventions, research on nature-based flood mitigation opportunities, or any similar research to inform local climate policymaking.</p>
+                            <p>Research on retrofitting will not be included in this question as it is marked in Buildings & Heating & Green Skills Q4.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA7",
+                        "name": "Has the combined authority created a climate change commission or similar?",
+                        "topic": "Climate change commission",
+                        "importance": "Medium",
+                        "total_points": "1",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has created a climate commission or other similar body, to bring together experts and stakeholders, provide independant advice and guide climate policy in the area.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA8",
+                        "name": "Is the combined authority working in partnership with local businesses to encourage decarbonisation?",
+                        "topic": "Partnerships - Businesses",
+                        "importance": "Low",
+                        "total_points": "2",
+                        "how_marked": "Volunteer research",
+                        "criteria": """
+                            <p>Criteria met if the combined authority has 3 or more schemes to provide free support or free tailored advice to businesses in the local area to decarbonise, including through collaborative measures with local businesses, other local authorities, or via the Local Enterprise Partnership. </p>
+                            <p><strong>One single overarching scheme with three different approaches to support local businesses will also be awarded the point.</strong></p>
+                            """,
+                        "clarifications": """
+                            <p>Examples of support for businesses to decarbonise include free environmental audits for businesses, free training such as carbon literacy training, or grants to support businesses to decarbonise their properties.</p>
+                            <p>This question excludes green skills-specific schemes, which are covered in the Buildings & Heating & Skills section</p>
+                            <p>This question will include schemes that have been available at some point since 1st January 2022, in order to include funds released in waves that may not be open at the time of marking.</p>
+                            """,
+                    },
+                    {
+                        "council_types": [
+                            "combined"
+                        ],
+                        "code": "CA9",
+                        "name": "Has the combined authority committed to ban high carbon advertising & sponsorship?",
+                        "topic": "Communications - advertising",
+                        "importance": "Medium",
+                        "total_points": "1",
+                        "how_marked": "National data",
+                        "criteria": """
+                            <p>A point will be awarded if the combined authority has made a commitment to ban high carbon advertising on ad sites it controls by introducing a low carbon advertising and sponsorship policy or similar.</p>
+                            """,
+                        "clarifications": """
+                            <p>High carbon advertising includes advertisements for products and activities that emit high amounts of CO2 emissions such as fossil fuels and fossil fuel companies, diesel, petrol and hybrid car engines and air travel.</p>
+                            <p>Ad sites that the combined authority may control includes bus stops and other transport sites.</p>
+                            """,
+                    },
                 ],
             },
             {
                 "title": "Waste Reduction & Food",
+                "council_types": [
+                    "single",
+                    "district",
+                    "county",
+                    "northern-ireland",
+                ],
                 "description": "This section looks at the influencing role councils can play in supporting sustainable food production on their land and in their schools, and circular economy initiatives locally. Councils also have an important role to play in waste and recycling locally and improving this.",
                 "weightings": {
                     "single": "10%",

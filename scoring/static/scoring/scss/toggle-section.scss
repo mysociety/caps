@@ -71,10 +71,6 @@
     border: 1px solid transparentize($color: $black, $amount: 0.8);
 
     .toggle-section {
-        border: none;
-    }
-
-    .toggle-section + .toggle-section {
         border-top: $border-width solid $border-color;
     }
 }
