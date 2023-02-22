@@ -28,6 +28,23 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&amp;family=Montserrat:wght@600;900&amp;display=swap">
     {% block extrastylesheets %}{% endblock %}
 
+  {% if GOOGLE_ANALYTICS %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ GOOGLE_ANALYTICS }}');
+        gtag("consent", "default", {
+            ad_storage: "denied",
+            analytics_storage: "denied",
+            functionality_storage: "denied",
+            personalization_storage: "denied",
+            security_storage: "denied"
+        });
+    </script>
+  {% endif %}
   {% if GOOGLE_TAG_MANAGER %}
     <!-- Deny consent for Google Tags (Analytics) by default -->
     <script>
@@ -48,22 +65,6 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','{{ GOOGLE_TAG_MANAGER }}');</script>
     <!-- End Google Tag Manager -->
-  {% elif GOOGLE_ANALYTICS %}
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS }}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', '{{ GOOGLE_ANALYTICS }}');
-        gtag("consent", "default", {
-            ad_storage: "denied",
-            analytics_storage: "denied",
-            functionality_storage: "denied",
-            personalization_storage: "denied",
-            security_storage: "denied"
-        });
-    </script>
   {% endif %}
 </head>
 <body class="{% block bodyclass %}{% endblock %}">
