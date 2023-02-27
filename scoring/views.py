@@ -894,7 +894,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "combined"
                         ],
                         "code": "CA4",
-                        "name": "Has the combined authority produced research or a strategy understanding the scale, need and opportunity of retrofitting in its area",
+                        "name": "Has the combined authority produced research or a strategy understanding the scale, need and opportunity of retrofitting in its area?",
                         "topic": "Retrofit Partnerships",
                         "importance": "Low",
                         "total_points": "1",
@@ -903,7 +903,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Criteria met if the combined authority has contributed to research, strategy, evidence or business development in relation to home retrofit.</p>
                         """,
                         "clarifications": """
-                            <p>finished product or in progress? split on what would count. could be tiered whether in process or not. </p>
+                            <p>The research must be finished to be valid.</p>
                             """,
                     },
                     {
@@ -963,7 +963,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "topic": "Green Skills Partnerships",
                         "importance": "High",
                         "total_points": "1",
-                        "how_marked": "Volunteer research from Council website or CAP updates",
+                        "how_marked": "Volunteer research",
                         "criteria": """
                             <p>This must be above and beyond providing green skills training in their adult education budget.</p>
                             <p>If the combined authority has run a Green Skills Bootcamp or equivalent programmes this is valid for a point. The programme must guarantee interviews with potential employers after completing training to be valid for a point. </p>
@@ -1068,7 +1068,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     "district": "5%",
                     "county": "30%",
                     "northern-ireland": "15%",
-                    "combined_authority": "25%",
+                    "combined": "25%",
                 },
                 "questions": [
                     {
@@ -1380,7 +1380,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             </ul>
                             """,
                         "clarifications": """
-                            <p>Marked mainly using  publicly available data on shared transport schemes.<a href="https://como.org.uk/" class="d-inline"> Coordinated Mobility's </a></p>
+                            <p>Marked mainly using  publicly available data on shared transport schemes from <a href="https://como.org.uk/" class="d-inline">Coordinated Mobility</a></p>
 
                             <p>If schemes are within the combined authority area then the combined authority will be awarded the point</p>
                             """,
@@ -1503,7 +1503,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "combined"
                         ],
                         "code": "CA7",
-                        "name": "Does the combined authority have a Clean Air Zone or Low-Emission Zone within its area that requires charges for private vehicles?",
+                        "name": "Has the combined authority provided support for active travel schemes?",
                         "topic": "Active Travel",
                         "importance": "Medium",
                         # "total_points": "2",
@@ -1800,7 +1800,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "combined"
                         ],
                         "code": "CA1",
-                        "name": "Does the combined authority's Spatial Planning Strategy include the council's net-zero target and make tackling the climate emergency one of its' main priorities?",
+                        "name": "Does the combined authority's Spatial Planning Strategy include the combined authority's net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Spatial Planning Strategy",
                         "importance": "Low",
                         "total_points": "1",
@@ -2454,7 +2454,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "topic": "Emission data reduction",
                         "importance": "Medium",
                         "total_points": "4",
-                        "how_marked": "BEIS data - 2005-19_UK_local_and_regional_CO2_emissions data is only given for single, district and county but county is just adding up all districts - so we can add up all areas in an area for the CA - agreed",
+                        "how_marked": "National Data",
                         "criteria": """
                             <p><strong>Three tier criteria</strong></p>
                             <p>Criteria met if the combined authority has had a 2% or more emission reduction from 2019 to 2021 data.</p>
@@ -2525,7 +2525,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "topic": "Elected Climate Change portfolio holder",
                         "importance": "Low",
                         "total_points": "1",
-                        "how_marked": "Volunteer Research, using ComEval data ComEval data doesn't have this for Combined Authorities",
+                        "how_marked": "Volunteer Research",
                         "criteria": """
                             <p>Criteria met if the combined authority has a role such as Chair of Environment Committee or any title or portfolio holder with the words climate change, climate action, climate emergency, environmental sustainability, environment or similar in it.</p>
                             <p>This role can be merged with another role, such as environment and transport or split across multiple roles, such as one named person for sustainable transport and another for low carbon energy. Related role names are valid, such as: (Deputy Portfolio Holder) Low Carbon and Renewable Energy. </p>

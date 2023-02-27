@@ -55,7 +55,7 @@
                         <a href=" https://drive.google.com/file/d/1bceKBGSK_cbEulsNvOTtvFPlWGcrA840/view?usp=sharing" class="btn btn btn-blue is--light mr-2 mb-3 mb-sm-4">Explanatory content (PDF)</a>
                         <p>The questions and criteria are available in two additional formats:</p>
                         <a href=" https://drive.google.com/file/d/1ntX3GqwmwPPVjrf9ZkNQmMrNac0yr731/view?usp=sharing" class="btn btn btn-blue is--light mr-2">Questions (PDF)</a>
-                        <a href="https://drive.google.com/file/d/1b730Xuj5uJWslRLJ-aknmHtweQrGhpol/view?usp=sharing" class="btn btn btn-blue is--light mt-2 mt-sm-0 mr-2">Questions (Spreadsheet)</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1DCn4ZwqALg5L3BUcDwuBmudPZghisQMjshIgl3JoGYM/edit?usp=sharing" class="btn btn btn-blue is--light mt-2 mt-sm-0 mr-2">Questions (Spreadsheet)</a>
                     </div>
 
                     <h2 id="section-question-criteria" class="mt-5 mb-3">Question criteria</h2>
@@ -92,17 +92,17 @@
                                                 <span>
                                                     <strong>This section will contribute {{ weighting }} to a
                                                         {% if council_type == 'single' %}
-                                                            single tier
+                                                            single tier council’s
                                                         {% elif council_type == 'district' %}
-                                                            district
+                                                            district council’s
                                                         {% elif council_type == 'county' %}
-                                                            county
+                                                            county council’s
                                                         {% elif council_type == 'northern-ireland' %}
-                                                            Northern Irish
+                                                            Northern Irish council’s
                                                         {% elif council_type == 'combined' %}
-                                                            Combined Authority
+                                                            Combined Authority’s 
                                                         {% endif %}
-                                                            council’s overall score
+                                                             overall score
                                                     </strong>
                                                 </span>
                                             </div>
@@ -155,18 +155,6 @@
                                                                 {% endautoescape %}
                                                                 </p>
                                                             </div>
-                                                            {% if question.total_points %}
-                                                            <div class="section-question-meta-item">
-                                                                <p class="label pl-0 mb-0">Points available</p>
-                                                                <!-- QUESTION HOW WILL BE MARKED -->
-                                                                <p>
-                                                                    {% autoescape off %}
-                                                                    {{ question.total_points}}
-                                                                {% endautoescape %}
-                                                                </p>
-                                                            </div>
-                                                            {% endif %}
-
                                                         </div>
                                                         <div class="section-question-criteria mb-3 mb-4">
                                                             <h6 class="mb-2"><span class="underline-green">Criteria</span></h6>
