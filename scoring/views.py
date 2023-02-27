@@ -828,9 +828,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 },
                 "questions": [
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA1",
                         "name": "Is the combined authority's operations powered by renewable energy?",
                         "topic": "Renewable Tariff - combined authority buildings",
@@ -846,9 +844,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA2",
                         "name": "Has the combined authority supported local community renewable energy creation?",
                         "topic": "Renewable Tariff - combined authority buildings",
@@ -865,9 +861,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA3",
                         "name": "Is the combined authority part of a partnership to support retrofit in the area?",
                         "topic": "Retrofit Partnerships",
@@ -890,9 +884,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA4",
                         "name": "Has the combined authority produced research or a strategy understanding the scale, need and opportunity of retrofitting in its area?",
                         "topic": "Retrofit Partnerships",
@@ -907,9 +899,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA5",
                         "name": "Has the combined authority successfully raised funds for decarbonising homes and buildings through national government grants?",
                         "topic": "Funding sources",
@@ -931,9 +921,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA6",
                         "name": "Does the combined authority have a detailed plan or strategy to create the green skills needed to mitigate and adapt to the climate emergency?",
                         "topic": "Net-Zero Embedded in Skills Strategy",
@@ -955,9 +943,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA7",
                         "name": "Is the combined authority part of a programme to support green jobs creation in the area?",
                         "topic": "Green Skills Partnerships",
@@ -978,9 +964,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA8",
                         "name": "Does the combined authority run an employment or careers programme or project to encourage and promote green jobs?",
                         "topic": "Greens Skills Promotion",
@@ -999,9 +983,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA9a",
                         "name": "Has the combined authority funded a significant number of adult education skills courses or training advertised as skills for Green Jobs?",
                         "topic": "Green Skills Training",
@@ -1026,9 +1008,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA9b",
                         "name": "Has the combined authority had a significant number of people completing adult education courses or training in the last three academic years that they funded and advertised as skills for Green jobs?",
                         "topic": "Green Skills Training",
@@ -1060,7 +1040,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     "district",
                     "county",
                     "northern-ireland",
-                    "combined"
+                    "combined",
                 ],
                 "description": "Transport is the other biggest sector of greenhouse gas emissions in the UK. This section covers the main enabling actions councils can take to reduce car use and encourage more sustainable transport within their area.",
                 "weightings": {
@@ -1315,9 +1295,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA1a",
                         "name": "Does the combined authority's Transport Plan include the combined authority's net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Transport Plan",
@@ -1334,9 +1312,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA1b",
                         "name": "Does the combined authority's Transport Plan include expanding or building a high carbon transport project?",
                         "topic": "Transport Plan - High Carbon projects ",
@@ -1352,9 +1328,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA2",
                         "name": "Has the combined authority set up or supported a shared transport scheme that can be used in their area?",
                         "topic": "Shared Transport Schemes",
@@ -1386,9 +1360,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA3",
                         "name": "Has the combined authority supported the expansion of the train network?",
                         "topic": "Trains",
@@ -1407,9 +1379,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA4a",
                         "name": "Does the combined authority's bus service improvement plan include a target for the bus fleet to be zero emission?",
                         "topic": "Buses",
@@ -1425,9 +1395,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA4b",
                         "name": "Is bus ridership within the combined authority area high?",
                         "topic": "Buses",
@@ -1444,9 +1412,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA5",
                         "name": "Has the combined authority introducted integrated ticketing for public transport?",
                         "topic": "Integrated Ticketing",
@@ -1463,9 +1429,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA6a",
                         "name": "Does the combined authority have a Clean Air Zone or Low-Emission Zone within its area?",
                         "topic": "Clean Air Zone",
@@ -1481,9 +1445,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA6b",
                         "name": "Does the combined authority have a Clean Air Zone or Low-Emission Zone within its area that requires charges for private vehicles?",
                         "topic": "Clean Air Zone",
@@ -1499,9 +1461,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA7",
                         "name": "Has the combined authority provided support for active travel schemes?",
                         "topic": "Active Travel",
@@ -1513,9 +1473,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA8",
                         "name": "Has the combined authority supported the expansion of a public network of electric vehicle chargers?",
                         "topic": "EV charging",
@@ -1788,17 +1746,13 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
             },
             {
                 "title": "Planning, Biodiversity and Land Use",
-                "council_types": [
-                    "combined"
-                ],
+                "council_types": ["combined"],
                 "weightings": {
                     "combined": "10%",
                 },
                 "questions": [
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA1",
                         "name": "Does the combined authority's Spatial Planning Strategy include the combined authority's net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Spatial Planning Strategy",
@@ -1814,9 +1768,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA2",
                         "name": "Does the combined authority identify suitable areas for new solar energy, wind developments and district heat networks?",
                         "topic": "Area wide Energy Mapping",
@@ -1834,9 +1786,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA3",
                         "name": "Has the combined authority mapped the areas of opportunity for biodiversity?",
                         "topic": "Mapping biodiversity opportunity areas",
@@ -1851,9 +1801,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA4",
                         "name": "Does the combined authority have a natural capital investment plan?",
                         "topic": "Natural Capital Investment",
@@ -1868,9 +1816,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA5",
                         "name": "Does the combined authority have a target to increase tree cover across its area?",
                         "topic": "Tree Cover",
@@ -1882,9 +1828,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA6",
                         "name": "Does the combined authority provide funding for community action on biodiversity, for example through an environment fund or biodiversity action fund?",
                         "topic": "Biodiversity Community Funding",
@@ -1914,7 +1858,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     "district",
                     "county",
                     "northern-ireland",
-                    "combined"
+                    "combined",
                 ],
                 "description": "This section aims to understand to what extent climate action has been incorporated and embedded across the whole of the council in all its activities and services in its decision making, forward planning and structures. This section also looks at how councils are raising funds for climate action and whether the councils’ investments are sustainable or supporting high carbon infrastructure and industries.",
                 "weightings": {
@@ -1922,7 +1866,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     "district": "15%",
                     "county": "15%",
                     "northern-ireland": "20%",
-                    "combined": "20%"
+                    "combined": "20%",
                 },
                 "questions": [
                     {
@@ -2315,9 +2259,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA1",
                         "name": "Does the combined authority's Corporate Plan include a net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Net-Zero Embedded in Corporate Plan",
@@ -2335,9 +2277,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA1b",
                         "name": "Does the combined authority's Medium Term Financial Plan include the combined authority's net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Net-Zero Embedded in mid-term Financial Plan",
@@ -2354,9 +2294,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA2",
                         "name": "Does the combined authority's Local Industrial Strategy include a net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Local Industrial Strategy",
@@ -2373,9 +2311,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA3",
                         "name": "Has the combined authority published a climate change risk register?",
                         "topic": "Climate change risk register",
@@ -2393,9 +2329,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA4a",
                         "name": "Is the combined authority reporting on its own emissions? ",
                         "topic": "Emission data reduction",
@@ -2421,9 +2355,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA4b",
                         "name": "According to the combined authority's own reporting, have their own emissions reduced since 2019?",
                         "topic": "Emission data reduction",
@@ -2446,9 +2378,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA5",
                         "name": "According to national data, has the combined authority's area-wide carbon emissions decreased?",
                         "topic": "Emission data reduction",
@@ -2465,9 +2395,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA6",
                         "name": "Has the combined authority adopted a new governance or decision making process to put tackling the climate emergency at the heart of every decision made?",
                         "topic": "Climate Change Decision Making",
@@ -2481,9 +2409,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA7",
                         "name": "Has the combined authority embedded climate action and waste reduction into their procurement policies?",
                         "topic": "Procurement",
@@ -2517,9 +2443,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA8",
                         "name": "Does the combined authority have a Portfolio Holder that has Climate Change explicitly in their remit?",
                         "topic": "Elected Climate Change portfolio holder",
@@ -2535,9 +2459,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA9",
                         "name": "How many staff spend 50% or more of their time on implementing the Climate Action Plan or other climate change projects?",
                         "topic": "Staff time on climate action",
@@ -2553,9 +2475,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA10",
                         "name": "Have all senior management and councillors in the cabinet or committee chairs received climate awareness training?",
                         "topic": "Carbon literacy/awareness training",
@@ -2570,9 +2490,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA11",
                         "name": "Does the combined authority have an environmental investment fund that small and medium-sized enterprises and/or the public sector can use?",
                         "topic": "Funding sources",
@@ -2596,9 +2514,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA12a",
                         "name": "Has the combined authority passed a motion in support of divestment from all fossil fuels?",
                         "topic": "Divestment of Pension Funds",
@@ -2615,9 +2531,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA12b",
                         "name": "Has the combined authority's pensions fund committed to divesting from all fossil fuels?",
                         "topic": "Divestment of Pension Funds",
@@ -2813,7 +2727,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     "district",
                     "county",
                     "northern-ireland",
-                    "combined"
+                    "combined",
                 ],
                 "description": "This section addresses how councils can collaborate with others to improve their own climate action and to support others in the area to decarbonise. More than half of the emissions cuts needed to reach net zero rely on people and businesses taking up low-carbon solutions, and councils can work with those in their local area to enable those solutions.",
                 "weightings": {
@@ -2821,7 +2735,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     "district": "10%",
                     "county": "10%",
                     "northern-ireland": "10%",
-                    "combined": "20%"
+                    "combined": "20%",
                 },
                 "questions": [
                     {
@@ -3122,9 +3036,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA1a",
                         "name": "Has the combined authority published a climate action plan with SMART targets?",
                         "topic": "Climate Action Plan SMART targets",
@@ -3139,9 +3051,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA1b",
                         "name": "Has the combined authority published an up to date and easy-to-read annual report on their Climate Action Plan?",
                         "topic": "Published Annual report",
@@ -3162,9 +3072,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA2",
                         "name": "Has the combined authority commissioned a study of available decarbonisation pathways for their area?",
                         "topic": "Decarbonisation pathways",
@@ -3179,9 +3087,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA3a",
                         "name": "Has the combined authority lobbied the government for more funding, powers and climate resources?",
                         "topic": "Lobbying government",
@@ -3196,9 +3102,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA3b",
                         "name": "Has the combined authority or its mayor publicly called for more climate action from the Government or other organisations?",
                         "topic": "Lobbying government",
@@ -3215,9 +3119,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA4",
                         "name": "Is the combined authority working with external partners or other councils to lobby national government for climate action, or to learn about and share best practice council climate action?",
                         "topic": "Sharing best practice",
@@ -3252,9 +3154,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA5a",
                         "name": "Does the combined authority have an on-going way for residents to influence the implementation of the combined authority's Climate Action Plan?",
                         "topic": "Ongoing resident engagement",
@@ -3278,9 +3178,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA5b",
                         "name": "Does the combined authority's ongoing engagement with residents include those most affected by climate change and the transition?",
                         "topic": "Representative ongoing engagement",
@@ -3297,9 +3195,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA6",
                         "name": "Has the combined authority supported a research project into climate action in their region?",
                         "topic": "Research",
@@ -3315,9 +3211,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA7",
                         "name": "Has the combined authority created a climate change commission or similar?",
                         "topic": "Climate change commission",
@@ -3329,9 +3223,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA8",
                         "name": "Is the combined authority working in partnership with local businesses to encourage decarbonisation?",
                         "topic": "Partnerships - Businesses",
@@ -3349,9 +3241,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                     },
                     {
-                        "council_types": [
-                            "combined"
-                        ],
+                        "council_types": ["combined"],
                         "code": "CA9",
                         "name": "Has the combined authority committed to ban high carbon advertising & sponsorship?",
                         "topic": "Communications - advertising",
