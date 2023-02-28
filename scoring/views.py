@@ -1061,7 +1061,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "1",
-                        "name": "What percentage of the council's fleet are electric vehicles?",
+                        "name": "Is the council transitioning their vehicle fleet to electric?",
                         "topic": "Council Fleet",
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
@@ -1228,8 +1228,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Medium",
                         "how_marked": "National Data",
                         "criteria": """
-                            <p>Criteria met if bus passenger journeys are over 100 per head of population.</p>
-                            <p class="mb-0">The criteria to meet this question may change based on the most recent statistics, due to be released on 30th November 2022.</p>
+                            <p>Criteria met if bus passenger journeys are over 75 per head of population.</p>
+                            <p class="mb-0">Further points awarded if bus passenger journeys are over 150 per head of population.</p>
                             """,
                         "clarifications": """
                             <p><strong>This question is applicable to English transport authorities only (Single Tier and County Councils).</strong></p>
@@ -1562,7 +1562,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "how_marked": "Volunteer Research",
                         "criteria": """
                             <p>Points awarded if the council has a policy that requires a reduction in carbon/energy of new homes within the councils area that is 19% higher than the Part L building regulations.</p>
-                            <p class="mb-0">This would be the same as Scottish councils requiring "Gold standard" as a minimum.</p>
+                            <p class="mb-0">This would be the same as Scottish councils requiring "Silver standard" as a minimum.</p>
                             """,
                         "clarifications": """
                             <p>Part L building regulations are the English national standard building regulations, which define the energy performance and carbon emissions in new homes.</p>
@@ -1597,7 +1597,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p><strong>Two tier criteria</strong></p>
                             <p>Points awarded if the council requires new homes to be operationally net zero with the policy implemented from 2030 to 2040.</p>
                             <p>More points awarded if the council requires new homes to be operationally net zero with the policy already implemented since 2019 or with implementation by 2030.</p>
-                            <p class="mb-0">Any date to implement the policy after 2040 would not be awarded points.</p>
+                            <p>Any date to implement the policy after 2040 would not be awarded points.</p>
+                            <p class="mb-0">This would be equivalent for Scottish authorities to mandate the 'Platinum' building standard for carbon emissions for all new buildings.</p>
                             """,
                         "clarifications": """
                             <p>For operationally net-zero policies, we will accept those that define this as only concerning regulated emissions. Definitions for operationally net-zero and regulated emissions are below.</p>
@@ -2653,7 +2654,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p class="mb-0">Criteria met if the council has a target to increase tree cover which has been included in the Biodiversity Action Plan and/or Tree Strategy, provided the council has agreed a tree management plan to support this target.</p>
+                            <p class="mb-0">Criteria met if the council has a target to increase tree cover which has been included in the Biodiversity Action Plan and/or Tree Strategy, provided the council has agreed a tree management plan that details how new trees will be irrigated and cared for.</p>
                             """,
                     },
                     {
