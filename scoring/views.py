@@ -605,7 +605,9 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">Additional points awarded if the council has a green tariff with Green Energy UK plc, Good Energy Limited or Ecotricity, or if the council creates its own renewable energy equivalent to 20% or its energy consumption. This could be through on-site energy generation, or if the council has built or bought a solar/wind farm elsewhere. </p>
                             """,
                         "clarifications": """
-                            <p class="mb-0">This includes all energy that the council is directly responsible for, in council offices and any other buildings leased and managed by the council where the council pays the energy tariff. This does not include homes owned or managed by the council.</p>
+                            <p class="mb-0">This includes all energy that the council is directly responsible for, in council offices and any other buildings leased and managed by the council where the council pays the energy tariff.</p>
+                            <p>This includes all electricity used in these buildings (not gas).</p>
+                            <p>This does not include homes owned or managed by the council.</p>
                             """,
                     },
                     {
@@ -788,7 +790,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">Additional points awarded if the council is running a Solar Together or equivalent project, such as iChoosr. Points awarded to any other scheme councils are doing that are on a similar scale to Solar Together. </p>
                             """,
                         "clarifications": """
-                            <p>If the project is being led by the County Council and all other district councils are involved too, then all those district councils will be awarded the points. </p>
+                            <p>If the project is being led by the County Council or a combined authority and all other councils in that area are involved too, then all those district councils will be awarded the points.</p>
                             <p>The project cannot be a trial project.</p>
                             <p class="mb-0">Marked partly using publicly available data from <a href="https://solarstreets.co.uk/" class="d-inline-block">Solar Streets</a> and <a href="https://solartogether.co.uk/landing" class="d-inline-block">Solar Together</a></p>
                             """,
@@ -1544,7 +1546,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">Additional points awarded if the council has a policy to build new council owned or managed housing as highly energy efficient or operationally net zero with the policy already implemented since 2019 or with implementation by 2030.</p>
                             """,
                         "clarifications": """
-                            <p>High energy efficiency includes building new council owned or managed housing building standards such as Passivhaus/BREAM excellent or LEED standard or a similar council own standard.</p>
+                            <p><strong>High energy efficiency</strong> includes building new council owned or managed housing building standards such as Passivhaus/BREAM excellent or LEED standard or a similar council own standard.</p>
                             <p>For operationally net-zero policies, we will accept those that define this as only concerning regulated emissions. Definitions for operationally net-zero and regulated emissions are below.</p>
                             <p><strong>Operationally net-zero:</strong> when the amount of carbon emissions associated with the building’s operational energy on an annual basis is zero or negative. A net zero carbon building is highly energy efficient and powered from on-site and/or off-site renewable energy sources, with any remaining carbon balance offset.” <a href="https://ukgbc.s3.eu-west-2.amazonaws.com/wp-content/uploads/2019/04/05150856/Net-Zero-Carbon-Buildings-A-framework-definition.pdf" class="d-inline"> Link to definition</a></p>
                             <p><strong>Regulated emissions:</strong> Emissions generated through building energy consumption resulting from the specification of controlled, fixed building services and fittings, including space heating and cooling, hot water, ventilation, fans, pumps and lighting. Such energy uses are inherent in the design of a building." <a href="https://www.designingbuildings.co.uk/wiki/Regulated_and_unregulated_energy_consumption" class="d-inline">More information</a></p>
@@ -1601,6 +1603,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>For operationally net-zero policies, we will accept those that define this as only concerning regulated emissions. Definitions for operationally net-zero and regulated emissions are below.</p>
                             <p><strong>Operationally net-zero:</strong> when the amount of carbon emissions associated with the building’s operational energy on an annual basis is zero or negative. A net zero carbon building is highly energy efficient and powered from on-site and/or off-site renewable energy sources, with any remaining carbon balance offset.” <a href="https://ukgbc.s3.eu-west-2.amazonaws.com/wp-content/uploads/2019/04/05150856/Net-Zero-Carbon-Buildings-A-framework-definition.pdf" class="d-inline">Link to definition</a></p>
                             <p><strong>Regulated emissions:</strong> Emissions generated through building energy consumption resulting from the specification of controlled, fixed building services and fittings, including space heating and cooling, hot water, ventilation, fans, pumps and lighting. Such energy uses are inherent in the design of a building." <a href="https://www.designingbuildings.co.uk/wiki/Regulated_and_unregulated_energy_consumption" class="d-inline">More information</a></p>
+                            <p>If the council is achieving net-zero homes through cash-in-lieu contributions or offsets this will not count for this question. However, if the Council provides an exception that offsetting is allowed where a net-zero home may not be technically feasible this will still be valid.</p>
                             <p class="mb-0">There are a number of local plans in the draft stage who are requiring this policy. If these policies are deemed unsound by the Planning Inspectorate we will remove this question.</p>
                             """,
                     },
@@ -1948,12 +1951,14 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p><strong>Two tier criteria</strong></p>
                             <p>Criteria met if the council is reporting its own emissions and fulfill all of the following:</p>
                             <ul>
-                                <li>The council states whether they are using the Environmental Reporting Guidelines from DEFRA, Global Protocol for Community Greenhouse Gas Emissions Inventories (GPC) or the GCoM Common Reporting Framework (CRF) to develop their inventory.</li>
+                                <li>The council states whether they are using the Environmental Reporting Guidelines from Department for Environment, Food and Rural Affairs (DEFRA), the GCoM Common Reporting Framework (CRF), the Greenhouse Gas Accounting Tool (from the LGA), the Greenhouse Gas Protocol for Cities (Community Greenhouse Gas Emissions Inventories) or for Corporate Standards to develop their inventory. </li>
+                            </ul>
+                            <p>Councils must state whether they are using either:</p>
+                            <ul>
                                 <li>The inventory must cover a continuous period of 12 months, either a calendar year or a financial year</li>
                                 <li>There must be data from 2019 and 2021 (or the financial year 2021/22).</li>
-                                <li>The council must be measuring scope 1 and 2 emissions.</li>
+                                <li>The council must be measuring their own scope 1, 2 and 3 emissions</li>
                             </ul>
-                            <p class="mb-0">Additional points awarded if the council is also measuring scope 3 emissions. </p>
                             """,
                         "clarifications": """
                             <p>Scope 1 emissions are greenhouse gas emissions that an organisation owns or controls directly, such as fuel burnt from council vehicles.</p>
@@ -2056,7 +2061,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             </ul>
                             <p>Additional points if the council's procurement policy includes any of the following:</p>
                             <ul class="mb-0">
-                                <li>The council aims to source low or zero carbon energy wherever possible, that it will phase out the use of fossil fuels from their council fleet.</li>
+                                <li>The council aims to source low or zero carbon energy wherever possible.</li>
                                 <li>The council aims to phase out the use of fossil fuels from their council fleet.</li>
                                 <li>The council references the waste hierarchy in its policy, for example by stating that it encourages the councils to consider if repeat procurement requests are always needed.</li>
                             </ul>
@@ -2079,7 +2084,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">This role can be merged with another role, such as Environment and Transport.</p>
                             """,
                         "clarifications": """
-                            <p>Councils are run by a cabinet or committee structure. A cabinet structure is where there is a council leader and cabinet members (all from the same political party) that make decisions either collectively or sometimes cabinet members have decision making powers within their own remits. </p>
+                            <p>Councils are run by a cabinet or committee structure. A cabinet structure is where there is a council leader and cabinet members (all from the same governing party/parties) that make decisions on Council policy.</p>
                             <p>A committee structure is where councils are divided into politically balanced committees that make the decisions.</p>
                             <p class="mb-0">A Climate Champion (listed as a responsibility) is not valid for a point and neither is Chair or Cabinet member for Environmental Services.</p>
                             """,
@@ -2117,7 +2122,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Low",
                         "how_marked": "FOI",
                         "criteria": """
-                            <p class="mb-0">Criteria met if all senior management and councillors elected before May 2023 have received climate awareness, carbon literacy or equivalent training.</p>
+                            <p class="mb-0">Criteria met if all senior management and councillors in leadership positions such as cabinet members or committee chairs elected before May 2023 have received climate awareness, carbon literacy or equivalent training.</p>
                             """,
                         "clarifications": """
                             <p class="mb-0">Senior Management includes all Chief Executives, deputy Chief Executives and Directors or Heads of Departments, or equivalents, depending on what each council calls them.</p>
@@ -3024,15 +3029,15 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "11",
-                        "name": "Has the council passed a motion to ban high carbon advertising?",
+                        "name": "Has the council passed a motion to ban high carbon advertising and sponsorship?",
                         "topic": "Communications - advertising",
                         "importance": "High",
                         "how_marked": "National Data",
                         "criteria": """
-                            <p>A point will be awarded if the council has passed a motion to ban high carbon advertising on ad sites it controls by introducing a low carbon advertising policy or similar.</p>
+                            <p>A point will be awarded if the council has passed a motion to ban high carbon advertising on ad sites it controls by introducing a low carbon advertising and sponsorship policy or similar.</p>
                             """,
                         "clarifications": """
-                            <p class="mb-0">High carbon advertising includes advertisements for products and activities that emit high amounts of CO2 emissions such as fossil fuels, diesel, petrol and hybrid car engines and air travel.</p>
+                            <p class="mb-0">High carbon advertising includes advertisements for products and activities that emit high amounts of CO2 emissions such as fossil fuels and fossil fuel companies, diesel, petrol and hybrid car engines and air travel.</p>
                             """,
                     },
                     {
@@ -3282,7 +3287,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "1a",
-                        "name": "Has the council banned or reduced single use plastic in its buildings and events?",
+                        "name": "Has the council reduced single use plastic in its buildings and events?",
                         "topic": "Single Use Plastic",
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
@@ -3293,7 +3298,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                                 <li>Installing water drinking fountains on the council estate/public spaces</li>
                                 <li>Banning plastic cups for water</li>
                                 <li>Reducing plastic packaging</li>
-                                <li>Reducing the use of plastic cutlery (forks, knives, spoons, chopsticks), plates, straws, beverage stirrers, balloon sticks or food and cup containers made of expanded polystyrene; including their covers and lids at their external events. </li>
+                                <li>Reducing the use of two or more of the following: plastic cutlery (forks, knives, spoons, chopsticks), plates, balloon sticks or food and cup containers made of expanded polystyrene; including their covers and lids at their external events. </li>
                             </ul>
                             """,
                         "clarifications": """
@@ -3314,8 +3319,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "how_marked": "Volunteer Research",
                         "criteria": """
                             <p><strong>Two tier criteria</strong></p>
-                            <p>Point awarded if the council requires event organisers to provide additional information about their environmental commitments that make reference to single use plastic or items that will be used that will be recyclable or compostable.</p>
-                            <p class="mb-0">Further points awarded if the council has banned the use of all of following at these external events: plastic cutlery (forks, knives, spoons, chopsticks), plates, straws, beverage stirrers, balloon sticks or food and cup containers made of expanded polystyrene; including their covers and lids. </p>
+                            <p>Point awarded if the council requires event organisers to provide additional information about their environmental commitments that make reference to single use plastic or items that will be used that will be recyclable, compostable or reusable (such as a cup refill scheme).</p>
+                            <p class="mb-0">Further points awarded if the council has banned the use of all of the following at these external events: plastic cutlery (forks, knives, spoons, chopsticks), plates, balloon sticks or food and cup containers made of expanded polystyrene; including their covers and lids.</p>
                             """,
                     },
                     {
@@ -3350,7 +3355,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "3",
-                        "name": "Does the council support initiatives to redistribute surplus food waste?",
+                        "name": "Does the council support initiatives to redistribute surplus food?",
                         "topic": "Surplus Food",
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
@@ -3413,11 +3418,11 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                        <p>Criteria met if the council has proactively created more space for local food growing through: </p>
+                        <p>Criteria met if the council has proactively created more space for local food growing through providing funding, land, staff or other resources to support:</p>
                         <ul class="mb-0">
-                            <li>Providing funding, land, staff or other resources to support a community orchard</li>
-                            <li>Providing funding, land, staff or other resources to support schools to have growing spaces</li>
-                            <li>Providing funding, land, staff or other resources to support a community or city farm or garden, including edible fruit/veg/herbs patches in public spaces such as parks, rooftops or grass verges. </li>
+                            <li>Community orchard</li>
+                            <li>Schools to have growing spaces</li>
+                            <li>Community or city farms or gardens, including edible fruit/veg/herbs patches in public spaces such as parks, rooftops or grass verges.</li>
                         </ul>
                             """,
                         "clarifications": """
@@ -3440,9 +3445,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             </ul>
                             """,
                         "clarifications": """
-                            <p>Councils are run by a cabinet or committee structure. A cabinet structure is where there is a council leader and cabinet members (all from the same political party) that make decisions either collectively or sometimes cabinet members have decision making powers within their own remits. </p>
-                            <p>A committee structure is where councils are divided into politically balanced committees that make the decisions.</p>
-                            <p class="mb-0">A Climate Champion (listed as a responsibility) is not valid for a point and neither is Chair or Cabinet member for Environmental Services.</p>
+                            <p class="mb-0">Schools includes primary, junior or secondary schools that are state-run schools. Schools excludes private schools or academies.</p>
                             """,
                     },
                     {
