@@ -596,7 +596,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "2",
-                        "name": "Are the council's operations powered by renewable energy?",
+                        "name": "Are the council’s operations powered by renewable energy?",
                         "topic": "Council buildings - renewable energy tariff",
                         "importance": "Low",
                         "how_marked": "FOI",
@@ -619,7 +619,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "how_marked": "FOI",
                         "criteria": """
                             <p><strong>Three Tier Criteria</strong></p>
-                            <p>Criteria met if 50% or more of the council's homes receive C or above in their Environmental Performance Certificate ratings.</p>
+                            <p>Criteria met if 50% or more of the council’s homes receive C or above in their Environmental Performance Certificate ratings.</p>
                             <p class="mb-0">Additional points awarded if 60% or more, and then if 90% or more of their buildings received C or above EPC ratings.</p>
 
                             """,
@@ -639,12 +639,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "criteria": """
                             <p><strong>Three Tier Criteria</strong></p>
                             <p>Criteria met if the council has completed an exercise to measure how much, approximately, it will cost them to retrofit all homes (to EPC C or higher, or equivalent) and there is a target date provided. </p>
-                            <p class="mb-0">Additional points will be awarded depending on the councils' target dates, with tiers for 2030, 2040 and 2050.</p>
+                            <p class="mb-0">Additional points will be awarded depending on the councils’ target dates, with tiers for 2030, 2040 and 2050.</p>
 
                             """,
                         "clarifications": """
                             <p>Home retrofit is the process of making changes to existing buildings so that energy consumption and emissions are reduced. These changes also provide more comfortable and healthier homes with lower fuel bills.</p>
-                            <p>The council doesn't need to have all the funds available for the retrofit.</p>
+                            <p>The council doesn’t need to have all the funds available for the retrofit.</p>
                             <p class="mb-0">This question applies only to councils that own or manage any number of homes.</p>
                             """,
                     },
@@ -810,8 +810,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "criteria": """
                             <p>Criteria met if there is public information about a council working with a local community energy generation infrastructure project, such as wind, solar or hydro. Evidence of this could include: </p>
                             <ul class="mb-0">
-                                <li>Being formally listed as a partner on the community energy projects' website</li>
-                                <li>Evidence on the councils' website of the council providing funding, land or other support to the community energy project. </li>
+                                <li>Being formally listed as a partner on the community energy projects’ website</li>
+                                <li>Evidence on the councils’ website of the council providing funding, land or other support to the community energy project. </li>
                             </ul>
                             """,
                         "clarifications": """
@@ -832,7 +832,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["combined"],
                         "code": "CA1",
-                        "name": "Is the combined authority's operations powered by renewable energy?",
+                        "name": "Is the combined authority’s operations powered by renewable energy?",
                         "topic": "Renewable Tariff - combined authority buildings",
                         "importance": "Low",
                         "total_points": "2",
@@ -855,8 +855,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "how_marked": "Volunteer Research",
                         "criteria": """
                             <p>Criteria met if there is public information about them working with a local community energy generation infrastructure project, such as wind, solar or hydro. Evidence of this could include:</p>
-                            <p>Being formally listed as a partner on the community energy projects' website</p>
-                            <p>Evidence on the combined authority's website of them providing funding, land or other support to the community energy project.</p>
+                            <p>Being formally listed as a partner on the community energy projects’ website</p>
+                            <p>Evidence on the combined authority’s website of them providing funding, land or other support to the community energy project.</p>
                             """,
                         "clarifications": """
                             <p>Marked partly using data provided by <a class="d-inline" href="https://communityenergyengland.org/">Community Energy England</a></p>
@@ -909,7 +909,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "total_points": "1",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>Criteria met if a combined authority has successfully bid on a government grant since 1st January 2019. The money doesn't have to be spent or the project completed in order to meet the criteria.</p>
+                            <p>Criteria met if a combined authority has successfully bid on a government grant since 1st January 2019. The money doesn’t have to be spent or the project completed in order to meet the criteria.</p>
                         """,
                         "clarifications": """
                             <p>Evidence of a news story from the combined authority or listed as a successful bidder on any of the follow national government grants:
@@ -932,7 +932,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "how_marked": "Volunteer Research",
                         "criteria": """
                             <p>Criteria met if the combined authority has a skills strategy or similar which explicitly covers how they will create the green skills needed locally.</p>
-                            <p>This information could be in a combined authority's skills strategy or other strategies.</p>
+                            <p>This information could be in a combined authority’s skills strategy or other strategies.</p>
                         """,
                         "clarifications": """
                             <p>A chapter or equivalent on green skills in a climate action plan, corporate plan or homes or a building strategy would also be valid for a point. </p>
@@ -1066,10 +1066,10 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p class="mb-0">Criteria met if over 10% of the council's fleet are electric vehicles.</p>
+                            <p class="mb-0">Criteria met if over 10% of the council’s fleet are electric vehicles.</p>
                             """,
                         "clarifications": """
-                            <p class="mb-0">A council's fleet includes council owned or leased vehicles, and may include street cleaners and waste collection vehicles.</p>
+                            <p class="mb-0">A council’s fleet includes council owned or leased vehicles, and may include street cleaners and waste collection vehicles.</p>
                             """,
                     },
                     {
@@ -1134,13 +1134,13 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Low",
                         "how_marked": "National Data",
                         "criteria": """
-                            <p>Criteria met if you are verified by 20's Plenty For Us as having 20mph as the default speed limit for restricted roads. </p>
-                            <p>20's Plenty For Us looks for councils that have a policy for setting 20mph for most roads: residential and high street roads. </p>
+                            <p>Criteria met if you are verified by 20’s Plenty For Us as having 20mph as the default speed limit for restricted roads. </p>
+                            <p>20’s Plenty For Us looks for councils that have a policy for setting 20mph for most roads: residential and high street roads. </p>
                             <p class="mb-0">This will include local authorities that have not implemented a 20mph speed limit for restricted roads but have passed the policy, as it can take 2-3 years to fully implement due to replacing the road signs.</p>
                             """,
                         "clarifications": """
                             <p>Restricted roads are roads that due to lighting frequency are usually 30mph as according to national speed limits.</p>
-                            <p>Marked using <a href="https://www.20splenty.org/20mph_places" class="d-inline">20's Plenty for Us</a> list of councils to have implemented a 20mph default.</p>
+                            <p>Marked using <a href="https://www.20splenty.org/20mph_places" class="d-inline">20’s Plenty for Us</a> list of councils to have implemented a 20mph default.</p>
                             <p class="mb-0">Where a national government has introduced 20mph as the norm for restricted roads all councils within that nation will be awarded the point.</p>
                             """,
                     },
@@ -1162,7 +1162,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["single", "county"],
                         "code": "5b",
-                        "name": "Does the council's Clean Air Zone or Low Emission Zone require charges for private vehicles?",
+                        "name": "Does the council’s Clean Air Zone or Low Emission Zone require charges for private vehicles?",
                         "topic": "Clean Air Zone",
                         "importance": "Medium",
                         "how_marked": "Volunteer Research",
@@ -1208,7 +1208,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["single", "county"],
                         "code": "8a",
-                        "name": "Are there any low emission buses used within the council's area?",
+                        "name": "Are there any low emission buses used within the council’s area?",
                         "topic": "Buses",
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
@@ -1223,7 +1223,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "council_types": ["single", "county"],
                         "england_only": "yes",
                         "code": "8b",
-                        "name": "Is bus ridership within the council's area high?",
+                        "name": "Is bus ridership within the council’s area high?",
                         "topic": "Buses",
                         "importance": "Medium",
                         "how_marked": "National Data",
@@ -1246,7 +1246,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "how_marked": "Volunteer Research",
                         "criteria": """
                             <p>Criteria met if a workplace parking levy is in place by the time of marking.</p>
-                            <p>The workplace parking levy does not have to cover the whole of the council's area.</p>
+                            <p>The workplace parking levy does not have to cover the whole of the council’s area.</p>
                             <p class="mb-0">For scoring purposes we will count a scheme as implemented if it is approved by the council with a date set for the start of the implementation.</p>
                             """,
                         "clarifications": """
@@ -1271,9 +1271,9 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">Further points awarded if the council has over 434 chargers per 100,000 residents.</p>
                             """,
                         "clarifications": """
-                            <p>This question is marked using the UK Government's data on publicly available EV chargers within the council's area. This includes all publicly available EV chargers, rather than just council owned or installed, as councils would still have to approve any public EV charger in their area.</p>
+                            <p>This question is marked using the UK Government’s data on publicly available EV chargers within the council’s area. This includes all publicly available EV chargers, rather than just council owned or installed, as councils would still have to approve any public EV charger in their area.</p>
                             <p>We have chosen the two tier criteria to challenge councils. 60 public chargers per 100,000 residents has been achieved by a significant number of councils but many have also not yet reached this level. </p>
-                            <p>The higher level of 434 chargers is based on the UK Government's 2030 target for 300,000 public EV chargers. To achieve the same format we divided (300,000 by the Office for National Statistics 2030 projected population 69.2 million) and multiplied this figure by 100,000. Rounding to the nearest EV charger gave us 434 chargers per 100,000 residents.</p>
+                            <p>The higher level of 434 chargers is based on the UK Government’s 2030 target for 300,000 public EV chargers. To achieve the same format we divided (300,000 by the Office for National Statistics 2030 projected population 69.2 million) and multiplied this figure by 100,000. Rounding to the nearest EV charger gave us 434 chargers per 100,000 residents.</p>
                             <p class="mb-0">Marked using <a href="https://www.zap-map.com/ " class="d-inline">Zap Maps</a> publicly available data on EV chargers, which is available using the <a href="https://www.gov.uk/government/statistics/electric-vehicle-charging-device-statistics-july-2022" class="d-inline">UK Government</a>. Please note, we will use the most recent available data in the 2023 scoring process.</p>
                             """,
                     },
@@ -1299,7 +1299,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["combined"],
                         "code": "CA1a",
-                        "name": "Does the combined authority's Transport Plan include the combined authority's net-zero target and make tackling the climate emergency one of its main priorities?",
+                        "name": "Does the combined authority’s Transport Plan include the combined authority’s net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Transport Plan",
                         "importance": "Low",
                         # "total_points": "2",
@@ -1310,13 +1310,13 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             """,
                         "clarifications": """
                             <p>We will accept other language for target dates being used such as carbon neutrality.</p>
-                            <p>The net-zero target date must be an area-wide target, either the UK Government's national target, the devolved nation's target or the combined authority's area-wide net zero target.</p>
+                            <p>The net-zero target date must be an area-wide target, either the UK Government’s national target, the devolved nation’s target or the combined authority’s area-wide net zero target.</p>
                             """,
                     },
                     {
                         "council_types": ["combined"],
                         "code": "CA1b",
-                        "name": "Does the combined authority's Transport Plan include expanding or building a high carbon transport project?",
+                        "name": "Does the combined authority’s Transport Plan include expanding or building a high carbon transport project?",
                         "topic": "Transport Plan - High Carbon projects ",
                         "importance": "Medium",
                         # "total_points": "2",
@@ -1383,7 +1383,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["combined"],
                         "code": "CA4a",
-                        "name": "Does the combined authority's bus service improvement plan include a target for the bus fleet to be zero emission?",
+                        "name": "Does the combined authority’s bus service improvement plan include a target for the bus fleet to be zero emission?",
                         "topic": "Buses",
                         "importance": "Low",
                         # "total_points": "2",
@@ -1488,9 +1488,9 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Further points awarded if the combined authority has over 434 chargers per 100,000 residents.</p>
                             """,
                         "clarifications": """
-                            <p>This question is marked using the UK Government's data on publicly available EV chargers within the combined authorities area. This includes all publicly available EV chargers, rather than just council owned or installed, as combined authorities provide funding and support for public EV charger in their area.</p>
+                            <p>This question is marked using the UK Government’s data on publicly available EV chargers within the combined authorities area. This includes all publicly available EV chargers, rather than just council owned or installed, as combined authorities provide funding and support for public EV charger in their area.</p>
                             <p>We have chosen the two tier criteria to challenge combined authorities. 60 public chargers per 100,000 residents has been achieved by a significant number of areas but many have also not yet reached this level. </p>
-                            <p>The higher level of 434 chargers is based on the UK Government's 2030 target for 300,000 public EV chargers. To achieve the same format we divided (300,000 by the Office for National Statistics 2030 projected population 69.2 million) and multiplied this figure by 100,000. Rounding to the nearest EV charger gave us 434 chargers per 100,000 residents.</p>
+                            <p>The higher level of 434 chargers is based on the UK Government’s 2030 target for 300,000 public EV chargers. To achieve the same format we divided (300,000 by the Office for National Statistics 2030 projected population 69.2 million) and multiplied this figure by 100,000. Rounding to the nearest EV charger gave us 434 chargers per 100,000 residents.</p>
                             <p>Marked using <a href="https://www.zap-map.com/" class="d-inline">Zap Maps</a> publicly available data on EV chargers, which is available using the <a href="https://www.gov.uk/government/statistics/electric-vehicle-charging-device-statistics-july-2022" class="d-inline">UK Government</a>. Please note, we will use the most recent available data in the 2023 scoring process.</p>
                         """,
                     },
@@ -1515,7 +1515,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["single", "district"],
                         "code": "1",
-                        "name": "Is the council's area wide net zero target a strategic objective of the Local Plan?",
+                        "name": "Is the council’s area wide net zero target a strategic objective of the Local Plan?",
                         "topic": "Net-zero in Local Plan",
                         "importance": "Medium",
                         "how_marked": "Volunteer Research",
@@ -1523,12 +1523,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Points awarded if the Local Plan includes:</p>
                             <ul>
                                 <li>Reaching net zero as a strategic objective of the Local Plan</li>
-                                <li>The council's net zero target date is also found within the Plan.</li>
+                                <li>The council’s net zero target date is also found within the Plan.</li>
                             </ul>
                             <p class="mb-0">The net-zero target must be an area wide net-zero target.</p>
                             """,
                         "clarifications": """
-                            <p>Reaching net-zero must be part of the strategic objectives listed initially in the council's Local Plan - even if the target date is not listed in the strategic objective. This is because the objectives are broader and Joint Local Plans may have different targets between the local authorities.</p>
+                            <p>Reaching net-zero must be part of the strategic objectives listed initially in the council’s Local Plan - even if the target date is not listed in the strategic objective. This is because the objectives are broader and Joint Local Plans may have different targets between the local authorities.</p>
                             <p>We will accept other language for target dates, including carbon neutrality or the carbon budget the council has committed to stay within.</p>
                             <p  class="mb-0">If the Local Plan references a national net-zero target it must still be a strategic objective of the local plan to meet the national target, rather than the national target just being stated.</p>
                             """,
@@ -1562,7 +1562,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "how_marked": "Volunteer Research",
                         "criteria": """
                             <p>Points awarded if the council has a policy that requires a reduction in carbon/energy of new homes within the councils area that is 19% higher than the Part L building regulations.</p>
-                            <p class="mb-0">This would be the same as Scottish councils requiring "Silver standard" as a minimum.</p>
+                            <p class="mb-0">This would be the same as Scottish councils requiring “Silver standard” as a minimum.</p>
                             """,
                         "clarifications": """
                             <p>Part L building regulations are the English national standard building regulations, which define the energy performance and carbon emissions in new homes.</p>
@@ -1577,8 +1577,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Medium",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>The criteria will be met by English councils if they have a policy that exceeds the minimum government's building regulations on the Part L Target for Fabric Energy Efficiency. </p>
-                            <p>Alternatively, the criteria will be met for councils that have a policy with a space heating requirement that exceeds the minimum government's building regulations.</p>
+                            <p>The criteria will be met by English councils if they have a policy that exceeds the minimum government’s building regulations on the Part L Target for Fabric Energy Efficiency. </p>
+                            <p>Alternatively, the criteria will be met for councils that have a policy with a space heating requirement that exceeds the minimum government’s building regulations.</p>
                             <p class="mb-0">For Scottish councils, the criteria will be met if the council requires developers to meet the Silver or Gold building standards</p>
                             """,
                         "clarifications": """
@@ -1598,7 +1598,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Points awarded if the council requires new homes to be operationally net zero with the policy implemented from 2030 to 2040.</p>
                             <p>More points awarded if the council requires new homes to be operationally net zero with the policy already implemented since 2019 or with implementation by 2030.</p>
                             <p>Any date to implement the policy after 2040 would not be awarded points.</p>
-                            <p class="mb-0">This would be equivalent for Scottish authorities to mandate the 'Platinum' building standard for carbon emissions for all new buildings.</p>
+                            <p class="mb-0">This would be equivalent for Scottish authorities to mandate the “Platinum” building standard for carbon emissions for all new buildings.</p>
                             """,
                         "clarifications": """
                             <p>For operationally net-zero policies, we will accept those that define this as only concerning regulated emissions. Definitions for operationally net-zero and regulated emissions are below.</p>
@@ -1635,7 +1635,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">This would be the same as Scottish councils requiring "Silver standard" or "Gold standard" as a minimum for new homes.</p>
                             """,
                         "clarifications": """
-                            <p>The council doesn't have to be defined as in a water stressed area to adopt the 110 litres per person per day standard for new build development but a clear local need should be demonstrated. It should be noted that over half of England is defined as in a <a href="https://www.gov.uk/government/publications/water-stressed-areas-2021-classification" class="d-inline">water stressed area</a>.</p>
+                            <p>The council doesn’t have to be defined as in a water stressed area to adopt the 110 litres per person per day standard for new build development but a clear local need should be demonstrated. It should be noted that over half of England is defined as in a <a href="https://www.gov.uk/government/publications/water-stressed-areas-2021-classification" class="d-inline">water stressed area</a>.</p>
                             """,
                     },
                     {
@@ -1649,7 +1649,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p><strong>Two tier criteria</strong></p>
                             <p>Points awarded if the council has removed minimum parking requirements for new developments in any area. </p>
                             <p>For example, in a rural council this could mean minimum parking requirements are removed for the main town or if the council is urban if minimum parking requirements are removed for a central area.</p>
-                            <p class="mb-0">Further points awarded if there are no minimum parking requirements across the whole of the council's area.</p>
+                            <p class="mb-0">Further points awarded if there are no minimum parking requirements across the whole of the council’s area.</p>
                             """,
                     },
                     {
@@ -1714,9 +1714,9 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Medium",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>Points awarded if the council has a map detailing where solar energy can be built within the council's area.</p>
-                            <p>Points awarded if the council has a map detailing where wind energy can be built within the council's area.</p>
-                            <p class="mb-0">Points awarded if the council has a map detailing where a district heat network can be built within the council's area.</p>
+                            <p>Points awarded if the council has a map detailing where solar energy can be built within the council’s area.</p>
+                            <p>Points awarded if the council has a map detailing where wind energy can be built within the council’s area.</p>
+                            <p class="mb-0">Points awarded if the council has a map detailing where a district heat network can be built within the council’s area.</p>
                             """,
                     },
                     {
@@ -1758,7 +1758,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["combined"],
                         "code": "CA1",
-                        "name": "Does the combined authority's Spatial Planning Strategy include the combined authority's net-zero target and make tackling the climate emergency one of its main priorities?",
+                        "name": "Does the combined authority’s Spatial Planning Strategy include the combined authority’s net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Spatial Planning Strategy",
                         "importance": "Low",
                         "total_points": "1",
@@ -1844,7 +1844,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>The criteria must clearly be about biodiversity action projects and those who apply must complete some sort of application to define their planned biodiversity activities.</p>
                             <p>Point awarded if the combined authority has established a community biodiversity action fund or similar, provided the following criteria are met:</p>
                             <ul>
-                                <li>The fund is at least £500,000 or higher. Where the overall amount of funding isn't clear, it will be assumed that funds awarding individual grants over £10,000 or up to £100,000 will meet this criteria.</li>
+                                <li>The fund is at least £500,000 or higher. Where the overall amount of funding isn’t clear, it will be assumed that funds awarding individual grants over £10,000 or up to £100,000 will meet this criteria.</li>
                                 <li>The fund is accessible to community groups, including where relevant parish councils</li>
                             </ul>
                             """,
@@ -1881,16 +1881,16 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "1a",
-                        "name": "Does the council's corporate plan include a net-zero target and make tackling the climate emergency one of its main priorities?",
+                        "name": "Does the council’s corporate plan include a net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Net Zero Embedded in Corporate Plan",
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>Criteria met if climate action (alternatively called Sustainability or Environment) is listed as one of the council's core priorities or equivalent. It must have its own heading or section and a net zero target date must be referenced.</p>
-                            <p class="mb-0">The net-zero target date must be an area-wide target, either the UK Government's national target, the devolved nation's target or the council's area-wide net zero target.</p>
+                            <p>Criteria met if climate action (alternatively called Sustainability or Environment) is listed as one of the council’s core priorities or equivalent. It must have its own heading or section and a net zero target date must be referenced.</p>
+                            <p class="mb-0">The net-zero target date must be an area-wide target, either the UK Government’s national target, the devolved nation’s target or the council’s area-wide net zero target.</p>
                             """,
                         "clarifications": """
-                            <p>A corporate plan is a business planning document that sets out the council's future priorities and objectives to help ensure that the council manages its resources effectively.</p>
+                            <p>A corporate plan is a business planning document that sets out the council’s future priorities and objectives to help ensure that the council manages its resources effectively.</p>
                             <p>For County Councils the document is called a (Strategic) Economic Plan</p>
                             <p  class="mb-0">We will accept other language for target dates being used such as carbon neutrality. </p>
                             """,
@@ -1903,16 +1903,16 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "1b",
-                        "name": "Does the council's medium term financial plan include the council's net zero target and make tackling the climate emergency one of its main priorities?",
+                        "name": "Does the council’s medium term financial plan include the council’s net zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Net-Zero Embedded in mid-term Financial Plan",
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>Criteria met if climate action (alternatively called sustainability or environment) is listed as one of the council's core priorities or equivalent. It must have its own heading or section and a net-zero target date must be referenced.</p>
-                            <p class="mb-0">The net-zero target date must be an area-wide target, either the UK Government's national target, the devolved nation's target or the council's area-wide net-zero target. </p>
+                            <p>Criteria met if climate action (alternatively called sustainability or environment) is listed as one of the council’s core priorities or equivalent. It must have its own heading or section and a net-zero target date must be referenced.</p>
+                            <p class="mb-0">The net-zero target date must be an area-wide target, either the UK Government’s national target, the devolved nation’s target or the council’s area-wide net-zero target. </p>
                             """,
                         "clarifications": """
-                            <p>A mid-term Financial Plan is a plan (often covering four years) which sets out the council's commitment to provide services that meet the needs of people locally and that represent value for money within the overall resources available to the council. </p>
+                            <p>A mid-term Financial Plan is a plan (often covering four years) which sets out the council’s commitment to provide services that meet the needs of people locally and that represent value for money within the overall resources available to the council. </p>
                             <p>We will accept other language for target dates being used such as carbon neutrality. </p>
                             """,
                     },
@@ -1929,7 +1929,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>Criteria met if the council has accurately identified the environmental risks of climate change to the local area, either in a stand alone climate change or adaptation risk register, or incorporated into the council's corporate risk register. There must be an explicit link between climate change and the increased risk of flooding or other weather events.</p>
+                            <p>Criteria met if the council has accurately identified the environmental risks of climate change to the local area, either in a stand alone climate change or adaptation risk register, or incorporated into the council’s corporate risk register. There must be an explicit link between climate change and the increased risk of flooding or other weather events.</p>
                             <p class="mb-0">Adaptation plans are not valid, unless there is a risk register or equivalent within the adaptation plan.</p>
                             """,
                         "clarifications": """
@@ -1964,7 +1964,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "clarifications": """
                             <p>Scope 1 emissions are greenhouse gas emissions that an organisation owns or controls directly, such as fuel burnt from council vehicles.</p>
                             <p>Scope 2 emissions are greenhouse gas emissions that an organisation produces indirectly when they purchase and use energy, such as the emissions created from the electricity the council buys to heat its offices. </p>
-                            <p class="mb-0">Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations' supply chain, such as the emissions produced in making the computers or paper that the council buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
+                            <p class="mb-0">Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations’ supply chain, such as the emissions produced in making the computers or paper that the council buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
                             """,
                     },
                     {
@@ -1975,22 +1975,22 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "3b",
-                        "name": "According to the council's own reporting, have the council's own greenhouse gas emissions reduced since 2019?",
+                        "name": "According to the council’s own reporting, have the council’s own greenhouse gas emissions reduced since 2019?",
                         "topic": "Emission data reduction",
                         "importance": "High",
                         "how_marked": "Volunteer Research",
                         "criteria": """
                             <p><strong>Three tier criteria</strong></p>
                             <p>Councils must meet the minimum criteria of question 3a to be able to get points for this question.</p>
-                            <p>Criteria met if, using the councils' own reporting mechanisms, there has been a 5% or more reduction of scope 1 and 2 emissions when comparing 2019 to 2021 (or financial years 2018/19 to 2021/22) data.</p>
+                            <p>Criteria met if, using the councils’ own reporting mechanisms, there has been a 5% or more reduction of scope 1 and 2 emissions when comparing 2019 to 2021 (or financial years 2018/19 to 2021/22) data.</p>
                             <p>Additional points awarded if this emission reduction has been 10% or more, or further points if the reduction has been 20% or more.</p>
                             <p>Further points awarded if there has been any reduction from scope 3 emissions.</p>
-                            <p class="mb-0"><i>We recognise that there is currently no standard way that all councils use to report on emissions. We will score councils' own calculations, despite the differences, as long as they fulfill the requirements in 3a.</i></p>
+                            <p class="mb-0"><i>We recognise that there is currently no standard way that all councils use to report on emissions. We will score councils’ own calculations, despite the differences, as long as they fulfill the requirements in 3a.</i></p>
                             """,
                         "clarifications": """
                             <p>Scope 1 emissions are greenhouse gas emissions that an organisation owns or controls directly, such as fuel burnt from council vehicles. </p>
                             <p>Scope 2 emissions are greenhouse gas emissions that an organisation produces indirectly when they purchase and use energy, such as the emissions created from the electricity the council buys to heat its offices. </p>
-                            <p class="mb-0">Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations' supply chain, such as the emissions produced in making the computers or paper that the council buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
+                            <p class="mb-0">Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations’ supply chain, such as the emissions produced in making the computers or paper that the council buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
                             """,
                     },
                     {
@@ -2001,7 +2001,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "4",
-                        "name": "Has the council's area wide carbon emissions decreased, according to UK Government data?",
+                        "name": "Has the council’s area wide carbon emissions decreased, according to UK Government data?",
                         "topic": "Emission data reduction",
                         "importance": "Medium",
                         "how_marked": "National Data",
@@ -2049,7 +2049,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Criteria met if the council has a stand alone environmental or sustainable procurement policy, or a complete section on Sustainable or Responsible Procurement, Climate Change and Action or something similar, within their procurement policy that includes the following. </p>
                             <p>Two or more of the following criteria must be met to meet the minimum criteria for this point:</p>
                             <ol>
-                                <li> The policy makes explicit reference to the council's Climate Action Plan and zero carbon targets.</li>
+                                <li> The policy makes explicit reference to the council’s Climate Action Plan and zero carbon targets.</li>
                                 <li>The policy requests to see the carbon reduction plan of the supplier in the tendering process or asks the supplier to detail any specific steps taken in the design and manufacture of the services to increase energy efficiency and reduce any detrimental environmental impacts.</li>
                                 <li>There must be data from 2019 and 2021 (or the financial year 2021/22).</li>
                                 <li>The policy encourages or requires suppliers, through selection processes, to adopt processes and procedures to reduce their environmental impact, including energy consumption and associated carbon emissions, where practicable. For example a council might allocate 5% or more of the tendering overall evaluation score to the environmental actions of the tenderer (the supplier’s contribution to carbon reduction within their own operations or other actions)</li>
@@ -2060,7 +2060,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                                 <li>Demonstrate how they will meet energy efficiency requirements or minimise energy consumption</li>
                                 <li>Demonstrate how they will minimise waste in their products and services. This could be through recycled, natural, biodegradable or renewable materials being used, through not using single use plastic or other non-recyclable materials or through ensuring products and services last for as long as possible.</li>
                             </ul>
-                            <p>Additional points if the council's procurement policy includes any of the following:</p>
+                            <p>Additional points if the council’s procurement policy includes any of the following:</p>
                             <ul class="mb-0">
                                 <li>The council aims to source low or zero carbon energy wherever possible.</li>
                                 <li>The council aims to phase out the use of fossil fuels from their council fleet.</li>
@@ -2098,12 +2098,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "8",
-                        "name": "What percentage of the council's overall staff work on implementing their Climate Action Plan or other climate change projects?",
+                        "name": "What percentage of the council’s overall staff work on implementing their Climate Action Plan or other climate change projects?",
                         "topic": "Staff time on climate action",
                         "importance": "Medium",
                         "how_marked": "FOI",
                         "criteria": """
-                            <p>Criteria met if there are multiple staff members employed on 3 days a week or more to be working on the council's Climate Action Plan or other climate change projects equating to a given % of the overall council staff team.</p>
+                            <p>Criteria met if there are multiple staff members employed on 3 days a week or more to be working on the council’s Climate Action Plan or other climate change projects equating to a given % of the overall council staff team.</p>
                             <p class="mb-0">Data is not currently available to benchmark the exact % of staff that are working on implementing their Climate Action Plan or other climate change projects that will be valid for the points. This will be published with the complete methodology when the Scorecard results are published.</p>
                             """,
                         "clarifications": """
@@ -2142,7 +2142,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "High",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>Criteria is met if the council has used either the Community Infrastructure Levy or Section 106 to raise any amount of funds for climate action, in England and Wales. There must be explicit reference to these funds being used for climate action, such as being used to deliver the council's climate action plan.</p>
+                            <p>Criteria is met if the council has used either the Community Infrastructure Levy or Section 106 to raise any amount of funds for climate action, in England and Wales. There must be explicit reference to these funds being used for climate action, such as being used to deliver the council’s climate action plan.</p>
                             <p>In Scotland, the criteria is met if the council has used section 75 of the Town and Country Planning (Scotland) Act 1997.</p>
                             <p class="mb-0">In Northern Ireland, the criteria is met if the council has used section 76 of the 2011 Planning Act.</p>
                             """,
@@ -2169,7 +2169,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">Criteria met if the council has launched a Climate Bond, Community Municipal Investment or equivalent of any amount as a way to raise funds for climate action.</p>
                             """,
                         "clarifications": """
-                            <p>A Climate Bond or Community Municipal Investment are bonds or loans issued by the council's corporate body and administered by a regulated crowdfunding platform. They allow local authorities to raise funds for specific projects through the public investing their money, from as little as £5, through a crowdfunding model.</p>
+                            <p>A Climate Bond or Community Municipal Investment are bonds or loans issued by the council’s corporate body and administered by a regulated crowdfunding platform. They allow local authorities to raise funds for specific projects through the public investing their money, from as little as £5, through a crowdfunding model.</p>
                             <p class="mb-0">Marked using data provided by the 
                             <a href="https://www.greenfinanceinstitute.co.uk/programmes/ceeb/lcbs/" class="d-inline">Green Finance Institute</a>.</p>
                             """,
@@ -2208,13 +2208,13 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "11a",
-                        "name": "Has the council passed a motion in support of divestment from all fossil fuels from the councils' pension funds?",
+                        "name": "Has the council passed a motion in support of divestment from all fossil fuels from the councils’ pension funds?",
                         "topic": "Divestment of Pension Funds",
                         "importance": "Low",
                         "how_marked": "National Data",
                         "criteria": """
-                            <p>Points awarded if the motion supports the divestment of the council's own investments.</p>
-                            <p class="mb-0">Points also awarded if the motion supports the divestment of the council's pension investments.</p>
+                            <p>Points awarded if the motion supports the divestment of the council’s own investments.</p>
+                            <p class="mb-0">Points also awarded if the motion supports the divestment of the council’s pension investments.</p>
                             """,
                         "clarifications": """
                             <p>Divestment is the opposite of investment, and consists of stocks, bonds or investment funds that are unethical, and in this case, invested in fossil fuel companies such as Shell, BP and Exxon.</p>
@@ -2229,7 +2229,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "11b",
-                        "name": "Has the council's pensions fund committed to divesting from all fossil fuels?",
+                        "name": "Has the council’s pensions fund committed to divesting from all fossil fuels?",
                         "topic": "Divestment of Pension Funds",
                         "importance": "Medium",
                         "how_marked": "National Data",
@@ -2267,14 +2267,14 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["combined"],
                         "code": "CA1",
-                        "name": "Does the combined authority's Corporate Plan include a net-zero target and make tackling the climate emergency one of its main priorities?",
+                        "name": "Does the combined authority’s Corporate Plan include a net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Net-Zero Embedded in Corporate Plan",
                         "importance": "Low",
                         "total_points": "1",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>Criteria met if climate action (alternatively called Sustainability or Environment) is listed as one of the combined authority's core priorities or equivalent. It must have its own heading or section and a net zero target date must be referenced.</p>
-                            <p>The net-zero target date must be an area-wide target, either the UK Government's national target, the devolved nation's target or the combined authority's area-wide net zero target.</p>
+                            <p>Criteria met if climate action (alternatively called Sustainability or Environment) is listed as one of the combined authority’s core priorities or equivalent. It must have its own heading or section and a net zero target date must be referenced.</p>
+                            <p>The net-zero target date must be an area-wide target, either the UK Government’s national target, the devolved nation’s target or the combined authority’s area-wide net zero target.</p>
                             """,
                         "clarifications": """
                             <p>Points will not be awarded if the priority for climate action is part of another priority.</p>
@@ -2285,14 +2285,14 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["combined"],
                         "code": "CA1b",
-                        "name": "Does the combined authority's Medium Term Financial Plan include the combined authority's net-zero target and make tackling the climate emergency one of its main priorities?",
+                        "name": "Does the combined authority’s Medium Term Financial Plan include the combined authority’s net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Net-Zero Embedded in mid-term Financial Plan",
                         "importance": "Low",
                         "total_points": "1",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>Criteria met if climate action (alternatively called sustainability or environment) is listed as one of the combined authority's core priorities or equivalent. It must have its own heading or section and a net-zero target date must be referenced.</p>
-                            <p>The net-zero target date must be an area-wide target, either the UK Government's national target, the devolved nation's target or the combined authority's area-wide net-zero target.</p>
+                            <p>Criteria met if climate action (alternatively called sustainability or environment) is listed as one of the combined authority’s core priorities or equivalent. It must have its own heading or section and a net-zero target date must be referenced.</p>
+                            <p>The net-zero target date must be an area-wide target, either the UK Government’s national target, the devolved nation’s target or the combined authority’s area-wide net-zero target.</p>
                             """,
                         "clarifications": """
                             <p>A mid-term Financial Plan is a plan (often covering four years) which sets out their commitment to provide services that meet the needs of people locally and that represent value for money within the overall resources available to the combined authority.</p>
@@ -2302,14 +2302,14 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["combined"],
                         "code": "CA2",
-                        "name": "Does the combined authority's Local Industrial Strategy include a net-zero target and make tackling the climate emergency one of its main priorities?",
+                        "name": "Does the combined authority’s Local Industrial Strategy include a net-zero target and make tackling the climate emergency one of its main priorities?",
                         "topic": "Local Industrial Strategy",
                         "importance": "Low",
                         "total_points": "1",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>Criteria met if climate action (alternatively called sustainability or environment) is listed as one of the combined authority's core priorities or equivalent. It must have its own heading or section and a net-zero target date must be referenced.</p>
-                            <p>The net-zero target date must be an area-wide target, either the UK Government's national target, the devolved nation's target or the combined authority's area-wide net-zero target.</p>
+                            <p>Criteria met if climate action (alternatively called sustainability or environment) is listed as one of the combined authority’s core priorities or equivalent. It must have its own heading or section and a net-zero target date must be referenced.</p>
+                            <p>The net-zero target date must be an area-wide target, either the UK Government’s national target, the devolved nation’s target or the combined authority’s area-wide net-zero target.</p>
                             """,
                         "clarifications": """
                             <p>A Local Industrial Strategy is a strategy led by Mayoral Combined Authorities or Local Enterprise Partnerships which aims to promote the coordination of local economic policy and national funding streams and establish new ways of working between national and local government, and the public and private sectors.</p>
@@ -2325,12 +2325,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "total_points": "1",
                         "how_marked": "Volunteer Research",
                         "criteria": """
-                            <p>This can be part of the combined authority's overall risk register, or a stand alone document.</p>
+                            <p>This can be part of the combined authority’s overall risk register, or a stand alone document.</p>
                             <p>Point would be awarded if the local authority includes climate related risk on their wider risk register.</p>
                             <p>We are looking for how they are incorporating climate risks as part of its adaptation to climate change therefore we will only accept explicit references to climate environmental risks in the local area (such as flooding, extreme heat, migration, air pollution or others).</p>
                             """,
                         "clarifications": """
-                            <p>Criteria met if the combined authority has accurately identified the environmental risks of climate change to the local area, either in a stand alone climate change or adaptation risk register, or incorporated into the combined authority's corporate risk register. There must be an explicit link between climate change and the increased risk of flooding or other weather events.</p>
+                            <p>Criteria met if the combined authority has accurately identified the environmental risks of climate change to the local area, either in a stand alone climate change or adaptation risk register, or incorporated into the combined authority’s corporate risk register. There must be an explicit link between climate change and the increased risk of flooding or other weather events.</p>
                             <p>Adaptation plans are not valid, unless there is a risk register or equivalent within the adaptation plan.</p>
                             """,
                     },
@@ -2357,13 +2357,13 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "clarifications": """
                                 <p>Scope 1 emissions are greenhouse gas emissions that an organisation owns or controls directly, such as fuel burnt from their vehicles.</p>
                                 <p>Scope 2 emissions are greenhouse gas emissions that an organisation produces indirectly when they purchase and use energy, such as the emissions created from the electricity the combined authority buys to heat its offices.</p>
-                                <p>Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations' supply chain, such as the emissions produced in making the computers or paper that the combined authority buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
+                                <p>Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations’ supply chain, such as the emissions produced in making the computers or paper that the combined authority buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
                             """,
                     },
                     {
                         "council_types": ["combined"],
                         "code": "CA4b",
-                        "name": "According to the combined authority's own reporting, have their own emissions reduced since 2019?",
+                        "name": "According to the combined authority’s own reporting, have their own emissions reduced since 2019?",
                         "topic": "Emission data reduction",
                         "importance": "High",
                         # "total_points": "3",
@@ -2371,7 +2371,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "criteria": """
                             <p><strong>Three tier criteria</strong></p>
                             <p>Combined authority must meet the minimum criteria of question 3a to be able to get points for this question.</p>
-                            <p>Criteria met if, using the combined authority's own reporting mechanisms, there has been a 5% or more reduction of scope 1 and 2 emissions when comparing 2019 to 2021 (or financial years 2018/19 to 2021/22) data.</p>
+                            <p>Criteria met if, using the combined authority’s own reporting mechanisms, there has been a 5% or more reduction of scope 1 and 2 emissions when comparing 2019 to 2021 (or financial years 2018/19 to 2021/22) data.</p>
                             <p>Additional points awarded if this emission reduction has been 10% or more, or further points if the reduction has been 20% or more.</p>
                             <p>Further points awarded if there has been any reduction from scope 3 emissions.
                             </p>
@@ -2380,13 +2380,13 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "clarifications": """
                             <p>Scope 1 emissions are greenhouse gas emissions that an organisation owns or controls directly, such as fuel burnt from their vehicles.</p>
                             <p>Scope 2 emissions are greenhouse gas emissions that an organisation produces indirectly when they purchase and use energy, such as the emissions created from the electricity the combined authority buys to heat its offices.</p>
-                            <p>Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations' supply chain, such as the emissions produced in making the computers or paper that the combined authority buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
+                            <p>Scope 3 emissions are greenhouse gas emissions that are created indirectly in an organisations’ supply chain, such as the emissions produced in making the computers or paper that the combined authority buys. Scope 3 also includes any other emissions not within scope 1 and 2.</p>
                             """,
                     },
                     {
                         "council_types": ["combined"],
                         "code": "CA5",
-                        "name": "According to national data, has the combined authority's area-wide carbon emissions decreased?",
+                        "name": "According to national data, has the combined authority’s area-wide carbon emissions decreased?",
                         "topic": "Emission data reduction",
                         "importance": "Medium",
                         "total_points": "4",
@@ -2428,7 +2428,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Two or more of the following criteria A must be met to meet the minimum criteria for this point:</p>
 
                             <ul>
-                                <li>The policy makes explicit reference to the combined authority's Climate Action Plan and zero carbon targets.</li>
+                                <li>The policy makes explicit reference to the combined authority’s Climate Action Plan and zero carbon targets.</li>
                                 <li>The policy requests to see the carbon reduction plan of the supplier in the tendering process or asks the supplier to detail any specific steps taken in the design and manufacture of the services to increase energy efficiency and reduce any detrimental environmental impacts.</li>
                                 <li>The policy encourages or requires suppliers, through selection processes, to adopt processes and procedures to reduce their environmental impact, including energy consumption and associated carbon emissions, where practicable. For example a combined authority might allocate 5% or more of the tendering overall evaluation score to the environmental actions of the tenderer (the supplier’s contribution to carbon reduction within their own operations or other actions)</li>
                                 <li>The policy encourages or requires suppliers, through selection processes, to adopt circular economy processes and procedures where practical.</li>
@@ -2440,7 +2440,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                                 <li>Demonstrate how they will minimise waste in their products and services. This could be through recycled, natural, biodegradable or renewable materials being used, through not using single use plastic or other non-recyclable materials or through ensuring products and services last for as long as possible.</li>
                             </ul>
 
-                            <p>Additional points if the combined authority's procurement policy includes any of the following (criteria C):</p>
+                            <p>Additional points if the combined authority’s procurement policy includes any of the following (criteria C):</p>
                             <ul>
                                 <li>The combined authority aims to source low or zero carbon energy wherever possible.</li>
                                 <li>The combined authority aims to phase out the use of fossil fuels from their fleet.</li>
@@ -2473,7 +2473,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "total_points": "2",
                         "how_marked": "FOI",
                         "criteria": """
-                            <p>Criteria is met if there are multiple staff members employed on 3 days a week or more to be working on the combined authority's Climate Action Plan or other climate change projects equating to a given % of the overall staff team.</p>
+                            <p>Criteria is met if there are multiple staff members employed on 3 days a week or more to be working on the combined authority’s Climate Action Plan or other climate change projects equating to a given % of the overall staff team.</p>
                             <p>Data is not currently available to benchmark the exact % of staff that are working on implementing their Climate Action Plan or other climate change projects that will be valid for the points. This will be published with the complete methodology when the Scorecard results are published.</p>
                             """,
                         "clarifications": """
@@ -2528,8 +2528,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "total_points": "2",
                         "how_marked": """<a href="https://www.divest.org.uk/council-motions/">Divest UK data </a>""",
                         "criteria": """
-                            <p>Points awarded if the motion supports the divestment of the combined authority's own investments.</p>
-                            <p>Points also awarded if the motion supports the divestment of the combined authority's pension investments.</p>
+                            <p>Points awarded if the motion supports the divestment of the combined authority’s own investments.</p>
+                            <p>Points also awarded if the motion supports the divestment of the combined authority’s pension investments.</p>
                             """,
                         "clarifications": """
                             <p>Divestment is the opposite of investment, and consists of stocks, bonds or investment funds that are unethical, and in this case, invested in fossil fuel companies such as Shell, BP and Exxon.</p>
@@ -2539,14 +2539,14 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["combined"],
                         "code": "CA12b",
-                        "name": "Has the combined authority's pensions fund committed to divesting from all fossil fuels?",
+                        "name": "Has the combined authority’s pensions fund committed to divesting from all fossil fuels?",
                         "topic": "Divestment of Pension Funds",
                         "importance": "Medium",
                         "total_points": "2",
                         "how_marked": """<a href="https://www.divest.org.uk/commitments/ ">Divest UK data </a>""",
                         "criteria": """
                             <p><strong>Two tier criteria</strong></p>
-                            <p>Criteria met if the combined authority's pension fund has committed to partially divesting. For example, it has committed to divesting only from coal, tar sands or oil before 2030.</p>
+                            <p>Criteria met if the combined authority’s pension fund has committed to partially divesting. For example, it has committed to divesting only from coal, tar sands or oil before 2030.</p>
                             <p>Additional points if the pension fund has committed to divest from all fossil fuels before 2030.</p>
                             """,
                         "clarifications": """
@@ -2629,12 +2629,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "council_types": ["single", "county"],
                         "england_only": "yes",
                         "code": "4",
-                        "name": "Are two thirds of the local wildlife sites in the council's area in positive conservation management?",
+                        "name": "Are two thirds of the local wildlife sites in the council’s area in positive conservation management?",
                         "topic": "Wildlife Sites",
                         "importance": "Medium",
                         "how_marked": "National Data",
                         "criteria": """
-                            <p>Criteria met if 66% or more of local wildlife sites in the council's area are in positive conservation management.</p>
+                            <p>Criteria met if 66% or more of local wildlife sites in the council’s area are in positive conservation management.</p>
                             <p class="mb-0">Only English councils will be assessed on this question, as there is no data available to mark Northern Ireland, Scotland or Wales.</p>
                             """,
                         "clarifications": """
@@ -2680,7 +2680,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "7",
-                        "name": "Have the council's parks been awarded Green Flag status?",
+                        "name": "Have the council’s parks been awarded Green Flag status?",
                         "topic": "Green Flag Awards",
                         "importance": "Low",
                         "how_marked": "National Data",
@@ -2752,7 +2752,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "1",
-                        "name": "Do the council's climate pages include information about behaviour changes that residents can take, and are they easy to find?",
+                        "name": "Do the council’s climate pages include information about behaviour changes that residents can take, and are they easy to find?",
                         "topic": "Council website - information for residents",
                         "importance": "Low",
                         "how_marked": "Volunteer Research",
@@ -2806,12 +2806,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <ul class="mb-0">
                                 <li>The council has published an annual report since 1st January 2022</li>
                                 <li>The annual report is easy-to-read</li>
-                                <li>The annual report includes reporting on progress towards the council's climate action plan SMART targets.</li>
+                                <li>The annual report includes reporting on progress towards the council’s climate action plan SMART targets.</li>
                             </ul>
                             """,
                         "clarifications": """
                             <p>We have chosen the date 1st of January 2022 to ensure that the report is being issued on a yearly basis, while allowing for some delays.</p>
-                            <p>"Easy to read" will be defined as clearly meant for public reading, and may include features such as a contents page, an executive summary, definitions for acronyms or complex language, simple English wherever possible, and graphics or tables to aid comprehension and navigation.</p>
+                            <p>“Easy to read” will be defined as clearly meant for public reading, and may include features such as a contents page, an executive summary, definitions for acronyms or complex language, simple English wherever possible, and graphics or tables to aid comprehension and navigation.</p>
                             <p class="mb-0">Scottish councils are obliged to publish statutory annual reports which will meet the criteria for an annual report, but they must release a more easy-to-read version with reference to SMART targets for further points.</p>
                             """,
                     },
@@ -2883,13 +2883,13 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "5a",
-                        "name": "Does the council have an ongoing way for residents to influence the implementation of the council's Climate Action Plan?",
+                        "name": "Does the council have an ongoing way for residents to influence the implementation of the council’s Climate Action Plan?",
                         "topic": "Residents engagement",
                         "importance": "Medium",
                         "how_marked": "Volunteer Research",
                         "criteria": """
                             <p><strong>Two tier criteria</strong></p>
-                            <p>Point awarded if the council has established a way for residents to influence the implementation of the council's climate action. This may be through:</p>
+                            <p>Point awarded if the council has established a way for residents to influence the implementation of the council’s climate action. This may be through:</p>
                             <ul>
                                 <li>A community engagement group</li>
                                 <li>Introducing community, resident or activist representation on a council climate change committee/group</li>
@@ -2910,14 +2910,14 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "5b",
-                        "name": "Does the council's ongoing engagement with residents include those most affected by climate change and climate action policy?",
+                        "name": "Does the council’s ongoing engagement with residents include those most affected by climate change and climate action policy?",
                         "topic": "Representative residents engagement",
                         "importance": "Medium",
                         "how_marked": "Volunteer Research",
                         "criteria": """
                             <p><strong>Two tier criteria</strong></p>
-                            <p>Point awarded if the council's ongoing engagement (under 5a) specifically aims to engage those most affected by climate change and climate action policies.</p>
-                            <p class="mb-0">A further point available if the council's climate action plan has undergone an equalities impact assessment to identify who is most affected by climate change and climate action policies.</p>
+                            <p>Point awarded if the council’s ongoing engagement (under 5a) specifically aims to engage those most affected by climate change and climate action policies.</p>
+                            <p class="mb-0">A further point available if the council’s climate action plan has undergone an equalities impact assessment to identify who is most affected by climate change and climate action policies.</p>
                             """,
                         "clarifications": """
                             <p class="mb-0">Who is most affected by climate change and climate action policies depends on the local context. Therefore, this could include any community or group of people provided the council has specified they are more affected. For example, this may include people who live near rivers with increasing risk of flooding, or people with physical disabilities who can be affected by policies to reduce traffic and increase active travel such as clean air zones.</p>
@@ -3069,7 +3069,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <ul>
                                 <li>The combined authority has published an annual report since 1st January 2022</li>
                                 <li>The annual report is easy-to-read</li>
-                                <li>The annual report includes reporting on progress towards the council's climate action plan SMART targets.</li>
+                                <li>The annual report includes reporting on progress towards the council’s climate action plan SMART targets.</li>
                             </ul>
                             """,
                         "clarifications": """
@@ -3089,7 +3089,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Criteria met if the combined authority has commissioned a study of different decarbonisation pathways and scenarios to reach net zero carbon across the region by the local area-wide target.</p>
                             """,
                         "clarifications": """
-                            <p>Decarbonisation pathways are modelled projected scenarios of policy, technology & behaviour change over time to reach net zero carbon emissions. They are a science-based approach to climate policymaking. The CCC's <a href="https://www.theccc.org.uk/publication/sixth-carbon-budget/" class="d-inline">Sixth Carbon Budget report</a> includes a national example. These pathways are most effective when a specific pathway is chosen and implemented.</p>
+                            <p>Decarbonisation pathways are modelled projected scenarios of policy, technology & behaviour change over time to reach net zero carbon emissions. They are a science-based approach to climate policymaking. The CCC’s <a href="https://www.theccc.org.uk/publication/sixth-carbon-budget/" class="d-inline">Sixth Carbon Budget report</a> includes a national example. These pathways are most effective when a specific pathway is chosen and implemented.</p>
                             """,
                     },
                     {
@@ -3162,14 +3162,14 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["combined"],
                         "code": "CA5a",
-                        "name": "Does the combined authority have an on-going way for residents to influence the implementation of the combined authority's Climate Action Plan?",
+                        "name": "Does the combined authority have an on-going way for residents to influence the implementation of the combined authority’s Climate Action Plan?",
                         "topic": "Ongoing resident engagement",
                         "importance": "High",
                         "total_points": "2",
                         "how_marked": "Volunteer research",
                         "criteria": """
                             <p><strong>Two tier criteria</strong></p>
-                            <p>Point awarded if the council has established a way for residents to influence the implementation of the council's climate action. This may be through:</p>
+                            <p>Point awarded if the council has established a way for residents to influence the implementation of the council’s climate action. This may be through:</p>
                             <ul>
                                 <li>a community engagement group </li>
                                 <li>introducing community, resident or activist representation on a council climate change committee/group</li>
@@ -3186,15 +3186,15 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     {
                         "council_types": ["combined"],
                         "code": "CA5b",
-                        "name": "Does the combined authority's ongoing engagement with residents include those most affected by climate change and the transition?",
+                        "name": "Does the combined authority’s ongoing engagement with residents include those most affected by climate change and the transition?",
                         "topic": "Representative ongoing engagement",
                         "importance": "Medium",
                         "total_points": "2",
                         "how_marked": "Volunteer research",
                         "criteria": """
                             <p><strong>Two tier criteria</strong></p>
-                            <p>Point awarded if the combined authority's ongoing engagement (under 5a) specifically aims to engage those most affected by climate change and climate action policies.</p>
-                            <p>A further point available if the combined authority's climate action plan has undergone an equalities impact assessment to identify who is most affected by climate change and climate action policies.</p>
+                            <p>Point awarded if the combined authority’s ongoing engagement (under 5a) specifically aims to engage those most affected by climate change and climate action policies.</p>
+                            <p>A further point available if the combined authority’s climate action plan has undergone an equalities impact assessment to identify who is most affected by climate change and climate action policies.</p>
                             """,
                         "clarifications": """
                             <p>Who is most affected by climate change and climate action policies depends on the local context. Therefore, this could include any community or group of people provided the combined authority has specified they are more affected. For example, this may include people who live near rivers with increasing risk of flooding, or people with physical disabilities who can be affected by policies to reduce traffic and increase active travel such as clean air zones.</p>
@@ -3441,7 +3441,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Criteria met if the council does any one of the following: </p>
                             <ul class="mb-0">
                                 <li>There is one complete vegetarian only day a week on the school menu on the council website</li>
-                                <li>The council's in-house catering has a policy to reduce meat in meals by 20% and provide plant-based alternatives, or runs a meat-free mondays or other vegetarian only days in schools </li>
+                                <li>The council’s in-house catering has a policy to reduce meat in meals by 20% and provide plant-based alternatives, or runs a meat-free mondays or other vegetarian only days in schools </li>
                                 <li>The council requires external catering providers for schools to reduce meat in meals by 20% and provide plant-based alternatives, or runs a meat-free mondays or other vegetarian only days in schools.</li>
                             </ul>
                             """,
@@ -3468,7 +3468,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "8",
-                        "name": "How high is the councils' area wide annual recycling rate?",
+                        "name": "How high is the councils’ area wide annual recycling rate?",
                         "topic": "Recycling Rate",
                         "importance": "Medium",
                         "how_marked": "National Data",
@@ -3489,7 +3489,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             "northern-ireland",
                         ],
                         "code": "9",
-                        "name": "How low is the councils' area wide level of household waste produced?",
+                        "name": "How low is the councils’ area wide level of household waste produced?",
                         "topic": "Household Waste Amount",
                         "importance": "Low",
                         "how_marked": "National Data",
@@ -3551,7 +3551,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
             {"name": "London Cycling Campaign"},
             {"name": "Making Places Together"},
             {"name": "mySociety"},
-            {"name": "National Farmers' Union"},
+            {"name": "National Farmers’ Union"},
             {"name": "Passivhaus Homes"},
             {"name": "Pesticides Action Network"},
             {"name": "PETA (People for the Ethical Treatment of Animals)"},
