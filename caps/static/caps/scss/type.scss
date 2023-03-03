@@ -40,7 +40,7 @@ dd + dt {
     margin-top: $spacer;
 }
 
-a:not(.btn):focus,
+a:not(.btn, .nav-link):focus,
 details summary:focus {
     outline: 3px solid $color-ceuk-yellow !important;
     box-shadow: 0 3px 0 3px darken($color-ceuk-purple, 30%);

@@ -1,0 +1,54 @@
+
+/* USAGE
+Example of usage can be found on council page(council_detail.html)
+*/
+
+$content-index-array: (
+    'plegdes',
+    'scorecard',
+    'documents',
+    'similar',
+    'scorecard',
+    'emissions',
+    'responsibilities'
+);
+
+.js-default {
+  display: block;
+}
+
+// Fake "active" styling for the default tab
+a.nav-link[data-content-navbar-switch="default"]{
+    background-color: $color-ceuk-purple;
+    color: $white;
+}
+
+@each $content-index-item in $content-index-array {
+    // Hide all index content related.
+    .js-#{$content-index-item} { 
+        display: none;
+    }
+
+  [data--active-content-navbar="#{$content-index-item}"] {
+    // Hide any default elements
+    .js-default {
+      display: none;
+    }
+
+    // Show the relevant content for index item
+    .js-#{$content-index-item} {
+      display: block;
+    }
+
+    // Fake "active" styling for the activated trigger
+    a.nav-link[data-content-navbar-switch="#{$content-index-item}"] {
+        background-color: $color-ceuk-purple;
+        color: $white;
+    }
+
+    a.nav-link[data-content-navbar-switch="default"]{
+      background-color: transparent;
+      color: $color-ceuk-purple;
+    }
+  }
+}

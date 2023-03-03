@@ -353,3 +353,13 @@ function compare_cells(index) {
 function get_value_from_cell(row, index){
     return $(row).children('td').eq(index).data('sortvalue');
 }
+
+$( '[data-content-navbar-switch]' ).click(function(event) {
+    event.preventDefault();
+    var contentNavbar = this.getAttribute('data-content-navbar-switch');
+    var container = document.querySelector('.js-dynamic-content');
+    container.setAttribute('data--active-content-navbar', contentNavbar)
+   /* Prevents that the screen to be positioned in the middle
+   when using one of the footer anchors */
+    window.scrollTo(0, 0);
+});
