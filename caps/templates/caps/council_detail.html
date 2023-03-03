@@ -21,10 +21,14 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-7 col-lg-8 order-md-2">
+<div class="row js-dynamic-content">
+    <div class="col-md-7 col-lg-8 order-md-2 offset-md-1">
 
-        <div class="card ceuk-card ceuk-card--navy mb-gutter">
+        <div class="card ceuk-card ceuk-card--navy mb-gutter js-default">
+          This is summary
+        </div>
+
+        <div class="card ceuk-card ceuk-card--navy mb-gutter js-plegdes">
             <div class="card-header">
                 <h2>Declarations &amp; pledges</h2>
             </div>
@@ -70,7 +74,7 @@
             </div>
         </div>
 
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--red mb-gutter">
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--red mb-gutter js-documents">
             <div class="card-header d-sm-flex align-items-center">
                 <h2 class="mr-auto pr-3 mb-1 mb-sm-0">Climate documents</h2>
               {% if last_updated.last_update is not None %}
@@ -182,7 +186,7 @@
         </div>
 
         {% if removed_documents %}
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--red mb-gutter">
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--red mb-gutter js-documents">
             <div class="card-header d-sm-flex align-items-center">
                 <h2 class="mr-auto pr-3 mb-1 mb-sm-0">Removed documents</h2>
             </div>
@@ -199,7 +203,7 @@
         {% endif %}
 
       {% if not scoring_hidden %}
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--cyan mb-gutter">
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--cyan mb-gutter js-scorecard">
             <div class="card-header">
                 <h2>Climate Plan Scorecard</h2>
             </div>
@@ -295,7 +299,7 @@
       {% endif %}
 
       {% if council.country == council.SCOTLAND and project_stats %}
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--purple mb-gutter">
+        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--purple mb-gutter js-emissions">
             <div class="card-header">
                 <h2>Emissions reduction projects</h2>
             </div>
@@ -337,7 +341,7 @@
       {% endif %}
 
       {% if emissions_data %}
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
+        <div class="card ceuk-card ceuk-card--purple mb-gutter js-emissions">
             <div class="card-header">
                 <h2>Emissions data</h2>
             </div>
@@ -393,7 +397,7 @@
       {% endif %}
 
       {% if related_councils %}
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
+        <div class="card ceuk-card ceuk-card--purple mb-gutter js-similar">
             <ul class="card-header nav nav-tabs" role="tablist">
               {% for group in related_councils %}
                 <li class="nav-item" role="presentation">
@@ -450,85 +454,55 @@
               {% endfor %}
             </div>
         </div>
+      {% else %}
+      <div class="card ceuk-card ceuk-card--purple mb-gutter js-similar">
+        No similar councils found
+      </div>
       {% endif %}
 
+       <div class="card ceuk-card ceuk-card--purple mb-gutter js-responsibilities">
+          <div class="card-header">
+              <h2>Powers &amp; Responsibilities</h2>
+          </div>
+          <div class="card-body">
+              {% include 'caps/includes/council-powers.html' %}
+          </div>
+      </div>
     </div>
-    <div class="col-md-5 col-lg-4 order-md-1">
 
-      {% if tags %}
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
-            <div class="card-header">
-                <h2>Features</h2>
-            </div>
-            <div class="card-body">
-                <p class="mt-n1">This council’s climate plan has been tagged with the following features:</p>
-                <div class="ceuk-tag-list">
-                  {% for tag in tags %}
-                    {% include 'caps/includes/tag.html' with tag=tag.tag %}
-                  {% endfor %}
-                </div>
-            </div>
-        </div>
-      {% endif %}
-
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
-            <div class="card-header">
-                <h2>Powers &amp; Responsibilities</h2>
-            </div>
-            <div class="card-body">
-                {% include 'caps/includes/council-powers.html' %}
-            </div>
-        </div>
-
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
-            <div class="card-header">
-                <h2>More about this council</h2>
-            </div>
-            <div class="card-body">
-                <dl class="mt-n1 mb-0">
-                    <dt><a href="{{ council.website_url }}">{{ council.website_url|domain_human }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
-                    <dd>{{ council.name }}’s official homepage.</dd>
-                  {% if council.twitter_url %}
-                    <dt><a href="{{ council.twitter_url }}">@{{ council.twitter_name }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
-                    <dd>{{ council.name }}’s Twitter account.</dd>
-                  {% endif %}
-                  {% if council.is_upper_tier is False %}
-                    <dt><a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/" class="d-flex align-items-center" target="_blank">
-                        Tyndall Centre Carbon Budget report{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
-                    </a></dt>
-                    <dd>Check {{ council.name }}’s ‘carbon budget’ – their share towards meeting the UK’s Paris agreement targets.</dd>
-                  {% endif %}
-                  {% if council.foe_slug != '' %}
-                    <dt><a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}" class="d-flex align-items-center" target="_blank">
-                        Friends of the Earth ‘Near You’ tool{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
-                    </a></dt>
-                    <dd>Discover climate groups in this area, data about {{ council.name }}’s climate performance, and actions you can take.</dd>
-                  {% endif %}
-                </dl>
-            </div>
-        </div>
-
-        <div class="card ceuk-card ceuk-card--muted ceuk-card--pink mb-gutter">
-            <div class="card-header">
-                <h2>What do you want from Climate Action Plans?</h2>
-            </div>
-            <div class="card-body">
-                {% include 'caps/includes/survey-email.html' %}
-            </div>
-        </div>
-
-        <div class="card ceuk-card ceuk-card--muted ceuk-card--blue mb-gutter">
-            <div class="card-header">
-                <h2>Cite this page</h2>
-            </div>
-            <div class="card-body">
-                <p class="mb-0 mt-n1 text-smaller js-select-text-on-click">
-                    mySociety, Climate Emergency UK ({% now 'Y' %}). <i>CAPE: {{ council.name }}.</i> Available at: {{ request.build_absolute_uri }} [Accessed {% now 'j M Y' %}].
-                </p>
-            </div>
-        </div>
-
+    <div class="col-md-4 col-lg-3">
+      <div class="nav flex-column sticky-top mb-4 mb-md-0" style="top: 1rem">
+        <div class="nav-item">
+            <p class="h6 pl-0 mb-0">Content</p>
+            <ul class="nav flex-column py-2 border-top my-2">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-content-navbar-switch="default">Summary</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-content-navbar-switch="plegdes">Declaration & Pledges</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-content-navbar-switch="scorecard">Climate Plan Scorecard</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" data-content-navbar-switch="documents">Climate Documents</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" data-content-navbar-switch="similar">Similiar councils</a>
+                </li>
+                {% if emissions_data %}
+                <li class="nav-item">
+                  <a class="nav-link" href="#" data-content-navbar-switch="emissions">Emissions</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                  <a class="nav-link" href="#" data-content-navbar-switch="responsibilities">Power and Responsibilities</a>
+                </li>
+            </ul>
+          </div>
+      </div>
     </div>
+
 </div>
 
 {% endblock %}
