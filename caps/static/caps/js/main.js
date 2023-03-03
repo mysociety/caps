@@ -70,19 +70,11 @@ $(function() {
         }).done(callback);
     });
 
-    $('.js-select-text-on-click').on('click', function(){
-        if ( window.getSelection && document.createRange ) {
-            var selection = window.getSelection();
-            if ( selection.toString() == '' ) {
-                var element = $(this)[0];
-                window.setTimeout(function(){
-                    range = document.createRange();
-                    range.selectNodeContents(element);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                }, 1);
-            }
-        }
+    $(".js-copy-text").click(function(){
+        window.setTimeout(function(){
+            copyText = $(".js-copy-text").siblings('.js-copy-hidden')[0].innerHTML;
+            navigator.clipboard.writeText(copyText)
+        }, 1);
     });
 });
 
@@ -317,7 +309,7 @@ $('.details-accordion').on('click', function(){
     $(this).siblings('.details-accordion[open]').removeAttr('open');
 });
 
-$('.scorecard-table').each(function(){
+$('.js-show-more-wrapper').each(function(){
     var $table = $(this);
     var $btn = $('<button>');
     $btn.text('Show more');
@@ -418,3 +410,13 @@ function compare_cells(index) {
 function get_value_from_cell(row, index){
     return $(row).children('td').eq(index).data('sortvalue');
 }
+
+$( '[data-content-navbar-switch]' ).click(function(event) {
+    event.preventDefault();
+    var contentNavbar = this.getAttribute('data-content-navbar-switch');
+    var container = document.querySelector('.js-dynamic-content');
+    container.setAttribute('data--active-content-navbar', contentNavbar)
+   /* Prevents that the screen to be positioned in the middle
+   when using one of the footer anchors */
+    window.scrollTo(0, 0);
+});

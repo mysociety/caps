@@ -118,58 +118,6 @@
             padding-left: 1.5rem;
         }
     }
-
-    .js-enabled & {
-        position: relative;
-        max-height: 20rem;
-        overflow: hidden;
-
-        button {
-            position: absolute;
-            z-index: 2;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #fff;
-            box-shadow: 0 -0.5rem 4rem rgba(#000, 0.1);
-            padding: 0.75rem 1rem;
-            border-radius: 0 0 $card-border-radius $card-border-radius;
-            cursor: pointer;
-
-            // reset button styles
-            display: block;
-            width: 100%;
-            border: none;
-
-            // style it up like a link
-            color: $link-color;
-            text-decoration: $link-decoration;
-            @include hover() {
-                color: $link-hover-color;
-                text-decoration: $link-hover-decoration;
-            }
-
-            &:before {
-                content: "";
-                margin-right: 0.5rem;
-                @include equilateral-triangle("down", 0.7rem, $display: inline-block);
-            }
-        }
-
-        &.open {
-            max-height: none;
-            overflow: visible;
-
-            button {
-                position: static;
-                box-shadow: none;
-
-                &:before {
-                    @include equilateral-triangle("up", 0.7rem, $display: inline-block);
-                }
-            }
-        }
-    }
 }
 
 .scorecard-top-performer-banner {

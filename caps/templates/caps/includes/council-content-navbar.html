@@ -1,0 +1,39 @@
+<div class="nav-item">
+  <p class="h6 pl-0 mb-0">Browse content</p>
+  <ul class="nav py-2 border-top my-2 pr-4 pr-md-0">
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-content-navbar-switch="default">Summary</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-content-navbar-switch="plegdes">Declaration & Pledges</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-content-navbar-switch="scorecard">Climate Plan Scorecard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-content-navbar-switch="documents">Climate Documents</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-content-navbar-switch="similar">Similiar councils</a>
+        </li>
+        {% if council.country == council.SCOTLAND and project_stats  %}
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-content-navbar-switch="emissions">Emissions</a>
+        </li>
+        {% elif emissions_data %}
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-content-navbar-switch="emissions">Emissions</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-content-navbar-switch="responsibilities">Power and Responsibilities</a>
+        </li>
+        <li class="nav-item">
+          <button class="mt-1 mt-md-3 ml-0 ml-md-3 btn btn-sm btn-outline-dark bg-white text-dark js-copy-text" style="white-space:nowrap">Cite this page {% include 'caps/icons/clipboard.html' with classes='external-link ml-1' role='presentation' width='16' height='16' %}
+          </button>
+          <p class="mb-0 mt-n1 text-smaller d-js-none js-copy-hidden">
+              mySociety, Climate Emergency UK ({% now 'Y' %}). CAPE: {{ council.name }}. Available at: {{ request.build_absolute_uri }} [Accessed {% now 'j M Y' %}].
+          </p>
+        </li>
+    </ul>
+</div>

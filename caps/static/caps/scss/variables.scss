@@ -42,6 +42,7 @@ $theme-colors: (
     'cyan': $color-ceuk-cyan,
     'grey': $color-ceuk-grey-600,
     'white': $white,
+    'light': $color-ceuk-grey-200,
 );
 
 $yiq-contrasted-threshold: 200;
@@ -53,9 +54,12 @@ $enable-deprecation-messages: false;
 // Spacing
 
 $grid-gutter-width: 30px;
+$spacer: 1rem;
 
 $spacers: (
-    "gutter": $grid-gutter-width
+    "gutter": $grid-gutter-width,
+    6: ($spacer * 5),
+    7: ($spacer * 6),
 );
 
 // Body
@@ -84,8 +88,11 @@ $headings-font-family: "Montserrat", sans-serif, "Apple Color Emoji", "Segoe UI 
 
 $blockquote-small-font-size:  0.875rem;
 $blockquote-font-size: 1rem;
+$badge-font-size: 80%;
 
 $mark-bg: #fffeb5;
+
+$text-muted: $color-ceuk-grey-800;
 
 // Tables
 

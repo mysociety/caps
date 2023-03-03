@@ -21,8 +21,146 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-7 col-lg-8 order-md-2">
+<div class="row js-dynamic-content">
+      {% comment %} MOBILE NAVBAR {% endcomment %}
+      <div class="pt-3 px-3 pb-0 content-nav bg-purple d-md-none text-white" style="margin-top:-1rem;">
+        <div class="mb-0">
+          {% include 'caps/includes/council-content-navbar.html' %}
+        </div>
+      </div>
+
+    <div class="council-content col-md-7 col-lg-8 order-md-2 offset-md-1 mt-5 mt-md-0">
+        <div class="js-default">
+          <div id="summary--main" class="mb-6">
+              <h2 class="mb-4">Council summary</h2>
+              <div class="row">
+                  <dl class="col-6 col-md-4">
+                      <dt class="font-weight-normal badge badge-dark">Country</dt>
+                      <dd class="font-weight-bold">Scotland</dd>
+                  </dl>
+                  <dl class="col-6 col-md-4">
+                      <dt class="font-weight-normal badge badge-dark">Declared emergency</dt>
+                      <dd class="font-weight-bold">2018</dd>
+                  </dl>
+              </div>
+              <div class="row">
+                  <dl class="col-6 col-md-4">
+                      <dt class="font-weight-normal badge badge-dark">Type of council</dt>
+                      <dd class="font-weight-bold">Combined Authority</dd>
+                  </dl>
+                  <dl class="col-6 col-md-4">
+                      <dt class="font-weight-normal badge badge-dark">Carbon neutral</dt>
+                      <dd class="font-weight-bold">2018</dd>
+                  </dl>
+              </div>
+              <details class="details details-accordion mt-4 border-0">
+                  <summary class="mb-2">Display more info about this council</summary>
+                  <div>
+                    <dl class="mt-3 mb-0">
+                        {% if council.website_url %}
+                          <dt><a href="{{ council.website_url }}">{{ council.website_url|domain_human }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
+                          <dd>{{ council.name }}’s official homepage.</dd>
+                        {% endif %}
+                      {% if council.twitter_url %}
+                        <dt><a href="{{ council.twitter_url }}">@{{ council.twitter_name }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
+                        <dd>{{ council.name }}’s Twitter account.</dd>
+                      {% endif %}
+                      {% if council.is_upper_tier is False %}
+                        <dt><a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/" class="d-flex align-items-center" target="_blank">
+                            Tyndall Centre Carbon Budget report{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+                        </a></dt>
+                        <dd>Check {{ council.name }}’s ‘carbon budget’ – their share towards meeting the UK’s Paris agreement targets.</dd>
+                      {% endif %}
+                      {% if council.foe_slug != '' %}
+                        <dt><a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}" class="d-flex align-items-center" target="_blank">
+                            Friends of the Earth ‘Near You’ tool{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+                        </a></dt>
+                        <dd>Discover climate groups in this area, data about {{ council.name }}’s climate performance, and actions you can take.</dd>
+                      {% endif %}
+                    </dl>
+                </div>
+              </details>
+              <a class="btn btn-outline-purple mt-3 mt-lg-4" href="" data-content-navbar-switch="plegdes">Check declaration &amp; Pledges</a>
+          </div>
+
+          {% if not scoring_hidden %}
+            <div id="summary--scorecards" class="mb-6">
+                <h3 class="mb-3 mb-sm-4">Climate Plan Scorecard</h3>
+
+                {% if tags %}
+                  <div class="card-body bg-white border">
+                      <p class="mt-n1">This council’s climate plan has been tagged with the following features:</p>
+                      <div class="ceuk-tag-list">
+                        {% for tag in tags %}
+                          {% include 'caps/includes/tag.html' with tag=tag.tag %}
+                        {% endfor %}
+                      </div>
+                  </div>
+                {% endif %}
+
+                {% if scoring_score.weighted_total == 0 %}
+                    {% include 'caps/icons/question-circle.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-red' role='presentation' %}
+                    <div>
+                        <p class="mb-0">
+                            {{ council.name }} scored <strong>zero points</strong> in this assessment. This is because the council either didn’t have any published plans at the time of the assessment, or <a href="https://councilclimatescorecards.uk/methodology/">the plans didn’t qualify</a>.
+                        </p>
+                    </div>
+                {% endif %}
+
+                <div class="row mt-3 mt-lg-4">
+                  <div class="col-12 col-md-6 col-lg-4 text-center text-md-left">
+                    <dl class="bg-white p-3 mb-0 border">
+                      <dt class="font-weight-normal badge badge-dark">
+                          {{ council.name|truncatechars:40 }}
+                      </dt>
+                      <dd>
+                          <span class="display-4 font-weight-normal">
+                              {{ scoring_score.weighted_total|floatformat:"0" }}%
+                          </span>
+                          {% if scoring_accolades %}
+                          {% include 'caps/icons/scorecards-star.html' with width='1.5rem' height='1.5rem' classes='mr-2' role='presentation' %}
+                          {% endif %}
+                      </dd>
+                      <dd class="text-uppercase text-muted">
+                          Total Score
+                      </dd>
+                    </dl>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-4 text-center text-md-left">
+                    <dl class="bg-white p-3 mb-0 border">
+                        <dt class="badge font-weight-normal badge-dark">
+                            Average {% include 'caps/includes/authority_type.html' with group=scoring_group %} council
+                        </dt>
+                        <dd>
+                            <span class="display-4 font-weight-normal">
+                                {{ average_total|floatformat:"0" }}%
+                            </span>
+                        </dd>
+                        <dd class="text-uppercase text-muted">
+                            Total Score
+                        </dd>
+                    </dl>
+                  </div >
+                </div>
+                <div class="row">
+                  {% if scoring_accolades %}
+                  <div class="col-12 col-md-6 col-lg-4">
+                      <p class="mb-0 badge badge-warning multi-line-badge px-3 py-2 rounded-0 d-block text-center text-md-left">
+                          <strong>Top performer</strong>
+                          {% if scoring_accolades.overall %}
+                          amongst {% include 'caps/includes/authority_type.html' with group=scoring_group %} councils.
+                          {% elif scoring_accolades.num_sections == 1 %}
+                          amongst {% include 'caps/includes/authority_type.html' with group=scoring_group %} councils,
+                          in the <strong>{{ scoring_accolades.example_section }}</strong> section.
+                          {% else %}
+                          amongst {% include 'caps/includes/authority_type.html' with group=scoring_group %} councils,
+                          in {{ scoring_accolades.num_sections|apnumber }} sections
+                          including <strong>{{ scoring_accolades.example_section }}</strong>.
+                          {% endif %}
+                      </p>
+                  </div>
+                  {% endif %}
+                </div>
 
       {% if council.is_old_council %}
       <div class="card ceuk-card ceuk-card--navy mb-gutter">
@@ -57,20 +195,161 @@
       </div>
       {% endif %}
 
-        <div class="card ceuk-card ceuk-card--navy mb-gutter">
-            <div class="card-header">
-                <h2>Declarations &amp; pledges</h2>
+                <a class="btn btn-outline-purple mt-3 mt-lg-4" data-content-navbar-switch="scorecard" href="">Check the full detail here</a>
             </div>
-            <div class="card-body">
-                <h3 class="h6">Climate emergency declaration</h3>
+          {% endif %}
+
+          <div id="summary--documents" class="mb-6">
+            <h3 class="mb-0">Climate documents</h3>
+            {% if last_updated.last_update is not None %}
+              <small class="text-muted line-height-1">Last update: {{ last_updated.last_update }}</small>
+            {% endif %}
+
+            {% if grouped_documents.items %}
+              <div class="row mt-3 mt-lg-4">
+                {% for group_type, group_items in grouped_documents.items %}
+                  <div class="col-12 col-md-6 col-lg-4 text-center text-md-left mb-3">
+                    <dl class="bg-white p-3 mb-0 border">
+                      <dt class="font-weight-normal badge badge-dark">
+                        {{ group_type }}
+                      </dt>
+                      <dd>
+                          <span class="display-4 font-weight-normal">
+                            {{ group_items|length }}
+                          </span>
+                      </dd>
+                    </dl>
+                  </div>
+                {% endfor %}
+              </div>
+
+            {% else %}
+              <div class="row mt-3 mt-lg-4">
+                <div class="col-12 col-md-6">
+                  No climate documents were found.
+                </div>
+              </div>
+            {% endif %}
+
+            {% if grouped_documents.items %}
+              <a class="btn btn-outline-purple mt-3 mt-lg-4" href="" data-content-navbar-switch="documents">Check this section full detail</a>
+            {% endif %}
+          </div>
+
+          <div id="summary--emissions">
+            {% if emissions_data %}
+              <h3 class="mb-3 mb-sm-4">Emissions Breakdown</h3>
+              <div class="row">
+                <div class="col-12 col-md-6 col-lg-4 text-center text-md-left mb-3">
+                  <dl class="bg-white p-3 mb-0 border">
+                    <dt class="font-weight-normal badge badge-dark">
+                      Total {{ latest_year }} emissions
+                    </dt>
+                    <dd class="mb-0">
+                        <span class="font-weight-normal" style="font-size: 3rem">
+                          {{ latest_year_total_emissions|floatformat }}
+                        </span>
+                    </dd>
+                    <dd class="text-uppercase text-muted">
+                      <abbr title="Kilotonnes of Carbon Dioxide">ktCO2</abbr>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 text-center text-md-left mb-3">
+                  <dl class="bg-white p-3 mb-0 border">
+                    <dt class="font-weight-normal badge badge-dark">
+                      Emissions per person
+                    </dt>
+                    <dd class="mb-0">
+                        <span class="font-weight-normal" style="font-size: 3rem">
+                          {{ latest_year_per_capita_emissions|floatformat }}
+                        </span>
+                    </dd>
+                    <dd class="text-uppercase text-muted">
+                      <abbr title="Tonnes of Carbon Dioxide">tCO2</abbr>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 text-center text-md-left mb-3">
+                  <dl class="bg-white p-3 mb-0 border">
+                    <dt class="font-weight-normal badge badge-dark">
+                      Emissions per km<sup>2</sup>
+                    </dt>
+                    <dd class="mb-0">
+                        <span class="font-weight-normal" style="font-size: 3rem">
+                          {{ latest_year_per_km2_emissions|floatformat }}
+                        </span>
+                    </dd>
+                    <dd class="text-uppercase text-muted">
+                      <abbr title="Kilotonnes of Carbon Dioxide">ktCO2</abbr>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if council.country == council.SCOTLAND and project_stats %}
+              <h3 class="mb-3 mb-sm-4">Emissions reduction projects</h3>
+              <div class="row">
+                <div class="col-12 col-12 col-md-6 text-center text-md-left mb-3">
+                  <dl class="bg-white p-3 mb-0 border">
+                    <dt class="font-weight-normal badge badge-dark">
+                      Projects
+                    </dt>
+                    <dd>
+                        <span class="font-weight-normal" style="font-size: 3rem">
+                          {{ project_stats.total_projects|floatformat }}
+                        </span>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="col-12 col-md-6 text-center text-md-left mb-3">
+                  <dl class="bg-white p-3 mb-0 border">
+                    <dt class="font-weight-normal badge badge-dark">
+                      Total capital cost
+                    </dt>
+                    <dd class="mb-2">
+                        <span class="font-weight-normal" style="font-size: 2.65rem">
+                          £{{ project_stats.total_cost|floatformat|intcomma }}
+                        </span>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="col-12 col-md-6 text-center text-md-left mb-3">
+                  <dl class="bg-white p-3 mb-0 border">
+                    <dt class="font-weight-normal badge badge-dark">
+                      Total annual emissions savings
+                    </dt>
+                    <dd class="mb-0">
+                        <span class="font-weight-normal" style="font-size: 3rem">
+                          {{ project_stats.total_savings|floatformat|intcomma }}
+                        </span>
+                    </dd>
+                    <dd class="text-uppercase text-muted">
+                      <abbr title="Kilotonnes of Carbon Dioxide">ktCO2 per year</abbr>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            {% endif %}
+            {% if emissions_data %}
+              <a class="btn btn-outline-purple mt-3 mt-lg-4 mb-6" data-content-navbar-switch="emissions" href="">Check the full detail here</a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="js-plegdes">
+            <h2 class="mb-3 mb-sm-4">Declarations &amp; pledges</h2>
+            <div>
+              <h3 class="h6">Climate emergency declaration</h3>
               {% if declared_emergency %}
-                    <p class="mb-0 mt-n1">
-                        This council <a href="{{ declared_emergency.source_url }}">declared a climate emergency</a> on {{declared_emergency.date_declared }}.
-                    </p>
+                  <p class="mb-0 mt-n1">
+                      This council <a href="{{ declared_emergency.source_url }}">declared a climate emergency</a> on {{declared_emergency.date_declared }}.
+                  </p>
               {% else %}
-                    <p class="mb-0 mt-n1 text-muted">
-                        We don’t think this council has declared a climate emergency – <a href="{% url 'about' %}">let us know if it has!</a>
-                    </p>
+                  <p class="mb-0 mt-n1 text-muted">
+                      We don’t think this council has declared a climate emergency – <a href="{% url 'about' %}">let us know if it has!</a>
+                  </p>
               {% endif %}
               {% if promises %}
                   {% for promise in promises %}
@@ -90,50 +369,51 @@
                     </blockquote>
                   {% endfor %}
               {% elif no_promise %}
-                    <h3 class="h6 mt-4">Climate pledges</h3>
-                    <p class="mb-0 mt-n1 text-muted">
-                        We couldn’t find any climate pledges from this council. If you’ve found one, <a href="{% url 'about' %}">let us know!</a>
-                    </p>
+                <h3 class="h6 mt-4">Climate pledges</h3>
+                <p class="mb-0 mt-n1 text-muted">
+                    We couldn’t find any climate pledges from this council. If you’ve found one, <a href="{% url 'about' %}">let us know!</a>
+                </p>
               {% else %}
-                    <h3 class="h6 mt-4">Climate pledges</h3>
-                    <p class="mb-0 mt-n1 text-muted">
-                        We haven’t checked whether this council has made any climate pledges yet, but we will soon. If you’ve already found one, <a href="{% url 'about' %}">let us know!</a>
-                    </p>
+                <h3 class="h6 mt-4">Climate pledges</h3>
+                <p class="mb-0 mt-n1 text-muted">
+                    We haven’t checked whether this council has made any climate pledges yet, but we will soon. If you’ve already found one, <a href="{% url 'about' %}">let us know!</a>
+                </p>
               {% endif %}
             </div>
         </div>
 
+        <div class="js-documents" style="max-width: 600px">
         {% council_card "council-documents" color="red" %}
+        </div>
 
         {% if removed_documents %}
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--red mb-gutter">
-            <div class="card-header d-sm-flex align-items-center">
-                <h2 class="mr-auto pr-3 mb-1 mb-sm-0">Removed documents</h2>
-            </div>
-            <div class="card-body">
-                <div class="mb-n3">
-                  <ul>
-                  {% for removed in removed_documents %}
-                    <li>{{ removed.change.history_date|date:"M d Y" }}: <a href="{{ removed.change.url }}">{{ removed.change.document_type|document_type|title }} removed</a>{% if removed.change.title %} - {{ removed.change.title }}{% endif %}</li>
-                  {% endfor %}
-                  </ul>
+          <div class="card ceuk-card ceuk-card--emphasised ceuk-card--red mb-gutter js-documents">
+              <div class="card-header d-sm-flex align-items-center">
+                  <h2 class="mr-auto pr-3 mb-1 mb-sm-0">Removed documents</h2>
               </div>
+              <div class="card-body">
+                  <div class="mb-n3">
+                    <ul>
+                    {% for removed in removed_documents %}
+                      <li>{{ removed.change.history_date|date:"M d Y" }}: <a href="{{ removed.change.url }}">{{ removed.change.document_type|document_type|title }} removed</a>{% if removed.change.title %} - {{ removed.change.title }}{% endif %}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
           </div>
-        </div>
         {% endif %}
 
       {% if not scoring_hidden %}
-        <div class="card ceuk-card ceuk-card--emphasised ceuk-card--cyan mb-gutter">
-            <div class="card-header">
-                <h2>Climate Plan Scorecard</h2>
-            </div>
-            <div class="card-body d-flex align-items-center">
-                {% include 'caps/icons/info.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' role='presentation' %}
+        <div class="js-scorecard">
+            <h2 class="mb-3 mb-sm-4">Climate Plan Scorecard</h2>
+            <div class="mb-3 mb-sm-4 d-flex p-3 border bg-blue-light">
+                {% include 'caps/icons/info.html' with width='2rem' height='2rem' classes='mt-1 mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' role='presentation' %}
                 <div>
-                    <p class="mb-2">This council’s climate plans as of 20th September 2021 were assessed and scored by trained Climate Emergency UK volunteers, as part of the Council Climate Plan Scorecards project.</p>
+                    <p class="mb-3">This council’s climate plans as of 20th September 2021 were assessed and scored by trained Climate Emergency UK volunteers, as part of the Council Climate Plan Scorecards project.</p>
                     <p class="mb-0 d-flex flex-wrap">
                         <a href="https://councilclimatescorecards.uk/councils/{{ council.slug }}/" class="d-flex align-items-center mr-4 font-weight-bold">Show the full Scorecard{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a>
-                        <a href="https://councilclimatescorecards.uk/methodology/" class="d-flex align-items-center mr-4">Read more about the scoring process</a>
+                        <a href="https://councilclimatescorecards.uk/methodology/" class="d-flex align-items-center mr-4 font-weight-bold">Read more about the scoring process{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+                        </a>
                     </p>
                 </div>
             </div>
@@ -148,7 +428,7 @@
             </div>
           {% endif %}
           {% if scoring_accolades %}
-            <div class="card-body d-flex align-items-center border-top scorecard-top-performer-banner">
+            <div class="card-body d-flex align-items-center border scorecard-top-performer-banner">
                 {% include 'caps/icons/scorecards-star.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0' role='presentation' %}
                 <div>
                     <p class="mb-0 mr-lg-5">
@@ -167,13 +447,13 @@
                 </div>
             </div>
           {% endif %}
-            <div class="ceuk-data-table scorecard-table">
+            <div class="ceuk-data-table scorecard-table bg-white border border-top-0">
                 <table class="table table-responsive mb-0">
                     <thead>
                         <tr>
-                            <th scope="col">Section</th>
-                            <th scope="col"><a href="https://councilclimatescorecards.uk/councils/{{ council.slug }}/">{{ council.name|truncatechars:40 }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></th>
-                            <th scope="col">Average {% include 'caps/includes/authority_type.html' with group=scoring_group %} council</th>
+                            <th class="border-0" scope="col"><span class="h5">Section</span></th>
+                            <th class="border-0" scope="col"><a href="https://councilclimatescorecards.uk/councils/{{ council.slug }}/">{{ council.name|truncatechars:40 }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></th>
+                            <th class="border-0" scope="col">Average {% include 'caps/includes/authority_type.html' with group=scoring_group %} council</th>
                         </tr>
                     </thead>
                     <tr class="total {% if scoring_score.top_performer %}top-performer{% endif %}">
@@ -181,7 +461,7 @@
                           {% if scoring_score.top_performer %}
                             <small class="d-block text-muted">Top performer</small>
                           {% endif %}
-                            <span class="scorecard-table__section-name">
+                            <span class="font-weight-bold scorecard-table__section-name">
                                 Total score
                             </span>
                         </td>
@@ -260,12 +540,10 @@
         </div>
       {% endif %}
       {% if emissions_data %}
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
-            <div class="card-header">
-                <h2>Emissions data</h2>
-            </div>
-            <div class="emissions-breakdown">
-                <div class="emissions-breakdown__totals">
+        <div class="js-emissions">
+            <h2 class="mb-3 mb-sm-4">Emissions data</h2>
+            <div class="emissions-breakdown border">
+                <div class="emissions-breakdown__totals bg-white">
                     <div class="emissions-breakdown__stat">
                         <div>
                             <span class="h3">{{ latest_year_total_emissions|floatformat }}</span>
@@ -302,7 +580,7 @@
                   {% endfor %}
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body bg-white border" style="overflow-x:scroll">
                 {% include 'charting/includes/chart-display.html' with chart=chart_collection.multi_emissions %}
                 <p class="text-muted text-smaller mt-4 mb-0">
                     Data from <a href="https://mysociety.github.io/la-emissions-data/">the Department of Business, Energy &amp; Industrial Strategy</a> “subset dataset”, representing carbon dioxide emissions within the scope of influence of local authorities.
@@ -310,7 +588,46 @@
                     Data has been combined from constituent local authorities.
                   {% endif %}
                 </p>
+            </div>
+        </div>
+      {% endif %}
 
+      {% if council.country == council.SCOTLAND and project_stats %}
+        <div class="js-emissions mt-5 mt-sm-6">
+            <h2 class="mb-3 mb-sm-4">Emissions reduction projects</h2>
+            <div class="mb-3 mb-sm-4 d-flex p-3 border bg-blue-light">
+                {% include 'caps/icons/info.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' %}
+                <div>
+                    <p class="mb-2">
+                        Local authorities in Scotland are required to <a href="https://sustainablescotlandnetwork.org/reports">publish yearly data</a> on their compliance with their climate change duties – including the emissions reduction projects they are undertaking.
+                    </p>
+                    <p class="mb-0">
+                        <a href="{% url "council_projects" %}?council={{ council.id }}" class="d-inline-flex align-items-center">See all of {{ council.name }}’s projects {% include 'caps/icons/chevron-right.html' with classes="ml-1" %}</a>
+                    </p>
+                </div>
+            </div>
+            <div class="emissions-breakdown">
+                <div class="d-flex flex-wrap">
+                    <a class="d-block emissions-breakdown__stat" href="{% url "council_projects" %}?council={{ council.id }}">
+                        <div>
+                            <span class="h3">{{ project_stats.total_projects|floatformat }}</span>
+                        </div>
+                        <p>Projects</p>
+                    </a>
+                    <div class="emissions-breakdown__stat">
+                        <div>
+                            <span class="h3">{{ project_stats.total_savings|floatformat|intcomma }}</span>
+                            <abbr title="Kilotonnes of Carbon Dioxide">ktCO2 per year</abbr>
+                        </div>
+                        <p>Total annual emissions savings</p>
+                    </div>
+                    <div class="emissions-breakdown__stat">
+                        <div>
+                            <span class="h3">£{{ project_stats.total_cost|floatformat|intcomma }}</span>
+                        </div>
+                        <p>Total capital cost</p>
+                    </div>
+                </div>
             </div>
         </div>
       {% endif %}
@@ -323,7 +640,7 @@
     {% endcomment %}
 
       {% if related_councils %}
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
+        <div class="card ceuk-card ceuk-card--purple mb-gutter js-similar">
             <ul class="card-header nav nav-tabs" role="tablist">
               {% for group in related_councils %}
                 <li class="nav-item" role="presentation">
@@ -380,86 +697,22 @@
               {% endfor %}
             </div>
         </div>
+      {% else %}
+        <div class="card ceuk-card ceuk-card--purple mb-gutter js-similar">
+          No similar councils found
+        </div>
       {% endif %}
 
+       <div class="js-responsibilities">
+            <h2 class="mb-3">Powers &amp; Responsibilities</h2>
+            {% include 'caps/includes/council-powers.html' %}
+      </div>
     </div>
-    <div class="col-md-5 col-lg-4 order-md-1">
 
-      {% if tags %}
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
-            <div class="card-header">
-                <h2>Features</h2>
-            </div>
-            <div class="card-body">
-                <p class="mt-n1">This council’s climate plan has been tagged with the following features:</p>
-                <div class="ceuk-tag-list">
-                  {% for tag in tags %}
-                    {% include 'caps/includes/tag.html' with tag=tag.tag %}
-                  {% endfor %}
-                </div>
-            </div>
-        </div>
-      {% endif %}
-
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
-            <div class="card-header">
-                <h2>Powers &amp; Responsibilities</h2>
-            </div>
-            <div class="card-body">
-                {% include 'caps/includes/council-powers.html' %}
-            </div>
-        </div>
-
-        <div class="card ceuk-card ceuk-card--purple mb-gutter">
-            <div class="card-header">
-                <h2>More about this council</h2>
-            </div>
-            <div class="card-body">
-                <dl class="mt-n1 mb-0">
-                    {% if council.website_url %}
-                      <dt><a href="{{ council.website_url }}">{{ council.website_url|domain_human }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
-                      <dd>{{ council.name }}’s official homepage.</dd>
-                    {% endif %}
-                  {% if council.twitter_url %}
-                    <dt><a href="{{ council.twitter_url }}">@{{ council.twitter_name }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
-                    <dd>{{ council.name }}’s Twitter account.</dd>
-                  {% endif %}
-                  {% if council.is_upper_tier is False %}
-                    <dt><a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/" class="d-flex align-items-center" target="_blank">
-                        Tyndall Centre Carbon Budget report{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
-                    </a></dt>
-                    <dd>Check {{ council.name }}’s ‘carbon budget’ – their share towards meeting the UK’s Paris agreement targets.</dd>
-                  {% endif %}
-                  {% if council.foe_slug != '' %}
-                    <dt><a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}" class="d-flex align-items-center" target="_blank">
-                        Friends of the Earth ‘Near You’ tool{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
-                    </a></dt>
-                    <dd>Discover climate groups in this area, data about {{ council.name }}’s climate performance, and actions you can take.</dd>
-                  {% endif %}
-                </dl>
-            </div>
-        </div>
-
-        <div class="card ceuk-card ceuk-card--muted ceuk-card--pink mb-gutter">
-            <div class="card-header">
-                <h2>What do you want from Climate Action Plans?</h2>
-            </div>
-            <div class="card-body">
-                {% include 'caps/includes/survey-email.html' %}
-            </div>
-        </div>
-
-        <div class="card ceuk-card ceuk-card--muted ceuk-card--blue mb-gutter">
-            <div class="card-header">
-                <h2>Cite this page</h2>
-            </div>
-            <div class="card-body">
-                <p class="mb-0 mt-n1 text-smaller js-select-text-on-click">
-                    mySociety, Climate Emergency UK ({% now 'Y' %}). <i>CAPE: {{ council.name }}.</i> Available at: {{ request.build_absolute_uri }} [Accessed {% now 'j M Y' %}].
-                </p>
-            </div>
-        </div>
-
+    <div class="col-md-4 col-lg-3">
+      <div class="mb-4 mb-md-0 content-nav d-none d-md-block">
+        {% include 'caps/includes/council-content-navbar.html' %}
+      </div>
     </div>
 </div>
 
