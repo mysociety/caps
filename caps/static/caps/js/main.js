@@ -252,7 +252,7 @@ $('.details-accordion').on('click', function(){
     $(this).siblings('.details-accordion[open]').removeAttr('open');
 });
 
-$('.scorecard-table').each(function(){
+$('.js-show-more-wrapper').each(function(){
     var $table = $(this);
     var $btn = $('<button>');
     $btn.text('Show more');
