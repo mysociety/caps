@@ -73,7 +73,7 @@ class HomePageView(TemplateView):
         plan_size = file_size(plan_file)
         context["plan_zip_size"] = plan_size
 
-        context["page_title"] = "Tracking the UK’s journey towards carbon zero"
+        context["page_title"] = "CAPE: Informing local action on climate change"
 
         return context
 
