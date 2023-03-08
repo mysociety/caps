@@ -3,7 +3,7 @@
 {% elif council.authority_type == 'SRA' %}
     <p class="mt-n1">The {{ council.name }} has powers over:</p>
 {% else %}
-    <p class="mt-n1">{{ council.name }} is a <strong>{{ council.get_authority_type_display }}</strong>, with powers over:</p>
+    <p class="mt-n1">{{ council.name }} {% if council.is_current %}is a{% else %}was a{% endif %} <strong>{{ council.get_authority_type_display }}</strong>, with powers over:</p>
 {% endif %}
 
 {% if 'staff' in council.powers %}
