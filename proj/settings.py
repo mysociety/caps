@@ -137,6 +137,9 @@ PROCESSED_CSV = os.path.join(DATA_DIR, PROCESSED_CSV_NAME)
 
 COUNCILS_AS_OF_DATE = date(2023, 4, 2)
 
+# councils after this date get special language
+RECENTLY_ADDED_COUNCILS = date(2022, 1, 1)
+
 PROMISES_CSV_KEY = "1dWd8kOT4foXTvju386r1bfvf8jd5MrMaek-4DPNHs-8"
 PROMISES_CSV_SHEET_NAME = "Sheet1"
 PROMISES_CSV_NAME = "promises.csv"

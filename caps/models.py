@@ -253,11 +253,11 @@ class Council(models.Model):
 
     def is_new_council(self) -> bool:
         """
-        Is this a new council?
+        Is this a recently added council that should have special messages?
         """
         if self.start_date is None:
             return False
-        return self.start_date >= date(2022, 1, 1)
+        return self.start_date >= settings.RECENTLY_ADDED_COUNCILS
 
     def is_old_council(self) -> bool:
         """
