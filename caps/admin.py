@@ -12,6 +12,7 @@ class CouncilAdmin(admin.ModelAdmin):
         "gss_code",
         "country",
         "website_url",
+        "is_current",
     )
     list_filter = ("authority_type", "country")
     search_fields = ("name", "authority_code", "gss_code")

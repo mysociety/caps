@@ -3,6 +3,7 @@ from datetime import date
 import math
 
 import pandas as pd
+import numpy as np
 
 from caps.models import Council, PlanDocument
 from caps.utils import (
@@ -199,17 +200,23 @@ class Command(BaseCommand):
                 plans_from_removed_councils_count,
                 pluralize(plans_from_removed_councils_count),
             )
-        if councils_to_remove_count > 0:
-            council_list = [council.name for council in councils_to_remove]
-            self.print_change(
-                "%d council%s will be completely removed: [ %s ]",
-                councils_to_remove_count,
-                pluralize(councils_to_remove_count),
-                ", ".join(council_list),
-            )
 
     def update_database(self):
         df = pd.read_csv(settings.PROCESSED_CSV)
+
+        df["start-date"] = (
+            pd.to_datetime(df["start-date"])
+            .dt.date.fillna(np.nan)
+            .replace([np.nan], [None])
+        )
+        df["end-date"] = (
+            pd.to_datetime(df["end-date"])
+            .dt.date.fillna(np.nan)
+            .replace([np.nan], [None])
+        )
+
+        # where gss-code is blank, use the authority code
+        df["gss_code"] = df["gss_code"].fillna("temp" + df["authority_code"])
         for index, row in df.iterrows():
             council_url = char_from_text(row["website_url"])
             twitter_url = char_from_text(row["twitter_url"])
@@ -233,6 +240,9 @@ class Command(BaseCommand):
                     "county": county,
                     "region": region,
                     "population": population,
+                    "start_date": row["start-date"],
+                    "end_date": row["end-date"],
+                    "replaced_by": char_from_text(row["replaced-by"]),
                 },
             )
 
@@ -241,6 +251,18 @@ class Command(BaseCommand):
 
             if char_from_text(row["authority_type"]) != council.authority_type:
                 council.authority_type = char_from_text(row["authority_type"])
+                changed = True
+
+            if char_from_text(row["replaced-by"]) != council.replaced_by:
+                council.replaced_by = char_from_text(row["replaced-by"])
+                changed = True
+
+            if row["start-date"] != council.start_date:
+                council.start_date = row["start-date"]
+                changed = True
+
+            if row["end-date"] != council.start_date:
+                council.end_date = row["end-date"]
                 changed = True
 
             if row["council"] != council.name:
@@ -308,7 +330,11 @@ class Command(BaseCommand):
                 council=council, url__in=self.plans_to_delete[council_code]
             ).delete()
 
-        Council.objects.exclude(gss_code__in=self.councils_in_sheet).delete()
+        # Delete all plans if the council has been removed from the sheet
+        # But do not delete the council itself (councils without plans are fine)
+        PlanDocument.objects.exclude(
+            council__gss_code__in=self.councils_in_sheet
+        ).delete()
 
         self.end_council_plan_count = (
             Council.objects.annotate(num_plans=Count("plandocument"))

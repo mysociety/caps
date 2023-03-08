@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import socket
+from datetime import date
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -133,6 +134,8 @@ RAW_CSV_NAME = "raw_plans.csv"
 RAW_CSV = os.path.join(DATA_DIR, RAW_CSV_NAME)
 PROCESSED_CSV_NAME = "plans.csv"
 PROCESSED_CSV = os.path.join(DATA_DIR, PROCESSED_CSV_NAME)
+
+COUNCILS_AS_OF_DATE = date(2023, 4, 2)
 
 PROMISES_CSV_KEY = "1dWd8kOT4foXTvju386r1bfvf8jd5MrMaek-4DPNHs-8"
 PROMISES_CSV_SHEET_NAME = "Sheet1"

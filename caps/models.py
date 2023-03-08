@@ -21,6 +21,7 @@ from django.forms import Select, TextInput
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
 from caps.filters import DefaultSecondarySortFilter
+from datetime import date
 
 
 def query_lookup(
@@ -209,12 +210,62 @@ class Council(models.Model):
     region = models.CharField(max_length=200, null=True, choices=REGION_CHOICES)
     county = models.CharField(max_length=200, null=True)
     population = models.IntegerField(default=0)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
+    replaced_by = models.CharField(
+        max_length=200, null=True
+    )  # pipe seperated list of authority codes
 
     class Meta:
         ordering = ["name"]
 
     def __str__(self):
         return "%s" % self.name
+
+    @classmethod
+    def current_councils(self):
+        """
+        Get all councils that are currently active
+        """
+        q = Council.objects.filter(
+            Q(end_date__isnull=True) | Q(end_date__gt=settings.COUNCILS_AS_OF_DATE)
+        )
+        return q
+
+    def get_predecessors(self):
+        """
+        Get councils that have been replaced by this council
+        """
+        return Council.objects.filter(replaced_by__contains=self.authority_code)
+
+    def get_successors(self):
+        """
+        Get councils that have replaced this council
+        """
+        return Council.objects.filter(authority_code__in=self.replaced_by.split("|"))
+
+    def is_current(self) -> bool:
+        """
+        Is this a currently relevant council
+        """
+        current_cohort = settings.COUNCILS_AS_OF_DATE
+        return self.end_date is None or self.end_date >= current_cohort
+
+    def is_new_council(self) -> bool:
+        """
+        Is this a new council?
+        """
+        if self.start_date is None:
+            return False
+        return self.start_date >= date(2022, 1, 1)
+
+    def is_old_council(self) -> bool:
+        """
+        Is this an old council?
+        """
+        not_current_council = self.is_current() is False
+        has_replacement = self.replaced_by is not None
+        return not_current_council and has_replacement
 
     def get_absolute_url(self):
         return "/councils/%s/" % self.slug
@@ -462,7 +513,7 @@ class Council(models.Model):
             )
             .count()
         )
-        total = cls.objects.all().count()
+        total = cls.current_councils().count()
         return round(with_plan / total * 100)
 
     @classmethod

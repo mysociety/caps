@@ -9,7 +9,6 @@ from django.conf import settings
 
 
 from caps.import_utils import (
-    get_data_files,
     add_extra_authority_info,
     add_authority_codes,
 )
@@ -30,8 +29,6 @@ class Command(BaseCommand):
     help = "Adds authority codes to the csv of plans"
 
     def handle(self, *args, **options):
-        print("getting data files")
-        get_data_files()
         print("adding authority codes")
         add_authority_codes(settings.PROCESSED_CSV)
         print("adding authority info")
