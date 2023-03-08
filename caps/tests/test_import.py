@@ -136,7 +136,7 @@ class ImportPlansTestCase(ImportTestCase):
             out = self.call_command(confirm_changes=1)
             self.assertEquals(
                 out,
-                "1 plan will be added\n1 council will be completely removed: [ East Borsetshire ]\nCouncils with a plan went from 3 to 2\nNumber of documents went from 5 to 4\nNumber of plans is unchanged at 4\n",
+                "1 plan will be added\nCouncils with a plan went from 3 to 2\nNumber of documents went from 5 to 4\nNumber of plans is unchanged at 4\n",
             )
 
     def test_detailed_changes_message(self):
@@ -245,7 +245,7 @@ class ImportPlansTestCase(ImportTestCase):
             out = self.call_command(verbosity=2)
             self.assertEquals(
                 out,
-                "Borsetshire will be completely removed\nNorth Borsetshire will be completely removed\nWest Borsetshire will have all plans removed\n1 council will have all plans removed\n2 councils will be completely removed: [ Borsetshire, North Borsetshire ]\ncall with --confirm_changes to update database\n",
+                "Borsetshire will be completely removed\nNorth Borsetshire will be completely removed\nWest Borsetshire will have all plans removed\n1 council will have all plans removed\ncall with --confirm_changes to update database\n",
             )
             plans = PlanDocument.objects.filter(council=bors)
             self.assertEqual(len(plans), 1)
@@ -253,7 +253,7 @@ class ImportPlansTestCase(ImportTestCase):
             out = self.call_command(confirm_changes=1)
             self.assertEquals(
                 out,
-                "1 council will have all plans removed\n2 councils will be completely removed: [ Borsetshire, North Borsetshire ]\nCouncils with a plan went from 3 to 1\nNumber of documents went from 3 to 1\nNumber of plans went from 3 to 1\n",
+                "1 council will have all plans removed\nCouncils with a plan went from 3 to 1\nNumber of documents went from 3 to 1\nNumber of plans went from 3 to 1\n",
             )
 
             bors_exists = Council.objects.filter(authority_code="BORS").exists()
