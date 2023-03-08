@@ -505,7 +505,8 @@ class Council(models.Model):
         Return the percentage of councils that have a plan document
         """
         with_plan = (
-            cls.objects.annotate(num_plans=Count("plandocument"))
+            cls.current_councils()
+            .annotate(num_plans=Count("plandocument"))
             .filter(
                 Q(plandocument__document_type=PlanDocument.ACTION_PLAN)
                 | Q(plandocument__document_type=PlanDocument.CLIMATE_STRATEGY),

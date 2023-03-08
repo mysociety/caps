@@ -51,7 +51,7 @@ from scoring.models import PlanScore, PlanSection, PlanSectionScore
 def add_context_for_plans_download_and_search(context):
     # Takes a context object (eg: from inside get_context_data) and adds the
     # necessary context for the plans-download-and-search.html partial.
-    context["total_councils"] = Council.objects.all().count()
+    context["total_councils"] = Council.current_councils().count()
     context["total_plans"] = PlanDocument.objects.all().count()
     context["percent_councils_with_plan"] = Council.percent_with_plan()
     # can't shuffle querysets because they don't support assignment
@@ -72,11 +72,9 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["all_councils"] = Council.objects.all()
+        context["all_councils"] = Council.current_councils()
         context = add_context_for_plans_download_and_search(context)
-
-        context["page_title"] = "Tracking the UK’s journey towards carbon zero"
-
+        context["page_title"] = "Tracking the UK's journey towards carbon zero"
         return context
 
 
@@ -292,20 +290,25 @@ class CouncilListView(FilterView):
     ]
 
     def get_queryset(self):
-        return Council.objects.annotate(
-            num_plans=Subquery(
-                PlanDocument.objects.filter(
-                    council_id=OuterRef("id"), document_type=PlanDocument.ACTION_PLAN
-                )
-                .values("council_id")
-                .annotate(num_plans=Count("id"))
-                .values("num_plans")
-            ),
-            has_promise=Count("promise"),
-            earliest_promise=Min("promise__target_year"),
-            declared_emergency=Min("emergencydeclaration__date_declared"),
-            last_plan_update=Max("plandocument__updated_at"),
-        ).order_by("name")
+        return (
+            Council.current_councils()
+            .annotate(
+                num_plans=Subquery(
+                    PlanDocument.objects.filter(
+                        council_id=OuterRef("id"),
+                        document_type=PlanDocument.ACTION_PLAN,
+                    )
+                    .values("council_id")
+                    .annotate(num_plans=Count("id"))
+                    .values("num_plans")
+                ),
+                has_promise=Count("promise"),
+                earliest_promise=Min("promise__target_year"),
+                declared_emergency=Min("emergencydeclaration__date_declared"),
+                last_plan_update=Max("plandocument__updated_at"),
+            )
+            .order_by("name")
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -389,7 +392,7 @@ class BaseLocationResultsView(TemplateView):
         lat = self.request.GET.get("lat")
         mapit = MapIt()
         context["postcode"] = postcode
-        context["all_councils"] = Council.objects.all()
+        context["all_councils"] = Council.current_councils()
         try:
             if lon and lat:
                 gss_codes = mapit.wgs84_point_to_gss_codes(lon, lat)
@@ -403,7 +406,21 @@ class BaseLocationResultsView(TemplateView):
                 for council in councils
                 if council.combined_authority
             ]
-            context["councils"] = list(councils) + combined_authorities
+            councils = list(councils) + combined_authorities
+
+            # Fetch successors for any replaced councils, even if mapit doesn't know about them yet
+            for c in councils:
+                if c.replaced_by:
+                    councils.extend(list(c.get_successors()))
+            # remove any councils that are former councils
+            councils = [
+                x
+                for x in councils
+                if x.id in Council.current_councils().values_list("id", flat=True)
+            ]
+            # remove duplicates based on x.id
+            councils = list({x.id: x for x in councils}.values())
+            context["councils"] = councils
         except (
             NotFoundException,
             BadRequestException,
