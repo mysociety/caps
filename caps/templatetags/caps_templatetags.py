@@ -47,6 +47,13 @@ def document_type(value):
     return "document"
 
 
+@register.filter
+def percentage(value: float):
+    """
+    Convert value between 0 and 1 to a nice human readable percentage
+    """
+    return f"{value * 100:.0f}%"
+
 @register.tag(name="markdown")
 def markdown_tag(parser, token):
     """
