@@ -1,0 +1,46 @@
+{% extends "caps/base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 offset-lg-4">
+            <h1 id="top-header" class="mb-4 mb-lg-5">{{ page_title }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-lg-3">
+            <ul class="nav flex-column sticky-top mb-4 mb-md-0" style="top: 1rem">
+                <!-- Header text that is only visible when #top-header is out of view-->
+                <p><a id="side-top-header" class="nav-link h6 pl-0 mb-0" href="#top" style="display:none">{{ page_title }}</a></p>
+                {% for header in header_links %}
+                    <li class="nav-item">
+                        <a class="nav-link h6 pl-0 mb-0" href="#{{ header.id }}">{{ header.text }}</a>
+                        <ul class="nav flex-column py-2 border-top my-2">
+                            {% for c in header.children %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#{{ c.id }}">{{ c.text }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-8 offset-lg-1 card">
+                <p>{{ body }}</p>
+            </div>
+        </div>
+
+<script>
+    // side-top-header is only being visible when top-header isn't
+    // only do this if the window is past a minimum width (770px) to handle mobile
+    var topHeader = document.getElementById("top-header");
+    var sideTopHeader = document.getElementById("side-top-header");
+
+    window.onscroll = function() {
+        if (window.pageYOffset > (topHeader.offsetTop + 100) && window.innerWidth > 770) {
+            sideTopHeader.style.display = "block";
+        } else {
+            sideTopHeader.style.display = "none";
+        }
+    }   
+</script>
+{% endblock content %}
