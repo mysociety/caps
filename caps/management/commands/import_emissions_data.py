@@ -49,7 +49,11 @@ def create_data_types():
     for etype in emission_types:
         name, unit = etype.split(":")
         data_type, created = DataType.objects.get_or_create(
-            name=name, source_url=source_url, name_in_source=name, unit=unit
+            name=name,
+            source_url=source_url,
+            name_in_source=name,
+            unit=unit,
+            collection=DataType.DataCollection.EMISSIONS,
         )
 
 
@@ -114,7 +118,9 @@ def import_emissions_data() -> None:
 
     # delete and create data points in bulk
     print("Deleting and creating DataPoints")
-    DataPoint.objects.filter(data_type__source_url=get_emissions_url()).delete()
+    DataPoint.objects.filter(
+        data_type__collection=DataType.DataCollection.EMISSIONS
+    ).delete()
     DataPoint.objects.bulk_create(data_points.tolist(), batch_size=1000)
 
 
@@ -139,8 +145,11 @@ class Command(BaseCommand):
         replace = options["replace"]
         if replace:
             print("Removing and replacing all data")
-            DataPoint.objects.all().delete()
-            DataType.objects.all().delete()
+            DataPoint.objects.filter(
+                data_type__collection=DataType.DataCollection.EMISSIONS
+            ).delete()
+            DataType(collection=DataType.DataCollection.EMISSIONS).delete()
+
         if not get_all and DataPoint.objects.count() > 0:
             print("Emissions data exists, skipping")
         else:
