@@ -1,53 +1,42 @@
-from random import shuffle, sample, randint
 from collections import defaultdict
+from os.path import exists, join
+from random import randint, sample, shuffle
 
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from django.views.generic import View, DetailView, ListView, TemplateView
-from django.db.models import Q, Count, Max, Min, Avg, Subquery, OuterRef
-from django.shortcuts import redirect
+import mailchimp_marketing as MailchimpMarketing
 from django.conf import settings
 from django.core.mail import send_mail
-import mailchimp_marketing as MailchimpMarketing
-from mailchimp_marketing.api_client import ApiClientError
-
-from os.path import join, exists
-
+from django.db.models import Avg, Count, Max, Min, OuterRef, Q, Subquery
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+from django.views.generic import DetailView, ListView, TemplateView, View
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
-
-from caps.models import (
-    Council,
-    CouncilFilter,
-    PlanDocument,
-    DataPoint,
-    SavedSearch,
-    ComparisonType,
-    Tag,
-    CouncilTag,
-    CouncilProject,
-    ProjectFilter,
-)
-from caps.forms import HighlightedSearchForm
-from caps.mapit import (
-    MapIt,
-    NotFoundException,
-    BadRequestException,
-    InternalServerErrorException,
-    ForbiddenException,
-)
+from mailchimp_marketing.api_client import ApiClientError
 
 import caps.charts as charts
-
-from charting import ChartCollection
-
-from caps.utils import file_size, is_valid_postcode
-
-from scoring.models import (
-    PlanScore,
-    PlanSection,
-    PlanSectionScore,
+from caps.forms import HighlightedSearchForm
+from caps.mapit import (
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MapIt,
+    NotFoundException,
 )
+from caps.models import (
+    ComparisonType,
+    Council,
+    CouncilFilter,
+    CouncilProject,
+    CouncilTag,
+    DataPoint,
+    PlanDocument,
+    ProjectFilter,
+    SavedSearch,
+    Tag,
+)
+from caps.utils import file_size, is_valid_postcode
+from charting import ChartCollection
+from scoring.models import PlanScore, PlanSection, PlanSectionScore
 
 
 class HomePageView(TemplateView):
