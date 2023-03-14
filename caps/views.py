@@ -1,13 +1,19 @@
+import re
 from collections import defaultdict
 from os.path import exists, join
+from pathlib import Path
 from random import randint, sample, shuffle
 
 import mailchimp_marketing as MailchimpMarketing
+import markdown
+from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models import Avg, Count, Max, Min, OuterRef, Q, Subquery
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.template.loader import get_template
+from django.utils.safestring import mark_safe
 from django.views.generic import DetailView, ListView, TemplateView, View
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
@@ -37,6 +43,7 @@ from caps.models import (
 from caps.utils import file_size, is_valid_postcode
 from charting import ChartCollection
 from scoring.models import PlanScore, PlanSection, PlanSectionScore
+from django.template import Template, Context
 
 
 class HomePageView(TemplateView):
@@ -563,3 +570,84 @@ class FeedbackEmail(View):
         response_data = {"data": content}
 
         return JsonResponse(response_data, status=http_status)
+
+
+class MarkdownView(TemplateView):
+    """
+    View that accepts a markdown slug and renders the markdown file
+    with the given slug in the template.
+    """
+
+    template_name = "caps/markdown.html"
+
+    def get_markdown_context(self, **kwargs) -> dict:
+        """
+        Override this method to add extra context to feed to the markdown.
+        """
+        return {}
+
+    def get_context_data(self, **kwargs):
+        """
+        Given a markdown slug, fetch the file from caps/templates/caps/markdown/{slug}.md
+        This is a jekyll style markdown file, with a yaml header and markdown body.
+        The yaml header is parsed and used to populate the template context.
+        """
+        context = super().get_context_data(**kwargs)
+
+        markdown_slug = kwargs.get("markdown_slug")
+        # sanitise the slug to prevent directory traversal
+        markdown_slug = re.sub(r"[^a-zA-Z0-9_-]", "", markdown_slug)
+        template_path = Path("caps", "markdown/{}.md".format(markdown_slug))
+        template = get_template(template_path)
+
+        markdown_body = template.template.source.strip()
+
+        # Extract the markdown H1 header to use as the page title, and remove it from the markdown_body
+        lines = markdown_body.splitlines()
+        h1_header = lines[0]
+        assert h1_header.startswith(
+            "# "
+        ), "Markdown file should start with an H1 header '# title'"
+        markdown_body = "\n".join(lines[1:])
+        context["page_title"] = h1_header[2:]
+
+        markdown_content = markdown.markdown(markdown_body, extensions=["toc"])
+
+        markdown_context = Context(self.get_markdown_context(**kwargs))
+
+        # we want to run the markdown_content through a basic django template so that any urls, etc are expanded
+        markdown_content = Template(markdown_content).render(markdown_context)
+
+        # there are ids assigned to each header by the TOC extention, extract these so we can put them in the sidebar
+        soup = BeautifulSoup(markdown_content, "html.parser")
+        headers = soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6"])
+        header_links = []
+        last_item = {1: None, 2: None, 3: None, 4: None, 5: None, 6: None}
+
+        for header in headers:
+            header_item = {
+                "level": int(header.name[1]),
+                "text": header.text,
+                "id": header.attrs["id"],
+                "parent": None,
+            }
+            current_level = header_item["level"]
+            last_item[current_level] = header_item["id"]
+            if current_level > 1:
+                header_item["parent"] = last_item[current_level - 1]
+            header_links.append(header_item)
+
+        # re-arrange the headers into a tree
+        for header in header_links:
+            header["children"] = [
+                h for h in header_links if h["parent"] == header["id"]
+            ]
+
+        # remove anything below h3 and that will now be a child from top level
+        header_links = [
+            h for h in header_links if h["level"] <= 3 and h["parent"] is None
+        ]
+
+        context["body"] = mark_safe(str(soup))
+        context["header_links"] = header_links
+        return context

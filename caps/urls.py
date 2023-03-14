@@ -47,6 +47,7 @@ urlpatterns = [
         api_views.CouncilCommitmentsViewSet.as_view({"get": "list"}),
         name="council-commitments",
     ),
+    path("content/<str:markdown_slug>/", views.MarkdownView.as_view(), name="content"),
 ]
 
 if settings.DEBUG:
