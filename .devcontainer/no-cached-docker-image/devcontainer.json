@@ -8,7 +8,7 @@
 	"overrideCommand": true,
 	"onCreateCommand": "script/restore-data",
 
-	"extensions": [
+	"customizations": {"vscode": {"extensions": [
 		"ms-vscode.test-adapter-converter",
 		"bungcip.better-toml",
 		"ms-python.python",
@@ -16,6 +16,8 @@
 		"batisteo.vscode-django",
 		"ms-azuretools.vscode-docker",
 		"github.vscode-pull-request-github",
-		"mhutchie.git-graph"
-	]
+		"mhutchie.git-graph",
+		"valentjn.vscode-ltex"
+	]}
+	}
 }
