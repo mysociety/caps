@@ -3,6 +3,7 @@ from collections import defaultdict
 from os.path import exists, join
 from pathlib import Path
 from random import randint, sample, shuffle
+from typing import Any
 
 import mailchimp_marketing as MailchimpMarketing
 import markdown
@@ -12,6 +13,7 @@ from django.core.mail import send_mail
 from django.db.models import Avg, Count, Max, Min, OuterRef, Q, Subquery
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.template import Context, Template
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 from django.views.generic import DetailView, ListView, TemplateView, View
@@ -34,6 +36,7 @@ from caps.models import (
     CouncilFilter,
     CouncilProject,
     CouncilTag,
+    DataType,
     DataPoint,
     PlanDocument,
     ProjectFilter,
@@ -43,7 +46,6 @@ from caps.models import (
 from caps.utils import file_size, is_valid_postcode
 from charting import ChartCollection
 from scoring.models import PlanScore, PlanSection, PlanSectionScore
-from django.template import Template, Context
 
 
 class HomePageView(TemplateView):
@@ -80,21 +82,41 @@ class CouncilDetailView(DetailView):
     context_object_name = "council"
     template_name = "caps/council_detail.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        council: Council = context.get("council")
+    def get_polling_context(self, council: Council) -> dict[str, Any]:
+        """
+        Get polling information for this council
+        """
+        context = {}
+        polling_data = council.data_points(DataType.DataCollection.POLLING)
 
+        # transform this into a double list so I can access a specific percentage like
+        # data["OnwardsUK"]["Q5"]
+        data = defaultdict(dict)
+        for d in polling_data:
+            data[d.data_type.name_in_source][
+                d.data_type.name.replace(".", "_")
+            ] = d.value
+
+        context["polling_data"] = data
+        return context
+
+    def get_emissions_context(self, council: Council) -> dict[str, Any]:
+        """
+        Get emissions information for this council
+        """
+        council_emissions_data = council.data_points(DataType.DataCollection.EMISSIONS)
+        context = {}
         context["emissions_data"] = False
         try:
-            latest_year = council.datapoint_set.aggregate(Max("year"))["year__max"]
+            latest_year = council_emissions_data.aggregate(Max("year"))["year__max"]
             context["latest_year"] = latest_year
-            latest_year_per_capita_emissions = council.datapoint_set.get(
+            latest_year_per_capita_emissions = council_emissions_data.get(
                 year=latest_year, data_type__name="Per Person Emissions"
             ).value
-            latest_year_per_km2_emissions = council.datapoint_set.get(
+            latest_year_per_km2_emissions = council_emissions_data.get(
                 year=latest_year, data_type__name="Emissions per km2"
             ).value
-            latest_year_total_emissions = council.datapoint_set.get(
+            latest_year_total_emissions = council_emissions_data.get(
                 year=latest_year, data_type__name="Total Emissions"
             ).value
             context[
@@ -103,7 +125,7 @@ class CouncilDetailView(DetailView):
             context["latest_year_per_km2_emissions"] = latest_year_per_km2_emissions
             context["latest_year_total_emissions"] = latest_year_total_emissions
             context["emissions_data"] = True
-        except DataPoint.DoesNotExist:
+        except DataPoint.DoesNotExist as e:
             pass
 
         if context["emissions_data"]:
@@ -113,6 +135,19 @@ class CouncilDetailView(DetailView):
             multi_emission_chart = charts.multi_emissions_chart(council, latest_year)
             context["chart_collection"] = ChartCollection()
             context["chart_collection"].register(multi_emission_chart)
+
+        return context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council: Council = context.get("council")
+
+        additional_contexts = [
+            self.get_emissions_context(council),
+            self.get_polling_context(council),
+        ]
+        for additional_context in additional_contexts:
+            context.update(additional_context)
 
         # this covers no scoring data at all
         try:
