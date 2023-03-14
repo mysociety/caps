@@ -54,6 +54,29 @@ def percentage(value: float):
     """
     return f"{value * 100:.0f}%"
 
+
+@register.simple_tag(takes_context=True)
+def council_card(context: dict, slug: str, title="", color: str = "red"):
+    """
+    Simplifies the process of rendering a council card.
+
+    """
+    if not title:
+        title = slug
+
+    ctx = {
+        "color": color,
+        "title": title,
+        "slug": slug,
+    }
+
+    with context.push(ctx):
+        return render_to_string(
+            f"caps/council_cards/{slug}.html",
+            context.flatten(),
+        )
+
+
 @register.tag(name="markdown")
 def markdown_tag(parser, token):
     """
