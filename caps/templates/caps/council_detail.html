@@ -335,7 +335,6 @@
             </div>
         </div>
       {% endif %}
-
       {% if emissions_data %}
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
             <div class="card-header">
@@ -391,6 +390,11 @@
             </div>
         </div>
       {% endif %}
+
+        
+    {% if polling_data %}
+      {% council_card "local-polling" color="green" %}
+    {% endif %}
 
       {% if related_councils %}
         <div class="card ceuk-card ceuk-card--purple mb-gutter">
