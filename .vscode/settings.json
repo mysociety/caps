@@ -20,6 +20,7 @@
     "files.associations": {
         "**/*.html": "html",
         "**/templates/**/*.html": "django-html",
+        "**/templates/**/*.md": "jinja-md",
         "**/templates/**/*": "django-txt",
         "**/requirements{/**,*}.{txt,in}": "pip-requirements"
     },
@@ -27,5 +28,14 @@
         "--max-line-length=88",
         "--disable=C0103,E1101,W5101,E1123,E501,E203",
         "--load-plugins=pylint_django"
-    ]
+    ],
+    "ltex.enabled": ["markdown", "jinja-md"],
+    "ltex.language": "en-GB",
+    "[markdown]": {
+        "editor.quickSuggestions": {
+            "comments": "on",
+            "strings": "on",
+            "other": "on"
+        }
+    }
 }
