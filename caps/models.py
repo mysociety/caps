@@ -283,6 +283,13 @@ class Council(models.Model):
 
         return results
 
+    def data_points(self, data_group: str):
+        """
+        Get all data points for a given data group
+        """
+        data_types = DataType.objects.filter(collection=data_group)
+        return DataPoint.objects.filter(council=self, data_type__in=data_types)
+
     def current_emissions_breakdown(self, year: int) -> pd.DataFrame:
         """
         Get emissions breakdown for current year by Emissions profile
@@ -693,12 +700,18 @@ class PlanDocument(models.Model):
 
 
 class DataType(models.Model):
+    class DataCollection(models.TextChoices):
+        EMISSIONS = "em", "Emissions"
+        POLLING = "po", "Polling"
 
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     name = models.CharField(max_length=100)
     source_url = models.URLField(max_length=600)
     name_in_source = models.CharField(max_length=100)
+    collection = models.CharField(
+        max_length=2, choices=DataCollection.choices, default=DataCollection.EMISSIONS
+    )
     unit = models.CharField(max_length=10)
 
     def __str__(self):
