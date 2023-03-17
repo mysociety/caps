@@ -81,7 +81,7 @@
 
     {% block before_content %}{% endblock %}
 
-    <div class="site-content">
+    <div class="site-content {% block extra_content_classes %}{% endblock %}">
         <div class="container-fluid">
             {% block content %}{% endblock %}
             {% include 'caps/includes/alpha-banner.html' %}

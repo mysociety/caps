@@ -24,8 +24,7 @@
         background-image: linear-gradient(0deg, darken($color-ceuk-navy, 2%), darken($color-ceuk-navy, 4%));
     }
 
-    .page-purple &,
-    .page-tags & {
+    .page-purple & {
         background-color: darken($color-ceuk-purple, 2%);
         background-image: linear-gradient(0deg, darken($color-ceuk-purple, 2%), darken($color-ceuk-purple, 4%));
     }

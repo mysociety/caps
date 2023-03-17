@@ -1,19 +1,27 @@
 {% extends "caps/base.html" %}
 
-{% block bodyclass %}page-tags{% endblock %}
-
 {% block before_content %}
 
 <div class="site-hero">
-    <div class="container-fluid">
-        <h1 class="my-0">Browse by feature</h1>
-        <p class="mt-2 mb-0 lead">We’ve selected the councils with the most exemplary plans in a number of topic areas</p>
+    <div class="container-fluid pb-5">
+        <h1 class="my-0" style="max-width: 16em;">The UK’s open database of council climate action plans</h1>
     </div>
 </div>
 
 {% endblock %}
 
+{% block extra_content_classes %}pt-0{% endblock %}
+
 {% block content %}
+
+<div class="mt-n5">
+    {% include 'caps/includes/plans-download-and-search.html' with search_title="Search across every climate action plan in the UK" search_label="Enter a search term" %}
+</div>
+
+<div class="my-5 text-center">
+    <h2>What makes a good plan?</h2>
+    <p class="lead mb-0">We’ve selected the councils with the most exemplary plans in a number of topic areas</p>
+</div>
 
 <div class="row">
   {% for tag in tags %}

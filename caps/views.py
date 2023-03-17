@@ -50,6 +50,24 @@ from scoring.models import (
 )
 
 
+def add_context_for_plans_download_and_search(context):
+    # Takes a context object (eg: from inside get_context_data) and adds the
+    # necessary context for the plans-download-and-search.html partial.
+    context["total_councils"] = Council.objects.all().count()
+    context["total_plans"] = PlanDocument.objects.all().count()
+    context["percent_councils_with_plan"] = Council.percent_with_plan()
+    # can't shuffle querysets because they don't support assignment
+    context["popular_searches"] = [s for s in SavedSearch.objects.most_popular()[:6]]
+    shuffle(context["popular_searches"])
+    context["last_update"] = PlanDocument.objects.aggregate(Max("updated_at"))[
+        "updated_at__max"
+    ]
+    plan_file = join(settings.MEDIA_ROOT, "data", "plans", "plans.zip")
+    plan_size = file_size(plan_file)
+    context["plan_zip_size"] = plan_size
+    return context
+
+
 class HomePageView(TemplateView):
 
     template_name = "caps/home.html"
@@ -57,21 +75,7 @@ class HomePageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["all_councils"] = Council.objects.all()
-        context["total_councils"] = Council.objects.all().count()
-        context["total_plans"] = PlanDocument.objects.all().count()
-        context["percent_councils_with_plan"] = Council.percent_with_plan()
-        # can't shuffle querysets because they don't support assignment
-        context["popular_searches"] = [
-            s for s in SavedSearch.objects.most_popular()[:6]
-        ]
-        shuffle(context["popular_searches"])
-        context["last_update"] = PlanDocument.objects.aggregate(Max("updated_at"))[
-            "updated_at__max"
-        ]
-
-        plan_file = join(settings.MEDIA_ROOT, "data", "plans", "plans.zip")
-        plan_size = file_size(plan_file)
-        context["plan_zip_size"] = plan_size
+        context = add_context_for_plans_download_and_search(context)
 
         context["page_title"] = "Tracking the UK’s journey towards carbon zero"
 
@@ -426,10 +430,15 @@ class TagListView(ListView):
     model = Tag
     context_object_name = "tags"
     template_name = "caps/tag_list.html"
-    extra_context = {"page_title": "Browse councils by feature"}
 
     def get_queryset(self):
         return Tag.objects.annotate(num_councils=Count("counciltag"))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context = add_context_for_plans_download_and_search(context)
+        context["page_title"] = "Council climate action plans"
+        return context
 
 
 class AboutView(TemplateView):

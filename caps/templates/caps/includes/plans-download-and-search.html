@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-md-5 d-sm-flex">
+
+        <div class="card ceuk-card ceuk-card--red mb-gutter homepage-stat">
+            <div class="card-body p-md-4 p-lg-5 d-flex flex-column">
+                <h2 class="mb-0">{{ percent_councils_with_plan }}% of councils have a plan</h2>
+                <div class="progress mt-4 mb-3">
+                    <div class="progress-bar bg-red" role="progressbar" style="width: {{ percent_councils_with_plan }}%" aria-valuenow="{{ percent_councils_with_plan }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <a href="{% url 'council_list' %}" class="d-flex align-items-center mt-auto" data-show-interstitial>
+                    Browse and compare all {{ total_councils }} councils
+                    {% include 'caps/icons/chevron-right.html' with classes='ml-1' role='presentation' %}
+                </a>
+                <a data-show-feedback-modal href="{{ MEDIA_URL }}data/plans/plans.zip" class="d-flex align-items-center mt-3">
+                    Download ZIP archive of {{ total_plans }} documents ({{ plan_zip_size }})
+                    {% include 'caps/icons/download.html' with classes='ml-1' role='presentation' %}
+                </a>
+                <div class="mt-3">
+                    <small>Last updated: {{ last_update }}.</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-7 d-sm-flex">
+
+        <div class="card ceuk-card ceuk-card--purple mb-gutter homepage-search-plans">
+            <div class="card-body p-md-4 p-lg-5">
+                <h2>{{ search_title|default:"The UK’s open database of council climate action plans" }}</h2>
+                {% include 'caps/includes/text-search-form.html' with label_text=search_label %}
+              {% if popular_searches %}
+                <h3 class="mt-4 mb-2">Popular searches:</h3>
+                <ul class="list-inline mb-0">
+                  {% for suggestion in popular_searches %}
+                    <li class="list-inline-item mr-3"><a href="{% url 'search_results' %}?q={{ suggestion.user_query }}&inorganic=1" data-show-interstitial>{{ suggestion.user_query }}</a></li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
