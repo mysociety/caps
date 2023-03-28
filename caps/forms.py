@@ -1,9 +1,9 @@
-from django.forms import CharField, BooleanField, ModelChoiceField, Select
+from django.forms import BooleanField, CharField, ModelChoiceField, Select
 from haystack.forms import SearchForm
-from haystack.query import SearchQuerySet
 from haystack.inputs import Exact
+from haystack.query import SearchQuerySet
 
-from caps.models import Distance, ComparisonType, Council
+from caps.models import ComparisonType, Council, Distance
 
 
 class HighlightedSearchForm(SearchForm):
