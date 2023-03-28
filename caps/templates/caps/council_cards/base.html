@@ -1,11 +1,15 @@
 {% if slug %}<a name="{{ slug }}"></a>{% endif %}
 <div class="card ceuk-card ceuk-card--emphasised ceuk-card--{{ color|default:"red" }} mb-gutter">
+    {% block header %}
     <div class="card-header d-sm-flex align-items-center">
         <h2 class="mr-auto pr-3 mb-1 mb-sm-0">{% block title %}{{ title|default:"Untitled card" }}{% endblock title %}</h2>
     </div>
+    {% endblock header %}
+    {% block cardbody %}
     <div class="card-body">
         {% block content %}
         {% endblock content %}
       </div>
+    {% endblock cardbody %}
 
 </div>
