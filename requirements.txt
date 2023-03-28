@@ -58,3 +58,4 @@ git+https://github.com/mailchimp/mailchimp-marketing-python.git@a734b605fe457f42
 cryptography==39.0.1
 altair==4.2.0
 mysoc-dataset>=0.2.1
+tqdm==4.65.0

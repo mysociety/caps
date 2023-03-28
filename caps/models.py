@@ -15,13 +15,18 @@ import pandas as pd
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import models
+from django.db.models.functions import Length
 from django.db.models import Count, Max, Min, Q, Sum, Subquery, OuterRef
 from django.db.models.expressions import RawSQL
 from django.forms import Select, TextInput
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
 from caps.filters import DefaultSecondarySortFilter
+from tqdm import tqdm
 from datetime import date
+
+# Allow length looking for CharFields
+models.CharField.register_lookup(Length)
 
 
 def query_lookup(
@@ -34,7 +39,9 @@ def query_lookup(
     return lambda x: di.get(x, default)
 
 
-def save_df_to_model(model: Type[models.Model], df: pd.DataFrame):
+def save_df_to_model(
+    model: Type[models.Model], df: pd.DataFrame, batch_size: int = 1000
+):
     """
     Given a df with column names that match field names,
     create entries in database
@@ -42,9 +49,15 @@ def save_df_to_model(model: Type[models.Model], df: pd.DataFrame):
     ff = filter(lambda x: hasattr(x, "db_column"), model._meta.get_fields())
     field_names = [x.get_attname_column()[0] for x in ff]
     good_cols = [x for x in df.columns if x in field_names]
-    records = df[good_cols].to_dict("records")
-    items = [model(**kwargs) for kwargs in records]
-    model.objects.bulk_create(items, batch_size=1000)
+
+    # iterate through subsets of df of batch_size
+    max_sets = math.ceil(len(df) / batch_size)
+    for i in tqdm(range(max_sets)):
+        start = i * batch_size
+        end = (i + 1) * batch_size
+        records = df[good_cols].iloc[start:end].to_dict("records")
+        items = [model(**kwargs) for kwargs in records]
+        model.objects.bulk_create(items)
 
 
 class CustomQuerySet(models.QuerySet):
@@ -79,7 +92,6 @@ class CapsModel(models.Model):
 
 
 class Council(models.Model):
-
     ENGLAND = 1
     SCOTLAND = 2
     WALES = 3
@@ -574,7 +586,6 @@ class PlanDocumentHistoricalModel(models.Model):
 
 
 class PlanDocument(models.Model):
-
     ACTION_PLAN = 1
     CLIMATE_STRATEGY = 2
     SUMMARY_DOCUMENT = 3
@@ -660,6 +671,16 @@ class PlanDocument(models.Model):
             if choice[0] == self.status:
                 return choice[1].lower()
         return ""
+
+    @property
+    def get_description(self):
+        if self.status == self.DRAFT:
+            return f"draft {self.get_document_type}"
+        else:
+            return self.get_document_type
+
+    def sorted_key_terms(self):
+        return self.key_terms.order_by("search_term__keyphrase")
 
     @property
     def link(self):
@@ -771,7 +792,6 @@ class DataType(models.Model):
 
 
 class DataPoint(CapsModel):
-
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     year = models.PositiveSmallIntegerField()
@@ -857,7 +877,6 @@ class SavedSearch(models.Model):
 
 
 class Promise(models.Model):
-
     PROMISE_FILTER_CHOICES = [
         (2025, "2025"),
         (2030, "2030"),
@@ -1305,3 +1324,116 @@ class ProjectFilter(django_filters.FilterSet):
         model = CouncilProject
         ordering = ["-emission_savings"]
         fields = []
+
+
+class KeyPhrase(models.Model):
+    """
+    Key phrases extracted from document
+    """
+
+    keyphrase = models.CharField(max_length=200)
+    nice_phrase = models.CharField(max_length=200, blank=True)
+    plan_count = models.IntegerField(default=0)
+    average_frequency = models.FloatField(default=0)
+    highlight = models.BooleanField(default=False)
+
+    @classmethod
+    def populate(cls):
+        """
+        Populate the database from the sourcefile
+        """
+        df = pd.read_csv(Path("data", "ml_keyphrases_with_highlights.csv"))
+        # limit to keyphrases above 4 characters
+        df = df[df["keyphrase"].str.len() > 4]
+        df["highlight"] = df["highlight"].fillna(False)
+        cls.objects.all().delete()
+        save_df_to_model(cls, df)
+
+    @classmethod
+    def valid_keyphrases(cls):
+        """
+        Get all valid keyphrases - as defined by highlight term
+        """
+        return cls.objects.filter(highlight=True)
+
+    def display_name(self) -> str:
+        """
+        Get the name to display for this keyphrase
+        """
+        return self.nice_phrase or self.keyphrase
+
+    def related_phrases(
+        self, threshold: float = settings.RELATED_SEARCH_THRESHOLD
+    ) -> List[str]:
+        """
+        Get all similar terms to this one, with a cosine similarity above the threshold
+        """
+        return list(
+            KeyPhrasePairWise.objects.filter(
+                word_a=self, cosine_similarity__gte=threshold
+            )
+            .order_by("-cosine_similarity")
+            .prefetch_related("word_b")
+            .values_list("word_b__keyphrase", flat=True)
+        )
+
+
+class KeyPhrasePairWise(models.Model):
+    """
+    Connection of word similarity between keyphrases
+    """
+
+    word_a = models.ForeignKey(
+        KeyPhrase, on_delete=models.CASCADE, related_name="word_a"
+    )
+    word_b = models.ForeignKey(
+        KeyPhrase, on_delete=models.CASCADE, related_name="word_b"
+    )
+    nth_similar = models.IntegerField()
+    cosine_similarity = models.FloatField()
+    has_common_word = models.BooleanField()
+
+    class Meta:
+        """
+        Meta settings for the model
+        """
+
+        unique_together = ("word_a", "word_b")
+
+    @classmethod
+    def populate(cls):
+        """
+        Populate the lookup table from the source file
+        """
+        df = pd.read_csv(Path("data", "ml_keyphrases_pairwise.csv"))
+        word_id_dict = {x.keyphrase: x.id for x in KeyPhrase.objects.all()}
+        # get ids to bulk populate
+        df["word_a_id"] = df["word_a"].map(word_id_dict)
+        df["word_b_id"] = df["word_b"].map(word_id_dict)
+        # drop any rows with nulls in word_a_id or word_b_id
+        df = df.dropna(subset=["word_a_id", "word_b_id"])
+        # drop original cols
+        df = df.drop(columns=["word_a", "word_b"])
+        df = df.rename(
+            columns={
+                "cosine similarity": "cosine_similarity",
+                "nth similar": "nth_similar",
+            }
+        )
+
+        # do not store any with a cosine_similarity below 0.5
+        df = df[df["cosine_similarity"] > 0.5]
+        cls.objects.all().delete()
+        word_id_dict = None
+        save_df_to_model(cls, df, batch_size=10000)
+
+
+class CachedSearch(models.Model):
+    search_term = models.ForeignKey(KeyPhrase, on_delete=models.CASCADE)
+    document = models.ForeignKey(
+        PlanDocument, on_delete=models.CASCADE, related_name="key_terms"
+    )
+    count = models.IntegerField()
+
+    class Meta:
+        unique_together = ("search_term", "document")

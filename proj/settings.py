@@ -150,6 +150,10 @@ DECLARATIONS_CSV_SHEET_NAME = "Council Adaptation + Ecological Emergency Data"
 DECLARATIONS_CSV_NAME = "declarations.csv"
 DECLARATIONS_CSV = os.path.join(DATA_DIR, DECLARATIONS_CSV_NAME)
 
+# The threshold for a keyphrase to be considered similar to another (0 to 1)
+RELATED_SEARCH_THRESHOLD = 0.6
+RELATED_SEARCH_THRESHOLD_LOOSE = 0.5
+
 PLAN_YEAR = 2021
 
 PLAN_SCORECARD_DATASET_DETAILS = {
