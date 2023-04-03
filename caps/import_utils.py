@@ -4,8 +4,11 @@ import requests
 import urllib3
 
 import pandas as pd
-
+import numpy as np
+from mysoc_dataset import get_dataset_url
+from functools import lru_cache
 from django.conf import settings
+from pathlib import Path
 from typing import Union, Optional
 import ssl
 
@@ -14,13 +17,65 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 PathLike = Union[str, Path]
 
-AUTHORITY_MAPPING_URL = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/lookup_name_to_registry.csv"
-AUTHORITY_MAPPING_NAME = "lookup_name_to_registry.csv"
-AUTHORITY_MAPPING = join(settings.DATA_DIR, AUTHORITY_MAPPING_NAME)
+as_of_date = settings.COUNCILS_AS_OF_DATE
 
-AUTHORITY_DATA_URL = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/uk_local_authorities.csv"
-AUTHORITY_DATA_NAME = "uk_local_authorities.csv"
-AUTHORITY_DATA = join(settings.DATA_DIR, AUTHORITY_DATA_NAME)
+
+@lru_cache
+def get_authority_mapping() -> pd.DataFrame:
+    """
+    Return a dataframe mapping different names to authority code
+    """
+    url = get_dataset_url(
+        repo_name="uk_local_authority_names_and_codes",
+        package_name="uk_la_future",
+        version_name="1",
+        file_name="lookup_name_to_registry.csv",
+        done_survey=True,
+    )
+    return pd.read_csv(url)
+
+
+def get_date_from_from_string(dates: pd.Series) -> pd.Series:
+    """
+    convert a series of dates in the format YYYY-MM-DD to a series of
+    dates
+    """
+    return pd.to_datetime(dates).dt.date
+
+
+@lru_cache
+def get_council_df():
+    """
+    Return a dataframe of councils that are live or historical as of a given date
+    """
+    url = get_dataset_url(
+        repo_name="uk_local_authority_names_and_codes",
+        package_name="uk_la_future",
+        version_name="1",
+        file_name="uk_local_authorities_future.csv",
+        done_survey=True,
+    )
+    df = pd.read_csv(url)
+
+    # remove any with a start date after as_of_date
+    df = df.loc[
+        (get_date_from_from_string(df["start-date"]) < as_of_date)  # type: ignore
+        | df["start-date"].isna()
+    ]
+    # blank out any replaced-by and end dates after as_of_date
+    df.loc[
+        get_date_from_from_string(df["end-date"]) >= as_of_date, "replaced-by"  # type: ignore
+    ] = np.nan
+    df.loc[
+        get_date_from_from_string(df["end-date"]) >= as_of_date, "end-date"  # type: ignore
+    ] = np.nan
+    df["current-authority"] = df["end-date"].isna() & (
+        df["start-date"].isna()
+        | (get_date_from_from_string(df["start-date"]) < as_of_date)  # type: ignore
+        # set the current-authority correctly
+    )
+    # needs future plannning
+    return pd.read_csv(url)
 
 
 def get_google_sheet_as_csv(
@@ -58,23 +113,11 @@ def replace_csv_headers(
     df.to_csv(open(outfile, "w"), index=False, header=True)
 
 
-def get_data_files():
-
-    data_files = [
-        (AUTHORITY_MAPPING_URL, AUTHORITY_MAPPING),
-        (AUTHORITY_DATA_URL, AUTHORITY_DATA),
-    ]
-
-    for (source, destination) in data_files:
-        r = requests.get(source)
-        with open(destination, "wb") as outfile:
-            outfile.write(r.content)
-
 def add_authority_codes(filename: PathLike):
     """
     Given a csv file with a column called "council", add a column called "authority_code"
     """
-    mapping_df = pd.read_csv(AUTHORITY_MAPPING)
+    mapping_df = get_authority_mapping()
 
     plans_df = pd.read_csv(filename)
 
@@ -105,7 +148,7 @@ def add_gss_codes(filename: PathLike):
     """
     Given a csv file with a column called "authority_code", add a column called "gss_code"
     """
-    authority_df = pd.read_csv(AUTHORITY_DATA)
+    authority_df = get_council_df()
     plans_df = pd.read_csv(filename)
 
     rows = len(plans_df["council"])
@@ -127,7 +170,7 @@ def add_extra_authority_info(filename: PathLike):
     Import extra authority info from the uk_local_authority_names_and_codes repo
     """
 
-    authority_df = pd.read_csv(AUTHORITY_DATA)
+    authority_df = get_council_df()
     plans_df = pd.read_csv(filename)
 
     df = authority_df[
@@ -141,6 +184,9 @@ def add_extra_authority_info(filename: PathLike):
             "county-la",
             "region",
             "pop-2020",
+            "start-date",
+            "end-date",
+            "replaced-by",
         ]
     ]
 
