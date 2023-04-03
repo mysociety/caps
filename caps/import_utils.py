@@ -6,12 +6,13 @@ import urllib3
 import pandas as pd
 
 from django.conf import settings
-
+from typing import Union, Optional
 import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+PathLike = Union[str, Path]
 
 AUTHORITY_MAPPING_URL = "https://raw.githubusercontent.com/mysociety/uk_local_authority_names_and_codes/main/data/lookup_name_to_registry.csv"
 AUTHORITY_MAPPING_NAME = "lookup_name_to_registry.csv"
@@ -22,7 +23,12 @@ AUTHORITY_DATA_NAME = "uk_local_authorities.csv"
 AUTHORITY_DATA = join(settings.DATA_DIR, AUTHORITY_DATA_NAME)
 
 
-def get_google_sheet_as_csv(key, outfile, sheet_name=None):
+def get_google_sheet_as_csv(
+    key: str, outfile: PathLike, sheet_name: Optional[str] = None
+):
+    """
+    Fetch a google sheet csv and output it to a file
+    """
     sheet_url = f"https://docs.google.com/spreadsheets/d/{key}/gviz/tq?tqx=out:csv"
     if sheet_name is not None:
         sheet_url = f"{sheet_url}&sheet={sheet_name}"
@@ -32,7 +38,15 @@ def get_google_sheet_as_csv(key, outfile, sheet_name=None):
         outfile.write(r.content)
 
 
-def replace_csv_headers(csv_file, new_headers, drop_empty_columns=True, outfile=None):
+def replace_csv_headers(
+    csv_file: PathLike,
+    new_headers: list[str],
+    drop_empty_columns: bool = True,
+    outfile: Optional[PathLike] = None,
+):
+    """
+    Downloading a google sheet csv will sometimes mess up the headers - needs manual fix
+    """
     if outfile is None:
         outfile = csv_file
 
@@ -56,8 +70,10 @@ def get_data_files():
         with open(destination, "wb") as outfile:
             outfile.write(r.content)
 
-
-def add_authority_codes(filename):
+def add_authority_codes(filename: PathLike):
+    """
+    Given a csv file with a column called "council", add a column called "authority_code"
+    """
     mapping_df = pd.read_csv(AUTHORITY_MAPPING)
 
     plans_df = pd.read_csv(filename)
@@ -85,8 +101,10 @@ def add_authority_codes(filename):
     plans_df.to_csv(open(filename, "w"), index=False, header=True)
 
 
-def add_gss_codes(filename):
-
+def add_gss_codes(filename: PathLike):
+    """
+    Given a csv file with a column called "authority_code", add a column called "gss_code"
+    """
     authority_df = pd.read_csv(AUTHORITY_DATA)
     plans_df = pd.read_csv(filename)
 
@@ -104,7 +122,10 @@ def add_gss_codes(filename):
     plans_df.to_csv(open(filename, "w"), index=False, header=True)
 
 
-def add_extra_authority_info(filename):
+def add_extra_authority_info(filename: PathLike):
+    """
+    Import extra authority info from the uk_local_authority_names_and_codes repo
+    """
 
     authority_df = pd.read_csv(AUTHORITY_DATA)
     plans_df = pd.read_csv(filename)
