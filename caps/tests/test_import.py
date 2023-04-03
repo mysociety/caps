@@ -232,6 +232,7 @@ class ImportPlansTestCase(ImportTestCase):
 
     def test_delete_plan(self):
         bors = Council.objects.get(authority_code="BORS")
+        # Import the data from test_processed_pre_delete
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_pre_delete.csv"):
 
             out = self.call_command(confirm_changes=1)
@@ -239,6 +240,8 @@ class ImportPlansTestCase(ImportTestCase):
             plan = PlanDocument.objects.get(council=bors)
             self.assertEqual(plan.url, "https://borsetshire.gov.uk/climate_plan.pdf")
 
+        # Give it the new data sheet - with several rows removed,
+        # and another row that is present but has no plan
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_no_plans.csv"):
             west_bors = Council.objects.get(authority_code="WBRS")
 
@@ -256,8 +259,10 @@ class ImportPlansTestCase(ImportTestCase):
                 "1 council will have all plans removed\nCouncils with a plan went from 3 to 1\nNumber of documents went from 3 to 1\nNumber of plans went from 3 to 1\n",
             )
 
+            # BORS has been removed from the sheet - but it should continue to exist even if it's plan doesn't.
             bors_exists = Council.objects.filter(authority_code="BORS").exists()
-            self.assertFalse(bors_exists)
+            self.assertTrue(bors_exists)
+
             plans = PlanDocument.objects.filter(council=west_bors)
             self.assertEqual(len(plans), 0)
 
