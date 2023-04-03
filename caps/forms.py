@@ -1,14 +1,48 @@
-from django.forms import BooleanField, CharField, ModelChoiceField, Select
+"""
+Forms for the CAPS app
+"""
+
+
+from django.forms import CharField, ChoiceField, ModelChoiceField, RadioSelect, Select
 from haystack.forms import SearchForm
 from haystack.inputs import Exact
 from haystack.query import SearchQuerySet
 
 from caps.models import ComparisonType, Council, Distance
+from caps.search_funcs import (
+    condense_highlights,
+    get_semantic_query,
+    highlighter_config,
+    fuller_highlighter_config,
+)
+from django.conf import settings
 
 
 class HighlightedSearchForm(SearchForm):
+    """
+    Search form for Haystack/Solr searches of the documents
+    """
+
     council_name = CharField(required=False)
-    exact = BooleanField(required=False)
+
+    MATCH_NORMAL = "normal"
+    MATCH_EXACT = "exact"
+    MATCH_RELATED = "related"
+    MATCH_RELATED_LOOSE = "related_loose"
+
+    DEFAULT_SEARCH = MATCH_RELATED
+
+    MATCH_CHOICES = (
+        (MATCH_RELATED_LOOSE, "Include as many terms as possible"),
+        (MATCH_RELATED, "Include closely related terms (default)"),
+        (MATCH_NORMAL, "Search for any of the provided words"),
+        (MATCH_EXACT, "Search for the provided phrase exactly"),
+    )
+
+    match_method = ChoiceField(
+        widget=RadioSelect, choices=MATCH_CHOICES, required=False
+    )
+
     similar_council = ModelChoiceField(
         queryset=Council.objects.all(),
         to_field_name="slug",
@@ -22,27 +56,48 @@ class HighlightedSearchForm(SearchForm):
         empty_label=None,
         widget=Select(attrs={"class": "form-control"}),
     )
+    # add hidden document_id field
+    document_id = CharField(
+        required=False, widget=Select(attrs={"class": "form-control"})
+    )
 
     def search(self):
-        kwargs = {
-            "hl.simple.pre": "<mark>",
-            "hl.simple.post": "</mark>",
-            "hl.fragsize": 400,
-            "hl.snippets": 3,
-        }
-        sqs = self.no_query_found()
+        highlighter_kwargs = highlighter_config
 
-        # use the text_exact field in solr which doesn't stem
-        if self.cleaned_data["q"] and self.cleaned_data["exact"] is True:
-            query = self.cleaned_data["q"]
-            kwargs["hl.fl"] = "text_exact"
-            sqs = SearchQuerySet().filter(text_exact=Exact(query))
-            if self.load_all:
-                sqs = sqs.load_all()
+        possible_related_terms = []
+
+        match_method = self.cleaned_data["match_method"] or self.DEFAULT_SEARCH
+
+        if not self.cleaned_data["q"]:
+            # if no query
+            sqs = self.no_query_found()
         else:
-            sqs = super(HighlightedSearchForm, self).search()
+            if match_method == HighlightedSearchForm.MATCH_EXACT:
+                # for 'exact match' use the text_exact field in solr which doesn't stem
+                query = self.cleaned_data["q"]
+                sqs = SearchQuerySet().filter(text=Exact(query))
+                if self.load_all:
+                    sqs = sqs.load_all()
+
+            elif match_method in [
+                HighlightedSearchForm.MATCH_RELATED,
+                HighlightedSearchForm.MATCH_RELATED_LOOSE,
+            ]:
+                # for 'include related', import additional search terms to exactly match against
+                highlighter_kwargs = fuller_highlighter_config
+                threshold = settings.RELATED_SEARCH_THRESHOLD
+                if match_method == HighlightedSearchForm.MATCH_RELATED_LOOSE:
+                    threshold = settings.RELATED_SEARCH_THRESHOLD_LOOSE
+                sqs, possible_related_terms = get_semantic_query(
+                    self.cleaned_data["q"], threshold
+                )
+                if sqs is None:
+                    sqs = super(HighlightedSearchForm, self).search()
+            else:
+                sqs = super(HighlightedSearchForm, self).search()
 
         if self.cleaned_data["similar_type"]:
+            # limiting to councils that are similar
             similar_council = self.cleaned_data["similar_council"]
             comparison_type = self.cleaned_data["similar_type"]
             cut_off = 15
@@ -56,7 +111,14 @@ class HighlightedSearchForm(SearchForm):
             sqs = sqs.narrow(" OR ".join(query_names))
 
         if self.cleaned_data["council_name"]:
-            # narrow makes use of fq rather than q
-            sqs = sqs.narrow("council_name:%s" % self.cleaned_data["council_name"])
+            # limiting to a specific council
+            sqs = sqs.filter(council_name=self.cleaned_data["council_name"])
 
-        return sqs.highlight(**kwargs)
+        # get the highlights so we can do some post-processing on them
+        result = sqs.highlight(**highlighter_kwargs)
+
+        if self.cleaned_data["document_id"]:
+            # adjust the returned object to only include matches for the specific document
+            result = [x for x in result if x.pk == self.cleaned_data["document_id"]]
+
+        return result, possible_related_terms

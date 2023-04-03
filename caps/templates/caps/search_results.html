@@ -18,12 +18,7 @@
                         <label for="q">Search phrase</label>
                         <input type="text" class="form-control" name="q" id="q" value="{{ query|default_if_none:'' }}">
                     </div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="exact" id="exact"{% if form.exact.value is True %} checked{% endif %}>
-                            <label class="form-check-label" for="exact">Exact match</label>
-                        </div>
-                    </div>
+
                   {% if form.similar_council.value %}
                     <input type="hidden" name="similar_council" id="similar_council" value="{{ form.similar_council.value|default_if_none:'' }}">
                   {% endif %}
@@ -36,11 +31,27 @@
                     <div class="form-group">
                         <label for="council_name" class="d-flex flex-wrap flex-row-reverse">
                             <span class="text-muted">(Optional)</span>
-                            <span class="mr-auto">Council name contains</span>
+                            <span class="mr-auto">Council name</span>
                         </label>
                         <input type="text" class="form-control" name="council_name" id="council_name" value="{{ form.council_name.value|default_if_none:'' }}">
                     </div>
                   {% endif %}
+
+                    <fieldset class="form-group">
+                      <legend style="font-size: 1em; font-weight: bold;">Search method</legend>
+                        <div class="form-radio">
+                              {% for short, long in form.MATCH_CHOICES %}
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="match_method" id="match_method_{{ short }}" value="{{ short }}" {% if form.match_method.value == None and short == "related" or form.match_method.value == short %}checked{% endif %}/>
+                                <label class="form-check-label" for="match_method_{{ short }}">
+                                  {{ long }}
+                                </label>
+                                </div>
+                                {% endfor %}
+                        </div>
+                    </fieldset>
+    
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block mt-4 d-flex align-items-center justify-content-center">
                             {% include 'caps/icons/search.html' with classes='mr-2' role='presentation' %}
@@ -54,6 +65,32 @@
     </div>
     <div class="col-md-8">
       {% if query %}
+
+      <div class="card ceuk-card ceuk-card--red ceuk-card--muted mb-3 mb-lg-4">
+        <div class="card-body mb-n3">
+          <h2>Search results for "{{ query }}"</h2>
+          {% if related_words %}
+            <p>
+              {% if related_words|length == 1 %}
+                Including the {% if form.match_method.value == 'related' %}closely{% endif %} related term <strong>{{ related_words.0 }}</strong>.
+              {% elif related_words|length > 3 %}
+                Including {{ related_words|length }} {% if form.match_method.value == 'related' %}closely{% endif %} related terms such as
+                {% for term in related_words|slice:3 %}
+                  {% if forloop.last %}and{% endif %}
+                  <strong>{{ term }}</strong>{% if forloop.last %}.{% else %},{% endif %}
+                {% endfor %}
+              {% else %}
+                Including the {% if form.match_method.value == 'related' %}closely{% endif %} related terms
+                {% for term in related_words|slice:3 %}
+                  {% if forloop.last %}and{% endif %}
+                  <strong>{{ term }}</strong>{% if forloop.last %}.{% else %},{% endif %}
+                {% endfor %}
+              {% endif %}
+            </p>
+          {% endif %}
+        </div>
+      </div>
+
 
         <div class="card ceuk-card ceuk-card--red ceuk-card--muted mb-3 mb-lg-4">
             <div class="card-header border-bottom-0">
@@ -85,12 +122,12 @@
       {% if page_obj.has_previous or page_obj.has_next %}
         <div class="d-flex justify-content-center align-items-center mt-5">
           {% if page_obj.has_previous %}
-            <a class="btn btn-outline-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}{% if form.council_name.value %}&council_name={{ form.council_name.value }}{% endif %}">
+            <a class="btn btn-outline-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.previous_page_number }}{% if form.council_name.value %}&council_name={{ form.council_name.value }}{% endif %}{% if form.include_related.value %}&include_related={{ form.include_related.value }}{% endif %}">
                 Previous results
             </a>
           {% endif %}
           {% if page_obj.has_next %}
-            <a class="btn btn-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}{% if form.council_name.value %}&council_name={{ form.council_name.value }}{% endif %}">
+            <a class="btn btn-primary mx-2" href="?q={{ query }}&amp;page={{ page_obj.next_page_number }}{% if form.council_name.value %}&council_name={{ form.council_name.value }}{% endif %}{% if form.include_related.value %}&include_related={{ form.include_related.value }}{% endif %}">
                 More results
             </a>
           {% endif %}

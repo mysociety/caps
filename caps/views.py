@@ -43,6 +43,7 @@ from caps.models import (
     SavedSearch,
     Tag,
 )
+from caps.search_funcs import condense_highlights
 from caps.utils import file_size, is_valid_postcode
 from charting import ChartCollection
 from scoring.models import PlanScore, PlanSection, PlanSectionScore
@@ -335,6 +336,8 @@ class SearchResultsView(HaystackSearchView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if hasattr(self, "related_terms"):
+            context["related_terms"] = self.related_terms
         inorganic = self.request.GET.get("inorganic")
         if context["form"]["council_name"].value() is not None:
             context["council_name"] = context["form"]["council_name"].value()
@@ -343,16 +346,16 @@ class SearchResultsView(HaystackSearchView):
         if inorganic == "1":
             context["inorganic"] = True
 
+        context["query"] = context.get("query", "")
+
         if context["query"]:
-            context["page_title"] = "{} – Search results".format(context["query"])
+            context["page_title"] = "{} - Search results".format(context["query"])
         else:
             context["page_title"] = "Search plans"
 
-        query = context["query"]
-        pc = is_valid_postcode(query)
+        pc = is_valid_postcode(context["query"])
         if pc is not None:
             context["postcode"] = pc
-
         return context
 
     """
@@ -371,6 +374,29 @@ class SearchResultsView(HaystackSearchView):
             if context.get("council_name", "") != "":
                 saved_search.council_restriction = context["council_name"]
             saved_search.save()
+
+    def form_valid(self, form):
+        self.queryset, possible_related_terms = form.search()
+        context = self.get_context_data(
+            **{
+                self.form_name: form,
+                "query": form.cleaned_data.get(self.search_field),
+                "object_list": self.queryset,
+            }
+        )
+
+        # at this point, object_list has been adjusted by pagination
+
+        if form.cleaned_data.get("match_method") != HighlightedSearchForm.MATCH_NORMAL:
+            # improve the highlighting by removing the <mark> tags from the middle of words
+            # for all searches that use exact text
+            rehighlighted_items, related_words = condense_highlights(
+                context["object_list"], possible_related_terms
+            )
+            context["object_list"] = rehighlighted_items
+            context["related_words"] = related_words
+
+        return self.render_to_response(context)
 
     def render_to_response(self, context):
         self.save_search(context)
