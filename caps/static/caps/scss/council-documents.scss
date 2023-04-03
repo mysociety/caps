@@ -1,26 +1,82 @@
 .council-documents {
     margin-bottom: -1.5rem;
 
-    .details {
-        margin-left: 4rem; // 3rem icon plus 1rem margin
-        padding-left: 0;
-        margin-top: -1rem; // move closer to parent
-    }
-
     summary {
         display: inline-block;
         @include font-size($font-size-sm);
         margin-bottom: 1rem;
-        margin-left: 0;
     }
 }
 
 .council-document {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 1.5rem;
+
+    & + .details {
+        margin-left: 5rem; // 4rem icon plus 1rem margin
+        padding-left: 0;
+        margin-top: -1.5rem; // compensate for .council-document margin-bottom
+
+        & > summary {
+            margin-left: 0; // line up with .council-document__info
+        }
+    }
 }
 
 .council-document--deleted {
     color: $text-muted;
+}
+
+.council-document__icon {
+    flex: 0 0 auto;
+    margin-right: 1rem;
+}
+
+.council-document__info {
+    flex: 1 1 auto;
+}
+
+.council-document__info__description {
+    @include font-size($font-size-sm);
+    line-height: 1.1;
+    color: $text-muted;
+    margin-bottom: 0.25rem;
+}
+
+.council-document__info__title {
+    font-size: 1.25em;
+    font-family: inherit;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.council-document-topics {
+    margin-bottom: 0;
+
+    h2, h3, h4, h5, h6 {
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    ul {
+        @include list-unstyled();
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        grid-gap: 0.5rem 1rem;
+        line-height: 1.2;
+    }
+
+    summary {
+        margin-bottom: 0;
+
+        // Hacks to make the badge look nice
+        display: inline-flex;
+        align-items: center;
+
+        .badge {
+            display: inline-block;
+            text-decoration: none;
+        }
+    }
 }

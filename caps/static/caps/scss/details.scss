@@ -6,7 +6,7 @@ $details-triangle-base: 0.7rem;
     margin-bottom: $spacer / 2;
     padding-left: $details-inset;
 
-    summary {
+    & > summary {
         // Remove default list-item styling
         display: block;
 
@@ -40,11 +40,11 @@ $details-triangle-base: 0.7rem;
     }
 
     // Remove the default details marker
-    summary::-webkit-details-marker {
+    & > summary::-webkit-details-marker {
         display: none;
     }
 
-    &[open] summary {
+    &[open] > summary {
         &:before {
             @include equilateral-triangle("down", $details-triangle-base, $display: inline-block);
         }

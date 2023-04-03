@@ -1,0 +1,64 @@
+{% load caps_templatetags %}
+
+<div class="council-document {% if plandocument.is_deleted %}council-document--deleted{% endif %}">
+
+  {% if not plandocument.is_deleted or plandocument.file_exists %}
+    <a class="council-document__icon" href="{{ MEDIA_URL }}{{ plandocument.file }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}">
+  {% else %}
+    <span class="council-document__icon"></span>
+  {% endif %}
+
+  {% if plandocument.file_type == 'pdf' %}
+    {% include 'caps/icons/pdf.html' with width='4rem' height='4rem' role='presentation' %}
+  {% else %}
+    {% include 'caps/icons/file.html' with width='4rem' height='4rem' role='presentation' %}
+  {% endif %}
+
+  {% if not plandocument.is_deleted or plandocument.file_exists %}
+    </a>
+  {% else %}
+    </span>
+  {% endif %}
+
+    <div class="council-document__info">
+
+        <p class="council-document__info__description">
+            {{ plandocument.get_description|lower|capfirst }}
+        </p>
+
+        <h{{ heading_level|default:3 }} class="council-document__info__title">
+          {% if not plandocument.is_deleted or plandocument.file_exists %}
+            <a href="{{ MEDIA_URL }}{{ plandocument.file }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}">
+          {% endif %}
+          {% if plandocument.title %}
+            {{ plandocument.title|default:plandocument.get_document_type|document_title }}
+          {% endif %}
+          {% if not plandocument.is_deleted or plandocument.file_exists %}
+            </a>
+          {% endif %}
+        </h{{ heading_level|default:3 }}>
+
+      {% if plandocument.sorted_key_terms %}
+        <details class="details council-document-topics">
+            <summary>
+                <span class="badge badge-yellow mr-2">NEW</span>
+                Browse topics in this document
+            </summary>
+            <h{{ heading_level|default:3|add:1 }}>
+                {{ plandocument.sorted_key_terms|length }} topic{{ plandocument.sorted_key_terms|pluralize }} extracted from this document
+            </h{{ heading_level|default:3|add:1 }}>
+            <ul>
+              {% for cached_search in plandocument.sorted_key_terms %}
+                <li>
+                    <a href="{% url 'search_results' %}?q={{ cached_search.search_term.keyphrase|urlencode }}&document_id={{ plandocument.id }}&council_name={{ council.name|urlencode }}&match_method=related">
+                        {{ cached_search.search_term.display_name }}
+                    </a>
+                </li>
+              {% endfor %}
+            </ul>
+        </details>
+      {% endif %}
+
+    </div>
+
+</div>

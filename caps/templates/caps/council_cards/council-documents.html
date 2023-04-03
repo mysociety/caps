@@ -1,5 +1,6 @@
 {% extends "caps/council_cards/base.html" %}
 {% load caps_templatetags %}
+
 {% block header %}
     <div class="card-header d-sm-flex align-items-center">
         <h2 class="mr-auto pr-3 mb-1 mb-sm-0">Climate documents</h2>
@@ -8,6 +9,7 @@
         {% endif %}
     </div>
 {% endblock header %}
+
 {% block cardbody %}
     {% if council.plandocument_set.all %}
         <div class="card-body bg-red-light">
@@ -42,74 +44,28 @@
                 {% for plandocument in group_docs %}
                     {% if forloop.counter == 2 %}
                         <details class="details">
-                            <summary>
-                                Show more {{ group }} documents
-                            </summary>
-                        {% endif %}
-                        {% if plandocument.is_deleted %}
-                            <div class="council-document council-document--deleted">
-                                {% if plandocument.file_exists %}
-                                    <a href="{{ MEDIA_URL }}{{ plandocument.file }}"
-                                       data-plan-id="{{ plandocument.id }}"
-                                       data-council-slug="{{ council.slug }}"
-                                       class="council-document">
-                                    {% endif %}
-                                {% else %}
-                                    <a href="{{ plandocument.link }}"
-                                       data-plan-id="{{ plandocument.id }}"
-                                       data-council-slug="{{ council.slug }}"
-                                       class="council-document">
-                                    {% endif %}
-                                    {% if plandocument.file_type == 'pdf' %}
-                                        {% include 'caps/icons/pdf.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' role='presentation' %}
-                                    {% else %}
-                                        {% include 'caps/icons/file.html' with width='3rem' height='3rem' classes='mr-3 flex-grow-0 flex-shrink-0' role='presentation' %}
-                                    {% endif %}
-                                    <div>
-                                        {% if plandocument.title %}
-                                            <strong class="d-block">{{ plandocument.title|document_title }}</strong>
-                                        {% else %}
-                                            <strong class="d-block">{{ council.name }} {{ plandocument.get_document_type|document_title }}</strong>
-                                        {% endif %}
-                                        <p class="d-inline-block text-muted mb-0">
-                                            {% if plandocument.title %}
-                                                {{ plandocument.get_document_type|title }}
-                                                <span class="mx-2">&middot;</span>
-                                            {% endif %}
-                                            {% if plandocument.file_type %}{{ plandocument.file_type|upper }}{% endif %}
-                                            {% if plandocument.get_status %}
-                                                <span class="mx-2">&middot;</span>
-                                                {{ plandocument.get_status|title }}
-                                            {% endif %}
-                                            {% if plandocument.get_scope %}
-                                                <span class="mx-2">&middot;</span>
-                                                {{ plandocument.get_scope|title }}
-                                            {% endif %}
-                                            {% if plandocument.is_deleted and not plandocument.file_exists %}
-                                                <span class="mx-2">&middot;</span>
-                                                We no longer hold a copy of this document
-                                            {% endif %}
-                                        </p>
-                                    </div>
-                                    {% if plandocument.is_deleted %}
-                                        {% if plandocument.file_exists %}</a>{% endif %}
-                                    </div>
-                                {% else %}
-                                </a>
-                            {% endif %}
-                            {% if forloop.last and group_docs|length > 1 %}</details>{% endif %}
-                        {% endfor %}
-                    {% empty %}
-                        <p class="text-muted mb-3">We couldn’t find any climate action plans for this council.</p>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="card-footer bg-yellow-light">
-                <p class="mb-0">
-                    <strong>Are these plans out of date?</strong>
-                </p>
-                <small class="mb-0">
-                    <a href="{{ feedback_form_url }}?usp=pp_url&entry.393810903={{ council.name }}">Fill in this form</a> to let us know where to find the latest plans from this council.
-                </small>
-            </div>
-        {% endblock cardbody %}
+                            <summary>Show more {{ group }} documents</summary>
+                    {% endif %}
+
+                            {% include 'caps/includes/council-document.html' with plandocument=plandocument council=council %}
+
+                    {% if forloop.counter > 1 and forloop.last %}
+                        </details>
+                    {% endif %}
+
+                {% endfor %}
+            {% empty %}
+                <p class="text-muted mb-3">We couldn’t find any climate action plans for this council.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card-footer bg-yellow-light">
+        <p class="mb-0">
+            <strong>Are these plans out of date?</strong>
+        </p>
+        <small class="mb-0">
+            <a href="{{ feedback_form_url }}?usp=pp_url&entry.393810903={{ council.name }}">Fill in this form</a> to let us know where to find the latest plans from this council.
+        </small>
+    </div>
+{% endblock cardbody %}
