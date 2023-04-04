@@ -525,8 +525,10 @@
             </div>
             <div class="card-body">
                 <dl class="mt-n1 mb-0">
-                    <dt><a href="{{ council.website_url }}">{{ council.website_url|domain_human }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
-                    <dd>{{ council.name }}’s official homepage.</dd>
+                    {% if council.website_url %}
+                      <dt><a href="{{ council.website_url }}">{{ council.website_url|domain_human }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
+                      <dd>{{ council.name }}’s official homepage.</dd>
+                    {% endif %}
                   {% if council.twitter_url %}
                     <dt><a href="{{ council.twitter_url }}">@{{ council.twitter_name }}{% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}</a></dt>
                     <dd>{{ council.name }}’s Twitter account.</dd>
