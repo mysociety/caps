@@ -75,7 +75,7 @@ class HomePageView(TemplateView):
         context["all_councils"] = Council.objects.all()
         context = add_context_for_plans_download_and_search(context)
 
-        context["page_title"] = "Tracking the UK’s journey towards carbon zero"
+        context["page_title"] = "CAPE: Informing local action on climate change"
 
         return context
 
