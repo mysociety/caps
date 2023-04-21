@@ -224,6 +224,48 @@ $('form[data-ajax-feedback-submit]').on('submit', function(e){
     });
 });
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+var measurementProtocolEvent = function(eventName, params, callback){
+    // This passes the event to a django view that then passes it up to the GA server
+    // using the Measurement Protocol. This is a workaround for the fact that Gtag
+    // isn't sending events when we're not using ga cookies
+    const csrftoken = getCookie('csrftoken');
+    const gacookie = getCookie('_ga');
+    //get client id from ga cookie - it's the last two parts of the cookie
+    const clientId = gacookie.split('.')[2] + '.' + gacookie.split('.')[3];
+    const url = '/ga_event/';
+    const data = {
+        'client_id': clientId,
+        'event_name': eventName,
+        'event_params': params
+    };
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        headers: {
+            'X-CSRFToken': csrftoken
+        }
+    })
+    .done(callback);
+}
+
+
 var trackEvent = function(eventName, params) {
     // We'll return a promise, and resolve it when either Gtag handles
     // our event, or a maximum fallback period elapses. Promises can
@@ -235,12 +277,17 @@ var trackEvent = function(eventName, params) {
         dfd.resolve();
     };
 
-    // Tell Gtag to resolve our promise when it's done.
-    var params = $.extend(params, {
-        event_callback: callback
-    });
+    // just commented out for the moment in case we
+    // can go back to simple approach
 
-    gtag('event', eventName, params);
+    /// Tell Gtag to resolve our promise when it's done.
+    //var params = $.extend(params, {
+    //    event_callback: callback
+    //});
+
+    // gtag('event', eventName, params);
+
+    measurementProtocolEvent(eventName, params, callback);
 
     // Wait a maximum of 2 seconds for Gtag to resolve promise.
     setTimeout(callback, 2000);
