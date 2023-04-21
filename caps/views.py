@@ -1,3 +1,4 @@
+import json
 import re
 from collections import defaultdict
 from os.path import exists, join
@@ -7,15 +8,17 @@ from typing import Any
 
 import mailchimp_marketing as MailchimpMarketing
 import markdown
+import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models import Avg, Count, Max, Min, OuterRef, Q, Subquery
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import Context, Template
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import DetailView, ListView, TemplateView, View
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
@@ -695,3 +698,83 @@ class MarkdownView(TemplateView):
         context["body"] = mark_safe(str(soup))
         context["header_links"] = header_links
         return context
+
+
+@csrf_protect
+def measurement_api_view(request):
+    """
+    View that accepts a google event and sends it via the measurement protocol.
+
+    The view expects the following POST parameters:
+    - event_name: the name of the event
+    - client_id: the client id of the user
+    - event_params: a dictionary of event parameters
+
+    """
+    # require post request
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+
+    measurement_id = settings.GOOGLE_ANALYTICS
+    api_secret = settings.GOOGLE_MEASUREMENT_PROTOCOL_SECRET
+
+    if not api_secret:
+        raise Exception("GOOGLE_ANALYTICS not set in settings")
+
+    if not measurement_id:
+        raise Exception("GOOGLE_MEASUREMENT_PROTOCOL_SECRET not set in settings")
+
+    # get contents of request Post
+    event_name = request.POST.get("event_name")
+    client_id = request.POST.get("client_id")
+
+    # extract event params
+    event_params = {}
+    for key, value in request.POST.items():
+        if key.startswith("event_params"):
+            nested_key = key.split("[", 1)[1].rstrip("]")
+            event_params[nested_key] = value.strip()
+
+    # check client id is in right format
+    # it should be a string of two numbers seperated by a dot
+    if not re.match(r"^\d+\.\d+$", client_id):
+        raise Exception("client_id is not in the correct format")
+
+    # if in debug mode, we need to add this to each event
+    if settings.DEBUG:
+        event_params["debug_mode"] = "1"
+
+    # build payload
+    payload = {
+        "client_id": client_id,
+        "events": [
+            {
+                "name": event_name,
+                "params": event_params,
+            }
+        ],
+    }
+
+    # send payload
+
+    url = "https://www.google-analytics.com/mp/collect"
+    # url = "https://www.google-analytics.com/debug/mp/collect"
+    headers = {
+        "Content-Type": "application/json",
+    }
+    params = {
+        "measurement_id": measurement_id,
+        "api_secret": api_secret,
+    }
+    response = requests.post(
+        url, headers=headers, params=params, data=json.dumps(payload)
+    )
+
+    if response.status_code not in [200, 204]:
+        raise Exception(
+            "Google Analytics Measurement Protocol API returned status code {}".format(
+                response.status_code
+            )
+        )
+    # return success
+    return HttpResponse("successfully sent event to google analytics")

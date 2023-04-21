@@ -16,6 +16,7 @@ router.register(r"commitments", api_views.CommitmentsViewSet)
 
 urlpatterns = [
     path("", views.HomePageView.as_view(), name="home"),
+    path("ga_event/", views.measurement_api_view, name="ga_event"),
     path("councils/<slug:slug>/", views.CouncilDetailView.as_view(), name="council"),
     path("features/<slug:slug>/", RedirectView.as_view(pattern_name="tag")),
     path("plans/<slug:slug>/", views.TagDetailView.as_view(), name="tag"),
