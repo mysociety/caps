@@ -224,6 +224,63 @@ $('form[data-ajax-feedback-submit]').on('submit', function(e){
     });
 });
 
+
+class GtagMeasurementProtocol {
+    constructor(streamId = "", measurementSecret = "", debug = false) {
+
+        // get the measurement protocol row if it exists
+        const measurementProtocolRow = window.dataLayer.filter(row => row[0] === 'measurement_protocol_secret')[0];
+        if (measurementProtocolRow) {
+            this.streamId = measurementProtocolRow[1];
+            this.secret = measurementProtocolRow[2];
+            this.debug = measurementProtocolRow[3];
+        } else {
+            // if all of streamID and secret are provided, use those
+            if (streamId && measurementSecret) {
+                this.streamId = streamId;
+                this.secret = measurementSecret;
+                this.debug = debug;
+            } else {
+                throw "streamId and measurementSecret must be provided";
+            }
+        }
+    
+    }
+
+    sendEvent(eventName, eventParams, callback) {
+
+        // set a random client_id (2 32-bit integers seperated by a dot)
+        // note this random approach means the debugView in google analytics won't work.
+        // to get that to work, you need to turn back on the cookies, and then use the same client_it
+        // as in in the _ga cookie
+        const clientId = Math.floor(Math.random() * 1000000000) + '.' + Math.floor(Math.random() * 1000000000);
+
+        // if debug add a debug_mode paramter to eventParams
+        if (this.debug) {
+            eventParams['debug_mode'] = '1';
+        }
+
+        const data = {
+            'client_id': clientId,
+            'events': [
+                {
+                    'name': eventName,
+                    'params': eventParams,
+                }
+            ]
+        };
+        
+        const promise = fetch(`https://www.google-analytics.com/mp/collect?measurement_id=${this.streamId}&api_secret=${this.secret}`, {
+          method: "POST",
+          body: JSON.stringify(data)
+        });
+
+        // if a callback is provided, call it when the promise resolves
+        if (callback) {
+            promise.then(callback);
+        }
+    }
+}
 var trackEvent = function(eventName, params) {
     // We'll return a promise, and resolve it when either Gtag handles
     // our event, or a maximum fallback period elapses. Promises can
@@ -235,12 +292,19 @@ var trackEvent = function(eventName, params) {
         dfd.resolve();
     };
 
-    // Tell Gtag to resolve our promise when it's done.
-    var params = $.extend(params, {
-        event_callback: callback
-    });
+    // just commented out for the moment in case we
+    // can go back to simple approach
 
-    gtag('event', eventName, params);
+    /// Tell Gtag to resolve our promise when it's done.
+    //var params = $.extend(params, {
+    //    event_callback: callback
+    //});
+
+    // gtag('event', eventName, params);
+
+    // Send event to Measurement Protocol
+    measurementManager = new GtagMeasurementProtocol();
+    measurementManager.sendEvent(eventName, params, callback);
 
     // Wait a maximum of 2 seconds for Gtag to resolve promise.
     setTimeout(callback, 2000);
