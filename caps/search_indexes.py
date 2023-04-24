@@ -20,8 +20,12 @@ class PlanDocumentIndex(indexes.SearchIndex, indexes.Indexable):
         return document.council.name
 
     def prepare_text(self, document):
-        file = document.file.open()
-        extracted_data = self.get_backend().extract_file_contents(file)
+        try:
+            file = document.file.open()
+            extracted_data = self.get_backend().extract_file_contents(file)
 
-        # data is converted to html as part of the extraction
-        return strip_tags(extracted_data["contents"])
+            # data is converted to html as part of the extraction
+            return strip_tags(extracted_data["contents"])
+        except:
+            print("problem preparing file: ", document.file.url)
+            return ""
