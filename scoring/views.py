@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import date
 
 from django.views.generic import DetailView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
@@ -184,9 +185,17 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         council = context.get("council")
         group = council.get_scoring_group()
 
+        new_council_date = date(year=2023, month=1, day=1)
+        if council.start_date >= new_council_date:
+            context["authority_type"] = group
+            context["new_council"] = True
+            return context
+
         context["all_councils"] = Council.objects.filter(
             authority_type__in=group["types"],
             country__in=group["countries"],
+            # newer councils don't have a score so don't include them
+            start_date__lt="2023-01-01",
         )
 
         promises = Promise.objects.filter(council=council).all()

@@ -26,6 +26,9 @@
         <div class="col-12 col-lg-5">
             <div class="about-section-child pt-3">
                 <h3 class="mb-3">About this council</h3>
+                {% if new_council %}
+                <p>This council was created on April 1, 2023 so was not included in the 2021 Scorecards.</p>
+                {% else %}
                 {% if plan_score.top_performer %}
                 <p class="top-performer.active mb-0">This council is a top performer within {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.</p>
                 {% endif %}
@@ -70,6 +73,7 @@
                     </div>
                   {% endif %}
                 </div>
+                {% endif %}
             </div>
         </div>
         <div class="col-12 col-lg-2"></div>
@@ -100,6 +104,7 @@
     </div>
 </div>
 
+{% if not new_council %}
 <div class="container council-page mt-4">
     <div class="row">
         <div class="col-md-12">
@@ -326,6 +331,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 
 <script>
     // Open modals and filters
