@@ -76,7 +76,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
                     "top_performer"
                 )
             ),
-        ).order_by("-score")
+        ).order_by(F("score").desc(nulls_last=True))
 
         qs = qs.filter(
             authority_type__in=authority_type["types"],
@@ -121,7 +121,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
                 councils = sorted(
                     councils,
                     key=lambda council: 0
-                    if council["score"] == 0
+                    if council["score"] == 0 or council["score"] is None
                     else council["all_scores"][sort]["score"],
                     reverse=True,
                 )
