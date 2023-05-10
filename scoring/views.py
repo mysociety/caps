@@ -186,7 +186,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         group = council.get_scoring_group()
 
         new_council_date = date(year=2023, month=1, day=1)
-        if council.start_date >= new_council_date:
+        if council.start_date is not None and council.start_date >= new_council_date:
             context["authority_type"] = group
             context["new_council"] = True
             return context
