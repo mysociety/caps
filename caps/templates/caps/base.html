@@ -35,6 +35,7 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
+        gtag('config', '{{ GOOGLE_ANALYTICS }}' {% if DEBUG %}, { 'debug_mode':true } {% endif %});
         gtag("consent", "default", {
             ad_storage: "denied",
             analytics_storage: "denied",
@@ -42,7 +43,6 @@
             personalization_storage: "denied",
             security_storage: "denied"
         });
-        gtag('config', '{{ GOOGLE_ANALYTICS }}' {% if DEBUG %}, { 'debug_mode':true } {% endif %});
         gtag("measurement_protocol_secret", "{{ GOOGLE_ANALYTICS }}", "{{ GOOGLE_MEASUREMENT_PROTOCOL_SECRET }}" {% if DEBUG %}, true {% endif %} );
     </script>
   {% endif %}
