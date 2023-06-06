@@ -224,7 +224,31 @@ $('form[data-ajax-feedback-submit]').on('submit', function(e){
     });
 });
 
-var trackEvent = function(eventName, eventParams) {
+var trackEvent = function(eventName, params) {
+    // We'll return a promise, and resolve it when either Gtag handles
+    // our event, or a maximum fallback period elapses. Promises can
+    // only be resolved once, so this also ensures whatever callbacks
+    // are attached to the promise only execute once.
+    var dfd = $.Deferred();
+
+    var callback = function(){
+        dfd.resolve();
+    };
+
+    // Tell Gtag to resolve our promise when it's done.
+    var params = $.extend(params, {
+        event_callback: callback
+    });
+
+    gtag('event', eventName, params);
+
+    // Wait a maximum of 2 seconds for Gtag to resolve promise.
+    setTimeout(callback, 2000);
+
+    return dfd.promise();
+};
+
+var trackEventMP = function(eventName, eventParams) {
     // Custom events don't work in GA4 if you have { analytics_storage: "denied" }
     // (ie: if you have cookies disabled). So we use the Measurement Protocol API
     // to track custom events instead.

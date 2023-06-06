@@ -30,20 +30,44 @@
 
   {% if GOOGLE_ANALYTICS %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS }}"></script>
+    <script defer>
+      // Capture cookies set by Google Analytics so we're not actually storing cookies
+      var originalCookie = document.cookie;
+      var capturedCookies = {}; // Object to store captured cookies
+    
+      Object.defineProperty(document, 'cookie', {
+        get: function() {
+          // return a combination of the real cookies and the stored cookies to anything that asks
+          var stitchedCookie = originalCookie;
+          for (var name in capturedCookies) {
+            stitchedCookie += ' ' + name + '=' + capturedCookies[name] + ';';
+          }
+          return stitchedCookie;
+        },
+        set: function(value) {
+          var cookieParts = value.split('=');
+          var cookieName = cookieParts[0].trim();
+          var cookieValue = cookieParts[1].trim();
+    
+          // Check if the cookie starts with "_ga" before capturing it
+          if (cookieName.startsWith('_ga')) {
+            capturedCookies[cookieName] = cookieValue;
+          } else {
+            // 
+            originalCookie = value;
+
+          }
+        }
+      });
+    </script>
+    <script defer src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS }}"></script>
     <script>
+        var client_id = Math.floor(Math.random() * 1000000000) + '.' + Math.floor(Math.random() * 1000000000);
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', '{{ GOOGLE_ANALYTICS }}' {% if DEBUG %}, { 'debug_mode':true } {% endif %});
-        gtag("consent", "default", {
-            ad_storage: "denied",
-            analytics_storage: "denied",
-            functionality_storage: "denied",
-            personalization_storage: "denied",
-            security_storage: "denied"
-        });
-        gtag("measurement_protocol_secret", "{{ GOOGLE_ANALYTICS }}", "{{ GOOGLE_MEASUREMENT_PROTOCOL_SECRET }}" {% if DEBUG %}, true {% endif %} );
+        gtag('config','{{ GOOGLE_ANALYTICS }}', {'client_id' : client_id, 'cookie_expires':0{% if DEBUG %},'debug_mode':true{% endif %}});
+        // gtag("measurement_protocol_secret", "{{ GOOGLE_ANALYTICS }}", "{{ GOOGLE_MEASUREMENT_PROTOCOL_SECRET }}" {% if DEBUG %}, true {% endif %} );
     </script>
   {% endif %}
   {% if GOOGLE_TAG_MANAGER %}
