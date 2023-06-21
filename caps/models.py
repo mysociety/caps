@@ -458,6 +458,21 @@ class Council(models.Model):
         return self.authority_type == "CTY" or self.authority_type == "COMB"
 
     @property
+    def short_name(self):
+        patterns = [
+            r'[^a-zA-Z]+unitary[^a-zA-Z]*$', # " - Unitary" and " (Unitary)" suffixes
+            r'\s+(metropolitan\s+)?((borough|city and district|city|county|district)\s+)?council$',
+            r'^(london|royal) borough of\s+',
+            r'\s+(mayoral\s+)?(combined\s+)?authority$',
+        ]
+
+        n = self.name
+        for pattern in patterns:
+            n = re.sub(pattern, '', n, flags=re.IGNORECASE)
+
+        return n
+
+    @property
     def foe_slug(self):
         if self.country not in (self.ENGLAND, self.WALES) or self.is_upper_tier:
             return ""

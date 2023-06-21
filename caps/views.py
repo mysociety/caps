@@ -474,6 +474,46 @@ class LocationResultsView(BaseLocationResultsView):
         return context
 
 
+class TwinsView(BaseLocationResultsView):
+    template_name = "caps/twins.html"
+
+    def render_to_response(self, context):
+        return super(BaseLocationResultsView, self).render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["all_councils"] = Council.current_councils()
+
+        council = None
+
+        if "slug" in self.kwargs:
+            council = Council.objects.get(slug=self.kwargs["slug"])
+        elif len(context.get("councils", [])) == 1:
+            council = context["councils"][0]
+
+        if council:
+            context["council"] = council
+            context["related_council_groups"] = council.get_related_councils()
+            for group in council.get_related_councils():
+                if group["type"].slug == 'composite':
+                    twin = group["councils"][0]
+                    context["twin"] = twin
+            context["promises"] = {
+                "council": council.promise_set.filter(has_promise=True).order_by("target_year"),
+                "twin": twin.promise_set.filter(has_promise=True).order_by("target_year"),
+            }
+            context["declarations"] = {
+                "council": council.emergencydeclaration_set.first(),
+                "twin": twin.emergencydeclaration_set.first(),
+            }
+            context["page_title"] = "{}’s climate twin".format(council.name)
+        else:
+            context["page_title"] = "Find your council climate twin"
+
+        return context
+
+
 class TagDetailView(DetailView):
 
     model = Tag

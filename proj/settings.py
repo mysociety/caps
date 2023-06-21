@@ -96,6 +96,10 @@ STATICFILES_DIRS = (
         "awesomplete",
         os.path.join(BASE_DIR, "vendor", "awesomplete"),
     ),
+    (
+        "party",
+        os.path.join(BASE_DIR, "vendor", "party"),
+    ),
 )
 
 STATICFILES_FINDERS = (

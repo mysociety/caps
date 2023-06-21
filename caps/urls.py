@@ -33,6 +33,8 @@ urlpatterns = [
         name="council_projects",
     ),
     path("location/", views.LocationResultsView.as_view(), name="location_results"),
+    path("twins/", views.TwinsView.as_view(), name="twins"),
+    path("twins/<slug:slug>/", views.TwinsView.as_view(), name="twins"),
     path("about/", views.AboutView.as_view(), name="about"),
     path("about/data/", views.AboutDataView.as_view(), name="about_data"),
     path("ajax/mailchimp_email", views.MailchimpView.as_view(), name="mailchimp_hook"),

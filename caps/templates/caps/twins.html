@@ -1,0 +1,431 @@
+{% extends "caps/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+{% if council and twin %}
+
+    <p class="h5">
+        <a href="{% url 'twins' %}" class="d-inline-flex align-items-center">
+            {% include 'caps/icons/chevron-left.html' with classes='mr-1' role='presentation' %}
+            Find your council climate twin
+        </a>
+    </p>
+    <h1>{{ council.name }}</h1>
+
+    <div class="row">
+        <div class="col-sm-8 mt-4 mt-lg-5 d-flex flex-column">
+            <div class="card ceuk-card flex-grow-1 js-confetti">
+                <div class="card-header mb-n1 px-lg-4">
+                    <h2>{{ council.name }}’s climate twin is…</h2>
+                </div>
+                <div class="card-body p-lg-4">
+                    <p class="mb-0 display-4 font-weight-bold text-red" style="line-height: 1">{{ twin.name }}</p>
+                    <ul class="d-none d-sm-flex flex-wrap mt-3 mx-n2 mb-0 list-unstyled text-muted">
+                        <li class="mx-2 d-flex align-items-center">
+                            {% include 'caps/icons/check-circle-fill.html' with classes='mr-2 text-success' role='presentation' %}
+                            Emissions
+                        </li>
+                        <li class="mx-2 d-flex align-items-center">
+                            {% include 'caps/icons/check-circle-fill.html' with classes='mr-2 text-success' role='presentation' %}
+                            Location
+                        </li>
+                        <li class="mx-2 d-flex align-items-center">
+                            {% include 'caps/icons/check-circle-fill.html' with classes='mr-2 text-success' role='presentation' %}
+                            Deprivation
+                        </li>
+                        <li class="mx-2 d-flex align-items-center">
+                            {% include 'caps/icons/check-circle-fill.html' with classes='mr-2 text-success' role='presentation' %}
+                            Urban/Rural
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 mt-4 mt-lg-5 d-flex flex-column">
+            <div class="card ceuk-card flex-grow-1">
+                <div class="card-header mb-n1 px-lg-4">
+                    <h3>Similarity index</h3>
+                </div>
+                <div class="card-body p-lg-4 display-4 font-weight-bold text-red d-flex align-items-center justify-content-center" style="line-height: 1">
+                    {{ twin.distance.match_score|floatformat:"0" }}%
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 mt-4 mt-lg-5 d-flex flex-column">
+            <div class="card ceuk-card ceuk-card--purple flex-grow-1">
+                <div class="card-header">
+                    <h2>{{ council.short_name }}’s climate plans</h2>
+                </div>
+                <div class="card-body">
+                    <p>Topics covered by <a href="{% url 'council' council.slug %}">{{ council.short_name }}’s plans on CAPE</a> but not by {{ twin.short_name}}’s:</p>
+                    <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
+                        <li><a href="#" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">TODO</a></li>
+                    </ul>
+                    <p class="mt-3 text-muted">Topics that appear in both councils’ plans:</p>
+                    <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
+                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                    </ul>
+                </div>
+              {% if council.plandocument_set.all %}
+                <div class="card-body bg-purple-light">
+                    <form action="{% url 'search_results' %}" class="form-row flex-wrap align-items-center">
+                        <div class="col-auto flex-shrink-1 flex-grow-1" style="max-width: 450px">
+                            <label for="search-this-councils-documents" class="sr-only">Search inside this council’s documents</label>
+                            <input type="search" class="form-control form-control-sm" name="q" id="search-this-councils-documents" placeholder="Search inside this council’s documents">
+                            <input type="hidden" name="council_name" id="council_name" value="&quot;{{ council.name }}&quot;">
+                        </div>
+                        <div class="col-auto flex-shrink-0 d-flex">
+                            <button type="submit" class="btn btn-purple btn-sm d-flex align-items-center">
+                                {% include 'caps/icons/search.html' with role='presentation' %}
+                                <span class="ml-2">Search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+              {% endif %}
+            </div>
+        </div>
+        <div class="col-sm-6 mt-4 mt-lg-5 d-flex flex-column">
+            <div class="card ceuk-card ceuk-card--purple flex-grow-1">
+                <div class="card-header">
+                    <h2>{{ twin.short_name }}’s climate plans</h2>
+                </div>
+                <div class="card-body">
+                    <p>Topics covered by <a href="{% url 'council' twin.slug %}">{{ twin.short_name }}’s plans on CAPE</a> but not by {{ council.short_name }}’s:</p>
+                    <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
+                        <li><a href="#" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">TODO</a></li>
+                    </ul>
+                    <p class="mt-3 text-muted">Topics that appear in both councils’ plans:</p>
+                    <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
+                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                    </ul>
+                </div>
+              {% if twin.plandocument_set.all %}
+                <div class="card-body bg-purple-light">
+                    <form action="{% url 'search_results' %}" class="form-row flex-wrap align-items-center">
+                        <div class="col-auto flex-shrink-1 flex-grow-1" style="max-width: 450px">
+                            <label for="search-this-councils-documents" class="sr-only">Search inside this council’s documents</label>
+                            <input type="search" class="form-control form-control-sm" name="q" id="search-this-councils-documents" placeholder="Search inside this council’s documents">
+                            <input type="hidden" name="council_name" id="council_name" value="&quot;{{ twin.name }}&quot;">
+                        </div>
+                        <div class="col-auto flex-shrink-0 d-flex">
+                            <button type="submit" class="btn btn-purple btn-sm d-flex align-items-center">
+                                {% include 'caps/icons/search.html' with role='presentation' %}
+                                <span class="ml-2">Search</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+              {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 mt-4 mt-lg-5 d-flex flex-column">
+            <div class="card ceuk-card ceuk-card--navy flex-grow-1">
+                <div class="card-header">
+                    <h2>{{ council.short_name }}’s declarations and pledges</h2>
+                </div>
+                <div class="card-body">
+                    <h3 class="h6">Climate emergency declaration</h3>
+                  {% if declarations.council %}
+                    <p class="mb-0 mt-n1">
+                        {{ council.name }} <a href="{{ declarations.council.source_url }}">declared a climate emergency</a> on {{ declarations.council.date_declared }}.
+                    </p>
+                  {% else %}
+                    <p class="mb-0 mt-n1 text-muted">
+                        We don’t think this council has declared a climate emergency – <a href="{% url 'about' %}">let us know if it has!</a>
+                    </p>
+                  {% endif %}
+                  {% for promise in promises.council %}
+                    <h3 class="h6 mt-4">
+                      {% if promise.get_scope %}
+                        {{ promise.get_scope|capfirst }} pledge
+                      {% else %}
+                        Climate pledge
+                      {% endif %}
+                      {% if promise.target_year %}
+                        for {{ promise.target_year }}
+                      {% endif %}
+                    </h3>
+                    <blockquote class="blockquote">
+                        <p class="mb-0">“{{ promise.text }}”</p>
+                        <footer class="blockquote-footer"><cite title="{{ promise.source_name }}"><a href="{{ promise.source }}">{{ promise.source_name }}</a></cite></footer>
+                    </blockquote>
+                  {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mt-4 mt-lg-5 d-flex flex-column">
+            <div class="card ceuk-card ceuk-card--navy flex-grow-1">
+                <div class="card-header">
+                    <h2>{{ twin.short_name }}’s declarations and pledges</h2>
+                </div>
+                <div class="card-body">
+                    <h3 class="h6">Climate emergency declaration</h3>
+                  {% if declarations.twin %}
+                    <p class="mb-0 mt-n1">
+                        {{ twin.name }} <a href="{{ declarations.twin.source_url }}">declared a climate emergency</a> on {{declarations.twin.date_declared }}.
+                    </p>
+                  {% else %}
+                    <p class="mb-0 mt-n1 text-muted">
+                        We don’t think this council has declared a climate emergency – <a href="{% url 'about' %}">let us know if it has!</a>
+                    </p>
+                  {% endif %}
+                  {% for promise in promises.twin %}
+                    <h3 class="h6 mt-4">
+                      {% if promise.get_scope %}
+                        {{ promise.get_scope|capfirst }} pledge
+                      {% else %}
+                        Climate pledge
+                      {% endif %}
+                      {% if promise.target_year %}
+                        for {{ promise.target_year }}
+                      {% endif %}
+                    </h3>
+                    <blockquote class="blockquote">
+                        <p class="mb-0">“{{ promise.text }}”</p>
+                        <footer class="blockquote-footer"><cite title="{{ promise.source_name }}"><a href="{{ promise.source }}">{{ promise.source_name }}</a></cite></footer>
+                    </blockquote>
+                  {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+  {% comment %}
+    <div class="row">
+        <div class="col-sm-6 mt-4 mt-lg-5 d-flex flex-column">
+            <div class="card ceuk-card ceuk-card--orange flex-grow-1">
+                <div class="card-header">
+                    <h2>Public opinion in {{ council.short_name }}</h2>
+                </div>
+                <div class="ceuk-data-table">
+                    <table class="table table-responsive mb-0">
+                        <tr>
+                            <td class="h3 text-orange" style="vertical-align: middle">xx%</td>
+                            <td style="vertical-align: middle">“I support renewable energy projects in my area”</td>
+                        </tr>
+                        <tr>
+                            <td class="h3 text-orange" style="vertical-align: middle">xx%</td>
+                            <td style="vertical-align: middle">“I support the UK plan to reach Net Zero by 2050”</td>
+                        </tr>
+                        <tr>
+                            <td class="h3 text-orange" style="vertical-align: middle">xx%</td>
+                            <td style="vertical-align: middle">“I think the UK should keep its plan to reach net Zero by 2050, even if it’s going to be expensive, as we need to stop damaging the environment”</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mt-4 mt-lg-5 d-flex flex-column">
+            <div class="card ceuk-card ceuk-card--orange flex-grow-1">
+                <div class="card-header">
+                    <h2>Public opinion in {{ twin.short_name }}</h2>
+                </div>
+                <div class="ceuk-data-table">
+                    <table class="table table-responsive mb-0">
+                        <tr>
+                            <td class="h3 text-orange" style="vertical-align: middle">xx%</td>
+                            <td style="vertical-align: middle">“I support renewable energy projects in my area”</td>
+                        </tr>
+                        <tr>
+                            <td class="h3 text-orange" style="vertical-align: middle">xx%</td>
+                            <td style="vertical-align: middle">“I support the UK plan to reach Net Zero by 2050”</td>
+                        </tr>
+                        <tr>
+                            <td class="h3 text-orange" style="vertical-align: middle">xx%</td>
+                            <td style="vertical-align: middle">“I think the UK should keep its plan to reach net Zero by 2050, even if it’s going to be expensive, as we need to stop damaging the environment”</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  {% endcomment %}
+
+    <div class="mt-5 mb-3" style="background-image: linear-gradient(90deg, #ecf0f5 0%, rgb(236, 240, 245, 0) 10%), linear-gradient(270deg, #ecf0f5 0%, rgb(236, 240, 245, 0) 10%), linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0))">
+        <h2 class="text-center pt-lg-3 mb-4">Welcome to your new family</h2>
+        <ul class="nav nav-tabs align-items-center justify-content-center">
+            <li class="nav-item pr-3">Similar by:</li>
+          {% for group in related_council_groups %}
+            <li class="nav-item">
+                <a id="{{ group.type.slug }}-tab" class="nav-link {% if group.type.slug == 'composite' %}active{% endif %}" href="#{{ group.type.slug }}-content" aria-controls="{{group.type.slug}}-content" aria-selected="{% if group.type.slug == "composite" %}true{% else %}false{% endif %}" data-toggle="tab" role="tab">{{ group.type.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+    </div>
+
+    <div class="tab-content">
+      {% for group in related_council_groups %}
+        <div class="tab-pane {% if group.type.slug == "composite" %}show active{% endif %}" id="{{ group.type.slug }}-content" role="tabpanel" aria-labelledby="{{ group.type.slug }}-tab">
+            <table class="table table-responsive" style="table-layout: fixed">
+                <colgroup>
+                    <col style="width: 14.29%">
+                    <col style="width: 14.29%">
+                    <col style="width: 14.29%">
+                    <col style="width: 14.29%">
+                    <col style="width: 14.29%">
+                    <col style="width: 14.29%">
+                    <col style="width: 14.29%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th style="border-top: none"></th>
+                        <th style="border-top: none"><a href="{% url 'council' council.slug %}">{{ council.name }}</a></th>
+                      {% for relative in group.councils|slice:":5" %}
+                        <th style="border-top: none"><a href="{% url 'council' relative.slug %}">{{ relative.name }}</a></th>
+                      {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="vertical-align: middle">Similarity</td>
+                        <td></td>
+                      {% for relative in group.councils|slice:":5" %}
+                        <td class="h3">{{ relative.distance.match_score|floatformat:"0" }}%</td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle">Climate emergency declaration</td>
+                        <td></td>
+                      {% for relative in group.councils|slice:":5" %}
+                        <td></td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle">Net Zero target date (whole area)</td>
+                        <td></td>
+                      {% for relative in group.councils|slice:":5" %}
+                        <td></td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle">Net Zero target date (council operations)</td>
+                        <td></td>
+                      {% for relative in group.councils|slice:":5" %}
+                        <td></td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle">Latest climate action update</td>
+                        <td></td>
+                      {% for relative in group.councils|slice:":5" %}
+                        <td></td>
+                      {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      {% endfor %}
+    </div>
+
+{% else %}
+
+    <div class="card ceuk-card ceuk-card--purple {% if councils %}ceuk-card--muted{% else %}ceuk-card--emphasised{% endif %}">
+        <div class="card-body">
+
+            <h1>{{ page_title }}</h1>
+
+            <form action="{% url 'twins' %}">
+                <label for="pc" class="mt-3 mb-3 font-weight-bold">Find a council by postcode</label>
+                <div class="form-row flex-nowrap">
+                    <div class="col-auto flex-shrink-1">
+                        <input type="text" class="form-control form-control-lg text-uppercase" name="pc" id="pc">
+                    </div>
+                    <div class="col-auto flex-shrink-0 d-flex">
+                        <button type="submit" class="btn btn-orange text-white btn-lg d-flex align-items-center">
+                            {% include 'caps/icons/search.html' with role='presentation' %}
+                            <span class="ml-2">Find</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="mt-3 js-geolocate d-none">
+                <a href="{% url 'twins' %}" class="d-flex align-items-center">
+                    {% include 'caps/icons/location.html' with classes='mr-2 js-geolocate-icon' role='presentation' %}
+                    <div class="spinner-border spinner-border-sm mr-2 js-geolocate-spinner d-none" role="status">
+                        <span class="sr-only">Fetching location…</span>
+                    </div>
+                    Locate me automatically
+                </a>
+            </div>
+        </div>
+    </div>
+
+  {% if councils %}
+    <h2 class="my-4 my-lg-5 h3">More than one council serves that location</h2>
+    <ul class="list-unstyled">
+      {% for council in councils %}
+        <li class="card mb-4 ceuk-card ceuk-card--purple">
+            <div class="card-body">
+                <a href="{% url 'twins' council.slug %}" class="h2 mb-0 d-inline-flex align-items-center stretched-link">
+                    {{ council.name }}
+                    {% include 'caps/icons/chevron-right.html' with classes='ml-3' role='presentation' %}
+                </a>
+            </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+{% endif %}
+
+{% endblock %}
+
+{% block extrafooterscript %}
+<script src="{% static 'awesomplete/awesomplete.min.js' %}"></script>
+<script src="{% static 'party/party.min.js' %}"></script>
+<script>
+var councils = {
+{% for council in all_councils %}
+    "{{ council.name }}": "{% url 'twins' council.slug %}",
+{% endfor %}
+};
+
+$(function(){
+    var $pc = $('#pc');
+    if ($pc.length){
+        var ac = new Awesomplete(
+            $pc[0],
+            {
+                list: Object.keys(councils),
+                minChars: 3,
+                autoFirst: true
+            }
+        );
+        document.addEventListener('awesomplete-select', function(selection){
+            selection.preventDefault();
+            window.location.href = councils[selection.text];
+        });
+
+        var $label = $('label[for="pc"]');
+        $label.text('Find a council by name or postcode');
+        $pc.removeClass('text-uppercase');
+    }
+
+    $('.js-confetti').each(function(){
+        party.confetti(this, {
+            count: party.variation.range(80, 100)
+        });
+    });
+});
+</script>
+{% endblock %}
