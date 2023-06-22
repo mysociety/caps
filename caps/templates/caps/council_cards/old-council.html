@@ -1,0 +1,21 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+
+{% block title %}
+    This council has been replaced
+{% endblock title %}
+
+{% block content %}
+    <p>
+        This council was replaced on {{ council.end_date }}. The new council may or may not reflect any plans or declarations made by this council.
+    </p>
+    <p>This council has been replaced by:</p>
+    <ul>
+        {% for successors in council.get_successors %}
+            <li>
+                <a href="{% url 'council' successors.slug %}">{{ successors.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

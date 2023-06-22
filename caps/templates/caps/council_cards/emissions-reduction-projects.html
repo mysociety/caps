@@ -1,0 +1,49 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+{% load humanize %}
+
+{% block title %}
+    Emissions reduction projects
+{% endblock title %}
+
+{% block cardbody %}
+    <div class="card-body d-flex align-items-center border-bottom">
+        {% include "caps/icons/info.html" with width="2rem" height="2rem" classes="mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue" %}
+        <div>
+            <p class="mb-2">
+                Local authorities in Scotland are required to <a href="https://sustainablescotlandnetwork.org/reports">publish yearly data</a> on their compliance with their climate change duties – including the emissions reduction projects they are undertaking.
+            </p>
+            <p class="mb-0">
+                <a href="{% url "council_projects" %}?council={{ council.id }}"
+                   class="d-inline-flex align-items-center">See all of {{ council.name }}’s projects
+                    {% include "caps/icons/chevron-right.html" with classes="ml-1" %}
+                </a>
+            </p>
+        </div>
+    </div>
+    <div class="emissions-breakdown">
+        <div class="d-flex flex-wrap">
+            <a class="d-block emissions-breakdown__stat"
+               href="{% url "council_projects" %}?council={{ council.id }}">
+                <div>
+                    <span class="h3">{{ project_stats.total_projects|floatformat }}</span>
+                </div>
+                <p>Projects</p>
+            </a>
+            <div class="emissions-breakdown__stat">
+                <div>
+                    <span class="h3">{{ project_stats.total_savings|floatformat|intcomma }}</span>
+                    <abbr title="Kilotonnes of Carbon Dioxide">ktCO2 per year</abbr>
+                </div>
+                <p>Total annual emissions savings</p>
+            </div>
+            <div class="emissions-breakdown__stat">
+                <div>
+                    <span class="h3">£{{ project_stats.total_cost|floatformat|intcomma }}</span>
+                </div>
+                <p>Total capital cost</p>
+            </div>
+        </div>
+    </div>
+{% endblock cardbody %}

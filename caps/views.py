@@ -3,11 +3,12 @@ from collections import defaultdict
 from os.path import exists, join
 from pathlib import Path
 from random import randint, sample, shuffle
-from typing import Any
+from typing import Any, NamedTuple
 
 import mailchimp_marketing as MailchimpMarketing
 import markdown
 from bs4 import BeautifulSoup
+from charting import ChartCollection
 from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models import Avg, Count, Max, Min, OuterRef, Q, Subquery
@@ -20,33 +21,17 @@ from django.views.generic import DetailView, ListView, TemplateView, View
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
 from mailchimp_marketing.api_client import ApiClientError
+from scoring.models import PlanScore, PlanSection, PlanSectionScore
 
 import caps.charts as charts
 from caps.forms import HighlightedSearchForm
-from caps.mapit import (
-    BadRequestException,
-    ForbiddenException,
-    InternalServerErrorException,
-    MapIt,
-    NotFoundException,
-)
-from caps.models import (
-    ComparisonType,
-    Council,
-    CouncilFilter,
-    CouncilProject,
-    CouncilTag,
-    DataType,
-    DataPoint,
-    PlanDocument,
-    ProjectFilter,
-    SavedSearch,
-    Tag,
-)
+from caps.mapit import (BadRequestException, ForbiddenException,
+                        InternalServerErrorException, MapIt, NotFoundException)
+from caps.models import (ComparisonType, Council, CouncilFilter,
+                         CouncilProject, CouncilTag, DataPoint, DataType,
+                         PlanDocument, ProjectFilter, SavedSearch, Tag)
 from caps.search_funcs import condense_highlights
 from caps.utils import file_size, is_valid_postcode
-from charting import ChartCollection
-from scoring.models import PlanScore, PlanSection, PlanSectionScore
 
 
 def add_context_for_plans_download_and_search(context):
@@ -141,18 +126,11 @@ class CouncilDetailView(DetailView):
 
         return context
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        council: Council = context.get("council")
-
-        additional_contexts = [
-            self.get_emissions_context(council),
-            self.get_polling_context(council),
-        ]
-        for additional_context in additional_contexts:
-            context.update(additional_context)
-
-        # this covers no scoring data at all
+    def get_scorecard_context(self, council: Council) -> dict[str, Any]:
+        """
+        Get the scorecard information for this council
+        """
+        context = {}
         try:
             plan_score = PlanScore.objects.get(council=council, year=2021)
 
@@ -203,19 +181,13 @@ class CouncilDetailView(DetailView):
         except PlanScore.DoesNotExist:
             context["scoring_hidden"] = True
 
-        context["related_councils"] = council.get_related_councils()
-        context["promises"] = council.promise_set.filter(has_promise=True).order_by(
-            "target_year"
-        )
-        context["no_promise"] = council.promise_set.filter(has_promise=False)
-        context["last_updated"] = council.plandocument_set.aggregate(
-            last_update=Max("updated_at"), last_found=Max("date_first_found")
-        )
+        return context
 
-        context["tags"] = CouncilTag.objects.filter(council=council).select_related(
-            "tag"
-        )
-
+    def get_project_context(self, council: Council) -> dict[str, Any]:
+        """
+        Get the emissions project info for Scottish councils
+        """
+        context = {}
         project_stats = {"total_projects": 0, "total_savings": 0, "total_cost": 0}
         projects = CouncilProject.objects.filter(council=council).order_by("start_year")
         for project in projects.all():
@@ -229,12 +201,18 @@ class CouncilDetailView(DetailView):
         project_stats["total_savings"] = project_stats["total_savings"] / 1000
 
         context["project_stats"] = project_stats
+        return context
 
         context["page_title"] = council.name
 
         if council.emergencydeclaration_set.count() > 0:
             context["declared_emergency"] = council.emergencydeclaration_set.all()[0]
 
+    def get_document_context(self, council: Council) -> dict[str, Any]:
+        """
+        Get information on the documents associated with this council
+        """
+        context = {}
         documents = council.plandocument_set.order_by("-updated_at").all()
         grouped_documents = defaultdict(list)
         for document in documents:
@@ -256,6 +234,128 @@ class CouncilDetailView(DetailView):
         # need to convert to a dict as items doesn't work on defaultdicts
         # in django templates
         context["grouped_documents"] = dict(grouped_documents)
+        return context
+
+    def get_council_card_context(self, context: dict[str, Any]) -> dict[str, Any]:
+        """
+        Return the council cards that are valid for this council
+        """
+
+        class MenuItem(NamedTuple):
+            """
+            Helper object to track valid council cards
+            """
+
+            slug: str
+            title: str
+            color: str = "green"
+            desc: str = ""
+
+        # You also need to add any new slugs to content-navbar.scss
+        menu = [
+            MenuItem(
+                slug="summary",
+                title="Summary",
+                desc="Overview of CAPE and information available.",
+            ),
+            MenuItem(
+                slug="new-council",
+                title="What did this council replace?",
+                desc="Details of councils this authority replaced.",
+            ),
+            MenuItem(
+                slug="old-council",
+                title="What replaced this council?",
+                desc="Details of councils that replaced this authority.",
+            ),
+            MenuItem(
+                slug="powers",
+                title="Powers & responsibilities",
+                desc="What the council is responsible for and how it relates to climate change.",
+            ),
+            MenuItem(
+                slug="declarations",
+                title="Pledges and declarations",
+                desc="Pledges and declarations the council has made around climate change.",
+            ),
+            MenuItem(slug="council-documents", title="Council documents", desc=""),
+            MenuItem(
+                slug="emissions",
+                title="Emissions data",
+                desc="The emissions story for this council.",
+            ),
+            MenuItem(
+                slug="emissions-reduction-projects",
+                title="Emissions reduction projects",
+                color="blue",
+                desc="Projects this council has undertaken to reduce emissions.",
+            ),
+            MenuItem(
+                slug="scorecard",
+                title="Scorecard",
+                desc="How this council's plans scored on CEUK's 2021 Scorecards.",
+            ),
+            MenuItem(
+                slug="related-councils",
+                title="Related councils",
+                desc="Similar councils to this council.",
+            ),
+        ]
+
+        banned_items = []
+
+        council = context["council"]
+        # if not a scottish council, knock out emissions reduction projects
+        if council.country != Council.SCOTLAND:
+            banned_items.append("emissions-reduction-projects")
+
+        # if not a new council, knock out new council details
+        if not council.is_new_council():
+            banned_items.append("new-council")
+
+        # if not an old council, knock out old council details
+        if not council.is_old_council():
+            banned_items.append("old-council")
+
+        # remove scorecard if the hidden flag is set
+        if not context["scoring_hidden"]:
+            banned_items.append("scorecard")
+
+        menu = [item for item in menu if item.slug not in banned_items]
+
+        return {"council_cards": menu}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council: Council = context.get("council")
+
+        additional_contexts = [
+            self.get_emissions_context(council),
+            self.get_polling_context(council),
+            self.get_scorecard_context(council),
+            self.get_project_context(council),
+            self.get_document_context(council),
+        ]
+        for additional_context in additional_contexts:
+            context.update(additional_context)
+
+        # run menu update last so it can have access to wider context
+        context.update(self.get_council_card_context(context))
+
+        context["page_title"] = council.name
+        context["feedback_form_url"] = settings.FEEDBACK_FORM
+
+        context["related_councils"] = council.get_related_councils()
+        context["promises"] = council.promise_set.filter(has_promise=True).order_by(
+            "target_year"
+        )
+        context["no_promise"] = council.promise_set.filter(has_promise=False)
+        context["last_updated"] = council.plandocument_set.aggregate(
+            last_update=Max("updated_at"), last_found=Max("date_first_found")
+        )
+        context["tags"] = CouncilTag.objects.filter(council=council).select_related(
+            "tag"
+        )
 
         if council.emergencydeclaration_set.count() > 0:
             context["declared_emergency"] = council.emergencydeclaration_set.all()[0]

@@ -1,0 +1,60 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+{% load humanize %}
+
+{% block title %}
+    Emissions data
+{% endblock title %}
+
+{% block cardbody %}
+{% if emissions_data %}
+    <div class="emissions-breakdown border">
+        <div class="emissions-breakdown__totals bg-white">
+            <div class="emissions-breakdown__stat">
+                <div>
+                    <span class="h3">{{ latest_year_total_emissions|floatformat }}</span>
+                    <abbr title="Kilotonnes of Carbon Dioxide">ktCO2</abbr>
+                </div>
+                <p>Total {{ latest_year }} emissions</p>
+            </div>
+            <div class="emissions-breakdown__stat">
+                <div>
+                    <span class="h3">{{ latest_year_per_capita_emissions|floatformat }}</span>
+                    <abbr title="Tonnes of Carbon Dioxide">tCO2</abbr>
+                </div>
+                <p>per person</p>
+            </div>
+            <div class="emissions-breakdown__stat">
+                <div>
+                    <span class="h3">{{ latest_year_per_km2_emissions|floatformat }}</span>
+                    <abbr title="Kilotonnes of Carbon Dioxide">ktCO2</abbr>
+                </div>
+                <p>per km<sup>2</sup></p>
+            </div>
+        </div>
+        <div class="emissions-breakdown__sectors">
+          {% for n, row in current_emissions_breakdown.iterrows %}
+            <div class="emissions-breakdown__stat">
+              <div>
+                  <span class="h3">{{row.percentage}}</span>
+              </div>
+              <p>
+                  <span class="emissions-color-chip emissions-color-chip--{{row.emissions_type|slugify}}"></span>
+                  {{row.emissions_type}}
+              </p>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+    <div class="card-body bg-white border" style="overflow-x:scroll">
+        {% include 'charting/includes/chart-display.html' with chart=chart_collection.multi_emissions %}
+        <p class="text-muted text-smaller mt-4 mb-0">
+            Data from <a href="https://mysociety.github.io/la-emissions-data/">the Department of Business, Energy &amp; Industrial Strategy</a> “subset dataset”, representing carbon dioxide emissions within the scope of influence of local authorities.
+          {% if council.authority_type == 'CTY' or council.authority_type == 'COMB' %}
+            Data has been combined from constituent local authorities.
+          {% endif %}
+        </p>
+    </div>
+{% endif %}
+{% endblock cardbody %}

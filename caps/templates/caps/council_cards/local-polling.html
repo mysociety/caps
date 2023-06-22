@@ -1,52 +1,68 @@
 {% extends "caps/council_cards/base.html" %}
+
 {% load caps_templatetags %}
 
 {% block title %}
-Local polling for {{ council.name }}
+    Local polling for {{ council.name }}
 {% endblock title %}
 
 {% block content %}
     <p class="polling-title">Support for local renewable energy projects</p>
-
     <ul class="polling-list">
-        <li><span class="polling-number">{{ polling_data.RenewableUK2022.Q5|percentage }}</span> support renewable energy projects in their local area
+        <li>
+            <span class="polling-number">{{ polling_data.RenewableUK2022.Q5|percentage }}</span> support renewable energy projects in their local area
         </li>
     </ul>
-
     <p class="polling-title">Support for renewable energy in general</p>
-
     <ul class="polling-list">
-        
-        <li><span class="polling-number">{{ polling_data.RenewableUK2022.Q4_1|percentage }}</span> support offshore wind</li>
-        <li><span class="polling-number">{{ polling_data.RenewableUK2022.Q4_2|percentage }}</span> support onshore wind</li>
-        <li><span class="polling-number">{{ polling_data.RenewableUK2022.Q4_3|percentage }}</span> support solar power</li>
-        <li><span class="polling-number">{{ polling_data.RenewableUK2022.Q4_4|percentage }}</span> support tidal energy</li>
-        <li><span class="polling-number">{{ polling_data.RenewableUK2022.Q4_5|percentage }}</span> support wave energy</li>
-        <li><span class="polling-number">{{ polling_data.RenewableUK2022.Q4_6|percentage }}</span> support nuclear energy</li>
+        <li>
+            <span class="polling-number">{{ polling_data.RenewableUK2022.Q4_1|percentage }}</span> support offshore wind
+        </li>
+        <li>
+            <span class="polling-number">{{ polling_data.RenewableUK2022.Q4_2|percentage }}</span> support onshore wind
+        </li>
+        <li>
+            <span class="polling-number">{{ polling_data.RenewableUK2022.Q4_3|percentage }}</span> support solar power
+        </li>
+        <li>
+            <span class="polling-number">{{ polling_data.RenewableUK2022.Q4_4|percentage }}</span> support tidal energy
+        </li>
+        <li>
+            <span class="polling-number">{{ polling_data.RenewableUK2022.Q4_5|percentage }}</span> support wave energy
+        </li>
+        <li>
+            <span class="polling-number">{{ polling_data.RenewableUK2022.Q4_6|percentage }}</span> support nuclear energy
+        </li>
     </ul>
-
     <p class="polling-title">Support for Net Zero</p>
-
     <ul class="polling-list">
-        <li><span class="polling-number">{{ polling_data.Onward2022.Q02_Support|percentage }}</span> support the UK plan to reach Net Zero by 2050</li>
-        <li><span class="polling-number">{{ polling_data.Onward2022.Q02_Neutral|percentage }}</span> neither support nor oppose the UK plan to reach Net Zero by 2050</li>
-        <li><span class="polling-number">{{ polling_data.Onward2022.Q02_Oppose|percentage }}</span> oppose the UK plan to reach Net Zero by 2050</li>
+        <li>
+            <span class="polling-number">{{ polling_data.Onward2022.Q02_Support|percentage }}</span> support the UK plan to reach Net Zero by 2050
+        </li>
+        <li>
+            <span class="polling-number">{{ polling_data.Onward2022.Q02_Neutral|percentage }}</span> neither support nor oppose the UK plan to reach Net Zero by 2050
+        </li>
+        <li>
+            <span class="polling-number">{{ polling_data.Onward2022.Q02_Oppose|percentage }}</span> oppose the UK plan to reach Net Zero by 2050
+        </li>
     </ul>
-
     <p class="polling-title">Support for Net Zero (when described as expensive)</p>
     <ul class="polling-list">
-        <li><span class="polling-number">{{ polling_data.Onward2022.Q08_Keep|percentage }}</span> The UK should keep it’s plan to reach Net Zero by 2050, even if it’s going to be expensive, as we need to stop damaging the environment</li>
-        <li><span class="polling-number">{{ polling_data.Onward2022.Q08_Scrap|percentage }}</span> The UK should scrap its plan to reach Net Zero by 2050, even if it’s going to be damaging to the environment, as it is going to be too expensive</li>
-        <li><span class="polling-number">{{ polling_data.Onward2022.Q08_DK|percentage }}</span> Don't Know</li>
+        <li>
+            <span class="polling-number">{{ polling_data.Onward2022.Q08_Keep|percentage }}</span> The UK should keep it’s plan to reach Net Zero by 2050, even if it’s going to be expensive, as we need to stop damaging the environment
+        </li>
+        <li>
+            <span class="polling-number">{{ polling_data.Onward2022.Q08_Scrap|percentage }}</span> The UK should scrap its plan to reach Net Zero by 2050, even if it’s going to be damaging to the environment, as it is going to be too expensive
+        </li>
+        <li>
+            <span class="polling-number">{{ polling_data.Onward2022.Q08_DK|percentage }}</span> Don't Know
+        </li>
     </ul>
-
-    <hr/>
+    <hr />
     {% markdown %}
-        Polling conducted by [PublicFirst for Onward](https://www.publicfirst.co.uk/new-public-first-polling-for-onward.html), 
-        and [Survation for RenewableUK](https://www.survation.com/polling-in-every-constituency-in-britain-shows-strong-support-for-building-wind-farms-to-drive-down-consumer-bills/) in 2022.
-
-        This data is based on a national poll that has been adjusted for the demographics of the local area.
-
-        [Learn more about MRP polling]({% url 'content' 'mrp' %}).
-    {% endmarkdown %}
+    Polling conducted by [PublicFirst for Onward](https://www.publicfirst.co.uk/new-public-first-polling-for-onward.html),
+    and [Survation for RenewableUK](https://www.survation.com/polling-in-every-constituency-in-britain-shows-strong-support-for-building-wind-farms-to-drive-down-consumer-bills/) in 2022.
+    This data is based on a national poll that has been adjusted for the demographics of the local area.
+    [Learn more about MRP polling]({% url 'content' 'mrp' %}).
+{% endmarkdown %}
 {% endblock content %}

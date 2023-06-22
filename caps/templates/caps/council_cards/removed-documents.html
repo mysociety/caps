@@ -1,0 +1,20 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+
+{% block title %}
+    Removed documents
+{% endblock title %}
+
+{% block cardbody %}
+    <div class="mb-n3">
+        <ul>
+            {% for removed in removed_documents %}
+                <li>
+                    {{ removed.change.history_date|date:"M d Y" }}: <a href="{{ removed.change.url }}">{{ removed.change.document_type|document_type|title }} removed</a>
+                    {% if removed.change.title %}- {{ removed.change.title }}{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock cardbody %}
