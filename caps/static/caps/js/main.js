@@ -438,5 +438,18 @@ $(window).scroll(function() {
     var contentNavbar = closestSection.getAttribute('id');
     var container = document.querySelector('.js-dynamic-content');
     container.setAttribute('data--active-content-navbar', contentNavbar)
+
+    // update sidebar name
+    var headerNamePosition = $('#header-name').offset().top;
+    var headerNameHeight = $('#header-name').outerHeight();
+    var sidebarTop = $('#sidebar-top');
+    var sidebarTopDefaultContent = sidebarTop.attr('data-default-content');
+    if (scrollPosition > headerNamePosition + headerNameHeight) {
+        $('.sidebar-top').html($('#header-name').html());
+    } else {
+        $('.sidebar-top').html(sidebarTopDefaultContent);
+    }
 }
 );
+
+
