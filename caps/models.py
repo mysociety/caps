@@ -40,7 +40,10 @@ def query_lookup(
 
 
 def save_df_to_model(
-    model: Type[models.Model], df: pd.DataFrame, batch_size: int = 1000
+    model: Type[models.Model],
+    df: pd.DataFrame,
+    batch_size: int = 1000,
+    quiet: bool = False,
 ):
     """
     Given a df with column names that match field names,
@@ -52,7 +55,7 @@ def save_df_to_model(
 
     # iterate through subsets of df of batch_size
     max_sets = math.ceil(len(df) / batch_size)
-    for i in tqdm(range(max_sets)):
+    for i in tqdm(range(max_sets), disable=quiet):
         start = i * batch_size
         end = (i + 1) * batch_size
         records = df[good_cols].iloc[start:end].to_dict("records")
@@ -1338,7 +1341,7 @@ class KeyPhrase(models.Model):
     highlight = models.BooleanField(default=False)
 
     @classmethod
-    def populate(cls):
+    def populate(cls, quiet: bool = False):
         """
         Populate the database from the sourcefile
         """
@@ -1347,7 +1350,7 @@ class KeyPhrase(models.Model):
         df = df[df["keyphrase"].str.len() > 4]
         df["highlight"] = df["highlight"].fillna(False)
         cls.objects.all().delete()
-        save_df_to_model(cls, df)
+        save_df_to_model(cls, df, quiet=quiet)
 
     @classmethod
     def valid_keyphrases(cls):
@@ -1401,7 +1404,7 @@ class KeyPhrasePairWise(models.Model):
         unique_together = ("word_a", "word_b")
 
     @classmethod
-    def populate(cls):
+    def populate(cls, quiet: bool = False):
         """
         Populate the lookup table from the source file
         """
@@ -1425,7 +1428,7 @@ class KeyPhrasePairWise(models.Model):
         df = df[df["cosine_similarity"] > 0.5]
         cls.objects.all().delete()
         word_id_dict = None
-        save_df_to_model(cls, df, batch_size=10000)
+        save_df_to_model(cls, df, batch_size=10000, quiet=quiet)
 
 
 class CachedSearch(models.Model):

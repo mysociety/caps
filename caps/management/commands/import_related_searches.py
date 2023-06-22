@@ -35,7 +35,7 @@ def fetch_data():
     Path("data", "ml_keyphrases_pairwise.csv").write_bytes(pairwise_file.content)
 
 
-def run_recent_searches():
+def run_recent_searches(verbose: bool = False):
     """
     Run searches just for documents that were first found in the two weeks
     """
@@ -43,21 +43,24 @@ def run_recent_searches():
     docs = PlanDocument.objects.filter(date_first_found__gte=week_ago)
     ids = [d.id for d in docs]
     print(f"Found {len(ids)} recent documents to update search results")
-    run_searches(limit_to_ids=ids)
+    run_searches(verbose=verbose, limit_to_ids=ids)
 
 
-def run_searches(limit_to_ids: Optional[list[int]] = None):
+def run_searches(verbose: bool = False, limit_to_ids: Optional[list[int]] = None):
     """
     For each primary related search term, run the search in haystack and save the results
     """
     new_searches = []
     allowed_keyphrases = list(KeyPhrase.valid_keyphrases())
-    print(f"Checking {len(allowed_keyphrases)} keyphrases")
-    for keyphrase in tqdm(allowed_keyphrases):
-        tqdm.write(f"Running search for {keyphrase.keyphrase}")
+    if verbose:
+        print(f"Checking {len(allowed_keyphrases)} keyphrases")
+    for keyphrase in tqdm(allowed_keyphrases, disable=not verbose):
+        if verbose:
+            tqdm.write(f"Running search for {keyphrase.keyphrase}")
         sqs, _ = get_semantic_query(keyphrase.keyphrase, limit_to_ids=limit_to_ids)
         results = sqs.highlight(**fuller_highlighter_config)
-        tqdm.write(f"Found {len(results)} matched documents")
+        if verbose:
+            tqdm.write(f"Found {len(results)} matched documents")
 
         results, _ = condense_highlights(results, [])
 
@@ -71,7 +74,8 @@ def run_searches(limit_to_ids: Optional[list[int]] = None):
                 count = highlighted.count("<mark>")
             else:
                 count = 0
-            tqdm.write(f"{doc_id} {count} {keyphrase.keyphrase}")
+            if verbose:
+                tqdm.write(f"{doc_id} {count} {keyphrase.keyphrase}")
             if count > 0:
                 new_searches.append(
                     CachedSearch(search_term=keyphrase, document_id=doc_id, count=count)
@@ -98,19 +102,29 @@ class Command(BaseCommand):
             action="store_true",
             help="Runs the search against all documents",
         )
+        parser.add_argument(
+            "--quiet",
+            action="store_true",
+            help="Do not display progress bars and other output",
+        )
 
     def handle(self, *args, **options):
         get_all = options["all"]
+        verbose = not options["quiet"]
         reload_searches = options["reload_searches"]
         if get_all or not KeyPhrase.objects.count():
-            print("Downloading data")
+            if verbose:
+                print("Downloading data")
             fetch_data()
-            print("Importing Keyphrases")
-            KeyPhrase.populate()
-            print("Importing Keyphrase Pairwise")
-            KeyPhrasePairWise.populate()
+            if verbose:
+                print("Importing Keyphrases")
+            KeyPhrase.populate(quiet=not verbose)
+            if verbose:
+                print("Importing Keyphrase Pairwise")
+            KeyPhrasePairWise.populate(quiet=not verbose)
         if reload_searches or get_all or not CachedSearch.objects.count():
-            print("Running searches")
-            run_searches()
+            if verbose:
+                print("Running searches")
+            run_searches(verbose=verbose)
         else:
-            run_recent_searches()
+            run_recent_searches(verbose=verbose)
