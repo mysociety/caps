@@ -354,7 +354,9 @@ class Council(models.Model):
         Get all data points for a given data group
         """
         data_types = DataType.objects.filter(collection=data_group)
-        return DataPoint.objects.filter(council=self, data_type__in=data_types)
+        return DataPoint.objects.filter(
+            council=self, data_type__in=data_types
+        ).prefetch_related("data_type")
 
     def current_emissions_breakdown(self, year: int) -> pd.DataFrame:
         """
@@ -374,6 +376,7 @@ class Council(models.Model):
             DataPoint.objects.filter(
                 council=self, data_type__name_in_source__in=totals, year=year
             )
+            .prefetch_related("data_type")
             .to_dataframe(("data_type__name_in_source", "emissions_type"), "value")
             .assign(percentage=lambda df: df["value"] / df["value"].sum())
             .sort_values("percentage", ascending=False)
@@ -683,7 +686,15 @@ class PlanDocument(models.Model):
             return self.get_document_type
 
     def sorted_key_terms(self):
-        return self.key_terms.order_by("search_term__keyphrase")
+        """
+        Return the key terms for this document
+        Basic within-request caching to avoid repeated queries
+        """
+        if not hasattr(self, "_sorted_key_terms"):
+            self._sorted_key_terms = self.key_terms.order_by(
+                "search_term__keyphrase"
+            ).prefetch_related("search_term")
+        return self._sorted_key_terms
 
     @property
     def link(self):
