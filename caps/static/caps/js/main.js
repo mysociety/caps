@@ -412,11 +412,31 @@ function get_value_from_cell(row, index){
 }
 
 $( '[data-content-navbar-switch]' ).click(function(event) {
-    event.preventDefault();
     var contentNavbar = this.getAttribute('data-content-navbar-switch');
     var container = document.querySelector('.js-dynamic-content');
     container.setAttribute('data--active-content-navbar', contentNavbar)
-   /* Prevents that the screen to be positioned in the middle
-   when using one of the footer anchors */
-    window.scrollTo(0, 0);
+    // do not follow the link and do not move the position on the screen
+    // event.preventDefault();
 });
+
+// when we scroll pass the start of a .js-content block, update the active content navbar
+$(window).scroll(function() {
+    var scrollPosition = $(window).scrollTop();
+    // iterate through all js-section and find the one that is closest to the top of the screen
+    var closestSection = null;
+    var closestSectionDistance = null;
+    $('.js-section').each(function() {
+        var sectionPosition = $(this).offset().top;
+        var distance = Math.abs(sectionPosition - scrollPosition);
+        if (closestSectionDistance === null || distance < closestSectionDistance) {
+            closestSection = this;
+            closestSectionDistance = distance;
+        }
+    }
+    );
+    // update the active content navbar
+    var contentNavbar = closestSection.getAttribute('id');
+    var container = document.querySelector('.js-dynamic-content');
+    container.setAttribute('data--active-content-navbar', contentNavbar)
+}
+);

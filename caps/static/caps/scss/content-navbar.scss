@@ -4,13 +4,14 @@ Example of usage can be found on council page(council_detail.html)
 */
 
 $content-index-array: (
-    'plegdes',
-    'scorecard',
-    'documents',
-    'similar',
-    'scorecard',
+    'summary',
+    'powers',
+    'declarations',
     'emissions',
-    'responsibilities'
+    'council-documents',
+    'emissions-reduction-projects',
+    'scorecard',
+    'related-councils',
 );
 
 .js-default {
@@ -25,9 +26,9 @@ a.nav-link[data-content-navbar-switch="default"]{
 
 @each $content-index-item in $content-index-array {
     // Hide all index content related.
-    .js-#{$content-index-item} { 
-        display: none;
-    }
+    // .js-#{$content-index-item} { 
+    //     display: none;
+    // }
 
   [data--active-content-navbar="#{$content-index-item}"] {
     // Hide any default elements
@@ -109,17 +110,18 @@ a.nav-link[data-content-navbar-switch="default"]{
   }
 }
 
+
 /* The emission section has this special treatment because the emissions chart doesn't behave 
 properly when is being hidden */
-[data--active-content-navbar="emissions"] .js-emissions {
-  position: static;
-}
+//[data--active-content-navbar="emissions"] .js-emissions {
+//  position: static;
+//}
 
-.js-emissions {
-  display: block !important;
-  position: absolute;
-  left: 99999px;
-}
+//.js-emissions {
+//  display: block !important;
+//  position: absolute;
+//  left: 99999px;
+//}
 
 .council-content::-webkit-scrollbar {
   display: none;
