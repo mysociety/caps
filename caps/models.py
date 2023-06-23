@@ -271,6 +271,12 @@ class Council(models.Model):
         )
         return q
 
+    def is_non_english(self):
+        return self.country != self.ENGLAND
+
+    def nice_country(self):
+        return Council.country_description(self.country)
+
     def get_predecessors(self):
         """
         Get councils that have been replaced by this council
