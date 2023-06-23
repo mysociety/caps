@@ -1180,7 +1180,7 @@ class CouncilFilter(django_filters.FilterSet):
         method="filter_geography",
         label="Geography",
         empty_label="All",
-        choices=Council.PLAN_GEOGRAPHY_CHOICES,
+        choices=[],
     )
 
     population = django_filters.ChoiceFilter(
@@ -1289,12 +1289,10 @@ class CouncilFilter(django_filters.FilterSet):
         if value is None:
             return queryset
         else:
-            # can't use planscores as importing scoring models results in a circular reference hence raw
-            plans = RawSQL(
-                "select distinct council_id from scoring_planscore ps where ps.year = %s and ps.ruc_cluster = %s",
-                [settings.PLAN_YEAR, value],
+            return queryset.filter(
+                comparisonlabelassignment__label__slug=value,
+                comparisonlabelassignment__label__type__slug="ruc",
             )
-            return queryset.filter(**{"id__in": plans})
 
     def filter_population(self, queryset, name, value):
         if value is None:
@@ -1323,6 +1321,9 @@ class CouncilFilter(django_filters.FilterSet):
             self.filters["region"].extra["choices"] = Council.region_filter_choices()
             self.filters["emissions"].extra["choices"] = ComparisonLabel.choices(
                 "emissions"
+            )
+            self.filters["geography"].extra["choices"] = ComparisonLabel.choices(
+                "ruc"
             )
         except (KeyError, AttributeError):
             pass
