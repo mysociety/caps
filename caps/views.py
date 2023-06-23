@@ -11,19 +11,8 @@ from bs4 import BeautifulSoup
 from charting import ChartCollection
 from django.conf import settings
 from django.core.mail import send_mail
-from django.db.models import (
-    Avg,
-    Count,
-    Max,
-    Min,
-    OuterRef,
-    Q,
-    Subquery,
-    When,
-    Value,
-    IntegerField,
-    Case,
-)
+from django.db.models import (Avg, Case, Count, IntegerField, Max, Min,
+                              OuterRef, Q, Subquery, Value, When)
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import Context, Template
@@ -39,9 +28,10 @@ import caps.charts as charts
 from caps.forms import HighlightedSearchForm
 from caps.mapit import (BadRequestException, ForbiddenException,
                         InternalServerErrorException, MapIt, NotFoundException)
-from caps.models import (ComparisonType, Council, CouncilFilter,
-                         CouncilProject, CouncilTag, DataPoint, DataType,
-                         PlanDocument, ProjectFilter, SavedSearch, Tag)
+from caps.models import (ComparisonLabel, ComparisonType, Council,
+                         CouncilFilter, CouncilProject, CouncilTag, DataPoint,
+                         DataType, PlanDocument, ProjectFilter, SavedSearch,
+                         Tag)
 from caps.search_funcs import condense_highlights
 from caps.utils import file_size, is_valid_postcode
 
@@ -495,6 +485,8 @@ class CouncilListView(FilterView):
                         choices = Council.COUNTRY_CHOICES
                         value = int(value)
                         field_label = "Country"
+                    if field == "emissions":
+                        choices = ComparisonLabel.choices("emissions")
                     context["field_descriptions"][field_label] = dict(choices).get(
                         value, value
                     )

@@ -1,23 +1,18 @@
 from __future__ import annotations
+
 import hashlib
+import json
 import math
 import os
 import re
-from copy import deepcopy
-from itertools import groupby, chain
-from pathlib import Path
-from typing import (
-    Optional,
-    Type,
-    List,
-    Callable,
-    Union,
-    Tuple,
-    NamedTuple,
-    TypeVar,
-)
 from collections import defaultdict
-import json
+from copy import deepcopy
+from datetime import date
+from itertools import chain, groupby
+from pathlib import Path
+from typing import (Callable, List, NamedTuple, Optional, Tuple, Type, TypeVar,
+                    Union)
+
 import dateutil.parser
 import django_filters
 import markdown
@@ -25,26 +20,17 @@ import pandas as pd
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import models
-from django.db.models.functions import Length
-from django.db.models import (
-    Count,
-    Max,
-    Min,
-    Q,
-    Sum,
-    Subquery,
-    OuterRef,
-    QuerySet,
-    Prefetch,
-)
+from django.db.models import (Count, Max, Min, OuterRef, Prefetch, Q, QuerySet,
+                              Subquery, Sum)
 from django.db.models.expressions import RawSQL
+from django.db.models.functions import Length
 from django.forms import Select, TextInput
 from django.utils.http import urlencode
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
-from caps.filters import DefaultSecondarySortFilter
 from tqdm import tqdm
-from datetime import date
+
+from caps.filters import DefaultSecondarySortFilter
 
 # Allow length looking for CharFields
 models.CharField.register_lookup(Length)
@@ -371,6 +357,14 @@ class Council(models.Model):
             docs=joined_docs,
             sort_func=lambda doc: doc.council,
             is_main=self,
+        )
+
+    def get_emissions_cluster(self):
+        """
+        Get the emissions cluster for this council
+        """
+        return ComparisonLabel.objects.get(
+            assignments__council=self, type__slug="emissions"
         )
 
     def get_related_councils(self, cut_off: int = 10) -> List[dict]:
@@ -1175,6 +1169,13 @@ class CouncilFilter(django_filters.FilterSet):
         widget=Select(choices=Council.PLAN_FILTER_CHOICES),
     )
 
+    emissions = django_filters.ChoiceFilter(
+        method="filter_emissions",
+        label="Emissions Profile",
+        empty_label="All",
+        choices=[],
+    )
+
     geography = django_filters.ChoiceFilter(
         method="filter_geography",
         label="Geography",
@@ -1260,6 +1261,15 @@ class CouncilFilter(django_filters.FilterSet):
         else:
             return queryset.filter(**{f"{earliest_field}__lte": value})
 
+    def filter_emissions(self, queryset, name, value):
+        if value is None:
+            return queryset
+        else:
+            return queryset.filter(
+                comparisonlabelassignment__label__slug=value,
+                comparisonlabelassignment__label__type__slug="emissions",
+            )
+
     def filter_region(self, queryset, name, value):
         if value is None:
             return queryset
@@ -1311,6 +1321,9 @@ class CouncilFilter(django_filters.FilterSet):
         super().__init__(*args, **kwargs)
         try:
             self.filters["region"].extra["choices"] = Council.region_filter_choices()
+            self.filters["emissions"].extra["choices"] = ComparisonLabel.choices(
+                "emissions"
+            )
         except (KeyError, AttributeError):
             pass
 
@@ -1403,6 +1416,14 @@ class ComparisonLabel(models.Model):
         df = df.rename(columns={"label": "name"})
         cls.objects.all().delete()
         save_df_to_model(cls, df)
+
+    @classmethod
+    def choices(cls, comparison_type: str):
+        """
+        Return choices for a given comparison type
+        """
+        labels = cls.objects.filter(type__slug=comparison_type).order_by("name")
+        return [(l.slug, l.name) for l in labels]
 
     def markdown_desc(self):
         return markdown.markdown(self.desc)
