@@ -1183,6 +1183,13 @@ class CouncilFilter(django_filters.FilterSet):
         choices=[],
     )
 
+    imd = django_filters.ChoiceFilter(
+        method="filter_imd",
+        label="IMD Profile",
+        empty_label="All",
+        choices=[],
+    )
+
     population = django_filters.ChoiceFilter(
         method="filter_population",
         label="Population",
@@ -1294,6 +1301,15 @@ class CouncilFilter(django_filters.FilterSet):
                 comparisonlabelassignment__label__type__slug="ruc",
             )
 
+    def filter_imd(self, queryset, name, value):
+        if value is None:
+            return queryset
+        else:
+            return queryset.filter(
+                comparisonlabelassignment__label__slug=value,
+                comparisonlabelassignment__label__type__slug="imd",
+            )
+
     def filter_population(self, queryset, name, value):
         if value is None:
             return queryset
@@ -1322,9 +1338,8 @@ class CouncilFilter(django_filters.FilterSet):
             self.filters["emissions"].extra["choices"] = ComparisonLabel.choices(
                 "emissions"
             )
-            self.filters["geography"].extra["choices"] = ComparisonLabel.choices(
-                "ruc"
-            )
+            self.filters["geography"].extra["choices"] = ComparisonLabel.choices("ruc")
+            self.filters["imd"].extra["choices"] = ComparisonLabel.choices("imd")
         except (KeyError, AttributeError):
             pass
 
