@@ -256,33 +256,43 @@ class CouncilDetailView(DetailView):
             MenuItem(
                 slug="summary",
                 title="Summary",
-                desc="Overview of CAPE and information available.",
+                color="blue",
+                desc="Overview of CAPE and the information available.",
             ),
             MenuItem(
                 slug="new-council",
                 title="What did this council replace?",
+                color="red",
                 desc="Details of councils this authority replaced.",
             ),
             MenuItem(
                 slug="old-council",
                 title="What replaced this council?",
+                color="red",
                 desc="Details of councils that replaced this authority.",
             ),
             MenuItem(
                 slug="powers",
                 title="Powers & responsibilities",
+                color="green",
                 desc="What the council is responsible for and how it relates to climate change.",
             ),
             MenuItem(
                 slug="declarations",
                 title="Pledges and declarations",
+                color="cyan",
                 desc="Pledges and declarations the council has made around climate change.",
             ),
-            MenuItem(slug="council-documents", title="Council documents", desc=""),
+            MenuItem(
+                slug="council-documents",
+                title="Council documents",
+                desc="Documents, Reports and Plans this council has released related to its climate change plans.",
+            ),
             MenuItem(
                 slug="emissions",
                 title="Emissions data",
-                desc="The emissions story for this council.",
+                color="blue",
+                desc="The emissions profile and history for this council.",
             ),
             MenuItem(
                 slug="emissions-reduction-projects",
@@ -293,12 +303,14 @@ class CouncilDetailView(DetailView):
             MenuItem(
                 slug="scorecard",
                 title="Scorecard",
+                color="green",
                 desc="How this council's plans scored on CEUK's 2021 Scorecards.",
             ),
             MenuItem(
                 slug="related-councils",
                 title="Related councils",
-                desc="Similar councils to this council.",
+                color="blue",
+                desc="Lists of councils with similar characteristics to this council.",
             ),
         ]
 
