@@ -12,6 +12,12 @@
 {% endblock header %}
 
 {% block cardbody %}
+    {% infobox %}
+        <p class="mb-0">
+            <strong>What are climate action plans?</strong>
+        </p>
+       
+    {% endinfobox %}
     {% if council.plandocument_set.all %}
         <div class="card-body bg-red-light">
             <form action="{% url 'search_results' %}"

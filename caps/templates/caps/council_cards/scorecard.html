@@ -8,18 +8,30 @@
 {% endblock title %}
 
 {% block cardbody %}
-    {% if tags %}
-        <div class="card-body bg-white border">
-            <p class="mt-n1">This council’s climate plan has been tagged with the following features:</p>
-            <div class="ceuk-tag-list">
-                {% for tag in tags %}
+    {% infobox %}
+    <p class="mb-3">
+        This council’s climate plans as of 20th September 2021 were assessed and scored by trained Climate Emergency UK volunteers, as part of the Council Climate Plan Scorecards project.
+    </p>
+    <p class="mb-3">
+        A new scorecard based on council actions will be released in Autumn 2023. <a href="https://councilclimatescorecards.uk/methodology/">Read more about this</a>.
+    </p>
 
-                    {% include 'caps/includes/tag.html' with tag=tag.tag %}
+    <p class="mb-0 d-flex flex-wrap">
+        <a href="https://councilclimatescorecards.uk/councils/{{ council.slug }}/"
+           class="d-flex align-items-center mr-4 font-weight-bold">Show the full Scorecard
 
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
+            {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+
+        </a>
+        <a href="https://councilclimatescorecards.uk/methodology/"
+           class="d-flex align-items-center mr-4 font-weight-bold">Read more about the scoring process
+
+            {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+
+        </a>
+    </p>
+    {% endinfobox %}
+
     {% if scoring_score.weighted_total == 0 %}
 
         {% include 'caps/icons/question-circle.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-red' role='presentation' %}
@@ -96,30 +108,6 @@
             </div>
         {% endif %}
     </div>
-    <div class="mb-3 mb-sm-4 d-flex p-3 border bg-blue-light">
-
-        {% include 'caps/icons/info.html' with width='2rem' height='2rem' classes='mt-1 mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' role='presentation' %}
-
-        <div>
-            <p class="mb-3">
-                This council’s climate plans as of 20th September 2021 were assessed and scored by trained Climate Emergency UK volunteers, as part of the Council Climate Plan Scorecards project.
-            </p>
-            <p class="mb-0 d-flex flex-wrap">
-                <a href="https://councilclimatescorecards.uk/councils/{{ council.slug }}/"
-                   class="d-flex align-items-center mr-4 font-weight-bold">Show the full Scorecard
-
-                    {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
-
-                </a>
-                <a href="https://councilclimatescorecards.uk/methodology/"
-                   class="d-flex align-items-center mr-4 font-weight-bold">Read more about the scoring process
-
-                    {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
-
-                </a>
-            </p>
-        </div>
-    </div>
     {% if scoring_score.weighted_total == 0 %}
         <div class="card-body d-flex align-items-center border-top scorecard-zero-scorer">
 
@@ -166,6 +154,18 @@
             </div>
         </div>
     {% endif %}
+    {% if tags %}
+    <div class="card-body bg-white border">
+        <p class="mt-n1">This council’s climate plan has been tagged with the following features:</p>
+        <div class="ceuk-tag-list">
+            {% for tag in tags %}
+
+                {% include 'caps/includes/tag.html' with tag=tag.tag %}
+
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
     <div class="ceuk-data-table scorecard-table bg-white border border-top-0">
         <table class="table table-responsive mb-0">
             <thead>

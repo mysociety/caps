@@ -181,6 +181,7 @@ class CouncilDetailView(DetailView):
             context["scoring_hidden"] = getattr(settings, "SCORECARDS_PRIVATE", False)
 
         except PlanScore.DoesNotExist:
+            print("Plan missing!!")
             context["scoring_hidden"] = True
 
         return context
@@ -291,6 +292,12 @@ class CouncilDetailView(DetailView):
                 desc="Documents, Reports and Plans this council has released related to its climate change plans.",
             ),
             MenuItem(
+                slug="scorecard",
+                title="Scorecard",
+                color="green",
+                desc="How this council's plans scored on CEUK's 2021 Scorecards.",
+            ),
+            MenuItem(
                 slug="emissions",
                 title="Emissions data",
                 color="blue",
@@ -301,12 +308,6 @@ class CouncilDetailView(DetailView):
                 title="Emissions reduction projects",
                 color="blue",
                 desc="Projects this council has undertaken to reduce emissions.",
-            ),
-            MenuItem(
-                slug="scorecard",
-                title="Scorecard",
-                color="green",
-                desc="How this council's plans scored on CEUK's 2021 Scorecards.",
             ),
             MenuItem(
                 slug="related-councils",
@@ -332,7 +333,7 @@ class CouncilDetailView(DetailView):
             banned_items.append("old-council")
 
         # remove scorecard if the hidden flag is set
-        if not context["scoring_hidden"]:
+        if context["scoring_hidden"]:
             banned_items.append("scorecard")
 
         menu = [item for item in menu if item.slug not in banned_items]
