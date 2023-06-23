@@ -1,0 +1,10 @@
+{% if earliest_promise > 0 %}
+<td data-column="promise" data-sortvalue="{{ earliest_promise }}">
+    {{ earliest_promise }}
+  {% elif has_promise %}
+<td data-column="promise" data-sortvalue="0">
+    No target
+  {% else %}
+<td data-column="promise" data-sortvalue="0">
+  {% endif %}
+</td>

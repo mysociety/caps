@@ -1091,6 +1091,7 @@ class Promise(models.Model):
         (2045, "2045"),
         (2050, "2050"),
         ("no_target", "No target"),
+        ("any_promise", "Any target"),
         ("unknown", "Unknown"),
     ]
 
@@ -1145,9 +1146,23 @@ class CouncilFilter(django_filters.FilterSet):
         empty_label="All",
     )
 
+    promise_council = django_filters.ChoiceFilter(
+        method="filter_promise_council",
+        label="Carbon neutral by (Council)",
+        empty_label="All",
+        choices=Promise.PROMISE_FILTER_CHOICES,
+    )
+
+    promise_area = django_filters.ChoiceFilter(
+        method="filter_promise_area",
+        label="Carbon neutral by (Area)",
+        empty_label="All",
+        choices=Promise.PROMISE_FILTER_CHOICES,
+    )
+
     promise_combined = django_filters.ChoiceFilter(
         method="filter_promise",
-        label="Carbon neutral by",
+        label="Carbon neutral by (Any)",
         empty_label="All",
         choices=Promise.PROMISE_FILTER_CHOICES,
     )
@@ -1221,15 +1236,29 @@ class CouncilFilter(django_filters.FilterSet):
         else:
             return queryset.filter(**{name: value})
 
-    def filter_promise(self, queryset, name, value):
+    def filter_promise_area(self, queryset, name, value):
+        return self.filter_promise(queryset, name, value, scope="area")
+
+    def filter_promise_council(self, queryset, name, value):
+        return self.filter_promise(queryset, name, value, scope="council")
+
+    def filter_promise(self, queryset, name, value, scope=""):
+        promise_field = "has_promise"
+        earliest_field = "earliest_promise"
+        if scope:
+            promise_field += "_" + scope
+            earliest_field += "_" + scope
+
         if value is None:
             return queryset
+        elif value == "any_promise":
+            return queryset.filter(**{promise_field: 1})
         elif value == "unknown":
-            return queryset.filter(**{"has_promise": 0})
+            return queryset.filter(**{promise_field: 0})
         elif value == "no_target":
-            return queryset.filter(**{"has_promise__gte": 1, "earliest_promise": None})
+            return queryset.filter(**{f"{promise_field}__gte": 1, earliest_field: None})
         else:
-            return queryset.filter(**{"earliest_promise__lte": value})
+            return queryset.filter(**{f"{earliest_field}__lte": value})
 
     def filter_region(self, queryset, name, value):
         if value is None:

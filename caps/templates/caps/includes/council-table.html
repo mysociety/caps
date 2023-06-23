@@ -5,7 +5,15 @@
             <th scope="col" data-sortable="name">Council name</th>
             <th scope="col">Has plan</th>
             {% if filter.request.GET.sort != 'last_update' and filter.request.GET.sort != '-last_update' %}
-            <th scope="col" data-sortable="promise_year">Carbon Neutral by</th>
+            {% if filter.request.GET.promise_area %}
+            <th scope="col" data-sortable="promise_year_area">Carbon Neutral by (Area)</th>
+            {% endif %}
+            {% if filter.request.GET.promise_council %}
+            <th scope="col" data-sortable="promise_year_council">Carbon Neutral by (Council)</th>
+            {% endif %}
+            {% if not filter.request.GET.promise_area and not filter.request.GET.promise_council %}
+            <th scope="col" data-sortable="promise_year">Carbon Neutral by (any)</th>
+            {% endif %}
             <th scope="col" data-sortable="declaration_date">Declared emergency</th>
             {% else %}
             {% if show_last_updated %}
@@ -30,16 +38,15 @@
               {% endif %}
             </td>
             {% if filter.request.GET.sort != 'last_update' and filter.request.GET.sort != '-last_update' %}
-              {% if council.earliest_promise > 0 %}
-            <td data-column="promise" data-sortvalue="{{ council.earliest_promise }}">
-                {{ council.earliest_promise }}
-              {% elif council.has_promise %}
-            <td data-column="promise" data-sortvalue="0">
-                No target
-              {% else %}
-            <td data-column="promise" data-sortvalue="0">
-              {% endif %}
-            </td>
+            {% if filter.request.GET.promise_area %}
+              {% include "caps/includes/promise-table-cell.html" with has_promise=council.has_promise_area earliest_promise=council.earliest_promise_area %}
+            {% endif %}
+            {% if filter.request.GET.promise_council %}
+              {% include "caps/includes/promise-table-cell.html" with has_promise=council.has_promise_council earliest_promise=council.earliest_promise_council %}
+            {% endif %}
+            {% if not filter.request.GET.promise_area and not filter.request.GET.promise_council %}
+              {% include "caps/includes/promise-table-cell.html" with has_promise=council.has_promise earliest_promise=council.earliest_promise %}
+            {% endif %}
               {% if council.declared_emergency %}
             <td data-column="declared-emergency" data-sortvalue="{{  council.declared_emergency.isoformat }}">
               {{ council.declared_emergency }}

@@ -395,6 +395,8 @@ class CouncilListView(FilterView):
     extra_context = {"page_title": "Find a council"}
     advanced_filters = [
         "promise_combined",
+        "promise_area",
+        "promise_council",
         "authority_type",
         "region",
         "geography",
@@ -415,7 +417,47 @@ class CouncilListView(FilterView):
                     .values("num_plans")
                 ),
                 has_promise=Count("promise"),
+                has_promise_area=Count(
+                    Case(
+                        When(
+                            promise__scope=PlanDocument.WHOLE_AREA,
+                            then="promise__target_year",
+                        ),
+                        default=Value(None),
+                        output_field=IntegerField(),
+                    )
+                ),
+                has_promise_council=Count(
+                    Case(
+                        When(
+                            promise__scope=PlanDocument.COUNCIL_ONLY,
+                            then="promise__target_year",
+                        ),
+                        default=Value(None),
+                        output_field=IntegerField(),
+                    )
+                ),
                 earliest_promise=Min("promise__target_year"),
+                earliest_promise_area=Min(
+                    Case(
+                        When(
+                            promise__scope=PlanDocument.WHOLE_AREA,
+                            then="promise__target_year",
+                        ),
+                        default=Value(None),
+                        output_field=IntegerField(),
+                    )
+                ),
+                earliest_promise_council=Min(
+                    Case(
+                        When(
+                            promise__scope=PlanDocument.COUNCIL_ONLY,
+                            then="promise__target_year",
+                        ),
+                        default=Value(None),
+                        output_field=IntegerField(),
+                    )
+                ),
                 declared_emergency=Min("emergencydeclaration__date_declared"),
                 last_plan_update=Max("plandocument__updated_at"),
             )
