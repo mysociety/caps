@@ -415,6 +415,7 @@ $( '[data-content-navbar-switch]' ).click(function(event) {
     var contentNavbar = this.getAttribute('data-content-navbar-switch');
     var container = document.querySelector('.js-dynamic-content');
     container.setAttribute('data--active-content-navbar', contentNavbar)
+    trackEvent('content_navbar_switch', {"content_navbar": contentNavbar})
     // do not follow the link and do not move the position on the screen
     // event.preventDefault();
 });
