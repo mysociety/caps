@@ -328,6 +328,12 @@ class CouncilDetailView(DetailView):
                 desc="How to download the information we hold on UK councils",
             ),
             MenuItem(
+                slug="cite",
+                title="Cite this page",
+                color="blue",
+                desc="How to cite or credit infomation on this site",
+            ),
+            MenuItem(
                 slug="improve",
                 title="Help us improve",
                 color="green",
