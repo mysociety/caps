@@ -34,10 +34,7 @@
                      id="{{ group.type.slug }}-content"
                      role="tabpanel"
                      aria-labelledby="{{ group.type.slug }}-tab">
-                    <div class="card-body d-flex align-items-center">
-
-                        {% include 'caps/icons/info.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' role='presentation' %}
-
+                     {% infobox %}
                         <p class="mb-0">
                             {% if group.type.slug == "composite" %}
                                 These councils are the most similar to <strong>{{ council.name }}</strong> in terms of emissions profile, deprivation, rural/urban population density, and geographical nearness.
@@ -52,7 +49,7 @@
                             {% endif %}
                             <a href="{% url 'about_data' %}#similarity">Read more about how we calculate this.</a>
                         </p>
-                    </div>
+                    {% endinfobox %}
                     <div class="ceuk-data-table">
 
                         {% include 'caps/includes/related-council-table.html' with councils=group.councils %}
