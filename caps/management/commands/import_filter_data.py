@@ -24,11 +24,10 @@ YEAR = settings.PLAN_YEAR
 
 
 def get_data():
-    token = settings.PERSONAL_ACCESS_TOKEN
-    headers = {"Authorization": "token " + token}
-    r = requests.get(FILTER_DATA_URL, headers=headers)
-    with open(FILTER_CSV, "wb") as outfile:
-        outfile.write(r.content)
+    """
+    Download filter_data_url
+    """
+    pd.read_csv(FILTER_DATA_URL).to_csv(FILTER_CSV, index=False)
 
 
 def import_filters():
