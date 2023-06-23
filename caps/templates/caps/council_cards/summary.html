@@ -3,8 +3,30 @@
 {% load caps_templatetags %}
 
 {% block title %}
-  Summary
+  Local climate information from CAPE
 {% endblock title %}
 
 {% block content %}
+  {% markdown %}
+    Climate change is a global challenge, but reaching the UK's carbon emissions goals requires local action.
+    
+    Local councils, either through their services, or through their infulence on residents and local businesses, have infulence [over one-third of UK emissions](https://research.mysociety.org/html/joining-up/#what-does-local-government-do-and-what-is-its-role-in-tackling-climate-change-local-authorities-have-powers-and-influence-over-roughly-a-third-of-uk-emissions).
+
+    [mySociety](https://mysociety.org) and [Climate Emergency UK](https://www.climateemergency.uk/) have created CAPE - to make councils' commitments, plans, and progress on climate action transparent and accessible to all.
+    
+    We are working to improve the quality of information that is available about local climate action, and about the levels of public support for climate action.
+    
+    By promoting information sharing and constructive scrutiny, we aim to drive more effective and coordinated action.
+
+    ***
+
+    For {{ council.name }} we have collected the following information:
+  {% endmarkdown %}
+  <ul>
+    {% for item in council_cards %}
+      <li>
+        <a href="#{{ item.slug }}">{{ item.title }}</a> - {{ item.desc }}
+      </li>
+    {% endfor %}
+  </ul>
 {% endblock content %}
