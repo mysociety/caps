@@ -321,6 +321,12 @@ class CouncilDetailView(DetailView):
                 color="cyan",
                 desc="Links to other resources and information about this council.",
             ),
+            MenuItem(
+                slug="download-data",
+                title="Download our data",
+                color="red",
+                desc="How to download the information we hold on UK councils",
+            ),
         ]
 
         banned_items = []
