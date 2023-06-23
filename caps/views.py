@@ -11,7 +11,19 @@ from bs4 import BeautifulSoup
 from charting import ChartCollection
 from django.conf import settings
 from django.core.mail import send_mail
-from django.db.models import Avg, Count, Max, Min, OuterRef, Q, Subquery
+from django.db.models import (
+    Avg,
+    Count,
+    Max,
+    Min,
+    OuterRef,
+    Q,
+    Subquery,
+    When,
+    Value,
+    IntegerField,
+    Case,
+)
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import Context, Template
@@ -471,7 +483,22 @@ class CouncilListView(FilterView):
         if hasattr(form, "cleaned_data"):
             active_filters = {}
             active_advanced_filters = {}
+            context["field_descriptions"] = {}
             for field, value in form.cleaned_data.items():
+                # create readable description of filters selected
+                if field != "sort" and value:
+                    field_label = CouncilFilter.base_filters[
+                        field
+                    ].label or field.replace("_", " ")
+                    choices = CouncilFilter.base_filters[field].extra.get("choices", [])
+                    if field == "region" and value in "1234":
+                        choices = Council.COUNTRY_CHOICES
+                        value = int(value)
+                        field_label = "Country"
+                    context["field_descriptions"][field_label] = dict(choices).get(
+                        value, value
+                    )
+
                 if field != "sort" and value is not None and value != "":
                     active_filters[field] = 1
                     if field in self.advanced_filters:

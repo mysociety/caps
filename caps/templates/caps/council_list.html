@@ -83,6 +83,12 @@
           {% else %}
             {{ filter.qs.count }} councils
           {% endif %}
+          {% if field_descriptions %}
+          - 
+          {% for field, value in field_descriptions.items %}
+            {{ field }}: {{ value }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        {% endif %}
         </h2>
         <div class="sort-by-wrapper d-none d-js-block">
             {% bootstrap_field filter.form.sort show_label=False form_group_class="d-inline" %}
