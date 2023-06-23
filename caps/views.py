@@ -315,6 +315,12 @@ class CouncilDetailView(DetailView):
                 color="blue",
                 desc="Lists of councils with similar characteristics to this council.",
             ),
+            MenuItem(
+                slug="other-resources",
+                title="Other resources",
+                color="cyan",
+                desc="Links to other resources and information about this council.",
+            ),
         ]
 
         banned_items = []
