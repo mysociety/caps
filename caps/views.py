@@ -310,6 +310,12 @@ class CouncilDetailView(DetailView):
                 desc="Projects this council has undertaken to reduce emissions.",
             ),
             MenuItem(
+                slug="local-polling",
+                title="Polling",
+                color="cyan",
+                desc="MRP Polling of climate change attitudes for this council area.",
+            ),
+            MenuItem(
                 slug="related-councils",
                 title="Related councils",
                 color="blue",
@@ -359,6 +365,9 @@ class CouncilDetailView(DetailView):
         # remove scorecard if the hidden flag is set
         if context["scoring_hidden"]:
             banned_items.append("scorecard")
+
+        # remove this to re-enable the polling section
+        banned_items.append("local-polling")
 
         menu = [item for item in menu if item.slug not in banned_items]
 

@@ -7,6 +7,18 @@
 {% endblock title %}
 
 {% block content %}
+{% infobox %}
+{% markdown %}
+This data is based on a national poll that has been adjusted for the demographics of the local area.
+[Learn more about MRP polling]({% url 'content' 'mrp' %}).
+
+Polling conducted by [PublicFirst for Onward](https://www.publicfirst.co.uk/new-public-first-polling-for-onward.html),
+and [Survation for RenewableUK](https://www.survation.com/polling-in-every-constituency-in-britain-shows-strong-support-for-building-wind-farms-to-drive-down-consumer-bills/) in 2022.
+
+{% endmarkdown %}
+{% endinfobox %}
+<hr />
+
     <p class="polling-title">Support for local renewable energy projects</p>
     <ul class="polling-list">
         <li>
@@ -58,11 +70,4 @@
             <span class="polling-number">{{ polling_data.Onward2022.Q08_DK|percentage }}</span> Don't Know
         </li>
     </ul>
-    <hr />
-    {% markdown %}
-    Polling conducted by [PublicFirst for Onward](https://www.publicfirst.co.uk/new-public-first-polling-for-onward.html),
-    and [Survation for RenewableUK](https://www.survation.com/polling-in-every-constituency-in-britain-shows-strong-support-for-building-wind-farms-to-drive-down-consumer-bills/) in 2022.
-    This data is based on a national poll that has been adjusted for the demographics of the local area.
-    [Learn more about MRP polling]({% url 'content' 'mrp' %}).
-{% endmarkdown %}
 {% endblock content %}
