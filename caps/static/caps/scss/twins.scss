@@ -1,0 +1,32 @@
+.twin-keyphrase {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+
+    @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, 1, 10em);
+    @include button-variant($green, $green);
+
+    @include hover() {
+        color: $white;
+        text-decoration: none;
+    }
+    
+    &:focus,
+    &.focus {
+        outline: 0;
+        box-shadow: $btn-focus-box-shadow;
+    }
+
+    &:not(:disabled):not(.disabled) {
+        cursor: if($enable-pointer-cursor-for-buttons, pointer, null);
+    }
+}
+
+.twin-keyphrase-sm {
+    font-size: 0.75rem;
+}
