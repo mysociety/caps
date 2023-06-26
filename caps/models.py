@@ -1,3 +1,4 @@
+from __future__ import annotations
 import hashlib
 import math
 import os
@@ -5,7 +6,16 @@ import re
 from copy import deepcopy
 from itertools import groupby, chain
 from pathlib import Path
-from typing import Optional, Type, List, Callable, Union, Tuple
+from typing import (
+    Optional,
+    Type,
+    List,
+    Callable,
+    Union,
+    Tuple,
+    NamedTuple,
+    TypeVar,
+)
 from collections import defaultdict
 import json
 import dateutil.parser
@@ -16,7 +26,17 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.db.models.functions import Length
-from django.db.models import Count, Max, Min, Q, Sum, Subquery, OuterRef
+from django.db.models import (
+    Count,
+    Max,
+    Min,
+    Q,
+    Sum,
+    Subquery,
+    OuterRef,
+    QuerySet,
+    Prefetch,
+)
 from django.db.models.expressions import RawSQL
 from django.forms import Select, TextInput
 from django.utils.text import slugify
@@ -234,6 +254,9 @@ class Council(models.Model):
     class Meta:
         ordering = ["name"]
 
+    def __lt__(self, other):
+        return self.id < other.id
+
     def __str__(self):
         return "%s" % self.name
 
@@ -284,6 +307,40 @@ class Council(models.Model):
 
     def get_absolute_url(self):
         return "/councils/%s/" % self.slug
+
+    def keyphrase_intersection(self, other: Council) -> KeyPhraseOverlap:
+        """
+        Return a the unique keywords and intersections of keywords
+        between two councils
+        """
+
+        joined_docs = PlanDocument.objects.filter(
+            council_id__in=[self.id, other.id]
+        )  # in principle, add any limiters on document type here
+
+        return PlanDocument.keyphrase_overlap(
+            docs=joined_docs,
+            sort_func=lambda doc: doc.council,
+            is_main=self,
+        )
+
+    def related_council_keyphrase_intersection(
+        self, cut_off: int = 10
+    ) -> dict[Council, KeyPhraseOverlap]:
+        """
+        Get the keyphrase intersection between this council and all related councils
+        """
+        councils = self.related_authorities.filter(distances__position__lte=cut_off + 2)
+
+        joined_docs = PlanDocument.objects.filter(
+            Q(council__in=councils) | Q(council=self)
+        ).prefetch_related("council")
+
+        return PlanDocument.keyphrase_overlap(
+            docs=joined_docs,
+            sort_func=lambda doc: doc.council,
+            is_main=self,
+        )
 
     def get_related_councils(self, cut_off: int = 10) -> List[dict]:
         """
@@ -460,15 +517,15 @@ class Council(models.Model):
     @property
     def short_name(self):
         patterns = [
-            r'[^a-zA-Z]+unitary[^a-zA-Z]*$', # " - Unitary" and " (Unitary)" suffixes
-            r'\s+(metropolitan\s+)?((borough|city and district|city|county|district)\s+)?council$',
-            r'^(london|royal) borough of\s+',
-            r'\s+(mayoral\s+)?(combined\s+)?authority$',
+            r"[^a-zA-Z]+unitary[^a-zA-Z]*$",  # " - Unitary" and " (Unitary)" suffixes
+            r"\s+(metropolitan\s+)?((borough|city and district|city|county|district)\s+)?council$",
+            r"^(london|royal) borough of\s+",
+            r"\s+(mayoral\s+)?(combined\s+)?authority$",
         ]
 
         n = self.name
         for pattern in patterns:
-            n = re.sub(pattern, '', n, flags=re.IGNORECASE)
+            n = re.sub(pattern, "", n, flags=re.IGNORECASE)
 
         return n
 
@@ -606,6 +663,16 @@ class PlanDocumentHistoricalModel(models.Model):
         abstract = True
 
 
+class KeyPhraseOverlap(NamedTuple):
+    """
+    Structured tuple to return from key_phrase_intersection
+    """
+
+    overlap: list[KeyPhrase]
+    just_in_a: list[KeyPhrase]
+    just_in_b: list[KeyPhrase]
+
+
 class PlanDocument(models.Model):
     ACTION_PLAN = 1
     CLIMATE_STRATEGY = 2
@@ -671,6 +738,78 @@ class PlanDocument(models.Model):
     file = models.FileField("plans", storage=overwrite_storage)
     history = HistoricalRecords(bases=[PlanDocumentHistoricalModel])
     title = models.CharField(max_length=800, blank=True)
+
+    # This just means the same type is expected wherever this is used
+    SortKeyType = TypeVar("SortKeyType")
+
+    @classmethod
+    def keyphrase_overlap(
+        cls,
+        *,
+        docs: QuerySet[PlanDocument],
+        sort_func: Callable[[PlanDocument], SortKeyType],
+        is_main: SortKeyType,
+    ) -> dict[SortKeyType, KeyPhraseOverlap]:
+        """
+        Find the overlap of KeyPhrases between multiple sets of documents.
+
+        docs: QuerySet of PlanDocuments
+        sort_func: function to sort the documents into groups
+        is_main: the key to use for the main set of documents
+        the other groups will be compared to
+
+        """
+
+        # get all documents with their cached KeyPhrases in one query
+
+        docs = list(docs.prefetch_related("key_terms__search_term"))
+        docs.sort(key=sort_func)
+
+        grouped_items = {key: list(items) for key, items in groupby(docs, sort_func)}
+
+        # get unique terms used by docs for council_a
+        docs_a = grouped_items.get(is_main, [])
+        terms_a = set(
+            chain.from_iterable(
+                (
+                    [key_term.search_term for key_term in doc.key_terms.all()]
+                    for doc in docs_a
+                )
+            )
+        )
+        docs_a = grouped_items.pop(is_main, [])
+
+        # default result if there were no plans assocated with the key
+        results = defaultdict(
+            lambda: KeyPhraseOverlap(overlap=[], just_in_a=[], just_in_b=[])
+        )
+
+        for k, docs_b in grouped_items.items():
+            terms_b = set(
+                chain.from_iterable(
+                    (
+                        [key_term.search_term for key_term in doc.key_terms.all()]
+                        for doc in docs_b
+                    )
+                )
+            )
+
+            # get the overlap
+            overlap = list(terms_a.intersection(terms_b))
+
+            # get the terms that are only in one set
+            just_in_a = list(terms_a.difference(terms_b))
+            just_in_b = list(terms_b.difference(terms_a))
+
+            kpo = KeyPhraseOverlap(
+                overlap=overlap,
+                just_in_a=just_in_a,
+                just_in_b=just_in_b,
+            )
+
+            results[k] = kpo
+
+        return results
 
     @property
     def get_document_type(self):

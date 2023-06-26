@@ -1,6 +1,6 @@
 import re
 import markdown
-
+import random
 from string import capwords
 
 from django import template
@@ -12,6 +12,15 @@ from django.utils.safestring import mark_safe
 from caps.models import PlanDocument
 
 register = template.Library()
+
+
+@register.filter
+def randomize_and_limit(value: list, limit: int = 10) -> list:
+    """
+    Shuffle and return the top of a list
+    """
+    random.shuffle(value)
+    return value[:limit]
 
 
 @register.filter

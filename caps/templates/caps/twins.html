@@ -1,6 +1,7 @@
 {% extends "caps/base.html" %}
 
 {% load static %}
+{% load caps_templatetags %}
 
 {% block content %}
 
@@ -64,16 +65,19 @@
                 <div class="card-body">
                     <p>Topics covered by <a href="{% url 'council' council.slug %}">{{ council.short_name }}’s plans on CAPE</a> but not by {{ twin.short_name}}’s:</p>
                     <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
-                        <li><a href="#" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">TODO</a></li>
+                        {% if twin.plan_overlap.just_in_a %}
+                            {% for keyphrase in twin.plan_overlap.just_in_a %}
+                            <li><a href="{% url 'search_results' %}?q={{ keyphrase.keyphrase|urlencode }}&council_name={{ council.name|urlencode }}&match_method=related"" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">{{ keyphrase.keyphrase }}</a></li>
+                            {% endfor %}
+                        {% else %}
+                            <p>No terms appear in just {{ twin.short_name }}’s plans.</p>
+                        {% endif %}
                     </ul>
-                    <p class="mt-3 text-muted">Topics that appear in both councils’ plans:</p>
+                    <p class="mt-3 text-muted">Examples of topics that appear in both councils’ plans include:</p>
                     <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
-                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                        {% for keyphrase in twin.plan_overlap.overlap|randomize_and_limit:10 %}
+                        <li><a href="{% url 'search_results' %}?q={{ keyphrase.keyphrase|urlencode }}&council_name={{ council.name|urlencode }}&match_method=related"" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">{{ keyphrase.keyphrase }}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
               {% if council.plandocument_set.all %}
@@ -103,17 +107,19 @@
                 <div class="card-body">
                     <p>Topics covered by <a href="{% url 'council' twin.slug %}">{{ twin.short_name }}’s plans on CAPE</a> but not by {{ council.short_name }}’s:</p>
                     <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
-                        <li><a href="#" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">TODO</a></li>
+                        {% if twin.plan_overlap.just_in_b %}
+                            {% for keyphrase in plan_overlap.just_in_b %}
+                            <li><a href="{% url 'search_results' %}?q={{ keyphrase.keyphrase|urlencode }}&council_name={{ council.name|urlencode }}&match_method=related" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">{{ keyphrase.keyphrase }}</a></li>
+                            {% endfor %}
+                        {% else %}
+                            <p>No terms appear in just {{ council.short_name }}’s plans.</p>
+                        {% endif %}
                     </ul>
-                    <p class="mt-3 text-muted">Topics that appear in both councils’ plans:</p>
+                    <p class="mt-3 text-muted">Examples of topics that appear in both councils’ plans include:</p>
                     <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
-                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
-                        <li><a href="#" class="m-1 btn btn-sm btn-outline-secondary" style="border-radius: 20em">TODO</a></li>
+                        {% for keyphrase in twin.plan_overlap.overlap|randomize_and_limit:10 %}
+                        <li><a href="{% url 'search_results' %}?q={{ keyphrase.keyphrase|urlencode }}&council_name={{ council.name|urlencode }}&match_method=related" class="m-1 btn btn-sm btn-success" style="border-radius: 20em">{{ keyphrase.keyphrase }}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
               {% if twin.plandocument_set.all %}
@@ -329,6 +335,13 @@
                         <td></td>
                       {% for relative in group.councils|slice:":5" %}
                         <td></td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle">Keyphrase intersection</td>
+                        <td></td>
+                      {% for relative in group.councils|slice:":5" %}
+                        <td>{{ relative.plan_overlap.just_in_b|length }} </td>
                       {% endfor %}
                     </tr>
                 </tbody>

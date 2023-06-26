@@ -494,14 +494,29 @@ class TwinsView(BaseLocationResultsView):
 
         if council:
             context["council"] = council
-            context["related_council_groups"] = council.get_related_councils()
-            for group in council.get_related_councils():
-                if group["type"].slug == 'composite':
+            related_councils = council.get_related_councils()
+            related_councils_intersection = (
+                council.related_council_keyphrase_intersection()
+            )
+            for group in related_councils:
+                for council in group["councils"]:
+                    council.plan_overlap = related_councils_intersection[council]
+                if group["type"].slug == "composite":
                     twin = group["councils"][0]
                     context["twin"] = twin
+
+            # check not unbound
+            assert "twin" in context, "Council has no twin"
+
+            context["related_council_groups"] = related_councils
+
             context["promises"] = {
-                "council": council.promise_set.filter(has_promise=True).order_by("target_year"),
-                "twin": twin.promise_set.filter(has_promise=True).order_by("target_year"),
+                "council": council.promise_set.filter(has_promise=True).order_by(
+                    "target_year"
+                ),
+                "twin": twin.promise_set.filter(has_promise=True).order_by(
+                    "target_year"
+                ),
             }
             context["declarations"] = {
                 "council": council.emergencydeclaration_set.first(),
