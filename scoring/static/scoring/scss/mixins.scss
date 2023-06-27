@@ -176,3 +176,20 @@ $max-viewport: 1792;
     -moz-box-shadow: $top $left $blur $size $color;
     box-shadow: $top $left $blur $size $color;
  }
+
+// Bootstrap 4 backwards compatability mixins
+
+@mixin hover-focus() {
+  &:hover,
+  &:focus {
+    @content;
+  }
+}
+
+@mixin hover-focus-active() {
+    &:hover,
+    &:focus,
+    &:active {
+        @content;
+    }
+}
