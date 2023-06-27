@@ -5,7 +5,7 @@
 {% block content %}
 <div class="hero container-fluid bg-dark-grey">
     <div style="max-width: 1140px" class="mx-auto">
-        <a class="cta reverse white" href="{% url 'home' %}">Back to the Scorecards</a>
+        <a class="cta reverse white" href="{% url 'scoring:home' %}">Back to the Scorecards</a>
         <h1 class="text-white mt-3">{{ council.name }}</h1>
         <div class="mt-3">
             {% if plan_score.top_performer %}
@@ -87,7 +87,7 @@
                 <p>Has this council released a Climate Action Plan plan recently? <a class="d-inline-block" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out.</a></p>
               {% endif %}
               {% if authority_type.slug == 'district' %}
-                <p>This district council is signed up to their county council's joint Climate Action Plan. Here, if the district council has a plan, they are marked on their own plan and the county plan, depending on which is relevant to each question. <a class="d-inline-block" href="{% url 'methodology2022' %}">You can find out more about this in the methodology.</a></p>
+                <p>This district council is signed up to their county council's joint Climate Action Plan. Here, if the district council has a plan, they are marked on their own plan and the county plan, depending on which is relevant to each question. <a class="d-inline-block" href="{% url 'scoring:methodology2022' %}">You can find out more about this in the methodology.</a></p>
               {% endif %}
               {% if plan_urls %}
                 <details>
@@ -166,7 +166,7 @@
                             <tr>
                                 <td>
                                     <div>
-                                        <a href="{% url 'home' %}">{{ section.description }}</a>
+                                        <a href="{% url 'scoring:home' %}">{{ section.description }}</a>
                                     </div>
                                 </td>
                                 <td>

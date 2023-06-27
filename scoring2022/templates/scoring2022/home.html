@@ -5,8 +5,6 @@
 
 {% block content %}
 
-XXXXXX 2022   XXXXXXXXXXXXX
-
     <div class="py-5 text-center" style="background-color: #fff8d9; border-bottom: 1px solid #e8e2c7;">
         <div class="container">
             <h2 class="h3 mb-3 mx-auto" style="max-width: 30em;">
@@ -15,8 +13,8 @@ XXXXXX 2022   XXXXXXXXXXXXX
                 draft methodology
             </h2>
             <p class="mx-auto" style="max-width: 44em;">We have now published our draft methodology for the next wave of the Scorecards project: the Council Climate Action Scorecards. Last year we marked every UK council's Climate Action Plans; this time we’ll be scoring the actual climate action they have taken.</p>
-            <p><a href="{% url 'scoring2022:methodology' %}" class="btn btn-blue is--light">Read the draft methodology</a></p>
-            <a href="{% url 'scoring2022:methodology' %}" class="d-none d-sm-block my-4"><img src="{% static 'scoring/img/2023-timeline@2x.png' %}" width="700" height="150" style="max-width: 100%; height: auto;" class="d-block mx-auto" alt="Timeline showing: April to August 2022, research and development; July to September 2022, one-to-one and sector-wide consultations; November to December 2022, publish finalised metrics for Scorecards; February to March 2023, first marking with volunteers; April to May 2023, five week right of reply period; Summer 2023, scoring audit; and Autumn 2023, scorecards launch"></a>
+            <p><a href="{% url 'scoring:methodology' %}" class="btn btn-blue is--light">Read the draft methodology</a></p>
+            <a href="{% url 'scoring:methodology' %}" class="d-none d-sm-block my-4"><img src="{% static 'scoring/img/2023-timeline@2x.png' %}" width="700" height="150" style="max-width: 100%; height: auto;" class="d-block mx-auto" alt="Timeline showing: April to August 2022, research and development; July to September 2022, one-to-one and sector-wide consultations; November to December 2022, publish finalised metrics for Scorecards; February to March 2023, first marking with volunteers; April to May 2023, five week right of reply period; Summer 2023, scoring audit; and Autumn 2023, scorecards launch"></a>
             <p class="mx-auto mb-3"><a href="https://www.climateemergency.uk/" class="d-inline">Join our mailing list</a> to follow our progress towards the 2023 Scorecards.</p>
             <p class="mx-auto mb-0">If you want to volunteer to help create the Council Climate Action Scorecards find out more <a href="https://actionnetwork.org/forms/application-scorecards-volunteering/" class="d-inline">here</a>.</p>
         </div>
