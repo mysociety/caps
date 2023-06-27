@@ -8,6 +8,7 @@ diff-match-patch==20200713
 Django==3.2.19
 django-autoslug==1.9.7
 django-bootstrap4==1.1.1
+django-bootstrap5==23.3
 django-filter==2.4.0
 django-haystack==3.0
 django-htmlmin==0.11.0
