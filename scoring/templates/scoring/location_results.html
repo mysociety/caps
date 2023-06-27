@@ -11,7 +11,7 @@
     </div>
   {% endif %}
 
-    <form action="{% url 'location_results' %}" class="form">
+    <form action="{% url 'scoring:location_results' %}" class="form">
         <label for="check-score-input" class="h6 mb-3">Check for a council’s complete score</label>
         <input class="mx-auto form-control searchbar green dark js-location-search-autocomplete" type="search" name="pc" id="check-score-input" value="{{ postcode|default_if_none:'' }}" placeholder="Postcode">
         <!-- TODO: Do we need a submit button? -->
@@ -25,7 +25,7 @@
 
     <div class="row justify-content-md-center mx-auto mt-5 pb-5" style="max-width: {% if num_councils == 3 %}1280px{% else %}960px{% endif %};">
       {% for council in councils %}
-        <a href="{% url 'council' council.slug %}" class="col-12 {% if num_councils == 3 %}col-lg-4{% else %}col-lg-6{% endif %} h1 py-5 px-3 px-sm-4 px-lg-5 d-lg-flex align-items-center text-center {% if forloop.counter == 2 %}bg-green-l2{% else %}bg-blue-l2{% endif %}">
+        <a href="{% url 'scoring:council' council.slug %}" class="col-12 {% if num_councils == 3 %}col-lg-4{% else %}col-lg-6{% endif %} h1 py-5 px-3 px-sm-4 px-lg-5 d-lg-flex align-items-center text-center {% if forloop.counter == 2 %}bg-green-l2{% else %}bg-blue-l2{% endif %}">
             {{ council.name }}
         </a>
       {% endfor %}
