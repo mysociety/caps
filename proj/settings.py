@@ -127,6 +127,10 @@ PIPELINE = {
             "source_filenames": ("scoring/scss/main.scss",),
             "output_filename": "css/scoring.css",
         },
+        "scoring2022": {
+            "source_filenames": ("scoring2022/scss/main.scss",),
+            "output_filename": "css/scoring2022.css",
+        },
     },
     "CSS_COMPRESSOR": "django_pipeline_csscompressor.CssCompressor",
     "DISABLE_WRAPPER": True,
