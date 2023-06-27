@@ -1,11 +1,11 @@
-{% extends "scoring/base.html" %}
+{% extends "scoring2022/base.html" %}
 {% load bootstrap4 %}
 {% load static %}
 {% block content %}
     <div class="methodology-2023-content">
             <div class="bg-dark-grey">
                 <div class="container-xl hero">
-                    <a class="cta reverse white" href="{% url 'home' %}">Back to the Scorecards</a>
+                    <a class="cta reverse white" href="{% url 'scoring2022:home' %}">Back to the Scorecards</a>
                     <h1 class="text-white mt-3">Draft Methodology</h1>
                     <div class="mt-3">
                         <span class="hero-sub">Council Climate Action Scorecards</span>
@@ -39,7 +39,7 @@
                 <div class="col-md-8 col-lg-7 col-xl-8 order-md-1 mt-5">
                     <div class="alert alert-warning mb-5 p-4 border-yellow" role="alert">
                         <p>Looking for information about how we scored the Council Climate Plan Scorecards in early 2022?</p>
-                        <a href="{% url 'methodology2022' %}" class="btn btn btn-blue is--light">Read the Council Climate Plans Methodology (2022) instead</a>
+                        <a href="{% url 'scoring2022:methodology2022' %}" class="btn btn btn-blue is--light">Read the Council Climate Plans Methodology (2022) instead</a>
                     </div>
 
                     <h2 id="section-summary" class="mb-3">Summary</h2>
@@ -66,7 +66,7 @@
                     <h3 class="mt-5 mb-3"><span class="underline-green">See the questions</span></h3>
 
                     <div class="js-dynamic-content mt-4">
-                        {% include 'scoring/includes/main-filter-methodology.html' %}
+                        {% include 'scoring2022/includes/main-filter-methodology.html' %}
 
                         <form class="radio-wrapper bg-blue-l2 p-3 mb-3 border rounded">
                             <input class="mr-1" type="checkbox" id="display-complete-content" name="display-complete-content">
