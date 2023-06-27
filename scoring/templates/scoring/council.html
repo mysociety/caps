@@ -261,7 +261,7 @@
                                     <div>
                                         {% if answer.type == 'HEADER' %}
                                         <div class="question-code text-left">
-                                            <a href="{% url 'question' answer.code %}">{{ answer.pretty_code }}</a
+                                            <a href="">{{ answer.pretty_code }}</a
                                         </div>
                                         {% else %}
                                         <div class="question-code text-left pl-2">
@@ -273,8 +273,8 @@
                               {% if answer.type == 'HEADER' %}
                                 <td data-column="answer" colspan="1">
                                     <div class="question-content-table text-left">
-                                        <a href="{% url 'question' answer.code %}" class="question-no is--mobile">{{ answer.pretty_code }}</a>
-                                        <a href="{% url 'question' answer.code %}">{{ answer.question | linebreaks }}</a>
+                                        <a href="" class="question-no is--mobile">{{ answer.pretty_code }}</a>
+                                        <a href="">{{ answer.question | linebreaks }}</a>
                                     </div>
                               {% else %}
                                 <td data-column="answer">
