@@ -1,0 +1,518 @@
+{% extends "scoring/base.html" %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+    <div class="methodology-2023-content">
+            <div class="bg-dark-grey">
+                <div class="container-xl hero">
+                    <a class="cta reverse white" href="{% url 'home' %}">Back to the Scorecards</a>
+                    <h1 class="text-white mt-3">Draft Methodology</h1>
+                    <div class="mt-3">
+                        <span class="hero-sub">Council Climate Action Scorecards</span>
+                    </div>
+                </div>
+            </div>
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-md-4 offset-lg-1 col-xl-3 order-md-2 mt-5 sticky-in-page-nav">
+
+                    <button aria-expanded="false" aria-controls="in-page-nav">Jump to section</button>
+
+                    <div class="position-sticky pb-md-3" id="in-page-nav" style="top: 1em;">
+                        <h3 class="h6 d-none d-md-block" style="margin-left: 1.25rem;">Contents</h3>
+
+                        <nav class="list-group list-group-flush">
+                            <a class="list-group-item text-decoration-none" href="#section-summary">Summary</a>
+                            <a class="list-group-item text-decoration-none" href="#section-question-criteria">Question criteria</a>
+                            <a class="list-group-item text-decoration-none" href="#section-weightings">Section weightings</a>
+                            <a class="list-group-item text-decoration-none" href="#section-question-weighting-within">Question weighting within sections</a>
+                            <a class="list-group-item text-decoration-none" href="#section-what-will-we-be-marking">What will we be marking?</a>
+                            <a class="list-group-item text-decoration-none" href="#section-developing-the-scoring-system">Developing the scoring system</a>
+                            <a class="list-group-item text-decoration-none" href="#section-why-sections">Why these sections?</a>
+                            <a class="list-group-item text-decoration-none" href="#section-why-weightings">Why these weightings?</a>
+                            <a class="list-group-item text-decoration-none" href="#section-further-info">Further info</a>
+                            <a class="list-group-item text-decoration-none" href="#section-thank-you">Thank you</a>
+                        </nav>
+                    </div>
+
+                </div>
+                <div class="col-md-8 col-lg-7 col-xl-8 order-md-1 mt-5">
+                    <div class="alert alert-warning mb-5 p-4 border-yellow" role="alert">
+                        <p>Looking for information about how we scored the Council Climate Plan Scorecards in early 2022?</p>
+                        <a href="{% url 'methodology2022' %}" class="btn btn btn-blue is--light">Read the Council Climate Plans Methodology (2022) instead</a>
+                    </div>
+
+                    <h2 id="section-summary" class="mb-3">Summary</h2>
+
+                    <p>We have now published the draft methodology for the Council Climate Action Scorecards. This lays out how we'll be marking and scoring all UK councils on the actions they’re taking towards net zero. The Council Climate Action Scorecard results will be released in Autumn 2023.</p>
+                    <p>We will mark and score all UK councils on their climate action against 89 questions in 7 different sections. We created the criteria through extensive research and consultation with council staff, councillors, campaigners and other organisations. To understand what action we will be scoring and the question weightings, please read the complete draft methodology here. To find out more about how we created each section and why questions or topics were or were not included, <a class="d-inline" href="https://www.climateemergency.uk/draft-methodology-blog-series/">check out our blog series on the draft methodology here</a>.</p>
+                    <p>Whilst every effort has been made to make this methodology complete, <strong>Climate Emergency UK reserves the right to make changes to the methodology where deemed appropriate between now and Autumn 2023.</strong> Changes may be made, for example, if national policy changes between now and Autumn 2023 and this impacts our questions; or if the data needed to answer a particular question is no longer available to use. An updated methodology, identical to the one used in the marking, will be published, if needed, alongside the Council Climate Action Scorecards in Autumn 2023.</p>
+                    <p><strong>The Council Climate Action Scorecards is a project of Climate Emergency UK, with technical support from <a class="d-inline" href="https://www.mysociety.org/">mySociety</a></strong>.</p>
+
+                    <div class="alert alert-warning mt-4 mt-lg-5 bg-grey border" role="alert">
+                        <h2 class="h5">Get this information in alternative formats</h2>
+                        <p>The explanatory content of this page is available as a PDF:</p>
+                        <a href=" https://drive.google.com/file/d/1bceKBGSK_cbEulsNvOTtvFPlWGcrA840/view?usp=sharing" class="btn btn btn-blue is--light mr-2 mb-3 mb-sm-4">Explanatory content (PDF)</a>
+                        <p>The questions and criteria are available in two additional formats:</p>
+                        <a href=" https://drive.google.com/file/d/1ntX3GqwmwPPVjrf9ZkNQmMrNac0yr731/view?usp=sharing" class="btn btn btn-blue is--light mr-2">Questions (PDF)</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1DCn4ZwqALg5L3BUcDwuBmudPZghisQMjshIgl3JoGYM/edit?usp=sharing" class="btn btn btn-blue is--light mt-2 mt-sm-0 mr-2">Questions (Spreadsheet)</a>
+                    </div>
+
+                    <h2 id="section-question-criteria" class="mt-5 mb-3">Question criteria</h2>
+
+                    <p>Below you can see each of the questions that councils will be scored on in 2023, along with some further clarification of the question criteria. We’ve also shown how each question will be scored: whether from volunteer research, FOI responses from councils, the use of national data or through a mixture of volunteer research and national data. <strong>Unless otherwise stated, we are marking council climate action from 1st January 2019</strong> up until March 2023 (exact date to be confirmed). For questions that use national data we will take the most recent data up until 1st August 2023. For questions that use FOI requests, unless otherwise stated, we are marking council climate action from 1st January 2019 up until January 2023 when the FOI requests will be sent out. Strategies and Policies that we mark must also be in date and active (except for Local Plans where draft ones will be accepted).</p>
+                    <p>Different council types have different powers. Therefore, questions are only being asked to a council where they have power or influence on that topic. For example, County Councils are not Planning Authorities so there are only two questions in the Planning section that apply to County Councils. To understand more about the different powers that different councils have, <a class="d-inline" href="https://www.instituteforgovernment.org.uk/explainers/local-government">check out this blog from the Institute of Governance.</a><strong>This is why, sometimes, you will see, for example, questions 1, 2, and 4 but not question 3, as question 3 doesn’t apply to the council you have selected.</strong></p>
+
+                    <h3 class="mt-5 mb-3"><span class="underline-green">See the questions</span></h3>
+
+                    <div class="js-dynamic-content mt-4">
+                        {% include 'scoring/includes/main-filter-methodology.html' %}
+
+                        <form class="radio-wrapper bg-blue-l2 p-3 mb-3 border rounded">
+                            <input class="mr-1" type="checkbox" id="display-complete-content" name="display-complete-content">
+                            <label for="display-complete-content" style="vertical-align:super">Show full question details by default</label>
+                        </form>
+
+                        <div class="js-single alert alert-warning mt-3 mt-lg-4 bg-grey border" role="alert">
+                            <p class="mb-0">A small number of questions might not apply to your council and they are highlighted with a warning icon.</p>
+                        </div>
+
+                        <div class="toggle-section-accordion rounded js-single js-district js-county js-northern-ireland js-combined">
+                            {% for section in sections %}
+                            <div class="toggle-section {% for council_type in section.council_types %}js-{{ council_type }} {% endfor %}">
+                                <h4 class="toggle-section__header">
+                                    <button class="js-hidden-toggle" aria-controls="section-{{ forloop.counter }}">
+                                        {{section.title|escape}}
+                                    </button>
+                                </h4>
+                                <div class="toggle-section__content" id="section-{{ forloop.counter }}">
+                                    <div class="mb-3">
+                                        {% for council_type, weighting in section.weightings.items %}
+                                            <div class="js-{{ council_type }}">
+                                                <span>
+                                                    <strong>This section will contribute {{ weighting }} to a
+                                                        {% if council_type == 'single' %}
+                                                            single tier council’s
+                                                        {% elif council_type == 'district' %}
+                                                            district council’s
+                                                        {% elif council_type == 'county' %}
+                                                            county council’s
+                                                        {% elif council_type == 'northern-ireland' %}
+                                                            Northern Irish council’s
+                                                        {% elif council_type == 'combined' %}
+                                                            Combined Authority’s 
+                                                        {% endif %}
+                                                             overall score
+                                                    </strong>
+                                                </span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <p>{{section.description}}</p>
+                                    <div class="section-question-list-wrapper mb-n3">
+                                        {% for question in section.questions %}
+                                            <div class="question-card rounded border mb-3 {% for council_type in question.council_types %}js-{{ council_type }} {% endfor %}">
+                                                {% if question.england_only == "yes" %}
+                                                    <div class="alert alert-warning is-red mb-0 border-0 rounded-0 js-single" role="alert">
+                                                        <span class="warning-icon"></span>
+                                                        <span class="ml-2 h5">This question might not apply to your council
+                                                        </span>
+                                                        {% if question.wales_apply == "yes" %}
+                                                            <p class="mb-0 mt-2">This question only applies to councils in England and Wales as the data is not available for councils in Scotland and Northern Ireland.</p>
+                                                        {% else %}
+                                                            <p class="mb-0 mt-2">This question only applies to councils in England as the data is not available for councils in Scotland, Wales and Northern Ireland.</p>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                                <div class="section-question-heading p-3 bg-green-l2">
+                                                    <!-- QUESTION CODE-->
+                                                    <p class="label pl-0">{{ section.title|escape }} · Question {{ question.code }}</p>
+                                                    <!-- QUESTION NAME-->
+                                                    <h6 class="h5">{{ question.name }}</h6>
+                                                    <button class="btn btn-blue is--light mt-2 js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">Display question details</button>
+                                                </div>
+                                                <div class="section-question-content" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                                                    <div class="p-3">
+                                                        <div class="section-question-meta-wrapper mb-3">
+                                                            <div class="section-question-meta-item">
+                                                                <!-- QUESTION TOPIC-->
+                                                                <p class="label pl-0 mb-0">Topic</p>
+                                                                <p>{{ question.topic}}</p>
+                                                            </div>
+                                                            <div class="section-question-meta-item">
+                                                                <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
+                                                                    <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Find out more in Question Weightings within section</span>
+                                                                </span>
+                                                                <!-- QUESTION IMPORTANCE-->
+                                                                <p>{{ question.importance}}</p>
+                                                            </div>
+                                                            <div class="section-question-meta-item">
+                                                                <p class="label pl-0 mb-0">How will this be marked?</p>
+                                                                <!-- QUESTION HOW WILL BE MARKED -->
+                                                                <p>
+                                                                    {% autoescape off %}
+                                                                    {{ question.how_marked}}
+                                                                {% endautoescape %}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="section-question-criteria mb-3 mb-4">
+                                                            <h6 class="mb-2"><span class="underline-green">Criteria</span></h6>
+                                                            <!-- QUESTION CRITERIA -->
+                                                            {% autoescape off %}
+                                                                {{ question.criteria}}
+                                                            {% endautoescape %}
+                                                        </div>
+
+                                                        <!-- QUESTION CLARIFICATION -->
+                                                        {% if question.clarifications %}
+                                                            <div class="section-question-clarification">
+                                                                <h6 class="mb-2"><span class="underline-green">Clarifications</span></h6>
+                                                                {% autoescape off %}
+                                                                    {{ question.clarifications}}
+                                                                {% endautoescape %}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <h3 class="mt-5 mb-3"><span class="underline-green">Combined Authorities</span></h3>
+
+                        <p>Combined authorities have quite different powers and responsibilities to other council structures. This is why there are fewer sections and questions for combined authorities. Of all the questions for combined authorities, just under half of these questions are the same as for other council types. The remaining questions are only applicable to combined authorities, of which some of these questions are similar to questions being asked of other council types. You can read <a href="https://www.climateemergency.uk/draft-methodology-blog-series/">our blog listed here</a> for further information on how combined authority powers differ to other council types and why we created the combined authority methodology the way we did.</p>
+
+                        <h2 id="section-weightings" class="mt-5 mb-3">Section weightings</h2>
+
+                        <table class="minimal-table">
+                            <thead>
+                                <tr class="bg-green">
+                                    <th>Section</th>
+                                    <th class="js-highlight-single">Single Tier</th>
+                                    <th class="js-highlight-district">District</th>
+                                    <th class="js-highlight-county">County</th>
+                                    <th class="js-highlight-northern-ireland">Northern Ireland</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Buildings &amp; Heating</td>
+                                    <td class="js-highlight-single">20%</td>
+                                    <td class="js-highlight-district">25%</td>
+                                    <td class="js-highlight-county">20%</td>
+                                    <td class="js-highlight-northern-ireland">20%</td>
+                                </tr>
+                                <tr>
+                                    <td>Transport</td>
+                                    <td class="js-highlight-single">20%</td>
+                                    <td class="js-highlight-district">5%</td>
+                                    <td class="js-highlight-county">30%</td>
+                                    <td class="js-highlight-northern-ireland">15%</td>
+                                </tr>
+                                <tr>
+                                    <td>Planning &amp; Land Use</td>
+                                    <td class="js-highlight-single">15%</td>
+                                    <td class="js-highlight-district">25%</td>
+                                    <td class="js-highlight-county">5%</td>
+                                    <td class="js-highlight-northern-ireland">15%</td>
+                                </tr>
+                                <tr>
+                                    <td>Governance &amp; Finance</td>
+                                    <td class="js-highlight-single">15%</td>
+                                    <td class="js-highlight-district">15%</td>
+                                    <td class="js-highlight-county">15%</td>
+                                    <td class="js-highlight-northern-ireland">20%</td>
+                                </tr>
+                                <tr>
+                                    <td>Biodiversity</td>
+                                    <td class="js-highlight-single">10%</td>
+                                    <td class="js-highlight-district">10%</td>
+                                    <td class="js-highlight-county">10%</td>
+                                    <td class="js-highlight-northern-ireland">10%</td>
+                                </tr>
+                                <tr>
+                                    <td>Collaboration &amp; Engagement</td>
+                                    <td class="js-highlight-single">10%</td>
+                                    <td class="js-highlight-district">10%</td>
+                                    <td class="js-highlight-county">10%</td>
+                                    <td class="js-highlight-northern-ireland">10%</td>
+                                </tr>
+                                <tr>
+                                    <td>Waste Reduction &amp; Food</td>
+                                    <td class="js-highlight-single">10%</td>
+                                    <td class="js-highlight-district">10%</td>
+                                    <td class="js-highlight-county">10%</td>
+                                    <td class="js-highlight-northern-ireland">10%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3 class="mt-4 mt-sm-5 mb-3">Section weightings for Combined Authorities </h3>
+                        <table class="minimal-table" style="max-width: 25em">
+                            <thead>
+                                <tr class="bg-green">
+                                    <th>Section</th>
+                                    <th>Combined Authority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Transport</td>
+                                    <td>25%</td>
+                                </tr>
+                                <tr>
+                                    <td>Buildings, Heating &amp; Green Skills</td>
+                                    <td>25%</td>
+                                </tr>
+                                <tr>
+                                    <td>Governance &amp; Finance</td>
+                                    <td>20%</td>
+                                </tr>
+                                <tr>
+                                    <td>Planning, Biodiversity and Land Use</td>
+                                    <td>10%</td>
+                                </tr>
+                                <tr>
+                                    <td>Collaboration &amp; Engagement</td>
+                                    <td>20%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h2 id="section-question-weighting-within" class="mt-5 mb-3">Question weighting within sections</h2>
+
+                        <p>This draft methodology does not show the exact number of points allocated for each question. These will be published alongside the results of the Council Climate Action Scorecards in Autumn 2023.</p>
+                        <p>At this stage, you can see an indication as to which questions will be worth more points than others, shown as low, medium, or high importance. All of the actions that we are marking in our Scorecard questions are important: all of these actions will reduce greenhouse gas emissions and are actions that we want to see councils undertake, but within this, there are some actions that have a bigger and more direct impact on reducing emissions.</p>
+                        <p>The questions that are weighted high are those which we consider to have the biggest impact on greenhouse gas emission reductions and a sustained long-term impact. For example, low emission policies implemented in Local Plans will have a huge impact on all new homes built over the next 10 years. Questions that are also key to enabling climate actions for councils are weighted high, such as whether they are finding finance for their climate actions or whether they have an annual Climate Action Plan Update.</p>
+                        <p>Areas of action where the impact on greenhouse gas emissions is one step removed, or where the impact on emissions is reliant on other actors and actions, such as the national UK Government and devolved assemblies, are marked as medium.</p>
+                        <p>For example, employing a retrofit officer is a really important action that councils can take, but this action alone won’t reduce greenhouse gas emissions from homes and buildings. It’s the work that this person will do, with other actors and funding that will lead to emission reductions. Another example is recycling; whilst councils can have a big role in improving recycling rates, it is also dependent on residents’ behaviour, national policy and how supermarkets package their food.</p>
+                        <p>Questions that are weighted low include all actions which relate solely to the councils’ own activities. These questions include: changing council processes to be more climate friendly; actions where councils have limited direct influence; and actions that are about the climate action strength of written strategies and plans. This is because council-only greenhouse gas emissions are a tiny part of an area’s overall emissions, between 2% and 7%. </p>
+                        <p>These Scorecards focus on action, so whilst there is benefit in us scoring the strength of written plans, this too is weighted low. For the Planning section, we are scoring the strength of a councils’ Local Plan and for this section, questions measuring the strength of their written Local Plan have been given low, medium and high weightings. This is because we recognise that sustainability requirements in a Local Plan are a significant change in policy. </p>
+                        <p>There are also some questions that will be scored negatively: councils will lose marks if they have taken actions that actively increase greenhouse gas emissions reduction. There are a total of three negatively scoring questions, found in the Transport, Governance &amp; Finance and Planning sections.</p>
+
+                    </div>
+
+                    <h2 id="section-what-will-we-be-marking" class="mt-5 mb-3">What will we be marking?</h2>
+
+                    <h3 class="mt-4 mb-2 mb-lg-3"><span class="underline-green">Publicly available council information</span></h3>
+
+                    <p>Unless stated otherwise in the question criteria, we will be scoring councils on any actions that they have taken since 1st January 2019 up until March 2023 (exact date to be confirmed soon). We chose this date because it was in 2019 that councils started declaring climate emergencies and we want to score councils on their action since this (renewed) commitment to climate action came into effect. </p>
+                    <p>For example, if a council approved a solar panel farm in 2017 and no further renewable energy since then, the council would not get a point for the relevant question here. This is because councils need to be taking consistent climate action, so we would expect councils to be consistently pursuing actions such as this since 1st January 2019.</p>
+                    <p>This does not entirely mean that councils’ scores won’t reflect action taken before 1st January 2019. For example, if a council worked hard to improve the EPC ratings of its council homes before 2019 through retrofitting and other insulation measures, then their average EPC ratings of these homes is likely to be higher, and they would therefore score higher for this particular question.</p>
+                    <p>Whilst these Scorecards focus on council action, there are some questions that look at the details of particular policies. When we look at policies and strategies, they must be in date. For example if a Local Plan is dated 2015-2025, then this will be scored.</p>
+                    <p>We will be looking for evidence that is publicly available. When we start marking in the new year, we will be looking at a wide variety of documents. Documents where this evidence might be available that we will consider when marking includes, but is not limited to:</p>
+
+                    <div class="row mt-n2">
+                        <div class="col-lg-6">
+                            <h5 class="mt-3 mt-sm-4">(Used across all sections)</h5>
+                            <ul>
+                                <li>News stories on council websites</li>
+                                <li>News stories in local media</li>
+                                <li>Climate Action Plan Updates</li>
+                                <li>Climate sections of council websites</li>
+                            </ul>
+
+                            <h5 class="mt-3 mt-sm-4">Buildings &amp; Heating</h5>
+                            <ul>
+                                <li>Housing strategies</li>
+                                <li>Fuel poverty strategies</li>
+                            </ul>
+
+                            <h5 class="mt-3 mt-sm-4">Transport</h5>
+                            <ul>
+                                <li>Transport strategy</li>
+                            </ul>
+
+                            <h5 class="mt-3 mt-sm-4">Governance &amp; Finance</h5>
+                            <ul>
+                                <li>Corporate Plan</li>
+                                <li>Medium-term Financial Plan</li>
+                                <li>Risk register</li>
+                                <li>Full Council minutes</li>
+                                <li>Infrastructure Funding Statement</li>
+                                <li>Pension Investment strategies</li>
+                                <li>Procurement strategies</li>
+                                <li>Treasury management strategies</li>
+                                <li>Statement of Accounts</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <h5 class="mt-3 mt-sm-4">Planning</h5>
+                            <ul>
+                                <li>Local Plans and related documents</li>
+                                <li>Supplementary Planning documents</li>
+                                <li>Parking Standards</li>
+                            </ul>
+
+                            <h5 class="mt-3 mt-sm-4">Biodiversity</h5>
+                            <ul>
+                                <li>Biodiversity strategy</li>
+                                <li>Tree strategy</li>
+                                <li>Local Plan or relevant Development Plan documents</li>
+                            </ul>
+
+                            <h5 class="mt-3 mt-sm-4">Collaboration &amp; Engagement</h5>
+                            <ul>
+                                <li>Climate Action Plan</li>
+                                <li>Climate public engagement strategies</li>
+                                <li>Joint Strategic Needs Assessment</li>
+                                <li>Health partnership pages</li>
+                                <li>Local Enterprise Partnership pages</li>
+                            </ul>
+
+                            <h5 class="mt-3 mt-sm-4">Waste Reduction &amp; Food</h5>
+                            <ul>
+                                <li>Waste strategies</li>
+                                <li>Food strategies</li>
+                                <li>External event policies</li>
+                                <li>School catering contracts and tenders</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-4 mb-2 mb-lg-3"><span class="underline-green">National data</span></h3>
+
+                    <p>For some of the questions, we are using external data, compiled by the UK Government, the Devolved Nations or other national non-governmental organisations. We are using this data for specific questions only and the use of this data is not an endorsement of the organisation or government body. Unless otherwise stated in the question criteria, we will use the most recent national data available up until 1st August 2023.</p>
+
+                    <h3 class="mt-4 mb-2 mb-lg-3"><span class="underline-green">Freedom of Information requests</span></h3>
+
+                    <p>You can see the current draft list of the FOI requests we plan to send <a href="https://drive.google.com/file/d/18ZCmVF2QYWeQcR2fpxL_UBkK8A9HHg6A/view?usp=sharing" class="d-inline">here</a>. 
+                        We will be sending FOI requests using WhatDoTheyKnow (run by mySociety). All FOI responses sent via <a class="d-inline" href="https://www.whatdotheyknow.com/">WhatDoTheyKnow</a> will be made public and linked to the Scorecards when published. Unless otherwise stated in the FOI request, we are marking council climate action from 1st January 2019 up until January 2023 when the FOI requests will be sent out.</p>
+                    <p>To find out more about how we created each section and why questions or topics were or were not included, check out our blog series on the draft methodology <a class="d-inline" href="https://www.climateemergency.uk/draft-methodology-blog-series/">here</a>.</p>
+
+                    <h3 class="mt-4 mb-2 mb-lg-3"><span class="underline-green">Councils that are changing structures</span></h3>
+
+                    <p>A small number of councils will be changing structure and forming new council structures from 1st April 2023. Following consultations with the councils that this affects we have decided that, where this is the case, the old and new councils will not be scored in the 2023 Scorecards. The new council will be scored in future Scorecards as normal.</p>
+                    <p>To ensure complete transparency we will include the new council names on the relevant Scorecard results lists, with a note explaining why this council has not been scored this year.</p>
+
+                    <h2 id="section-developing-the-scoring-system" class="mt-5 mb-3">Developing the scoring system</h2>
+
+                    <img src="{% static 'scoring/img/2023-timeline@2x.png' %}" width="700" height="150" class="my-4 p-4 bg-grey rounded" style="max-width: 100%; height: auto;" alt="Timeline showing: April to August 2022, research and development; July to September 2022, one-to-one and sector-wide consultations; November to December 2022, publish finalised metrics for Scorecards; February to March 2023, first marking with volunteers; April to May 2023, five week right of reply period; Summer 2023, scoring audit; and Autumn 2023, scorecards launch">
+
+                    <p>This is the first time a comprehensive list of actions that councils can and are taking to reduce greenhouse gas emissions has been created with the actions being scored. Therefore, extensive desk-based research was carried out to create this methodology. Hundreds of documents were read as part of this process. Some of the key documents that were the foundation for the research were:</p>
+                    <ul>
+                        <li><a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">The Climate Action Plan Checklist</a></li>
+                        <li><a href="https://takeclimateaction.uk/climate-action/get-your-council-adopt-climate-action-plan">Friends of the Earth 50 point Climate Action Plan</a></li>
+                        <li><a href="https://friendsoftheearth.uk/climate/40-councils-leading-way-climate">Friends of the Earth and Ashden 40 Case Studies</a></li>
+                    </ul>
+                    <p class="mt-3 mt-lg-4">We also carried out extensive consultation and benefited from advice and feedback from a wide variety of people and organisations, through our Advisory Group, sector-specific consultations, one-to-one conversations and group consultations. </p>
+
+                    <h3 class="mt-4 mb-2 mb-lg-3"><span class="underline-green">Advisory Group</span></h3>
+
+                    <p>Since May 2022, Climate Emergency UK has had an Advisory Group to guide the creation of the Scorecard methodology. This Advisory Group includes council staff, councillors and experts within the sector who have been meeting monthly to provide detailed feedback on each question as they have been created.</p>
+                    <p>The membership of the Advisory Group is:</p>
+                    <ul>
+                        <li>Cara Jenkinson (Cities Manager - Ashden)</li>
+                        <li>Judi Kilgallon (Climate Transformation Manager - Scottish Improvement Service)</li>
+                        <li>Jon Burke (Gloucester City Council Climate Officer) </li>
+                        <li>Leanne Wilson (Policy and Economic Advisor at North of Tyne Combined Authority)</li>
+                        <li>Simon Jermy (Campaigner with Climate Emergency Manchester)</li>
+                        <li>Cllr Kevin Frea (Climate Portfolio Holder and Deputy Leader at Lancaster City Council) </li>
+                        <li>Cllr Donna Stimson (Climate Lead at Royal Borough of Windsor and Maidenhead Council)</li>
+                        <li>Davila Coolen (Environmental Engineering background and former CE UK Scorecard volunteer)</li>
+                        <li>Mandi Bissett (sustainability consultant and former CE UK Scorecard volunteer)</li>
+                        <li>Alex Parsons (mySociety data expert)</li>
+                    </ul>
+                    <p class="mt-3 mt-lg-4">A final, complete review of the draft methodology was conducted by the Advisory group, along with:</p>
+                    <ul>
+                        <li>Kooj Chuhan (Crossing Footprints)</li>
+                        <li>Caroline George (London Environment Directors’ Network)</li>
+                        <li>Kiran Crawford (former and current CE UK volunteer)</li>
+                        <li>Natalia Kotowska (former and current CE UK volunteer)</li>
+                        <li>Climate Change Manager at Leicester City Council</li>
+                    </ul>
+
+                    <h3 class="mt-4 mb-2 mb-lg-3"><span class="underline-green">Consultations</span></h3>
+
+                    <p>Climate Emergency UK has spoken to over 90 different organisations in the creation of the Scorecards methodology. You can see the majority of organisations we spoke to in our Thank You section below.</p>
+                    <p>We conducted 121 conversations and small group consultations on each section of the Scorecards. We also held two larger consultations, one with council staff and councillors, which almost 200 people attended, and another with campaign groups and external organisations that work with councils on climate action.</p>
+
+                    <h3 class="mt-4 mb-2 mb-lg-3"><span class="underline-green">Trial marking</span></h3>
+
+                    <p>Staff conducted a trial mark on a select number of councils to test the draft questions. Following this, a volunteer trial mark was also carried out to further test the draft questions on a different, select number of councils.</p>
+                    <p>A small number of Freedom of Information (FOI) requests were also sent out to a random selection of councils. This was important to learn how best to ask the FOI questions to create  the least amount of work for councils when responding and for us when collecting the data. The recipients were chosen at random in order to have a variety of council types in the trial. You can <a href="https://www.whatdotheyknow.com/user/climate_emergency_uk" class="d-inline">see all the trial FOI requests on WhatDoTheyKnow</a>. Please note that these are different to the final FOI requests included in the Scorecards methodology, and some trial FOI requests will not be  used this year.</p>
+
+                    <h2 id="section-why-sections" class="mt-5 mb-3">Why these sections?</h2>
+
+                    <h3 class="mt-4"><span class="underline-green">Buildings &amp; Heating</span></h3>
+                    <p class="mt-2">Buildings and Heating is one of the biggest sectors of carbon and other greenhouse gas emissions in the UK. This section aims to cover the main actions that councils can take to support both private rented and owned homes and socially renting households to reduce the emissions from their homes.</p>
+
+                    <h3 class="mt-4"><span class="underline-green">Transport</span></h3>
+                    <p class="mt-2">Transport is the other biggest sector of greenhouse gas emissions in the UK. This section covers the main enabling actions councils can take to reduce car use and encourage more sustainable transport within their area.</p>
+
+                    <h3 class="mt-4"><span class="underline-green">Governance &amp; Finance</span></h3>
+                    <p class="mt-2">This section aims to understand to what extent climate action has been incorporated and embedded across the whole of the council in all its activities and services in its decision making, forward planning and structures. This section also looks at how councils are raising funds for climate action and whether the councils’ investments are sustainable or supporting high carbon infrastructure and industries.</p>
+
+                    <h3 class="mt-4"><span class="underline-green">Planning</span></h3>
+                    <p class="mt-2">This section focuses primarily on how councils are using their planning powers, primarily through their Local Plans, to ensure low emission new buildings and homes, as well as ensuring new developments are built to minimise their environmental impact. This section also covers the renewable energy generation and fossil fuel generation planning applications in the area.</p>
+
+                    <h3 class="mt-4"><span class="underline-green">Biodiversity</span></h3>
+                    <p class="mt-2">The climate emergency is deeply connected to the ecological emergency. This section looks at what councils can do to protect and increase biodiversity in the area through their direct actions, the management of their green spaces, and biodiversity net gain requirements for developers. </p>
+
+                    <h3 class="mt-4"><span class="underline-green">Collaboration &amp; Engagement</span></h3>
+                    <p class="mt-2">This section addresses how councils can collaborate with others to improve their own climate action and to support others in the area to decarbonise. More than half of the emissions cuts needed to reach net zero rely on people and businesses taking up low-carbon solutions, and councils can work with those in their local area to enable those solutions.</p>
+
+                    <h3 class="mt-4"><span class="underline-green">Waste Reduction &amp; Food</span></h3>
+                    <p class="mt-2">This section looks at the influencing role councils can play in supporting sustainable food production on their land and in their schools, and circular economy initiatives locally. Councils also have an important role to play in waste and recycling locally and improving this. </p>
+
+                    <h2 id="section-why-weightings" class="mt-5 mb-3">Why these weightings?</h2>
+
+                    <p class="mt-2">Different sections have been weighted differently, and the reasons for this are explained below.</p>
+
+                    <h3 class="mt-4"><span class="underline-green">Transport and Buildings &amp; Heating</span></h3>
+                    <p class="mt-2">These are the areas where councils can have the biggest impact on area wide greenhouse gas emissions. It is also where single tier councils can take the most effective action to reduce emissions; therefore they have been given the highest weighting. County councils have more powers over transport than district councils, which is why this section is weighted higher for county councils and a lot lower for district councils. </p>
+
+                    <h3 class="mt-4"><span class="underline-green">Planning &amp; Land Use and Governance &amp; Finance</span></h3>
+                    <p class="mt-2">These sections have a less direct impact on emissions reduction. However, they have a considerable impact on enabling climate action and embedding it in longer-term policies. All council types have similar power and responsibilities in Governance &amp; Finance and the actions scored in this section demonstrate the council’s commitment to reducing emissions and embedding climate action across the council. Planning &amp; Land Use is one of the areas where single tier and district councils can be the most effective and also hold a lot of power, both for mitigation and adaptation, hence the higher weighting here than for the final three sections. County councils are not planning authorities which explains their lower section weighting for the Planning &amp; Land Use section. </p>
+
+                    <h3 class="mt-4"><span class="underline-green">Collaboration &amp; Engagement, Biodiversity and Waste Reduction &amp; Food</span></h3>
+                    <p class="mt-2">For these sections all councils have the same section weightings. This is because, while still vital, the actions scored in these three sections have the lowest direct impact on emission reduction, and within them, all council types have similar powers in relation to what they can influence. It is also harder to assess the effective engagement and communication of a council, and typically councils that effectively engage their residents will have more buy-in and be able to be more ambitious, so they will be able to score more elsewhere. </p>
+                    <p>All councils have less powers over food. For biodiversity, waste reduction and food, a significant amount of actions and emissions are outside of councils’ control, so a lower weighting has been given to these sections to reflect this. This is not a reflection of the wider importance of biodiversity, food and waste to address the climate emergency. </p>
+                    <p>The powers that Northern Irish councils have are different to other nations. For example, Northern Irish councils have less control over Transport, Planning &amp; Land Use and Buildings &amp; Heating </p>
+                    <p>The powers that combined authorities have are different to other council types. For example, combined authorities have almost no power or responsibility for Waste Reduction &amp; Food, other than Manchester Combined Authority which works with other councils in the area as a waste collection authority (and the Greater London Authority and theWest Midlands Combined Authority play a small role in waste regionally too). In other areas, Combined Authorities have more power, funding and influence, such as in adult education and green skills which is why these questions have been added to the Buildings &amp; Heating section, making it the Buildings, Heating and Green Skills section. Combined Authorities have less power over new and existing buildings and their carbon emissions in an area hence changing the Buildings &amp; Heating questions to include more on Green Skills.</p>
+
+                    <h2 id="section-further-info" class="mt-5 mb-3">Further info</h2>
+
+                    <p>To find out more about Climate Emergency UK please <a href="https://www.climateemergency.uk/" class="d-inline">visit our website</a>. You can also explore  the Council Climate Plan Scorecards from January 2023.</p>
+                    <p>If you have any further comments, questions or feedback <a href-"https://forms.gle/b5ezfQBcvT8hesv46" class="d-inline">please use our contact form here</a>.</p>
+
+                    <h2 id="section-thank-you" class="mt-5 mb-3">Thank you</h2>
+
+                    <p>These Scorecards would not have been possible without the advice, comments and feedback from the many different organisations we spoke to, as well as our trial volunteer markers. Special thanks to mySociety, who have provided technical support in the creation of the Scorecard methodology. We also want to thank the many councillors and council staff we spoke to, who represented all council types and work across the four nations. Thank you also to the more than 90 different organisations we spoke to for comment and advice on the Scorecards, on specific questions, sections or general advice. The vast majority of the organisations we spoke to are listed here in alphabetical order. Thank you to:</p>
+                    <ul class="mb-5" style="column-count: 2; column-gap: 40px;">
+                        {% for organisation in organisations %}
+                            <li>{{ organisation.name }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <h3 class="mb-3"><span class="underline-green">And a special thanks to our trial volunteer markers</span></h3>
+
+                    <div class="names-wall p-0 mb-5">
+                        <div class="names-wall-row ml-0 mr-0 flex-wrap align-items-start">
+                            <span class="names-wall-row-item">Les G</span>
+                            <span class="names-wall-row-item">Kiran C</span>
+                            <span class="names-wall-row-item">Edward H</span>
+                            <span class="names-wall-row-item">Kristina</span>
+                            <span class="names-wall-row-item">Alan S</span>
+                            <span class="names-wall-row-item">Rebecca C</span>
+                            <span class="names-wall-row-item">Katherine W-G</span>
+                            <span class="names-wall-row-item">Heloisa D</span>
+                            <span class="names-wall-row-item">Murali T</span>
+                            <span class="names-wall-row-item">Terry J</span>
+                            <span class="names-wall-row-item">Jenny P</span>
+                            <span class="names-wall-row-item">Hardip D</span>
+                            <span class="names-wall-row-item">Deborah C</span>
+                            <span class="names-wall-row-item">Matt L</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

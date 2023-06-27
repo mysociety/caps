@@ -1,0 +1,252 @@
+<button class="advanced-filter btn open-modal popup-trigger"
+data-popup-trigger="one" type="button">
+  {% if filter_descs %}
+    <span class="badge badge-red mr-2">{{ filter_descs|length }} active</span>
+  {% endif %}
+    Advanced filters
+</button>
+<div class="advanced-filter-wrapper bg-blue-l2 popup-modal shadow" data-popup-modal="one">
+    <div class="filter-header mb-3">
+        <p class="filter-title">Select a filter:</p>
+        <button class="close-icon popup-modal__close mt-0 mr-0" type="button"></button>
+    </div>
+    <form action=".">
+        <div class="d-flex flex-wrap justify-content-between">
+            {% if filter_auth_type %}
+            <input type="hidden" name="council_type" value="{{ authority_type }}">
+            {% endif %}
+
+          {% if authority_type == 'single' %}
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Nation</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="country_all" name="country" value=""{% if filter_params.country == "" or filter_params.country is None %} checked{% endif %}>
+                        <label for="country_all">Any</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="england" name="country" value="1"{% if filter_params.country == "1" %} checked{% endif %}>
+                        <label for="england">England</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="scotland" name="country" value="2"{% if filter_params.country == "2" %} checked{% endif %}>
+                        <label for="scotland">Scotland</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="wales" name="country" value="3"{% if filter_params.country == "3" %} checked{% endif %}>
+                        <label for="wales">Wales</label>
+                    </div>
+                </div>
+            </fieldset>
+          {% endif %}
+
+          {% if filter_params.country == "1" or filter_params.country == "" or filter_params.country is None %}
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Region</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="region_all" name="region" value=""{% if filter_params.region == "" or filter_params.region is None %} checked{% endif %}>
+                        <label for="country_all">Any</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="East Midlands" name="region" value="East Midlands"{% if filter_params.region == "East Midlands" %} checked{% endif %}>
+                        <label for="East Midlands">East Midlands</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="East of England" name="region" value="East of England"{% if filter_params.region == "East of England" %} checked{% endif %}>
+                        <label for="East of England">East of England</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="London" name="region" value="London"{% if filter_params.region == "London" %} checked{% endif %}>
+                        <label for="London">London</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="North East" name="region" value="North East"{% if filter_params.region == "North East" %} checked{% endif %}>
+                        <label for="North East">North East</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="North West" name="region" value="North West"{% if filter_params.region == "North West" %} checked{% endif %}>
+                        <label for="North West">North West</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="South East" name="region" value="South East"{% if filter_params.region == "South East" %} checked{% endif %}>
+                        <label for="South East">South East</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="South West" name="region" value="South West"{% if filter_params.region == "South West" %} checked{% endif %}>
+                        <label for="South West">South West</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="West Midlands" name="region" value="West Midlands"{% if filter_params.region == "West Midlands" %} checked{% endif %}>
+                        <label for="West Midlands">West Midlands</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="Yorkshire and The Humber" name="region" value="Yorkshire and The Humber"{% if filter_params.region == "Yorkshire and The Humber" %} checked{% endif %}>
+                        <label for="Yorkshire and The Humber">Yorkshire and The Humber</label>
+                    </div>
+                </div>
+            </fieldset>
+          {% endif %}
+
+          {% if authority_type == 'district' %}
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">County</button>
+                </legend>
+
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="county_all" name="county" value=""{% if filter_params.county == "" or filter_params.county is None %} checked{% endif %}>
+                        <label for="county_all">All</label>
+                    </div>
+                  {% for option in county_filter %}
+                    <div class="radio-wrapper">
+                        <input type="radio" id="{{ option.0|slugify }}" name="county" value="{{ option.0 }}"{% if filter_params.county == option.0 %} checked{% endif %}>
+                        <label for="{{ option.0|slugify }}">{{ option.1 }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+            </fieldset>
+          {% endif %}
+
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Urbanisation</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="urban_all" name="ruc_cluster" value=""{% if filter_params.ruc_cluster == "" or filter_params.ruc_cluster is None %} checked{% endif %}>
+                        <label for="urban_all">All</label>
+                    </div>
+                  {% for option in urbanisation_filter %}
+                    <div class="radio-wrapper">
+                        <input type="radio" id="{{ option.0|slugify }}" name="ruc_cluster" value="{{ option.0 }}"{% if filter_params.ruc_cluster == option.0 %} checked{% endif %}>
+                        <label for="{{ option.0|slugify }}">{{ option.1 }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+            </fieldset>
+
+          {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Political control (Jan 2022)</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_all" name="control" value=""{% if filter_params.control == "" or filter_params.control is None %} checked{% endif %}>
+                        <label for="control_all">All</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_coalition" name="control" value="Coalition/Minority"{% if filter_params.control == "Coalition/Minority" %} checked{% endif %}>
+                        <label for="control_coalition">Coalition/Minority</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_conservative" name="control" value="Conservative"{% if filter_params.control == "Conservative" %} checked{% endif %}>
+                        <label for="control_conservative">Conservative</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_independant" name="control" value="Independent"{% if filter_params.control == "Independent" %} checked{% endif %}>
+                        <label for="control_independant">Independent</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_labour" name="control" value="Labour"{% if filter_params.control == "Labour" %} checked{% endif %}>
+                        <label for="control_labour">Labour</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_libdem" name="control" value="Liberal Democrat"{% if filter_params.control == "Liberal Democrat" %} checked{% endif %}>
+                        <label for="control_libdem">Liberal Democrat</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="control_plaid" name="control" value="Plaid Cymru"{% if filter_params.control == "Plaid Cymru" %} checked{% endif %}>
+                        <label for="control_plaid">Plaid Cymru</label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Index of multiple deprivation</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_all" name="imdq" value=""{% if filter_params.imdq == "" or filter_params.imdq is None %} checked{% endif %}>
+                        <label for="imdq_all">All</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_1" name="imdq" value="1"{% if filter_params.imdq == 1 %} checked{% endif %}>
+                        <label for="imdq_1">1 (most deprived)</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_2" name="imdq" value="2"{% if filter_params.imdq == 2 %} checked{% endif %}>
+                        <label for="imdq_2">2</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_3" name="imdq" value="3"{% if filter_params.imdq == 3 %} checked{% endif %}>
+                        <label for="imdq_3">3</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_4" name="imdq" value="4"{% if filter_params.imdq == 4 %} checked{% endif %}>
+                        <label for="imdq_4">4</label>
+                    </div>
+                    <div class="radio-wrapper">
+                        <input type="radio" id="imdq_5" name="imdq" value="5"{% if filter_params.imdq == 5 %} checked{% endif %}>
+                        <label for="imdq_5">5 (least deprived)</label>
+                    </div>
+                </div>
+            </fieldset>
+          {% endif %}
+
+            <fieldset class="criteria-group-wrapper">
+                <legend>
+                    <button class="btn-open-div mt-2 mb-1 mb-sm-2" type="button">Total population</button>
+                </legend>
+                <div class="option-group open-div">
+                    <div class="radio-wrapper">
+                        <input type="radio" id="poulation_all" name="population" value=""{% if filter_params.population == "" or filter_params.population is None %} checked{% endif %}>
+                        <label for="population_all">Any</label>
+                    </div>
+                  {% for option in population_filter %}
+                    <div class="radio-wrapper">
+                        <input type="radio" id="{{ option.0|slugify }}" name="population" value="{{ option.0 }}"{% if filter_params.population == option.0 %} checked{% endif %}>
+                        <label for="{{ option.0|slugify }}">{{ option.1 }}</label>
+                    </div>
+                  {% endfor %}
+                </div>
+            </fieldset>
+
+        </div>
+
+        <button type="submit" class="btn btn-blue mb-3 d-inline-block mx-auto">Apply filters</button>
+
+    </form>
+</div>
+
+<script>
+    // Open div for each group of filters
+    let buttonOpen = document.getElementsByClassName('btn-open-div');
+    for (let i = 0; i < buttonOpen.length; i++) {
+        let openDiv = buttonOpen[i].parentNode.nextElementSibling;
+        buttonOpen[i].addEventListener('click', () => {
+            buttonOpen[i].classList.toggle('active');
+            if(!openDiv.classList.contains('active')) {
+                openDiv.classList.toggle('active');
+                openDiv.style.height = "auto";
+                let height = openDiv.clientHeight + "px";
+                openDiv.style.height = "0px";
+                setTimeout(() => {
+                    openDiv.style.height = height;
+                }, 0) 
+            } else {
+                openDiv.style.height = "0px";
+                openDiv.addEventListener('transitionend', () => {
+                    openDiv.classList.remove('active');
+                }, {once: true})
+            }
+        })
+    }
+</script>

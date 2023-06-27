@@ -1,0 +1,39 @@
+.bg-green-gradient {
+    background: linear-gradient(90deg, $green 0%, #DEF8F6 100%);
+}
+
+.bg-grey-gradient {
+    background: linear-gradient(180deg, transparentize($color-scorecard-grey-900, 0.85) 1%, transparentize($black, 0.95) 90%);
+}
+
+.bg-grey-gradient-darker {
+    background: linear-gradient(0deg, #EEEEEE -5%, rgba(187, 187, 187, 0.30) 100%) !important;
+}
+
+.bg-blue-gradient {
+    background: linear-gradient(90deg, $color-scorecard-blue-l2 0.01%, rgba(216, 242, 254, 0.3) 99%);
+}
+
+.bg-blue-l2 {
+    background-color: $color-scorecard-blue-l2 !important;
+}
+
+.bg-green-l2 {
+    background-color: $color-scorecard-green-l1 !important;
+}
+
+.bg-inherit {
+    background-color: inherit !important;
+}
+
+.bg-grey {
+    background-color: #eceff5 !important;
+}
+
+.bg-green {
+    background-color: $green !important;
+}
+
+.bg-dark-grey {
+    background-color: $color-scorecard-grey-900 !important;
+}

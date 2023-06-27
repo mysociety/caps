@@ -1,0 +1,353 @@
+{% extends "scoring/base.html" %}
+{% load bootstrap4 %}
+{% load caps_templatetags %}
+
+{% block content %}
+<div class="hero container-fluid bg-dark-grey">
+    <div style="max-width: 1140px" class="mx-auto">
+        <a class="cta reverse white" href="{% url 'home' %}">Back to the Scorecards</a>
+        <h1 class="text-white mt-3">{{ council.name }}</h1>
+        <div class="mt-3">
+            {% if plan_score.top_performer %}
+            <span class="top-performer hero-sub">Top Performer · </span>
+            {% endif %}
+            <span class="hero-sub">{{ authority_type.name }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="container about-section">
+    {% comment %}
+    <div class="alert alert-warning mb-4 mb-lg-5" role="alert">
+        <span class="warning-icon">We are currently reviewing this Scorecard at the request of the council.</span>
+    </div>
+    {% endcomment %}
+    <div class="row">
+        <div class="col-12 col-lg-5">
+            <div class="about-section-child pt-3">
+                <h3 class="mb-3">About this council</h3>
+                {% if new_council %}
+                <p>This council was created on April 1, 2023 so was not included in the 2021 Scorecards.</p>
+                {% else %}
+                {% if plan_score.top_performer %}
+                <p class="top-performer.active mb-0">This council is a top performer within {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.</p>
+                {% endif %}
+                <a href="{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}">See council in context</a>
+                <div class="group-label-wrapper mt-3">
+                    <div class="label-wrapper">
+                        <p class="label pl-0">Nation</p>
+                        <p>{{ council.get_country_display }}</p>
+                    </div>
+                    <div class="label-wrapper">
+                        <p class="label pl-0">Net-zero target date</p>
+                      {% for target in targets %}
+                      {% if target.scope is None %}
+                        <p>No target</p>
+                      {% else %}
+                        <p>{{ target.get_scope_display }}: {{ target.target_year }}</p>
+                      {% endif %}
+                      {% endfor %}
+                    </div>
+                  {% if plan_score.deprivation_quintile %}
+                    <div class="label-wrapper">
+                        <p class="label pl-0">Index of multiple deprivation</p>
+                        <p>{{ plan_score.deprivation_quintile }}</p>
+                    </div>
+                  {% endif %}
+                  {% if plan_score.population %}
+                    <div class="label-wrapper">
+                        <p class="label pl-0">Total population</p>
+                        <p>{{ plan_score.population }}</p>
+                    </div>
+                  {% endif %}
+                  {% if plan_score.get_ruc_cluster_display %}
+                    <div class="label-wrapper">
+                        <p class="label pl-0">Urbanisation</p>
+                        <p>{{ plan_score.get_ruc_cluster_display }}</p>
+                    </div>
+                  {% endif %}
+                  {% if plan_score.political_control %}
+                    <div class="label-wrapper">
+                        <p class="label pl-0">Political control (Jan 2022)</p>
+                        <p>{{ plan_score.political_control }}</p>
+                    </div>
+                  {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-12 col-lg-2"></div>
+        <div class="col-12 col-lg-5 mt-4 mt-lg-0">
+            <div class="about-section-child bg-grey-gradient-darker p-3">
+                <h3 class="mb-3">About the scoring</h3>
+                <p>Climate Emergency UK assessed plans according to 28 questions across nine sections, based on the expert-approved <a class="d-inline-block" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">checklist for Council Action Plans</a>. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between June and December 2021. Action Plans and related documents that were publicly available after September 2015 and before 20 September 2021 were marked. </p>
+              {% if plan_urls %}
+                <p>Has this council updated their Climate Action Plan? <a class="d-inline-block" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out.</a></p>
+              {% else %}
+                <p>Has this council released a Climate Action Plan plan recently? <a class="d-inline-block" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out.</a></p>
+              {% endif %}
+              {% if authority_type.slug == 'district' %}
+                <p>This district council is signed up to their county council's joint Climate Action Plan. Here, if the district council has a plan, they are marked on their own plan and the county plan, depending on which is relevant to each question. <a class="d-inline-block" href="{% url 'methodology2022' %}">You can find out more about this in the methodology.</a></p>
+              {% endif %}
+              {% if plan_urls %}
+                <details>
+                    <summary class="btn btn btn-blue is--light mt-2 mt-sm-3">See which plans were marked</summary>
+                    <ul class="scoring-source-links">
+                      {% for plan_url in plan_urls %}
+                        <li><a href="{{ plan_url.plan_url }}" title="{{ plan_url.plan_url|url_human }}">{{ plan_url.plan_url|url_human }}</a></li>
+                      {% endfor %}
+                    </ul>
+                </details>
+              {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if not new_council %}
+<div class="container council-page mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mb-5">
+                <div class="table-header mb-4">
+                    <h3>
+                        Scorecard section performance
+                    </h3>
+                    <p>Climate Action Plans have been scored across nine categories, each covering the crucial information that an effective  plan should contain. The marks within these sections add up to make up the council's overall score. Here you can see where a council performs well and not so well in each section — and compare it to other councils at this granular level.
+                    </p>
+                    <div class="position-relative">
+                        <button class="btn btn-blue is--light open-modal popup-trigger" data-popup-trigger="one">
+                            Choose councils to compare
+                          {% if comparisons %}
+                            <span class="badge badge-pill badge-danger ml-1">{{ comparisons|length }}</span>
+                          {% endif %}
+                        </button>
+                        <div class="council-compare-wrapper popup-modal shadow bg-white" data-popup-modal="one" style="left: 0">
+                            <div class="filter-header mb-3">
+                                <p class="filter-title mb-0">Search for councils to compare</p>
+                                <button class="close-icon popup-modal__close" type="button"></button>
+                            </div>
+                            <div class="council-selection-wrapper bg-blue-l2">
+                              {% if comparisons|length > 2 %}
+                                <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
+                              {% else %}
+                                <input class="form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name">
+                              {% endif %}
+                              {% if comparisons %}
+                                <div class="selected-council-wrapper mt-4">
+                                  {% for comparison in comparisons %}
+                                    <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
+                                  {% endfor %}
+                                </div>
+                                <a href="{% url "council" council.slug %}" class="mt-3">Clear all</a>
+                              {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-relative" style="display:table">
+                    <div class="mobile-message">
+                        <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
+                        <p class="text-white">You’ll find more options, like the ability to compare your council’s Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
+                    </div>
+                    <table class="table-section mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-left">Sections</th>
+                                <th scope="col">{{ council.name }}</th>
+                              {% for comparison in comparisons %}
+                                <th scope="col">{{ comparison.council.name }}</th>
+                              {% endfor %}
+                                <th scope="col">Average {% include 'caps/includes/authority_type.html' with group=authority_type %} council score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for section in sections %}
+                            <tr>
+                                <td>
+                                    <div>
+                                        <a href="{% url 'home' %}">{{ section.description }}</a>
+                                    </div>
+                                </td>
+                                <td>
+                                  {% if section.top_performer %}
+                                    <span class="top-performer">
+                                  {% else %}
+                                    <span>
+                                  {% endif %}
+                                    {{ section.score }}/{{ section.max_score }}
+                                    </span>
+                                </td>
+                              {% for comparison in section.comparisons %}
+                                <td>
+                                  {% if comparison.top_performer %}
+                                    <span class="top-performer">
+                                  {% else %}
+                                    <span>
+                                  {% endif %}
+                                    {{ comparison.score }}/{{ comparison.max_score }}
+                                    </span>
+                                </td>
+                              {% endfor %}
+                                <td>
+                                    {{ section.avg }}/{{ section.max_score }}
+                                </td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="table-footer mt-2">
+                        <a class="mt-3" href="{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}">See results in full list</a>
+                        <div class="social-media-wrapper">
+                            <a class="table-social-icon facebook mr-1" title="Share this page on Facebook" aria-label="Share this page on Facebook" href="https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri|urlencode }}"></a>
+                            <a class="table-social-icon twitter" title="Share this page on Twitter" aria-label="Share this page on Twitter" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&amp;text={{ twitter_tweet_text|urlencode }}"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-5">
+                <div class="table-header mb-4">
+                    <h3>
+                        Individual question performance
+                    </h3>
+                    <p>Each category on the Scorecards is broken down into several individual questions, as guided by Climate Emergency UK’s <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/" class="d-inline-block">checklist for councils’ Action Plans</a>. This is the most granular data we hold for each councils’ Scorecard.
+                    </p>
+                </div>
+                <div class="position-relative" style="display: table">
+                    <table class="table-question-council mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col" class="text-left">Questions</th>
+                                <th scope="col" class="current-council-score">{{ council.name }}</th>
+                              {% for comparison in comparisons %}
+                                <th scope="col" class="comparison-council">{{ comparison.council.name }}</th>
+                              {% endfor %}
+                                <th scope="col" class="top-tier-head">
+                                     <p class="top-performer">Councils with full marks</p>
+                                 </th>
+                            </tr>
+                        </thead>
+                      {% for section in sections %}
+                        <tbody class="table-question-council__section">
+                            <tr data-has-plan="no" class="bg-green section-row">
+                                <td></td>
+                                <td colspan="1" class="section-cell text-left">
+                                    {{ section.description }}
+                                </td>
+                                <td class="score is--section-score {% if section.top_performer %}top-performer{% endif %}">
+                                    <span>{{ section.score }}/{{ section.max_score }}</span>
+                                </td>
+                              {% for comparison in section.comparisons %}
+                                <td class="score is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
+                                    {{ comparison.score }}/{{ comparison.max_score }}
+                                </td>
+                              {% endfor %}
+                                <td class="top-tier-score">
+                                  <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this section.</span>
+                                </td>
+                                <td class="button-wrapper p-0">
+                                    <button type="button" class="accordion js-toggle-council-question-table-section" aria-label="Expand this section" title="Expand this section">
+                                        <div class="mx-auto"></div>
+                                    </button>
+                                </td>
+                            </tr>
+                          {% for answer in section.answers %}
+                            <tr class="{% if answer.type == 'HEADER' %}header-question{% else %}subpoint-question{% endif %}">
+                                <td data-column="question_no" class="question-no">
+                                    <div>
+                                        {% if answer.type == 'HEADER' %}
+                                        <div class="question-code text-left">
+                                            <a href="{% url 'question' answer.code %}">{{ answer.pretty_code }}</a
+                                        </div>
+                                        {% else %}
+                                        <div class="question-code text-left pl-2">
+                                            <span>{{ answer.pretty_code }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                              {% if answer.type == 'HEADER' %}
+                                <td data-column="answer" colspan="1">
+                                    <div class="question-content-table text-left">
+                                        <a href="{% url 'question' answer.code %}" class="question-no is--mobile">{{ answer.pretty_code }}</a>
+                                        <a href="{% url 'question' answer.code %}">{{ answer.question | linebreaks }}</a>
+                                    </div>
+                              {% else %}
+                                <td data-column="answer">
+                                    <div class="question-content-table text-left">
+                                        <span class="question-no is--mobile">{{ answer.pretty_code }}</span>
+                                        <div class="js-collapse-children">
+                                            {{ answer.question | linebreaks }}
+                                        </div>
+                                    </div>
+                              {% endif %}
+                                </td>
+                              {% if answer.type != 'HEADER' %}
+                                <td data-column="score" class="score">
+                              {% else %}
+                                <td data-column="score" class="score is--header-score">
+                              {% endif %}
+                                    <span>{{ answer.score }}/{{ answer.max }}</span>
+                                </td>
+                              {% if answer.type != 'HEADER' %}
+                              {% for comparison in comparisons %}
+                                <td></td>
+                              {% endfor %}
+                              {% else %}
+                              {% for comparison in answer.comparisons %}
+                                <td data-column="score" class="score is--header-score">
+                                    <span>{{ comparison.score }}/{{ comparison.max }}</span>
+                                </td>
+                              {% endfor %}
+                              {% endif %}
+                              <td class="top-tier-score">
+                                <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ answer.council_count }} out of {{ council_count }}</a> <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this question.</span>
+                                </td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      {% endfor %}
+                    </table>
+                    <div class="advanced-filter-wrapper pb-3 bg-blue-l2 popup-modal shadow" data-popup-modal="advanced-filter-two">
+                        <div class="filter-header mb-3">
+                            <p class="filter-title">Show <strong>only</strong> councils similar to <strong>{{ council.name }}</strong> in terms of:</p>
+                            <button class="close-icon popup-modal__close" type="button"></button>
+                        </div>
+                        <div class="option-group">
+                             {% comment %} NOTE by default there wont't be any option selected.
+                             The "active" class has been added just for styling purposes{% endcomment %}
+                            <a class="radio-btn is--with-label active" href="#">Nation</a>
+                            <a class="radio-btn is--with-label" href="#">Urbanisation</a>
+                            <a class="radio-btn is--with-label" href="#">Total population</a>
+                            <a class="radio-btn is--with-label" href="#">Index of multiple deprivation </a>
+                            <a class="radio-btn is--with-label" href="#">Net-zero target date</a>
+                            <a class="radio-btn is--with-label" href="#">Political control (Jan 2022)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+    // Open modals and filters
+    const modalTriggers = document.querySelectorAll('.popup-trigger')
+    const modalCloseTrigger = document.querySelector('.popup-modal__close')
+    
+    modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+            const { popupTrigger } = trigger.dataset;
+            const popupModal = document.querySelector(`[data-popup-modal="${popupTrigger}"]`);
+            popupModal.classList.add('is--visible');
+
+            popupModal.querySelector('.popup-modal__close').addEventListener('click', () => {
+            popupModal.classList.remove('is--visible');
+            })
+        })
+    })
+</script>
+{% endblock %}
