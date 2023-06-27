@@ -4,9 +4,6 @@
     text-align: center;
     vertical-align: middle;
     white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    max-width: 100%;
 
     @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $btn-font-size-sm, 1, 10em);
     @include button-variant($green, $green);
@@ -29,4 +26,37 @@
 
 .twin-keyphrase-sm {
     font-size: 0.75rem;
+}
+
+.twin-table {
+    table-layout: fixed;
+
+    tr > :nth-child(2) {
+        border-left: $table-border-width solid $table-border-color;
+        border-right: $table-border-width solid $table-border-color;
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    thead > tr:first-child() > :nth-child(2) {
+        border-top: $table-border-width solid $table-border-color;
+    }
+
+    tbody > tr:last-child() > :nth-child(2) {
+        border-bottom: $table-border-width solid $table-border-color;
+    }
+
+    thead th {
+        border-top: none;
+    }
+
+    tbody th,
+    tbody td {
+        vertical-align: middle;
+    }
+
+    .twin-keyphrase {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 10em;
+    }
 }

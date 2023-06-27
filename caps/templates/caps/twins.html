@@ -156,16 +156,16 @@
                 </div>
                 <div class="card-body">
                     <h3 class="h6">Climate emergency declaration</h3>
-                  {% if declarations.council %}
+                  {% if council.climate_emergency_declaration %}
                     <p class="mb-0 mt-n1">
-                        {{ council.name }} <a href="{{ declarations.council.source_url }}">declared a climate emergency</a> on {{ declarations.council.date_declared }}.
+                        {{ council.name }} <a href="{{ council.climate_emergency_declaration.source_url }}">declared a climate emergency</a> on {{ council.climate_emergency_declaration.date_declared }}.
                     </p>
                   {% else %}
                     <p class="mb-0 mt-n1 text-muted">
                         We don’t think this council has declared a climate emergency – <a href="{% url 'about' %}">let us know if it has!</a>
                     </p>
                   {% endif %}
-                  {% for promise in promises.council %}
+                  {% for promise in council.net_zero_targets %}
                     <h3 class="h6 mt-4">
                       {% if promise.get_scope %}
                         {{ promise.get_scope|capfirst }} pledge
@@ -191,16 +191,16 @@
                 </div>
                 <div class="card-body">
                     <h3 class="h6">Climate emergency declaration</h3>
-                  {% if declarations.twin %}
+                  {% if twin.climate_emergency_declaration %}
                     <p class="mb-0 mt-n1">
-                        {{ twin.name }} <a href="{{ declarations.twin.source_url }}">declared a climate emergency</a> on {{declarations.twin.date_declared }}.
+                        {{ twin.name }} <a href="{{ twin.climate_emergency_declaration.source_url }}">declared a climate emergency</a> on {{twin.climate_emergency_declaration.date_declared }}.
                     </p>
                   {% else %}
                     <p class="mb-0 mt-n1 text-muted">
                         We don’t think this council has declared a climate emergency – <a href="{% url 'about' %}">let us know if it has!</a>
                     </p>
                   {% endif %}
-                  {% for promise in promises.twin %}
+                  {% for promise in twin.net_zero_targets %}
                     <h3 class="h6 mt-4">
                       {% if promise.get_scope %}
                         {{ promise.get_scope|capfirst }} pledge
@@ -287,7 +287,7 @@
     <div class="tab-content">
       {% for group in related_council_groups %}
         <div class="tab-pane {% if group.type.slug == "composite" %}show active{% endif %}" id="{{ group.type.slug }}-content" role="tabpanel" aria-labelledby="{{ group.type.slug }}-tab">
-            <table class="table table-responsive" style="table-layout: fixed">
+            <table class="table table-responsive twin-table">
                 <colgroup>
                     <col style="width: 14.29%">
                     <col style="width: 14.29%">
@@ -299,55 +299,102 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th style="border-top: none"></th>
-                        <th style="border-top: none"><a href="{% url 'council' council.slug %}">{{ council.name }}</a></th>
+                        <th></th>
+                        <th><a href="{% url 'council' council.slug %}">{{ council.name }}</a></th>
                       {% for relative in group.councils|slice:":5" %}
-                        <th style="border-top: none"><a href="{% url 'council' relative.slug %}">{{ relative.name }}</a></th>
+                        <th><a href="{% url 'council' relative.slug %}">{{ relative.name }}</a></th>
                       {% endfor %}
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="vertical-align: middle">Similarity</td>
+                        <td>Similarity</td>
                         <td></td>
                       {% for relative in group.councils|slice:":5" %}
                         <td class="h3">{{ relative.distance.match_score|floatformat:"0" }}%</td>
                       {% endfor %}
                     </tr>
                     <tr>
-                        <td style="vertical-align: middle">Climate emergency declaration</td>
-                        <td></td>
-                      {% for relative in group.councils|slice:":5" %}
-                        <td></td>
-                      {% endfor %}
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle">Net Zero target date (whole area)</td>
-                        <td></td>
-                      {% for relative in group.councils|slice:":5" %}
-                        <td></td>
-                      {% endfor %}
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle">Net Zero target date (council operations)</td>
-                        <td></td>
-                      {% for relative in group.councils|slice:":5" %}
-                        <td></td>
-                      {% endfor %}
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle">Latest climate action update</td>
-                        <td></td>
-                      {% for relative in group.councils|slice:":5" %}
-                        <td></td>
-                      {% endfor %}
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle">Keyphrase differences</td>
-                        <td></td>
-                        
+                        <td>Climate emergency declaration</td>
+                        <td>
+                          {% if council.climate_emergency_declaration %}
+                            {{ council.climate_emergency_declaration.date_declared|date:"M Y" }}
+                          {% else %}
+                            <span class="text-muted">–</span>
+                          {% endif %}
+                        </td>
                       {% for relative in group.councils|slice:":5" %}
                         <td>
+                          {% if relative.climate_emergency_declaration %}
+                            {{ relative.climate_emergency_declaration.date_declared|date:"M Y" }}
+                          {% else %}
+                            <span class="text-muted">–</span>
+                          {% endif %}
+                        </td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Net Zero target (whole area)</td>
+                        <td>
+                          {% if council.net_zero_target_whole_area %}
+                            {{ council.net_zero_target_whole_area.target_year }}
+                          {% else %}
+                            <span class="text-muted">–</span>
+                          {% endif %}
+                        </td>
+                      {% for relative in group.councils|slice:":5" %}
+                        <td>
+                          {% if relative.net_zero_target_whole_area %}
+                            {{ relative.net_zero_target_whole_area.target_year }}
+                          {% else %}
+                            <span class="text-muted">–</span>
+                          {% endif %}
+                        </td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Net Zero target (council operations)</td>
+                        <td>
+                          {% if council.net_zero_target_council_operations %}
+                            {{ council.net_zero_target_council_operations.target_year }}
+                          {% else %}
+                            <span class="text-muted">–</span>
+                          {% endif %}
+                        </td>
+                      {% for relative in group.councils|slice:":5" %}
+                        <td>
+                          {% if relative.net_zero_target_council_operations %}
+                            {{ relative.net_zero_target_council_operations.target_year }}
+                          {% else %}
+                            <span class="text-muted">–</span>
+                          {% endif %}
+                        </td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Latest climate action update</td>
+                        <td>
+                          {% if council.last_updated_plan %}
+                            {{ council.last_updated_plan.updated_at|date:"M Y" }}
+                          {% else %}
+                            <span class="text-muted">–</span>
+                          {% endif %}
+                        </td>
+                      {% for relative in group.councils|slice:":5" %}
+                        <td>
+                          {% if relative.last_updated_plan %}
+                            {{ relative.last_updated_plan.updated_at|date:"M Y" }}
+                          {% else %}
+                            <span class="text-muted">–</span>
+                          {% endif %}
+                        </td>
+                      {% endfor %}
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;">Plan key phrases</td>
+                        <td style="vertical-align: top;"></td>
+                      {% for relative in group.councils|slice:":5" %}
+                        <td style="vertical-align: top;">
                             <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
                             {% for keyphrase in relative.plan_overlap.just_in_b|randomize_and_limit:10 %}
                                 <li>{% include "caps/includes/twin-keyphrase-badge.html" with keyphrase=keyphrase council=relative classes="twin-keyphrase-sm" %}</li>

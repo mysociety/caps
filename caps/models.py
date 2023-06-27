@@ -308,6 +308,30 @@ class Council(models.Model):
     def get_absolute_url(self):
         return "/councils/%s/" % self.slug
 
+    @property
+    def climate_emergency_declaration(self):
+        return EmergencyDeclaration.objects.filter(council=self).first()
+
+    @property
+    def net_zero_targets(self):
+        return Promise.objects.filter(council=self, has_promise=True)
+
+    @property
+    def net_zero_target_council_operations(self):
+        return Promise.objects.filter(
+            council=self, has_promise=True, scope=PlanDocument.COUNCIL_ONLY
+        ).first()
+
+    @property
+    def net_zero_target_whole_area(self):
+        return Promise.objects.filter(
+            council=self, has_promise=True, scope=PlanDocument.WHOLE_AREA
+        ).first()
+
+    @property
+    def last_updated_plan(self):
+        return PlanDocument.objects.filter(council=self).order_by("updated_at").first()
+
     def keyphrase_intersection(self, other: Council) -> KeyPhraseOverlap:
         """
         Return a the unique keywords and intersections of keywords

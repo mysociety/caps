@@ -510,18 +510,6 @@ class TwinsView(BaseLocationResultsView):
 
             context["related_council_groups"] = related_councils
 
-            context["promises"] = {
-                "council": council.promise_set.filter(has_promise=True).order_by(
-                    "target_year"
-                ),
-                "twin": twin.promise_set.filter(has_promise=True).order_by(
-                    "target_year"
-                ),
-            }
-            context["declarations"] = {
-                "council": council.emergencydeclaration_set.first(),
-                "twin": twin.emergencydeclaration_set.first(),
-            }
             context["page_title"] = "{}’s climate twin".format(council.name)
         else:
             context["page_title"] = "Find your council climate twin"
