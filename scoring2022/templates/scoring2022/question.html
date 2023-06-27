@@ -1,10 +1,10 @@
-{% extends "scoring/base.html" %}
+{% extends "scoring2022/base.html" %}
 {% load bootstrap4 %}
 
 {% block content %}
 <div class="hero container-fluid bg-dark-grey">
     <div style="max-width: 1140px" class="mx-auto">
-        <a class="cta reverse white" href="{% url 'home' %}">Back to Scorecards plan</a>
+        <a class="cta reverse white" href="{% url 'scoring2022:home' %}">Back to Scorecards plan</a>
         <h1 class="text-white mt-3"><span style="text-transform:uppercase">{{ question.code }}</span> data breakdown</h1>
         <div class="mt-3">
             <span class="hero-sub">{{ question.section.description }}</span>
@@ -61,17 +61,17 @@
                 <form class="form">
                     <h6 class="mb-2">Filter question performance by type of council</h6>
                     <div class="type-council-option-wrapper">
-                        <a class="radio-btn is--with-label{% if authority_type == 'single' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=single">Single Tier</a>
-                        <a class="radio-btn is--with-label{% if authority_type == 'district' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=district">District</a>
-                        <a class="radio-btn is--with-label{% if authority_type == 'county' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=county">County</a>
-                        <a class="radio-btn is--with-label{% if authority_type == 'combined' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=combined">Combined</a>
-                        <a class="radio-btn is--with-label{% if authority_type == 'northern-ireland' %} active{% endif %}" href="{% url 'question' slug=question.code %}?council_type=northern-ireland">Northern Ireland</a>
+                        <a class="radio-btn is--with-label{% if authority_type == 'single' %} active{% endif %}" href="{% url 'scoring2022:question' slug=question.code %}?council_type=single">Single Tier</a>
+                        <a class="radio-btn is--with-label{% if authority_type == 'district' %} active{% endif %}" href="{% url 'scoring2022:question' slug=question.code %}?council_type=district">District</a>
+                        <a class="radio-btn is--with-label{% if authority_type == 'county' %} active{% endif %}" href="{% url 'scoring2022:question' slug=question.code %}?council_type=county">County</a>
+                        <a class="radio-btn is--with-label{% if authority_type == 'combined' %} active{% endif %}" href="{% url 'scoring2022:question' slug=question.code %}?council_type=combined">Combined</a>
+                        <a class="radio-btn is--with-label{% if authority_type == 'northern-ireland' %} active{% endif %}" href="{% url 'scoring2022:question' slug=question.code %}?council_type=northern-ireland">Northern Ireland</a>
                     </div>
                 </form>
             </div>
             <div class="table-filter col-12 col-lg-5 py-3">
                 <div class="float-left float-md-right">
-                    {% include 'scoring/includes/advanced-filter.html' with filter_auth_type=1 %}
+                    {% include 'scoring2022/includes/advanced-filter.html' with filter_auth_type=1 %}
                 </div>
             </div>
         </div>
