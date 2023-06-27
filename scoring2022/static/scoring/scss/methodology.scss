@@ -1,0 +1,240 @@
+.methodology-content {
+    .container {
+        @include responsive(padding-top, 20, 35);
+        @include responsive(padding-bottom, 20, 35);
+    }
+
+    h4 {
+        display: inline-block;
+        box-shadow: inset 0 10px 0 white, inset 0 -10px 0 transparentize($color: $green, $amount: 0.4)
+    }
+
+    h5 {
+        display: inline-block;
+        box-shadow: inset 0 10px 0 white, inset 0 -4px 0 transparentize($color: $black, $amount: 0.9)
+    }
+
+    .table-of-content {
+        a {
+            display: block;
+            padding: 8px 0px;
+        }
+    }
+
+    table {
+        p {
+            color: $color-scorecard-grey-900;
+        }
+
+        td, th {
+            border: 1px solid transparentize($color: $black, $amount: 0.8);
+            padding: 12px 8px;
+            text-align: center;
+        }
+
+        thead tr {
+            background-color:$color-scorecard-green-d1;
+            color: $black;
+            :nth-child(n+2) {
+                max-width: 150px;
+            }
+        }
+
+        tbody tr {
+            &:nth-child(even) {
+                background-color:$color-scorecard-green-l1;
+            }
+        }
+
+        tbody tr td, thead tr th {
+            &:first-child() {
+                text-align: left;
+            }
+        }
+    
+        &.weighting-table {
+            @media screen and (max-width: 768px) {
+                display: none;
+            }
+        }
+    }
+
+    // Custom card for section sectio.
+    .card-wrapper.is--weighting {
+        @media screen and (min-width: 769px) {
+            display: none;
+        }
+    }
+
+    // Table for questions
+    .table-section-questions {
+        @media screen and (max-width: 1200px) {
+            display: none;
+        }
+        &.is--mobile {
+            @media screen and (max-width: 1200px) {
+                display: block;
+            }
+            @media screen and (min-width: 1201px) {
+                display: none;
+            }
+        }
+    }
+
+    table.question-table-methodology {
+        td, th {
+            text-align: left;
+            &.score {
+                text-align: center;
+            }
+        }
+
+        h5 {
+            box-shadow: none;
+            @include responsive(font-size, 15, 16);
+        }
+
+        tr.header-question {
+            background-color: transparentize($color: $color-scorecard-green-d1, $amount: 0.4);
+        }
+
+        .question-header {
+            font-family: $font-family-sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            @include responsive(font-size, 13, 14);
+            line-height: 130%;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: $black;
+        }
+
+        .question-content-table.is--header {
+            p {
+                font-weight: 600;
+            }
+        }
+    }
+
+    // For the questions cards
+    .section-card-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        .card-wrapper {
+            flex-basis: 48%;
+            @media screen and (max-width: 675px) {
+                flex-basis: 100%;
+            }
+        }
+    }
+
+    //Glossary
+    .glossary-content {
+        .glossary-content-item {
+            margin-bottom: 30px;
+        }
+
+        .glossary-footer {
+            border-top: 1px solid transparentize($color: $black, $amount: 0.9);
+        }
+    }
+}
+
+// METHODOLOGY 2023
+$council-types: (
+    'single',
+    'district',
+    'county',
+    'northern-ireland',
+    'combined'
+);
+
+@each $council-type in $council-types {
+    // Hide all council-specific elements by default
+    .js-#{$council-type} { 
+        display: none;
+    }
+
+    // Hide non-selectec council type cells on smaller screens
+    th.js-highlight-#{$council-type},
+    td.js-highlight-#{$council-type} {
+        display: none;
+        @media (min-width: 700px) {
+            display: table-cell;
+        }
+    }
+
+    // When an active council type has been selected…
+    [data-methodology-active-council-type="#{$council-type}"] {
+        // Hide any default (non-council-typed) elements
+        .js-default {
+            display: none;
+        }
+
+        // Show the relevant council type elements
+        .js-#{$council-type} {
+            display: block;
+        }
+
+        // Special case for tables!
+        table.js-#{$council-type} {
+            display: table;
+        }
+
+        // Highlight the relevant council type table headers
+        th.js-highlight-#{$council-type} {
+            background-color: $color-scorecard-green-d1;
+            display: table-cell;
+        }
+
+        // Highlight the relevant council type table cells
+        td.js-highlight-#{$council-type} {
+            background-color: transparentize($color-scorecard-green-d1, 0.8);
+            display: table-cell;
+        }
+
+        // Fake "active" styling for the activated trigger
+        [data-methodology-switch-council-type="#{$council-type}"] {
+            &.radio-btn.is--with-label {
+                background-color: $blue;
+                color: $white;
+            }
+
+            &.scorecards-tooltip {
+                background-image: url('../img/question-circle-white.svg');
+            }
+        }
+    }
+}
+
+.section-question-meta-wrapper {
+    display: grid;
+    flex-direction: row;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1rem; // Avoids heavy length content to overlap the next column.
+}
+
+// Tables highlight
+.minimal-table {
+    table-layout: fixed;
+    width: 100%;
+
+    th, td {
+        border: 1px solid rgba(28, 38, 36, 0.2);
+        padding: 12px 8px;
+        text-align: center;
+        max-width: 150px;
+        min-width: 100px;
+    }
+
+    th, td {
+        &:first-child {
+            text-align: left;
+            font-weight: 700;
+        }
+    }
+}

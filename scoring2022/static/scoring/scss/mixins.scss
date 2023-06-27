@@ -1,0 +1,178 @@
+// Usage:   @include transition(width, height 0.3s ease-in-out);
+// Output:  -webkit-transition(width 0.2s, height 0.3s ease-in-out);
+//          transition(width 0.2s, height 0.3s ease-in-out);
+//
+// Pass in any number of transitions
+@mixin transition($transitions...) {
+    $unfoldedTransitions: ();
+    @each $transition in $transitions {
+        $unfoldedTransitions: append($unfoldedTransitions, unfoldTransition($transition), comma);
+    }
+
+    -webkit-transition: $unfoldedTransitions;
+    transition: $unfoldedTransitions;
+}
+
+@function unfoldTransition ($transition) {
+// Default values
+$property: all;
+$duration: .3s;
+$easing: null; // Browser default is ease, which is what we want
+$delay: null; // Browser default is 0, which is what we want
+$defaultProperties: ($property, $duration, $easing, $delay);
+
+// Grab transition properties if they exist
+$unfoldedTransition: ();
+@for $i from 1 through length($defaultProperties) {
+    $p: null;
+    @if $i <= length($transition) {
+    $p: nth($transition, $i)
+    } @else {
+    $p: nth($defaultProperties, $i)
+    }
+    $unfoldedTransition: append($unfoldedTransition, $p);
+}
+
+@return $unfoldedTransition;
+}
+
+//Mixin Responsive
+//usage @include responsive(font-size, 30, 40);
+$min-viewport: 350;
+$max-viewport: 1792;
+
+@mixin responsive($property, $property-min, $property-max) {
+    #{$property}: calc(#{$property-min}px + (#{$property-max} - #{$property-min}) * ( (100vw - #{$min-viewport}px) / (#{$max-viewport} - #{$min-viewport}) )) !important;
+}
+
+//Placeholder
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content;}
+    &:-moz-placeholder           {@content;}
+    &::-moz-placeholder          {@content;}
+    &:-ms-input-placeholder      {@content;}
+    &::placeholder               {@content;}
+}
+
+// Scorecard Table
+@mixin table-category-color-header($color) {
+    border-right: 1px solid transparentize($color: $black, $amount: 0.9);
+    background-color: lighten($color: $color, $amount: 65%);
+    a {
+        color: $color;
+        &:hover {
+            color: darken($color: $color, $amount: 80%);
+        }
+    }
+}
+
+@mixin progress-bar-header($color) {
+    border-right: 1px solid transparentize($color: $black, $amount: 0.9);
+    .score-bar {
+        border-color: $color;
+        .progress-bar {
+            background-color: lighten($color: $color, $amount: 62%);
+            border-right: 1px solid transparentize($color: $color, $amount: 0.9);
+        }
+    }
+}
+
+@mixin progress-bar-body($color) {
+    border-right: 1px solid transparentize($color: $black, $amount: 0.9);
+    span {
+        opacity: 0.8;
+        @include responsive(font-size, 13, 14);
+    }
+    .score-bar {
+        border-color: $color;
+        .progress-bar {
+            background-color: lighten($color: $color, $amount: 66%);
+            border-right: 1px solid transparentize($color: $color, $amount: 0.9);
+        }
+    }
+}
+
+// Mixin table header
+//usage thead th {@include table-header;}
+@mixin table-header {
+    background-color: $white;
+    font-family: $font-family-sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 130%;
+    text-align: center;
+    letter-spacing: 0.06em;
+    @include responsive(font-size, 15, 16);
+    span.filter-active {
+        font-family: $headings-font-family;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 120%;
+        text-align: center;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        opacity: 0.7;
+    }
+}
+
+// Mixin borders
+//usage @include border-priority-1(right);
+@mixin border-priority-1($direction) {
+    border-#{$direction}: $border-priority-1;
+}
+
+@mixin border-priority-2($direction) {
+    border-#{$direction}: $border-priority-2;
+}
+
+@mixin border-priority-3($direction) {
+    border-#{$direction}: $border-priority-3;
+}
+
+// Active nav-link active
+
+@mixin nav-link-active {
+    background-color:lighten($green, 40%);
+    color: $black;
+    opacity: 1;
+    border-color: $green;
+}
+
+// Show height for hidden content div
+
+@mixin show-height {
+    height: 0;
+    overflow: hidden;
+    @include transition(height 0.3s ease-in-out);
+    &.show-height {
+        height: auto;
+        overflow: visible;
+    }
+    &.collapse:not(.show-height) {
+        display: block;
+    }
+    &.collapse:not(.show) {
+        display: flex;
+        height: auto;
+        @media only screen and (max-width: $navbar-mobile-breakpoint) {
+            display: block;
+            height: 0;
+        }
+    }
+
+    @media only screen and (max-width: $navbar-mobile-breakpoint) {
+        overflow: hidden;
+    }
+}
+
+// Cross-browser mixin
+/* Usage for input focus
+    @include box-shadow(0px, 0px, 0px, 5px, $black);
+*/
+@mixin box-shadow($top, $left, $blur, $size, $color) {
+    -webkit-box-shadow: $top $left $blur $size $color;
+    -moz-box-shadow: $top $left $blur $size $color;
+    box-shadow: $top $left $blur $size $color;
+ }

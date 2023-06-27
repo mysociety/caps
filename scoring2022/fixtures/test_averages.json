@@ -1,0 +1,248 @@
+[
+  {
+    "model": "caps.council",
+    "pk": 1,
+    "fields": {
+      "created_at": "2021-12-15",
+      "updated_at": "2021-12-15",
+      "name": "Borsetshire County",
+      "slug": "borsetshire",
+      "country": 2,
+      "authority_code": "BRS",
+      "authority_type": "UA",
+      "gss_code": "S10000003",
+      "whatdotheyknow_id": 1,
+      "mapit_area_code": "",
+      "website_url": "",
+      "combined_authority": null,
+      "twitter_name": "",
+      "twitter_url": ""
+    }
+  },
+  {
+    "model": "caps.council",
+    "pk": 2,
+    "fields": {
+      "created_at": "2021-12-15",
+      "updated_at": "2021-12-15",
+      "name": "East Borsetshire",
+      "slug": "east-borsetshire",
+      "country": 2,
+      "authority_code": "EBS",
+      "authority_type": "UA",
+      "gss_code": "S10000002",
+      "whatdotheyknow_id": 2,
+      "mapit_area_code": "",
+      "website_url": "",
+      "combined_authority": null,
+      "twitter_name": "",
+      "twitter_url": ""
+    }
+  },
+  {
+    "model": "caps.council",
+    "pk": 3,
+    "fields": {
+      "created_at": "2021-12-15",
+      "updated_at": "2021-12-15",
+      "name": "West Borsetshire",
+      "slug": "west-borsetshire",
+      "country": 1,
+      "authority_code": "WBS",
+      "authority_type": "UA",
+      "gss_code": "E10000003",
+      "whatdotheyknow_id": 3,
+      "mapit_area_code": "",
+      "website_url": "",
+      "combined_authority": null,
+      "twitter_name": "",
+      "twitter_url": ""
+    }
+  },
+  {
+    "model": "caps.council",
+    "pk": 4,
+    "fields": {
+      "created_at": "2021-12-15",
+      "updated_at": "2021-12-15",
+      "name": "South Borsetshire",
+      "slug": "south-borsetshire",
+      "country": 1,
+      "authority_code": "SBS",
+      "authority_type": "UA",
+      "gss_code": "E10000004",
+      "whatdotheyknow_id": 4,
+      "mapit_area_code": "",
+      "website_url": "",
+      "combined_authority": null,
+      "twitter_name": "",
+      "twitter_url": ""
+    }
+  },
+  {
+    "model": "caps.council",
+    "pk": 5,
+    "fields": {
+      "created_at": "2021-12-15",
+      "updated_at": "2021-12-15",
+      "name": "North Borsetshire",
+      "slug": "north-borsetshire",
+      "country": 1,
+      "authority_code": "NBS",
+      "authority_type": "UA",
+      "gss_code": "E10000005",
+      "whatdotheyknow_id": 5,
+      "mapit_area_code": "",
+      "website_url": "",
+      "combined_authority": null,
+      "twitter_name": "",
+      "twitter_url": ""
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 1,
+    "fields": {
+      "council": 1,
+      "year": 2021,
+      "weighted_total": 25,
+      "total": 25
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 2,
+    "fields": {
+      "council": 2,
+      "year": 2021,
+      "weighted_total": 19,
+      "total": 19
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 3,
+    "fields": {
+      "council": 3,
+      "year": 2021,
+      "weighted_total": 24,
+      "total": 24
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 4,
+    "fields": {
+      "council": 4,
+      "year": 2021,
+      "weighted_total": 24,
+      "total": 24
+    }
+  },
+  {
+    "model": "scoring.plansection",
+    "pk": 1,
+    "fields": {
+      "code": "s1_gov",
+      "description": "Governance, development and funding",
+      "year": 2021
+    }
+  },
+  {
+    "model": "scoring.plansection",
+    "pk": 2,
+    "fields": {
+      "code": "s2_m_a",
+      "description": "Mitigation and adaptation",
+      "year": 2021
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 1,
+    "fields": {
+      "plan_score": 1,
+      "plan_section": 1,
+      "score": 15,
+      "max_score": 19,
+      "weighted_score": 15
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 2,
+    "fields": {
+      "plan_score": 2,
+      "plan_section": 1,
+      "score": 14,
+      "max_score": 19,
+      "weighted_score": 14
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 3,
+    "fields": {
+      "plan_score": 3,
+      "plan_section": 1,
+      "score": 11,
+      "max_score": 19,
+      "weighted_score": 11
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 4,
+    "fields": {
+      "plan_score": 4,
+      "plan_section": 1,
+      "score": 12,
+      "max_score": 19,
+      "weighted_score": 12
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 5,
+    "fields": {
+      "plan_score": 1,
+      "plan_section": 2,
+      "score": 10,
+      "max_score": 18,
+      "weighted_score": 10
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 6,
+    "fields": {
+      "plan_score": 2,
+      "plan_section": 2,
+      "score": 4,
+      "max_score": 18,
+      "weighted_score": 4
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 7,
+    "fields": {
+      "plan_score": 3,
+      "plan_section": 2,
+      "score": 13,
+      "max_score": 18,
+      "weighted_score": 13
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 8,
+    "fields": {
+      "plan_score": 4,
+      "plan_section": 2,
+      "score": 12,
+      "max_score": 18,
+      "weighted_score": 12
+    }
+  }
+]

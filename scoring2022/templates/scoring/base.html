@@ -1,0 +1,127 @@
+{% load static %}
+{% load pipeline %}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+    <title>{{ page_title }} | {{ site_title|default:'Council Climate Scorecards' }}</title>
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:title" content="{{ page_title }}">
+    <meta property="og:site_name" content="{{ site_title|default:'Council Climate Scorecards' }}">
+    <meta property="og:description" name="description" content="{{ page_description|default:'Want to know how effective UK councils’ climate plans and strategies are? Check out the Council Climate Scorecards to see your Council’s score and how it compares to others across the UK.' }}">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://councilclimatescorecards.uk{{ og_image_path|default:'/static/scoring/img/og-image.png' }}">
+    <meta property="og:image:type" content="{{ og_image_type|default:'image/png' }}">
+    <meta property="og:image:width" content="{{ og_image_width|default:'1200' }}">
+    <meta property="og:image:height" content="{{ og_image_height|default:'675' }}">
+    {% stylesheet 'scoring' %}
+    {% if GOOGLE_ANALYTICS_SCORECARDS %}
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_SCORECARDS }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', '{{ GOOGLE_ANALYTICS_SCORECARDS }}', {
+                'client_storage': 'none'
+            });
+        </script>
+    {% endif %}
+</head>
+<body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
+    <nav class="scorecards navbar navbar-expand-xl navbar-light justify-content-between bg-green-gradient">
+        <a class="navbar-brand" href="{% url 'home' %}">Council climate plan scorecards</a>
+        <button id="navbar-toggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav my-3 my-xl-0">
+                <li id="home-page" class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Scorecards</a>
+                </li>
+                <li id="methodology-page" class="nav-item">
+                    <a class="nav-link" href="{% url 'methodology' %}">New methodology</a>
+                </li>
+                <li id="how-to-page" class="nav-item">
+                    <a class="nav-link" href="{% url 'how-to-use-the-scorecards' %}">How to use the Scorecards</a>
+                </li>
+                <li id="about-page" class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
+                </li>
+                <li id="contact-page" class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                </li>
+                <li class="d-flex align-items-center ml-xl-2 ml-0 py-2 py-xl-0">
+                    <form action="{% url 'location_results' %}" class="form">
+                        <input class="form-control searchbar green dark mr-sm-2 js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
+                        <!-- TODO: Do we need a submit button? -->
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <nav class="subheader bg-blue-gradient">
+        <span>Please help support Climate Emergency UK. We rely on donations to remain independent.</span>
+        <form action="https://www.paypal.com/donate" method="post" target="_top"><input type="hidden" name="hosted_button_id" value="JB823YSUV5X9S"><input id="ceuk-donate" type="image" src="//www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal" border="0"><img alt="" src="//www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" border="0"></form>
+    </nav>
+
+{% block content %}{% endblock %}
+
+    <footer class="container-fluid bg-dark-grey">
+        <div class="mx-auto" style="max-width:1200px">
+            <div class="row">
+                <div class="col-12 col-md-4 d-flex flex-column justify-content-between mb-5 mb-md-0">
+                    <a class="logo scorecards-logo" href="{% url 'home' %}">Council climate plan scorecards</a>
+                    <div class="d-none d-md-flex  flex-row align-items-center mt-4 mt-lg-5">
+                        <a class="logo ceuk-logo" href="https://www.climateemergency.uk/">Climate Emergency UK</a>
+                        <div class="d-flex flex-column align-items-start">
+                            <span>Built by</span>
+                            <a class="logo mysociety-logo" href="https://www.mysociety.org/">mySociety</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-5 mb-md-0 mt-md-3 d-flex flex-column">
+                    <a class="footer-link" href="{% url 'home' %}">Scorecards</a>
+                    <a class="footer-link" href="{% url 'methodology' %}">Methodology</a>
+                    <a class="footer-link" href="{% url 'how-to-use-the-scorecards' %}">How to use the Scorecards</a>
+                    <a class="footer-link" href="{% url 'about' %}">About</a>
+                    <a class="footer-link" href="{% url 'contact' %}">Contact</a>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="newsletter-wrapper">
+                        <link href="https://actionnetwork.org/css/style-embed-v3.css" rel="stylesheet" type="text/css" />
+                        <script src="//actionnetwork.org/widgets/v5/form/sign-up-to-our-newsletter-9?format=js&amp;source=widget"></script>
+                        <div id="can-form-area-sign-up-to-our-newsletter-9"></div>
+                    </div>
+                    <div class="media-icons-wrapper mt-4">
+                        <a class="scorecard-footer__badge scorecard-footer__badge--twitter" href="https://twitter.com/ClimateEmergUK">Twitter</a>
+                        <a class="scorecard-footer__badge scorecard-footer__badge--facebook" href="https://www.facebook.com/climateemergency/">Facebook</a>
+                        <a class="scorecard-footer__badge scorecard-footer__badge--instagram" href="https://www.instagram.com/climateemergencyuk/">Instagram</a>
+                        <a class="scorecard-footer__badge scorecard-footer__badge--github" href="https://github.com/mysociety/caps">Github</a>
+                    </div>
+                    <div class="d-flex d-md-none flex-row align-items-center mt-5">
+                        <a class="logo ceuk-logo" href="https://www.climateemergency.uk/">Climate Emergency UK</a>
+                        <div class="d-flex flex-column align-items-start">
+                            <span>Built by</span>
+                            <a class="logo mysociety-logo" href="https://www.mysociety.org/">mySociety</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'awesomplete/awesomplete.min.js' %}"></script>
+    {% include 'scoring/includes/location-search-autocomplete.html' %}
+    <script src="{% static 'scoring/js/main.js' %}"></script>
+
+</body>
+</html>
