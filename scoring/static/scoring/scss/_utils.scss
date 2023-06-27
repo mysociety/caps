@@ -1,0 +1,70 @@
+
+$spacers: map-merge($spacers, (
+    "gutter": calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * 0.5)
+));
+
+@if $enable-negative-margins {
+    $negative-spacers: map-merge($negative-spacers, (
+        "ngutter": calc(var(--#{$variable-prefix}gutter-x, #{$grid-gutter-width}) * -0.5)
+    ));
+}
+
+$gray-colors: ();
+@each $key, $value in $grays {
+    $gray-colors: map-merge(
+        $gray-colors,
+        ( "gray-#{$key}": $value )
+    );
+}
+
+$all-colors: map-merge-multiple($blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans, $gray-colors);
+
+$utilities: map-merge(
+    $utilities,
+    (
+        "color": map-merge(
+            map-get($utilities, "color"),
+            (
+                values: map-merge(
+                    map-get(map-get($utilities, "color"), "values"),
+                    $all-colors,
+                ),
+            ),
+        ),
+        "background-color": map-merge(
+            map-get($utilities, "background-color"),
+            (
+                values: map-merge(
+                    map-get(map-get($utilities, "background-color"), "values"),
+                    $all-colors,
+                ),
+            ),
+        ),
+        "font-weight": map-merge(
+            map-get($utilities, "font-weight"),
+            (
+                values: map-merge(
+                    map-get(map-get($utilities, "font-weight"), "values"),
+                    (
+                        lightest: 100,
+                        boldest: 900
+                    ),
+                ),
+            ),
+        ),
+        "position": map-merge(
+            map-get($utilities, "position"),
+            (
+                responsive: true
+            ),
+        ),
+    ),
+);
+
+@each $color, $value in $all-colors {
+    $color-rgb: to-rgb($value);
+    .text-bg-#{$color} {
+        color: color-contrast($value) if($enable-important-utilities, !important, null);
+        background-color: RGBA($color-rgb, var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
+    }
+}
