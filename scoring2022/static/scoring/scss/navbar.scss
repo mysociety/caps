@@ -1,0 +1,173 @@
+$navbar-mobile-breakpoint: 1200px;
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    @media only screen and (max-width: $navbar-mobile-breakpoint) {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    li {
+        margin-bottom: 0;
+    }
+
+    .navbar-brand {
+        flex-shrink: 0;
+        display: inline-block;
+        height: 0;
+        padding-top: 50px;
+        width: 150px;
+        overflow: hidden;
+        background-image: url('../img/council-climate-plan-scorecards-logo.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain !important;
+    }
+
+    $nav-link-font-size: 14px;
+    $nav-item-border-size: 2px;
+    .nav-item .nav-link {
+        font-family: $font-family-sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 100%;
+        padding: calc((78px - #{$nav-link-font-size} - #{$nav-item-border-size}) / 2) 20px;
+        letter-spacing: 0.08em;
+        color: $black;
+        opacity: 0.7;
+        font-size: $nav-link-font-size !important;
+        border-top: $nav-item-border-size solid;
+        border-bottom: $nav-item-border-size solid;
+        border-color: transparent;
+        text-decoration: none;
+
+        @include transition(background-color, border-color 0.3s ease-in-out);
+
+        &:hover {
+            background-color:#A8F0E4;
+            color: $black;
+            opacity: 1;
+            border-top: $nav-item-border-size solid;
+            border-bottom: $nav-item-border-size solid;
+            border-color: darken(#A8F0E4,30%);
+        }
+
+        &:focus {
+            background-color:$color-scorecard-yellow;
+            text-decoration: underline;
+            color: $black;
+        }
+
+        @media only screen and (max-width: $navbar-mobile-breakpoint) {
+            padding-top: 15px !important;
+            padding-bottom: 15px !important;
+        }
+        
+    }
+
+    .navbar-collapse {
+        @include show-height;
+    }
+}
+
+body {
+    &.home-page {
+        #home-page.nav-item .nav-link{
+            @include nav-link-active;
+        }
+    }
+
+    &.methodology2023-page {
+        #methodology-page.nav-item .nav-link{
+            @include nav-link-active;
+        }
+    }
+
+    &.how-to-page {
+        #how-to-page.nav-item .nav-link{
+            @include nav-link-active;
+        }
+    }
+
+    &.about-page {
+        #about-page.nav-item .nav-link{
+            @include nav-link-active;
+        }
+    }
+
+    &.contact-page {
+        #contact-page.nav-item .nav-link{
+            @include nav-link-active;
+        }
+    }
+}
+
+
+// Subheader
+nav.subheader {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 0.5px solid transparentize($color: $blue, $amount: 0.8);
+
+    span {
+        font-family: $font-family-sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        @include responsive(font-size, 13, 15);
+        line-height: 130%;
+        letter-spacing: 0.05em;
+        opacity: 0.8;
+    }
+}
+
+.navbar-light .navbar-toggler {
+    border-color: transparent;
+
+    @include hover-focus {
+        border-color: $color-scorecard-green-d1;
+        background-color: $color-scorecard-green-l1;
+    }
+}
+
+.sticky-in-page-nav {
+    & > button {
+        display: none;
+    }
+
+    @include media-breakpoint-down('sm') {
+        position: sticky;
+        top: 0;
+        margin-top: 0 !important;
+        z-index: 999;
+        background: #fff;
+        box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
+
+        & > button {
+            display: block;
+            padding: 1rem 15px 1rem 45px;
+            margin: 0 -15px;
+            width: 100vw;
+            background-image: url('../img/hamburger-black.svg');
+            background-size: 1rem;
+            background-repeat: no-repeat;
+            background-position: 15px 50%;
+
+            &:focus {
+                background-color: $color-scorecard-yellow;
+            }
+        }
+
+        & > button[aria-expanded="false"] + * {
+            display: none;
+        }
+
+        & > button[aria-expanded="true"] + * {
+            display: block;
+        }
+    }
+}

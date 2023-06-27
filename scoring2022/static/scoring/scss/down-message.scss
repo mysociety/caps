@@ -1,0 +1,25 @@
+.down-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    padding: map-get($spacers, 5) map-get($spacers, 3);
+    text-align: center;
+
+    & > * {
+        max-width: 32rem;
+    }
+
+    p {
+        font-size: 1.2rem !important;
+        line-height: 1.5;
+        margin-top: map-get($spacers, 3);
+        margin-bottom: 0;
+    }
+
+    a {
+        font-size: 1em !important;
+        line-height: inherit;
+    }
+}

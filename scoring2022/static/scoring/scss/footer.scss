@@ -1,0 +1,164 @@
+footer {
+    @include responsive(padding-top, 30, 50);
+    @include responsive(padding-bottom, 30, 50);
+
+    //General styling
+    span, p, a {
+        color: $white;
+    }
+
+    //First column
+    .logo {
+        display: inline-block;
+        overflow: hidden;
+        height: 0;
+        @include transition(transform 0.3s ease-in-out);
+        @include hover-focus {
+            transform: scale(1.1);
+        }
+    }
+
+    .scorecards-logo {
+        background-image: url('../img/scorecards-logo.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 240px;
+        padding-top: 72px;
+        @include hover-focus {
+            transform: scale(1.05);
+        }
+    }
+
+    .ceuk-logo {
+        background-image: url('../img/ceuk-logo-white.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 142px;
+        padding-top: 38px;
+    }
+
+    .mysociety-logo {
+        background-image: url('../img/mysociety-dark.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 153px;
+        padding-top: 25px;
+    }
+
+    // Second Column
+
+    .footer-link {
+        font-family: $font-family-sans-serif;
+        font-style: normal;
+        font-weight: normal;
+        @include responsive(font-size, 13, 14);
+        line-height: 130%;
+        letter-spacing: 0.06em;
+        text-decoration-line: underline;
+        text-transform: uppercase;
+        @include responsive(margin-bottom, 25, 35);
+        @include transition(transform, opacity 0.3s ease-in-out);
+        &:hover {
+            color: $white;
+            opacity: 0.8;
+            transform: translateX(3px);
+        }
+        &:visited {
+            color: lighten($color-scorecard-purple, 20%)
+        }
+        &:last-child {
+            margin-bottom: 0 !important;
+        }
+    }
+
+    // Style overrides for the yucky yucky
+    // Action Network newsletter signup form.
+    // Yuck yuck yuck, kill it with fire.
+    #can_embed_form {
+        border-radius: $border-radius;
+
+        h1, h2, h3, h4, h5, h6, {
+            font-family: $headings-font-family !important;
+            letter-spacing: 0 !important;
+        }
+        
+        input, textarea, select, p, * {
+            font-family: $font-family-sans-serif !important;
+            letter-spacing: 0 !important;
+        }
+
+        #can_embed_form_inner > h4,
+        #action_info,
+        #logo_wrap {
+            display: none !important;
+        }
+
+        #can_embed_form_inner > h2 {
+            padding-bottom: 0 !important;
+            border-bottom: 0 !important;
+            font-size: 1.25em !important;
+            margin-bottom: 1em !important;
+        }
+
+        #form_col1 {
+            display: grid;
+            grid-gap: 0 1em;
+            grid-template-columns: 1fr 1fr;
+
+            & > * {
+                grid-column: 1 / 3;
+            }
+
+            & > li:nth-child(2) {
+                grid-column: 1 / 2;
+            }
+
+            & > li:nth-child(3) {
+                grid-column: 2 / 3;
+            }
+        }
+
+        #d_sharing {
+            border-top: none !important;
+        }
+
+        #new_answer {
+            margin-bottom: -15px !important;
+        }
+
+        #can_thank_you {
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        .can_thank_you-block {
+            margin-bottom: 0 !important;
+        }
+    }
+
+    .media-icons-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        max-width: 188px;
+
+        a.scorecard-footer__badge {
+            display:inline-block;
+            width: 32px;
+            height: 0;
+            padding-top:32px;
+            overflow: hidden;
+            background-size: contain;
+            background-repeat: no-repeat;
+            @include transition(transform 0.3s ease-in-out);
+            @include hover-focus {
+                transform: scale(1.1);
+            }
+            &.scorecard-footer__badge--twitter {background-image: url('../img/icon-twitter-white.svg');}
+            &.scorecard-footer__badge--facebook {background-image: url('../img/icon-facebook-white.svg');}
+            &.scorecard-footer__badge--instagram {background-image: url('../img/icon-instagram-white.svg');}
+            &.scorecard-footer__badge--github {background-image: url('../img/icon-github-white.svg');}
+        }
+    }
+}

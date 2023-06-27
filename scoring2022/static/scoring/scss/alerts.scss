@@ -1,0 +1,19 @@
+.alert {
+    color: $black;
+    &.alert-warning {
+        span.warning-icon {
+            padding-left: 25px;
+            background-image: url('../img/exclamation-black.svg');
+            background-size: 20px;
+            background-repeat: no-repeat;
+            background-position: left 0 center;
+        }
+
+        &.is-red {
+            background-color: lighten($color-scorecard-red, 40%);
+            border-color: $color-scorecard-red;
+        }
+    }
+
+
+}

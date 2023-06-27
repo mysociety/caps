@@ -1,0 +1,49 @@
+//Table footer
+//Usage: includes right after each <table> element
+/*
+<div class="table-footer mt-2">
+    <a class="mt-3" href="">See results in context</a>
+    <div class="social-media-wrapper">
+        <a class="table-social-icon facebook mr-1" href=""></a>
+        <a class="table-social-icon twitter" href=""></a>
+    </div>
+</div>
+*/
+
+.table-footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-media-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.table-social-icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    @include transition(background-image 0.3s ease-in-out);
+
+    &.facebook {
+        background-image: url('../img/icon-facebook.svg');
+        @include hover-focus {
+            background-image: url('../img/icon-facebook-green.svg');
+        }
+    }
+
+    &.twitter {
+        background-image: url('../img/icon-twitter.svg');
+        @include hover-focus {
+            background-image: url('../img/icon-twitter-green.svg');
+        }
+    }
+}
