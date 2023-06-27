@@ -6,7 +6,7 @@
 <div class="how-to-use-page">
     <div class="hero container-fluid bg-dark-grey">
         <div style="max-width: 1110px" class="mx-auto">
-            <a class="cta reverse white" href="{% url 'home' %}">Back to the Scorecards</a>
+            <a class="cta reverse white" href="{% url 'scoring:home' %}">Back to the Scorecards</a>
             <h1 class="text-white mt-3">How to use the Scorecards</h1>
             <div class="mt-3">
                 <span class="hero-sub">Learn how to use them</span>
@@ -18,7 +18,7 @@
         <div class="row mb-3">
             <div class="col-12 col-lg-6">
                 <h3 class="mb-4">How to use the Council Climate Plan Scorecards for climate action in your area.</h3>
-                <p>The <a href="{% url 'home' %}">Council Climate Plan Scorecards</a> let you see, at a glance, how your own council’s plan performs in comparison to the plans of other councils across the UK.</p>
+                <p>The <a href="{% url 'scoring:home' %}">Council Climate Plan Scorecards</a> let you see, at a glance, how your own council’s plan performs in comparison to the plans of other councils across the UK.</p>
                 <p>Based on common themes we saw when marking council Climate Action plans we have written a short summary, <a href="https://drive.google.com/file/d/1IcqQFwcKcz0XcxKRu9h-g3Zj8TsbyhuI/view">‘10 ways to improve your Council’s Climate Action Plan’</a>. This covers 10 things that councils can do to improve their Climate Action Plans based on our Scorecards.</p>
                 <p><a href="https://drive.google.com/file/d/1IcqQFwcKcz0XcxKRu9h-g3Zj8TsbyhuI/view" class="d-inline-block btn btn-blue is--light my-4"><strong>Download:</strong> Top 10 policy document</a></p>
                 <p>But once you’ve checked that out, you might be wondering what to do with this information. That’s quite understandable — the path from data to action isn’t always clear! So with that in mind we’ve gathered together some ways in which you, as residents and community groups, can use this data to bring about meaningful change.</p>
@@ -229,7 +229,7 @@
                             <h3 class="mb-2 text-center text-md-left">Still got questions?</h3>
                             <p class="text-center text-md-left mb-0">Feel free to get in touch</p>
                         </div>
-                        <a class="d-inline-block btn btn-green mt-3 mt-md-0" href="{% url 'contact' %}">Contact us</a>
+                        <a class="d-inline-block btn btn-green mt-3 mt-md-0" href="{% url 'scoring:contact' %}">Contact us</a>
                     </div>
                 </div>
             </div>
@@ -247,7 +247,7 @@
                     <p><a href="https://drive.google.com/file/d/1IcqQFwcKcz0XcxKRu9h-g3Zj8TsbyhuI/view" class="d-inline-block btn btn-blue is--light my-4"><strong>Download:</strong> Top 10 policy document</a></p>
                     <p>Here are some helpful tips on how best to understand this data and use it for meaningful improvement to your council’s planned activity.</p>
                     <ul class="mb-4">
-                        <li>Take time to <strong>understand the</strong> <a href="{% url 'methodology2022' %}">methodology</a> and what exactly the markers were looking for in each question. </li>
+                        <li>Take time to <strong>understand the</strong> <a href="{% url 'scoring:methodology2022' %}">methodology</a> and what exactly the markers were looking for in each question. </li>
                         <li><strong>Look at each section score</strong>. You might have scored particularly well in some sections but not in others: why is that? Use the filter buttons to see which councils have scored highly in the sections that you didn’t score as well on. What have these councils done differently with their plans, and what can you learn from this?</li>
                         <li><strong>Make use of the filter tools</strong>. Use the various criteria such as urbanisation, deprivation or population size to discover councils that are similar to yours, and see where the strengths and weaknesses are in their climate action plans.<br>
                         Or check your neighbouring councils: where have they scored well, and can you learn from them?<br>
