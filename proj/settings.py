@@ -81,6 +81,14 @@ STATICFILES_DIRS = (
         os.path.join(BASE_DIR, "vendor", "bootstrap", "js"),
     ),
     (
+        "bootstrap5",
+        os.path.join(BASE_DIR, "vendor", "bootstrap5", "scss"),
+    ),
+    (
+        "bootstrap5",
+        os.path.join(BASE_DIR, "vendor", "bootstrap5", "js"),
+    ),
+    (
         "html5shiv",
         os.path.join(BASE_DIR, "vendor", "html5shiv"),
     ),
@@ -196,6 +204,7 @@ INSTALLED_APPS = [
     "haystack",
     "pipeline",
     "bootstrap4",
+    "django_bootstrap5",
     "rest_framework",
     "simple_history",
     "caps",

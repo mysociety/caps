@@ -11,7 +11,7 @@
 //
 // That’s why `@import "../../bootstrap/<whatever>" works – because at the
 // point the Sass files are compiled, django.contrib.staticfiles has
-// already copied the Bootstrap sass files into `<STATIC_ROOT>/bootstrap/`.
+// already copied the bootstrap sass files into `<STATIC_ROOT>/bootstrap/`.
 //
 // Note that this doesn't work on a dev thing with standard django-pipeline
 // due to this issue: https://github.com/jazzband/django-pipeline/issues/749

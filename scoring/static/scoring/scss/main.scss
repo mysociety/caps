@@ -9,53 +9,61 @@
 // So imports in this file are relative to `<STATIC_ROOT>/scoring/sass/main.scss`,
 // not `/caps/static/scoring/scss/main.scss`.
 //
-// That’s why `@import "../../bootstrap/<whatever>" works – because at the
+// That’s why `@import "../../bootstrap5/<whatever>" works – because at the
 // point the Sass files are compiled, django.contrib.staticfiles has
-// already copied the Bootstrap sass files into `<STATIC_ROOT>/bootstrap/`.
+// already copied the bootstrap5 sass files into `<STATIC_ROOT>/bootstrap5/`.
 //
 // Note that this doesn't work on a dev thing with standard django-pipeline
 // due to this issue: https://github.com/jazzband/django-pipeline/issues/749
 // so we are using a fork with the patch from the above issue
 
+@import "../../bootstrap5/functions";
 @import "variables";
 
-@import "../../bootstrap/functions";
-@import "../../bootstrap/variables";
-@import "../../bootstrap/mixins";
-@import "../../bootstrap/root";
-@import "../../bootstrap/reboot";
-@import "../../bootstrap/type";
-@import "../../bootstrap/images";
-@import "../../bootstrap/code";
-@import "../../bootstrap/grid";
-@import "../../bootstrap/tables";
-@import "../../bootstrap/forms";
-@import "../../bootstrap/buttons";
-@import "../../bootstrap/transitions";
-// @import "../../bootstrap/dropdown";
-@import "../../bootstrap/button-group";
-// @import "../../bootstrap/input-group";
-// @import "../../bootstrap/custom-forms";
-@import "../../bootstrap/nav";
-@import "../../bootstrap/navbar";
-@import "../../bootstrap/card";
-// @import "../../bootstrap/breadcrumb";
-// @import "../../bootstrap/pagination";
-@import "../../bootstrap/badge";
-// @import "../../bootstrap/jumbotron";
-@import "../../bootstrap/alert";
-@import "../../bootstrap/progress";
-// @import "../../bootstrap/media";
-@import "../../bootstrap/list-group";
-// @import "../../bootstrap/close";
-// @import "../../bootstrap/toasts";
-@import "../../bootstrap/modal";
-@import "../../bootstrap/tooltip";
-// @import "../../bootstrap/popover";
-// @import "../../bootstrap/carousel";
-@import "../../bootstrap/spinners";
-@import "../../bootstrap/utilities";
-@import "../../bootstrap/print";
+@import "../../bootstrap5/mixins/banner";
+@include bsBanner("");
+
+
+@import "../../bootstrap5/variables";
+@import "../../bootstrap5/maps";
+@import "../../bootstrap5/mixins";
+@import "../../bootstrap5/utilities";
+
+// @import "utils";
+
+@import "../../bootstrap5/root";
+@import "../../bootstrap5/reboot";
+@import "../../bootstrap5/type";
+@import "../../bootstrap5/images";
+@import "../../bootstrap5/containers";
+@import "../../bootstrap5/grid";
+@import "../../bootstrap5/tables";
+@import "../../bootstrap5/forms";
+//@import "../../bootstrap5/buttons";
+@import "../../bootstrap5/transitions";
+// @import "../../bootstrap5/dropdown";
+@import "../../bootstrap5/button-group";
+@import "../../bootstrap5/nav";
+@import "../../bootstrap5/navbar";
+@import "../../bootstrap5/card";
+// @import "../../bootstrap5/breadcrumb";
+// @import "../../bootstrap5/pagination";
+@import "../../bootstrap5/badge";
+@import "../../bootstrap5/alert";
+@import "../../bootstrap5/progress";
+@import "../../bootstrap5/list-group";
+// @import "../../bootstrap5/close";
+// @import "../../bootstrap5/toasts";
+@import "../../bootstrap5/modal";
+@import "../../bootstrap5/tooltip";
+// @import "../../bootstrap5/popover";
+// @import "../../bootstrap5/carousel";
+@import "../../bootstrap5/spinners";
+@import "../../bootstrap5/offcanvas";
+@import "../../bootstrap5/placeholders";
+@import "../../bootstrap5/helpers";
+@import "../../bootstrap5/utilities/api";
+
 
 @import "mixins";
 @import "containers";
