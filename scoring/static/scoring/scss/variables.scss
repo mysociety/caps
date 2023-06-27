@@ -46,6 +46,14 @@ $theme-colors: (
     'cyan': $color-scorecard-cyan,
 );
 
+$primary: $color-scorecard-blue;
+$secondary: $color-scorecard-grey-600;
+$success: $color-scorecard-red;
+$dark: $color-scorecard-navy;
+
+$body-bg: $white;
+$body-color: $color-scorecard-blue;
+
 // Options
 
 $enable-deprecation-messages: false;
