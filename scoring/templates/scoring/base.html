@@ -38,29 +38,29 @@
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
     <nav class="scorecards navbar navbar-expand-xl navbar-light justify-content-between bg-green-gradient">
-        <a class="navbar-brand" href="{% url 'home' %}">Council climate plan scorecards</a>
+        <a class="navbar-brand" href="{% url 'scoring:home' %}">Council climate plan scorecards</a>
         <button id="navbar-toggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav my-3 my-xl-0">
                 <li id="home-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'scoring' 'single' %}">Scorecards</a>
+                    <a class="nav-link" href="{% url 'scoring:home' %}">Scorecards</a>
                 </li>
                 <li id="methodology-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'methodology' %}">New methodology</a>
+                    <a class="nav-link" href="{% url 'scoring:methodology' %}">New methodology</a>
                 </li>
                 <li id="how-to-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'how-to-use-the-scorecards' %}">How to use the Scorecards</a>
+                    <a class="nav-link" href="{% url 'scoring:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
                 </li>
                 <li id="about-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">About</a>
+                    <a class="nav-link" href="{% url 'scoring:about' %}">About</a>
                 </li>
                 <li id="contact-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                    <a class="nav-link" href="{% url 'scoring:contact' %}">Contact</a>
                 </li>
                 <li class="d-flex align-items-center ml-xl-2 ml-0 py-2 py-xl-0">
-                    <form action="{% url 'location_results' %}" class="form">
+                    <form action="{% url 'scoring:location_results' %}" class="form">
                         <input class="form-control searchbar green dark mr-sm-2 js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
                         <!-- TODO: Do we need a submit button? -->
                     </form>
@@ -79,7 +79,7 @@
         <div class="mx-auto" style="max-width:1200px">
             <div class="row">
                 <div class="col-12 col-md-4 d-flex flex-column justify-content-between mb-5 mb-md-0">
-                    <a class="logo scorecards-logo" href="{% url 'home' %}">Council climate plan scorecards</a>
+                    <a class="logo scorecards-logo" href="{% url 'scoring:home' %}">Council climate plan scorecards</a>
                     <div class="d-none d-md-flex  flex-row align-items-center mt-4 mt-lg-5">
                         <a class="logo ceuk-logo" href="https://www.climateemergency.uk/">Climate Emergency UK</a>
                         <div class="d-flex flex-column align-items-start">
@@ -89,11 +89,11 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-4 mb-5 mb-md-0 mt-md-3 d-flex flex-column">
-                    <a class="footer-link" href="{% url 'home' %}">Scorecards</a>
-                    <a class="footer-link" href="{% url 'methodology' %}">Methodology</a>
-                    <a class="footer-link" href="{% url 'how-to-use-the-scorecards' %}">How to use the Scorecards</a>
-                    <a class="footer-link" href="{% url 'about' %}">About</a>
-                    <a class="footer-link" href="{% url 'contact' %}">Contact</a>
+                    <a class="footer-link" href="{% url 'scoring:home' %}">Scorecards</a>
+                    <a class="footer-link" href="{% url 'scoring:methodology' %}">Methodology</a>
+                    <a class="footer-link" href="{% url 'scoring:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
+                    <a class="footer-link" href="{% url 'scoring:about' %}">About</a>
+                    <a class="footer-link" href="{% url 'scoring:contact' %}">Contact</a>
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="newsletter-wrapper">

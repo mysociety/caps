@@ -1,1 +1,1 @@
-{% url 'scoring' slug %}
+{% if slug == 'single'%}{% url 'scoring:home' %}{% else %}{% url 'scoring:scoring' slug %}{% endif %}
