@@ -1,11 +1,11 @@
-{% extends "scoring/base.html" %}
+{% extends "scoring2022/base.html" %}
 {% load bootstrap4 %}
 
 {% block content %}
     <div class="methodology-content">
         <div class="hero container-fluid bg-dark-grey">
             <div style="max-width: 1110px" class="mx-auto">
-                <a class="cta reverse white" href="{% url 'home' %}">Back to the Scorecards</a>
+                <a class="cta reverse white" href="{% url 'scoring2022:home' %}">Back to the Scorecards</a>
                 <h1 class="text-white mt-3">Methodology</h1>
                 <div class="mt-3">
                     <span class="hero-sub">Check out our process</span>
@@ -24,7 +24,7 @@
                     council pages. Visit <a href="https://cape.mysociety.org/">CAPE</a>
                     to see if there is a later version of a council’s plan.</span>
             </div>
-            <p><strong>To find out about the history of and methodology behind the Scorecards, please go to </strong> <a class="d-inline-block" href="{% url 'about' %}">About us</a></p>
+            <p><strong>To find out about the history of and methodology behind the Scorecards, please go to </strong> <a class="d-inline-block" href="{% url 'scoring2022:about' %}">About us</a></p>
             <p><a href="https://mysociety.github.io/climate_scorecard_data_2022/">Download the raw dataset in spreadsheet form.</a></p>
         </div>
 
@@ -696,7 +696,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
+                                        {% include 'scoring2022/includes/methodology_advice.html' with code=question.code %}
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -730,11 +730,11 @@
                                         {% if question.type != 'HEADER' %}
                                         <div class="d-flex flex-column">
                                             <p><strong>Additional criteria / Advice for marker</strong></p>
-                                            {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
+                                            {% include 'scoring2022/includes/methodology_advice.html' with code=question.code %}
                                         </div>
                                         {% else %}
                                         <div>
-                                            {% include 'scoring/includes/methodology_advice.html' with code=question.code %}
+                                            {% include 'scoring2022/includes/methodology_advice.html' with code=question.code %}
                                         </div>
                                         {% endif %}
                                     </div>

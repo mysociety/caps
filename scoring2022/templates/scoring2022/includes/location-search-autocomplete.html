@@ -5,8 +5,8 @@ var councils = [
         name: "{{ council.name }}",
         slug: "{{ council.slug }}",
         council_type: "{{ council.get_scoring_group.slug }}",
-        council_url: "{% url 'council' council.slug %}",
-        scoring_url: "{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}"
+        council_url: "{% url 'scoring2022:council' council.slug %}",
+        scoring_url: "{% include 'scoring2022/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}"
     },
   {% endfor %}
 ];

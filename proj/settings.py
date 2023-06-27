@@ -200,6 +200,7 @@ INSTALLED_APPS = [
     "simple_history",
     "caps",
     "scoring",
+    "scoring2022",
     "charting",
 ]
 
