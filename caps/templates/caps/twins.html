@@ -83,7 +83,7 @@
                     </ul>
                   {% else %}
                     <p class="px-3 mb-0 text-muted">
-                        (No terms appear in just {{ twin.short_name }}’s plans.)
+                        (No terms appear in just {{ council.short_name }}’s plans.)
                     </p>
                   {% endif %}
                     </ul>
@@ -144,7 +144,7 @@
                     </ul>
                   {% else %}
                     <p class="px-3 mb-0 text-muted">
-                        (No terms appear in just {{ council.short_name }}’s plans.)
+                        (No terms appear in just {{ twin.short_name }}’s plans.)
                     </p>
                   {% endif %}
                   {% if twin.plan_overlap.overlap %}
@@ -173,7 +173,7 @@
                 </div>
               {% else %}
                 <div class="card-body">
-                    <p>We haven’t found any climate plans or documents for <a href="{% url 'council' council.slug %}">{{ council.name }}</a>. If you know where to find them, <a href="{{ council.feedback_form_url }}">please let us know</a>.</p>
+                    <p>We haven’t found any climate plans or documents for <a href="{% url 'council' twin.slug %}">{{ twin.name }}</a>. If you know where to find them, <a href="{{ twin.feedback_form_url }}">please let us know</a>.</p>
                 </div>
               {% endif %}
             </div>

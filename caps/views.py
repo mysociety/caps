@@ -498,8 +498,8 @@ class TwinsView(BaseLocationResultsView):
                 council.related_council_keyphrase_intersection()
             )
             for group in related_councils:
-                for council in group["councils"]:
-                    council.plan_overlap = related_councils_intersection[council]
+                for c in group["councils"]:
+                    c.plan_overlap = related_councils_intersection[c]
                 if group["type"].slug == "composite":
                     twin = group["councils"][0]
                     context["twin"] = twin
