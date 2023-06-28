@@ -60,3 +60,28 @@
         max-width: 10em;
     }
 }
+
+.twins-header {
+    @include media-breakpoint-up('md') {
+        background-image: url(../img/british-isles-purple.png);
+        background-position: 150% 50%;
+        background-repeat: no-repeat;
+    }
+
+    @include media-breakpoint-up('lg') {
+        background-position: 120% 50%;
+    }
+
+    h1 {
+        max-width: 10em;
+    }
+
+    p {
+        max-width: 30rem;
+    }
+
+    .card-body {
+        padding: 8%;
+        background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.5) 25rem, rgba(255, 255, 255, 0) 35rem);
+    }
+}

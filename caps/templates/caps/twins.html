@@ -411,10 +411,18 @@
 
 {% else %}
 
-    <div class="card ceuk-card ceuk-card--purple {% if councils %}ceuk-card--muted{% else %}ceuk-card--emphasised{% endif %}">
+    <div class="card ceuk-card ceuk-card--purple {% if councils %}ceuk-card--muted{% else %}ceuk-card--emphasised twins-header{% endif %}">
         <div class="card-body">
 
-            <h1>{{ page_title }}</h1>
+            <h1 class="{% if not councils %}mb-4{% endif %}">{{ page_title }}</h1>
+
+          {% if not councils %}
+            <p class="lead">Councils all over the UK are taking action, right now, to counter the effects of climate change.</p>
+
+            <p class="lead">The councils doing the best are the ones that have learned from each other, implementing climate actions that make sense in their specific context.</p>
+
+            <p>Using the council climate plans, and environmental and demographic data we hold in CAPE, we’re able to reveal the councils facing similar challenges to each other, and the specific actions extracted from their plans, for a joined-up approach to local climate action.</p>
+          {% endif %}
 
             <form action="{% url 'twins' %}">
                 <label for="pc" class="mt-3 mb-3 font-weight-bold">Find a council by postcode</label>
