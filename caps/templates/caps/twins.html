@@ -62,28 +62,40 @@
                 <div class="card-header">
                     <h2>{{ council.short_name }}’s climate plans</h2>
                 </div>
+              {% if council.plandocument_set.all %}
                 <div class="card-body">
+                  {% if twin.plandocument_set.all %}
                     <p>Topics covered by <a href="{% url 'council' council.slug %}">{{ council.short_name }}’s plans on CAPE</a> but not by {{ twin.short_name}}’s:</p>
+                  {% else %}
+                    <p>Some of the topics covered by <a href="{% url 'council' council.slug %}">{{ council.short_name }}’s plans on CAPE</a>:</p>
+                  {% endif %}
                   {% if twin.plan_overlap.just_in_a %}
                     <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
-                      {% for keyphrase in twin.plan_overlap.just_in_a %}
-                        <li>{% include "caps/includes/twin-keyphrase-badge.html" with keyphrase=keyphrase council=council %}
-                      {% endfor %}
+                      {% if twin.plandocument_set.all %}
+                        {% for keyphrase in twin.plan_overlap.just_in_a %}
+                          <li>{% include "caps/includes/twin-keyphrase-badge.html" with keyphrase=keyphrase council=council %}
+                        {% endfor %}
+                      {% else %}
+                        {% for keyphrase in twin.plan_overlap.just_in_a|randomize_and_limit:15 %}
+                          <li>{% include "caps/includes/twin-keyphrase-badge.html" with keyphrase=keyphrase council=council %}
+                        {% endfor %}
+                      {% endif %}
                     </ul>
                   {% else %}
-                    <p class="px-3 text-muted">
+                    <p class="px-3 mb-0 text-muted">
                         (No terms appear in just {{ twin.short_name }}’s plans.)
                     </p>
                   {% endif %}
                     </ul>
+                  {% if twin.plan_overlap.overlap %}
                     <p class="mt-3 text-muted">Examples of topics that appear in both councils’ plans include:</p>
                     <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
                         {% for keyphrase in twin.plan_overlap.overlap|randomize_and_limit:10 %}
                             <li>{% include "caps/includes/twin-keyphrase-badge.html" with keyphrase=keyphrase council=council %}</li>
                         {% endfor %}
                     </ul>
+                  {% endif %}
                 </div>
-              {% if council.plandocument_set.all %}
                 <div class="card-body bg-purple-light flex-grow-0">
                     <form action="{% url 'search_results' %}" class="form-row flex-wrap align-items-center">
                         <div class="col-auto flex-shrink-1 flex-grow-1" style="max-width: 450px">
@@ -99,6 +111,10 @@
                         </div>
                     </form>
                 </div>
+              {% else %}
+                <div class="card-body">
+                    <p>We haven’t found any climate plans or documents for <a href="{% url 'council' council.slug %}">{{ council.name }}</a>. If you know where to find them, <a href="{{ council.feedback_form_url }}">please let us know</a>.</p>
+                </div>
               {% endif %}
             </div>
         </div>
@@ -107,27 +123,39 @@
                 <div class="card-header">
                     <h2>{{ twin.short_name }}’s climate plans</h2>
                 </div>
+              {% if twin.plandocument_set.all %}
                 <div class="card-body">
+                  {% if council.plandocument_set.all %}
                     <p>Topics covered by <a href="{% url 'council' twin.slug %}">{{ twin.short_name }}’s plans on CAPE</a> but not by {{ council.short_name }}’s:</p>
+                  {% else %}
+                    <p>Some of the topics covered by <a href="{% url 'council' twin.slug %}">{{ twin.short_name }}’s plans on CAPE</a>:</p>
+                  {% endif %}
                   {% if twin.plan_overlap.just_in_b %}
                     <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
-                      {% for keyphrase in twin.plan_overlap.just_in_b %}
-                        <li>{% include "caps/includes/twin-keyphrase-badge.html" with keyphrase=keyphrase council=twin %}</li>
-                      {% endfor %}
+                      {% if council.plandocument_set.all %}
+                        {% for keyphrase in twin.plan_overlap.just_in_b %}
+                          <li>{% include "caps/includes/twin-keyphrase-badge.html" with keyphrase=keyphrase council=twin %}</li>
+                        {% endfor %}
+                      {% else %}
+                        {% for keyphrase in twin.plan_overlap.just_in_b|randomize_and_limit:15 %}
+                          <li>{% include "caps/includes/twin-keyphrase-badge.html" with keyphrase=keyphrase council=twin %}</li>
+                        {% endfor %}
+                      {% endif %}
                     </ul>
                   {% else %}
-                    <p class="px-3 text-muted">
+                    <p class="px-3 mb-0 text-muted">
                         (No terms appear in just {{ council.short_name }}’s plans.)
                     </p>
                   {% endif %}
+                  {% if twin.plan_overlap.overlap %}
                     <p class="mt-3 text-muted">Examples of topics that appear in both councils’ plans include:</p>
                     <ul class="list-inline d-flex flex-wrap mx-n1 mb-0">
                         {% for keyphrase in twin.plan_overlap.overlap|randomize_and_limit:10 %}
                             {% include "caps/includes/twin-keyphrase-badge.html" with keyphrase=keyphrase council=twin %}
                         {% endfor %}
                     </ul>
+                  {% endif %}
                 </div>
-              {% if twin.plandocument_set.all %}
                 <div class="card-body bg-purple-light flex-grow-0">
                     <form action="{% url 'search_results' %}" class="form-row flex-wrap align-items-center">
                         <div class="col-auto flex-shrink-1 flex-grow-1" style="max-width: 450px">
@@ -142,6 +170,10 @@
                             </button>
                         </div>
                     </form>
+                </div>
+              {% else %}
+                <div class="card-body">
+                    <p>We haven’t found any climate plans or documents for <a href="{% url 'council' council.slug %}">{{ council.name }}</a>. If you know where to find them, <a href="{{ council.feedback_form_url }}">please let us know</a>.</p>
                 </div>
               {% endif %}
             </div>

@@ -39,6 +39,7 @@ from django.db.models import (
 )
 from django.db.models.expressions import RawSQL
 from django.forms import Select, TextInput
+from django.utils.http import urlencode
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
 from caps.filters import DefaultSecondarySortFilter
@@ -579,6 +580,13 @@ class Council(models.Model):
             )
 
         return slug
+
+    @property
+    def feedback_form_url(self):
+        return "{}?{}".format(
+            settings.FEEDBACK_FORM,
+            urlencode({"usp": "pp_url", "entry.393810903": self.name}),
+        )
 
     @classmethod
     def country_description(cls, country_code):

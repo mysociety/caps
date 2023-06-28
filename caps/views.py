@@ -231,7 +231,6 @@ class CouncilDetailView(DetailView):
         context["project_stats"] = project_stats
 
         context["page_title"] = council.name
-        context["feedback_form_url"] = settings.FEEDBACK_FORM
 
         if council.emergencydeclaration_set.count() > 0:
             context["declared_emergency"] = council.emergencydeclaration_set.all()[0]
