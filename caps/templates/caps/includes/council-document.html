@@ -22,17 +22,17 @@
 
     <div class="council-document__info">
 
+        {% if plandocument.title %}
         <p class="council-document__info__description">
             {{ plandocument.get_description|lower|capfirst }}
         </p>
+        {% endif %}
 
         <h{{ heading_level|default:3 }} class="council-document__info__title">
           {% if not plandocument.is_deleted or plandocument.file_exists %}
             <a href="{{ MEDIA_URL }}{{ plandocument.file }}" data-plan-id="{{ plandocument.id }}" data-council-slug="{{ council.slug }}">
           {% endif %}
-          {% if plandocument.title %}
-            {{ plandocument.title|default:plandocument.get_document_type|document_title }}
-          {% endif %}
+          {{ plandocument.title|default:plandocument.get_document_type|document_title }}
           {% if not plandocument.is_deleted or plandocument.file_exists %}
             </a>
           {% endif %}
