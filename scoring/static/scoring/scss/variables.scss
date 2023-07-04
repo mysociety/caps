@@ -1,11 +1,11 @@
-$color-scorecard-blue-l2: #D8F2FE;
+$color-scorecard-blue-l2: #96c2ff;
 $color-scorecard-blue-l1: #7BD2F8;
 $color-scorecard-blue: #07A9F1;
-$color-scorecard-blue-d1: #045C88;
+$color-scorecard-blue-d1: #0048af;
 $color-scorecard-navy: #005cab;
 $color-scorecard-purple: #7360eb;
 $color-scorecard-pink: #d92b85;
-$color-scorecard-red: #EB1924;
+$color-scorecard-red: #7c0006;
 $color-scorecard-orange: #f29e1a;
 $color-scorecard-yellow: #ffd80b;
 $color-scorecard-green-l1: #E4FAF5;
@@ -34,7 +34,7 @@ $cyan: $color-scorecard-cyan;
 
 $light: $white;
 
-$theme-colors: (
+$custom-colours: (
     'blue': $color-scorecard-blue,
     'navy': $color-scorecard-navy,
     'purple': $color-scorecard-purple,
@@ -44,27 +44,35 @@ $theme-colors: (
     'yellow': $color-scorecard-yellow,
     'green': $color-scorecard-green,
     'cyan': $color-scorecard-cyan,
+    "black": $black,
+    "white": $white,
 );
 
-$primary: $color-scorecard-blue;
+$primary: $color-scorecard-blue-d1;
 $secondary: $color-scorecard-grey-600;
-$success: $color-scorecard-red;
-$dark: $color-scorecard-navy;
+$success: $color-scorecard-green-d1;
+$dark: $black;
+
+// $theme-colors: (
+//   "primary":    $primary,
+//   "secondary":  $secondary,
+//   "success":    $success,
+// //   "info":       $info,
+// //   "warning":    $warning,
+// //   "danger":     $danger,
+// //   "light":      $light,
+//   "dark":       $black
+// );
 
 $body-bg: $white;
-$body-color: $color-scorecard-blue;
+$body-color: $black;
 
 // Options
 
 $enable-deprecation-messages: false;
 
 // Spacing
-
-$grid-gutter-width: 30px;
-
-$spacers: (
-    "gutter": $grid-gutter-width
-);
+$enable-negative-margins: true;
 
 // Body
 
@@ -110,6 +118,8 @@ $mark-bg: #fffeb5;
 
 // Navbar
 
+$navbar-padding-y: 2rem;
+$navbar-padding-x:  3rem;
 $navbar-dark-color: $white;
 $navbar-dark-hover-color: rgba($navbar-dark-color, 0.8);
 $navbar-dark-active-color: $navbar-dark-color;
