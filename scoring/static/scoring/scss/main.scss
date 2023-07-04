@@ -18,18 +18,25 @@
 // so we are using a fork with the patch from the above issue
 
 @import "../../bootstrap5/functions";
-@import "variables";
+
 
 @import "../../bootstrap5/mixins/banner";
 @include bsBanner("");
 
-
+@import "variables";
 @import "../../bootstrap5/variables";
+
+$spacers: map-merge((
+  6: ($spacer * 4),
+  7: ($spacer * 5),
+  8: ($spacer * 6),
+), $spacers);
+
 @import "../../bootstrap5/maps";
 @import "../../bootstrap5/mixins";
 @import "../../bootstrap5/utilities";
 
-// @import "utils";
+//  @import "utils";
 
 @import "../../bootstrap5/root";
 @import "../../bootstrap5/reboot";
@@ -39,7 +46,7 @@
 @import "../../bootstrap5/grid";
 @import "../../bootstrap5/tables";
 @import "../../bootstrap5/forms";
-//@import "../../bootstrap5/buttons";
+@import "../../bootstrap5/buttons";
 @import "../../bootstrap5/transitions";
 // @import "../../bootstrap5/dropdown";
 @import "../../bootstrap5/button-group";
@@ -64,32 +71,33 @@
 @import "../../bootstrap5/helpers";
 @import "../../bootstrap5/utilities/api";
 
+@import "provisory";
 
 @import "mixins";
 @import "containers";
-@import "background";
-@import "typo";
+// @import "background";
+// @import "typo";
 @import "icons";
 @import "buttons";
-@import "input";
-@import "navbar";
-@import "footer";
-@import "label";
-@import "tables";
-@import "scoring-table";
-@import "table-section-council";
-@import "table-question-council";
-@import "filter-home-filter-advanced";
-@import "filter-council-to-compare";
-@import "scoring-source-links";
-@import "question-page-about";
-@import "table-question-question";
-@import "awesomplete";
-@import "alerts";
-@import "methodology";
-@import "utilities";
-@import "down-message";
-@import "login-form";
-@import "how-to-use";
-@import "about";
-@import "toggle-section";
+// @import "input";
+// @import "navbar";
+// @import "footer";
+// @import "label";
+// @import "tables";
+// @import "scoring-table";
+// @import "table-section-council";
+// @import "table-question-council";
+// @import "filter-home-filter-advanced";
+// @import "filter-council-to-compare";
+// @import "scoring-source-links";
+// @import "question-page-about";
+// @import "table-question-question";
+// @import "awesomplete";
+// @import "alerts";
+// @import "methodology";
+// @import "utilities";
+// @import "down-message";
+// @import "login-form";
+// @import "how-to-use";
+// @import "about";
+// @import "toggle-section";

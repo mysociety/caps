@@ -37,7 +37,7 @@
     {% endif %}
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
-    <nav class="scorecards navbar navbar-expand-xl navbar-light justify-content-between bg-green-gradient">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="{% url 'scoring:home' %}">Council climate plan scorecards</a>
         <button id="navbar-toggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -68,7 +68,7 @@
             </ul>
         </div>
     </nav>
-    <nav class="subheader bg-blue-gradient">
+    <nav class="navbar navbar-expand-lg py-2 justify-content-center  bg-primary-200">
         <span>Please help support Climate Emergency UK. We rely on donations to remain independent.</span>
         <form action="https://www.paypal.com/donate" method="post" target="_top"><input type="hidden" name="hosted_button_id" value="JB823YSUV5X9S"><input id="ceuk-donate" type="image" src="//www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal" border="0"><img alt="" src="//www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" border="0"></form>
     </nav>
