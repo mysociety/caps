@@ -3,8 +3,8 @@ $color-scorecard-blue-l1: #7BD2F8;
 $color-scorecard-blue: #07A9F1;
 $color-scorecard-blue-d1: #0048af;
 $color-scorecard-navy: #005cab;
-$color-scorecard-purple: #7360eb;
-$color-scorecard-pink: #d92b85;
+$color-scorecard-purple: #432ecc;
+$color-scorecard-pink: #9e0d58;
 $color-scorecard-red: #7c0006;
 $color-scorecard-orange: #f29e1a;
 $color-scorecard-yellow: #ffd80b;
@@ -22,7 +22,6 @@ $color-scorecard-grey-900: #404040;
 
 $white: #FDFDFD;
 $black: #1C2624;
-
 $blue: $color-scorecard-blue;
 $purple: $color-scorecard-purple;
 $pink: $color-scorecard-pink;
@@ -33,42 +32,96 @@ $green: $color-scorecard-green;
 $cyan: $color-scorecard-cyan;
 
 $light: $white;
-
-$custom-colours: (
-    'blue': $color-scorecard-blue,
-    'navy': $color-scorecard-navy,
-    'purple': $color-scorecard-purple,
-    'pink': $color-scorecard-pink,
-    'red': $color-scorecard-red,
-    'orange': $color-scorecard-orange,
-    'yellow': $color-scorecard-yellow,
-    'green': $color-scorecard-green,
-    'cyan': $color-scorecard-cyan,
-    "black": $black,
-    "white": $white,
-);
-
 $primary: $color-scorecard-blue-d1;
 $secondary: $color-scorecard-grey-600;
 $success: $color-scorecard-green-d1;
+$warning: $color-scorecard-red;
+$danger: $color-scorecard-red;
+$info: $color-scorecard-yellow;
 $dark: $black;
 
-// $theme-colors: (
-//   "primary":    $primary,
-//   "secondary":  $secondary,
-//   "success":    $success,
-// //   "info":       $info,
-// //   "warning":    $warning,
-// //   "danger":     $danger,
-// //   "light":      $light,
-//   "dark":       $black
-// );
+$color-total-score:$primary;
+$color-category-1:adjust-hue($primary, 10);
+$color-category-2:adjust-hue($primary, 20);
+$color-category-3:adjust-hue($primary, 30);
+$color-category-4:adjust-hue($primary, 40);
+$color-category-5:adjust-hue($primary, 50);
+$color-category-6:adjust-hue($primary, 60);
+$color-category-7:adjust-hue($primary, 70);
+$color-category-8:adjust-hue($primary, 80);
+$color-category-9:adjust-hue($primary, 90);
+
+$color-total-score-light:mix($color-total-score, $white, 20%);
+$color-category-light-1:mix($color-category-1, $white, 20%);
+$color-category-light-2:mix($color-category-2, $white, 20%);
+$color-category-light-3:mix($color-category-3, $white, 20%);
+$color-category-light-4:mix($color-category-4, $white, 20%);
+$color-category-light-5:mix($color-category-5, $white, 20%);
+$color-category-light-6:mix($color-category-6, $white, 20%);
+$color-category-light-7:mix($color-category-7, $white, 20%);
+$color-category-light-8:mix($color-category-8, $white, 20%);
+$color-category-light-9:mix($color-category-9, $white, 20%);
+
+$categories:
+$color-total-score,
+$color-category-1,
+$color-category-2,
+$color-category-3,
+$color-category-4,
+$color-category-5,
+$color-category-6,
+$color-category-7,
+$color-category-8,
+$color-category-9;
+
+$theme-colors: (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark,
+    // 'blue':       $color-scorecard-blue,
+    // 'navy':       $color-scorecard-navy,
+    // 'purple':     $color-scorecard-purple,
+    // 'pink':       $color-scorecard-pink,
+    // 'red':        $color-scorecard-red,
+    // 'orange':     $color-scorecard-orange,
+    // 'yellow':     $color-scorecard-yellow,
+    // 'green':      $color-scorecard-green,
+    // 'cyan':       $color-scorecard-cyan,
+    "black":      $black,
+    "white":      $white,
+    "total-score": $color-total-score,
+    "category-1": $color-category-1,
+    "category-2": $color-category-2,
+    "category-3": $color-category-3,
+    "category-4": $color-category-4,
+    "category-5": $color-category-5,
+    "category-6": $color-category-6,
+    "category-7": $color-category-7,
+    "category-8": $color-category-8,
+    "category-9": $color-category-9,
+    "total-score-light": $color-total-score-light,
+    "category-light-1": $color-category-light-1,
+    "category-light-2": $color-category-light-2,
+    "category-light-3": $color-category-light-3,
+    "category-light-4": $color-category-light-4,
+    "category-light-5": $color-category-light-5,
+    "category-light-6": $color-category-light-6,
+    "category-light-7": $color-category-light-7,
+    "category-light-8": $color-category-light-8,
+    "category-light-9": $color-category-light-9,
+);
+
 
 $body-bg: $white;
 $body-color: $black;
+$min-contrast-ratio: 2.5;
 
 // Options
-
 $enable-deprecation-messages: false;
 
 // Spacing
@@ -94,7 +147,10 @@ $link-color: $color-scorecard-purple;
 
 // Typography
 
-$font-family-sans-serif: "Lato", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+$body-font-family: "Lato", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-sans-serif: $body-font-family;
+
 
 $headings-font-family: "Montserrat", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
@@ -118,8 +174,10 @@ $mark-bg: #fffeb5;
 
 // Navbar
 
-$navbar-padding-y: 2rem;
-$navbar-padding-x:  3rem;
+$navbar-padding-y: 1.5rem;
+$navbar-padding-x: 1rem;
+$nav-link-padding-y:  0.5rem;
+$navbar-nav-link-padding-x:  1rem;
 $navbar-dark-color: $white;
 $navbar-dark-hover-color: rgba($navbar-dark-color, 0.8);
 $navbar-dark-active-color: $navbar-dark-color;
@@ -169,6 +227,7 @@ $modal-backdrop-opacity: 0.25;
 // Spinners
 
 // Close
+$btn-close-width: 1rem;
 
 // Code
 

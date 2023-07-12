@@ -1,61 +1,10 @@
 $table-desktop-breakpoint: 915px;
-$color-category-1:#004A8A;
-$color-category-2:#6200a4;
-$color-category-3:#8C7400;
-$color-category-4:#00903B;
-$color-category-5:#028790;
-$color-category-6:#8E5702;
-$color-category-7:#055070;
-$color-category-8:#180C7C;
-$color-category-9:#880202;
-$border-table: 1px solid transparentize($color: $black, $amount: 0.8);
+$border-table: 1px solid transparentize($color: $black, $amount: 1);
 
-// Table control filter
-.table-filter {
-    .left {
-        border: 1px solid $blue;
-        border-top-left-radius: $border-radius;
-        border-bottom-left-radius: $border-radius;
-    }
-    
-    .right {
-        border: 1px solid $color-scorecard-green-d1;
-        border-left: none;
-        border-top-right-radius: $border-radius;
-        border-bottom-right-radius: $border-radius;
-    }
 
-    .type-council-option-wrapper {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: flex-start;
-
-        a {
-            margin-right: 10px;
-        }
-    }
-
-    @media only screen and (max-width: $table-desktop-breakpoint) {
-        .left {
-            border-top-left-radius: $border-radius;
-            border-top-right-radius: $border-radius;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-        .right {
-            border-top: none;
-            border-left: 1px solid $color-scorecard-green-d1;
-            border-bottom-left-radius: $border-radius;
-            border-bottom-right-radius: $border-radius;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-    }
-}
 
 // Table header
-.home .table-header {
+.table-header {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -86,24 +35,12 @@ $border-table: 1px solid transparentize($color: $black, $amount: 0.8);
     z-index: 5 !important;
 }
 
-tbody th.council-name {
-    min-height: 62px;
-}
-
-tbody th.council-name .council-name-flex-cell{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
 // Table scorecard Desktop
 .scorecard-table-wrapper {
     width: 100%;
     max-height: 97vh;
     overflow: auto;
     border-radius: $border-radius;
-    border-bottom: 1px solid transparentize($color: $black, $amount: 0.8);
-    border-right: 1px solid transparentize($color: $black, $amount: 0.8);
     @media only screen and (max-width: $table-desktop-breakpoint) {
         border:1px solid transparentize($color: $black, $amount: 0.8);
     }
@@ -116,10 +53,26 @@ tbody th.council-name .council-name-flex-cell{
 }
 
 .scorecard-table {
+    a {
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     th, td {
         vertical-align: middle;
         position: relative;
         z-index: 0;
+        min-width: 200px;
+        font-weight: 400;
+        padding: 1rem 0.7rem;
+    }
+
+    th {
+        background-color: $white;
+        font-size: 0.85rem;
+        vertical-align: initial;
     }
 
     @media only screen and (max-width: $table-desktop-breakpoint) {
@@ -163,102 +116,24 @@ tbody th.council-name .council-name-flex-cell{
     }
 
     //Borders
-    tr.first-row {
-        border-bottom: none;
-        border-left: none;
-    }
-
-    tr {
-         border-bottom: $border-table;
-         border-right: $border-table;
-    }
 
     tr.second-row {
-        border-top: 0px solid black;
         border-bottom: 0px;
     }
 
-    //Table Header
-    th {
-        font-weight: 400;
-        padding: 14px 10px;
-        .table-header-first-row {
-            a {
-                width: 120px;
-            }
-        }
-    }
-
-    .second-row th.council-name {
-        min-width: 250px;
-        padding-top: 12px;
-        background-color: $color-scorecard-green-l1;
-    }
-
-    .first-row th {
-        padding: 10px 10px 0px 10px;
-        vertical-align: initial;
-        background-color:$color-scorecard-green-l1;
-        .table-header-first-row {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            margin-bottom: 10px;
-        }
-    }
-
-    th.header , .table-header-first-row span {
-        font-family: $font-family-sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 15px;
-        line-height: 130%;
-        letter-spacing: 0.01em;
-        text-transform: uppercase;
-    }
-    
-    th.category-1 {
-        @include table-category-color-header($color-category-1);
-    }
-    th.category-2 {
-        @include table-category-color-header($color-category-2);
-    }
-    th.category-3 {
-        @include table-category-color-header($color-category-3);
-    }
-    th.category-4 {
-        @include table-category-color-header($color-category-4);
-    }
-    th.category-5 {
-        @include table-category-color-header($color-category-5);
-    }
-    th.category-6 {
-        @include table-category-color-header($color-category-6);
-    }
-    th.category-7 {
-        @include table-category-color-header($color-category-7);
-    }
-    th.category-8 {
-        @include table-category-color-header($color-category-8);
-    }
-    th.category-9 {
-        @include table-category-color-header($color-category-9);
-    }
-
-    thead th {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        max-height: 110px;
-        height: 110px;
-    }
-
+    $first-row-height: 80px;
     thead {
+        th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            max-height: $first-row-height;
+            height: $first-row-height;
+        }
+
         .second-row th {
-            top:110px;
+            top:$first-row-height;
             height: auto;
-            padding: 5px 10px;
-            padding-bottom: 14px;
         }
     }
 
@@ -292,7 +167,7 @@ tbody th.council-name .council-name-flex-cell{
         }
     }
 
-    .council-total-score, .total-score {
+    .council-category-total-score, .total-score {
         left: 250px;
     }
 
@@ -302,23 +177,23 @@ tbody th.council-name .council-name-flex-cell{
 }
 
 // Progress bar
+$score-bar-border-radius: 25px; 
 .score-bar {
     background: $white;
     border: 1px solid #005CAB;
-    border-radius: $border-radius;
-    width: 100px;
+    border-radius: $score-bar-border-radius;
+    width: 150px;
     padding: 8px 0;
-    margin-right: auto;
-    margin-left:auto;
     position: relative;
+    overflow: hidden;
 
     .progress-bar {
         width: 0;
         height: 100%;
         position: absolute;
-        background: red;
+        background: $primary;
         top:0;
-        border-radius: $border-radius;
+        border-radius: $score-bar-border-radius;
         z-index: 0;
     }
 
@@ -345,97 +220,48 @@ tbody th.council-name .council-name-flex-cell{
     @media only screen and (max-width: $table-desktop-breakpoint) {
         background-color: $white;
     }
-    .score-bar {
-        border-color: $color-scorecard-green-d1;
-        .progress-bar {
-            background-color: darken($color: $green, $amount: 10%);
-            border-right: 1px solid $color-scorecard-green-d1;
-        }
+}
+
+@each $name, $color in $theme-colors {
+    .second-row  th.#{$name} {
+        @include progress-bar-header($color);
     }
-}
 
-.council-total-score {
-    .score-bar {
-        border-color: $color-scorecard-green-d1;
-        .progress-bar {
-            background-color: $green;
-            border-right: 1px solid $color-scorecard-green-d1;
-        }
+    .council-category-score.#{$name} {
+        @include progress-bar-body($color);
     }
-}
-
-td.council-category-score.category-1 {
-    @include progress-bar-body($color-category-1);
-}
-td.council-category-score.category-2 {
-    @include progress-bar-body($color-category-2);
-}
-td.council-category-score.category-3 {
-    @include progress-bar-body($color-category-3);
-}
-td.council-category-score.category-4 {
-    @include progress-bar-body($color-category-4);
-}
-td.council-category-score.category-5 {
-    @include progress-bar-body($color-category-5);
-}
-td.council-category-score.category-6 {
-    @include progress-bar-body($color-category-6);
-}
-td.council-category-score.category-7 {
-    @include progress-bar-body($color-category-7);
-}
-td.council-category-score.category-8 {
-    @include progress-bar-body($color-category-8);
-}
-td.council-category-score.category-9 {
-    @include progress-bar-body($color-category-9);
-}
-
-.second-row  th.category-1{
-    @include progress-bar-header($color-category-1);
-}
-.second-row  th.category-2{
-    @include progress-bar-header($color-category-2);
-}
-.second-row  th.category-3{
-    @include progress-bar-header($color-category-3);
-}
-.second-row  th.category-4{
-    @include progress-bar-header($color-category-4);
-}
-.second-row  th.category-5{
-    @include progress-bar-header($color-category-5);
-}
-.second-row  th.category-6{
-    @include progress-bar-header($color-category-6);
-}
-.second-row  th.category-7{
-    @include progress-bar-header($color-category-7);
-}
-.second-row  th.category-8{
-    @include progress-bar-header($color-category-8);
-}
-.second-row  th.category-9{
-    @include progress-bar-header($color-category-9);
 }
 
 // Sort icon
 .sort-icon {
-    @include transition(background-image 0.3s ease-in-out);
-    min-width: 22px;
-    height: 22px;
-    margin-left: 5px;
-    background-image: url('../img/sort-down-default.svg');
-    background-size: contain;
+    @include transition(background-image, color, background-color 0.3s ease-in-out);
+    margin-right: 0.5rem;
+    @include chevron-down($primary);
+    background-size: 15px;
+    background-position: center;
     background-repeat: no-repeat;
+    border-radius: 50%;
+    height: 26px;
+    width: 26px;
+
+    &:hover {
+        @include chevron-down($white);
+    }
+
+    &:focus {
+        background-color: $yellow;
+        @include chevron-down($primary);
+    }
 
     &.is-sorted-descending {
-        background-image: url('../img/sort-down-green.svg');
+        background-color: $primary;
+        @include chevron-down($white);
     }
 
     &.is-sorted-ascending {
-        background-image: url('../img/sort-up-green.svg');
+        transform: rotate(180deg);
+        background-color: $primary;
+        @include chevron-down($white);
     }
 }
 
@@ -525,7 +351,6 @@ $padding-left: 8px;
         top: 0;
         .category {
             background-color: $color-scorecard-grey-900;
-            border: 1px solid $color-scorecard-grey-900;
             display: flex !important;
             flex-direction: row;
             flex-wrap: nowrap;
@@ -550,7 +375,6 @@ $padding-left: 8px;
         top:31px;
     }
     .council-name.header {
-        font-family: $font-family-sans-serif;
         font-style: normal;
         font-weight: normal;
         font-size: 13px;
@@ -605,8 +429,6 @@ $padding-left: 8px;
     }
 
     tr {
-        border: $border-table;
-        border-top: none;
         &:nth-child(odd) {
                 background-color: #F8F8F8;
         }
