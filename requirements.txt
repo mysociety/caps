@@ -27,7 +27,7 @@ gunicorn==20.0.4
 html5lib==1.1
 idna==2.10
 jdcal==1.4.1
-libsass==0.12.3
+libsass==0.22.0
 Markdown==3.4.1
 MarkupPy==1.14
 numpy==1.22.0
