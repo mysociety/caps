@@ -54,7 +54,6 @@ $pick-council-break-point--question: 1200px;
 
     //Section cell
     .section-cell {
-        font-family: $font-family-sans-serif;
         font-style: normal;
         font-weight: 600;
         @include responsive(font-size, 13, 15);

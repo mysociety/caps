@@ -18,8 +18,6 @@
 // so we are using a fork with the patch from the above issue
 
 @import "../../bootstrap5/functions";
-
-
 @import "../../bootstrap5/mixins/banner";
 @include bsBanner("");
 
@@ -36,7 +34,45 @@ $spacers: map-merge((
 @import "../../bootstrap5/mixins";
 @import "../../bootstrap5/utilities";
 
-//  @import "utils";
+// Currently not working
+$all-colors: map-merge-multiple($grays, $blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "color": map-merge(
+      map-get($utilities, "color"),
+      (
+        values: map-merge(
+          map-get(map-get($utilities, "color"), "values"),
+          (
+            $all-colors
+          ),
+        ),
+      ),
+    ),
+
+    "background-color": map-merge(
+      map-get($utilities, "background-color"),
+      (
+          values: map-merge(
+              map-get(map-get($utilities, "background-color"), "values"),
+              $all-colors,
+          ),
+      ),
+    ),
+  )
+);
+
+@each $color, $value in $all-colors {
+  $color-rgb: to-rgb($value);
+  .text-bg-#{$color} {
+      color: color-contrast($value) if($enable-important-utilities, !important, null);
+      background-color: RGBA($color-rgb, var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
+  }
+}
+
+@import "../../bootstrap5/utilities/api";
 
 @import "../../bootstrap5/root";
 @import "../../bootstrap5/reboot";
@@ -49,6 +85,7 @@ $spacers: map-merge((
 @import "../../bootstrap5/buttons";
 @import "../../bootstrap5/transitions";
 // @import "../../bootstrap5/dropdown";
+@import "../../bootstrap5/accordion";
 @import "../../bootstrap5/button-group";
 @import "../../bootstrap5/nav";
 @import "../../bootstrap5/navbar";
@@ -59,7 +96,7 @@ $spacers: map-merge((
 @import "../../bootstrap5/alert";
 @import "../../bootstrap5/progress";
 @import "../../bootstrap5/list-group";
-// @import "../../bootstrap5/close";
+@import "../../bootstrap5/close";
 // @import "../../bootstrap5/toasts";
 @import "../../bootstrap5/modal";
 @import "../../bootstrap5/tooltip";
@@ -71,20 +108,18 @@ $spacers: map-merge((
 @import "../../bootstrap5/helpers";
 @import "../../bootstrap5/utilities/api";
 
-@import "provisory";
-
 @import "mixins";
 @import "containers";
 // @import "background";
 // @import "typo";
 @import "icons";
 @import "buttons";
-// @import "input";
+@import "input";
 // @import "navbar";
-// @import "footer";
+@import "footer";
 // @import "label";
 // @import "tables";
-// @import "scoring-table";
+ @import "scoring-table";
 // @import "table-section-council";
 // @import "table-question-council";
 // @import "filter-home-filter-advanced";
@@ -92,7 +127,7 @@ $spacers: map-merge((
 // @import "scoring-source-links";
 // @import "question-page-about";
 // @import "table-question-question";
-// @import "awesomplete";
+ @import "awesomplete";
 // @import "alerts";
 // @import "methodology";
 // @import "utilities";

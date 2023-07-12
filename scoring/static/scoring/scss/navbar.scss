@@ -28,7 +28,6 @@ $navbar-mobile-breakpoint: 1200px;
     $nav-link-font-size: 14px;
     $nav-item-border-size: 2px;
     .nav-item .nav-link {
-        font-family: $font-family-sans-serif;
         font-style: normal;
         font-weight: normal;
         line-height: 100%;
@@ -115,7 +114,6 @@ nav.subheader {
     border: 0.5px solid transparentize($color: $blue, $amount: 0.8);
 
     span {
-        font-family: $font-family-sans-serif;
         font-style: normal;
         font-weight: normal;
         @include responsive(font-size, 13, 15);

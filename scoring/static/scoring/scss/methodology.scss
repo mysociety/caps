@@ -99,7 +99,7 @@
         }
 
         .question-header {
-            font-family: $font-family-sans-serif;
+            font-family: $body-font-family;
             font-style: normal;
             font-weight: 600;
             @include responsive(font-size, 13, 14);
