@@ -56,7 +56,6 @@ $max-viewport: 1792;
 
 // Scorecard Table
 @mixin table-category-color-header($color) {
-    border-right: 1px solid transparentize($color: $black, $amount: 0.9);
     background-color: lighten($color: $color, $amount: 65%);
     a {
         color: $color;
@@ -67,18 +66,16 @@ $max-viewport: 1792;
 }
 
 @mixin progress-bar-header($color) {
-    border-right: 1px solid transparentize($color: $black, $amount: 0.9);
     .score-bar {
         border-color: $color;
+        font-weight: 600;
         .progress-bar {
-            background-color: lighten($color: $color, $amount: 62%);
-            border-right: 1px solid transparentize($color: $color, $amount: 0.9);
+            background-color: mix($color, $white, 10%);
         }
     }
 }
 
 @mixin progress-bar-body($color) {
-    border-right: 1px solid transparentize($color: $black, $amount: 0.9);
     span {
         opacity: 0.8;
         @include responsive(font-size, 13, 14);
@@ -86,8 +83,7 @@ $max-viewport: 1792;
     .score-bar {
         border-color: $color;
         .progress-bar {
-            background-color: lighten($color: $color, $amount: 66%);
-            border-right: 1px solid transparentize($color: $color, $amount: 0.9);
+            background-color: mix($color, $white, 10%);
         }
     }
 }
@@ -96,7 +92,7 @@ $max-viewport: 1792;
 //usage thead th {@include table-header;}
 @mixin table-header {
     background-color: $white;
-    font-family: $font-family-sans-serif;
+    font-family: $body-font-family;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -193,3 +189,18 @@ $max-viewport: 1792;
         @content;
     }
 }
+
+
+//does not work with colors containing alpha
+@function encodecolor($string) {
+	@if type-of($string) == 'color' {
+        $hex: str-slice(ie-hex-str($string), 4);
+        $string:unquote("#{$hex}");
+    }
+    $string: '%23' + $string;
+	@return $string;
+}
+
+@mixin chevron-down($color) {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='#{encodecolor($color)}' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  }

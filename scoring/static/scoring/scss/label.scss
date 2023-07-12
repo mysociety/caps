@@ -1,6 +1,6 @@
 .label {
     display: inline-block;
-    font-family: $font-family-sans-serif;
+    font-family: $body-font-family;
     font-style: normal;
     font-weight: 300;
     @include responsive(font-size, 13, 14);
