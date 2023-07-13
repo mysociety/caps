@@ -65,14 +65,14 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
         authority_type = self.get_authority_type()
         qs = Council.objects.annotate(
             score=Subquery(
-                PlanScore.objects.filter(council_id=OuterRef("id"), year="2021").values(
-                    "weighted_total"
-                )
+                PlanScore.objects.filter(
+                    council_id=OuterRef("id"), year=settings.PLAN_YEAR
+                ).values("weighted_total")
             ),
             top_performer=Subquery(
-                PlanScore.objects.filter(council_id=OuterRef("id"), year="2021").values(
-                    "top_performer"
-                )
+                PlanScore.objects.filter(
+                    council_id=OuterRef("id"), year=settings.PLAN_YEAR
+                ).values("top_performer")
             ),
         ).order_by(F("score").desc(nulls_last=True))
 
@@ -92,7 +92,9 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
         authority_type = self.get_authority_type()
 
         councils = context["object_list"].values()
-        context["plan_sections"] = PlanSection.objects.filter(year=2021).all()
+        context["plan_sections"] = PlanSection.objects.filter(
+            year=settings.PLAN_YEAR
+        ).all()
 
         context = self.setup_filter_context(context, context["filter"], authority_type)
 
@@ -326,7 +328,7 @@ class MethodologyView(CheckForDownPageMixin, TemplateView):
         # questions = PlanQuestion.objects.all()
         # sections = PlanSection.objects.all()
 
-        section_qs = PlanSection.objects.filter(year=2021)
+        section_qs = PlanSection.objects.filter(year=settings.PLAN_YEAR)
 
         sections = {}
         for section in section_qs.all():
