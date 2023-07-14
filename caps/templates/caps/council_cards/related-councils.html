@@ -40,8 +40,8 @@
                                 These councils are the most similar to <strong>{{ council.name }}</strong> in terms of emissions profile, deprivation, rural/urban population density, and geographical nearness.
                             {% elif group.type.slug == "emissions" %}
                                 These councils are the most similar to <strong>{{ council.name }}</strong> in terms of their emissions profile, based on the latest data from the Department of Business, Energy &amp; Industrial Strategy.
-                            {% elif group.type.slug == "geographic_distance" %}
-                                These councils grographically border or overlap with <strong>{{ council.name }}</strong>.
+                            {% elif group.type.slug == "physical" %}
+                                These councils geographically border or overlap with <strong>{{ council.name }}</strong>.
                             {% elif group.type.slug == "imd" %}
                                 These councils are the most similar to <strong>{{ council.name }}</strong> in terms of the proportion of their population living in high deprivation, medium deprivation, and low deprivation neighbourhoods.
                             {% elif group.type.slug == "ruc" %}
