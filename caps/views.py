@@ -3,16 +3,26 @@ from collections import defaultdict
 from os.path import exists, join
 from pathlib import Path
 from random import randint, sample, shuffle
-from typing import Any, NamedTuple
+from typing import Any
 
 import mailchimp_marketing as MailchimpMarketing
 import markdown
 from bs4 import BeautifulSoup
-from charting import ChartCollection
 from django.conf import settings
 from django.core.mail import send_mail
-from django.db.models import (Avg, Case, Count, IntegerField, Max, Min,
-                              OuterRef, Q, Subquery, Value, When)
+from django.db.models import (
+    Avg,
+    Case,
+    Count,
+    IntegerField,
+    Max,
+    Min,
+    OuterRef,
+    Q,
+    Subquery,
+    Value,
+    When,
+)
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import Context, Template
@@ -22,18 +32,35 @@ from django.views.generic import DetailView, ListView, TemplateView, View
 from django_filters.views import FilterView
 from haystack.generic_views import SearchView as HaystackSearchView
 from mailchimp_marketing.api_client import ApiClientError
-from scoring.models import PlanScore, PlanSection, PlanSectionScore
 
 import caps.charts as charts
 from caps.forms import HighlightedSearchForm
-from caps.mapit import (BadRequestException, ForbiddenException,
-                        InternalServerErrorException, MapIt, NotFoundException)
-from caps.models import (ComparisonLabel, ComparisonType, Council,
-                         CouncilFilter, CouncilProject, CouncilTag, DataPoint,
-                         DataType, PlanDocument, ProjectFilter, SavedSearch,
-                         Tag)
+from caps.helpers.council_navigation import council_menu
+from caps.mapit import (
+    BadRequestException,
+    ForbiddenException,
+    InternalServerErrorException,
+    MapIt,
+    NotFoundException,
+)
+from caps.models import (
+    ComparisonLabel,
+    ComparisonType,
+    Council,
+    CouncilFilter,
+    CouncilProject,
+    CouncilTag,
+    DataPoint,
+    DataType,
+    PlanDocument,
+    ProjectFilter,
+    SavedSearch,
+    Tag,
+)
 from caps.search_funcs import condense_highlights
 from caps.utils import file_size, is_valid_postcode
+from charting import ChartCollection
+from scoring.models import PlanScore, PlanSection, PlanSectionScore
 
 
 def add_context_for_plans_download_and_search(context):
