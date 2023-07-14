@@ -282,13 +282,13 @@ class CouncilDetailView(DetailView):
             ),
             MenuItem(
                 slug="declarations",
-                title="Pledges and declarations",
+                title="Declarations & pledges",
                 color="cyan",
-                desc="Pledges and declarations the council has made around climate change.",
+                desc="Declarations & pledges the council has made around climate change.",
             ),
             MenuItem(
-                slug="council-documents",
-                title="Council documents",
+                slug="climate-documents",
+                title="Climate documents",
                 desc="Documents, Reports and Plans this council has released related to its climate change plans.",
             ),
             MenuItem(
