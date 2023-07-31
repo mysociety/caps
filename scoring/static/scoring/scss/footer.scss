@@ -1,12 +1,4 @@
 footer {
-    @include responsive(padding-top, 30, 50);
-    @include responsive(padding-bottom, 30, 50);
-
-    //General styling
-    span, p, a {
-        color: $white;
-    }
-
     //First column
     .logo {
         display: inline-block;
@@ -33,41 +25,16 @@ footer {
         background-image: url('../img/ceuk-logo-white.png');
         background-size: contain;
         background-repeat: no-repeat;
-        width: 142px;
-        padding-top: 38px;
+        width: auto;
+        padding-top: 40px;
     }
 
     .mysociety-logo {
         background-image: url('../img/mysociety-dark.png');
         background-size: contain;
         background-repeat: no-repeat;
-        width: 153px;
-        padding-top: 25px;
-    }
-
-    // Second Column
-
-    .footer-link {
-        font-style: normal;
-        font-weight: normal;
-        @include responsive(font-size, 13, 14);
-        line-height: 130%;
-        letter-spacing: 0.06em;
-        text-decoration-line: underline;
-        text-transform: uppercase;
-        @include responsive(margin-bottom, 25, 35);
-        @include transition(transform, opacity 0.3s ease-in-out);
-        &:hover {
-            color: $white;
-            opacity: 0.8;
-            transform: translateX(3px);
-        }
-        &:visited {
-            color: lighten($color-scorecard-purple, 20%)
-        }
-        &:last-child {
-            margin-bottom: 0 !important;
-        }
+        width: 190px;
+        padding-top: 40px;
     }
 
     // Style overrides for the yucky yucky
@@ -117,6 +84,15 @@ footer {
             }
         }
 
+        &.can_float {
+            #form_col1 {
+                width: 65% !important;
+            }
+            #form_col2 {
+                width: 30% !important;
+            }
+        }
+
         #d_sharing {
             border-top: none !important;
         }
@@ -136,12 +112,6 @@ footer {
     }
 
     .media-icons-wrapper {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        max-width: 188px;
-
         a.scorecard-footer__badge {
             display:inline-block;
             width: 32px;
