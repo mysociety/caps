@@ -35,7 +35,7 @@ $spacers: map-merge((
 @import "../../bootstrap5/utilities";
 
 // Currently not working
-$all-colors: map-merge-multiple($grays, $blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans);
+$all-colors: map-merge-multiple($grays, $blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans, $primaries);
 
 $utilities: map-merge(
   $utilities,
