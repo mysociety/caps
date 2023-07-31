@@ -9,8 +9,8 @@ $color-scorecard-red: #7c0006;
 $color-scorecard-orange: #f29e1a;
 $color-scorecard-yellow: #ffd80b;
 $color-scorecard-green-l1: #E4FAF5;
-$color-scorecard-green: #AFE9DD;
-$color-scorecard-green-d1: #0BC7A0;
+$color-scorecard-green: #07a07a;
+$color-scorecard-green-d1: shade-color($color-scorecard-green, 40%);
 $color-scorecard-cyan: #54d9e2;
 $color-scorecard-grey-100: #f3f6fb;
 $color-scorecard-grey-200: #ecf0f5;
@@ -32,7 +32,7 @@ $green: $color-scorecard-green;
 $cyan: $color-scorecard-cyan;
 
 $light: $white;
-$primary: $color-scorecard-blue-d1;
+$primary: $color-scorecard-green-d1;
 $secondary: $color-scorecard-grey-600;
 $success: $color-scorecard-green-d1;
 $warning: $color-scorecard-red;
@@ -83,15 +83,6 @@ $theme-colors: (
     "danger":     $danger,
     "light":      $light,
     "dark":       $dark,
-    // 'blue':       $color-scorecard-blue,
-    // 'navy':       $color-scorecard-navy,
-    // 'purple':     $color-scorecard-purple,
-    // 'pink':       $color-scorecard-pink,
-    // 'red':        $color-scorecard-red,
-    // 'orange':     $color-scorecard-orange,
-    // 'yellow':     $color-scorecard-yellow,
-    // 'green':      $color-scorecard-green,
-    // 'cyan':       $color-scorecard-cyan,
     "black":      $black,
     "white":      $white,
     "total-score": $color-total-score,
@@ -116,6 +107,27 @@ $theme-colors: (
     "category-light-9": $color-category-light-9,
 );
 
+$primary-100: tint-color($primary, 80%) !default;
+$primary-200: tint-color($primary, 60%) !default;
+$primary-300: tint-color($primary, 40%) !default;
+$primary-400: tint-color($primary, 20%) !default;
+$primary-500: $primary !default;
+$primary-600: shade-color($primary, 20%) !default;
+$primary-700: shade-color($primary, 40%) !default;
+$primary-800: shade-color($primary, 60%) !default;
+$primary-900: shade-color($primary, 80%) !default;
+
+$primaries: (
+  "primary-100": $primary-100,
+  "primary-200": $primary-200,
+  "primary-300": $primary-300,
+  "primary-400": $primary-400,
+  "primary-500": $primary-500,
+  "primary-600": $primary-600,
+  "primary-700": $primary-700,
+  "primary-800": $primary-800,
+  "primary-900": $primary-900
+);
 
 $body-bg: $white;
 $body-color: $black;
