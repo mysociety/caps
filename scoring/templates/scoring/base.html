@@ -37,8 +37,13 @@
     {% endif %}
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
+    <nav class="d-flex justify-content-end d-xl-none bg-primary navbar py-3 border-bottom border-gray">
+        <form action="{% url 'scoring:location_results' %}" class="form">
+            <input class="form-control searchbar green dark mr-sm-2 js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
+            <!-- TODO: Do we need a submit button? -->
+        </form>
+    </nav>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-
         <a class="navbar-brand" href="{% url 'scoring:home' %}">
             {% include 'caps/icons/council-climate-logo-2023.html' with classes='text-light' width='7em' height='auto' role='presentation' %}
             <span class="visually-hidden">Council climate plan scorecards</span>
@@ -80,7 +85,7 @@
                 <li id="contact-page" class="nav-item">
                     <a class="nav-link" href="{% url 'scoring:contact' %}">Contact</a>
                 </li>
-                <li class="d-flex align-items-center ml-xl-2 ml-0 py-2 py-xl-0">
+                <li class="d-none d-xl-flex align-items-center ml-xl-2 ml-0 py-2 py-xl-0">
                     <form action="{% url 'scoring:location_results' %}" class="form">
                         <input class="form-control searchbar green dark mr-sm-2 js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
                         <!-- TODO: Do we need a submit button? -->
