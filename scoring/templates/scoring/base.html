@@ -39,8 +39,7 @@
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
     <nav class="d-flex justify-content-end d-xl-none bg-primary navbar py-3 border-bottom border-gray">
         <form action="{% url 'scoring:location_results' %}" class="form">
-            <input class="form-control searchbar green dark mr-sm-2 js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
-            <!-- TODO: Do we need a submit button? -->
+            <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
         </form>
     </nav>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -84,7 +83,7 @@
                 </li>
                 <li class="d-none d-xl-flex align-items-center ml-xl-2 ml-0 py-2 py-xl-0">
                     <form action="{% url 'scoring:location_results' %}" class="form">
-                        <input class="form-control searchbar green dark mr-sm-2 js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
+                        <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
                         <!-- TODO: Do we need a submit button? -->
                     </form>
                 </li>
