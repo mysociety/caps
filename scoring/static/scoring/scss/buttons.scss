@@ -1,0 +1,14 @@
+.searchbar {
+  background-image: url('../img/search-icon.svg');
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 10px 50%;
+  padding-left: 40px;
+  width: 250px;
+
+  &:focus {
+      outline: 3px solid $color-scorecard-yellow;
+      @include box-shadow(0px, 0px, 0px, 5px, $black);
+      background-color: $white !important;
+  }
+}
