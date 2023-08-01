@@ -44,14 +44,10 @@
         </form>
     </nav>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="{% url 'scoring:home' %}">
-            {% include 'caps/icons/council-climate-logo-2023.html' with classes='text-light' width='7em' height='auto' role='presentation' %}
-            <span class="visually-hidden">Council climate plan scorecards</span>
-        </a>
-
-        <div class="dropdown">
-            <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="scorecardsVersion" data-bs-toggle="dropdown" aria-expanded="false">
-                Scorecards 2023
+        <div class="d-flex flex-row align-items-center">
+            <a class="navbar-brand" href="{% url 'scoring:home' %}">
+                {% include 'caps/icons/council-climate-logo-2023.html' with classes='text-light' width='7em' height='auto' role='presentation' %}
+                <span class="visually-hidden">Council climate plan scorecards</span>
             </a>
     
             <div class="dropdown">
@@ -64,6 +60,7 @@
                 </ul>
             </div>
         </div>
+
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
