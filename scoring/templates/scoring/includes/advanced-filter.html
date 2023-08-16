@@ -4,7 +4,7 @@
 </button>
 
 <div class="modal fade" id="advancedFilter" tabindex="-1" aria-labelledby="advancedFilterLabel" aria-hidden="true">
-  <form action=".">
+  <form id="advancedFilterForm" action=".">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
@@ -304,10 +304,20 @@
             
         </div>
         <div class="modal-footer d-flex justify-content-between">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="resetButton" type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Reset filters</button>
           <button type="submit" class="btn btn-primary d-inline-block">Apply filters</button>
         </div>
         </div>
     </div>
   </form>
 </div>
+
+<script>
+  document.getElementById('resetButton').onclick = function() {
+    //Clear all checked button
+    var ele = document.querySelectorAll("#advancedFilterForm input[type=radio]");
+     for(var i=0;i<ele.length;i++){
+        ele[i].checked = false;
+    }
+  }
+</script>
