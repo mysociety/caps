@@ -72,7 +72,7 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
     th {
         background-color: $white;
         font-size: 0.85rem;
-        vertical-align: initial;
+        vertical-align: top;
     }
 
     @media only screen and (max-width: $table-desktop-breakpoint) {
