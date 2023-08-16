@@ -19,10 +19,11 @@
 
                     <div class="accordion" id="accordionAdvancedFilter">
                         {% if authority_type == 'single' %}
-                        <div class="accordion-item">
+                        <div id="accordionNation" class="accordion-item">
                           <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                               Nation
+                              <span id="nationActiveFilter" class="fs-9 text-uppercase badge bg-primary ms-2">Any</span>
                             </button>
                           </h2>
                           <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionAdvancedFilter">
@@ -56,10 +57,11 @@
                         {% endif %}
 
                         {% if filter_params.country == "1" or filter_params.country == "" or filter_params.country is None %}
-                        <div class="accordion-item">
+                        <div id="accordionRegion" class="accordion-item">
                           <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 Region
+                                <span id="regionActiveFilter" class="fs-9 text-uppercase badge bg-primary ms-2">Any</span>
                             </button>
                           </h2>
                           <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionAdvancedFilter">
@@ -117,10 +119,11 @@
                         {% endif %}
 
                         {% if authority_type == 'district' %}
-                        <div class="accordion-item">
+                        <div id="accordionCounty" class="accordion-item">
                           <h2 class="accordion-header" id="headingThree">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                               County
+                              <span id="countyActiveFilter" class="fs-9 text-uppercase badge bg-primary ms-2">Any</span>
                             </button>
                           </h2>
                           <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionAdvancedFilter">
@@ -152,6 +155,7 @@
                             <h2 class="accordion-header" id="headingFour">
                               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                 Urbanisation
+                                <span id="urbanisationActiveFilter" class="fs-9 text-uppercase badge bg-primary ms-2">Any</span>
                               </button>
                             </h2>
                             <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionAdvancedFilter">
@@ -182,6 +186,7 @@
                             <h2 class="accordion-header" id="headingFive">
                               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                 Political control (Jan 2022)
+                                <span id="controlActiveFilter" class="fs-9 text-uppercase badge bg-primary ms-2">Any</span>
                               </button>
                             </h2>
                             <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionAdvancedFilter">
@@ -229,6 +234,7 @@
                             <h2 class="accordion-header" id="headingSix">
                               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
                                 Index of multiple deprivation
+                                <span id="imdqActiveFilter" class="fs-9 text-uppercase badge bg-primary ms-2">Any</span>
                               </button>
                             </h2>
                             <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionAdvancedFilter">
@@ -273,6 +279,7 @@
                             <h2 class="accordion-header" id="headingSeven">
                               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
                                 Total population
+                                <span id="populationActiveFilter" class="fs-9 text-uppercase badge bg-primary ms-2">Any</span>
                               </button>
                             </h2>
                             <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionAdvancedFilter">
@@ -320,4 +327,139 @@
         ele[i].checked = false;
     }
   }
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    // COUNTRY
+    var accordionNation = document.getElementById('accordionNation');
+    if (accordionNation) {
+      var countryRadioButtons = document.getElementsByName('country');
+      var countryActiveLabel = document.getElementById('nationActiveFilter');
+
+      // Update active label on load
+      countryActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=country]:checked").nextElementSibling.textContent;
+
+      // Update active label on change
+      for(var i=0;i< countryRadioButtons.length;i++)
+      {
+          var elem = countryRadioButtons[i];
+          elem.addEventListener('change',function(e){
+              countryActiveLabel.textContent = this.nextElementSibling.textContent;
+          }
+          ,false);
+      }
+    }
+
+
+    // REGION
+    var accordionRegion = document.getElementById('accordionRegion');
+    if (accordionRegion) {
+      var regionRadioButtons = document.getElementsByName('region');
+      var regionActiveLabel = document.getElementById('regionActiveFilter');
+
+      // Update active label on load
+      regionActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=region]:checked").nextElementSibling.textContent;
+
+      // Update active label on change
+      for(var i=0;i< regionRadioButtons.length;i++)
+      {
+          var elem = regionRadioButtons[i];
+          elem.addEventListener('change',function(e){
+              regionActiveLabel.textContent = this.nextElementSibling.textContent;
+          }
+          ,false);
+      }
+    }
+
+    // COUNTY
+    var accordionCounty= document.getElementById('accordionCounty');
+    if(accordionCounty) {
+      var countyRadioButtons = document.getElementsByName('county');
+      var countyActiveLabel = document.getElementById('countyActiveFilter');
+  
+      // Update active label on load
+      countyActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=county]:checked").nextElementSibling.textContent;
+  
+      // Update active label on change
+      for(var i=0;i< countyRadioButtons.length;i++)
+      {
+          var elem = countyRadioButtons[i];
+          elem.addEventListener('change',function(e){
+              countyActiveLabel.textContent = this.nextElementSibling.textContent;
+          }
+          ,false);
+      }
+    }
+
+    // URBANISATION
+    var urbanisationRadioButtons = document.getElementsByName('ruc_cluster');
+    var urbanisationActiveLabel = document.getElementById('urbanisationActiveFilter');
+
+    // Update active label on load
+    urbanisationActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=ruc_cluster]:checked").nextElementSibling.textContent;
+
+    // Update active label on change
+    for(var i=0;i< urbanisationRadioButtons.length;i++)
+    {
+        var elem = urbanisationRadioButtons[i];
+        elem.addEventListener('change',function(e){
+            urbanisationActiveLabel.textContent = this.nextElementSibling.textContent;
+        }
+        ,false);
+    }
+
+    // CONTROL
+    var controlRadioButtons = document.getElementsByName('control');
+    var controlActiveLabel = document.getElementById('controlActiveFilter');
+
+    // Update active label on load
+    controlActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=control]:checked").nextElementSibling.textContent;
+
+    // Update active label on change
+    for(var i=0;i< controlRadioButtons.length;i++)
+    {
+        var elem = controlRadioButtons[i];
+        elem.addEventListener('change',function(e){
+            controlActiveLabel.textContent = this.nextElementSibling.textContent;
+        }
+        ,false);
+    }
+
+    // INDEX
+    var imdqRadioButtons = document.getElementsByName('imdq');
+    var imdqActiveLabel = document.getElementById('imdqActiveFilter');
+
+    // Update active label on load
+    imdqActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=imdq]:checked").nextElementSibling.textContent;
+
+    // Update active label on change
+    for(var i=0;i< imdqRadioButtons.length;i++)
+    {
+        var elem = imdqRadioButtons[i];
+        elem.addEventListener('change',function(e){
+            imdqActiveLabel.textContent = this.nextElementSibling.textContent;
+        }
+        ,false);
+    }
+
+    // POPULATION
+    var populationRadioButtons = document.getElementsByName('population');
+    var populationActiveLabel = document.getElementById('populationActiveFilter');
+
+    // Update active label on load
+    populationActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=population]:checked").nextElementSibling.textContent;
+
+    // Update active label on change
+    for(var i=0;i< populationRadioButtons.length;i++)
+    {
+        var elem = populationRadioButtons[i];
+        elem.addEventListener('change',function(e){
+            populationActiveLabel.textContent = this.nextElementSibling.textContent;
+        }
+        ,false);
+    }
+
+ });
 </script>
