@@ -4,6 +4,7 @@
 </button>
 
 <div class="modal fade" id="advancedFilter" tabindex="-1" aria-labelledby="advancedFilterLabel" aria-hidden="true">
+  <form action=".">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
@@ -11,14 +12,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action=".">
                 <div class="d-flex flex-column flex-wrap">
-
                     {% if filter_auth_type %}
                     <input type="hidden" name="council_type" value="{{ authority_type }}">
                     {% endif %}
 
-                    <div class="accordion" id="accordionExample">
+                    <div class="accordion" id="accordionAdvancedFilter">
                         {% if authority_type == 'single' %}
                         <div class="accordion-item">
                           <h2 class="accordion-header" id="headingOne">
@@ -26,7 +25,7 @@
                               Nation
                             </button>
                           </h2>
-                          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionAdvancedFilter">
                             <div class="accordion-body">
                                 <fieldset class="criteria-group-wrapper">
                                     <legend class="visually-hidden">
@@ -63,7 +62,7 @@
                                 Region
                             </button>
                           </h2>
-                          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionAdvancedFilter">
                             <div class="accordion-body">
                                 <fieldset class="criteria-group-wrapper">
                                     <legend class="visually-hidden">
@@ -124,7 +123,7 @@
                               County
                             </button>
                           </h2>
-                          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionAdvancedFilter">
                             <div class="accordion-body">
                                 <fieldset class="criteria-group-wrapper">
                                     <legend class="visually-hidden">
@@ -155,7 +154,7 @@
                                 Urbanisation
                               </button>
                             </h2>
-                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionAdvancedFilter">
                               <div class="accordion-body">
                                 <fieldset class="criteria-group-wrapper">
                                     <legend class="visually-hidden">
@@ -185,7 +184,7 @@
                                 Political control (Jan 2022)
                               </button>
                             </h2>
-                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionAdvancedFilter">
                               <div class="accordion-body">
                                 <fieldset class="criteria-group-wrapper">
                                     <legend class="visually-hidden">
@@ -232,7 +231,7 @@
                                 Index of multiple deprivation
                               </button>
                             </h2>
-                            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+                            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionAdvancedFilter">
                               <div class="accordion-body">
                                 <fieldset class="criteria-group-wrapper">
                                     <legend class="visually-hidden">
@@ -276,7 +275,7 @@
                                 Total population
                               </button>
                             </h2>
-                            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+                            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionAdvancedFilter">
                               <div class="accordion-body">
                                 <fieldset class="criteria-group-wrapper">
                                     <legend class="visually-hidden">
@@ -301,12 +300,14 @@
 
                       </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-3 mb-3 d-inline-block mx-auto">Apply filters</button>
-            </form>
+
+            
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class="modal-footer d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary d-inline-block">Apply filters</button>
         </div>
         </div>
     </div>
+  </form>
 </div>
