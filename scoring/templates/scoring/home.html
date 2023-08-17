@@ -30,19 +30,24 @@
     </div>
 
     <div class="container home pt-5">
-        <h2>Scorecards results</h2>
+        <h2 class="mb-4 mb-lg-5">Scorecards results</h2>
 
-        <div class="row mt-5 pb-5" style="max-width: 1100px;">
-            <div class="col-12 col-lg-5 py-3 border ms-lg-2">
-                {% include 'scoring/includes/main-filter.html' %}                
+        <div class="row pb-5" style="max-width: 1100px;">
+            <div class="col-12 col-lg-6">
+                {% include 'scoring/includes/main-filter.html' %}
             </div>
 
-            <div class="col-12 col-lg-5 py-3 border border-start-0">
-                <form action="{% url 'scoring:location_results' %}" class="form">
-                    <label for="check-score-input" class="h6 mb-3">See a council’s Scorecard in more detail</label>
-                    <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" id="check-score-input" placeholder="Postcode">
-                    <!-- TODO: Do we need a submit button? -->
-                </form>
+            <div class="col-12 col-lg-6 mt-3 mt-lg-0">
+                <div class="card h-100">
+                    <div class="card-header text-bg-secondary ">See a council’s Scorecard in more detail</div>
+                    <div class="card-body">
+                        <form action="{% url 'scoring:location_results' %}" class="form">
+                            <label for="check-score-input" class="visually-hidden">See a council’s Scorecard in more detail</label>
+                            <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" id="check-score-input" placeholder="Postcode">
+                            <!-- TODO: Do we need a submit button? -->
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 
