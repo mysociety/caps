@@ -1,27 +1,6 @@
 $table-desktop-breakpoint: 915px;
 $border-table: 1px solid transparentize($color: $black, $amount: 1);
 
-
-
-// Table header
-.table-header {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: end;
-
-    @media only screen and (max-width: $table-desktop-breakpoint) {
-        flex-direction: column;
-        align-items: center;
-        button {
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 30px;
-        }
-    }
-}
-
 // Attributes for both tables
 .z-index-3 {
     z-index: 3 !important;
@@ -41,9 +20,6 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
     max-height: 97vh;
     overflow: auto;
     border-radius: $border-radius;
-    @media only screen and (max-width: $table-desktop-breakpoint) {
-        border:1px solid transparentize($color: $black, $amount: 0.8);
-    }
 
     .highlight {
         th, td {
@@ -53,13 +29,6 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
 }
 
 .scorecard-table {
-    a {
-        text-decoration: none;
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
     th, td {
         vertical-align: middle;
         position: relative;
@@ -79,48 +48,6 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
         display: none;
     }
 
-    //Table inner border
-    .table-sticky-border {
-        background-color: transparentize($color: $black, $amount: 0.8);
-        position:absolute;
-    }
-
-    .table-sticky-border.left, .table-sticky-border.right {
-        height: 100%;
-        width: 1px;
-    }
-
-    .table-sticky-border.top, .table-sticky-border.bottom  {
-        height: 1px;
-        width:100%;
-    }
-
-    .table-sticky-border.top  {
-        left: 0;
-        top: 0;
-    }
-
-    .table-sticky-border.right {
-        right: 0;
-        top: 0;
-    }
-
-    .table-sticky-border.bottom  {
-        left: 0;
-        bottom: 0;
-    }
-
-    .table-sticky-border.left {
-        left: 0px;
-        top: 0;
-    }
-
-    //Borders
-
-    tr.second-row {
-        border-bottom: 0px;
-    }
-
     $first-row-height: 80px;
     thead {
         th {
@@ -138,9 +65,7 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
     }
 
     thead th:first-child {
-        position: sticky;
         left: 0;
-        z-index: 2;
     }
 
     tbody {
@@ -177,13 +102,15 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
 }
 
 // Progress bar
-$score-bar-border-radius: 25px; 
+$score-bar-border-radius: 25px;
+$score-bar-vertical-padding: 8px;
+
 .score-bar {
     background: $white;
     border: 1px solid #005CAB;
     border-radius: $score-bar-border-radius;
     width: 150px;
-    padding: 8px 0;
+    padding: $score-bar-vertical-padding 0;
     position: relative;
     overflow: hidden;
 
@@ -208,8 +135,8 @@ $score-bar-border-radius: 25px;
 
     span.average {
         position: absolute;
-        right: 5px;
-        top: 10px;
+        right: 10px;
+        top: $score-bar-vertical-padding;
         font-size: 13px;
         opacity: 0.9;
         font-weight: 300;
@@ -271,6 +198,13 @@ $flex-basis-mobile-council: 80%;
     display: block;
     margin-left: 5px;
     white-space: break-spaces;
+    text-decoration: none;
+    font-weight: normal;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
     @media only screen and (max-width: $table-desktop-breakpoint) {
         flex-basis: $flex-basis-mobile-council;
     }
@@ -321,17 +255,6 @@ $flex-basis-mobile-council: 80%;
 // Mobile table
 $padding-left: 8px;
 
-.hamburger {
-    padding: 0;
-    width: 44px;
-    height: 44px;
-    background-image: url('../img/hamburger-white.svg');
-    background-repeat: no-repeat;
-    background-size: 16px auto;
-    background-position: center;
-    position: relative;
-}
-
 .scorecard-table-mobile {
     width: 100%;
     white-space: nowrap;
@@ -349,30 +272,10 @@ $padding-left: 8px;
         padding: 0 !important;
         display: table-cell !important;
         top: 0;
-        .category {
-            background-color: $color-scorecard-grey-900;
-            display: flex !important;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            align-items: center;
-            justify-content: center;
-            padding: $padding-left;
-            span {
-                font-family: $headings-font-family;
-                font-style: normal;
-                font-weight: normal;
-                font-size: 13px;
-                line-height: 100%;
-                letter-spacing: 0.02em;
-                text-transform: uppercase;
-                color: $white;
-                margin-right: 10px;
-            }
-        }
     }
     // Second row: "Council name"
     tr.second-row {
-        top:31px;
+        top:56px;
     }
     .council-name.header {
         font-style: normal;
@@ -386,29 +289,7 @@ $padding-left: 8px;
     }
 
     .second-row .total-score .score-bar {
-        background: transparent;
-        border: none;
-        border-radius: 0;
-        width: auto;
-        // padding: 8px 0;
-        // margin-right: auto;
-        // margin-left: auto;
-        // position: relative;
-        .progress-bar {
-            width: 0 !important;
-            border-right: none;
-        }
-        .sort-icon {
-            width: 22px;
-            position: absolute;
-            top: 5px;
-            z-index: 3;
-            @include responsive(left,15,375);
-        }
-
-        span.average {
-            @include responsive(right,25,400);
-        }
+        font-size: 13px;
     }
 
     // Table body
