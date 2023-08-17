@@ -107,15 +107,15 @@ $theme-colors: (
     "category-light-9": $color-category-light-9,
 );
 
-$primary-100: tint-color($primary, 80%) !default;
-$primary-200: tint-color($primary, 60%) !default;
-$primary-300: tint-color($primary, 40%) !default;
-$primary-400: tint-color($primary, 20%) !default;
-$primary-500: $primary !default;
-$primary-600: shade-color($primary, 20%) !default;
-$primary-700: shade-color($primary, 40%) !default;
-$primary-800: shade-color($primary, 60%) !default;
-$primary-900: shade-color($primary, 80%) !default;
+$primary-100: tint-color($primary, 80%);
+$primary-200: tint-color($primary, 60%);
+$primary-300: tint-color($primary, 40%);
+$primary-400: tint-color($primary, 20%);
+$primary-500: $primary;
+$primary-600: shade-color($primary, 20%);
+$primary-700: shade-color($primary, 40%);
+$primary-800: shade-color($primary, 60%);
+$primary-900: shade-color($primary, 80%);
 
 $primaries: (
   "primary-100": $primary-100,
@@ -229,6 +229,13 @@ $navbar-light-toggler-border-color: rgba($color-scorecard-grey-600, 0.3);
 // Pagination
 
 // Jumbotron
+
+// Accordion
+$accordion-button-color: $primary;
+$accordion-button-bg: tint-color($primary, 90%);
+
+$accordion-button-active-bg: $primary;
+$accordion-button-active-color: $white;
 
 // Cards
 
