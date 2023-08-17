@@ -35,6 +35,7 @@
             });
         </script>
     {% endif %}
+    {% block header_extra %}{% endblock %}
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
     <nav class="d-flex justify-content-end d-xl-none bg-primary navbar py-3 border-bottom border-gray">
