@@ -292,13 +292,13 @@
                     <thead>
                         <tr>
                             <th scope="col" colspan="2" class="main-header position-sticky z-index-5">
-                                <div class="category">
+                                <div class="text-bg-secondary p-3 text-center">
                                     <span>Total Score</span>
                                 </div>
                             </th>
                         <tr class="second-row position-sticky z-index-4">
-                            <th scope="col" style="min-width:250px">
-                                Council name
+                            <th class="bg-white" scope="col" style="min-width:250px">
+                                <span class="ms-4 fs-6 fw-bold">{{ authority_type_label }} average</span>
                             </th>
                             <th scope="col" class="total-score position-sticky z-index-4">              
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
@@ -342,10 +342,10 @@
                                         <span>This is a top performer council.</span>
                                     </div>
                                 </div>
-                                <a class="council-link" href="{% url 'scoring:council' council.slug %}">{{ council.name }}</a>
+                                <a class="fs-7 lh-base council-link" href="{% url 'scoring:council' council.slug %}">{{ council.name }}</a>
                                 {% else %}
                                 <div style="width:20px"></div>
-                                <a class="council-link" href="{% url 'scoring:council' council.slug %}">{{ council.name }}</a>
+                                <a class="fs-7 lh-base council-link" href="{% url 'scoring:council' council.slug %}">{{ council.name }}</a>
                                 {% endif %}
                             </th>
                           {% if council.score != 0 %}
