@@ -41,7 +41,9 @@ footer {
     // Action Network newsletter signup form.
     // Yuck yuck yuck, kill it with fire.
     #can_embed_form {
-        border-radius: $border-radius;
+        padding: 0 !important;
+        background-color: transparent !important;
+        border: none !important;
 
         h1, h2, h3, h4, h5, h6 {
             font-family: $headings-font-family !important;
@@ -65,6 +67,12 @@ footer {
             font-size: 1.25em !important;
             margin-bottom: 1em !important;
         }
+
+        #d_sharing.affirmative_optin_d_sharing {
+            .check_radio_label {
+                color: $gray-800 !important;
+            }
+        } 
 
         #form_col1 {
             display: grid;
