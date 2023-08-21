@@ -1,5 +1,9 @@
 .filter-badge {
   white-space: normal;
+
+  .accordion-button[aria-expanded="true"] &{
+    display: none;
+  }
 }
 
 .accordion-button::after {
