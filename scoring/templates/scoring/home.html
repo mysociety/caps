@@ -255,7 +255,7 @@
                     <tbody>
                       {% for council in council_data %}
                         <tr data-jump-slug="{{ council.slug }}">
-                            <th scope="row" class="first-column position-sticky z-index-3">
+                            <th scope="row" class="first-column position-sticky z-index-3 align-middle">
                                 <div class="d-flex flex-row align-items-center">
                                     {% if council.top_performer %}
                                     <div class="top-performer">
@@ -271,7 +271,7 @@
                                 </div>
                                 {% comment %} <div class="table-sticky-border left"></div> {% endcomment %}
                             </th>
-                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3" data-sort-value="{{ council.percentage|default:"0" }}">
+                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="{{ council.percentage|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                                 {% comment %} <div class="table-sticky-border right"></div> {% endcomment %}
                             </th>
@@ -386,12 +386,12 @@
                                 {% endif %}
                             </th>
                           {% if council.score != 0 %}
-                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3">
+                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                                 {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                           {% else %}
-                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3" data-sort-value="-1">
+                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="-1">
                                 <span class="small" style="white-space:normal">This council did not have an action plan when all plans were assessed on 20th September 2021.</span>
                             </th>
                           {% endif %}
