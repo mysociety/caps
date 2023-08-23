@@ -13,11 +13,11 @@ form.with--label {
     display: block;
     position: absolute;
     font-size: 0.75rem;
-    background: $primary-100;
+    background: $primary;
+    color: $white;
     z-index: 2;
     top: -21px;
     padding: 0.1rem 0.5rem;
-    opacity: 0.8;
     font-weight: bold;
     width: 100%;
   }
