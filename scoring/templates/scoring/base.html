@@ -39,16 +39,16 @@
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-xl">
         <div class="d-flex flex-row align-items-center">
             <a class="navbar-brand" href="{% url 'scoring:home' %}">
-                {% include 'caps/icons/council-climate-logo-2023.html' with classes='text-light' width='7em' height='auto' role='presentation' %}
+                {% include 'caps/icons/council-climate-logo-2023.html' with classes='text-dark' width='7em' height='auto' role='presentation' %}
                 <span class="visually-hidden">Council climate plan scorecards</span>
             </a>
     
             <div class="dropdown">
                 <a class="btn btn-primary btn dropdown-toggle" href="#" role="button" id="scorecardsVersion" data-bs-toggle="dropdown" aria-expanded="false">
-                    2023
+                    Scorecards 2023
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="scorecardsVersion">
                   <li><a class="dropdown-item" href="#">2023 Action Scorecards</a></li>
