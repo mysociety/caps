@@ -16,8 +16,8 @@
                 Council Climate Action Scorecards
                 draft methodology
             </h2>
-            <p class="mx-auto" style="max-width: 44em;">We have now published our draft methodology for the next wave of the Scorecards project: the Council Climate Action Scorecards. Last year we marked every UK council's Climate Action Plans; this time we’ll be scoring the actual climate action they  class="link-category-8"have taken.</p>
-            <p><a href="{% url 'scoring:methodology' % class="link-category-8"}" class="btn btn-blue is--light">Read the draft methodology</a></p>
+            <p class="mx-auto" style="max-width: 44em;">We have now published our draft methodology for the next wave of the Scorecards project: the Council Climate Action Scorecards. Last year we marked every UK council's Climate Action Plans; this time we’ll be scoring the actual climate action they  class="text-decoration-none fw-bold link-category-8"have taken.</p>
+            <p><a href="{% url 'scoring:methodology' % class="text-decoration-none fw-bold link-category-8"}" class="btn btn-blue is--light">Read the draft methodology</a></p>
             <a href="{% url 'scoring:methodology' %}" class="d-none d-sm-block my-4"><img src="{% static 'scoring/img/2023-timeline@2x.png' %}" width="700" height="150" style="max-width: 100%; height: auto;" class="d-block mx-auto" alt="Timeline showing: April to August 2022, research and development; July to September 2022, one-to-one and sector-wide consultations; November to December 2022, publish finalised metrics for Scorecards; February to March 2023, first marking with volunteers; April to May 2023, five week right of reply period; Summer 2023, scoring audit; and Autumn 2023, scorecards launch"></a>
             <p class="mx-auto mb-3"><a href="https://www.climateemergency.uk/" class="d-inline">Join our mailing list</a> to follow our progress towards the 2023 Scorecards.</p>
             <p class="mx-auto mb-0">If you want to volunteer to help create the Council Climate Action Scorecards find out more <a href="https://actionnetwork.org/forms/application-scorecards-volunteering/" class="d-inline">here</a>.</p>
@@ -155,7 +155,7 @@
                             </th>
                             <th scope="col" class="position-sticky pb-0 total-score" style="z-index:2">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <span class="text-center">Total Score</span>
+                                    <span class="text-center fw-bold">Total Score</span>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-default="descending"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border right"></div>
@@ -164,63 +164,63 @@
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="link-category-1" href="{% url 'scoring:methodology' %}#sec-gov">Governance, development and funding</a>
+                                    <a class="text-decoration-none fw-bold link-category-1" href="{% url 'scoring:methodology' %}#sec-gov">Governance, development and funding</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's1_gov' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="link-category-2" href="{% url 'scoring:methodology' %}#sec-ma">Mitigation and Adaptation</a>
+                                    <a class="text-decoration-none fw-bold link-category-2" href="{% url 'scoring:methodology' %}#sec-ma">Mitigation and Adaptation</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's2_m_a' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="link-category-3" href="{% url 'scoring:methodology' %}#sec-ca">Commitment and Integration</a>
+                                    <a class="text-decoration-none fw-bold link-category-3" href="{% url 'scoring:methodology' %}#sec-ca">Commitment and Integration</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's3_c_a' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="link-category-4" href="{% url 'scoring:methodology' %}#sec-coms">Community engagement and communications</a>
+                                    <a class="text-decoration-none fw-bold link-category-4" href="{% url 'scoring:methodology' %}#sec-coms">Community engagement and communications</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's4_coms' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="link-category-5" href="{% url 'scoring:methodology' %}#sec-mset">Measuring and setting emissions targets</a>
+                                    <a class="text-decoration-none fw-bold link-category-5" href="{% url 'scoring:methodology' %}#sec-mset">Measuring and setting emissions targets</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's5_mset' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="link-category-6" href="{% url 'scoring:methodology' %}#sec-co">Co-benefits</a>
+                                    <a class="text-decoration-none fw-bold link-category-6" href="{% url 'scoring:methodology' %}#sec-co">Co-benefits</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's6_cb' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="link-category-7" href="{% url 'scoring:methodology' %}#sec-dsi">Diversity and Social Inclusion</a>
+                                    <a class="text-decoration-none fw-bold link-category-7" href="{% url 'scoring:methodology' %}#sec-dsi">Diversity and Social Inclusion</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's7_dsi' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="link-category-8" href="{% url 'scoring:methodology' %}#sec-est">Education, Skills and Training</a>
+                                    <a class="text-decoration-none fw-bold link-category-8" href="{% url 'scoring:methodology' %}#sec-est">Education, Skills and Training</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's8_est' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="link-category-9" href="{% url 'scoring:methodology' %}#sec-ee">Ecological emergency</a>
+                                    <a class="text-decoration-none fw-bold link-category-9" href="{% url 'scoring:methodology' %}#sec-ee">Ecological emergency</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's9_ee' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
