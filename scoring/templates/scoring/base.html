@@ -38,11 +38,7 @@
     {% block header_extra %}{% endblock %}
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
-    <nav class="d-flex justify-content-end d-xl-none bg-primary navbar py-3 border-bottom border-gray">
-        <form action="{% url 'scoring:location_results' %}" class="form">
-            <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
-        </form>
-    </nav>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="d-flex flex-row align-items-center">
             <a class="navbar-brand" href="{% url 'scoring:home' %}">
@@ -66,7 +62,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav my-3 my-xl-0">
+            <ul class="navbar-nav mt-3 my-xl-0">
                 <li id="home-page" class="nav-item">
                     <a class="nav-link" href="{% url 'scoring:home' %}">Scorecards</a>
                 </li>
@@ -82,15 +78,17 @@
                 <li id="contact-page" class="nav-item">
                     <a class="nav-link" href="{% url 'scoring:contact' %}">Contact</a>
                 </li>
-                <li class="d-none d-xl-flex align-items-center ml-xl-2 ml-0 py-2 py-xl-0">
-                    <form action="{% url 'scoring:location_results' %}" class="form">
-                        <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
+                <hr class="d-lg-none mb-3 mt-2">
+                <li class="d-flex align-items-center ml-xl-2 ml-0 pt-4 pt-lg-0">
+                    <form action="{% url 'scoring:location_results' %}" class="form with--label w-100">
+                        <input class="form-control searchbar js-location-search-autocomplete w-100" type="search" name="pc" placeholder="Postcode" aria-label="Search">
                         <!-- TODO: Do we need a submit button? -->
                     </form>
                 </li>
             </ul>
         </div>
     </nav>
+
     <nav class="navbar navbar-expand-lg py-2 justify-content-center bg-primary-100">
         <span class="me-3">Please help support Climate Emergency UK. We rely on donations to remain independent.</span>
         <form action="https://www.paypal.com/donate" method="post" target="_top"><input type="hidden" name="hosted_button_id" value="JB823YSUV5X9S"><input id="ceuk-donate" type="image" src="{% static 'scoring/img/paypal-button.png' %}" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal" border="0" width="106" height="30"><img alt="" src="//www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" border="0"></form>
