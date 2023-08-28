@@ -36,7 +36,7 @@ class DownPageView(TemplateView):
 
 
 class LoginView(LoginView):
-    next_page = "home"
+    next_page = "scoring:home"
     template_name = "scoring/login.html"
 
     def get_success_url(self):
@@ -44,7 +44,7 @@ class LoginView(LoginView):
 
 
 class LogoutView(LogoutView):
-    next_page = "home"
+    next_page = "scoring:home"
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
