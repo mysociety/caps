@@ -3,28 +3,33 @@
 {% load caps_templatetags %}
 
 {% block content %}
-<div class="hero container-fluid bg-dark-grey">
-    <div style="max-width: 1140px" class="mx-auto">
+<div class="hero-section with-version-background pt-5 pb-6 pt-lg-8 pb-lg-8 ">
+    <div class="d-flex flex-column align-items-end align-items-lg-start hero-version-badge position-absolute">
+      <span class="version-year d-block fw-bold lh-1">2023</span>
+      <span class="version-name d-block fw-bold lh-1">Action Scorecards</span>
+    </div>
+    <div class="container">
         <a class="cta reverse white" href="{% url 'scoring:home' %}">Back to the Scorecards</a>
-        <h1 class="text-white mt-3">{{ council.name }}</h1>
+        <h1 class="mt-3">{{ council.name }}</h1>
         <div class="mt-3">
             {% if plan_score.top_performer %}
-            <span class="top-performer hero-sub">Top Performer · </span>
+              <div class="badge bg-secondary p-2">
+                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='auto' role='presentation' %}
+                <span class="fs-6">Top Performer</span>
+              </div>
             {% endif %}
-            <span class="hero-sub">{{ authority_type.name }}</span>
+            <span class="badge bg-secondary p-2 fs-6">{{ authority_type.name }}</span>
         </div>
     </div>
 </div>
 
-<div class="container about-section">
-    {% comment %}
-    <div class="alert alert-warning mb-4 mb-lg-5" role="alert">
-        <span class="warning-icon">We are currently reviewing this Scorecard at the request of the council.</span>
-    </div>
-    {% endcomment %}
+{% comment %} TODO 
+CHECK which about section is prefered.
+{% endcomment %}
+<div class="container d-none">
     <div class="row">
         <div class="col-12 col-lg-5">
-            <div class="about-section-child pt-3">
+            <div class="pt-3">
                 <h3 class="mb-3">About this council</h3>
                 {% if new_council %}
                 <p>This council was created on April 1, 2023 so was not included in the 2021 Scorecards.</p>
@@ -32,62 +37,66 @@
                 <p>This council was dissolved on {{ council.end_date }} so was not included in the 2021 Scorecards.</p>
                 {% else %}
                 {% if plan_score.top_performer %}
-                <p class="top-performer.active mb-0">This council is a top performer within {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.</p>
+                <p class="top-performer.active mb-2">This council is a top performer within {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.</p>
                 {% endif %}
-                <a href="{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}">See council in context</a>
-                <div class="group-label-wrapper mt-3">
-                    <div class="label-wrapper">
-                        <p class="label pl-0">Nation</p>
-                        <p>{{ council.get_country_display }}</p>
-                    </div>
-                    <div class="label-wrapper">
-                        <p class="label pl-0">Net-zero target date</p>
-                      {% for target in targets %}
-                      {% if target.scope is None %}
-                        <p>No target</p>
-                      {% else %}
-                        <p>{{ target.get_scope_display }}: {{ target.target_year }}</p>
-                      {% endif %}
-                      {% endfor %}
-                    </div>
-                  {% if plan_score.deprivation_quintile %}
-                    <div class="label-wrapper">
-                        <p class="label pl-0">Index of multiple deprivation</p>
-                        <p>{{ plan_score.deprivation_quintile }}</p>
-                    </div>
-                  {% endif %}
-                  {% if plan_score.population %}
-                    <div class="label-wrapper">
-                        <p class="label pl-0">Total population</p>
-                        <p>{{ plan_score.population }}</p>
-                    </div>
-                  {% endif %}
-                  {% if plan_score.get_ruc_cluster_display %}
-                    <div class="label-wrapper">
-                        <p class="label pl-0">Urbanisation</p>
-                        <p>{{ plan_score.get_ruc_cluster_display }}</p>
-                    </div>
-                  {% endif %}
-                  {% if plan_score.political_control %}
-                    <div class="label-wrapper">
-                        <p class="label pl-0">Political control (Jan 2022)</p>
-                        <p>{{ plan_score.political_control }}</p>
-                    </div>
-                  {% endif %}
+
+                <div class="mt-3">
+                  <a class="btn btn-primary btn-sm" href="{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}">See council in context</a>
+                  {% comment %} TODO Add link to old version pages of this council {% endcomment %}
+                  <a href="" class="btn btn-outline-primary btn-sm ms-3">Check 2021 version of this council</a>
                 </div>
+
+
+                <dl class="mt-4">
+                    <dt class="fw-normal">Nation</dt>
+                    <dd class="badge bg-secondary mb-3 fs-7">{{ council.get_country_display }}</dd>
+
+                    <dt class="fw-normal">Net-zero target date</dt>
+                    {% for target in targets %}
+                    {% if target.scope is None %}
+                      <dd class="badge bg-secondary mb-3 fs-7">No target</dd>
+                    {% else %}
+                      <dd class="badge bg-secondary mb-3 fs-7">{{ target.get_scope_display }}: {{ target.target_year }}</dd>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if plan_score.deprivation_quintile %}
+                        <dt class="fw-normal">Index ofdtmultiple deprivation</dt>
+                        <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.deprivation_quintile }}</dd>
+                    {% endif %}
+
+                    {% if plan_score.population %}
+                        <dt class="fw-normal">Total podtulation</dt>
+                        <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.population }}</dd>
+                    {% endif %}
+
+                    {% if plan_score.get_ruc_cluster_display %}
+                        <dt class="fw-normal">Urbanisadtion</dt>
+                        <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.get_ruc_cluster_display }}</dd>
+                    {% endif %}
+
+                    {% if plan_score.political_control %}
+                        <dt class="fw-normal">Politicadt control (Jan 2022)</dt>
+                        <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.political_control }}</dd>
+                    {% endif %}
+                </dl>
                 {% endif %}
             </div>
         </div>
-        <div class="col-12 col-lg-2"></div>
-        <div class="col-12 col-lg-5 mt-4 mt-lg-0">
+
+        <div class="col-12 col-lg-5 offset-lg-2 mt-4 mt-lg-0">
             <div class="about-section-child bg-grey-gradient-darker p-3">
                 <h3 class="mb-3">About the scoring</h3>
                 <p>Climate Emergency UK assessed plans according to 28 questions across nine sections, based on the expert-approved <a class="d-inline-block" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">checklist for Council Action Plans</a>. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between June and December 2021. Action Plans and related documents that were publicly available after September 2015 and before 20 September 2021 were marked. </p>
-              {% if plan_urls %}
-                <p>Has this council updated their Climate Action Plan? <a class="d-inline-block" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out.</a></p>
-              {% else %}
-                <p>Has this council released a Climate Action Plan plan recently? <a class="d-inline-block" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out.</a></p>
-              {% endif %}
+                {% if plan_urls %}
+                <div class="alert alert-info w-100">
+                  <p class="fs-6 fw-bold">Has this council updated their Climate Action Plan? </p>
+                  <a class="btn btn-primary btn-sm d-table" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out</a></div>
+                {% else %}
+                  <div class="alert alert-info w-100">
+                    <p class="fs-6 fw-bold">Has this council released a Climate Action Plan plan recently? </p>
+                    <a class="btn btn-primary btn-sm d-table" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out</a></div>
+                {% endif %}
               {% if authority_type.slug == 'district' %}
                 <p>This district council is signed up to their county council's joint Climate Action Plan. Here, if the district council has a plan, they are marked on their own plan and the county plan, depending on which is relevant to each question. <a class="d-inline-block" href="{% url 'scoring:methodology2022' %}">You can find out more about this in the methodology.</a></p>
               {% endif %}
@@ -103,8 +112,120 @@
               {% endif %}
             </div>
         </div>
+
     </div>
 </div>
+
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12 col-lg-6">
+        <div class="accordion" id="accordionMainMenu">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="mainMenuHeadingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenuCollapseOne" aria-expanded="true" aria-controls="mainMenuCollapseOne">
+                    <span class="badge bg-primary border border-white me-1">A</span>
+                    About this council
+                </button>
+              </h2>
+              <div id="mainMenuCollapseOne" class="accordion-collapse collapse show" aria-labelledby="mainMenuHeadingOne" data-bs-parent="#accordionMainMenu">
+                <div class="accordion-body py-4">
+                  {% if new_council %}
+                  <p>This council was created on April 1, 2023 so was not included in the 2021 Scorecards.</p>
+                  {% else %}
+                  {% if plan_score.top_performer %}
+                  {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='auto' role='presentation' %}
+                  <span class="top-performer.active mb-2">This council is a top performer within {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.</span>
+                  {% endif %}
+                  <div class="mt-3">
+                    <a class="btn btn-primary btn-sm" href="{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}">See council in context</a>
+                    {% comment %} TODO Add link to old version pages of this council {% endcomment %}
+                    <a href="" class="btn btn-outline-primary btn-sm ms-3">Check 2021 version of this council</a>
+                  </div>
+
+                  <dl class="mb-0 mt-4">
+                      <dt class="fw-normal">Nation</dt>
+                      <dd class="badge bg-secondary mb-3 fs-7">{{ council.get_country_display }}</dd>
+                      <dt class="fw-normal">Net-zero target date</dt>
+                      {% for target in targets %}
+                      {% if target.scope is None %}
+                        <dd class="badge bg-secondary mb-3 fs-7">No target</dd>
+                      {% else %}
+                        <dd class="badge bg-secondary mb-3 fs-7">{{ target.get_scope_display }}: {{ target.target_year }}</dd>
+                      {% endif %}
+                      {% endfor %}
+  
+                      {% if plan_score.deprivation_quintile %}
+                          <dt class="fw-normal">Index ofdtmultiple deprivation</dt>
+                          <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.deprivation_quintile }}</dd>
+                      {% endif %}
+  
+                      {% if plan_score.population %}
+                          <dt class="fw-normal">Total podtulation</dt>
+                          <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.population }}</dd>
+                      {% endif %}
+  
+                      {% if plan_score.get_ruc_cluster_display %}
+                          <dt class="fw-normal">Urbanisadtion</dt>
+                          <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.get_ruc_cluster_display }}</dd>
+                      {% endif %}
+  
+                      {% if plan_score.political_control %}
+                          <dt class="fw-normal">Politicadt control (Jan 2022)</dt>
+                          <dd class="badge bg-secondary fs-7">{{ plan_score.political_control }}</dd>
+                      {% endif %}
+                  </dl>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="mainMenuHeadingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenuCollapseTwo" aria-expanded="false" aria-controls="mainMenuCollapseTwo">
+                    <span class="badge bg-primary border border-white me-1">B</span>
+                    About the scoring system
+                </button>
+              </h2>
+              <div id="mainMenuCollapseTwo" class="accordion-collapse collapse" aria-labelledby="mainMenuHeadingTwo" data-bs-parent="#accordionMainMenu">
+                <div class="accordion-body py-4 d-flex flex-row flex-wrap" style="gap:0.5rem">
+                  <p>Climate Emergency UK assessed plans according to 28 questions across nine sections, based on the expert-approved <a class="d-inline-block" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">checklist for Council Action Plans</a>. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between June and December 2021. Action Plans and related documents that were publicly available after September 2015 and before 20 September 2021 were marked. </p>
+                  {% if plan_urls %}
+                    <div class="alert alert-info w-100">
+                      <p class="fs-6 fw-bold">Has this council updated their Climate Action Plan? </p>
+                      <a class="btn btn-primary btn-sm d-table" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out</a></div>
+                  {% else %}
+                    <div class="alert alert-info w-100">
+                      <p class="fs-6 fw-bold">Has this council released a Climate Action Plan plan recently? </p>
+                      <a class="btn btn-primary btn-sm d-table" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out</a></div>
+                  {% endif %}
+                  {% if authority_type.slug == 'district' %}
+                    <p>This district council is signed up to their county council's joint Climate Action Plan. Here, if the district council has a plan, they are marked on their own plan and the county plan, depending on which is relevant to each question. <a class="d-inline-block" href="{% url 'scoring:methodology2022' %}">You can find out more about this in the methodology.</a></p>
+                  {% endif %}
+                  {% if plan_urls %}
+                    {% comment %} <details>
+                        <summary class="btn btn btn-blue is--light mt-2 mt-sm-3">See which plans were marked</summary>
+                        <ul class="scoring-source-links">
+                          {% for plan_url in plan_urls %}
+                            <li><a href="{{ plan_url.plan_url }}" title="{{ plan_url.plan_url|url_human }}">{{ plan_url.plan_url|url_human }}</a></li>
+                          {% endfor %}
+                        </ul>
+                    </details> {% endcomment %}
+
+                    <h3 class="fs-5 mt-4">See which plans were marked</h3>
+                    {% for plan_url in plan_urls %}
+                    <li><a style="word-break: break-all;" class="mb-2" href="{{ plan_url.plan_url }}" title="{{ plan_url.plan_url|url_human }}">{{ plan_url.plan_url|url_human }}</a></li>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 {% if not new_council and not old_council %}
 <div class="container council-page mt-4">
