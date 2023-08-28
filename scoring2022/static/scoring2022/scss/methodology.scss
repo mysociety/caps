@@ -47,7 +47,7 @@
         }
 
         tbody tr td, thead tr th {
-            &:first-child() {
+            &:first-child {
                 text-align: left;
             }
         }
