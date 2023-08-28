@@ -1,6 +1,6 @@
-from django.urls import include, path
-from django.contrib import admin
 from django.conf import settings
+from django.contrib import admin
+from django.urls import include, path
 
 import scoring.views as views
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path("down/", views.DownPageView.as_view(), name="downpage"),
     path("login/", views.LoginView.as_view(), name="login"),
     path("logout/", views.LogoutView.as_view(), name="logout"),
+    path("admin/", admin.site.urls),
 ]
 
 if settings.DEBUG:
