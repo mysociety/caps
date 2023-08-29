@@ -155,24 +155,24 @@ forEachElement('.js-comparison-council', function(link){
     });
 });
 
-var navbarButton = document.getElementById("navbar-toggler");
-var navbarContent = document.getElementById("navbarSupportedContent");
-navbarButton.addEventListener('click', function(){
-    if(!navbarContent.classList.contains('show-height')) {
-        navbarContent.classList.toggle('show-height');
-        navbarContent.style.height = "auto";
-        let height = navbarContent.clientHeight + "px";
-        navbarContent.style.height = "0px";
-        setTimeout(function(){
-            navbarContent.style.height = height;
-        }, 0);
-    } else {
-        navbarContent.style.height = "0px";
-        navbarContent.addEventListener('transitionend', function(){
-            navbarContent.classList.remove('show-height');
-        }, {once: true})
-    }
-});
+// var navbarButton = document.getElementById("navbar-toggler");
+// var navbarContent = document.getElementById("navbarSupportedContent");
+// navbarButton.addEventListener('click', function(){
+//     if(!navbarContent.classList.contains('show-height')) {
+//         navbarContent.classList.toggle('show-height');
+//         navbarContent.style.height = "auto";
+//         let height = navbarContent.clientHeight + "px";
+//         navbarContent.style.height = "0px";
+//         setTimeout(function(){
+//             navbarContent.style.height = height;
+//         }, 0);
+//     } else {
+//         navbarContent.style.height = "0px";
+//         navbarContent.addEventListener('transitionend', function(){
+//             navbarContent.classList.remove('show-height');
+//         }, {once: true})
+//     }
+// });
 
 function sortTableByColumn(columnHeader, direction) {
     var table = columnHeader.closest('table');

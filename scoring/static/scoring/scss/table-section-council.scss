@@ -2,11 +2,6 @@ $table-section-mobile-breakpoint: 600px;
 $pick-council-break-point--section: 915px;
 
 .council-page .table-header {
-    max-width: 670px;
-    p {
-        max-width: 455px;
-    }
-
     button {
         @media only screen and (max-width: 915px) {
             display: none;
@@ -15,7 +10,7 @@ $pick-council-break-point--section: 915px;
 }
 
 .mobile-message {
-    background-color: $color-scorecard-grey-900;
+    background-color: $secondary;
     padding: 1rem;
     @media only screen and (min-width: $table-section-mobile-breakpoint) {
         display: none;
@@ -76,9 +71,9 @@ $pick-council-break-point--section: 915px;
 
     //Row
     tbody tr {
-        background-color:$color-scorecard-green-l1;
+        background-color: $gray-100;
         &:nth-child(odd) {
-            background-color:#C3EFE5;
+            background-color: $gray-200;
         }
     }
 
@@ -90,10 +85,5 @@ $pick-council-break-point--section: 915px;
         background-repeat: no-repeat;
         background-size: 15px;
         background-position: top 50% left 0;
-    }
-
-    //Font style
-    thead th {
-        @include table-header;
     }
 }

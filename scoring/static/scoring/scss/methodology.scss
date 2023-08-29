@@ -33,7 +33,7 @@
         }
 
         thead tr {
-            background-color:$color-scorecard-green-d1;
+            background-color:$primary;
             color: $black;
             :nth-child(n+2) {
                 max-width: 150px;
@@ -95,7 +95,7 @@
         }
 
         tr.header-question {
-            background-color: transparentize($color: $color-scorecard-green-d1, $amount: 0.4);
+            background-color: transparentize($color: $primary, $amount: 0.4);
         }
 
         .question-header {
@@ -186,13 +186,13 @@ $council-types: (
 
         // Highlight the relevant council type table headers
         th.js-highlight-#{$council-type} {
-            background-color: $color-scorecard-green-d1;
+            background-color: $primary;
             display: table-cell;
         }
 
         // Highlight the relevant council type table cells
         td.js-highlight-#{$council-type} {
-            background-color: transparentize($color-scorecard-green-d1, 0.8);
+            background-color: transparentize($primary, 0.8);
             display: table-cell;
         }
 
