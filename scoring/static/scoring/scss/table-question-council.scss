@@ -5,89 +5,21 @@ $pick-council-break-point--question: 1200px;
 .table-question-council {
     table-layout: fixed;
 
-    // table borders
-    th {
-        @include border-priority-2(top);
-        &:first-child {
-            @include border-priority-2(left);
-        }
-
-        &:last-child {
-            @include border-priority-2(right); 
-        }
-    }
-
-    tbody {
-        td {
-            &:first-child {
-                @include border-priority-2(left);
-            }
-    
-            &:last-child {
-                @include border-priority-2(right); 
-            }
-        }
-
-        tr {
-            &:last-child td {
-                @include border-priority-2(bottom);
-            }
-        }
-    }
-
     th, td  {
         @include responsive(padding, 12, 16);
         text-align: center;
     }
 
-    thead th {
-        @include table-header;
-
-        .top-performer {
-            background-image: url('../img/star-teal.svg');
-            background-size: 15px;
-            background-repeat: no-repeat;
-            background-position: left 0px top 4px;
-            padding-left: 13px;
-        }
-    }
-
     //Section cell
-    .section-cell {
-        font-style: normal;
-        font-weight: 600;
-        @include responsive(font-size, 13, 15);
-        line-height: 120%;
-        letter-spacing: 0.01em;
-    }
+
 
     // Accordion button
     .button-wrapper {
-        vertical-align: middle;
         padding: 0 !important;
-        min-width: 44px;
-        min-height: 44px;
     }
 
-    button.accordion {
-        width: 100%;
-        min-height: 44px;
-        background-color: $green;
-        background-position: center;
-        @include transition(background-color 0.3s ease-in-out);
-
-        div {
-            width: 15px;
-            height: 10px;
-            background-image: url('../img/chevron-black-down.svg');
-            background-repeat: no-repeat;
-            background-size: contain;
-            @include transition(transform 0.3s ease-in-out);
-        }
-
+    button.js-toggle-council-question-table-section {
         &:hover {
-            background-color: $primary;
-
             div {
                 transform: rotate(180deg);
             }
@@ -217,18 +149,20 @@ $pick-council-break-point--question: 1200px;
     }
 }
 
+td[data-column="answer"] {
+    max-width: 350px;
+}
+
 // JavaScript-powered .js-toggle-council-question-table-section
 .accordion-enabled {
     tbody {
-        .header-question,
-        .subpoint-question {
+        .question-row {
             display: none;
         }
     }
 
     tbody.open {
-        .header-question,
-        .subpoint-question {
+        .question-row {
             display: table-row;
         }
 
