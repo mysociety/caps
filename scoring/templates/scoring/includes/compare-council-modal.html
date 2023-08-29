@@ -25,7 +25,7 @@
                 <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
               {% endfor %}
             </div>
-            <a href="{% url "council" council.slug %}" class="mt-3">Clear all</a>
+            {% comment %} <a href="{% url "council" council.slug %}" class="mt-3">Clear all</a> {% endcomment %}
           {% endif %}
           </div>
         </div>

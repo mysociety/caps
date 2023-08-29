@@ -200,6 +200,10 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             start_date__lt="2023-01-01",
         )
 
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
+
         promises = Promise.objects.filter(council=council).all()
         plan_score = PlanScore.objects.get(council=council, year=2021)
         plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
