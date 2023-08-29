@@ -61,7 +61,7 @@ $council-to-compare-mobile: 500px;
             }
             @include hover-focus {
                 opacity: 1;
-                color: $color-scorecard-green-d1;
+                color: $primary;
             }
         }
     }
