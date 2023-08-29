@@ -61,22 +61,22 @@ CHECK which about section is prefered.
                     {% endfor %}
 
                     {% if plan_score.deprivation_quintile %}
-                        <dt class="fw-normal">Index ofdtmultiple deprivation</dt>
+                        <dt class="fw-normal">Index of multiple deprivation</dt>
                         <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.deprivation_quintile }}</dd>
                     {% endif %}
 
                     {% if plan_score.population %}
-                        <dt class="fw-normal">Total podtulation</dt>
+                        <dt class="fw-normal">Total population</dt>
                         <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.population }}</dd>
                     {% endif %}
 
                     {% if plan_score.get_ruc_cluster_display %}
-                        <dt class="fw-normal">Urbanisadtion</dt>
+                        <dt class="fw-normal">Urbanisation</dt>
                         <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.get_ruc_cluster_display }}</dd>
                     {% endif %}
 
                     {% if plan_score.political_control %}
-                        <dt class="fw-normal">Politicadt control (Jan 2022)</dt>
+                        <dt class="fw-normal">Political control (Jan 2022)</dt>
                         <dd class="badge bg-secondary mb-3 fs-7">{{ plan_score.political_control }}</dd>
                     {% endif %}
                 </dl>
@@ -286,7 +286,7 @@ CHECK which about section is prefered.
         <table class="table-section mb-0">
             <thead>
                 <tr>
-                    <th scope="col" class="text-left">Sections</th>
+                    <th scope="col" class="text-start">Sections</th>
                     <th scope="col">{{ council.name }}</th>
                   {% for comparison in comparisons %}
                     <th scope="col">{{ comparison.council.name }}</th>
@@ -347,106 +347,84 @@ CHECK which about section is prefered.
     </div>
   </div>
 
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h3>
+        Individual question performance
+      </h3>
+      <p>Each category on the Scorecards is broken down into several individual questions, as guided by Climate Emergency UK’s <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/" class="d-inline-block">checklist for councils’ Action Plans</a>. This is the most granular data we hold for each councils’ Scorecard.
+      </p>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-md-12">
-      <div class="table-header mb-4">
-          <h3>
-              Individual question performance
-          </h3>
-          <p>Each category on the Scorecards is broken down into several individual questions, as guided by Climate Emergency UK’s <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/" class="d-inline-block">checklist for councils’ Action Plans</a>. This is the most granular data we hold for each councils’ Scorecard.
-          </p>
-      </div>
       <div class="position-relative" style="display: table">
           <table class="table-question-council mb-0">
-              <thead>
+              <thead class="text-bg-primary">
                   <tr>
-                      <th scope="col">#</th>
-                      <th scope="col" class="text-left">Questions</th>
+                      <th scope="col" class="text-start">Questions</th>
                       <th scope="col" class="current-council-score">{{ council.name }}</th>
                     {% for comparison in comparisons %}
                       <th scope="col" class="comparison-council">{{ comparison.council.name }}</th>
                     {% endfor %}
-                      <th scope="col" class="top-tier-head">
-                            <p class="top-performer">Councils with full marks</p>
-                        </th>
+                      <th scope="col" class="d-flex flex-row align-items-center">
+                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='' role='presentation' %}
+
+                        <span>Councils with full marks</span>
+                      </th>
                   </tr>
               </thead>
             {% for section in sections %}
               <tbody class="table-question-council__section">
-                  <tr data-has-plan="no" class="bg-green section-row">
-                      <td></td>
-                      <td colspan="1" class="section-cell text-left">
+                  <tr data-has-plan="no" class="section-row fw-bold bg-primary-100">
+                      <td colspan="1" class="section-cell border-bottom border-opacity-25 border-primary text-start">
                           {{ section.description }}
                       </td>
-                      <td class="score is--section-score {% if section.top_performer %}top-performer{% endif %}">
+                      <td class="score border-bottom border-opacity-25 border-primary is--section-score {% if section.top_performer %}top-performer{% endif %}">
                           <span>{{ section.score }}/{{ section.max_score }}</span>
                       </td>
                     {% for comparison in section.comparisons %}
-                      <td class="score is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
+                      <td class="score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
                           {{ comparison.score }}/{{ comparison.max_score }}
                       </td>
                     {% endfor %}
-                      <td class="top-tier-score">
+                      <td class="top-tier-score border-bottom border-opacity-25 border-primary">
                         <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this section.</span>
                       </td>
-                      <td class="button-wrapper p-0">
-                          <button type="button" class="accordion js-toggle-council-question-table-section" aria-label="Expand this section" title="Expand this section">
-                              <div class="mx-auto"></div>
+                      <td class="button-wrapper p-0 bg-white">
+                          <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
+                            {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
                           </button>
                       </td>
                   </tr>
                 {% for answer in section.answers %}
-                  <tr class="{% if answer.type == 'HEADER' %}header-question{% else %}subpoint-question{% endif %}">
-                      <td data-column="question_no" class="question-no">
-                          <div>
-                              {% if answer.type == 'HEADER' %}
-                              <div class="question-code text-left">
-                                  <a href="">{{ answer.pretty_code }}</a
-                              </div>
-                              {% else %}
-                              <div class="question-code text-left pl-2">
-                                  <span>{{ answer.pretty_code }}</span>
-                              </div>
-                              {% endif %}
-                          </div>
-                      </td>
-                    {% if answer.type == 'HEADER' %}
-                      <td data-column="answer" colspan="1">
-                          <div class="question-content-table text-left">
-                              <a href="" class="question-no is--mobile">{{ answer.pretty_code }}</a>
-                              <a href="">{{ answer.question | linebreaks }}</a>
-                          </div>
-                    {% else %}
-                      <td data-column="answer">
-                          <div class="question-content-table text-left">
-                              <span class="question-no is--mobile">{{ answer.pretty_code }}</span>
-                              <div class="js-collapse-children">
-                                  {{ answer.question | linebreaks }}
-                              </div>
-                          </div>
-                    {% endif %}
-                      </td>
-                    {% if answer.type != 'HEADER' %}
-                      <td data-column="score" class="score">
-                    {% else %}
-                      <td data-column="score" class="score is--header-score">
-                    {% endif %}
+                  <tr class="question-row">
+                    <td data-column="answer" class="border-start border-bottom">
+                        <div class="question-content-table text-start">
+                            <span class="badge bg-secondary p-1 question-no">{{ answer.pretty_code }}</span>
+                            <div class="js-collapse-children">
+                                {{ answer.question | linebreaks }}
+                            </div>
+                        </div>
+                    </td>
+
+                      <td data-column="score" class="score border-bottom">
                           <span>{{ answer.score }}/{{ answer.max }}</span>
                       </td>
-                    {% if answer.type != 'HEADER' %}
-                    {% for comparison in comparisons %}
-                      <td></td>
-                    {% endfor %}
-                    {% else %}
+
                     {% for comparison in answer.comparisons %}
-                      <td data-column="score" class="score is--header-score">
+                      <td data-column="score" class="score border-bottom">
                           <span>{{ comparison.score }}/{{ comparison.max }}</span>
                       </td>
                     {% endfor %}
-                    {% endif %}
-                    <td class="top-tier-score">
-                      <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ answer.council_count }} out of {{ council_count }}</a> <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this question.</span>
-                      </td>
+
+                    <td class="top-tier-score border-bottom border-end">
+                      <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">
+                        {{ answer.council_count }} out of {{ council_count }}
+                      </a> 
+                      <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this question.</span>
+                    </td>
                   </tr>
                 {% endfor %}
               </tbody>
