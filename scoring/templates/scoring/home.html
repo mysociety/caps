@@ -62,54 +62,42 @@
         </div> {% endcomment %}
 
         <div class="row">
-            <div class="col-12 col-lg-5">
-                <div class="accordion" id="accordionMainMenu">
-                    <div class="accordion-item">
-                      <h2 class="accordion-header" id="mainMenuHeadingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenuCollapseOne" aria-expanded="true" aria-controls="mainMenuCollapseOne">
-                            <span class="badge bg-primary border border-white me-1">A</span>
-                            Filter Scorecard table by type of council
-                        </button>
-                      </h2>
-                      <div id="mainMenuCollapseOne" class="accordion-collapse collapse show" aria-labelledby="mainMenuHeadingOne" data-bs-parent="#accordionMainMenu">
-                        <div class="accordion-body py-4">
-                            {% include 'scoring/includes/main-filter.html' %}
-                        </div>
-                      </div>
+            <div class="col-12 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3 class="fs-6 mb-0">Filter Scorecard table by type of council</h3>
                     </div>
-                    <div class="accordion-item">
-                      <h2 class="accordion-header" id="mainMenuHeadingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenuCollapseTwo" aria-expanded="false" aria-controls="mainMenuCollapseTwo">
-                            <span class="badge bg-primary border border-white me-1">B</span>
-                            Review scorecards by sections
-                        </button>
-                      </h2>
-                      <div id="mainMenuCollapseTwo" class="accordion-collapse collapse" aria-labelledby="mainMenuHeadingTwo" data-bs-parent="#accordionMainMenu">
-                        <div class="accordion-body d-flex flex-row flex-wrap" style="gap:0.5rem">
-                            {% include 'scoring/includes/section-list.html' %}
-                        </div>
-                      </div>
+                    <div class="card-body">
+                        {% include 'scoring/includes/main-filter.html' %}
                     </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="mainMenuHeadingThree">
-                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenuCollapseThree" aria-expanded="false" aria-controls="mainMenuCollapseThree">
-                            <span class="badge bg-primary border border-white me-1">C</span>
-                              Check your council's page
-                          </button>
-                        </h2>
-                        <div id="mainMenuCollapseThree" class="accordion-collapse collapse" aria-labelledby="mainMenuHeadingThree" data-bs-parent="#accordionMainMenu">
-                          <div class="accordion-body d-flex flex-row flex-wrap" style="gap:0.5rem">
-                            <form action="{% url 'scoring:location_results' %}" class="form">
-                                <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
-                                <!-- TODO: Do we need a submit button? -->
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3 class="fs-6 mb-0">Check scorecards by sections</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <a href="" class="btn btn-primary">Go to sections</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h3 class="fs-6 mb-0">Check a council&rsquo;s scorecard</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <form action="{% url 'scoring:location_results' %}" class="form">
+                            <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
+                            <!-- TODO: Do we need a submit button? -->
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-
 
         {% comment %} <div class="container">
             <div class="row">
