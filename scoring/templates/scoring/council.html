@@ -14,7 +14,7 @@
         <div class="mt-3">
             {% if plan_score.top_performer %}
               <div class="badge bg-secondary p-2">
-                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='' role='presentation' %}
+                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
                 <span class="fs-6">Top Performer</span>
               </div>
             {% endif %}
@@ -133,7 +133,7 @@ CHECK which about section is prefered.
                   <p>This council was created on April 1, 2023 so was not included in the 2021 Scorecards.</p>
                   {% else %}
                   {% if plan_score.top_performer %}
-                  {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='' role='presentation' %}
+                  {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
                   <span class="top-performer.active mb-2">This council is a top performer within {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.</span>
                   {% endif %}
                   <div class="mt-3">
@@ -238,60 +238,34 @@ CHECK which about section is prefered.
 {% if not new_council and not old_council %}
 <div class="container council-page mt-4">
 
-  <div class="row mb-5">
-    <div class="col-md-6">
+  <div class="row mb-4">
+    <div class="col-sm-10 col-lg-6">
       <h3>
         Scorecard section performance
       </h3>
       <p>Climate Action Plans have been scored across nine categories, each covering the crucial information that an effective  plan should contain. The marks within these sections add up to make up the council's overall score. Here you can see where a council performs well and not so well in each section — and compare it to other councils at this granular level.
       </p>
+    </div>
+  </div>
 
+  <div class="row mb-5">
+    <div class="col-lg-8">
       {% include 'scoring/includes/compare-council-modal.html' %}
 
-      {% comment %} <div class="position-relative">
-          <button class="btn btn-primary open-modal popup-trigger" data-popup-trigger="one">
-              Choose councils to compare
-            {% if comparisons %}
-              <span class="badge badge-pill badge-danger ml-1">{{ comparisons|length }}</span>
-            {% endif %}
-          </button>
-          <div class="council-compare-wrapper popup-modal shadow bg-white" data-popup-modal="one" style="left: 0">
-              <div class="filter-header mb-3">
-                  <p class="filter-title mb-0">Search for councils to compare</p>
-                  <button class="close-icon popup-modal__close" type="button"></button>
-              </div>
-              <div class="council-selection-wrapper bg-blue-l2">
-                {% if comparisons|length > 2 %}
-                  <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
-                {% else %}
-                  <input class="form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name">
-                {% endif %}
-                {% if comparisons %}
-                  <div class="selected-council-wrapper mt-4">
-                    {% for comparison in comparisons %}
-                      <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
-                    {% endfor %}
-                  </div>
-                  <a href="{% url "council" council.slug %}" class="mt-3">Clear all</a>
-                {% endif %}
-              </div>
-          </div>
-      </div> {% endcomment %}
-
       <div class="position-relative d-table mt-4">
-        <div class="mobile-message">
+        <div class="mobile-message d-sm-none p-3 text-bg-secondary">
             <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
             <p class="text-white">You’ll find more options, like the ability to compare your council’s Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
         </div>
-        <table class="table-section mb-0">
+        <table class="table-section mb-0 border">
             <thead>
                 <tr>
-                    <th scope="col" class="text-start">Sections</th>
-                    <th scope="col">{{ council.name }}</th>
+                    <th scope="col" class="text-start w-50 text-start">Sections</th>
+                    <th class="border-start border-end border-primary border-opacity-25" scope="col">{{ council.name }}</th>
                   {% for comparison in comparisons %}
-                    <th scope="col">{{ comparison.council.name }}</th>
+                    <th class="d-none d-lg-table-cell" scope="col">{{ comparison.council.name }}</th>
                   {% endfor %}
-                    <th scope="col">
+                    <th class="d-none d-sm-table-cell" scope="col">
                       <span class="badge bg-secondary mb-1">Average</span> 
                       <span class="d-block text-capitalize">{% include 'caps/includes/authority_type.html' with group=authority_type %}</span></th>
                 </tr>
@@ -299,13 +273,12 @@ CHECK which about section is prefered.
             <tbody>
               {% for section in sections %}
                 <tr>
-                    <td>
-                        <div>
-                            <a class="btn btn-outline-primary border-0 text-start" href="{% url 'scoring:home' %}">{{ section.description }}</a>
-                        </div>
+                    <td class="text-start">
+                      <a class="btn btn-outline-primary border-0 p-0 text-start" href="{% url 'scoring:home' %}">{{ section.description }}</a>
                     </td>
-                    <td>
+                    <td class="border-start border-end border-primary border-opacity-25">
                       {% if section.top_performer %}
+                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
                         <span class="top-performer">
                       {% else %}
                         <span>
@@ -314,8 +287,9 @@ CHECK which about section is prefered.
                         </span>
                     </td>
                   {% for comparison in section.comparisons %}
-                    <td>
+                    <td class="d-none d-lg-table-cell">
                       {% if comparison.top_performer %}
+                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
                         <span class="top-performer">
                       {% else %}
                         <span>
@@ -324,7 +298,7 @@ CHECK which about section is prefered.
                         </span>
                     </td>
                   {% endfor %}
-                    <td>
+                    <td class="d-none d-sm-table-cell">
                         {{ section.avg }}/{{ section.max_score }}
                     </td>
                 </tr>
@@ -348,7 +322,7 @@ CHECK which about section is prefered.
   </div>
 
   <div class="row mb-4">
-    <div class="col-md-6">
+    <div class="col-sm-10 col-lg-6">
       <h3>
         Individual question performance
       </h3>
@@ -357,19 +331,21 @@ CHECK which about section is prefered.
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-12">
+  <div class="row mb-5">
+    <div class="col-12">
       <div class="position-relative" style="display: table">
           <table class="table-question-council mb-0">
               <thead class="text-bg-primary">
                   <tr>
-                      <th scope="col" class="text-start">Questions</th>
+                      <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
                       <th scope="col" class="current-council-score">{{ council.name }}</th>
+
                     {% for comparison in comparisons %}
-                      <th scope="col" class="comparison-council">{{ comparison.council.name }}</th>
+                      <th scope="col" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
                     {% endfor %}
-                      <th scope="col" class="d-flex flex-row align-items-center">
-                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='' role='presentation' %}
+
+                      <th scope="col" class="d-none d-md-table-cell d-flex flex-row align-items-center">
+                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
 
                         <span>Councils with full marks</span>
                       </th>
@@ -377,22 +353,35 @@ CHECK which about section is prefered.
               </thead>
             {% for section in sections %}
               <tbody class="table-question-council__section">
-                  <tr data-has-plan="no" class="section-row fw-bold bg-primary-100">
-                      <td colspan="1" class="section-cell border-bottom border-opacity-25 border-primary text-start">
+                  <tr data-has-plan="no" class="section-row bg-primary-100">
+                      <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
                           {{ section.description }}
+                          <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
+                            {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
+                            Show more
+                          </button>
                       </td>
-                      <td class="score border-bottom border-opacity-25 border-primary is--section-score {% if section.top_performer %}top-performer{% endif %}">
+
+                      {% if section.top_performer %}
+                        <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                          {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
                           <span>{{ section.score }}/{{ section.max_score }}</span>
-                      </td>
+                        </td>
+                      {% else %}
+                        <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                          <span>{{ section.score }}/{{ section.max_score }}</span>
+                        </td>
+                      {% endif %}
+
                     {% for comparison in section.comparisons %}
-                      <td class="score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
+                      <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
                           {{ comparison.score }}/{{ comparison.max_score }}
                       </td>
                     {% endfor %}
-                      <td class="top-tier-score border-bottom border-opacity-25 border-primary">
-                        <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this section.</span>
+                      <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary">
+                        <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span class="fs-8 mt-1 me-0 ms-auto d-block">{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this section.</span>
                       </td>
-                      <td class="button-wrapper p-0 bg-white">
+                      <td class="button-wrapper p-0 bg-white d-none d-md-table-cell">
                           <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
                             {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
                           </button>
@@ -400,52 +389,56 @@ CHECK which about section is prefered.
                   </tr>
                 {% for answer in section.answers %}
                   <tr class="question-row">
-                    <td data-column="answer" class="border-start border-bottom">
+                    <td data-column="answer" class="border-start border-bottom border-end ">
                         <div class="question-content-table text-start">
-                            <span class="badge bg-secondary p-1 question-no">{{ answer.pretty_code }}</span>
-                            <div class="js-collapse-children">
-                                {{ answer.question | linebreaks }}
-                            </div>
+                          <span class="badge bg-secondary p-1 question-no">{{ answer.pretty_code }}</span>
+
+                          {% comment %} TODO Add an if question is negative {% endcomment %}
+                          <div class="alert alert-info p-2 mt-2">
+                            <p class="alert-heading fw-bold fs-7 mb-2">
+                              {% include 'caps/icons/question-circle.html' with width='1.2rem' height='1.2rem' classes='align-top me-1' role='presentation' %}
+                              Negative point question
+                            </p>
+                            <p class="fs-7 mb-0">For a negative question the maximum number of points is 0.</p>
+                          </div>
+
+                          {% comment %} TODO Question meta {% endcomment %}
+                          <div class="js-collapse-children">
+                              {{ answer.question | linebreaks }}
+                          </div>
+                          <dl class="mt-3 mb-2 d-flex flex-column align-items-start">
+                            <dt class="fs-7 mb-1">Source:</dt>
+                            <dd class="badge bg-blue-500">National Data and Volunteer Research</dd>
+                          </dl>
+                          <dl class="d-flex flex-column align-items-start">
+                            <dt class="fs-7 mb-1">Question weight:</dt>
+                            <dd class="badge bg-secondary">Low</dd>
+                          </dl>
                         </div>
                     </td>
 
-                      <td data-column="score" class="score border-bottom">
-                          <span>{{ answer.score }}/{{ answer.max }}</span>
-                      </td>
+                    <td data-column="score" class="score border-bottom">
+                        <span>{{ answer.score }}/{{ answer.max }}</span>
+                        {% comment %} TODO IF question is negative then "No negative points awarded" {% endcomment %}
+                    </td>
 
                     {% for comparison in answer.comparisons %}
-                      <td data-column="score" class="score border-bottom">
+                      <td data-column="score" class="d-none d-md-table-cell score border-bottom">
                           <span>{{ comparison.score }}/{{ comparison.max }}</span>
                       </td>
                     {% endfor %}
 
-                    <td class="top-tier-score border-bottom border-end">
+                    <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
                       <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">
                         {{ answer.council_count }} out of {{ council_count }}
                       </a> 
-                      <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this question.</span>
+                      <span class="fs-8 mt-1 me-0 ms-auto d-block">{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this question.</span>
                     </td>
                   </tr>
                 {% endfor %}
               </tbody>
             {% endfor %}
           </table>
-          <div class="advanced-filter-wrapper pb-3 bg-blue-l2 popup-modal shadow" data-popup-modal="advanced-filter-two">
-              <div class="filter-header mb-3">
-                  <p class="filter-title">Show <strong>only</strong> councils similar to <strong>{{ council.name }}</strong> in terms of:</p>
-                  <button class="close-icon popup-modal__close" type="button"></button>
-              </div>
-              <div class="option-group">
-                    {% comment %} NOTE by default there wont't be any option selected.
-                    The "active" class has been added just for styling purposes{% endcomment %}
-                  <a class="radio-btn is--with-label active" href="#">Nation</a>
-                  <a class="radio-btn is--with-label" href="#">Urbanisation</a>
-                  <a class="radio-btn is--with-label" href="#">Total population</a>
-                  <a class="radio-btn is--with-label" href="#">Index of multiple deprivation </a>
-                  <a class="radio-btn is--with-label" href="#">Net-zero target date</a>
-                  <a class="radio-btn is--with-label" href="#">Political control (Jan 2022)</a>
-              </div>
-          </div>
       </div>
     </div>
   </div>

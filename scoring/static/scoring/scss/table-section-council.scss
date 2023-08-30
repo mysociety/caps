@@ -1,89 +1,19 @@
-$table-section-mobile-breakpoint: 600px;
-$pick-council-break-point--section: 915px;
-
-.council-page .table-header {
-    button {
-        @media only screen and (max-width: 915px) {
-            display: none;
-        }
-    }
-}
-
-.mobile-message {
-    background-color: $secondary;
-    padding: 1rem;
-    @media only screen and (min-width: $table-section-mobile-breakpoint) {
-        display: none;
-    }
-}
-
 .table-section {
-    
     table-layout: fixed;
-    border: $border-priority-2;
-    border-radius: $border-radius;
-    @media only screen and (max-width: $table-section-mobile-breakpoint) {
-        width: 100%;
-    }
 
-    //First column width
-    thead tr th, tbody tr td {
-        &:first-child {
-            width: 275px;
-            text-align: left;
-            @media only screen and (max-width: $table-section-mobile-breakpoint) {
-                width: 60%;
-            }
-        }
-    }
-
-    //Second column(Current council)
-    thead tr th, tbody tr td {
-        &:nth-child(2) {
-            @include border-priority-1(right);
-            @include border-priority-1(left);
-            @media only screen and (max-width: $table-section-mobile-breakpoint) {
-                width: 40%;
-            }
-        }
-        @media only screen and (max-width: $pick-council-break-point--section) {
-            &:nth-child(n+3) {
-                display: none;
-            }
-        }
-        @media (min-width:$table-section-mobile-breakpoint) and (max-width:$pick-council-break-point--section) {
-            &:last-child {
-                display: table-cell;
-            }
-        }
-    }
-
-    // >= 2nd column
     th, td {
-        width: 155px;
         padding: 16px;
-        text-align: center;
-        @include border-priority-2(bottom);
-        @media only screen and (max-width: $table-section-mobile-breakpoint) {
-            width: auto;
+        &:not(:first-child) {
+            min-width: 155px;
+            max-width: 155px;
+            text-align: right;
         }
     }
 
     //Row
     tbody tr {
-        background-color: $gray-100;
         &:nth-child(odd) {
             background-color: $gray-200;
         }
-    }
-
-    td .top-performer {
-        padding-left: 22px;
-        margin-left: -22px;
-        @include transition(background-image 0.3s ease-in-out);
-        background-image: url('../img/star.svg');
-        background-repeat: no-repeat;
-        background-size: 15px;
-        background-position: top 50% left 0;
     }
 }

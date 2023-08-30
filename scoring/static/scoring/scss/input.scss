@@ -3,3 +3,46 @@
     $form-select-indicator-color: $white;
   }
 }
+
+// Radio buttons
+.radio-btn.is--with-label {
+  @include responsive(font-size, 12, 13);
+  line-height: 130%;
+  color: $primary;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: $border-radius;
+  padding: 7px 8px;
+  border: 1px solid $blue;
+  background-color: $white;
+  @include transition(background-color, color 0.3s ease-in-out);
+  margin-top: 10px;
+
+  &:hover {
+      background-color: $primary-100;
+  }
+
+  &:focus {
+      background-color: $yellow;
+      outline: 2px solid $black;
+      border-color: $black;
+  }
+
+  &.active {
+      background-color: $blue;
+      color: $white;
+
+      @include hover-focus {
+          color: $blue;
+          background-color: $white;
+      }
+  }
+}
+
+.radio-btn.is--with-label.is--with-closed-icon {
+  padding-right: 40px;
+  background-image: url('../img/close-background-blue.svg');
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
