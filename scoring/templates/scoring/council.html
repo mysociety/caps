@@ -14,7 +14,7 @@
         <div class="mt-3">
             {% if plan_score.top_performer %}
               <div class="badge bg-secondary p-2">
-                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1rem' height='1rem' role='presentation' %}
                 <span class="fs-6">Top Performer</span>
               </div>
             {% endif %}
@@ -326,6 +326,8 @@ CHECK which about section is prefered.
       </h3>
       <p>Each category on the Scorecards is broken down into several individual questions, as guided by Climate Emergency UK’s <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/" class="d-inline-block">checklist for councils’ Action Plans</a>. This is the most granular data we hold for each councils’ Scorecard.
       </p>
+
+      {% include 'scoring/includes/council-source-filter.html' %}
     </div>
   </div>
 
