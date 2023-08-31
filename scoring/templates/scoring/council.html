@@ -236,7 +236,7 @@ CHECK which about section is prefered.
 </div>
 
 {% if not new_council and not old_council %}
-<div class="container council-page mt-4">
+<div class="container council-page mt-4 js-dynamic-content" data-active-source-type="default">
 
   <div class="row mb-4">
     <div class="col-sm-10 col-lg-6">
@@ -390,7 +390,19 @@ CHECK which about section is prefered.
                       </td>
                   </tr>
                 {% for answer in section.answers %}
-                  <tr class="question-row">
+                {% comment %} TODO 
+                Add the source(How this question is marked) to tr element.
+                    'js-volunteer',
+                    'js-foi',
+                    'js-national-data',
+                    'js-national-data-and-volunteer',
+                {% endcomment %}
+                {% comment %} TODO 
+                  council operation only switch
+                  for each row add the correct attribute value. For council only the value should be true, otherwise false.
+                  [data-active-council-operation-only="false"]
+                {% endcomment %}
+                  <tr class="question-row js-default js-volunteer" data-active-council-operation-only="true">
                     <td data-column="answer" class="border-start border-bottom border-end ">
                         <div class="question-content-table text-start">
                           <span class="badge bg-secondary p-1 question-no">{{ answer.pretty_code }}</span>
