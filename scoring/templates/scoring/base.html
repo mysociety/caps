@@ -39,7 +39,7 @@
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
 
-    <nav class="navbar navbar-expand-xl">
+    <nav class="navbar navbar-expand-lg">
         <div class="d-flex flex-row align-items-center">
             <a class="navbar-brand" href="{% url 'scoring:home' %}">
                 {% include 'caps/icons/council-climate-logo-2023.html' with classes='text-dark' width='7em' height='auto' role='presentation' %}
@@ -64,13 +64,18 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav mt-3 my-xl-0">
+        <div class="collapse navbar-collapse flex-column align-items-end" id="navbarSupportedContent">
+            <form action="{% url 'scoring:location_results' %}" class="navbar-location-search-form">
+                <label class="text-muted" for="navbarLocationSearch">Jump to a council</label>
+                <input class="form-control form-control-sm searchbar js-location-search-autocomplete" type="search" name="pc" id="navbarLocationSearch" placeholder="Postcode">
+                <button type="submit" class="visually-hidden">Search</button>
+            </form>
+            <ul class="navbar-nav me-lg-n3 mb-lg-n2">
                 <li id="home-page" class="nav-item">
                     <a class="nav-link" href="{% url 'scoring:home' %}">Scorecards</a>
                 </li>
                 <li id="methodology-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'scoring:methodology' %}">New methodology</a>
+                    <a class="nav-link" href="{% url 'scoring:methodology' %}">Methodology</a>
                 </li>
                 <li id="how-to-page" class="nav-item">
                     <a class="nav-link" href="{% url 'scoring:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
@@ -80,13 +85,6 @@
                 </li>
                 <li id="contact-page" class="nav-item">
                     <a class="nav-link" href="{% url 'scoring:contact' %}">Contact</a>
-                </li>
-                <hr class="d-lg-none mb-3 mt-2">
-                <li class="d-flex align-items-center ml-xl-2 ml-0 pt-4 pt-lg-0">
-                    <form action="{% url 'scoring:location_results' %}" class="form with--label w-100">
-                        <input class="form-control searchbar js-location-search-autocomplete w-100" type="search" name="pc" placeholder="Postcode" aria-label="Search">
-                        <!-- TODO: Do we need a submit button? -->
-                    </form>
                 </li>
             </ul>
         </div>
