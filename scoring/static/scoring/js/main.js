@@ -313,20 +313,36 @@ forEachElement('.js-hidden-toggle', function(trigger){
     });
 });
 
-document.getElementById('display-complete-content').addEventListener('change', function(){
-    if ( this.checked ) {
-        forEachElement('.section-question-heading .js-hidden-toggle', function(trigger){
-            var content = document.querySelector('#' + trigger.getAttribute('aria-controls'));
-            trigger.setAttribute('aria-expanded', 'true');
-            content.removeAttribute('hidden');
-        });
-    } else {
-        forEachElement('.section-question-heading .js-hidden-toggle', function(trigger){
-            var content = document.querySelector('#' + trigger.getAttribute('aria-controls'));
-            trigger.setAttribute('aria-expanded', 'false');
-            content.setAttribute('hidden', 'true');
-        });
-    }
+if (document.getElementById('display-complete-content')) {
+    document.getElementById('display-complete-content').addEventListener('change', function(){
+        if ( this.checked ) {
+            forEachElement('.section-question-heading .js-hidden-toggle', function(trigger){
+                var content = document.querySelector('#' + trigger.getAttribute('aria-controls'));
+                trigger.setAttribute('aria-expanded', 'true');
+                content.removeAttribute('hidden');
+            });
+        } else {
+            forEachElement('.section-question-heading .js-hidden-toggle', function(trigger){
+                var content = document.querySelector('#' + trigger.getAttribute('aria-controls'));
+                trigger.setAttribute('aria-expanded', 'false');
+                content.setAttribute('hidden', 'true');
+            });
+        }
+    });
+}
+
+var councilOperationsButton = document.getElementById("council-operations-only");
+councilOperationsButton.onclick = function(e) {
+    var container = document.querySelector('.js-dynamic-content');
+    container.toggleAttribute('data-active-council-operation-only');
+}
+
+forEachElement('[data-question-source-type]', function(trigger){
+    trigger.addEventListener('click', function(){
+        var questionSourceType = trigger.getAttribute('data-question-source-type');
+        var container = document.querySelector('.js-dynamic-content');
+        container.setAttribute('data-active-source-type', questionSourceType);
+    });
 });
 
 forEachElement('[data-methodology-switch-council-type]', function(trigger){
