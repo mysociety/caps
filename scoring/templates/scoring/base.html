@@ -46,17 +46,20 @@
                 <span class="visually-hidden">Council climate plan scorecards</span>
             </a>
     
-            <div class="dropdown">
-                <a class="btn btn-primary btn dropdown-toggle" href="#" role="button" id="scorecardsVersion" data-bs-toggle="dropdown" aria-expanded="false">
-                    Scorecards 2023
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="scorecardsVersion">
-                  <li><a class="dropdown-item" href="#">2023 Action Scorecards</a></li>
-                  <li><a class="dropdown-item" href="#">2021 Plan Scorecards</a></li>
-                </ul>
+            <div class="navbar-nav">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" id="scorecardsVersion" data-bs-toggle="dropdown" aria-expanded="false">
+                        2023
+                    </a>
+                    <ul class="dropdown-menu position-absolute ms-n3 shadow-lg" aria-labelledby="scorecardsVersion">
+                        <!-- TODO: Link to current page -->
+                        <li><a class="dropdown-item" href="#" aria-current="page">2023 Action Scorecards</a></li>
+                        <!-- TODO: Link to equivalent current page on 2021 site -->
+                        <li><a class="dropdown-item" href="#">2021 Plan Scorecards</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
