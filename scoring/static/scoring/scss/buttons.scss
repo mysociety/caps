@@ -11,4 +11,10 @@
       @include box-shadow(0px, 0px, 0px, 5px, $black);
       background-color: $white !important;
   }
+
+  &.form-control-sm {
+    background-size: 16px;
+    background-position: 6px 50%;
+    padding-left: 28px;
+  }
 }

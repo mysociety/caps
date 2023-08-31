@@ -1,34 +1,5 @@
 .form-select {
-
   &.text-bg-primary {
     $form-select-indicator-color: $white;
-  }
-}
-
-// Adds a label to the autocomplete searchbar
-form.with--label {
-  position: relative;
-  &::before {
-    content: "Review your council's page";
-    display: block;
-    position: absolute;
-    font-size: 0.75rem;
-    background: $primary;
-    color: $white;
-    z-index: 2;
-    top: -21px;
-    padding: 0.1rem 0.5rem;
-    font-weight: bold;
-    width: 100%;
-  }
-
-  .js-location-search-autocomplete {
-    border-top-right-radius: 0;
-    border-top-left-radius: 0;
-  }
-  @include media-breakpoint-down(lg) { 
-    .awesomplete {
-      width: 100%;
-    }
   }
 }
