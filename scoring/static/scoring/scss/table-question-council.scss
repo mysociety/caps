@@ -50,3 +50,62 @@ td[data-column="answer"] {
         margin-top: 1rem;
     }
 }
+
+// Source filter
+$source-types: (
+    'default',
+    'volunteer',
+    'foi',
+    'national-data',
+    'national-data-and-volunteer',
+);
+
+@each $source-type in $source-types {
+    // Hide all source-specific elements by default
+    .js-#{$source-type} { 
+        display: none;
+    }
+
+    // When an active source type has been selected…
+    [data-active-source-type="#{$source-type}"] {
+        // Hide any default (non-source-typed) elements
+        .js-default {
+            display: none !important;
+        }
+
+        // Show the relevant source type elements
+        .table-question-council__section.open {
+            .js-#{$source-type} {
+                display: table-row !important;
+            }
+        }
+
+        // Fake "active" styling for the activated trigger
+        [data-question-source-type="#{$source-type}"] {
+            &.radio-btn.is--with-label {
+                background-color: $primary;
+                color: $white;
+            }
+        }
+    }
+
+        // When an active source type has been selected…
+        [data-active-source-type="#{$source-type}"][data-active-council-operation-only] {
+            // Hide any default (non-source-typed) elements
+            .js-default {
+                display: none !important;
+            }
+    
+            // Show the relevant source type elements
+            .table-question-council__section.open {
+                .js-#{$source-type}[data-active-council-operation-only="true"] {
+                    display: table-row !important;
+                }
+
+                .js-#{$source-type}[data-active-council-operation-only="false"] {
+                    display: none !important;
+                }
+            }
+        }
+}
+
