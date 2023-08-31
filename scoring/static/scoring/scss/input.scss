@@ -4,6 +4,23 @@
   }
 }
 
+// Increase the size of radio buttons and checkboxes
+input[type="checkbox"],
+input[type="radio"] {
+  height: 35px;
+  width: 35px;
+  vertical-align: middle;
+
+  &+ label {
+    vertical-align: middle;
+  }
+
+  &.is--small {
+    height: 25px;
+    width: 25px;
+  }
+}
+
 // Radio buttons
 .radio-btn.is--with-label {
   @include responsive(font-size, 12, 13);
