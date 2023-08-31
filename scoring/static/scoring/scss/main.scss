@@ -24,55 +24,10 @@
 @import "variables";
 @import "../../bootstrap5/variables";
 
-$spacers: map-merge((
-  6: ($spacer * 4),
-  7: ($spacer * 5),
-  8: ($spacer * 6),
-), $spacers);
-
 @import "../../bootstrap5/maps";
 @import "../../bootstrap5/mixins";
 @import "../../bootstrap5/utilities";
-
-// Currently not working
-$all-colors: map-merge-multiple($grays, $blues, $indigos, $purples, $pinks, $reds, $oranges, $yellows, $greens, $teals, $cyans, $primaries);
-
-$utilities: map-merge(
-  $utilities,
-  (
-    "color": map-merge(
-      map-get($utilities, "color"),
-      (
-        values: map-merge(
-          map-get(map-get($utilities, "color"), "values"),
-          (
-            $all-colors
-          ),
-        ),
-      ),
-    ),
-
-    "background-color": map-merge(
-      map-get($utilities, "background-color"),
-      (
-          values: map-merge(
-              map-get(map-get($utilities, "background-color"), "values"),
-              $all-colors,
-          ),
-      ),
-    ),
-  )
-);
-
-@each $color, $value in $all-colors {
-  $color-rgb: to-rgb($value);
-  .text-bg-#{$color} {
-      color: color-contrast($value) if($enable-important-utilities, !important, null);
-      background-color: RGBA($color-rgb, var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
-  }
-}
-
-@import "../../bootstrap5/utilities/api";
+@import "_utils";
 
 @import "../../bootstrap5/root";
 @import "../../bootstrap5/reboot";
@@ -94,7 +49,7 @@ $utilities: map-merge(
 // @import "../../bootstrap5/pagination";
 @import "../../bootstrap5/badge";
 @import "../../bootstrap5/alert";
-@import "../../bootstrap5/progress";
+// @import "../../bootstrap5/progress";
 @import "../../bootstrap5/list-group";
 @import "../../bootstrap5/close";
 // @import "../../bootstrap5/toasts";
@@ -102,9 +57,9 @@ $utilities: map-merge(
 @import "../../bootstrap5/tooltip";
 // @import "../../bootstrap5/popover";
 // @import "../../bootstrap5/carousel";
-@import "../../bootstrap5/spinners";
-@import "../../bootstrap5/offcanvas";
-@import "../../bootstrap5/placeholders";
+// @import "../../bootstrap5/spinners";
+// @import "../../bootstrap5/offcanvas";
+// @import "../../bootstrap5/placeholders";
 @import "../../bootstrap5/helpers";
 @import "../../bootstrap5/utilities/api";
 
