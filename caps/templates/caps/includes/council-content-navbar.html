@@ -1,6 +1,6 @@
 <div class="nav-item">
   <p class="h6 pl-0 mb-0 sidebar-top" id="sidebar-top" data-default-content="Browse content">Browse content</p>
-  <ul class="nav py-2 border-top my-2 pr-4 pr-md-0">
+  <ul class="nav py-2 border-top my-2 pr-4 pr-md-0 council-nav-bar">
         {% for item in council_cards %}
         <li class="nav-item">
           <a class="nav-link" href="#{{ item.slug }}" data-content-navbar-switch="{{ item.slug }}", title="{{ item.desc }}">{{ item.title }}</a>

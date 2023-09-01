@@ -137,3 +137,17 @@ properly when is being hidden */
   overflow-anchor: none;
   overflow: hidden;
 }
+
+.council-nav-bar::-webkit-scrollbar {
+  width: 10px;               /* width of the entire scrollbar */
+}
+
+.council-nav-bar::-webkit-scrollbar-track {
+  background: #4e38de;        /* color of the tracking area */
+}
+
+.council-nav-bar::-webkit-scrollbar-thumb {
+  background-color: rgb(255, 255, 255);    /* color of the scroll thumb */
+  border-radius: 6px;       /* roundness of the scroll thumb */
+  border: 3px solid #4e38de;  /* creates padding around scroll thumb */
+}
