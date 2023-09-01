@@ -1,13 +1,12 @@
 {
-    "python.linting.pylintEnabled": true,
     "python.defaultInterpreterPath": "/usr/local/bin/python",
 
     "editor.formatOnSave": false,
     "[python]": {
-        "editor.formatOnSave": true
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "ms-python.black-formatter"
     },
 
-    "python.formatting.provider": "black",
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
@@ -19,16 +18,11 @@
     },
     "files.associations": {
         "**/*.html": "html",
-        "**/templates/**/*.html": "django-html",
+        "**/templates/**/*.html": "jinja-html",
         "**/templates/**/*.md": "jinja-md",
         "**/templates/**/*": "django-txt",
         "**/requirements{/**,*}.{txt,in}": "pip-requirements"
     },
-    "python.linting.pylintArgs": [
-        "--max-line-length=88",
-        "--disable=C0103,E1101,W5101,E1123,E501,E203",
-        "--load-plugins=pylint_django"
-    ],
     "ltex.enabled": ["markdown", "jinja-md"],
     "ltex.language": "en-GB",
     "[markdown]": {
@@ -37,5 +31,4 @@
             "strings": "on",
             "other": "on"
         }
-    }
-}
+    }}
