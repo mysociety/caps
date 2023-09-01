@@ -8,6 +8,8 @@
 
 {% block content %}
   {% markdown %}
+
+
     Climate change is a global challenge, but reaching the UK's carbon emissions goals requires local action.
     
     Local councils, either through their services, or through their influence on residents and local businesses, have influence [over one-third of UK emissions](https://research.mysociety.org/html/joining-up/#what-does-local-government-do-and-what-is-its-role-in-tackling-climate-change-local-authorities-have-powers-and-influence-over-roughly-a-third-of-uk-emissions).
@@ -16,17 +18,11 @@
     
     We are working to improve the quality of information that is available about local climate action, and about the levels of public support for climate action.
     
-    By promoting information sharing and constructive scrutiny, we aim to drive more effective and coordinated action.
-
-    ***
-
+    By promoting information sharing and constructive scrutiny, we aim to drive more effective and coordinated action to reduce emissions.
+    
     For {{ council.name }} we have collected the following information:
+    {% for item in summary_menu_cards %}{% if not forloop.last %}{% if not forloop.first %}, {% endif %}{% else %} and {% endif %} <a href="#{{ item.slug }}">{{ item.title.lower }}</a>{% endfor %}.
+ 
   {% endmarkdown %}
-  <ul>
-    {% for item in council_cards %}
-      <li>
-        <a href="#{{ item.slug }}">{{ item.title }}</a> - {{ item.desc }}
-      </li>
-    {% endfor %}
-  </ul>
+
 {% endblock content %}

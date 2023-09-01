@@ -290,12 +290,10 @@ class CouncilDetailView(DetailView):
         if context["scoring_hidden"]:
             banned_items.append("scorecard")
 
-        # remove this to re-enable the polling section
-        banned_items.append("local-polling")
-
         menu = [item for item in council_menu if item.slug not in banned_items]
+        summary_menu = [item for item in menu if item.list_in_summary]
 
-        return {"council_cards": menu}
+        return {"council_cards": menu, "summary_menu_cards": summary_menu}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
