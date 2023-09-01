@@ -440,6 +440,11 @@ $(window).scroll(function() {
     var container = document.querySelector('.js-dynamic-content');
     container.setAttribute('data--active-content-navbar', contentNavbar)
 
+    // update the scroll position for the mobile menu
+    var menuItem = document.querySelector('[data-content-navbar-switch="' + closestSection.id + '"]');
+    var contentNavbarContainer = document.querySelector('.council-nav-bar');
+    contentNavbarContainer.scrollLeft = menuItem.offsetLeft - 20;
+
     // update sidebar name
     var headerNamePosition = $('#header-name').offset().top;
     var headerNameHeight = $('#header-name').outerHeight();
@@ -453,4 +458,17 @@ $(window).scroll(function() {
 }
 );
 
+// clicks on nav-item > nav.links need to be offset when on mobile
+$(".nav-link").click(function(event) {
+    // check if we are on mobile
+    if ($(window).width() > 767) {
+        return;
+    }
+    event.preventDefault();
+    var target = $(this).attr('href');
+    var targetOffset = $(target).offset().top;
+    var targetOffsetCorrected = targetOffset - 130;
+    window.scrollTo(0, targetOffsetCorrected);
+}
+);
 
