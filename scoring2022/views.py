@@ -15,8 +15,14 @@ from django_filters.views import FilterView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort
 from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin
-from scoring.models import (PlanQuestion, PlanQuestionScore, PlanScore,
-                            PlanScoreDocument, PlanSection, PlanSectionScore)
+from scoring.models import (
+    PlanQuestion,
+    PlanQuestionScore,
+    PlanScore,
+    PlanScoreDocument,
+    PlanSection,
+    PlanSectionScore,
+)
 
 cache_settings = {
     "max-age": 60,
