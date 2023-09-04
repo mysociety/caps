@@ -1140,6 +1140,11 @@ class CouncilFilter(django_filters.FilterSet):
         label="Has plan",
         widget=Select(choices=Council.PLAN_FILTER_CHOICES),
     )
+    has_assembly_report = django_filters.BooleanFilter(
+        method="filter_assemblyreport",
+        label="Has climate assembly",
+        widget=Select(choices=Council.PLAN_FILTER_CHOICES),
+    )
     authority_type = django_filters.ChoiceFilter(
         method="filter_authority_type",
         choices=Council.AUTHORITY_TYPE_CHOICES,
@@ -1225,6 +1230,24 @@ class CouncilFilter(django_filters.FilterSet):
             "last_update": "Last update",
         },
     )
+
+    def filter_assemblyreport(self, queryset, name, value):
+        if value:
+            return queryset.filter(
+                **{
+                    "plandocument__document_type__in": [
+                        PlanDocument.CITIZENS_ASSEMBLY,
+                    ]
+                }
+            )
+
+        return queryset.exclude(
+            **{
+                "plandocument__document_type__in": [
+                    PlanDocument.CITIZENS_ASSEMBLY,
+                ]
+            }
+        )
 
     def filter_plandocument(self, queryset, name, value):
         if value:
