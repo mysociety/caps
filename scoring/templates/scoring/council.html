@@ -240,100 +240,78 @@ CHECK which about section is prefered.
 
   <div class="row mb-4">
     <div class="col-sm-10 col-lg-6">
-      <h3>
-        Scorecard section performance
-      </h3>
-      <p>Climate Action Plans have been scored across nine categories, each covering the crucial information that an effective  plan should contain. The marks within these sections add up to make up the council's overall score. Here you can see where a council performs well and not so well in each section — and compare it to other councils at this granular level.
-      </p>
-    </div>
-  </div>
-
-  <div class="row mb-5">
-    <div class="col-lg-8">
-      {% include 'scoring/includes/compare-council-modal.html' %}
-
-      <div class="position-relative d-table mt-4">
-        <div class="mobile-message d-sm-none p-3 text-bg-secondary">
-            <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
-            <p class="text-white">You’ll find more options, like the ability to compare your council’s Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
-        </div>
-        <table class="table-section mb-0 border w-100">
-            <thead>
-                <tr>
-                    <th scope="col" class="text-start w-50 text-start">Sections</th>
-                    <th class="border-start border-end border-primary border-opacity-25" scope="col">{{ council.name }}</th>
-                  {% for comparison in comparisons %}
-                    <th class="d-none d-lg-table-cell" scope="col">{{ comparison.council.name }}</th>
-                  {% endfor %}
-                    <th class="d-none d-sm-table-cell" scope="col">
-                      <span class="badge bg-secondary mb-1">Average</span> 
-                      <span class="d-block text-capitalize">{% include 'caps/includes/authority_type.html' with group=authority_type %}</span></th>
-                </tr>
-            </thead>
-            <tbody>
-              {% for section in sections %}
-                <tr>
-                    <td class="text-start">
-                      <a class="btn btn-outline-primary border-0 p-0 text-start" href="{% url 'scoring:home' %}">{{ section.description }}</a>
-                    </td>
-                    <td class="border-start border-end border-primary border-opacity-25">
-                      {% if section.top_performer %}
-                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
-                        <span class="top-performer">
-                      {% else %}
-                        <span>
-                      {% endif %}
-                        {{ section.score }}/{{ section.max_score }}
-                        </span>
-                    </td>
-                  {% for comparison in section.comparisons %}
-                    <td class="d-none d-lg-table-cell">
-                      {% if comparison.top_performer %}
-                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
-                        <span class="top-performer">
-                      {% else %}
-                        <span>
-                      {% endif %}
-                        {{ comparison.score }}/{{ comparison.max_score }}
-                        </span>
-                    </td>
-                  {% endfor %}
-                    <td class="d-none d-sm-table-cell">
-                        {{ section.avg }}/{{ section.max_score }}
-                    </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-        </table>
-        <div class="table-footer mt-2">
-            <a class="mt-3 btn btn-primary" href="{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}">See results in full list</a>
-            <div class="social-media-wrapper">
-                <a class="icon-link me-1" title="Share this page on Facebook" aria-label="Share this page on Facebook" href="https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri|urlencode }}">
-                  {% include 'caps/icons/facebook.html' with classes='text-dark' width='2em' height='2em' role='presentation' %}
-                </a>
-
-                <a class="icon-link" title="Share this page on Twitter" aria-label="Share this page on Twitter" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&amp;text={{ twitter_tweet_text|urlencode }}">
-                  {% include 'caps/icons/twitter.html' with classes='text-dark' width='2em' height='2em' role='presentation' %}
-                </a>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4">
-    <div class="col-sm-10 col-lg-6">
-      <h3>
+      <h3 class="mb-3">
         Individual question performance
       </h3>
-      <p>Each category on the Scorecards is broken down into several individual questions, as guided by Climate Emergency UK’s <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/" class="d-inline-block">checklist for councils’ Action Plans</a>. This is the most granular data we hold for each councils’ Scorecard.
+
+      <p class="mb-4">Each category on the Scorecards is broken down into several individual questions, as guided by Climate Emergency UK’s <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/" class="d-inline-block">checklist for councils’ Action Plans</a>. This is the most granular data we hold for each councils’ Scorecard.
       </p>
 
-      {% include 'scoring/includes/council-source-filter.html' %}
+      <div class="accordion" id="accordionQuestionCouncil">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="QuestionCouncilheadingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#QuestionCouncilcollapseOne" aria-expanded="true" aria-controls="QuestionCouncilcollapseOne">
+              Filter questions by source type
+            </button>
+          </h2>
+          <div id="QuestionCouncilcollapseOne" class="accordion-collapse collapse show" aria-labelledby="QuestionCouncilheadingOne" data-bs-parent="#accordionQuestionCouncil">
+            <div class="accordion-body">
+              <div class="d-flex flex-row flex-wrap" style="gap:0.5rem">
+                <button class="radio-btn is--with-label mr-1" data-question-source-type="default">All</button>
+                <button class="radio-btn is--with-label mr-1" data-question-source-type="volunteer">Volunteer Research</button>
+                <button class="radio-btn is--with-label mr-1" data-question-source-type="foi">FOI</button>
+                <button class="radio-btn is--with-label mr-1" data-question-source-type="national-data">National Data</button>
+                <button class="radio-btn is--with-label mr-1" data-question-source-type="national-data-and-volunteer">National Data and Volunteer Research</button>
+              </div>
+          
+              <form class="mt-3">
+                  <input class="me-1 is--small" type="checkbox" id="council-operations-only" name="council-operations-only" >
+                  <label for="council-operations-only">Display only Council operations questions</label>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="QuestionCouncilheadingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#QuestionCouncilcollapseTwo" aria-expanded="false" aria-controls="QuestionCouncilcollapseTwo">
+              Add councils to compare
+            </button>
+          </h2>
+          <div id="QuestionCouncilcollapseTwo" class="accordion-collapse collapse" aria-labelledby="QuestionCouncilheadingTwo" data-bs-parent="#accordionQuestionCouncil">
+            <div class="accordion-body">
+              <div class="mobile-message d-sm-none p-3 text-bg-secondary">
+                <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
+                <p class="text-white">You’ll find more options, like the ability to compare your council’s Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
+              </div>
+              <div class="d-none d-lg-block">
+                <form class="d-none d-lg-block" id="advancedFilterForm" action=".">
+                  {% if comparisons|length > 2 %}
+                  <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
+                {% else %}
+                  <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name">
+                {% endif %}
+                {% if comparisons %}
+                  <div class="selected-council-wrapper mt-4">
+                    {% for comparison in comparisons %}
+                      <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
+                    {% endfor %}
+                  </div>
+                  {% comment %} <a href="{% url "council" council.slug %}" class="mt-3">Clear all</a> {% endcomment %}
+                {% endif %}
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} {% include 'scoring/includes/council-source-filter.html' %}
+      {% include 'scoring/includes/compare-council-modal.html' %} {% endcomment %}
     </div>
   </div>
 
-  <div class="row mb-5">
+
+  <div class="row mb-5 mt-4">
     <div class="col-12">
       <div class="position-relative" style="display: table">
           <table class="table-question-council mb-0">
@@ -358,6 +336,14 @@ CHECK which about section is prefered.
                   <tr data-has-plan="no" class="section-row bg-primary-100">
                       <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
                           {{ section.description }}
+                          {% comment %} TODO Add conditional if this council has a negative penalty scored in this section {% endcomment %}
+                          <p class="alert alert-warning d-flex flex-row align-items-center gap-2 p-2 mt-3">
+                            {% comment %} TODO update the percentage {% endcomment %}
+                            {% include 'caps/icons/warning.html' with classes='align-text-bottom' width='1em' height='1em' role='presentation' %}
+                            <span class="fs-7">
+                              {{ council.name }} has a penalty of 15% in this section
+                            </span>
+                          </p>
                           <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
                             {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
                             Show more
@@ -372,6 +358,10 @@ CHECK which about section is prefered.
                       {% else %}
                         <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                           <span>{{ section.score }}/{{ section.max_score }}</span>
+                          {% comment %} TODO Update obtained points minus the penalty {% endcomment %}
+                          <div class="fs-7">
+                            {{ section.score }} = Total score(22) - Penalty points(3)
+                          </div>
                         </td>
                       {% endif %}
 
@@ -381,7 +371,6 @@ CHECK which about section is prefered.
                       </td>
                     {% endfor %}
                       <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary">
-                        <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span class="fs-8 mt-1 me-0 ms-auto d-block">{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this section.</span>
                       </td>
                       <td class="button-wrapper p-0 bg-white d-none d-md-table-cell">
                           <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
@@ -408,12 +397,15 @@ CHECK which about section is prefered.
                           <span class="badge bg-secondary p-1 question-no">{{ answer.pretty_code }}</span>
 
                           {% comment %} TODO Add an if question is negative {% endcomment %}
-                          <div class="alert alert-info p-2 mt-2">
+                          <div class="alert alert-warning p-2 mt-2">
                             <p class="alert-heading fw-bold fs-7 mb-2">
-                              {% include 'caps/icons/question-circle.html' with width='1.2rem' height='1.2rem' classes='align-top me-1' role='presentation' %}
+                              {% include 'caps/icons/warning.html' with width='1.2rem' height='1.2rem' classes='align-top me-1' role='presentation' %}
                               Negative point question
                             </p>
-                            <p class="fs-7 mb-0">For a negative question the maximum number of points is 0.</p>
+                            <p class="fs-7 mb-1">For a negative question the maximum number of points is 0.</p>
+
+                            {% comment %} TODO add link to this question in methodology {% endcomment %}
+                            <a href="" class="alert-link fs-7">See this question in more detail</a>
                           </div>
 
                           {% comment %} TODO Question meta {% endcomment %}
@@ -428,6 +420,15 @@ CHECK which about section is prefered.
                             <dt class="fs-7 mb-1">Question weight:</dt>
                             <dd class="badge bg-secondary">Low</dd>
                           </dl>
+
+                          <details>
+                            <summary class="fw-bold">Evidence</summary>
+                            <ul>
+                              <li><a href="">Example</a></li>
+                              <li><a href="">Example with a longer title</a></li>
+                              <li><a href="">Example with a longer title because I need to see what happens</a></li>
+                            </ul>
+                          </details>
                         </div>
                     </td>
 
