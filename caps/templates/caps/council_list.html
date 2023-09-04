@@ -30,6 +30,16 @@
                     {% bootstrap_field filter.form.promise_combined %}
                 </div>
             </div>
+            <div class="col-6 col-md-3 col-lg advanced-filter">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.promise_area %}
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg advanced-filter">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.promise_council %}
+                </div>
+            </div>
             <div class="col-6 col-md-4 col-lg advanced-filter">
                 <div class="form-group">
                     {% bootstrap_field filter.form.authority_type %}
@@ -43,6 +53,16 @@
             <div class="col-6 col-md-4 col-lg advanced-filter">
                 <div class="form-group">
                     {% bootstrap_field filter.form.geography %}
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg advanced-filter">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.imd %}
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg advanced-filter">
+                <div class="form-group">
+                    {% bootstrap_field filter.form.emissions %}
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg advanced-filter">
@@ -73,6 +93,12 @@
           {% else %}
             {{ filter.qs.count }} councils
           {% endif %}
+          {% if field_descriptions %}
+          - 
+          {% for field, value in field_descriptions.items %}
+            {{ field }}: {{ value }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+        {% endif %}
         </h2>
         <div class="sort-by-wrapper d-none d-js-block">
             {% bootstrap_field filter.form.sort show_label=False form_group_class="d-inline" %}

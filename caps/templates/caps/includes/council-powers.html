@@ -1,13 +1,40 @@
+{% load caps_templatetags %}
+
 {% if council.authority_type == 'CC' %}
     <p class="mt-n1">{{ council.name }} has powers over:</p>
 {% elif council.authority_type == 'SRA' %}
     <p class="mt-n1">The {{ council.name }} has powers over:</p>
 {% else %}
-    <p class="mt-n1">{{ council.name }} {% if council.is_current %}is a{% else %}was a{% endif %} <strong>{{ council.get_authority_type_display }}</strong>, with powers over:</p>
+    {% infobox no_card=True %}
+    <p class="mt-n1">
+        {% if council.is_non_english %}Like all councils in {{ council.nice_country }}, {% endif %}
+        {{ council.name }} {% if council.is_current %}is a{% else %}was a{% endif %} <strong>{{ council.get_authority_type_display }}</strong>.
+    </p>
+    {% if council.get_scoring_group.slug == 'single' %}
+        <p>This means it does not split different kinds of responsibilites with a county council.</p>
+    {% elif council.authority_type == "CC" %}
+        <p> This means it overlaps with a number of district councils, with the county and district layers having different responsibilites.</p>
+    {% elif council.authority_type == "NMD" %}
+        <p> This means it overlaps with a county council, with the county and district layers having different responsibilites.</p>
+    {% endif %}
+    {% endinfobox %}
+    {% if council.combined_authority %}
+    <hr />
+    {% infobox no_card=True %}
+    <p>This council is also part of a combined authority - The <a href="{{ council.combined_authority.get_absolute_url }}">{{ council.combined_authority.name }}</a></p>
+
+    <p>Combined authorities are a new layer of government, with powers over transport, economic development, and regeneration.</p>
+
+    <p>These powers come a combination of the powers of the councils that make up the combined authority, and new powers that have been devolved from central government.</p>
+    {% endinfobox %}
+    {% endif %}
+    <hr />
+        <p>This kind of council has powers and responsibilities for:</p>
 {% endif %}
 
+
 {% if 'staff' in council.powers %}
-    <details class="details details-accordion">
+    <details class="details details-accordion mt-3 mt-sm-4" {% if all_details %}open{% endif %}>
         <summary class="mb-2">Council buildings and staff</summary>
         <div class="council-powers">
             <p>Climate actions might include:</p>
@@ -15,13 +42,13 @@
                 <li>making council offices more energy efficient</li>
                 <li>incentivising ‘Active Travel’ or public transport use among employees</li>
                 <li>providing carbon literacy training for employees</li>
-            <ul>
+            </ul>
         </div>
     </details>
 {% endif %}
 
 {% if 'environmental-health' in council.powers %}
-    <details class="details details-accordion">
+    <details class="details details-accordion" {% if all_details %}open{% endif %}>
         <summary class="mb-2">Environmental health</summary>
         <div class="council-powers">
             <p>Climate actions might include:</p>
@@ -35,7 +62,7 @@
 {% endif %}
 
 {% if 'passenger-transport' in council.powers %}
-    <details class="details details-accordion">
+    <details class="details details-accordion" {% if all_details %}open{% endif %}>
         <summary class="mb-2">Passenger transport</summary>
         <div class="council-powers">
             <p>Climate actions might include:</p>
@@ -50,7 +77,7 @@
 {% endif %}
 
 {% if 'planning-building' in council.powers %}
-    <details class="details details-accordion">
+    <details class="details details-accordion" {% if all_details %}open{% endif %}>
         <summary class="mb-2">Planning and building control</summary>
         <div class="council-powers">
             <p>Climate actions might include:</p>
@@ -67,7 +94,7 @@
 {% endif %}
 
 {% if 'schools-libraries' in council.powers %}
-    <details class="details details-accordion">
+    <details class="details details-accordion" {% if all_details %}open{% endif %}>
         <summary class="mb-2">Schools and libraries</summary>
         <div class="council-powers">
             <p>Climate actions might include:</p>
@@ -84,7 +111,7 @@
 {% endif %}
 
 {% if 'social-housing' in council.powers %}
-    <details class="details details-accordion">
+    <details class="details details-accordion" {% if all_details %}open{% endif %}>
         <summary class="mb-2">Housing</summary>
         <div class="council-powers">
             <p>Climate actions might include:</p>
@@ -99,7 +126,7 @@
 {% endif %}
 
 {% if 'spending' in council.powers %}
-    <details class="details details-accordion">
+    <details class="details details-accordion" {% if all_details %}open{% endif %}>
         <summary class="mb-2">Spending, procuring, and investing</summary>
         <div class="council-powers">
             <p>Climate actions might include:</p>
@@ -114,7 +141,7 @@
 {% endif %}
 
 {% if 'transport-planning' in council.powers %}
-    <details class="details details-accordion">
+    <details class="details details-accordion" {% if all_details %}open{% endif %}>
         <summary class="mb-2">Transport planning</summary>
         <div class="council-powers">
             <p>Climate actions might include:</p>
@@ -129,7 +156,7 @@
 {% endif %}
 
 {% if 'waste-collection' in council.powers or 'waste-disposal' in council.powers %}
-    <details class="details details-accordion">
+    <details class="details details-accordion" {% if all_details %}open{% endif %}>
       {% if 'waste-collection' in council.powers and 'waste-disposal' in council.powers %}
         <summary class="mb-2">Waste collection and disposal</summary>
       {% elif 'waste-collection' in council.powers %}

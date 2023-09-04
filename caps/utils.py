@@ -38,7 +38,7 @@ def is_valid_postcode(postcode):
         rf"^[{fst}][1-9]\d\d[{in_re}][{in_re}]$",
         rf"^[{fst}][{sec}]\d\d[{in_re}][{in_re}]$",
         rf"^[{fst}][{sec}][1-9]\d\d[{in_re}][{in_re}]$",
-        rf"^[{fst}][1-9][$thd]\d[{in_re}][{in_re}]$",
+        rf"^[{fst}][1-9][{thd}]\d[{in_re}][{in_re}]$",
         rf"^[{fst}][{sec}][1-9][{fth}]\d[{in_re}][{in_re}]$",
     ]
 

@@ -1,23 +1,17 @@
 from __future__ import annotations
+
 import hashlib
+import json
 import math
 import os
 import re
-from copy import deepcopy
-from itertools import groupby, chain
-from pathlib import Path
-from typing import (
-    Optional,
-    Type,
-    List,
-    Callable,
-    Union,
-    Tuple,
-    NamedTuple,
-    TypeVar,
-)
 from collections import defaultdict
-import json
+from copy import deepcopy
+from datetime import date
+from itertools import chain, groupby
+from pathlib import Path
+from typing import Callable, List, NamedTuple, Optional, Tuple, Type, TypeVar, Union
+
 import dateutil.parser
 import django_filters
 import markdown
@@ -25,26 +19,26 @@ import pandas as pd
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import models
-from django.db.models.functions import Length
 from django.db.models import (
     Count,
     Max,
     Min,
-    Q,
-    Sum,
-    Subquery,
     OuterRef,
-    QuerySet,
     Prefetch,
+    Q,
+    QuerySet,
+    Subquery,
+    Sum,
 )
 from django.db.models.expressions import RawSQL
+from django.db.models.functions import Length
 from django.forms import Select, TextInput
 from django.utils.http import urlencode
 from django.utils.text import slugify
 from simple_history.models import HistoricalRecords
-from caps.filters import DefaultSecondarySortFilter
 from tqdm import tqdm
-from datetime import date
+
+from caps.filters import DefaultSecondarySortFilter
 
 # Allow length looking for CharFields
 models.CharField.register_lookup(Length)
@@ -271,6 +265,12 @@ class Council(models.Model):
         )
         return q
 
+    def is_non_english(self):
+        return self.country != self.ENGLAND
+
+    def nice_country(self):
+        return Council.country_description(self.country)
+
     def get_predecessors(self):
         """
         Get councils that have been replaced by this council
@@ -365,6 +365,14 @@ class Council(models.Model):
             docs=joined_docs,
             sort_func=lambda doc: doc.council,
             is_main=self,
+        )
+
+    def get_emissions_cluster(self):
+        """
+        Get the emissions cluster for this council
+        """
+        return ComparisonLabel.objects.get(
+            assignments__council=self, type__slug="emissions"
         )
 
     def get_related_councils(self, cut_off: int = 10) -> List[dict]:
@@ -1085,6 +1093,7 @@ class Promise(models.Model):
         (2045, "2045"),
         (2050, "2050"),
         ("no_target", "No target"),
+        ("any_promise", "Any target"),
         ("unknown", "Unknown"),
     ]
 
@@ -1139,9 +1148,23 @@ class CouncilFilter(django_filters.FilterSet):
         empty_label="All",
     )
 
+    promise_council = django_filters.ChoiceFilter(
+        method="filter_promise_council",
+        label="Carbon neutral by (Council)",
+        empty_label="All",
+        choices=Promise.PROMISE_FILTER_CHOICES,
+    )
+
+    promise_area = django_filters.ChoiceFilter(
+        method="filter_promise_area",
+        label="Carbon neutral by (Area)",
+        empty_label="All",
+        choices=Promise.PROMISE_FILTER_CHOICES,
+    )
+
     promise_combined = django_filters.ChoiceFilter(
         method="filter_promise",
-        label="Carbon neutral by",
+        label="Carbon neutral by (Any)",
         empty_label="All",
         choices=Promise.PROMISE_FILTER_CHOICES,
     )
@@ -1154,11 +1177,25 @@ class CouncilFilter(django_filters.FilterSet):
         widget=Select(choices=Council.PLAN_FILTER_CHOICES),
     )
 
+    emissions = django_filters.ChoiceFilter(
+        method="filter_emissions",
+        label="Emissions Profile",
+        empty_label="All",
+        choices=[],
+    )
+
     geography = django_filters.ChoiceFilter(
         method="filter_geography",
         label="Geography",
         empty_label="All",
-        choices=Council.PLAN_GEOGRAPHY_CHOICES,
+        choices=[],
+    )
+
+    imd = django_filters.ChoiceFilter(
+        method="filter_imd",
+        label="IMD Profile",
+        empty_label="All",
+        choices=[],
     )
 
     population = django_filters.ChoiceFilter(
@@ -1215,15 +1252,38 @@ class CouncilFilter(django_filters.FilterSet):
         else:
             return queryset.filter(**{name: value})
 
-    def filter_promise(self, queryset, name, value):
+    def filter_promise_area(self, queryset, name, value):
+        return self.filter_promise(queryset, name, value, scope="area")
+
+    def filter_promise_council(self, queryset, name, value):
+        return self.filter_promise(queryset, name, value, scope="council")
+
+    def filter_promise(self, queryset, name, value, scope=""):
+        promise_field = "has_promise"
+        earliest_field = "earliest_promise"
+        if scope:
+            promise_field += "_" + scope
+            earliest_field += "_" + scope
+
         if value is None:
             return queryset
+        elif value == "any_promise":
+            return queryset.filter(**{promise_field: 1})
         elif value == "unknown":
-            return queryset.filter(**{"has_promise": 0})
+            return queryset.filter(**{promise_field: 0})
         elif value == "no_target":
-            return queryset.filter(**{"has_promise__gte": 1, "earliest_promise": None})
+            return queryset.filter(**{f"{promise_field}__gte": 1, earliest_field: None})
         else:
-            return queryset.filter(**{"earliest_promise__lte": value})
+            return queryset.filter(**{f"{earliest_field}__lte": value})
+
+    def filter_emissions(self, queryset, name, value):
+        if value is None:
+            return queryset
+        else:
+            return queryset.filter(
+                comparisonlabelassignment__label__slug=value,
+                comparisonlabelassignment__label__type__slug="emissions",
+            )
 
     def filter_region(self, queryset, name, value):
         if value is None:
@@ -1244,12 +1304,19 @@ class CouncilFilter(django_filters.FilterSet):
         if value is None:
             return queryset
         else:
-            # can't use planscores as importing scoring models results in a circular reference hence raw
-            plans = RawSQL(
-                "select distinct council_id from scoring_planscore ps where ps.year = %s and ps.ruc_cluster = %s",
-                [settings.PLAN_YEAR, value],
+            return queryset.filter(
+                comparisonlabelassignment__label__slug=value,
+                comparisonlabelassignment__label__type__slug="ruc",
             )
-            return queryset.filter(**{"id__in": plans})
+
+    def filter_imd(self, queryset, name, value):
+        if value is None:
+            return queryset
+        else:
+            return queryset.filter(
+                comparisonlabelassignment__label__slug=value,
+                comparisonlabelassignment__label__type__slug="imd",
+            )
 
     def filter_population(self, queryset, name, value):
         if value is None:
@@ -1276,6 +1343,11 @@ class CouncilFilter(django_filters.FilterSet):
         super().__init__(*args, **kwargs)
         try:
             self.filters["region"].extra["choices"] = Council.region_filter_choices()
+            self.filters["emissions"].extra["choices"] = ComparisonLabel.choices(
+                "emissions"
+            )
+            self.filters["geography"].extra["choices"] = ComparisonLabel.choices("ruc")
+            self.filters["imd"].extra["choices"] = ComparisonLabel.choices("imd")
         except (KeyError, AttributeError):
             pass
 
@@ -1368,6 +1440,14 @@ class ComparisonLabel(models.Model):
         df = df.rename(columns={"label": "name"})
         cls.objects.all().delete()
         save_df_to_model(cls, df)
+
+    @classmethod
+    def choices(cls, comparison_type: str):
+        """
+        Return choices for a given comparison type
+        """
+        labels = cls.objects.filter(type__slug=comparison_type).order_by("name")
+        return [(l.slug, l.name) for l in labels]
 
     def markdown_desc(self):
         return markdown.markdown(self.desc)

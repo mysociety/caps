@@ -17,7 +17,9 @@
 		"ms-azuretools.vscode-docker",
 		"github.vscode-pull-request-github",
 		"mhutchie.git-graph",
-		"valentjn.vscode-ltex"
+		"valentjn.vscode-ltex",
+		"charliermarsh.ruff",
+		"ms-python.black-formatter"
 	]}
 	}
 }

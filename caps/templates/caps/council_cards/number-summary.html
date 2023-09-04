@@ -1,0 +1,102 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+
+{% block title %}
+    Summary (stats)
+{% endblock title %}
+
+{% block cardbody %}
+    <div class="row">
+        <dl class="col-6 col-md-4">
+            <dt class="font-weight-normal badge badge-dark">Country</dt>
+            <dd class="font-weight-bold">
+                Scotland
+            </dd>
+        </dl>
+        <dl class="col-6 col-md-4">
+            <dt class="font-weight-normal badge badge-dark">Declared emergency</dt>
+            <dd class="font-weight-bold">
+                2018
+            </dd>
+        </dl>
+    </div>
+    <div class="row">
+        <dl class="col-6 col-md-4">
+            <dt class="font-weight-normal badge badge-dark">Type of council</dt>
+            <dd class="font-weight-bold">
+                Combined Authority
+            </dd>
+        </dl>
+        <dl class="col-6 col-md-4">
+            <dt class="font-weight-normal badge badge-dark">Carbon neutral</dt>
+            <dd class="font-weight-bold">
+                2018
+            </dd>
+        </dl>
+    </div>
+    <details class="details details-accordion mt-4 border-0">
+        <summary class="mb-2">Display more info about this council</summary>
+        <div>
+            <dl class="mt-3 mb-0">
+                {% if council.website_url %}
+                    <dt>
+                        <a href="{{ council.website_url }}">{{ council.website_url|domain_human }}
+
+                            {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+
+                        </a>
+                    </dt>
+                    <dd>
+                        {{ council.name }}’s official homepage.
+                    </dd>
+                {% endif %}
+                {% if council.twitter_url %}
+                    <dt>
+                        <a href="{{ council.twitter_url }}">@{{ council.twitter_name }}
+
+                            {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+
+                        </a>
+                    </dt>
+                    <dd>
+                        {{ council.name }}’s Twitter account.
+                    </dd>
+                {% endif %}
+                {% if council.is_upper_tier is False %}
+                    <dt>
+                        <a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/"
+                           class="d-flex align-items-center"
+                           target="_blank">
+                            Tyndall Centre Carbon Budget report
+
+                            {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+
+                        </a>
+                    </dt>
+                    <dd>
+                        Check {{ council.name }}’s ‘carbon budget’ – their share towards meeting the UK’s Paris agreement targets.
+                    </dd>
+                {% endif %}
+                {% if council.foe_slug != '' %}
+                    <dt>
+                        <a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}"
+                           class="d-flex align-items-center"
+                           target="_blank">
+                            Friends of the Earth ‘Near You’ tool
+
+                            {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+
+                        </a>
+                    </dt>
+                    <dd>
+                        Discover climate groups in this area, data about {{ council.name }}’s climate performance, and actions you can take.
+                    </dd>
+                {% endif %}
+            </dl>
+        </div>
+    </details>
+    <a class="btn btn-outline-purple mt-3 mt-lg-4"
+       href=""
+       data-content-navbar-switch="plegdes">Check declaration &amp; Pledges</a>
+{% endblock cardbody %}

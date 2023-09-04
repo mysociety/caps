@@ -1,0 +1,21 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+
+{% block title %}
+    New council
+{% endblock title %}
+
+{% block content %}
+    <p>
+        This council was created in {{ council.start_date }}. It may not have any specific plans yet. Plans and declarations may have been made by former councils.
+    </p>
+    <p>This council replaced:</p>
+    <ul>
+        {% for predecessor in council.get_predecessors %}
+            <li>
+                <a href="{% url 'council' predecessor.slug %}">{{ predecessor.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

@@ -1,0 +1,6 @@
+<div class="{% if no_card %}{% else %}card-body{% endif %} d-flex align-items-center">
+    {% include 'caps/icons/info.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-blue' role='presentation' %}
+    <div>
+        {{ infobox }}
+    </div>
+</div>

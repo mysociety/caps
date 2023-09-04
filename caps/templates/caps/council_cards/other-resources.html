@@ -1,0 +1,66 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+
+{% block title %}
+    Other resources
+{% endblock title %}
+
+{% block content %}
+
+{% if council.website_url %}
+<dt>
+    <a href="{{ council.website_url }}">{{ council.website_url|domain_human }}
+
+        {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+
+    </a>
+</dt>
+<dd>
+    {{ council.name }}’s official homepage.
+</dd>
+{% endif %}
+{% if council.twitter_url %}
+<dt>
+    <a href="{{ council.twitter_url }}">@{{ council.twitter_name }}
+
+        {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+
+    </a>
+</dt>
+<dd>
+    {{ council.name }}’s Twitter account.
+</dd>
+{% endif %}
+{% if council.is_upper_tier is False %}
+<dt>
+    <a href="https://carbonbudget.manchester.ac.uk/reports/{{ council.gss_code }}/"
+       class="d-flex align-items-center"
+       target="_blank">
+        Tyndall Centre Carbon Budget report
+
+        {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+
+    </a>
+</dt>
+<dd>
+    Check {{ council.name }}’s ‘carbon budget’ – their share towards meeting the UK’s Paris agreement targets.
+</dd>
+{% endif %}
+{% if council.foe_slug != '' %}
+<dt>
+    <a href="https://takeclimateaction.uk/near-you/{{ council.foe_slug }}"
+       class="d-flex align-items-center"
+       target="_blank">
+        Friends of the Earth ‘Near You’ tool
+
+        {% include 'caps/icons/external-link.html' with classes='external-link ml-1' role='presentation' %}
+
+    </a>
+</dt>
+<dd>
+    Discover climate groups in this area, data about {{ council.name }}’s climate performance, and actions you can take.
+</dd>
+{% endif %}
+
+{% endblock content %}

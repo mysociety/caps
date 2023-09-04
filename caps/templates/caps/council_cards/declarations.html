@@ -1,0 +1,73 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+
+{% block title %}
+    Declarations &amp; pledges
+{% endblock title %}
+
+{% block content %}
+    <h3 class="h6">
+        Climate emergency declaration
+    </h3>
+    {% if declared_emergency %}
+        <p class="mt-n1">
+            {{ council.name }} <a href="{{ declared_emergency.source_url }}">declared a climate emergency</a> on {{ declared_emergency.date_declared }}.
+        </p>
+    {% else %}
+        <p class="text-muted">
+            We don’t think this council has declared a climate emergency – <a href="{% url 'about' %}">let us know if it has!</a>
+        </p>
+    {% endif %}
+    {% if promises %}
+        {% for promise in promises %}
+            <h3 class="h6 mt-4">
+                {% if promise.get_scope %}
+                    {{ promise.get_scope|capfirst }} pledge
+                {% else %}
+                    Climate pledge
+                {% endif %}
+                {% if promise.target_year %}
+                    for {{ promise.target_year }}
+                {% endif %}
+            </h3>
+            <blockquote class="blockquote">
+                <p class="mb-0">
+                    “{{ promise.text }}”
+                </p>
+                <footer class="blockquote-footer">
+                    <cite title="{{ promise.source_name }}"><a href="{{ promise.source }}">{{ promise.source_name }}</a></cite>
+                </footer>
+            </blockquote>
+        {% endfor %}
+    {% elif no_promise %}
+        <h3 class="h6 mt-4">
+            Climate pledges
+        </h3>
+        <p class="mb-0 mt-n1 text-muted">
+            We couldn’t find any climate pledges from this council. If you’ve found one, <a href="{% url 'about' %}">let us know!</a>
+        </p>
+    {% else %}
+        <h3 class="h6 mt-4">
+            Climate pledges
+        </h3>
+        <p class="mb-0 mt-n1 text-muted">
+            We haven’t checked whether this council has made any climate pledges yet, but we will soon. If you’ve already found one, <a href="{% url 'about' %}">let us know!</a>
+        </p>
+    {% endif %}
+    <hr>
+    {% infobox no_card=True %}
+        <p class="mb-3">
+            A council declaring a climate emergency is an official recognition of the urgent need to address and mitigate the impacts of climate change at a local level.
+            <a href="{% url 'council_list' %}?declared_emergency=True">See a list of councils which have declared a climate emergency</a>.
+        </p>
+        <p class="mb-3">
+            A whole area pledge is a commitment to reduce emissions across the geographic area, including emissions by homes and businesses.
+            <a href="{% url 'council_list' %}?promise_area=any_promise">See a list of councils which have made a whole area pledge.</a>
+        </p>
+        <p class="mb-3">
+            A council only pledge is a commitment to reduce emissions that the council is directly responsible for through its buildings, operations, and services.
+            <a href="{% url 'council_list' %}?promise_council=any_promise">See a list of councils which have made a council-only pledge.</a>
+        </p>
+    {% endinfobox %}
+{% endblock content %}

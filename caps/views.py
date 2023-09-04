@@ -10,7 +10,19 @@ import markdown
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.mail import send_mail
-from django.db.models import Avg, Count, Max, Min, OuterRef, Q, Subquery
+from django.db.models import (
+    Avg,
+    Case,
+    Count,
+    IntegerField,
+    Max,
+    Min,
+    OuterRef,
+    Q,
+    Subquery,
+    Value,
+    When,
+)
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import Context, Template
@@ -23,6 +35,7 @@ from mailchimp_marketing.api_client import ApiClientError
 
 import caps.charts as charts
 from caps.forms import HighlightedSearchForm
+from caps.helpers.council_navigation import council_menu
 from caps.mapit import (
     BadRequestException,
     ForbiddenException,
@@ -31,13 +44,14 @@ from caps.mapit import (
     NotFoundException,
 )
 from caps.models import (
+    ComparisonLabel,
     ComparisonType,
     Council,
     CouncilFilter,
     CouncilProject,
     CouncilTag,
-    DataType,
     DataPoint,
+    DataType,
     PlanDocument,
     ProjectFilter,
     SavedSearch,
@@ -141,18 +155,11 @@ class CouncilDetailView(DetailView):
 
         return context
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        council: Council = context.get("council")
-
-        additional_contexts = [
-            self.get_emissions_context(council),
-            self.get_polling_context(council),
-        ]
-        for additional_context in additional_contexts:
-            context.update(additional_context)
-
-        # this covers no scoring data at all
+    def get_scorecard_context(self, council: Council) -> dict[str, Any]:
+        """
+        Get the scorecard information for this council
+        """
+        context = {}
         try:
             plan_score = PlanScore.objects.get(council=council, year=2021)
 
@@ -201,21 +208,16 @@ class CouncilDetailView(DetailView):
             context["scoring_hidden"] = getattr(settings, "SCORECARDS_PRIVATE", False)
 
         except PlanScore.DoesNotExist:
+            print("Plan missing!!")
             context["scoring_hidden"] = True
 
-        context["related_councils"] = council.get_related_councils()
-        context["promises"] = council.promise_set.filter(has_promise=True).order_by(
-            "target_year"
-        )
-        context["no_promise"] = council.promise_set.filter(has_promise=False)
-        context["last_updated"] = council.plandocument_set.aggregate(
-            last_update=Max("updated_at"), last_found=Max("date_first_found")
-        )
+        return context
 
-        context["tags"] = CouncilTag.objects.filter(council=council).select_related(
-            "tag"
-        )
-
+    def get_project_context(self, council: Council) -> dict[str, Any]:
+        """
+        Get the emissions project info for Scottish councils
+        """
+        context = {}
         project_stats = {"total_projects": 0, "total_savings": 0, "total_cost": 0}
         projects = CouncilProject.objects.filter(council=council).order_by("start_year")
         for project in projects.all():
@@ -229,12 +231,18 @@ class CouncilDetailView(DetailView):
         project_stats["total_savings"] = project_stats["total_savings"] / 1000
 
         context["project_stats"] = project_stats
+        return context
 
         context["page_title"] = council.name
 
         if council.emergencydeclaration_set.count() > 0:
             context["declared_emergency"] = council.emergencydeclaration_set.all()[0]
 
+    def get_document_context(self, council: Council) -> dict[str, Any]:
+        """
+        Get information on the documents associated with this council
+        """
+        context = {}
         documents = council.plandocument_set.order_by("-updated_at").all()
         grouped_documents = defaultdict(list)
         for document in documents:
@@ -256,6 +264,71 @@ class CouncilDetailView(DetailView):
         # need to convert to a dict as items doesn't work on defaultdicts
         # in django templates
         context["grouped_documents"] = dict(grouped_documents)
+        return context
+
+    def get_council_card_context(self, context: dict[str, Any]) -> dict[str, Any]:
+        """
+        Return the council cards that are valid for this council
+        """
+
+        banned_items = []
+
+        council = context["council"]
+        # if not a scottish council, knock out emissions reduction projects
+        if council.country != Council.SCOTLAND:
+            banned_items.append("emissions-reduction-projects")
+
+        # if not a new council, knock out new council details
+        if not council.is_new_council():
+            banned_items.append("new-council")
+
+        # if not an old council, knock out old council details
+        if not council.is_old_council():
+            banned_items.append("old-council")
+
+        # remove scorecard if the hidden flag is set
+        if context["scoring_hidden"]:
+            banned_items.append("scorecard")
+
+        if not context["polling_data"]:
+            banned_items.append("local-polling")
+
+        menu = [item for item in council_menu if item.slug not in banned_items]
+        summary_menu = [item for item in menu if item.list_in_summary]
+
+        return {"council_cards": menu, "summary_menu_cards": summary_menu}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council: Council = context.get("council")
+
+        additional_contexts = [
+            self.get_emissions_context(council),
+            self.get_polling_context(council),
+            self.get_scorecard_context(council),
+            self.get_project_context(council),
+            self.get_document_context(council),
+        ]
+        for additional_context in additional_contexts:
+            context.update(additional_context)
+
+        # run menu update last so it can have access to wider context
+        context.update(self.get_council_card_context(context))
+
+        context["page_title"] = council.name
+        context["feedback_form_url"] = settings.FEEDBACK_FORM
+
+        context["related_councils"] = council.get_related_councils()
+        context["promises"] = council.promise_set.filter(has_promise=True).order_by(
+            "target_year"
+        )
+        context["no_promise"] = council.promise_set.filter(has_promise=False)
+        context["last_updated"] = council.plandocument_set.aggregate(
+            last_update=Max("updated_at"), last_found=Max("date_first_found")
+        )
+        context["tags"] = CouncilTag.objects.filter(council=council).select_related(
+            "tag"
+        )
 
         if council.emergencydeclaration_set.count() > 0:
             context["declared_emergency"] = council.emergencydeclaration_set.all()[0]
@@ -283,6 +356,8 @@ class CouncilListView(FilterView):
     extra_context = {"page_title": "Find a council"}
     advanced_filters = [
         "promise_combined",
+        "promise_area",
+        "promise_council",
         "authority_type",
         "region",
         "geography",
@@ -303,7 +378,47 @@ class CouncilListView(FilterView):
                     .values("num_plans")
                 ),
                 has_promise=Count("promise"),
+                has_promise_area=Count(
+                    Case(
+                        When(
+                            promise__scope=PlanDocument.WHOLE_AREA,
+                            then="promise__target_year",
+                        ),
+                        default=Value(None),
+                        output_field=IntegerField(),
+                    )
+                ),
+                has_promise_council=Count(
+                    Case(
+                        When(
+                            promise__scope=PlanDocument.COUNCIL_ONLY,
+                            then="promise__target_year",
+                        ),
+                        default=Value(None),
+                        output_field=IntegerField(),
+                    )
+                ),
                 earliest_promise=Min("promise__target_year"),
+                earliest_promise_area=Min(
+                    Case(
+                        When(
+                            promise__scope=PlanDocument.WHOLE_AREA,
+                            then="promise__target_year",
+                        ),
+                        default=Value(None),
+                        output_field=IntegerField(),
+                    )
+                ),
+                earliest_promise_council=Min(
+                    Case(
+                        When(
+                            promise__scope=PlanDocument.COUNCIL_ONLY,
+                            then="promise__target_year",
+                        ),
+                        default=Value(None),
+                        output_field=IntegerField(),
+                    )
+                ),
                 declared_emergency=Min("emergencydeclaration__date_declared"),
                 last_plan_update=Max("plandocument__updated_at"),
             )
@@ -317,7 +432,24 @@ class CouncilListView(FilterView):
         if hasattr(form, "cleaned_data"):
             active_filters = {}
             active_advanced_filters = {}
+            context["field_descriptions"] = {}
             for field, value in form.cleaned_data.items():
+                # create readable description of filters selected
+                if field != "sort" and value:
+                    field_label = CouncilFilter.base_filters[
+                        field
+                    ].label or field.replace("_", " ")
+                    choices = CouncilFilter.base_filters[field].extra.get("choices", [])
+                    if field == "region" and value in "1234":
+                        choices = Council.COUNTRY_CHOICES
+                        value = int(value)
+                        field_label = "Country"
+                    if field == "emissions":
+                        choices = ComparisonLabel.choices("emissions")
+                    context["field_descriptions"][field_label] = dict(choices).get(
+                        value, value
+                    )
+
                 if field != "sort" and value is not None and value != "":
                     active_filters[field] = 1
                     if field in self.advanced_filters:

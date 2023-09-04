@@ -127,3 +127,41 @@ class MarkdownNode(template.Node):
 
         text = markdown.markdown(markdown_text, extensions=["toc"])
         return text
+
+
+@register.tag(name="infobox")
+def infobox_tag(parser, token):
+    """
+    Between infobox and endinfobox tags,
+    render the contents into the caps/includes/infobox.html
+    """
+
+    bits = token.split_contents()
+    kwargs = {}
+
+    # Parse the arguments
+    for bit in bits[1:]:
+        try:
+            name, value = bit.split("=")
+            kwargs[name] = value
+        except ValueError as exc:
+            raise template.TemplateSyntaxError(
+                f"Badly formatted arguments: {token.contents}"
+            ) from exc
+
+    nodelist = parser.parse(("endinfobox",))
+    parser.delete_first_token()
+    return InfoboxNode(nodelist, **kwargs)
+
+
+class InfoboxNode(template.Node):
+    def __init__(self, nodelist, **kwargs):
+        self.nodelist = nodelist
+        self.kwargs = kwargs
+
+    def render(self, context):
+        infobox = self.nodelist.render(context)
+        return render_to_string(
+            "caps/includes/info-box.html",
+            context={"infobox": infobox, **self.kwargs},
+        )

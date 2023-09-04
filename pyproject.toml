@@ -2,3 +2,7 @@
 exclude = '''/(
   migrations
 )/'''
+
+
+[tool.ruff]
+exclude = ['migrations']

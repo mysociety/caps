@@ -70,19 +70,11 @@ $(function() {
         }).done(callback);
     });
 
-    $('.js-select-text-on-click').on('click', function(){
-        if ( window.getSelection && document.createRange ) {
-            var selection = window.getSelection();
-            if ( selection.toString() == '' ) {
-                var element = $(this)[0];
-                window.setTimeout(function(){
-                    range = document.createRange();
-                    range.selectNodeContents(element);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                }, 1);
-            }
-        }
+    $(".js-copy-text").click(function(){
+        window.setTimeout(function(){
+            copyText = $(".js-copy-text").siblings('.js-copy-hidden')[0].innerHTML;
+            navigator.clipboard.writeText(copyText)
+        }, 1);
     });
 });
 
@@ -317,7 +309,7 @@ $('.details-accordion').on('click', function(){
     $(this).siblings('.details-accordion[open]').removeAttr('open');
 });
 
-$('.scorecard-table').each(function(){
+$('.js-show-more-wrapper').each(function(){
     var $table = $(this);
     var $btn = $('<button>');
     $btn.text('Show more');
@@ -418,3 +410,65 @@ function compare_cells(index) {
 function get_value_from_cell(row, index){
     return $(row).children('td').eq(index).data('sortvalue');
 }
+
+$( '[data-content-navbar-switch]' ).click(function(event) {
+    var contentNavbar = this.getAttribute('data-content-navbar-switch');
+    var container = document.querySelector('.js-dynamic-content');
+    container.setAttribute('data--active-content-navbar', contentNavbar)
+    trackEvent('content_navbar_switch', {"content_navbar": contentNavbar})
+    // do not follow the link and do not move the position on the screen
+    // event.preventDefault();
+});
+
+// when we scroll pass the start of a .js-content block, update the active content navbar
+$(window).scroll(function() {
+    var scrollPosition = $(window).scrollTop();
+    // iterate through all js-section and find the one that is closest to the top of the screen
+    var closestSection = null;
+    var closestSectionDistance = null;
+    $('.js-section').each(function() {
+        var sectionPosition = $(this).offset().top;
+        var distance = Math.abs(sectionPosition - scrollPosition);
+        if (closestSectionDistance === null || distance < closestSectionDistance) {
+            closestSection = this;
+            closestSectionDistance = distance;
+        }
+    }
+    );
+    // update the active content navbar
+    var contentNavbar = closestSection.getAttribute('id');
+    var container = document.querySelector('.js-dynamic-content');
+    container.setAttribute('data--active-content-navbar', contentNavbar)
+
+    // update the scroll position for the mobile menu
+    var menuItem = document.querySelector('[data-content-navbar-switch="' + closestSection.id + '"]');
+    var contentNavbarContainer = document.querySelector('.council-nav-bar');
+    contentNavbarContainer.scrollLeft = menuItem.offsetLeft - 20;
+
+    // update sidebar name
+    var headerNamePosition = $('#header-name').offset().top;
+    var headerNameHeight = $('#header-name').outerHeight();
+    var sidebarTop = $('#sidebar-top');
+    var sidebarTopDefaultContent = sidebarTop.attr('data-default-content');
+    if (scrollPosition > headerNamePosition + headerNameHeight) {
+        $('.sidebar-top').html($('#header-name').html());
+    } else {
+        $('.sidebar-top').html(sidebarTopDefaultContent);
+    }
+}
+);
+
+// clicks on nav-item > nav.links need to be offset when on mobile
+$(".nav-link").click(function(event) {
+    // check if we are on mobile
+    if ($(window).width() > 767) {
+        return;
+    }
+    event.preventDefault();
+    var target = $(this).attr('href');
+    var targetOffset = $(target).offset().top;
+    var targetOffsetCorrected = targetOffset - 130;
+    window.scrollTo(0, targetOffsetCorrected);
+}
+);
+

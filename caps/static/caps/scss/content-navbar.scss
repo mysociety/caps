@@ -1,0 +1,153 @@
+
+/* USAGE
+Example of usage can be found on council page(council_detail.html)
+*/
+
+$content-index-array: (
+    'summary',
+    'powers',
+    'declarations',
+    'emissions',
+    'climate-documents',
+    'emissions-reduction-projects',
+    'scorecard',
+    'local-polling',
+    'related-councils',
+    'other-resources',
+    'download-data',
+    'improve',
+    'cite'
+);
+
+.js-default {
+  display: block;
+}
+
+// Fake "active" styling for the default tab
+a.nav-link[data-content-navbar-switch="default"]{
+    background-color: $color-ceuk-purple;
+    color: $white;
+}
+
+@each $content-index-item in $content-index-array {
+    // Hide all index content related.
+    // .js-#{$content-index-item} { 
+    //     display: none;
+    // }
+
+  [data--active-content-navbar="#{$content-index-item}"] {
+    // Hide any default elements
+    .js-default {
+      display: none;
+    }
+
+    // Show the relevant content for index item
+    .js-#{$content-index-item} {
+      display: block;
+    }
+
+    // Fake "active" styling for the activated trigger
+    a.nav-link[data-content-navbar-switch="#{$content-index-item}"] {
+        background-color: $color-ceuk-purple;
+        color: $white;
+    }
+
+    a.nav-link[data-content-navbar-switch="default"]{
+      background-color: transparent;
+      color: $color-ceuk-purple;
+    }
+
+    .bg-purple {
+      a.nav-link[data-content-navbar-switch="#{$content-index-item}"] {
+          background-color: $white;
+          color: $purple;
+      }
+
+      a.nav-link[data-content-navbar-switch="default"],
+      .nav-link {
+        background-color: transparent;
+        color: $white;
+      }
+      
+    }
+  }
+}
+
+// MOBILE VERSION
+.content-nav {
+  position: sticky;
+  top: 0;
+  z-index: $zindex-sticky;
+  overflow: hidden;
+
+  ul {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    width: 100vw;
+
+    a {
+      white-space: nowrap;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    // Desktop version
+    position: sticky;
+    top: 1rem;
+    ul {
+      flex-direction: column;
+      overflow-x: hidden;
+      width: auto;
+    }
+  }
+}
+
+.bg-purple {
+  .nav-link {
+    background-color: transparent;
+    color: $white;
+  }
+
+  a.nav-link[data-content-navbar-switch="default"] {
+    background-color: $white;
+    color: $purple;
+  }
+}
+
+
+/* The emission section has this special treatment because the emissions chart doesn't behave 
+properly when is being hidden */
+//[data--active-content-navbar="emissions"] .js-emissions {
+//  position: static;
+//}
+
+//.js-emissions {
+//  display: block !important;
+//  position: absolute;
+//  left: 99999px;
+//}
+
+.council-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.council-content {
+  overflow-anchor: none;
+  overflow: hidden;
+}
+
+.council-nav-bar::-webkit-scrollbar {
+  width: 10px;               /* width of the entire scrollbar */
+}
+
+.council-nav-bar::-webkit-scrollbar-track {
+  background: #4e38de;        /* color of the tracking area */
+}
+
+.council-nav-bar::-webkit-scrollbar-thumb {
+  background-color: rgb(255, 255, 255);    /* color of the scroll thumb */
+  border-radius: 6px;       /* roundness of the scroll thumb */
+  border: 3px solid #4e38de;  /* creates padding around scroll thumb */
+}

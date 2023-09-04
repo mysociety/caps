@@ -1,0 +1,19 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+
+{% block title %}
+    Cite this page
+{% endblock title %}
+
+{% block content %}
+
+<p> If you've found this site useful and want to cite it, you can use a version of the following format:</p>
+
+<p class="text-smaller">
+    mySociety, Climate Emergency UK ({% now 'Y' %}). <i>CAPE: {{ council.name }}.</i> Available at: {{ request.build_absolute_uri }} [Accessed {% now 'j M Y' %}].
+</p>
+
+<p>If you're using our data or information, it's really helpful for us if you <a href="https://survey.alchemer.com/s3/6421904/Climate-Action-Plans-User-Survey">take our survey and tell us how</a>. This helps us improve our case for future funding.</p>
+
+{% endblock content %}

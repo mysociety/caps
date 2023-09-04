@@ -1,0 +1,91 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+{% load humanize %}
+
+{% block title %}
+    Related councils
+{% endblock title %}
+
+{% block cardbody %}
+    {% if related_councils %}
+        <ul class="card-header nav nav-tabs" role="tablist">
+            {% for group in related_councils %}
+                <li class="nav-item" role="presentation">
+                    <a id="{{ group.type.slug }}-tab"
+                       class="nav-link {% if group.type.slug == "composite" %}active{% endif %}"
+                       href="#{{ group.type.slug }}-content"
+                       aria-controls="{{ group.type.slug }}-content"
+                       aria-selected="{% if group.type.slug == "composite" %}true{% else %}false{% endif %}"
+                       data-toggle="tab"
+                       role="tab">
+                        {% if group.type.slug == "composite" %}
+                            Similar councils
+                        {% else %}
+                            {{ group.type.name }}
+                        {% endif %}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content">
+            {% for group in related_councils %}
+                <div class="tab-pane {% if group.type.slug == "composite" %}show active{% endif %}"
+                     id="{{ group.type.slug }}-content"
+                     role="tabpanel"
+                     aria-labelledby="{{ group.type.slug }}-tab">
+                     {% infobox %}
+                        <p class="mb-0">
+                            {% if group.type.slug == "composite" %}
+                                These councils are the most similar to <strong>{{ council.name }}</strong> in terms of emissions profile, deprivation, rural/urban population density, and geographical nearness.
+                            {% elif group.type.slug == "emissions" %}
+                                These councils are the most similar to <strong>{{ council.name }}</strong> in terms of their emissions profile, based on the latest data from the Department of Business, Energy &amp; Industrial Strategy.
+                            {% elif group.type.slug == "physical" %}
+                                These councils geographically border or overlap with <strong>{{ council.name }}</strong>.
+                            {% elif group.type.slug == "imd" %}
+                                These councils are the most similar to <strong>{{ council.name }}</strong> in terms of the proportion of their population living in high deprivation, medium deprivation, and low deprivation neighbourhoods.
+                            {% elif group.type.slug == "ruc" %}
+                                These councils are the most similar to <strong>{{ council.name }}</strong> in terms of the proportion of their population living in urban, rural, and highly rural neighbourhoods.
+                            {% endif %}
+                            <a href="{% url 'about_data' %}#similarity">Read more about how we calculate this.</a>
+                        </p>
+                    {% endinfobox %}
+                    <div class="ceuk-data-table">
+
+                        {% include 'caps/includes/related-council-table.html' with councils=group.councils %}
+
+                    </div>
+                    <div class="card-footer">
+                        <form action="{% url 'search_results' %}"
+                              data-show-interstitial
+                              class="form-row flex-wrap align-items-center">
+                            <label for="search-similar-{{ group.type.slug }}-documents"
+                                   class="col-12 col-lg-auto font-weight-bold mr-3 mb-2 mb-lg-0">
+                                Search inside these councils’ documents
+                            </label>
+                            <div class="col-auto flex-shrink-1 flex-grow-1">
+                                <input type="text"
+                                       class="form-control form-control-sm"
+                                       name="q"
+                                       id="search-similar-{{ group.type.slug }}-documents"
+                                       value="{{ q|default_if_none:'' }}">
+                                <input type="hidden" name="similar_council" value="{{ council.slug }}">
+                                <input type="hidden" name="similar_type" value="{{ group.type.slug }}">
+                            </div>
+                            <div class="col-auto flex-shrink-0 d-flex">
+                                <button type="submit" class="btn btn-purple btn-sm d-flex align-items-center">
+
+                                    {% include 'caps/icons/search.html' with role='presentation' %}
+
+                                    <span class="ml-2">Search</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No similar councils found</p>
+    {% endif %}
+{% endblock cardbody %}
