@@ -12,7 +12,8 @@ scoring_patterns = (
             "scoring/<str:council_type>/", views.HomePageView.as_view(), name="scoring"
         ),
         path("councils/<slug:slug>/", views.CouncilView.as_view(), name="council"),
-        path("section/<slug:slug>/", views.SectionView.as_view(), name="section"),
+        path("sections/<slug:slug>/", views.SectionView.as_view(), name="section"),
+        path("sections/", views.SectionsView.as_view(), name="sections"),
         path("location/", views.LocationResultsView.as_view(), name="location_results"),
         path(
             "plan-scorecards-2022/methodology/",
