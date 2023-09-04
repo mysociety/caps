@@ -37,11 +37,11 @@
         background: rgba(255, 255, 255, 0.3);
     }
 
-    thead > tr:first-child() > :nth-child(2) {
+    thead > tr:first-child > :nth-child(2) {
         border-top: $table-border-width solid $table-border-color;
     }
 
-    tbody > tr:last-child() > :nth-child(2) {
+    tbody > tr:last-child > :nth-child(2) {
         border-bottom: $table-border-width solid $table-border-color;
     }
 
