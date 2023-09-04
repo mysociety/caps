@@ -725,6 +725,8 @@ class PlanDocument(models.Model):
     ENGAGEMENT_PLAN = 9
     OTHER_PLAN = 10
     PROGRESS_REPORT = 11
+    CITIZENS_ASSEMBLY = 12
+
     DOCUMENT_TYPE_CHOICES = [
         (ACTION_PLAN, "Action plan"),
         (CLIMATE_STRATEGY, "Climate strategy"),
@@ -737,6 +739,7 @@ class PlanDocument(models.Model):
         (ENGAGEMENT_PLAN, "Engagement plan"),
         (OTHER_PLAN, "Other plan"),
         (PROGRESS_REPORT, "Progress report"),
+        (CITIZENS_ASSEMBLY, "Citizens' assembly"),
     ]
 
     COUNCIL_ONLY = 1
