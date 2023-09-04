@@ -435,6 +435,10 @@ $(window).scroll(function() {
         }
     }
     );
+    // if no closestSection get out at this point
+    if (closestSection === null) {
+        return;
+    }
     // update the active content navbar
     var contentNavbar = closestSection.getAttribute('id');
     var container = document.querySelector('.js-dynamic-content');
