@@ -175,7 +175,6 @@ def get_semantic_query(
             query_parts |= Q(text__iexact=Exact(alt_text))
         # run the query
         sqs = SearchQuerySet().filter(query_parts)
-
     # if given a specific set of documents limit to that
     if limit_to_ids:
         sqs = sqs.filter_and(django_id__in=limit_to_ids)

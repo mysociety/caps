@@ -11,7 +11,7 @@
               {% if form.similar_council.value %}
                 <h1 class="mb-3">Search councils similar to {{form.cleaned_data.similar_council.name}}</h1>
               {% else %}
-                  <h1 class="mb-3">Search inside plans</h1>
+                  <h1 class="mb-3">Search inside documents</h1>
               {% endif %}
                 <form action="{% url 'search_results' %}" class="mb-n3">
                     <div class="form-group">
@@ -50,7 +50,16 @@
                                 {% endfor %}
                         </div>
                     </fieldset>
-    
+
+                    <fieldset class="form-group">
+                      <legend style="font-size: 1em; font-weight: bold;">Document type</legend>
+                              <select name="document_type" class="form-select" aria-label="Document Type", style="width:100%">
+                              {% for short, long in form.DOCUMENT_TYPE_CHOICES %}
+                                <option value="{{ short }}" {% if form.document_type.value == short|floatformat:"0" %}selected{% endif %}>{{ long }}</option>
+                              {% endfor %}
+                              </select>
+                    </fieldset>
+
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block mt-4 d-flex align-items-center justify-content-center">

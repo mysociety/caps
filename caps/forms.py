@@ -8,7 +8,7 @@ from haystack.forms import SearchForm
 from haystack.inputs import Exact
 from haystack.query import SearchQuerySet
 
-from caps.models import ComparisonType, Council, Distance
+from caps.models import ComparisonType, Council, Distance, PlanDocument
 from caps.search_funcs import (
     condense_highlights,
     get_semantic_query,
@@ -39,8 +39,15 @@ class HighlightedSearchForm(SearchForm):
         (MATCH_EXACT, "Search for the provided phrase exactly"),
     )
 
+    DOCUMENT_TYPE_CHOICES = PlanDocument.DOCUMENT_TYPE_CHOICES
+    DOCUMENT_TYPE_CHOICES.insert(0, ("-1", "All document types"))
+
     match_method = ChoiceField(
         widget=RadioSelect, choices=MATCH_CHOICES, required=False
+    )
+
+    document_type = ChoiceField(
+        widget=RadioSelect, choices=DOCUMENT_TYPE_CHOICES, required=False
     )
 
     similar_council = ModelChoiceField(
@@ -49,6 +56,7 @@ class HighlightedSearchForm(SearchForm):
         required=False,
         empty_label=None,
     )
+
     similar_type = ModelChoiceField(
         queryset=ComparisonType.objects.all(),
         to_field_name="slug",
@@ -67,6 +75,14 @@ class HighlightedSearchForm(SearchForm):
         possible_related_terms = []
 
         match_method = self.cleaned_data["match_method"] or self.DEFAULT_SEARCH
+
+        document_type = self.cleaned_data["document_type"] or "-1"
+        if document_type != "-1":
+            id_limit = PlanDocument.objects.filter(
+                document_type=int(document_type)
+            ).values_list("id", flat=True)
+        else:
+            id_limit = None
 
         if not self.cleaned_data["q"]:
             # if no query
@@ -89,12 +105,16 @@ class HighlightedSearchForm(SearchForm):
                 if match_method == HighlightedSearchForm.MATCH_RELATED_LOOSE:
                     threshold = settings.RELATED_SEARCH_THRESHOLD_LOOSE
                 sqs, possible_related_terms = get_semantic_query(
-                    self.cleaned_data["q"], threshold
+                    self.cleaned_data["q"], threshold, limit_to_ids=id_limit
                 )
                 if sqs is None:
                     sqs = super(HighlightedSearchForm, self).search()
+                    if id_limit:
+                        sqs = sqs.filter(document_type__in=id_limit)
             else:
                 sqs = super(HighlightedSearchForm, self).search()
+                if id_limit:
+                    sqs = sqs.filter(document_type__in=id_limit)
 
         if self.cleaned_data["similar_type"]:
             # limiting to councils that are similar
