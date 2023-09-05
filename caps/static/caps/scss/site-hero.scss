@@ -24,9 +24,10 @@
         background-image: linear-gradient(0deg, darken($color-ceuk-navy, 2%), darken($color-ceuk-navy, 4%));
     }
 
-    .page-purple & {
-        background-color: darken($color-ceuk-purple, 2%);
-        background-image: linear-gradient(0deg, darken($color-ceuk-purple, 2%), darken($color-ceuk-purple, 4%));
+    .page-purple &,
+    .page-assemblies & {
+        background-color: mix(#000, $color-ceuk-purple, 10%);
+        background-image: linear-gradient(0deg, mix(#000, $color-ceuk-purple, 10%), mix(#000, $color-ceuk-purple, 20%));
     }
 
     .page-pink & {

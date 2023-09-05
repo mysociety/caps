@@ -1,0 +1,37 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+
+{% block header %}
+    <div class="card-header d-sm-flex align-items-center">
+        <h2 class="mr-auto pr-3 mb-1 mb-sm-0">Climate Assembly</h2>
+    </div>
+{% endblock header %}
+
+{% block cardbody %}
+    {% infobox  %}
+        {% markdown %}
+            
+            [A citizens’ assembly]({% url 'assembly_list' %}) brings together people from all walks of life to discuss an important issue.
+
+            Local councils have been using climate assemblies to bring in perperpectives from their
+            local communities to help shape their plans around climate change. 
+
+            The report for the assembly held by {{ council.name }} can be found below.
+
+            [Read more about climate assemblies](https://www.climateassembly.uk/about/citizens-assemblies/index.html)
+
+        {% endmarkdown %}
+        
+    {% endinfobox %}
+    <hr />
+    {% include 'caps/includes/document-list.html' with documents=grouped_documents_assembly document_type=12 %}
+    <div class="card-footer bg-yellow-light">
+        <p class="mb-0">
+            <strong>Are these documents out of date?</strong>
+        </p>
+        <small class="mb-0">
+            <a href="{{ council.feedback_form_url }}">Fill in this form</a> to let us know where to find the latest plans from this council.
+        </small>
+    </div>
+{% endblock cardbody %}

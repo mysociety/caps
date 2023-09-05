@@ -9,6 +9,9 @@
             {% if similar_council %}
                 <input type="hidden" name="similar_council" id="similar_council" value="{{ similar_council }}">
             {% endif %}
+            {% if document_type %}
+                <input type="hidden" name="document_type" id="document_type" value="{{ document_type }}">
+            {% endif %}
         </div>
         <div class="col-auto flex-shrink-0 d-flex">
             <button type="submit" class="btn btn-purple btn-lg d-flex align-items-center">
