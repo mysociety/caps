@@ -24,6 +24,7 @@ urlpatterns = [
         views.SearchResultsView.as_view(form_class=HighlightedSearchForm),
         name="search_results",
     ),
+    path("assemblies/", views.AssemblyView.as_view(), name="assembly_list"),
     path("councils/", views.CouncilListView.as_view(), name="council_list"),
     path("features/", RedirectView.as_view(pattern_name="tag_list")),
     path("plans/", views.TagListView.as_view(), name="tag_list"),
