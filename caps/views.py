@@ -93,8 +93,25 @@ class HomePageView(TemplateView):
         return context
 
 
-class CouncilDetailView(DetailView):
+class AssemblyView(TemplateView):
+    template_name = "caps/assembly.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["all_councils"] = Council.current_councils()
+        context["assembly_councils"] = Council.current_councils().filter(
+            plandocument__document_type=PlanDocument.CITIZENS_ASSEMBLY
+        )
+        context["percent_councils_with_assembly"] = int(
+            (context["assembly_councils"].count() / context["all_councils"].count())
+            * 100
+        )
+        context = add_context_for_plans_download_and_search(context)
+        context["page_title"] = "Local Climate Assemblies - CAPE"
+        return context
+
+
+class CouncilDetailView(DetailView):
     model = Council
     context_object_name = "council"
     template_name = "caps/council_detail.html"

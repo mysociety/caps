@@ -1,0 +1,77 @@
+{% extends "caps/base.html" %}
+
+{% load caps_templatetags %}
+
+{% block content %}
+
+<div class="p-3 p-md-4 p-lg-5 mb-gutter rounded homepage-hero">
+    <h1>Local climate assemblies</h1>
+    <p></p>
+
+</div>
+
+    <div class="card ceuk-card ceuk-card--purple mb-gutter homepage-search-plans">
+    <div class="card-body p-md-4 p-lg-5">
+
+    {% markdown %}
+    
+    ## What is a climate assembly?
+
+    A citizens’ assembly brings together people from all walks of life to discuss an important issue.
+
+    This have been used to bring citizen perspectives into national policy making. In 2019-2020, [a UK-wide citizens assembly on climate change was convened by the UK Parliament](https://www.climateassembly.uk/recommendations/index.html). In 2020, [a Climate Assembly was held in Scotland](https://webarchive.nrscotland.gov.uk/20220405134945/https:/www.climateassembly.scot/). 
+
+    Local councils have been using climate assemblies to bring in perperpectives from their
+    local communities to help shape their plans around climate change. 
+
+    We have been gathering reports made by climate assemblies on CAPE to make them easier to find, and to help raise awareness of how climate assemblies have worked in practice.
+        
+    {% endmarkdown %}
+    </div>
+    </div>
+
+
+<div class="row">
+    <div class="col-md-5 d-sm-flex">
+
+        <div class="card ceuk-card ceuk-card--red mb-gutter homepage-stat">
+            <div class="card-body p-md-4 p-lg-5 d-flex flex-column">
+                <h2 class="mb-0">{{ assembly_councils.count }} ({{ percent_councils_with_assembly }}%) of councils have held a climate assembly</h2>
+                <div class="progress mt-4 mb-3">
+                    <div class="progress-bar bg-red" role="progressbar" style="width: {{ percent_councils_with_assembly }}%" aria-valuenow="{{ percent_councils_with_plan }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <a href="{% url 'council_list' %}?has_assembly_report=True" class="d-flex align-items-center mt-auto" data-show-interstitial>
+                    Browse councils with a climate assembly
+                    {% include 'caps/icons/chevron-right.html' with classes='ml-1' role='presentation' %}
+                </a>
+                <div class="mt-3">
+                    <small>Last updated: {{ last_update }}.</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-7 d-sm-flex">
+
+        <div class="card ceuk-card ceuk-card--purple mb-gutter homepage-search-plans">
+            <div class="card-body p-md-4 p-lg-5">
+                <h2>{{ search_title|default:"Search climate assemblies" }}</h2>
+                {% include 'caps/includes/text-search-form.html' with label_text="Search for a phrase across multiple assembly reports" document_type=12 %}
+              {% if popular_searches %}
+                <h3 class="mt-4 mb-2">Popular searches:</h3>
+                <ul class="list-inline mb-0">
+                  {% for suggestion in popular_searches %}
+                    <li class="list-inline-item mr-3"><a href="{% url 'search_results' %}?q={{ suggestion.user_query }}&inorganic=1" data-show-interstitial>{{ suggestion.user_query }}</a></li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% include 'caps/includes/data-feedback-modal.html' %}
+
+{% endblock content %}
+
