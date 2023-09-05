@@ -82,7 +82,6 @@ def add_context_for_plans_download_and_search(context):
 
 
 class HomePageView(TemplateView):
-
     template_name = "caps/home.html"
 
     def get_context_data(self, **kwargs):
@@ -381,7 +380,6 @@ class CouncilProjectsListView(FilterView):
 
 
 class CouncilListView(FilterView):
-
     filterset_class = CouncilFilter
     template_name = "caps/council_list.html"
     extra_context = {"page_title": "Find a council"}
@@ -493,7 +491,6 @@ class CouncilListView(FilterView):
 
 
 class SearchResultsView(HaystackSearchView):
-
     template_name = "caps/search_results.html"
 
     def get_context_data(self, **kwargs):
@@ -694,7 +691,6 @@ class TwinsView(BaseLocationResultsView):
 
 
 class TagDetailView(DetailView):
-
     model = Tag
     context_object_name = "tag"
     template_name = "caps/tag_detail.html"
@@ -735,7 +731,6 @@ class TagListView(ListView):
 
 
 class AboutView(TemplateView):
-
     template_name = "caps/about.html"
     extra_context = {
         "page_title": "About",
@@ -744,7 +739,6 @@ class AboutView(TemplateView):
 
 
 class AboutDataView(TemplateView):
-
     template_name = "caps/about_data.html"
 
     def get_context_data(self, **kwargs):
@@ -796,7 +790,6 @@ class MailchimpView(View):
     """
 
     def post(self, request):
-
         email = request.POST.get("email")
         client = MailchimpMarketing.Client()
         client.set_config(
@@ -830,7 +823,6 @@ class MailchimpView(View):
 
 
 class NetZeroLocalHeroView(TemplateView):
-
     template_name = "caps/net_zero_local_hero.html"
     extra_context = {
         "page_title": "Be a Net Zero Local Hero",
@@ -839,7 +831,6 @@ class NetZeroLocalHeroView(TemplateView):
 
 
 class StyleView(TemplateView):
-
     template_name = "caps/style.html"
     extra_context = {
         "page_title": "Styles",
