@@ -281,6 +281,14 @@ class CouncilDetailView(DetailView):
         # need to convert to a dict as items doesn't work on defaultdicts
         # in django templates
         context["grouped_documents"] = dict(grouped_documents)
+        if "citizens' assembly" in context["grouped_documents"]:
+            # just pull this into a smaller dictionary
+            context["grouped_documents_assembly"] = {
+                "citizens' assembly": context["grouped_documents"]["citizens' assembly"]
+            }
+        else:
+            context["grouped_documents_assembly"] = {}
+
         return context
 
     def get_council_card_context(self, context: dict[str, Any]) -> dict[str, Any]:
@@ -309,6 +317,9 @@ class CouncilDetailView(DetailView):
 
         if not context["polling_data"]:
             banned_items.append("local-polling")
+
+        if not context["grouped_documents_assembly"]:
+            banned_items.append("climate-assembly")
 
         menu = [item for item in council_menu if item.slug not in banned_items]
         summary_menu = [item for item in menu if item.list_in_summary]

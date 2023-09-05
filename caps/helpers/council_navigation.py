@@ -73,6 +73,12 @@ council_menu = [
         desc="Projects this council has undertaken to reduce emissions.",
     ),
     MenuItem(
+        slug="climate-assembly",
+        title="Climate assembly",
+        color="cyan",
+        desc="Information about any climate assembly held by this council.",
+    ),
+    MenuItem(
         slug="local-polling",
         title="Local polling",
         color="cyan",

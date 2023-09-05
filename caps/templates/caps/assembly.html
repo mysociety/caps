@@ -1,47 +1,55 @@
 {% extends "caps/base.html" %}
-
+{% load static %}
 {% load caps_templatetags %}
+
+{% block bodyclass %}page-assemblies{% endblock %}
+
+{% block before_content %}
+
+<div class="site-hero">
+    <div class="container-fluid pb-5">
+        <h1 class="my-0" style="max-width: 20em;">The UK’s open database of local climate assembly outputs</h1>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_content_classes %}pt-0{% endblock %}
 
 {% block content %}
 
-<div class="p-3 p-md-4 p-lg-5 mb-gutter rounded homepage-hero">
-    <h1>Local climate assemblies</h1>
-    <p></p>
-
+<div class="mt-n5">
+    <div class="row">
+        <div class="col-lg-7 d-flex flex-column">
+            <div class="card ceuk-card ceuk-card--purple flex-grow-1 mb-gutter">
+                <div class="card-body p-md-4 p-lg-5 d-flex flex-column">
+                    <h2 class="mb-4">What is a climate assembly?</h2>
+                    <p class="lead">Citizens’ assemblies bring together people from all walks of life to discuss an important issue.</p>
+                    <p>They have been used to bring citizen perspectives into national policy making. In 2019-2020, <a href="https://www.climateassembly.uk/recommendations/index.html">a UK-wide citizens assembly on climate change was convened by the UK Parliament</a>. In 2020, <a href="https://webarchive.nrscotland.gov.uk/20220405134945/https:/www.climateassembly.scot/">a Climate Assembly was held in Scotland</a>).</p>
+                    <p>Local councils have been using climate assemblies to bring in perperpectives from their local communities to help shape their plans around climate change.</p>
+                    <p class="mb-0">We have been gathering reports made by climate assemblies on CAPE to make them easier to find, and to help raise awareness of how climate assemblies have worked in practice.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 d-flex flex-column">
+            <div class="card ceuk-card flex-grow-1 d-flex flex-column p-2 text-right mb-gutter" style="background: #5B5251 url({% static 'caps/img/climate-assembly-uk.jpg' %}) 0% 50% no-repeat; background-size: cover; min-height: 15em;">
+                <small class="text-white mt-auto" style="text-shadow: 0 0 1px 1px #000;">Photo: Fabio de Paola / PA Wire, courtesy of House of Commons</small>
+            </div>
+        </div>
+    </div>
 </div>
-
-    <div class="card ceuk-card ceuk-card--purple mb-gutter homepage-search-plans">
-    <div class="card-body p-md-4 p-lg-5">
-
-    {% markdown %}
-    
-    ## What is a climate assembly?
-
-    A citizens’ assembly brings together people from all walks of life to discuss an important issue.
-
-    This have been used to bring citizen perspectives into national policy making. In 2019-2020, [a UK-wide citizens assembly on climate change was convened by the UK Parliament](https://www.climateassembly.uk/recommendations/index.html). In 2020, [a Climate Assembly was held in Scotland](https://webarchive.nrscotland.gov.uk/20220405134945/https:/www.climateassembly.scot/). 
-
-    Local councils have been using climate assemblies to bring in perperpectives from their
-    local communities to help shape their plans around climate change. 
-
-    We have been gathering reports made by climate assemblies on CAPE to make them easier to find, and to help raise awareness of how climate assemblies have worked in practice.
-        
-    {% endmarkdown %}
-    </div>
-    </div>
-
 
 <div class="row">
     <div class="col-md-5 d-sm-flex">
 
         <div class="card ceuk-card ceuk-card--red mb-gutter homepage-stat">
             <div class="card-body p-md-4 p-lg-5 d-flex flex-column">
-                <h2 class="mb-0">{{ assembly_councils.count }} ({{ percent_councils_with_assembly }}%) of councils have held a climate assembly</h2>
-                <div class="progress mt-4 mb-3">
+                <h2 class="mb-0">{{ percent_councils_with_assembly }}% of councils have held a climate assembly</h2>
+                <div class="progress mt-4 mb-5">
                     <div class="progress-bar bg-red" role="progressbar" style="width: {{ percent_councils_with_assembly }}%" aria-valuenow="{{ percent_councils_with_plan }}" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <a href="{% url 'council_list' %}?has_assembly_report=True" class="d-flex align-items-center mt-auto" data-show-interstitial>
-                    Browse councils with a climate assembly
+                    Show all {{ assembly_councils.count }} councils with a climate assembly
                     {% include 'caps/icons/chevron-right.html' with classes='ml-1' role='presentation' %}
                 </a>
                 <div class="mt-3">
