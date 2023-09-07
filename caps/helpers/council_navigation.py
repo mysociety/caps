@@ -44,6 +44,12 @@ council_menu = [
         desc="What the council is responsible for and how it relates to climate change.",
     ),
     MenuItem(
+        slug="representatives",
+        title="Your representatives",
+        color="blue",
+        desc="Find your representatives.",
+    ),
+    MenuItem(
         slug="declarations",
         title="Declarations & pledges",
         color="cyan",
