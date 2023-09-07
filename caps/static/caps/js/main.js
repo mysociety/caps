@@ -96,6 +96,10 @@ var shouldShowInterstitial = function() {
             return false;
         }
     }
+    if ( Math.random() < (1 - 0.25) ) {
+        // Only show survey to 25% of users.
+        return false;
+    }
     return true;
 }
 
