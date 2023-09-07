@@ -1,0 +1,45 @@
+{% extends "caps/council_cards/base.html" %}
+
+{% load caps_templatetags %}
+
+{% block title %}
+    Your representatives
+{% endblock title %}
+
+{% block cardbody %}
+    {% infobox %}
+        {% markdown %}
+            We also run [WriteToThem.com](https://www.writetothem.com{% if postcode %}?pc={{postcode}}{% endif %}), which you can use to find out all your representatives
+            from different layers of local, devolved, and national democracy.
+            
+            You can also use it to send a message to your councillors, MP, or other representatives.
+        {% endmarkdown %}
+    {% endinfobox %}
+
+    <div class="card-body bg-green-light">
+    <form action="https://www.writetothem.com/who"
+            class="form-row flex-wrap align-items-center">
+        <div class="col-auto flex-shrink-0 d-flex">
+                    <label for="search-write-to-them" class="align-middle" style="margin-bottom:0px">Your postcode:</label>
+
+        </div>
+        <div class="col-auto flex-shrink-1 flex-grow-1" style="max-width: 450px">
+            <input type="search"
+                    class="form-control form-control-sm"
+                    name="pc"
+                    id="search-write-to-them"
+                    value="{% if postcode %}{{ postcode.upper }}{% endif %}"
+                    placeholder="e.g. M1 1AG">
+        </div>
+        <div class="col-auto flex-shrink-0 d-flex">
+            <button type="submit" class="btn btn-purple btn-sm d-flex align-items-center">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi " role="presentation" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 0C3 0 0 3 0 6.6a6.7 6.7 0 0 0 10.4 5.5l3.6 3.6c.5.4 1.2.4 1.7 0 .4-.5.4-1.2 0-1.7L12 10.4A6.6 6.6 0 0 0 6.7 0zm0 2.3c2.4 0 4.3 2 4.3 4.3C11 9 9 11 6.6 11S2.3 9 2.3 6.6s2-4.3 4.3-4.3z"/></svg>
+
+                <span class="ml-2">Find on WriteToThem.com</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock cardbody %}
