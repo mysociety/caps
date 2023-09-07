@@ -315,6 +315,9 @@ class CouncilDetailView(DetailView):
         # run menu update last so it can have access to wider context
         context.update(self.get_council_card_context(context))
 
+        # get postcode from 'pc' cookie if set
+        context["postcode"] = self.request.COOKIES.get("pc")
+
         context["page_title"] = council.name
         context["feedback_form_url"] = settings.FEEDBACK_FORM
 
@@ -538,9 +541,23 @@ class BaseLocationResultsView(TemplateView):
     def render_to_response(self, context):
         councils = context.get("councils")
         if councils and len(councils) == 1:
-            return redirect(context["councils"][0])
+            response = redirect(context["councils"][0])
+        else:
+            response = super().render_to_response(context)
 
-        return super(BaseLocationResultsView, self).render_to_response(context)
+        postcode = context.get("postcode", None)
+        if councils and postcode:
+            # set cookie for postcode where there is a valid postcode
+            # e.g. it has found at least one council
+            response.set_cookie(
+                key="pc",
+                value=postcode,
+                expires=None,
+                domain=self.request.get_host().split(":")[0],
+                secure=False,
+            )
+
+        return response
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
