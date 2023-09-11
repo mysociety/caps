@@ -35,9 +35,9 @@ class AdvancedFilterMixin:
                 descs.append("deprivation quintile {}".format(params["imdq"]))
             if params["country"] and params["country"] != "":
                 descs.append(Council.country_description(params["country"]))
-            if params["region"] and params["region"] != "":
+            if params.get("region", None) is not None and params["region"] != "":
                 descs.append(params["region"])
-            if params["county"] and params["county"] != "":
+            if params.get("county", None) is not None and params["county"] != "":
                 descs.append(params["county"])
 
             context["filter_params"] = params
