@@ -1,0 +1,70 @@
+// USED METHODOLOGY 2023 AND SECTIONS PAGE
+$council-types: (
+    'single',
+    'district',
+    'county',
+    'northern-ireland',
+    'combined'
+);
+
+@each $council-type in $council-types {
+    // Hide all council-specific elements by default
+    .js-#{$council-type} { 
+        display: none;
+    }
+
+    // Hide non-selectec council type cells on smaller screens
+    th.js-highlight-#{$council-type},
+    td.js-highlight-#{$council-type} {
+        display: none;
+        @media (min-width: 700px) {
+            display: table-cell;
+        }
+    }
+
+    // When an active council type has been selected…
+    [data-methodology-active-council-type="#{$council-type}"] {
+        // Hide any default (non-council-typed) elements
+        .js-default {
+            display: none;
+        }
+
+        // Show the relevant council type elements
+        .js-#{$council-type} {
+            display: block;
+        }
+
+        .row.js-#{$council-type} {
+          display: flex;
+        }
+
+        // Special case for tables!
+        table.js-#{$council-type} {
+            display: table;
+        }
+
+        // Highlight the relevant council type table headers
+        th.js-highlight-#{$council-type} {
+            background-color: $primary;
+            display: table-cell;
+        }
+
+        // Highlight the relevant council type table cells
+        td.js-highlight-#{$council-type} {
+            background-color: transparentize($primary, 0.8);
+            display: table-cell;
+        }
+
+        // Fake "active" styling for the activated trigger
+        [data-methodology-switch-council-type="#{$council-type}"] {
+            &.btn.is--with-label {
+                background-color: $primary;
+                color: $white;
+            }
+
+            &.scorecards-tooltip {
+                background-image: url('../img/question-circle-white.svg');
+            }
+        }
+    }
+}
