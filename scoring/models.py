@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from caps.models import Council
+from django.conf import settings
 from django.db import models
 from django.db.models import Avg, Count, F, Max, Q
 
@@ -168,8 +169,12 @@ class PlanSection(models.Model):
     )
 
     @classmethod
-    def section_codes(cls):
-        return cls.objects.distinct("code").values_list("code", flat=True)
+    def section_codes(cls, year=settings.PLAN_YEAR):
+        return (
+            cls.objects.filter(year=year)
+            .distinct("code")
+            .values_list("code", flat=True)
+        )
 
     @classmethod
     def get_average_scores(cls, council_group=None, filter=None):
@@ -299,7 +304,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         scores = (
             cls.objects.all()
             .select_related("plan_section", "plan_score")
-            .filter(plan_score__total__gt=0)
+            .filter(plan_score__year=settings.PLAN_YEAR, plan_score__total__gt=0)
             .values(
                 "plan_score__total",
                 "plan_score__council_id",
@@ -315,6 +320,8 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
                 "score": score["score"],
                 "max": score["max_score"],
             }
+
+        print(councils)
 
         return councils
 
