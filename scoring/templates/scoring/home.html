@@ -151,64 +151,50 @@
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold link-category-1" href="{% url 'scoring:methodology' %}#sec-gov">Governance, development and funding</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's1_gov' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                    <a class="text-decoration-none fw-bold link-category-1" href="{% url 'scoring:methodology' %}#sec-gov">Building & Heating</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's1_b_h' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold link-category-2" href="{% url 'scoring:methodology' %}#sec-ma">Mitigation and Adaptation</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's2_m_a' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                    <a class="text-decoration-none fw-bold link-category-2" href="{% url 'scoring:methodology' %}#sec-ma">Transport</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's2_tran' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold link-category-3" href="{% url 'scoring:methodology' %}#sec-ca">Commitment and Integration</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's3_c_a' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                    <a class="text-decoration-none fw-bold link-category-3" href="{% url 'scoring:methodology' %}#sec-ca">Planning & Land Use</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's3_p_lu' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold link-category-4" href="{% url 'scoring:methodology' %}#sec-coms">Community engagement and communications</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's4_coms' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                    <a class="text-decoration-none fw-bold link-category-4" href="{% url 'scoring:methodology' %}#sec-coms">Governance & Finance</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's4_g_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold link-category-5" href="{% url 'scoring:methodology' %}#sec-mset">Measuring and setting emissions targets</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's5_mset' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                    <a class="text-decoration-none fw-bold link-category-5" href="{% url 'scoring:methodology' %}#sec-mset">Biodiversity</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's5_bio' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold link-category-6" href="{% url 'scoring:methodology' %}#sec-co">Co-benefits</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's6_cb' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                    <a class="text-decoration-none fw-bold link-category-6" href="{% url 'scoring:methodology' %}#sec-co">Collaboration & Engagement</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's6_c_e' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold link-category-7" href="{% url 'scoring:methodology' %}#sec-dsi">Diversity and Social Inclusion</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's7_dsi' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
-                            </th>
-                            <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold link-category-8" href="{% url 'scoring:methodology' %}#sec-est">Education, Skills and Training</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's8_est' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
-                            </th>
-                            <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold link-category-9" href="{% url 'scoring:methodology' %}#sec-ee">Ecological emergency</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's9_ee' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                    <a class="text-decoration-none fw-bold link-category-7" href="{% url 'scoring:methodology' %}#sec-dsi">Waste Reduction & Food</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's7_wr_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                                 {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
@@ -225,39 +211,31 @@
                                 <div class="table-sticky-border right"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-1 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s1_gov.score max=averages.s1_gov.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s1_b_h.score max=averages.s1_b_h.max average=1 %}
                                 {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-2 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s2_m_a.score max=averages.s2_m_a.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s2_tran.score max=averages.s2_tran.max average=1 %}
                                 {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-3 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s3_c_a.score max=averages.s3_c_a.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s3_p_lu.score max=averages.s3_p_lu.max average=1 %}
                                 {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-4 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s4_coms.score max=averages.s4_coms.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s4_g_f.score max=averages.s4_g_f.max average=1 %}
                                 {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-5 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s5_mset.score max=averages.s5_mset.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s5_bio.score max=averages.s5_bio.max average=1 %}
                                 {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-6 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s6_cb.score max=averages.s6_cb.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s6_c_e.score max=averages.s6_c_e.max average=1 %}
                                 {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-7 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s7_dsi.score max=averages.s7_dsi.max average=1 %}
-                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
-                            </th>
-                            <th scope="col" class="bg-primary-100 category-8 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s8_est.score max=averages.s8_est.max average=1 %}
-                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
-                            </th>
-                            <th scope="col" class="bg-primary-100 category-9 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s9_ee.score max=averages.s9_ee.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s7_wr_f.score max=averages.s7_wr_f.max average=1 %}
                                 {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                         </tr>
@@ -287,32 +265,26 @@
                             </th>
                           {% with scores=council.all_scores %}
                           {% if council.score != 0 and council.score is not None %}
-                            <td scope="row" class="council-category-score category-1" data-sort-value="{{ scores.s1_gov.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s1_gov.score max=scores.s1_gov.max %}
+                            <td scope="row" class="council-category-score category-1" data-sort-value="{{ scores.s1_b_h.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s1_b_h.score max=scores.s1_b_h.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-2" data-sort-value="{{ scores.s2_m_a.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s2_m_a.score max=scores.s2_m_a.max %}
+                            <td scope="row" class="council-category-score category-2" data-sort-value="{{ scores.s2_tran.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s2_tran.score max=scores.s2_tran.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-3" data-sort-value="{{ scores.s3_c_a.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s3_c_a.score max=scores.s3_c_a.max %}
+                            <td scope="row" class="council-category-score category-3" data-sort-value="{{ scores.s3_p_lu.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s3_p_lu.score max=scores.s3_p_lu.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-4" data-sort-value="{{ scores.s4_coms.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s4_coms.score max=scores.s4_coms.max %}
+                            <td scope="row" class="council-category-score category-4" data-sort-value="{{ scores.s4_g_f.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s4_g_f.score max=scores.s4_g_f.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-5" data-sort-value="{{ scores.s5_mset.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s5_mset.score max=scores.s5_mset.max %}
+                            <td scope="row" class="council-category-score category-5" data-sort-value="{{ scores.s5_bio.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s5_bio.score max=scores.s5_bio.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-6" data-sort-value="{{ scores.s6_cb.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s6_cb.score max=scores.s6_cb.max %}
+                            <td scope="row" class="council-category-score category-6" data-sort-value="{{ scores.s6_c_e.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s6_c_e.score max=scores.s6_c_e.max %}
                             </td>
-                            <td scope="row" class="council-category-score category-7" data-sort-value="{{ scores.s7_dsi.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s7_dsi.score max=scores.s7_dsi.max %}
-                            </td>
-                            <td scope="row" class="council-category-score category-8" data-sort-value="{{ scores.s8_est.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s8_est.score max=scores.s8_est.max %}
-                            </td>
-                            <td scope="row" class="council-category-score category-9" data-sort-value="{{ scores.s9_ee.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s9_ee.score max=scores.s9_ee.max %}
+                            <td scope="row" class="council-category-score category-7" data-sort-value="{{ scores.s7_wr_f.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s7_wr_f.score max=scores.s7_wr_f.max %}
                             </td>
                           {% elif council.score == 0 %}
                             <td class="has-no-plan" colspan="9" data-sort-value="-1">
@@ -351,31 +323,25 @@
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                             </th>
                             <th scope="col" class="category-1 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s1_gov.score max=averages.s1_gov.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s1_b_h.score max=averages.s1_b_h.max average=1 %}
                             </th>
                             <th scope="col" class="category-2 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s2_m_a.score max=averages.s2_m_a.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s2_tran.score max=averages.s2_tran.max average=1 %}
                             </th>
                             <th scope="col" class="category-3 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s3_c_a.score max=averages.s3_c_a.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s3_p_lu.score max=averages.s3_p_lu.max average=1 %}
                             </th>
                             <th scope="col" class="category-4 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s4_coms.score max=averages.s4_coms.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s4_g_f.score max=averages.s4_g_f.max average=1 %}
                             </th>
                             <th scope="col" class="category-5 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s5_mset.score max=averages.s5_mset.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s5_bio.score max=averages.s5_bio.max average=1 %}
                             </th>
                             <th scope="col" class="category-6 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s6_cb.score max=averages.s6_cb.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s6_c_e.score max=averages.s6_c_e.max average=1 %}
                             </th>
                             <th scope="col" class="category-7 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s7_dsi.score max=averages.s7_dsi.max average=1 %}
-                            </th>
-                            <th scope="col" class="category-8 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s8_est.score max=averages.s8_est.max average=1 %}
-                            </th>
-                            <th scope="col" class="category-9 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s9_ee.score max=averages.s9_ee.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s7_wr_f.score max=averages.s7_wr_f.max average=1 %}
                             </th>
                         </tr>
                     </thead>
@@ -409,31 +375,25 @@
                           {% with scores=council.all_scores %}
                           {% if council.score != 0 %}
                             <td scope="row" class="council-category-score category-1">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s1_gov.score max=scores.s1_gov.max %}
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s1_b_h.score max=scores.s1_b_h.max %}
                             </td>
                             <td scope="row" class="council-category-score category-2">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s2_m_a.score max=scores.s2_m_a.max %}
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s2_tran.score max=scores.s2_tran.max %}
                             </td>
                             <td scope="row" class="council-category-score category-3">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s3_c_a.score max=scores.s3_c_a.max %}
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s3_p_lu.score max=scores.s3_p_lu.max %}
                             </td>
                             <td scope="row" class="council-category-score category-4">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s4_coms.score max=scores.s4_coms.max %}
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s4_g_f.score max=scores.s4_g_f.max %}
                             </td>
                             <td scope="row" class="council-category-score category-5">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s5_mset.score max=scores.s5_mset.max %}
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s5_bio.score max=scores.s5_bio.max %}
                             </td>
                             <td scope="row" class="council-category-score category-6">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s6_cb.score max=scores.s6_cb.max %}
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s6_c_e.score max=scores.s6_c_e.max %}
                             </td>
                             <td scope="row" class="council-category-score category-7">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s7_dsi.score max=scores.s7_dsi.max %}
-                            </td>
-                            <td scope="row" class="council-category-score category-8">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s8_est.score max=scores.s8_est.max %}
-                            </td>
-                            <td scope="row" class="council-category-score category-9">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s9_ee.score max=scores.s9_ee.max %}
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s7_wr_f.score max=scores.s7_wr_f.max %}
                             </td>
                           {% else %}
                             <td class="has-no-plan" colspan="9">
