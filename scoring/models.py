@@ -238,7 +238,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
 
     plan_score = models.ForeignKey(PlanScore, on_delete=models.CASCADE)
     plan_section = models.ForeignKey(PlanSection, on_delete=models.CASCADE)
-    score = models.PositiveSmallIntegerField(default=0)
+    score = models.SmallIntegerField(default=0)
     # store the max score here because not all council types get asked the same set of questions
     # so there may not be a consistent per section max score
     max_score = models.PositiveSmallIntegerField(default=0)
@@ -403,7 +403,7 @@ class PlanQuestionScore(ScoreFilterMixin, models.Model):
         PlanQuestion, on_delete=models.CASCADE, related_name="questions"
     )
     answer = models.TextField(null=True, default="")
-    score = models.PositiveSmallIntegerField(default=0)
+    score = models.SmallIntegerField(default=0)
     max_score = models.PositiveSmallIntegerField(default=0)
     notes = models.TextField(null=True, default="")
 
