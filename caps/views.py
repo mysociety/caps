@@ -107,6 +107,9 @@ class AssemblyView(TemplateView):
         )
         context = add_context_for_plans_download_and_search(context)
         context["page_title"] = "Local Climate Assemblies - CAPE"
+        context[
+            "page_description"
+        ] = "Search and view reports from local climate assemblies."
         return context
 
 
