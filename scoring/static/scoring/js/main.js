@@ -226,19 +226,6 @@ forEachElement('.js-sort-table', function(el){
     });
 });
 
-// Display modals
-forEachElement('.popup-trigger', function(trigger){
-    trigger.addEventListener('click', function(){
-        var popupTrigger = trigger.getAttribute('data-popup-trigger');
-        var popupModal = document.querySelector('[data-popup-modal="' + popupTrigger + '"]');
-        popupModal.classList.add('is--visible');
-
-        popupModal.querySelector('.popup-modal__close').addEventListener('click', function(){
-            popupModal.classList.remove('is--visible');
-        });
-    });
-});
-
 forEachElement('.js-toggle-council-question-table-section', function(trigger){
     var table = trigger.closest('table');
     var thisTbody = trigger.closest('tbody');

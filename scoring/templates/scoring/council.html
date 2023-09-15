@@ -178,55 +178,31 @@ CHECK which about section is prefered.
                 </div>
               </div>
             </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="mainMenuHeadingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenuCollapseTwo" aria-expanded="false" aria-controls="mainMenuCollapseTwo">
-                    <span class="badge bg-primary border border-white me-1">B</span>
-                    About the scoring system
-                </button>
-              </h2>
-              <div id="mainMenuCollapseTwo" class="accordion-collapse collapse" aria-labelledby="mainMenuHeadingTwo" data-bs-parent="#accordionMainMenu">
-                <div class="accordion-body py-4 d-flex flex-row flex-wrap" style="gap:0.5rem">
-                  <p>Climate Emergency UK assessed plans according to 28 questions across nine sections, based on the expert-approved <a class="d-inline-block" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">checklist for Council Action Plans</a>. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between June and December 2021. Action Plans and related documents that were publicly available after September 2015 and before 20 September 2021 were marked. </p>
-                  {% if plan_urls %}
-                    <div class="alert alert-info w-100 mb-0">
-                      <p class="fs-6 fw-bold">Has this council updated their Climate Action Plan? </p>
-                      <a class="btn btn-primary btn-sm d-table" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out</a></div>
-                  {% else %}
-                    <div class="alert alert-info w-100 mb-0">
-                      <p class="fs-6 fw-bold">Has this council released a Climate Action Plan plan recently? </p>
-                      <a class="btn btn-primary btn-sm d-table" href="https://cape.mysociety.org/councils/{{ council.slug }}">Check our database to find out</a></div>
-                  {% endif %}
-                  {% if authority_type.slug == 'district' %}
-                    <p>This district council is signed up to their county council's joint Climate Action Plan. Here, if the district council has a plan, they are marked on their own plan and the county plan, depending on which is relevant to each question. <a class="d-inline-block" href="{% url 'scoring:methodology2022' %}">You can find out more about this in the methodology.</a></p>
-                  {% endif %}
-                  {% if plan_urls %}
-                    {% comment %} <details>
-                        <summary class="btn btn btn-blue is--light mt-2 mt-sm-3">See which plans were marked</summary>
-                        <ul class="scoring-source-links">
-                          {% for plan_url in plan_urls %}
-                            <li><a href="{{ plan_url.plan_url }}" title="{{ plan_url.plan_url|url_human }}">{{ plan_url.plan_url|url_human }}</a></li>
-                          {% endfor %}
-                        </ul>
-                    </details> {% endcomment %}
+        </div>
+        <div class="col-md-6 col-lg-8">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h3 class="fs-6 mb-0">Filter questions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-row flex-wrap" style="gap:0.5rem">
+                        <button class="radio-btn is--with-label mr-1" data-question-source-type="default">All</button>
+                        <button class="radio-btn is--with-label mr-1" data-question-source-type="volunteer">Volunteer Research</button>
+                        <button class="radio-btn is--with-label mr-1" data-question-source-type="foi">FOI</button>
+                        <button class="radio-btn is--with-label mr-1" data-question-source-type="national-data">National Data</button>
+                        <button class="radio-btn is--with-label mr-1" data-question-source-type="national-data-and-volunteer">National Data and Volunteer Research</button>
+                    </div>
+                    <form class="mt-3 d-flex flex-column flex-md-row gap-3">
+                        <div>
+                          <input class="is--small" type="checkbox" id="council-operations-only" name="council-operations-only" >
+                          <label for="council-operations-only">Display only Council operations questions</label>
+                        </div>
 
-                    <h3 class="fs-5 mt-4 mt-lg-5">See which plans were marked</h3>
-                    {% for plan_url in plan_urls %}
-                    <li><a style="word-break: break-all;" class="mb-2" href="{{ plan_url.plan_url }}" title="{{ plan_url.plan_url|url_human }}">{{ plan_url.plan_url|url_human }}</a></li>
-                    {% endfor %}
-
-                    {% comment %} TODO Add link to methodology {% endcomment %}
-                    <h3 class="fs-5 mt-4 mt-lg-5">Key definitions</h3>
-                    <dl>
-                      <a href="" class="btn btn-outline-primary d-table mb-3">Check full methodology</a>
-                      <dt class="fs-7 badge bg-secondary mb-2">Score</dt>
-                      <dd class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</dd>
-
-                      <dt class="fs-7 badge bg-secondary mb-2">weighting</dt>
-                      <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</dd>
-                    </dl>
-
-                  {% endif %}
+                        <div>
+                          <input class="is--small" type="checkbox" id="council-table-display-complete-content" name="council-table-display-complete-content">
+                          <label for="council-table-display-complete-content">Show full question details by default</label>
+                        </div>
+                    </form>
                 </div>
               </div>
             </div>
@@ -311,170 +287,195 @@ CHECK which about section is prefered.
   </div>
 
 
-  <div class="row mb-5 mt-4">
-    <div class="col-12">
-      <div class="position-relative" style="display: table">
-          <table class="table-question-council mb-0">
-              <thead class="text-bg-primary">
-                  <tr>
-                      <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
-                      <th scope="col" class="current-council-score">{{ council.name }}</th>
+    <table class="table-question-council mb-5 mt-4">
+        <thead class="text-bg-primary">
+            <tr>
+                <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
+                <th scope="col" class="current-council-score">{{ council.name }}</th>
+              {% for comparison in comparisons %}
+                <th scope="col" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
+              {% endfor %}
+                <th scope="col" class="d-none d-md-table-cell d-flex flex-row align-items-center">
+                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                    <span>Councils with full marks</span>
+                </th>
+            </tr>
+        </thead>
 
-                    {% for comparison in comparisons %}
-                      <th scope="col" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
-                    {% endfor %}
+      {% for section in sections %}
+        <tbody class="table-question-council__section">
 
-                      <th scope="col" class="d-none d-md-table-cell d-flex flex-row align-items-center">
-                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+          {% comment %} TODO if negative score: {% endcomment %}
+            <tr data-has-plan="no" class="section-row bg-red-100 text-red-900">
+          {% comment %} TODO else: {% endcomment %}
+            <!-- <tr data-has-plan="no" class="section-row bg-primary-100"> -->
+          {% comment %} TODO endif {% endcomment %}
 
-                        <span>Councils with full marks</span>
-                      </th>
-                  </tr>
-              </thead>
-            {% for section in sections %}
-              <tbody class="table-question-council__section">
-                  <tr data-has-plan="no" class="section-row bg-primary-100">
-                      <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
-                          {{ section.description }}
-                          {% comment %} TODO Add conditional if this council has a negative penalty scored in this section {% endcomment %}
-                          <p class="alert alert-warning d-flex flex-row align-items-center gap-2 p-2 mt-3">
-                            {% comment %} TODO update the percentage {% endcomment %}
-                            {% include 'caps/icons/warning.html' with classes='align-text-bottom' width='1em' height='1em' role='presentation' %}
-                            <span class="fs-7">
-                              {{ council.name }} has a penalty of 15% in this section
-                            </span>
-                          </p>
-                          <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
-                            {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
-                            Show more
-                          </button>
-                      </td>
+                <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
+                    {{ section.description }}
 
-                      {% if section.top_performer %}
-                        <td class="score border-bottom border-opacity-25 border-primary is--section-score">
-                          {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
-                          <span>{{ section.score }}/{{ section.max_score }}</span>
-                        </td>
-                      {% else %}
-                        <td class="score border-bottom border-opacity-25 border-primary is--section-score">
-                          <span>{{ section.score }}/{{ section.max_score }}</span>
-                          {% comment %} TODO Update obtained points minus the penalty {% endcomment %}
-                          <div class="fs-7">
-                            {{ section.score }} = Total score(22) - Penalty points(3)
-                          </div>
-                        </td>
-                      {% endif %}
+                  {% comment %} TODO if negative penalty: {% endcomment %}
+                    <p class="d-flex align-items-center mb-0 mt-2 fs-7 text-warning">
+                        {% include 'caps/icons/warning.html' with classes='me-2' width='1em' height='1em' role='presentation' %}
+                        {% comment %} TODO correct percentage {% endcomment %}
+                        <strong class="me-2">Negative points:</strong>
+                        {{ council.name }} incurred a penalty of 15% in this section
+                    </p>
+                  {% comment %} TODO endif {% endcomment %}
 
-                    {% for comparison in section.comparisons %}
-                      <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
-                          {{ comparison.score }}/{{ comparison.max_score }}
-                      </td>
-                    {% endfor %}
-                      <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary">
-                      </td>
-                      <td class="button-wrapper p-0 bg-white d-none d-md-table-cell">
-                          <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
-                            {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
-                          </button>
-                      </td>
-                  </tr>
-                {% for answer in section.answers %}
-                {% comment %} TODO 
+                    <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
+                        {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
+                        Show questions
+                    </button>
+                </td>
+
+              {% if section.top_performer %}
+                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                    <span>{{ section.score }}/{{ section.max_score }}</span>
+                </td>
+              {% else %}
+                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                    <span>{{ section.score }}/{{ section.max_score }}</span>
+                  {% comment %} TODO if negative penalty: {% endcomment %}
+                    <div class="fs-7 mt-2">
+                        {% comment %} TODO Update obtained points minus the penalty {% endcomment %}
+                        {{ section.score }} &equals; Total score (22) &minus; Penalty points (3)
+                    </div>
+                  {% comment %} TODO endif {% endcomment %}
+                </td>
+              {% endif %}
+
+              {% for comparison in section.comparisons %}
+                <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
+                    {{ comparison.score }}/{{ comparison.max_score }}
+                </td>
+              {% endfor %}
+
+                <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary"></td>
+
+                <td class="button-wrapper p-0 bg-white d-none d-md-table-cell" style="width: 0;">
+                    <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
+                        {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
+                    </button>
+                </td>
+            </tr>
+
+          {% for answer in section.answers %}
+            {% comment %} TODO
                 Add the source(How this question is marked) to tr element.
-                    'js-volunteer',
-                    'js-foi',
-                    'js-national-data',
-                    'js-national-data-and-volunteer',
-                {% endcomment %}
-                {% comment %} TODO 
-                  council operation only switch
-                  for each row add the correct attribute value. For council only the value should be true, otherwise false.
-                  [data-active-council-operation-only="false"]
-                {% endcomment %}
-                  <tr class="question-row js-default js-volunteer" data-active-council-operation-only="true">
-                    <td data-column="answer" class="border-start border-bottom border-end ">
-                        <div class="question-content-table text-start">
-                          <span class="badge bg-secondary p-1 question-no">{{ answer.pretty_code }}</span>
+                'js-volunteer',
+                'js-foi',
+                'js-national-data',
+                'js-national-data-and-volunteer',
+            {% endcomment %}
+            {% comment %} TODO
+                council operation only switch
+                for each row add the correct attribute value. For council only the value should be true, otherwise false.
+                [data-active-council-operation-only="false"]
+            {% endcomment %}
+            <tr class="question-row js-default js-volunteer" data-active-council-operation-only="true">
+                <td data-column="answer" class="border-start border-bottom border-end ">
+                    <div class="question-content-table text-start">
+                        <div class="row">
+                            <div class="col-sm-auto mb-2">
+                                <span class="badge bg-secondary p-1 question-no">{{ answer.pretty_code }}</span>
+                            </div>
+                            <div class="col-sm">
+                                {{ answer.question | linebreaks }}
 
-                          {% comment %} TODO Add an if question is negative {% endcomment %}
-                          <div class="alert alert-warning p-2 mt-2">
-                            <p class="alert-heading fw-bold fs-7 mb-2">
-                              {% include 'caps/icons/warning.html' with width='1.2rem' height='1.2rem' classes='align-top me-1' role='presentation' %}
-                              Negative point question
-                            </p>
-                            <p class="fs-7 mb-1">For a negative question the maximum number of points is 0.</p>
+                              {% comment %} TODO if negative point question: {% endcomment %}
+                                <div class="d-flex mb-3 fs-7 text-red-500">
+                                    {% include 'caps/icons/warning.html' with classes='mt-1 me-2 flex-shrink-0 flex-grow-0' width='1em' height='1em' role='presentation' %}
+                                    <p class="mb-0">
+                                        <strong>Negative points:</strong>
+                                        The maximum number of points for this question is 0.
+                                        {% comment %} TODO add link to this question in methodology {% endcomment %}
+                                        <a href="{% url 'scoring:methodology' %}#todo" style="color: inherit;">Read more about negative point questions.</a>
+                                    </p>
+                                </div>
+                              {% comment %} TODO endif {% endcomment %}
 
-                            {% comment %} TODO add link to this question in methodology {% endcomment %}
-                            <a href="" class="alert-link fs-7">See this question in more detail</a>
-                          </div>
+                                <details class="text-muted fs-7">
+                                    <summary>How this is marked</summary>
+                                    {% comment %} TODO real data {% endcomment %}
+                                    <dl class="row mt-2 mb-0">
+                                        <dt class="col-sm-4">Source</dt>
+                                        <dd class="col-sm-8">National Data and Volunteer Research</dd>
+                                        <dt class="col-sm-4">Question weight</dt>
+                                        <dd class="col-sm-8">Low</dd>
+                                        <dt class="col-sm-4">Evidence</dt>
+                                        <dd class="col-sm-8">
+                                            <a href="#" style="display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">https://documents.www.boretshire.gov.uk/files/2023/strategy.docx</a>
+                                            <a href="#" style="display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">https://www.boretshire.gov.uk/neighbourhoods/climate/updates/</a>
+                                        </dd>
+                                    </dl>
+                                </details>
 
-                          {% comment %} TODO Question meta {% endcomment %}
-                          <div class="js-collapse-children">
-                              {{ answer.question | linebreaks }}
-                          </div>
-                          <dl class="mt-3 mb-2 d-flex flex-column align-items-start">
-                            <dt class="fs-7 mb-1">Source:</dt>
-                            <dd class="badge bg-blue-500">National Data and Volunteer Research</dd>
-                          </dl>
-                          <dl class="d-flex flex-column align-items-start">
-                            <dt class="fs-7 mb-1">Question weight:</dt>
-                            <dd class="badge bg-secondary">Low</dd>
-                          </dl>
+                                {% for section in sections %}
+                                  {% for question in section.questions %}
+                                  {% comment %} TODO Add question criteria {% endcomment %}
+                                  <!-- Button trigger modal -->
+                                  <button type="button" class="link link-primary border-0 p-0 bg-white mt-3 text-decoration-underline" data-bs-toggle="modal" data-bs-target="#section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                                    View criteria
+                                  </button>
 
-                          <details>
-                            <summary class="fw-bold">Evidence</summary>
-                            <ul>
-                              <li><a href="">Example</a></li>
-                              <li><a href="">Example with a longer title</a></li>
-                              <li><a href="">Example with a longer title because I need to see what happens</a></li>
-                            </ul>
-                          </details>
+                                  <!-- Modal -->
+                                  {% comment %} TODO We'll need to include an unique id. Not sure if we have a section shortname, so we can do something like -> shortname + question code  {% endcomment %}
+                                  <div class="modal fade" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
+                                            <p>Criteria</p>
+                                            <div class="fw-normal fs-7">{{ answer.question | linebreaks }}</div>
+                                          </h5>
+                                        </div>
+                                        <div class="modal-body">
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  {% endfor %}
+                                {% endfor %}
+                            </div>
                         </div>
-                    </td>
+                    </div>
+                </td>
 
-                    <td data-column="score" class="score border-bottom">
-                        <span>{{ answer.score }}/{{ answer.max }}</span>
-                        {% comment %} TODO IF question is negative then "No negative points awarded" {% endcomment %}
-                    </td>
+                <td data-column="score" class="score border-bottom">
+                    <span>{{ answer.score }}/{{ answer.max }}</span>
+                    {% comment %} TODO IF question is negative then "No negative points awarded" {% endcomment %}
+                </td>
 
-                    {% for comparison in answer.comparisons %}
-                      <td data-column="score" class="d-none d-md-table-cell score border-bottom">
-                          <span>{{ comparison.score }}/{{ comparison.max }}</span>
-                      </td>
-                    {% endfor %}
+              {% for comparison in answer.comparisons %}
+                <td data-column="score" class="d-none d-md-table-cell score border-bottom">
+                    <span>{{ comparison.score }}/{{ comparison.max }}</span>
+                </td>
+              {% endfor %}
 
-                    <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
-                      <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">
+                <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
+                    <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">
                         {{ answer.council_count }} out of {{ council_count }}
-                      </a> 
-                      <span class="fs-8 mt-1 me-0 ms-auto d-block">{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this question.</span>
-                    </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            {% endfor %}
-          </table>
-      </div>
-    </div>
-  </div>
+                    </a>
+                    <span class="fs-8 mt-1 me-0 ms-auto d-block">
+                        {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                        councils got full marks for this question.
+                    </span>
+                </td>
+            </tr>
+          {% endfor %}
+
+        </tbody>
+      {% endfor %}
+
+    </table>
+
 </div>
 {% endif %}
 
-{% comment %} <script>
-    // Open modals and filters
-    const modalTriggers = document.querySelectorAll('.popup-trigger')
-    const modalCloseTrigger = document.querySelector('.popup-modal__close')
-    
-    modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', () => {
-            const { popupTrigger } = trigger.dataset;
-            const popupModal = document.querySelector(`[data-popup-modal="${popupTrigger}"]`);
-            popupModal.classList.add('is--visible');
-
-            popupModal.querySelector('.popup-modal__close').addEventListener('click', () => {
-            popupModal.classList.remove('is--visible');
-            })
-        })
-    })
-</script> {% endcomment %}
 {% endblock %}

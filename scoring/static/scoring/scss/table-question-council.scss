@@ -1,5 +1,5 @@
 .table-question-council {
-    table-layout: fixed;
+    width: 100%;
 
     th, td  {
         @include responsive(padding, 12, 16);
