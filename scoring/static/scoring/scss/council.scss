@@ -1,0 +1,28 @@
+.council-stats-grid {
+    @include media-breakpoint-up('sm') {
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+
+        dt {
+            margin-right: 1rem;
+        }
+    }
+
+    @include media-breakpoint-up('lg') {
+        grid-template-columns: repeat(4, max-content);
+
+        dd {
+            margin-right: 4rem;
+        }
+    }
+}
+
+.key-terms-grid {
+    @include media-breakpoint-up('sm') {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        justify-items: start;
+        grid-column-gap: 1rem;
+        align-items: start;
+    }
+}
