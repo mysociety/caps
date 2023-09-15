@@ -212,78 +212,54 @@ CHECK which about section is prefered.
 {% if not new_council %}
 <div class="container council-page mt-4 js-dynamic-content" data-active-source-type="default">
 
-  <div class="row mb-4">
-    <div class="col-sm-10 col-lg-6">
-      <h3 class="mb-3">
-        Individual question performance
-      </h3>
+    <h3>Individual question performance</h3>
 
-      <p class="mb-4">Each category on the Scorecards is broken down into several individual questions, as guided by Climate Emergency UK’s <a href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/" class="d-inline-block">checklist for councils’ Action Plans</a>. This is the most granular data we hold for each councils’ Scorecard.
-      </p>
-
-      <div class="accordion" id="accordionQuestionCouncil">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="QuestionCouncilheadingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#QuestionCouncilcollapseOne" aria-expanded="true" aria-controls="QuestionCouncilcollapseOne">
-              Filter questions by source type
-            </button>
-          </h2>
-          <div id="QuestionCouncilcollapseOne" class="accordion-collapse collapse show" aria-labelledby="QuestionCouncilheadingOne" data-bs-parent="#accordionQuestionCouncil">
-            <div class="accordion-body">
-              <div class="d-flex flex-row flex-wrap" style="gap:0.5rem">
-                <button class="radio-btn is--with-label mr-1" data-question-source-type="default">All</button>
-                <button class="radio-btn is--with-label mr-1" data-question-source-type="volunteer">Volunteer Research</button>
-                <button class="radio-btn is--with-label mr-1" data-question-source-type="foi">FOI</button>
-                <button class="radio-btn is--with-label mr-1" data-question-source-type="national-data">National Data</button>
-                <button class="radio-btn is--with-label mr-1" data-question-source-type="national-data-and-volunteer">National Data and Volunteer Research</button>
-              </div>
-          
-              <form class="mt-3">
-                  <input class="me-1 is--small" type="checkbox" id="council-operations-only" name="council-operations-only" >
-                  <label for="council-operations-only">Display only Council operations questions</label>
-              </form>
+    <div class="row my-4 my-lg-5">
+        <div class="col-md-6 col-lg-4 d-none d-md-block">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h3 class="fs-6 mb-0">Add councils to compare</h3>
+                </div>
+                <div class="card-body">
+                    <form id="advancedFilterForm" action=".">
+                      {% if comparisons|length > 2 %}
+                        <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
+                      {% else %}
+                        <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name">
+                      {% endif %}
+                      {% if comparisons %}
+                        <div class="selected-council-wrapper mt-4">
+                          {% for comparison in comparisons %}
+                            <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
+                          {% endfor %}
+                        </div>
+                        {% comment %} <a href="{% url "council" council.slug %}" class="mt-3">Clear all</a> {% endcomment %}
+                      {% endif %}
+                    </form>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="QuestionCouncilheadingTwo">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#QuestionCouncilcollapseTwo" aria-expanded="false" aria-controls="QuestionCouncilcollapseTwo">
-              Add councils to compare
-            </button>
-          </h2>
-          <div id="QuestionCouncilcollapseTwo" class="accordion-collapse collapse" aria-labelledby="QuestionCouncilheadingTwo" data-bs-parent="#accordionQuestionCouncil">
-            <div class="accordion-body">
-              <div class="mobile-message d-sm-none p-3 text-bg-secondary">
-                <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
-                <p class="text-white">You’ll find more options, like the ability to compare your council’s Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
-              </div>
-              <div class="d-none d-lg-block">
-                <form class="d-none d-lg-block" id="advancedFilterForm" action=".">
-                  {% if comparisons|length > 2 %}
-                  <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
-                {% else %}
-                  <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name">
-                {% endif %}
-                {% if comparisons %}
-                  <div class="selected-council-wrapper mt-4">
-                    {% for comparison in comparisons %}
-                      <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
-                    {% endfor %}
-                  </div>
-                  {% comment %} <a href="{% url "council" council.slug %}" class="mt-3">Clear all</a> {% endcomment %}
-                {% endif %}
-                </form>
-              </div>
+        <div class="col-md-6 col-lg-8">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h3 class="fs-6 mb-0">Filter questions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-row flex-wrap" style="gap:0.5rem">
+                        <button class="radio-btn is--with-label mr-1" data-question-source-type="default">All</button>
+                        <button class="radio-btn is--with-label mr-1" data-question-source-type="volunteer">Volunteer Research</button>
+                        <button class="radio-btn is--with-label mr-1" data-question-source-type="foi">FOI</button>
+                        <button class="radio-btn is--with-label mr-1" data-question-source-type="national-data">National Data</button>
+                        <button class="radio-btn is--with-label mr-1" data-question-source-type="national-data-and-volunteer">National Data and Volunteer Research</button>
+                    </div>
+                    <form class="mt-3">
+                        <input class="me-1 is--small" type="checkbox" id="council-operations-only" name="council-operations-only" >
+                        <label for="council-operations-only">Display only Council operations questions</label>
+                    </form>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-
-      {% comment %} {% include 'scoring/includes/council-source-filter.html' %}
-      {% include 'scoring/includes/compare-council-modal.html' %} {% endcomment %}
     </div>
-  </div>
-
 
     <table class="table-question-council mb-5 mt-4">
         <thead class="text-bg-primary">
