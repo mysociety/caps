@@ -58,7 +58,6 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
 
     def get_template_names(self):
         authority_type = self.get_authority_type()["slug"]
-        print(authority_type)
         if authority_type == "combined":
             return ["scoring/home_combined.html"]
 

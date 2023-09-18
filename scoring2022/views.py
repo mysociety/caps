@@ -178,12 +178,12 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         plan_score = PlanScore.objects.get(council=council, year=2021)
         plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
         sections = PlanSectionScore.sections_for_council(
-            council=council, plan_year=settings.PLAN_YEAR
+            council=council, plan_year=2021
         )
 
         # get average section scores for authorities of the same type
         section_avgs = PlanSectionScore.get_all_section_averages(
-            council_group=group, plan_year=settings.PLAN_YEAR
+            council_group=group, plan_year=2021
         )
         for section in section_avgs.all():
             sections[section["plan_section__code"]]["avg"] = round(
@@ -191,7 +191,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             )
 
         section_top_marks = PlanSectionScore.get_all_section_top_mark_counts(
-            council_group=group, plan_year=settings.PLAN_YEAR
+            council_group=group, plan_year=2021
         )
         for section in section_top_marks.all():
             sections[section["plan_section__code"]]["max_count"] = section[
@@ -199,7 +199,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             ]
 
         question_max_counts = PlanQuestionScore.all_question_max_score_counts(
-            council_group=group, plan_year=settings.PLAN_YEAR
+            council_group=group, plan_year=2021
         )
 
         comparison_slugs = self.request.GET.getlist("comparisons")
@@ -212,14 +212,14 @@ class CouncilView(CheckForDownPageMixin, DetailView):
                 .order_by("council__name")
             )
             comparison_sections = PlanSectionScore.sections_for_plans(
-                plans=comparisons, plan_year=settings.PLAN_YEAR
+                plans=comparisons, plan_year=2021
             )
             for section, details in comparison_sections.items():
                 sections[section]["comparisons"] = details
 
             comparison_ids = [p.id for p in comparisons]
             for question in PlanScore.questions_answered_for_councils(
-                plan_ids=comparison_ids, plan_year=settings.PLAN_YEAR
+                plan_ids=comparison_ids, plan_year=2021
             ):
                 q = self.make_question_obj(question)
                 comparison_answers[question.code].append(q)

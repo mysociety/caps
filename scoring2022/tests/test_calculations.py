@@ -1,14 +1,13 @@
-from django.test import TestCase
-
 from caps.models import Council
-from scoring.models import PlanSection, PlanSectionScore, PlanScore
+from django.test import TestCase
+from scoring.models import PlanScore, PlanSection, PlanSectionScore
 
 
 class TestAverageSectionScores(TestCase):
     fixtures = ["test_averages.json"]
 
     def test_basic_averages(self):
-        averages = PlanSection.get_average_scores()
+        averages = PlanSection.get_average_scores(year=2021)
 
         self.assertEquals(
             averages,
@@ -20,7 +19,7 @@ class TestAverageSectionScores(TestCase):
         )
 
     def test_zero_scores_excluded(self):
-        averages = PlanSection.get_average_scores()
+        averages = PlanSection.get_average_scores(year=2021)
 
         self.assertEqual(
             averages,
@@ -36,7 +35,7 @@ class TestAverageSectionScores(TestCase):
             council=council, year=2021, weighted_total=0, total=0
         )
 
-        averages = PlanSection.get_average_scores()
+        averages = PlanSection.get_average_scores(year=2021)
 
         self.assertEqual(
             averages,
@@ -52,7 +51,7 @@ class TestGetAllScores(TestCase):
     fixtures = ["test_averages.json"]
 
     def test_all_scores(self):
-        all_scores = PlanSectionScore.get_all_council_scores()
+        all_scores = PlanSectionScore.get_all_council_scores(2021)
 
         self.assertEqual(
             all_scores,
