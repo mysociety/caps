@@ -1,0 +1,241 @@
+{% extends "scoring/home.html" %}
+
+{% load static %}
+{% load django_bootstrap5 %}
+
+            {% block "score_table" %}
+                <table class="scorecard-table">
+                    <thead>
+                        <tr class="first-row position-sticky bg-white" style="z-index:30">
+                            <th scope="col" class="bg-light position-sticky z-index-4">
+
+                            </th>
+                            <th scope="col" class="position-sticky pb-0 total-score" style="z-index:2">
+                                <div class="d-flex flex-row-reverse justify-content-end">
+                                    <span class="text-center fw-bold">Total Score</span>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-default="descending"></button>
+                                </div>
+                                {% comment %} <div class="table-sticky-border right"></div>
+                                <div class="table-sticky-border left"></div>
+                                <div class="table-sticky-border top"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="pb-0">
+                                <div class="d-flex flex-row-reverse justify-content-end">
+                                    <a class="text-decoration-none fw-bold link-category-1" href="{% url 'scoring:methodology' %}#sec-gov">Building & Heating & Green Skills</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's1_b_h_gs_ca' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                </div>
+                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="pb-0">
+                                <div class="d-flex flex-row-reverse justify-content-end">
+                                    <a class="text-decoration-none fw-bold link-category-2" href="{% url 'scoring:methodology' %}#sec-ma">Transport</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's2_tran_ca' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                </div>
+                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="pb-0">
+                                <div class="d-flex flex-row-reverse justify-content-end">
+                                    <a class="text-decoration-none fw-bold link-category-3" href="{% url 'scoring:methodology' %}#sec-ca">Planning & Biodiversity</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's3_p_b_ca' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                </div>
+                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="pb-0">
+                                <div class="d-flex flex-row-reverse justify-content-end">
+                                    <a class="text-decoration-none fw-bold link-category-4" href="{% url 'scoring:methodology' %}#sec-coms">Governance & Finance</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's4_g_f_ca' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                </div>
+                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="pb-0">
+                                <div class="d-flex flex-row-reverse justify-content-end">
+                                    <a class="text-decoration-none fw-bold link-category-6" href="{% url 'scoring:methodology' %}#sec-co">Collaboration & Engagement</a>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's5_c_e_ca' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                </div>
+                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
+                            </th>
+                        </tr>
+                        <tr class="second-row position-sticky z-index-4">
+                            <th scope="col" style="min-width:250px" class="bg-primary-100 position-sticky z-index-4">
+                                <span class="ms-4 fs-6 fw-bold">{{ authority_type_label }} average</span>
+                                {% comment %} <div class="table-sticky-border bottom"></div>
+                                <div class="table-sticky-border left"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4 bg-green-l2">              
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
+                                {% comment %} <div class="table-sticky-border bottom"></div>
+                                <div class="table-sticky-border right"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="bg-primary-100 category-1 second-row">              
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s1_b_h_gs_ca.score max=averages.s1_b_h_gs_ca.max average=1 %}
+                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="bg-primary-100 category-2 second-row">              
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s2_tran_ca.score max=averages.s2_tran_ca.max average=1 %}
+                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="bg-primary-100 category-3 second-row">              
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s3_p_b_ca.score max=averages.s3_p_b_ca.max average=1 %}
+                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="bg-primary-100 category-4 second-row">              
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s4_g_f_ca.score max=averages.s4_g_f.max average=1 %}
+                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
+                            </th>
+                            <th scope="col" class="bg-primary-100 category-5 second-row">              
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s5_c_e_ca.score max=averages.s5_c_e_ca.max average=1 %}
+                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for council in council_data %}
+                        <tr data-jump-slug="{{ council.slug }}">
+                            <th scope="row" class="first-column position-sticky z-index-3 align-middle">
+                                <div class="d-flex flex-row align-items-center">
+                                    {% if council.top_performer %}
+                                    <div class="top-performer">
+                                        <div class="hover-message">
+                                            <span>This is a top performer council.</span>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                        {% comment %} So there vertical aligment between top performer and non top performers is the same. {% endcomment %}
+                                        <div class="pe-4"></div>
+                                    {% endif %}
+                                    <a class="council-link" href="{% url 'scoring:council' council.slug %}">{{ council.name }}</a>
+                                </div>
+                                {% comment %} <div class="table-sticky-border left"></div> {% endcomment %}
+                            </th>
+                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="{{ council.percentage|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
+                                {% comment %} <div class="table-sticky-border right"></div> {% endcomment %}
+                            </th>
+                          {% with scores=council.all_scores %}
+                          {% if council.score != 0 and council.score is not None %}
+                            <td scope="row" class="council-category-score category-1" data-sort-value="{{ scores.s1_b_h_gs_ca.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s1_b_h_gs_ca.score max=scores.s1_b_h_gs_ca.max %}
+                            </td>
+                            <td scope="row" class="council-category-score category-2" data-sort-value="{{ scores.s2_tran_ca.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s2_tran_ca.score max=scores.s2_tran_ca.max %}
+                            </td>
+                            <td scope="row" class="council-category-score category-3" data-sort-value="{{ scores.s3_p_b_ca.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s3_p_b_ca.score max=scores.s3_p_b_ca.max %}
+                            </td>
+                            <td scope="row" class="council-category-score category-4" data-sort-value="{{ scores.s4_g_f_ca.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s4_g_f_ca.score max=scores.s4_g_f_ca.max %}
+                            </td>
+                            <td scope="row" class="council-category-score category-5" data-sort-value="{{ scores.s5_c_e_ca.score|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s5_c_e_ca.score max=scores.s5_c_e_ca.max %}
+                            </td>
+                          {% elif council.score == 0 %}
+                            <td class="has-no-plan" colspan="9" data-sort-value="-1">
+                                This council did not have an action plan when all plans were assessed on 20th September 2021.
+                            </td>
+                          {% for x in "12345678" %}
+                            <td scope="row"  data-sort-value="-1" hidden></td>
+                          {% endfor %}
+                          {% elif council.score is None %}
+                            <td class="has-no-plan" colspan="9" data-sort-value="-1">
+                                This council did not exist when all plans were assessed on 20th September 2021.
+                            </td>
+                          {% for x in "12345678" %}
+                            <td scope="row"  data-sort-value="-1" hidden></td>
+                          {% endfor %}
+                          {% endif %}
+                          {% endwith %}
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+
+                <table class="scorecard-table-mobile">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="2" class="main-header position-sticky z-index-5">
+                                <div class="text-bg-secondary p-3 text-center">
+                                    <span>Total Score</span>
+                                </div>
+                            </th>
+                        <tr class="second-row position-sticky z-index-4">
+                            <th class="bg-white" scope="col" style="min-width:250px">
+                                <span class="ms-4 fs-6 fw-bold">{{ authority_type_label }} average</span>
+                            </th>
+                            <th scope="col" class="total-score position-sticky z-index-4">              
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
+                            </th>
+                            <th scope="col" class="category-1 second-row">              
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s1_b_h_gs_ca.score max=averages.s1_b_h_gs_ca.max average=1 %}
+                            </th>
+                            <th scope="col" class="category-2 second-row">              
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s2_tran_ca.score max=averages.s2_tran_ca.max average=1 %}
+                            </th>
+                            <th scope="col" class="category-3 second-row">              
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s3_p_b_ca.score max=averages.s3_p_b_ca.max average=1 %}
+                            </th>
+                            <th scope="col" class="category-4 second-row">              
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s4_g_f_ca.score max=averages.s4_g_f.max average=1 %}
+                            </th>
+                            <th scope="col" class="category-5 second-row">              
+                                {% include 'scoring/includes/score-bar.html' with score=averages.s5_c_e_ca.score max=averages.s5_c_e_ca.max average=1 %}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for council in council_data %}
+                        <tr data-jump-slug="{{ council.slug }}">
+                            <th scope="row" class="first-column position-sticky z-index-3 d-flex flex-row align-items-center">
+                                {% if council.top_performer %}
+                                <div class="top-performer">
+                                    <div class="hover-message">
+                                        <span>This is a top performer council.</span>
+                                    </div>
+                                </div>
+                                <a class="fs-7 lh-base council-link" href="{% url 'scoring:council' council.slug %}">{{ council.name }}</a>
+                                {% else %}
+                                <div style="width:20px"></div>
+                                <a class="fs-7 lh-base council-link" href="{% url 'scoring:council' council.slug %}">{{ council.name }}</a>
+                                {% endif %}
+                            </th>
+                          {% if council.score != 0 %}
+                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle">
+                                {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
+                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
+                            </th>
+                          {% else %}
+                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="-1">
+                                <span class="small" style="white-space:normal">This council did not have an action plan when all plans were assessed on 20th September 2021.</span>
+                            </th>
+                          {% endif %}
+
+                          {% with scores=council.all_scores %}
+                          {% if council.score != 0 %}
+                            <td scope="row" class="council-category-score category-1">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s1_b_h_gs_ca.score max=scores.s1_b_h_gs_ca.max %}
+                            </td>
+                            <td scope="row" class="council-category-score category-2">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s2_tran_ca.score max=scores.s2_tran_ca.max %}
+                            </td>
+                            <td scope="row" class="council-category-score category-3">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s3_p_b_ca.score max=scores.s3_p_b_ca.max %}
+                            </td>
+                            <td scope="row" class="council-category-score category-4">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s4_g_f_ca.score max=scores.s4_g_f.max %}
+                            </td>
+                            <td scope="row" class="council-category-score category-5">
+                                {% include 'scoring/includes/score-bar.html' with score=scores.s5_c_e_ca.score max=scores.s5_c_e_ca.max %}
+                            </td>
+                          {% else %}
+                            <td class="has-no-plan" colspan="9">
+                                This council did not have an action plan when all plans were assessed on 20th September 2021.
+                            </td>
+                          {% for x in "12345678" %}
+                            <td scope="row"  data-sort-value="-1" hidden></td>
+                          {% endfor %}
+                          {% endif %}
+                          {% endwith %}
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+                {% endblock %}

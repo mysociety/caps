@@ -55,7 +55,14 @@ class PrivacyView(TemplateView):
 @method_decorator(cache_control(**cache_settings), name="dispatch")
 class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
     filterset_class = PlanScoreFilter
-    template_name = "scoring/home.html"
+
+    def get_template_names(self):
+        authority_type = self.get_authority_type()["slug"]
+        print(authority_type)
+        if authority_type == "combined":
+            return ["scoring/home_combined.html"]
+
+        return ["scoring/home.html"]
 
     def get_authority_type(self):
         authority_type = self.kwargs.get("council_type", "")

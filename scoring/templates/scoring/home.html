@@ -133,7 +133,9 @@
                 {% endif %}
             </div>
 
+
             <div class="scorecard-table-wrapper border">
+                {% block "score_table" %}
                 <table class="scorecard-table">
                     <thead>
                         <tr class="first-row position-sticky bg-white" style="z-index:30">
@@ -408,6 +410,7 @@
                       {% endfor %}
                     </tbody>
                 </table>
+                {% endblock %}
             </div>
 
             <p class="mt-4 mt-lg-5 mb-0">
