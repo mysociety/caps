@@ -1,9 +1,7 @@
-from django.test import TestCase, Client
-
-from django.urls import reverse
-
 from caps.models import Council
-from scoring.models import PlanSectionScore, PlanScore
+from django.test import Client, TestCase
+from django.urls import reverse
+from scoring.models import PlanScore, PlanSectionScore
 
 
 class TestHomePageView(TestCase):
@@ -14,7 +12,9 @@ class TestHomePageView(TestCase):
 
     def test_homepage(self):
         url = reverse("home", urlconf="scoring2022.urls")
-        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+        response = self.client.get(
+            "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
+        )
 
         councils = response.context["council_data"]
         self.assertEquals(len(councils), 1)
@@ -30,7 +30,9 @@ class TestHomePageView(TestCase):
 
         for slug, name in types.items():
             url = reverse("scoring", urlconf="scoring2022.urls", args=[slug])
-            response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+            response = self.client.get(
+                "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
+            )
 
             councils = response.context["council_data"]
             self.assertEquals(len(councils), 1)
@@ -45,7 +47,9 @@ class TestAnswerView(TestCase):
 
     def test_answer_view(self):
         url = reverse("council", urlconf="scoring2022.urls", args=["borsetshire"])
-        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+        response = self.client.get(
+            "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
+        )
         sections = response.context["sections"]
 
         self.assertEquals(
@@ -113,7 +117,9 @@ class TestAnswerView(TestCase):
         council.save()
 
         url = reverse("council", urlconf="scoring2022.urls", args=["borsetshire"])
-        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+        response = self.client.get(
+            "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
+        )
         sections = response.context["sections"]
 
         self.assertEquals(
@@ -181,7 +187,9 @@ class TestAnswerView(TestCase):
         section.save()
 
         url = reverse("council", urlconf="scoring2022.urls", args=["borsetshire"])
-        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+        response = self.client.get(
+            "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
+        )
         sections = response.context["sections"]
 
         self.assertEquals(
@@ -247,7 +255,9 @@ class TestAnswerView(TestCase):
         plan.save()
 
         url = reverse("council", urlconf="scoring2022.urls", args=["borsetshire"])
-        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+        response = self.client.get(
+            "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
+        )
         sections = response.context["sections"]
 
         self.assertEquals(
@@ -313,8 +323,10 @@ class TestTopPerormersInViews(TestCase):
         self.client = Client()
 
     def test_homepage_view(self):
-        url = reverse("home", urlconf="scoring2022.urls")
-        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+        url = reverse("home", urlconf="scoring2022.urls", current_app="scoring2022")
+        response = self.client.get(
+            "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
+        )
         councils = response.context["council_data"]
 
         performers = [
@@ -339,7 +351,9 @@ class TestTopPerormersInViews(TestCase):
 
     def test_answer_view(self):
         url = reverse("council", urlconf="scoring2022.urls", args=["borsetshire"])
-        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+        response = self.client.get(
+            "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
+        )
         sections = response.context["sections"]
 
         self.assertEquals(

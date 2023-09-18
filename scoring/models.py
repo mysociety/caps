@@ -177,13 +177,15 @@ class PlanSection(models.Model):
         )
 
     @classmethod
-    def get_average_scores(cls, council_group=None, filter=None):
+    def get_average_scores(
+        cls, council_group=None, filter=None, year=settings.PLAN_YEAR
+    ):
         """
         This excludes plans with zero score as it's assumed that if they have 0 then they
         were not marked, or the council has no plan, and hence including them would artificially
         reduce the average.
         """
-        has_score = PlanScore.objects.filter(total__gt=0)
+        has_score = PlanScore.objects.filter(total__gt=0, year=year)
         if council_group is not None:
             group = Council.SCORING_GROUPS[council_group]
             has_score = has_score.filter(
@@ -296,7 +298,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         return sections
 
     @classmethod
-    def get_all_council_scores(cls):
+    def get_all_council_scores(cls, plan_year=settings.PLAN_YEAR):
         """
         This excludes plans with zero score as it's assumed that if they have 0 then they
         were not marked, or the council has no plan
@@ -304,7 +306,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         scores = (
             cls.objects.all()
             .select_related("plan_section", "plan_score")
-            .filter(plan_score__year=settings.PLAN_YEAR, plan_score__total__gt=0)
+            .filter(plan_score__year=plan_year, plan_score__total__gt=0)
             .values(
                 "plan_score__total",
                 "plan_score__council_id",
@@ -320,8 +322,6 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
                 "score": score["score"],
                 "max": score["max_score"],
             }
-
-        print(councils)
 
         return councils
 
