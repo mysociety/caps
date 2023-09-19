@@ -145,26 +145,51 @@ def replace_headers():
         settings.RAW_CSV,
         [
             "council",
-            "search_link",
-            "unfound",
-            "credit",
             "url",
             "date_retrieved",
-            "time_period",
             "type",
-            "scope",
-            "status",
-            "homepage_mention",
-            "dedicated_page",
-            "well_presented",
-            "baseline_analysis",
-            "notes",
-            "plan_due",
             "title",
-            "title_checked",
+            "out_of_date",
         ],
         outfile=settings.PROCESSED_CSV,
     )
+    df = pd.read_csv(settings.PROCESSED_CSV)
+
+    # where out of date is true,
+    # blank all other columns so we still create the council entry
+    is_out_of_date = df["out_of_date"] == True
+    df.loc[is_out_of_date, "url"] = None
+    df.loc[is_out_of_date, "date_retrieved"] = None
+    df.loc[is_out_of_date, "type"] = None
+    df.loc[is_out_of_date, "title"] = None
+
+    # there shouldn't be any blank 'council' items, check this
+    is_blank_council = df["council"].isnull()
+    if is_blank_council.any():
+        for index, row in df[is_blank_council].iterrows():
+            raise CommandError(f"Blank council name in row {index}")
+
+    # don't use these columns anymore, but creating empty entries for them
+    empty_columns = [
+        "search_link",
+        "unfound",
+        "credit",
+        "time_period",
+        "scope",
+        "status",
+        "homepage_mention",
+        "dedicated_page",
+        "well_presented",
+        "baseline_analysis",
+        "notes",
+        "plan_due",
+        "title_checked",
+    ]
+
+    for column in empty_columns:
+        df[column] = pd.Series([None] * len(df["council"]), index=df.index)
+
+    df.to_csv(settings.PROCESSED_CSV, index=False, header=True)
 
 
 class Command(BaseCommand):
