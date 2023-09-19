@@ -1,5 +1,6 @@
-from django.core.management.base import BaseCommand
+import pandas as pd
 from django.conf import settings
+from django.core.management.base import BaseCommand
 
 from caps.import_utils import (
     add_authority_codes,
@@ -41,6 +42,11 @@ class Command(BaseCommand):
         get_promises()
         print("replacing promises headers")
         replace_headers()
+        df = pd.read_csv(settings.PROMISES_CSV)
+        # remove any rows with a blank council cell
+        # seems to be loose ones at the end of the file
+        df = df.dropna(subset=["council"])
+        df.to_csv(settings.PROMISES_CSV, index=False, header=True)
         print("adding council codes to promises")
         add_authority_codes(settings.PROMISES_CSV)
         add_gss_codes(settings.PROMISES_CSV)
