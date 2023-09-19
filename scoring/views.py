@@ -6,7 +6,7 @@ from caps.views import BaseLocationResultsView
 from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Count, F, OuterRef, Subquery, Sum
-from django.shortcuts import resolve_url
+from django.shortcuts import resolve_url, reverse
 from django.utils.decorators import method_decorator
 from django.utils.text import Truncator
 from django.views.decorators.cache import cache_control
@@ -16,14 +16,8 @@ from django_filters.views import FilterView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort
 from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin
-from scoring.models import (
-    PlanQuestion,
-    PlanQuestionScore,
-    PlanScore,
-    PlanScoreDocument,
-    PlanSection,
-    PlanSectionScore,
-)
+from scoring.models import (PlanQuestion, PlanQuestionScore, PlanScore,
+                            PlanScoreDocument, PlanSection, PlanSectionScore)
 
 cache_settings = {
     "max-age": 60,
@@ -331,8 +325,51 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class SectionView(CheckForDownPageMixin, TemplateView):
+class SectionView(CheckForDownPageMixin, DetailView):
+    model = PlanSection
+    context_object_name = "section"
     template_name = "scoring/section.html"
+
+    combined_alt_map = {
+        "s1_b_h": "s1_b_h_gs_ca",
+        "s2_tran": "s2_tran_ca",
+        "s3_p_lu": "s3_p_b_ca",
+        "s4_g_f": "s5_g_f_ca",
+        "s6_c_e": "s6_c_e_ca",
+    }
+
+    alt_map = dict((ca, non_ca) for non_ca, ca in combined_alt_map.items())
+
+    def get_object(self):
+        return PlanSection.objects.get(code=self.kwargs["code"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        section = context["section"]
+
+        if section.code.find("_ca") > 0:
+            context["section_is_combined"] = True
+            alt_section = self.alt_map.get(section.code, None)
+            if alt_section is not None:
+                alt = PlanSection.objects.get(code=alt_section)
+                context["alternative"] = {
+                    "name": alt.description,
+                    "url": reverse("scoring:section", args=(alt_section,)),
+                }
+        else:
+            ca_alt_section = self.combined_alt_map.get(section.code, None)
+            if ca_alt_section is not None:
+                alt = PlanSection.objects.get(code=ca_alt_section)
+                context["combined_alternative"] = {
+                    "name": alt.description,
+                    "url": reverse("scoring:section", args=(ca_alt_section,)),
+                }
+
+        avgs = section.get_averages_by_council_group()
+
+        avgs["ni"] = avgs["northern-ireland"]
+        context["averages"] = avgs
+        return context
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")

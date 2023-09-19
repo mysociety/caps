@@ -167,6 +167,28 @@ class PlanSection(models.Model):
         max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
     )
 
+    def get_averages_by_council_group(self):
+        averages = {}
+
+        scores = PlanSectionScore.objects.filter(
+            plan_score__total__gt=0,
+            plan_section=self,
+        ).select_related("plan_score", "plan_section")
+
+        for group, props in Council.SCORING_GROUPS.items():
+            councils = Council.objects.filter(
+                authority_type__in=props["types"], country__in=props["countries"]
+            )
+
+            avg = scores.filter(plan_score__council__in=councils).aggregate(
+                avg=Avg("score"),
+                max=Max("max_score"),
+            )
+
+            averages[group] = {"average": avg["avg"], "maximum": avg["max"]}
+
+        return averages
+
     @classmethod
     def section_codes(cls):
         return cls.objects.distinct("code").values_list("code", flat=True)
