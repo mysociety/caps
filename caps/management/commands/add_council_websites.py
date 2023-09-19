@@ -17,7 +17,12 @@ SCOTTISH_TWITTER_CSV = join(settings.DATA_DIR, "scottish_twitter.csv")
 
 
 def get_dom(url):
-    local_filename, headers = urllib.request.urlretrieve(url)
+
+    headers = {
+        "User-Agent": "CAPE Provisioning/0.0 (cape.mysociety.org)",
+    }
+
+    local_filename, headers = urllib.request.urlretrieve(url, headers=headers)
 
     with open(local_filename, "r") as reader:
         page = reader.read()
