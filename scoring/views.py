@@ -173,6 +173,12 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             "section": question.section_code,
             "answer": question.answer or "-",
             "score": question.score or 0,
+            "negative": question.question_type == "negative",
+            # need to do this to make the JS work
+            "how_marked": question.how_marked.replace("_", "-"),
+            "how_marked_display": question.get_how_marked_display(),
+            "weighting": question.get_weighting_display(),
+            "evidence_links": question.evidence_links.splitlines(),
         }
         if question.question_type == "HEADER":
             q["max"] = question.header_max
@@ -208,11 +214,15 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         ] = Council.objects.all()  # for location search autocomplete
 
         promises = Promise.objects.filter(council=council).all()
-        plan_score = PlanScore.objects.get(council=council, year=2021)
+        plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
         plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
         sections = PlanSectionScore.sections_for_council(
             council=council, plan_year=settings.PLAN_YEAR
         )
+
+        for section in sections.keys():
+            sections[section]["non_negative_max"] = sections[section]["score"]
+            sections[section]["negative_points"] = 0
 
         # get average section scores for authorities of the same type
         section_avgs = PlanSectionScore.get_all_section_averages(
@@ -263,6 +273,11 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             q = self.make_question_obj(question)
             q["council_count"] = question_max_counts.get(question.code, 0)
             q["comparisons"] = comparison_answers[question.code]
+
+            if q["negative"] and q["score"] < 0:
+                sections[section]["negative_points"] += q["score"]
+                sections[section]["non_negative_max"] -= q["score"]
+                sections[section]["has_negative_points"] = True
 
             sections[section]["answers"].append(q)
 
