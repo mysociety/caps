@@ -43,6 +43,8 @@ def set_file_attributes(df, index, content_type, extension):
         df.at[index, "file_type"] = "xlsx"
     elif content_type == "application/vnd.ms-excel.sheet.macroenabled.12":
         df.at[index, "file_type"] = "xlsm"
+    elif content_type == "application/msword":
+        df.at[index, "file_type"] = "doc"
     else:
         print("Unknown content type: " + content_type)
 
