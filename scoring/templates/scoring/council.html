@@ -156,23 +156,23 @@
       {% for section in sections %}
         <tbody class="table-question-council__section">
 
-          {% comment %} TODO if negative score: {% endcomment %}
+          {% if section.has_negative_points %}
             <tr data-has-plan="no" class="section-row bg-red-100 text-red-900">
-          {% comment %} TODO else: {% endcomment %}
-            <!-- <tr data-has-plan="no" class="section-row bg-primary-100"> -->
-          {% comment %} TODO endif {% endcomment %}
+          {% else %}
+            <tr data-has-plan="no" class="section-row bg-primary-100">
+          {% endif %}
 
                 <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
                     {{ section.description }}
 
-                  {% comment %} TODO if negative penalty: {% endcomment %}
+                    {% if section.has_negative_points %}
                     <p class="d-flex align-items-center mb-0 mt-2 fs-7 text-warning">
                         {% include 'caps/icons/warning.html' with classes='me-2' width='1em' height='1em' role='presentation' %}
                         {% comment %} TODO correct percentage {% endcomment %}
                         <strong class="me-2">Negative points:</strong>
                         {{ council.name }} incurred a penalty of 15% in this section
                     </p>
-                  {% comment %} TODO endif {% endcomment %}
+                    {% endif %}
 
                     <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
                         {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
@@ -188,12 +188,12 @@
               {% else %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                     <span>{{ section.score }}/{{ section.max_score }}</span>
-                  {% comment %} TODO if negative penalty: {% endcomment %}
+                    {% if section.has_negative_points %}
                     <div class="fs-7 mt-2">
                         {% comment %} TODO Update obtained points minus the penalty {% endcomment %}
-                        {{ section.score }} &equals; Total score (22) &minus; Penalty points (3)
+                        {{ section.score }} &equals; Total score ({{ section.non_negative_max }}) &minus; Penalty points ({{ section.negative_points }})
                     </div>
-                  {% comment %} TODO endif {% endcomment %}
+                    {% endif %}
                 </td>
               {% endif %}
 
@@ -225,7 +225,7 @@
                 for each row add the correct attribute value. For council only the value should be true, otherwise false.
                 [data-active-council-operation-only="false"]
             {% endcomment %}
-            <tr class="question-row js-default js-volunteer" data-active-council-operation-only="true">
+            <tr class="question-row js-default js-{{ answer.how_marked }}" data-active-council-operation-only="true">
                 <td data-column="answer" class="border-start border-bottom border-end ">
                     <div class="question-content-table text-start">
                         <div class="row">
@@ -235,7 +235,7 @@
                             <div class="col-sm">
                                 {{ answer.question | linebreaks }}
 
-                              {% comment %} TODO if negative point question: {% endcomment %}
+                              {% if answer.type == "negative" %}
                                 <div class="d-flex mb-3 fs-7 text-red-500">
                                     {% include 'caps/icons/warning.html' with classes='mt-1 me-2 flex-shrink-0 flex-grow-0' width='1em' height='1em' role='presentation' %}
                                     <p class="mb-0">
@@ -245,44 +245,52 @@
                                         <a href="{% url 'scoring:methodology' %}#todo" style="color: inherit;">Read more about negative point questions.</a>
                                     </p>
                                 </div>
-                              {% comment %} TODO endif {% endcomment %}
+                                {% endif %}
 
-                              <button class="btn btn-outline-dark btn-sm mt-3 d-block js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">How this is marked?</button>
+                                <details class="text-muted fs-7">
+                                    <summary>How this is marked</summary>
+                                    {% comment %} TODO real data {% endcomment %}
+                                    <dl class="row mt-2 mb-0">
+                                        <dt class="col-sm-4">Source</dt>
+                                        <dd class="col-sm-8">{{ answer.how_marked_display }}</dd>
+                                        <dt class="col-sm-4">Question weight</dt>
+                                        <dd class="col-sm-8">{{ answer.weighting }}</dd>
+                                        <dt class="col-sm-4">Evidence</dt>
+                                        <dd class="col-sm-8">
+                                            {% for link in answer.evidence_links %}
+                                            <a href="{{ link }}" style="display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{ link }}</a>
+                                            {% empty %}
+                                            No evidence available.
+                                            {% endfor %}
+                                        </dd>
+                                    </dl>
+                                </details>
 
-                              <div class="section-question-content" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
-                                <dl class="row mt-2 mb-0">
-                                  <dt class="col-sm-4">Source</dt>
-                                  <dd class="col-sm-8">National Data and Volunteer Research</dd>
-                                  <dt class="col-sm-4">Question weight</dt>
-                                  <dd class="col-sm-8">Low</dd>
-                                  <dt class="col-sm-4">Evidence</dt>
-                                  <dd class="col-sm-8">
-                                      <a href="#" style="display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">https://documents.www.boretshire.gov.uk/files/2023/strategy.docx</a>
-                                      <a href="#" style="display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">https://www.boretshire.gov.uk/neighbourhoods/climate/updates/</a>
-                                  </dd>
-                              </dl>
-                              </div>
+                                {% for section in sections %}
+                                  {% for question in section.questions %}
+                                  {% comment %} TODO Add question criteria {% endcomment %}
+                                  <!-- Button trigger modal -->
+                                  <button type="button" class="link link-primary border-0 p-0 bg-white mt-3 text-decoration-underline" data-bs-toggle="modal" data-bs-target="#section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                                    View criteria
+                                  </button>
 
-                                {% comment %} TODO Add question criteria {% endcomment %}
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-outline-dark btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
-                                  View criteria
-                                </button>
-
-                                <div class="modal fade" id="modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label" aria-hidden="true">
-                                  <div class="modal-dialog">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <h5 class="modal-title" id="modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
-                                          <p>Criteria</p>
-                                          <div class="fw-normal fs-7">{{ answer.question | linebreaks }}</div>
-                                        </h5>
-                                      </div>
-                                      <div class="modal-body">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                      </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <!-- Modal -->
+                                  {% comment %} TODO We'll need to include an unique id. Not sure if we have a section shortname, so we can do something like -> shortname + question code  {% endcomment %}
+                                  <div class="modal fade" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
+                                            <p>Criteria</p>
+                                            <div class="fw-normal fs-7">{{ answer.question | linebreaks }}</div>
+                                          </h5>
+                                        </div>
+                                        <div class="modal-body">
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>

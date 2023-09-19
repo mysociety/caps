@@ -106,10 +106,10 @@ class PlanScore(models.Model):
     def questions_answered(self):
         # do this in raw SQL as otherwise we need an extra query
         questions = PlanQuestion.objects.raw(
-            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score, a.max_score as header_max \
+            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score, a.max_score as header_max, q.weighting, q.how_marked, a.evidence_links \
             from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
             left join scoring_planquestionscore a on q.id = a.plan_question_id \
-            where s.year = %s and ( a.plan_score_id = %s or a.plan_score_id is null) and (q.question_type = 'HEADER' or a.plan_question_id is not null)\
+            where s.year = %s and ( a.plan_score_id = %s or a.plan_score_id is null) and a.plan_question_id is not null\
             order by q.code",
             [self.year, self.id],
         )
