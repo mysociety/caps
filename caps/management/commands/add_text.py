@@ -1,4 +1,12 @@
-from os.path import join, basename, splitext, isfile
+"""
+This management command is no longer used!
+
+There's a prepare_text method in search_indexes.py
+that uses the build in haystack text extraction stuff
+for different file formats. 
+
+"""
+
 import glob
 
 import pandas as pd
