@@ -1,6 +1,7 @@
 import os
 import ssl
 import sys
+from functools import lru_cache
 from os.path import basename, isfile, join, splitext
 from urllib.parse import urlparse
 
@@ -10,6 +11,9 @@ import requests
 import urllib3
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+
 from caps.import_utils import get_google_sheet_as_csv, replace_csv_headers
 from caps.models import PlanDocument
 
@@ -43,6 +47,24 @@ def set_file_attributes(df, index, content_type, extension):
         print("Unknown content type: " + content_type)
 
 
+@lru_cache
+def get_retry_requester():
+    """
+    Get requests session that will retry on failure
+    """
+    retry_strategy = Retry(
+        total=3,
+        backoff_factor=1,
+        status_forcelist=[429, 500, 502, 503, 504],
+        method_whitelist=["HEAD", "GET", "OPTIONS"],
+    )
+    adapter = HTTPAdapter(max_retries=retry_strategy)
+    http = requests.Session()
+    http.mount("https://", adapter)
+    http.mount("http://", adapter)
+    return http
+
+
 def get_plan(row, index, df):
     url = row["url"]
     council = row["council"]
@@ -53,7 +75,7 @@ def get_plan(row, index, df):
         "User-Agent": "mySociety Council climate action plans search",
     }
     try:
-        r = requests.get(url, headers=headers, verify=False, timeout=10)
+        r = get_retry_requester().get(url, headers=headers, verify=False, timeout=10)
         r.raise_for_status()
         set_file_attributes(df, index, r.headers.get("content-type"), extension)
         new_filename = new_filename + "." + df.at[index, "file_type"]
