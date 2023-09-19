@@ -376,6 +376,39 @@ class SectionView(CheckForDownPageMixin, DetailView):
 class SectionsView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/sections.html"
 
+    sections = [
+        "s1_b_h",
+        "s2_tran",
+        "s3_p_lu",
+        "s4_g_f",
+        "s5_bio",
+        "s6_c_e",
+        "s7_wr_f",
+    ]
+    ca_sections = [
+        "s1_b_h_gs_ca",
+        "s2_tran_ca",
+        "s3_p_b_ca",
+        "s4_g_f_ca",
+        "s5_c_e_ca",
+    ]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["sections"] = []
+        context["ca_sections"] = []
+        for section in PlanSection.objects.all():
+            details = {
+                "name": section.description,
+                "url": reverse("scoring:section", args=(section.code,)),
+            }
+            if section.code in self.sections:
+                context["sections"].append(details)
+            elif section.code in self.ca_sections:
+                context["ca_sections"].append(details)
+
+        return context
+
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
 class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
