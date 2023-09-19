@@ -1,23 +1,17 @@
-from os.path import join, basename, splitext, isfile
 import os
-import sys
-
-
-import requests
-from urllib.parse import urlparse
-import urllib3
-
-import pandas as pd
-import numpy
-
-from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
-
-from caps.models import PlanDocument
-from caps.import_utils import get_google_sheet_as_csv, replace_csv_headers
-
 import ssl
+import sys
+from os.path import basename, isfile, join, splitext
+from urllib.parse import urlparse
 
+import numpy
+import pandas as pd
+import requests
+import urllib3
+from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
+from caps.import_utils import get_google_sheet_as_csv, replace_csv_headers
+from caps.models import PlanDocument
 
 ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
