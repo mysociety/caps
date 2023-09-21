@@ -367,10 +367,8 @@ class Command(BaseCommand):
             "start_year": start_year,
             "end_year": end_year,
             "date_last_found": date_from_text(row["date_retrieved"]),
-            "title": "",
+            "title": char_from_text(row["title"]),
         }
-        if char_from_text(row["title_checked"]).lower() == "y":
-            defaults["title"] = char_from_text(row["title"])
 
         return defaults
 
