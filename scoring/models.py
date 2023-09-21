@@ -1,9 +1,8 @@
 from collections import defaultdict
 
-from django.db import models
-from django.db.models import Avg, Max, Q, F, Count
-
 from caps.models import Council
+from django.db import models
+from django.db.models import Avg, Count, F, Max, Q
 
 
 # define this here as mixins imports PlanScore so if we import that then we get
@@ -357,12 +356,30 @@ class PlanQuestion(models.Model):
     NB: some question types might be sub section headers and have no score
     """
 
+    MARKING_TYPES = [
+        ("foi", "FOI"),
+        ("national_data", "National Data"),
+        ("volunteer", "Volunteer Research"),
+        ("national_volunteer", "National Data and Volunteer Research"),
+    ]
+
+    WEIGHTINGS = [
+        ("low", "Low"),
+        ("medium", "Medium"),
+        ("high", "High"),
+        ("unweighted", "Unweighted"),
+    ]
+
     section = models.ForeignKey(PlanSection, on_delete=models.CASCADE)
     code = models.CharField(max_length=100)
     text = models.TextField(null=True, default="")
     max_score = models.PositiveSmallIntegerField(default=0)
     question_type = models.CharField(max_length=100)  # needs choices
     parent = models.CharField(max_length=100, null=True, default="")
+    how_marked = models.CharField(
+        max_length=30, null=True, default="", choices=MARKING_TYPES
+    )
+    weighting = models.CharField(max_length=20, default="low", choices=WEIGHTINGS)
 
     def pretty_code(self):
         """
@@ -406,6 +423,7 @@ class PlanQuestionScore(ScoreFilterMixin, models.Model):
     score = models.SmallIntegerField(default=0)
     max_score = models.PositiveSmallIntegerField(default=0)
     notes = models.TextField(null=True, default="")
+    evidence_links = models.TextField(null=True, default="")
 
     @classmethod
     def all_question_max_score_counts(cls, council_group=None, plan_year=None):
