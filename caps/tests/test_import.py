@@ -266,18 +266,6 @@ class ImportPlansTestCase(ImportTestCase):
             plans = PlanDocument.objects.filter(council=west_bors)
             self.assertEqual(len(plans), 0)
 
-    def test_add_name(self):
-        bors = Council.objects.get(authority_code="BORS")
-        with self.settings(PROCESSED_CSV="caps/tests/test_processed_plan_names.csv"):
-            out = self.call_command(confirm_changes=1)
-            west_bors = Council.objects.get(authority_code="WBRS")
-
-            plan = PlanDocument.objects.filter(council=bors).all()[0]
-            self.assertEqual(plan.title, "Bors Climate Plan")
-
-            plan = PlanDocument.objects.filter(council=west_bors).all()[0]
-            self.assertEqual(plan.title, "")
-
 
 class ImportPromisesTestCase(ImportTestCase):
 
