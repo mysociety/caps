@@ -11,6 +11,11 @@ scoring_patterns = (
         path(
             "scoring/<str:council_type>/", views.HomePageView.as_view(), name="scoring"
         ),
+        path(
+            "councils/<slug:slug>/preview/",
+            views.CouncilPreview.as_view(),
+            name="council_preview",
+        ),
         path("councils/<slug:slug>/", views.CouncilView.as_view(), name="council"),
         path("sections/<str:code>/", views.SectionView.as_view(), name="section"),
         path("sections/", views.SectionsView.as_view(), name="sections"),

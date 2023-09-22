@@ -1,0 +1,121 @@
+.open-graph-preview {
+    font-size: 2vmin;
+
+    body {
+        --bs-body-font-size: 1rem;
+
+        display: flex;
+        flex-direction: column;
+        padding: 5vw;
+        min-height: 100vh;
+        overflow: hidden; // prevent scrollbars from absolutely positioned children
+        background: $primary linear-gradient(45deg, $primary, adjust-hue($primary-300, 15)) 50% 50% no-repeat;
+        color: $white;
+    }
+
+    h1 {
+        font-size: 5rem;
+        font-weight: 900;
+        text-shadow: 0.05em 0.05em 0 $black;
+        margin-bottom: 0;
+    }
+
+    .top-perfomer {
+        text-shadow: 0.05em 0.05em 0 $black;
+
+        svg {
+            filter: drop-shadow(0.05em 0.05em 0 $black);
+        }
+    }
+
+    header {
+        margin-bottom: auto;
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+
+        img, svg {
+            width: auto;
+            height: 5vw;
+        }
+    }
+
+    table {
+        margin-top: auto;
+        font-size: 2rem;
+        line-height: 1.1;
+
+        td, th {
+            vertical-align: middle;
+            text-align: center;
+            padding: 2vw;
+            border-right: 2px solid rgba($white, 0.5);
+        }
+
+        th {
+            border-bottom: 2px solid rgba($white, 0.5);
+        }
+
+        td {
+            padding: 3vw 2vw;
+        }
+
+        // "Overall Score" column
+        tr > :first-child {
+            color: $primary-700;
+            background-color: #fff;
+            background-clip: padding-box;
+            border-right: none;
+        }
+
+        // "Overall Score" header cell
+        thead > tr > :first-child {
+            border-radius: 0.5rem 0.5rem 0 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        // "Overall Score" body cell
+        tbody > tr:last-child > :first-child {
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+
+        // "Worst section" column
+        tr > :last-child {
+            border-right: none;
+        }
+    }
+}
+
+.open-graph-preview__score {
+    display: block;
+    font-size: 2.5em;
+    line-height: 0.9;
+    font-weight: bold;
+
+    td:first-child & {
+        font-size: 4em;
+    }
+}
+
+.open-graph-preview__section {
+    display: block;
+    margin-top: 0.5em;
+}
+
+.open-graph-preview__ceuk-logo {
+    order: -1;
+    margin-right: auto;
+}
+
+.open-graph-preview__year {
+    position: absolute;
+    top: -0.1em;
+    right: -0.1em;
+    font-size: 20vw;
+    line-height: 0.85;
+    opacity: 0.1;
+    font-weight: bold;
+}
+
+// In case we want to target instagram:
+// @media (aspect-ratio: 1/1) { }
