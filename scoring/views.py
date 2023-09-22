@@ -18,7 +18,11 @@ from caps.utils import gen_natsort_lamda
 from caps.views import BaseLocationResultsView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort, ScoringSortCA
-from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin, SearchAutocompleteMixin
+from scoring.mixins import (
+    AdvancedFilterMixin,
+    CheckForDownPageMixin,
+    SearchAutocompleteMixin,
+)
 from scoring.models import (
     PlanQuestion,
     PlanQuestionScore,
@@ -60,7 +64,9 @@ class PrivacyView(TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class HomePageView(CheckForDownPageMixin, SearchAutocompleteMixin, AdvancedFilterMixin, FilterView):
+class HomePageView(
+    CheckForDownPageMixin, SearchAutocompleteMixin, AdvancedFilterMixin, FilterView
+):
     filterset_class = PlanScoreFilter
 
     def get_template_names(self):
@@ -399,6 +405,18 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
+class CouncilPreview(DetailView):
+    model = Council
+    context_object_name = "council"
+    template_name = "scoring/council-preview.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council = context.get("council")
+        context["page_title"] = council.name
+        return context
+
+
 class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
     model = PlanSection
     context_object_name = "section"
@@ -575,7 +593,9 @@ class SectionsView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView)
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class LocationResultsView(CheckForDownPageMixin, SearchAutocompleteMixin, BaseLocationResultsView):
+class LocationResultsView(
+    CheckForDownPageMixin, SearchAutocompleteMixin, BaseLocationResultsView
+):
     template_name = "scoring/location_results.html"
 
     def get_context_data(self, **kwargs):

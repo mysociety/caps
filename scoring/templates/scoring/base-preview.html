@@ -1,0 +1,21 @@
+{% load static %}
+{% load pipeline %}
+
+<!doctype html>
+<html class="open-graph-preview">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&amp;family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <title>{{ page_title }}</title>
+    {% stylesheet 'scoring' %}
+</head>
+<body>
+    <!-- Facebook OpenGraph image dimensions: 1200px wide, 630px tall -->
+    {% block content %}{% endblock %}
+</body>
+</html>
