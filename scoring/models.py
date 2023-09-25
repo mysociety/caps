@@ -380,6 +380,7 @@ class PlanQuestion(models.Model):
         max_length=30, null=True, default="", choices=MARKING_TYPES
     )
     weighting = models.CharField(max_length=20, default="low", choices=WEIGHTINGS)
+    criteria = models.TextField(null=True, default="")
 
     def pretty_code(self):
         """
