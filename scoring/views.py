@@ -247,11 +247,11 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
         comparison_slugs = self.request.GET.getlist("comparisons")
         comparisons = None
-        comparison_answers = defaultdict(list)
+        comparison_answers = defaultdict(dict)
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
-                .filter(council__slug__in=comparison_slugs)
+                .filter(council__slug__in=comparison_slugs, year=settings.PLAN_YEAR)
                 .order_by("council__name")
             )
             comparison_sections = PlanSectionScore.sections_for_plans(
@@ -265,14 +265,23 @@ class CouncilView(CheckForDownPageMixin, DetailView):
                 plan_ids=comparison_ids, plan_year=settings.PLAN_YEAR
             ):
                 q = self.make_question_obj(question)
-                comparison_answers[question.code].append(q)
+                comparison_answers[question.code][question.council_name] = q
 
         for question in plan_score.questions_answered():
             section = question.section_code
 
             q = self.make_question_obj(question)
             q["council_count"] = question_max_counts.get(question.code, 0)
-            q["comparisons"] = comparison_answers[question.code]
+            q["comparisons"] = []
+            # not all councils have answers for all questions so make sure we
+            # display something
+            if comparisons is not None:
+                for c in comparisons:
+                    q["comparisons"].append(
+                        comparison_answers[question.code].get(
+                            c.council.name, {"score": "-", "max": "-"}
+                        )
+                    )
 
             if q["negative"] and q["score"] < 0:
                 sections[section]["negative_points"] += q["score"]
