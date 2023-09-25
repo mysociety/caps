@@ -16,7 +16,7 @@ from django_filters.views import FilterView
 from caps.models import Council, Promise
 from caps.views import BaseLocationResultsView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
-from scoring.forms import ScoringSort
+from scoring.forms import ScoringSort, ScoringSortCA
 from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin
 from scoring.models import (PlanQuestion, PlanQuestionScore, PlanScore,
                             PlanScoreDocument, PlanSection, PlanSectionScore)
@@ -119,7 +119,12 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
 
         codes = PlanSection.section_codes()
 
-        form = ScoringSort(self.request.GET)
+        if authority_type["slug"] == "combined":
+            form_class = ScoringSortCA
+        else:
+            form_class = ScoringSort
+
+        form = form_class(self.request.GET)
         sorted_by = None
         if form.is_valid():
             sort = form.cleaned_data["sort_by"]
@@ -133,7 +138,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
                     reverse=True,
                 )
         else:
-            form = ScoringSort()
+            form = form_class()
 
         context["authority_type"] = authority_type["slug"]
         context["authority_type_label"] = authority_type["name"]
