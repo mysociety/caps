@@ -1,0 +1,17 @@
+{% extends "scoring/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+<div class="hero container-fluid bg-dark-grey">
+    <div style="max-width: 1140px" class="mx-auto">
+        <a class="cta reverse white" href="{% url 'scoring:home' %}">Back to Scorecards plan</a>
+        <h1 class="text-white mt-3">Section page</h1>
+        <div class="mt-3">
+            <span class="hero-sub">Section name</span>
+        </div>
+    </div>
+</div>
+<div class="container about-section question">
+</div>
+
+{% endblock %}

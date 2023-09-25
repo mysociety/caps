@@ -300,6 +300,11 @@ class SectionView(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
+class SocialMediaView(CheckForDownPageMixin, TemplateView):
+    template_name = "scoring/social-media.html"
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
     template_name = "scoring/location_results.html"
 

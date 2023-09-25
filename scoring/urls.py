@@ -34,6 +34,7 @@ scoring_patterns = (
         path("down/", views.DownPageView.as_view(), name="downpage"),
         path("login/", views.LoginView.as_view(), name="login"),
         path("logout/", views.LogoutView.as_view(), name="logout"),
+        path("social-media/", views.SocialMediaView.as_view(), name="social-media"),
     ],
     "scoring",
 )
