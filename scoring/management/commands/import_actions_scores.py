@@ -204,6 +204,7 @@ class Command(BaseCommand):
             question.question_type = row["type"]
             question.weighting = row["weighting"]
             question.how_marked = row["how_marked"]
+            question.criteria = row["criteria"]
             question.save()
 
     def import_question_scores(self):
