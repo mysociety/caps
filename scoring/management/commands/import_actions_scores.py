@@ -64,6 +64,15 @@ class Command(BaseCommand):
         "s5_c_e_ca": "Collaboration & Engagement (CA)",
     }
 
+    CONTROL_MAP = {
+        "GRN": "Green",
+        "CON": "Conservative",
+        "LAB": "Labour",
+        "LD": "Liberal Democrat",
+        "PC": "Plaid Cymru",
+        "IND": "Independent",
+    }
+
     def create_sections(self):
         for code, desc in self.SECTIONS.items():
             section, created = PlanSection.objects.get_or_create(
@@ -125,6 +134,10 @@ class Command(BaseCommand):
 
             plan_score.total = round(row["raw_total"] * 100, 3)
             plan_score.weighted_total = round(row["weighted_total"] * 100, 3)
+            if not pd.isna(row["political_control"]):
+                plan_score.political_control = self.CONTROL_MAP.get(
+                    row["political_control"], row["political_control"]
+                )
             plan_score.save()
 
             for desc in self.SECTIONS.values():
