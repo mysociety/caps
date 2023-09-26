@@ -10,31 +10,31 @@ class PlanScoreFilter(django_filters.FilterSet):
     )
 
     ruc_cluster = django_filters.ChoiceFilter(
-        field_name="planscore__ruc_cluster", choices=PlanScore.RUC_TYPES
+        field_name="ruc_cluster", choices=PlanScore.RUC_TYPES
     )
 
     population = django_filters.ChoiceFilter(
-        field_name="planscore__population",
+        field_name="population",
         choices=PlanScore.POPULATION_ALL_FILTER_CHOICES,
     )
 
     imdq = django_filters.NumberFilter(
-        field_name="planscore__deprivation_quintile",
+        field_name="deprivation_quintile",
     )
 
-    control = django_filters.CharFilter(field_name="planscore__political_control")
+    control = django_filters.CharFilter(field_name="political_control")
 
     region = django_filters.ChoiceFilter(
-        field_name="planscore__council__region", choices=Council.REGION_CHOICES
+        field_name="council__region", choices=Council.REGION_CHOICES
     )
 
     county = django_filters.ChoiceFilter(
-        field_name="planscore__council__county",
+        field_name="council__county",
         choices=Council.get_county_choices(),
     )
 
     class Meta:
-        model = Council
+        model = PlanScore
         fields = []
 
 
