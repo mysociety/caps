@@ -1,14 +1,9 @@
-from unittest import skip
-
-from django.test import TestCase, Client
-
-from django.urls import reverse
-
 from caps.models import Council
-from scoring.models import PlanSectionScore, PlanScore
+from django.test import Client, TestCase
+from django.urls import reverse
+from scoring.models import PlanScore, PlanSectionScore
 
 
-@skip("Test needs updating/checking for new view contents")
 class TestHomePageView(TestCase):
     fixtures = ["test_homepage.json"]
 
@@ -16,7 +11,7 @@ class TestHomePageView(TestCase):
         self.client = Client()
 
     def test_homepage(self):
-        url = reverse("home", urlconf="scoring.urls")
+        url = reverse("scoring:home", urlconf="scoring.urls")
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
 
         councils = response.context["council_data"]
@@ -32,7 +27,7 @@ class TestHomePageView(TestCase):
         }
 
         for slug, name in types.items():
-            url = reverse("scoring", urlconf="scoring.urls", args=[slug])
+            url = reverse("scoring:scoring", urlconf="scoring.urls", args=[slug])
             response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
 
             councils = response.context["council_data"]
@@ -40,7 +35,6 @@ class TestHomePageView(TestCase):
             self.assertEquals(councils[0]["name"], name)
 
 
-@skip("Test needs updating/checking for new view contents")
 class TestAnswerView(TestCase):
     fixtures = ["test_answers.json"]
 
@@ -48,61 +42,75 @@ class TestAnswerView(TestCase):
         self.client = Client()
 
     def test_answer_view(self):
-        url = reverse("council", urlconf="scoring.urls", args=["borsetshire"])
+        url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
         sections = response.context["sections"]
 
-        self.assertEquals(
+        self.assertEqual(
             sections,
             [
                 {
                     "top_performer": None,
-                    "code": "s1_gov",
+                    "code": "s1_b_h",
+                    "description": "Buildings & Heating",
                     "answers": [
                         {
-                            "code": "s1_gov_q1",
+                            "code": "s1_b_h_q1",
                             "pretty_code": "1.1",
                             "display_code": "q1",
                             "question": "This is a sub header",
                             "answer": "-",
                             "max": 1,
-                            "section": "s1_gov",
+                            "section": "s1_b_h",
                             "score": 1,
                             "type": "HEADER",
                             "council_count": 2,
                             "comparisons": [],
+                            "negative": False,
+                            "evidence_links": [],
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "weighting": "Low",
                         },
                         {
-                            "code": "s1_gov_q1_sp1",
+                            "code": "s1_b_h_q1_sp1",
                             "pretty_code": "1.1.1",
                             "display_code": "q1_sp1",
                             "question": "The answer is True or False",
                             "answer": "True",
                             "max": 1,
-                            "section": "s1_gov",
+                            "section": "s1_b_h",
                             "score": 1,
                             "type": "CHECKBOX",
                             "council_count": 2,
                             "comparisons": [],
+                            "negative": False,
+                            "evidence_links": [],
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "weighting": "Low",
                         },
                     ],
                     "avg": 13.0,
                     "max_score": 19,
                     "max_count": 0,
-                    "description": "Governance, development and funding",
                     "score": 15,
                     "comparisons": [],
+                    "non_negative_max": 15,
+                    "negative_points": 0,
                 },
                 {
                     "top_performer": None,
-                    "code": "s2_m_a",
+                    "code": "s2_tran",
                     "answers": [],
                     "avg": 9.8,
                     "max_score": 18,
                     "max_count": 0,
-                    "description": "Mitigation and adaptation",
+                    "description": "Transport",
                     "score": 10,
                     "comparisons": [],
+                    "non_negative_max": 10,
+                    "negative_points": 0,
                 },
             ],
         )
@@ -116,7 +124,7 @@ class TestAnswerView(TestCase):
         council.authority_type = "NMD"
         council.save()
 
-        url = reverse("council", urlconf="scoring.urls", args=["borsetshire"])
+        url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
         sections = response.context["sections"]
 
@@ -125,52 +133,66 @@ class TestAnswerView(TestCase):
             [
                 {
                     "top_performer": None,
-                    "code": "s1_gov",
+                    "code": "s1_b_h",
                     "answers": [
                         {
-                            "code": "s1_gov_q1",
+                            "code": "s1_b_h_q1",
                             "pretty_code": "1.1",
                             "display_code": "q1",
                             "question": "This is a sub header",
                             "answer": "-",
                             "max": 1,
-                            "section": "s1_gov",
+                            "section": "s1_b_h",
                             "score": 1,
                             "type": "HEADER",
                             "council_count": 1,
                             "comparisons": [],
+                            "negative": False,
+                            "evidence_links": [],
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "weighting": "Low",
                         },
                         {
-                            "code": "s1_gov_q1_sp1",
+                            "code": "s1_b_h_q1_sp1",
                             "pretty_code": "1.1.1",
                             "display_code": "q1_sp1",
                             "question": "The answer is True or False",
                             "answer": "True",
                             "max": 1,
-                            "section": "s1_gov",
+                            "section": "s1_b_h",
                             "score": 1,
                             "type": "CHECKBOX",
                             "council_count": 1,
                             "comparisons": [],
+                            "negative": False,
+                            "evidence_links": [],
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "weighting": "Low",
                         },
                     ],
                     "avg": 13.7,
                     "max_score": 19,
                     "max_count": 0,
-                    "description": "Governance, development and funding",
+                    "description": "Buildings & Heating",
                     "score": 15,
                     "comparisons": [],
+                    "non_negative_max": 15,
+                    "negative_points": 0,
                 },
                 {
                     "top_performer": None,
-                    "code": "s2_m_a",
+                    "code": "s2_tran",
                     "answers": [],
                     "avg": 8.7,
                     "max_score": 18,
                     "max_count": 0,
-                    "description": "Mitigation and adaptation",
+                    "description": "Transport",
                     "score": 10,
                     "comparisons": [],
+                    "non_negative_max": 10,
+                    "negative_points": 0,
                 },
             ],
         )
@@ -178,13 +200,13 @@ class TestAnswerView(TestCase):
     def test_zero_sections_scores_used_in_averages(self):
         council = Council.objects.get(authority_code="WBS")
         section = PlanSectionScore.objects.get(
-            plan_score__council_id=council.id, plan_section__code="s1_gov"
+            plan_score__council_id=council.id, plan_section__code="s1_b_h"
         )
         section.score = 0
         section.weighted_score = 0
         section.save()
 
-        url = reverse("council", urlconf="scoring.urls", args=["borsetshire"])
+        url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
         sections = response.context["sections"]
 
@@ -193,52 +215,66 @@ class TestAnswerView(TestCase):
             [
                 {
                     "top_performer": None,
-                    "code": "s1_gov",
+                    "code": "s1_b_h",
                     "answers": [
                         {
-                            "code": "s1_gov_q1",
+                            "code": "s1_b_h_q1",
                             "pretty_code": "1.1",
                             "display_code": "q1",
                             "question": "This is a sub header",
                             "answer": "-",
                             "max": 1,
-                            "section": "s1_gov",
+                            "section": "s1_b_h",
                             "score": 1,
                             "type": "HEADER",
                             "council_count": 2,
                             "comparisons": [],
+                            "negative": False,
+                            "evidence_links": [],
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "weighting": "Low",
                         },
                         {
-                            "code": "s1_gov_q1_sp1",
+                            "code": "s1_b_h_q1_sp1",
                             "pretty_code": "1.1.1",
                             "display_code": "q1_sp1",
                             "question": "The answer is True or False",
                             "answer": "True",
                             "max": 1,
-                            "section": "s1_gov",
+                            "section": "s1_b_h",
                             "score": 1,
                             "type": "CHECKBOX",
                             "council_count": 2,
                             "comparisons": [],
+                            "negative": False,
+                            "evidence_links": [],
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "weighting": "Low",
                         },
                     ],
                     "avg": 10.2,
                     "max_score": 19,
                     "max_count": 0,
-                    "description": "Governance, development and funding",
+                    "description": "Buildings & Heating",
                     "score": 15,
                     "comparisons": [],
+                    "non_negative_max": 15,
+                    "negative_points": 0,
                 },
                 {
                     "top_performer": None,
-                    "code": "s2_m_a",
+                    "code": "s2_tran",
                     "answers": [],
                     "avg": 9.8,
                     "max_score": 18,
                     "max_count": 0,
-                    "description": "Mitigation and adaptation",
+                    "description": "Transport",
                     "score": 10,
                     "comparisons": [],
+                    "non_negative_max": 10,
+                    "negative_points": 0,
                 },
             ],
         )
@@ -250,7 +286,7 @@ class TestAnswerView(TestCase):
         plan.weighted_score = 0
         plan.save()
 
-        url = reverse("council", urlconf="scoring.urls", args=["borsetshire"])
+        url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
         sections = response.context["sections"]
 
@@ -259,58 +295,71 @@ class TestAnswerView(TestCase):
             [
                 {
                     "top_performer": None,
-                    "code": "s1_gov",
+                    "code": "s1_b_h",
                     "answers": [
                         {
-                            "code": "s1_gov_q1",
+                            "code": "s1_b_h_q1",
                             "pretty_code": "1.1",
                             "display_code": "q1",
                             "question": "This is a sub header",
                             "answer": "-",
                             "max": 1,
-                            "section": "s1_gov",
+                            "section": "s1_b_h",
                             "score": 1,
                             "type": "HEADER",
                             "council_count": 2,
                             "comparisons": [],
+                            "negative": False,
+                            "evidence_links": [],
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "weighting": "Low",
                         },
                         {
-                            "code": "s1_gov_q1_sp1",
+                            "code": "s1_b_h_q1_sp1",
                             "pretty_code": "1.1.1",
                             "display_code": "q1_sp1",
                             "question": "The answer is True or False",
                             "answer": "True",
                             "max": 1,
-                            "section": "s1_gov",
+                            "section": "s1_b_h",
                             "score": 1,
                             "type": "CHECKBOX",
                             "council_count": 2,
                             "comparisons": [],
+                            "negative": False,
+                            "evidence_links": [],
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "weighting": "Low",
                         },
                     ],
                     "avg": 13.7,
                     "max_score": 19,
                     "max_count": 0,
-                    "description": "Governance, development and funding",
+                    "description": "Buildings & Heating",
                     "score": 15,
                     "comparisons": [],
+                    "non_negative_max": 15,
+                    "negative_points": 0,
                 },
                 {
                     "top_performer": None,
-                    "code": "s2_m_a",
+                    "code": "s2_tran",
                     "answers": [],
                     "avg": 8.7,
                     "max_score": 18,
                     "max_count": 0,
-                    "description": "Mitigation and adaptation",
+                    "description": "Transport",
                     "score": 10,
                     "comparisons": [],
+                    "non_negative_max": 10,
+                    "negative_points": 0,
                 },
             ],
         )
 
 
-@skip("Test needs updating/checking for new view contents")
 class TestTopPerormersInViews(TestCase):
     fixtures = ["test_top_performers.json"]
 
@@ -318,7 +367,7 @@ class TestTopPerormersInViews(TestCase):
         self.client = Client()
 
     def test_homepage_view(self):
-        url = reverse("home", urlconf="scoring.urls")
+        url = reverse("scoring:home", urlconf="scoring.urls")
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
         councils = response.context["council_data"]
 
@@ -343,7 +392,7 @@ class TestTopPerormersInViews(TestCase):
         )
 
     def test_answer_view(self):
-        url = reverse("council", urlconf="scoring.urls", args=["borsetshire"])
+        url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
         sections = response.context["sections"]
 
@@ -352,52 +401,66 @@ class TestTopPerormersInViews(TestCase):
             [
                 {
                     "top_performer": "unitary",
-                    "code": "s1_gov",
+                    "code": "s1_b_h",
                     "answers": [
                         {
-                            "code": "s1_gov_q1",
+                            "code": "s1_b_h_q1",
                             "pretty_code": "1.1",
                             "display_code": "q1",
                             "question": "This is a sub header",
                             "answer": "-",
                             "max": 1,
-                            "section": "s1_gov",
+                            "section": "s1_b_h",
                             "score": 1,
                             "type": "HEADER",
                             "council_count": 1,
                             "comparisons": [],
+                            "negative": False,
+                            "evidence_links": [],
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "weighting": "Low",
                         },
                         {
-                            "code": "s1_gov_q1_sp1",
+                            "code": "s1_b_h_q1_sp1",
                             "pretty_code": "1.1.1",
                             "display_code": "q1_sp1",
                             "question": "The answer is True or False",
                             "answer": "True",
                             "max": 1,
-                            "section": "s1_gov",
+                            "section": "s1_b_h",
                             "score": 1,
                             "type": "CHECKBOX",
                             "council_count": 2,
                             "comparisons": [],
+                            "negative": False,
+                            "evidence_links": [],
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "weighting": "Low",
                         },
                     ],
                     "avg": 13.0,
                     "max_score": 19,
                     "max_count": 0,
-                    "description": "Governance, development and funding",
+                    "description": "Buildings & Heating",
                     "score": 15,
                     "comparisons": [],
+                    "non_negative_max": 15,
+                    "negative_points": 0,
                 },
                 {
                     "top_performer": None,
-                    "code": "s2_m_a",
+                    "code": "s2_tran",
                     "answers": [],
                     "avg": 9.8,
                     "max_score": 18,
                     "max_count": 0,
-                    "description": "Mitigation and adaptation",
+                    "description": "Transport",
                     "score": 10,
                     "comparisons": [],
+                    "non_negative_max": 10,
+                    "negative_points": 0,
                 },
             ],
         )

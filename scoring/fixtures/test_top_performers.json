@@ -109,7 +109,7 @@
     "pk": 1,
     "fields": {
       "council": 1,
-      "year": 2021,
+      "year": 2023,
       "weighted_total": 25,
       "total": 25,
       "top_performer": "unitary"
@@ -120,7 +120,7 @@
     "pk": 2,
     "fields": {
       "council": 2,
-      "year": 2021,
+      "year": 2023,
       "weighted_total": 19,
       "total": 19
     }
@@ -130,7 +130,7 @@
     "pk": 3,
     "fields": {
       "council": 3,
-      "year": 2021,
+      "year": 2023,
       "weighted_total": 24,
       "total": 24
     }
@@ -140,7 +140,7 @@
     "pk": 4,
     "fields": {
       "council": 4,
-      "year": 2021,
+      "year": 2023,
       "weighted_total": 24,
       "total": 24
     }
@@ -149,18 +149,18 @@
     "model": "scoring.plansection",
     "pk": 1,
     "fields": {
-      "code": "s1_gov",
-      "description": "Governance, development and funding",
-      "year": 2021
+      "code": "s1_b_h",
+      "description": "Buildings & Heating",
+      "year": 2023
     }
   },
   {
     "model": "scoring.plansection",
     "pk": 2,
     "fields": {
-      "code": "s2_m_a",
-      "description": "Mitigation and adaptation",
-      "year": 2021
+      "code": "s2_tran",
+      "description": "Transport",
+      "year": 2023
     }
   },
   {
@@ -257,7 +257,7 @@
     "pk": 1,
     "fields": {
       "section": 1,
-      "code": "s1_gov_q1",
+      "code": "s1_b_h_q1",
       "text": "This is a sub header",
       "max_score": 0,
       "question_type": "HEADER"
@@ -268,7 +268,7 @@
     "pk": 2,
     "fields": {
       "section": 1,
-      "code": "s1_gov_q1_sp1",
+      "code": "s1_b_h_q1_sp1",
       "text": "The answer is True or False",
       "max_score": 1,
       "question_type": "CHECKBOX"
@@ -279,7 +279,7 @@
     "pk": 3,
     "fields": {
       "section": 2,
-      "code": "s2_m_a_q1_sp1",
+      "code": "s2_tran_q1_sp1",
       "text": "The answer is a Boolean",
       "max_score": 1,
       "question_type": "CHECKBOX"
