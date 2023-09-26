@@ -46,28 +46,23 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
 
     def get_queryset(self):
         authority_type = self.get_authority_type()
-        qs = Council.objects.annotate(
-            score=Subquery(
-                PlanScore.objects.filter(council_id=OuterRef("id"), year="2021").values(
-                    "weighted_total"
-                )
-            ),
-            top_performer=Subquery(
-                PlanScore.objects.filter(council_id=OuterRef("id"), year="2021").values(
-                    "top_performer"
-                )
-            ),
-        ).order_by(F("score").desc(nulls_last=True))
-
-        qs = qs.filter(
-            authority_type__in=authority_type["types"],
-            country__in=authority_type["countries"],
+        qs = (
+            PlanScore.objects.filter(
+                year=2021,
+                council__authority_type__in=authority_type["types"],
+                council__country__in=authority_type["countries"],
+            )
+            .annotate(
+                score=F("weighted_total"),
+                name=F("council__name"),
+                slug=F("council__slug"),
+            )
+            .order_by(F("weighted_total").desc(nulls_last=True))
         )
 
         return qs
 
     def get_context_data(self, **kwargs):
-        print("2022 views!!!!")
         context = super().get_context_data(**kwargs)
         context[
             "all_councils"
@@ -86,7 +81,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
         all_scores = PlanSectionScore.get_all_council_scores()
 
         for council in councils:
-            council["all_scores"] = all_scores[council["id"]]
+            council["all_scores"] = all_scores[council["council_id"]]
             if council["score"] is not None:
                 council["percentage"] = council["score"]
             else:
