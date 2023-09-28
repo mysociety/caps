@@ -51,9 +51,20 @@ class LogoutView(LogoutView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
-    filterset_class = PlanScoreFilter
+class HomePageView(CheckForDownPageMixin, TemplateView):
     template_name = "scoring/home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Council Climate Scorecards"
+        context["site_title"] = "Climate Emergency UK"
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class CouncilTypeTableView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
+    filterset_class = PlanScoreFilter
+    template_name = "scoring/council_type.html"
 
     def get_authority_type(self):
         authority_type = self.kwargs.get("council_type", "")
