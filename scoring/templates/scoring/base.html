@@ -50,10 +50,8 @@
                         2023
                     </a>
                     <ul class="dropdown-menu position-absolute ms-n3 shadow-lg" aria-labelledby="scorecardsVersion">
-                        <!-- TODO: Link to current page -->
-                        <li><a class="dropdown-item" href="#" aria-current="page">2023 Action Scorecards</a></li>
-                        <!-- TODO: Link to equivalent current page on 2021 site -->
-                        <li><a class="dropdown-item" href="#">2021 Plan Scorecards</a></li>
+                        <li><a class="dropdown-item" href="{% url 'scoring:home' %}" aria-current="page">2023 Action Scorecards</a></li>
+                        <li><a class="dropdown-item" href="{% url 'scoring2022:home' %}">2021 Plan Scorecards</a></li>
                     </ul>
                 </div>
             </div>
