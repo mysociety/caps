@@ -266,21 +266,20 @@
                                     </dl>
                                 </details>
 
-                                {% for section in sections %}
-                                  {% for question in section.questions %}
+
                                   {% comment %} TODO Add question criteria {% endcomment %}
                                   <!-- Button trigger modal -->
-                                  <button type="button" class="link link-primary border-0 p-0 bg-white mt-3 text-decoration-underline" data-bs-toggle="modal" data-bs-target="#section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                                  <button type="button" class="btn btn-outline-secondary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
                                     View criteria
                                   </button>
 
                                   <!-- Modal -->
                                   {% comment %} TODO We'll need to include an unique id. Not sure if we have a section shortname, so we can do something like -> shortname + question code  {% endcomment %}
-                                  <div class="modal fade" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label" aria-hidden="true">
+                                  <div class="modal fade" id="js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label" aria-hidden="true">
                                       <div class="modal-dialog">
                                         <div class="modal-content">
                                           <div class="modal-header">
-                                            <h5 class="modal-title" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
+                                            <h5 class="modal-title" id="js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
                                               <p>Criteria</p>
                                               <div class="fw-normal fs-7">{{ answer.question | linebreaks }}</div>
                                             </h5>
@@ -295,8 +294,6 @@
                                       </div>
                                     </div>
                                   </div>
-                                  {% endfor %}
-                                {% endfor %}
                             </div>
                         </div>
                     </div>
