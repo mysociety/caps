@@ -14,14 +14,15 @@
     }
 
     h1 {
-        font-size: 5rem;
+        font-size: 4rem;
         font-weight: 900;
         text-shadow: 0.05em 0.05em 0 $black;
         margin-bottom: 0;
     }
 
-    .top-perfomer {
+    .subtitle {
         text-shadow: 0.05em 0.05em 0 $black;
+        font-size: 2rem;
 
         svg {
             filter: drop-shadow(0.05em 0.05em 0 $black);
@@ -50,10 +51,19 @@
             text-align: center;
             padding: 2vw;
             border-right: 2px solid rgba($white, 0.5);
+            position: relative;
         }
 
         th {
             border-bottom: 2px solid rgba($white, 0.5);
+            .badge {
+                position: absolute;
+                top: -0.2em;
+                left: 0;
+                width: 100%;
+                font-size: 1.2rem;
+                text-transform: uppercase;
+            }
         }
 
         td {

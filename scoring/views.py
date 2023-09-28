@@ -593,9 +593,7 @@ class SectionsView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView)
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class LocationResultsView(
-    CheckForDownPageMixin, SearchAutocompleteMixin, BaseLocationResultsView
-):
+class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
     template_name = "scoring/location_results.html"
 
     def get_context_data(self, **kwargs):
