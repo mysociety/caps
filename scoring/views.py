@@ -417,9 +417,27 @@ class CouncilPreview(DetailView):
         return context
 
 
+<<<<<<< HEAD
 class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
     model = PlanSection
     context_object_name = "section"
+=======
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class CouncilPreviewTopPerfomer(DetailView):
+    model = Council
+    context_object_name = "council"
+    template_name = "scoring/council-top-performer-preview.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council = context.get("council")
+        context["page_title"] = council.name
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class SectionView(CheckForDownPageMixin, TemplateView):
+>>>>>>> ae1a4a79 (Open Graph preview for section top perfomer)
     template_name = "scoring/section.html"
 
     combined_alt_map = {
