@@ -2,7 +2,6 @@
 
   &.with-version-background  {
     position: relative;
-    background: linear-gradient(90deg, $primary-200 0%, adjust-hue($primary-200, 15) 100%);
 
     .hero-version-badge {
       mix-blend-mode: overlay;
