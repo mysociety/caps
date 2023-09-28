@@ -229,10 +229,10 @@
                 <td data-column="answer" class="border-start border-bottom border-end ">
                     <div class="question-content-table text-start">
                         <div class="row">
-                            <div class="col-sm-auto mb-2">
+                            <div class="col-1 mb-2">
                                 <span class="badge bg-secondary p-1 question-no">{{ answer.pretty_code }}</span>
                             </div>
-                            <div class="col-sm">
+                            <div class="col-11">
                                 {{ answer.question | linebreaks }}
 
                               {% if answer.type == "negative" %}
@@ -247,53 +247,54 @@
                                 </div>
                               {% endif %}
 
-                                <details class="text-muted fs-7">
-                                    <summary>How this is marked</summary>
-                                    {% comment %} TODO real data {% endcomment %}
-                                    <dl class="row mt-2 mb-0">
-                                        <dt class="col-sm-4">Source</dt>
-                                        <dd class="col-sm-8">{{ answer.how_marked_display }}</dd>
-                                        <dt class="col-sm-4">Question weight</dt>
-                                        <dd class="col-sm-8">{{ answer.weighting }}</dd>
-                                        <dt class="col-sm-4">Evidence</dt>
-                                        <dd class="col-sm-8">
-                                            {% for link in answer.evidence_links %}
-                                            <a href="{{ link }}" style="display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{ link }}</a>
-                                            {% empty %}
-                                            No evidence available.
-                                            {% endfor %}
-                                        </dd>
-                                    </dl>
-                                </details>
+                              <button type="button" class="js-hidden-toggle btn btn-outline-secondary btn-sm mt-3" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                                How is this marked?
+                              </button>
+                              <div class="text-muted fs-7" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" hidden="true">
+                                  <dl class="row mt-2 mb-0">
+                                      <dt class="col-sm-4">Source</dt>
+                                      <dd class="col-sm-8">{{ answer.how_marked_display }}</dd>
+                                      <dt class="col-sm-4">Question weight</dt>
+                                      <dd class="col-sm-8">{{ answer.weighting }}</dd>
+                                      <dt class="col-sm-4">Evidence</dt>
+                                      <dd class="col-sm-8">
+                                          {% for link in answer.evidence_links %}
+                                          <a href="{{ link }}" style="display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{ link }}</a>
+                                          {% empty %}
+                                          No evidence available.
+                                          {% endfor %}
+                                      </dd>
+                                  </dl>
+                              </div>
 
 
-                                  {% comment %} TODO Add question criteria {% endcomment %}
-                                  <!-- Button trigger modal -->
-                                  <button type="button" class="btn btn-outline-secondary btn-sm mt-3" data-bs-toggle="modal" data-bs-target="#js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
-                                    View criteria
-                                  </button>
+                              {% comment %} TODO Add question criteria {% endcomment %}
+                              <!-- Button trigger modal -->
+                              <button type="button" class="btn btn-outline-secondary btn-sm mt-3 d-table" data-bs-toggle="modal" data-bs-target="#js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                                View criteria
+                              </button>
 
-                                  <!-- Modal -->
-                                  {% comment %} TODO We'll need to include an unique id. Not sure if we have a section shortname, so we can do something like -> shortname + question code  {% endcomment %}
-                                  <div class="modal fade" id="js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                        <div class="modal-content">
-                                          <div class="modal-header">
-                                            <h5 class="modal-title" id="js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
-                                              <p>Criteria</p>
-                                              <div class="fw-normal fs-7">{{ answer.question | linebreaks }}</div>
-                                            </h5>
-                                          </div>
-                                          <div class="modal-body">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                          </div>
-                                        </div>
+                              <!-- Modal -->
+                              {% comment %} TODO We'll need to include an unique id. Not sure if we have a section shortname, so we can do something like -> shortname + question code  {% endcomment %}
+                              <div class="modal fade" id="js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="js-modal-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
+                                          <p>Criteria</p>
+                                          <div class="fw-normal fs-7">{{ answer.question | linebreaks }}</div>
+                                        </h5>
+                                      </div>
+                                      <div class="modal-body">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                       </div>
                                     </div>
                                   </div>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </div>
