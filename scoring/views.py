@@ -402,6 +402,10 @@ class SectionView(CheckForDownPageMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
+
         section = context["section"]
 
         context[
@@ -427,6 +431,55 @@ class SectionView(CheckForDownPageMixin, DetailView):
                 }
 
         avgs = section.get_averages_by_council_group()
+
+        comparison_slugs = self.request.GET.getlist("comparisons")
+        comparison_questions = {}
+        comparisons = None
+        if comparison_slugs:
+            comparisons = (
+                PlanScore.objects.select_related("council")
+                .filter(council__slug__in=comparison_slugs)
+                .order_by("council__name")
+            )
+            comparison_sections = PlanSectionScore.sections_for_plans(
+                plans=comparisons,
+                plan_year=2023,  # settings.PLAN_YEAR,
+                plan_sections=PlanSection.objects.filter(code=section.code),
+            )
+
+            comparison_scores = comparison_sections[section.code]
+
+            for score in comparison_scores:
+                answers = score["section_score"].questions_answered()
+                score["answers"] = answers
+                for answer in answers:
+                    if (
+                        comparison_questions.get(answer.plan_question.code, None)
+                        is None
+                    ):
+                        comparison_questions[answer.plan_question.code] = {
+                            "details": answer.plan_question,
+                            "comparisons": [],
+                        }
+
+                    comparison_questions[answer.plan_question.code][
+                        "comparisons"
+                    ].append(answer)
+                    if answer.score < 0:
+                        score["negative_points"] += answer.score
+                        score["non_negative_max"] -= answer.score
+
+                if score["negative_points"] < 0:
+                    score["negative_percent"] = (
+                        round((score["negative_points"] / score["max_score"]) * 100, 0)
+                        * -1
+                    )
+
+            context["questions"] = [
+                comparison_questions[k] for k in sorted(comparison_questions.keys())
+            ]
+            context["comparison_councils"] = comparisons
+            context["comparison_scores"] = comparison_scores
 
         avgs["ni"] = avgs["northern-ireland"]
         context["averages"] = avgs

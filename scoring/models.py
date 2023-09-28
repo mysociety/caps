@@ -276,9 +276,19 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
     )
 
+    def questions_answered(self):
+        questions = PlanQuestionScore.objects.filter(
+            plan_score=self.plan_score, plan_question__section=self.plan_section
+        ).select_related("plan_question")
+
+        return questions
+
     @classmethod
     def make_section_object(cls, section):
         return {
+            "section_score": section,
+            "council_name": section.plan_score.council.name,
+            "council_slug": section.plan_score.council.slug,
             "top_performer": section.top_performer,
             "code": section.plan_section.code,
             "description": section.plan_section.description,
@@ -289,6 +299,8 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
             "score": section.score,
             "answers": [],
             "comparisons": [],
+            "non_negative_max": section.max_score,
+            "negative_points": 0,
         }
 
     @classmethod
@@ -305,13 +317,16 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         return sections
 
     @classmethod
-    def sections_for_plans(cls, plans=None, plan_year=None):
+    def sections_for_plans(cls, plans=None, plan_year=None, plan_sections=None):
         sections = {}
         section_qs = (
-            cls.objects.select_related("plan_section")
+            cls.objects.select_related("plan_section", "plan_score__council")
             .filter(plan_score__in=plans, plan_section__year=plan_year)
             .order_by("plan_section__code", "plan_score__council__name")
         )
+
+        if sections is not None:
+            section_qs = section_qs.filter(plan_section__in=plan_sections)
 
         sections = defaultdict(list)
         for section in section_qs.all():
