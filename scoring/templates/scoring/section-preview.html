@@ -1,0 +1,46 @@
+{% extends "scoring/base-preview.html" %}
+{% load static %}
+
+{% block content %}
+    <header class="mb-5">
+        {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
+        <span class="open-graph-preview__year">2023</span>
+        <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
+    </header>
+
+    <h1>Planning & Land Use</h1>
+    <span class="mb-5 me-auto fw-bold subtitle">
+        {% comment %} TODO Include type of council {% endcomment %}
+        Single tier councils
+    </span>
+
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">
+                    <span class="d-block">Average</span>
+                </th>
+                <th scope="col">
+                    <span class="d-block">Highest scoring council</span>
+                </th>
+                <th scope="col">
+                    <span class="d-block">Lowest scoring council</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% comment %} TODO Add real scores {% endcomment %}
+            <tr>
+                <td>
+                    <span class="open-graph-preview__score">5/14</span>
+                </td>
+                <td>
+                    <span class="open-graph-preview__score">9/14</span>
+                </td>
+                <td>
+                    <span class="open-graph-preview__score">2/14</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
