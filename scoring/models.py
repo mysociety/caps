@@ -371,6 +371,10 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         return section_top_marks
 
 
+class PlanQuestionGroup(models.Model):
+    description = models.TextField(max_length=200)
+
+
 class PlanQuestion(models.Model):
     """
     Details of an individual question in the scoring.
@@ -403,6 +407,10 @@ class PlanQuestion(models.Model):
     )
     weighting = models.CharField(max_length=20, default="low", choices=WEIGHTINGS)
     criteria = models.TextField(null=True, default="")
+    topic = models.TextField(null=True, default="")
+    clarifications = models.TextField(null=True, default="")
+
+    questiongroup = models.ManyToManyField(PlanQuestionGroup, null=True, blank=True)
 
     def pretty_code(self):
         """
