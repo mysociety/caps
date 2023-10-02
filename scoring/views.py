@@ -1,32 +1,29 @@
 from collections import defaultdict
 from datetime import date
 
-from django.views.generic import DetailView, TemplateView
-from django.contrib.auth.views import LoginView, LogoutView
-from django.db.models import Subquery, OuterRef, Count, Sum, F
-from django.shortcuts import resolve_url
-from django.utils.text import Truncator
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_control
+from caps.models import Council, Promise
+from caps.views import BaseLocationResultsView
 from django.conf import settings
-
+from django.contrib.auth.views import LoginView, LogoutView
+from django.db.models import Count, F, OuterRef, Subquery, Sum
+from django.shortcuts import resolve_url
+from django.utils.decorators import method_decorator
+from django.utils.text import Truncator
+from django.views.decorators.cache import cache_control
+from django.views.generic import DetailView, TemplateView
 from django_filters.views import FilterView
 
-from caps.models import Council, Promise
+from scoring.filters import PlanScoreFilter, QuestionScoreFilter
+from scoring.forms import ScoringSort
+from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin
 from scoring.models import (
+    PlanQuestion,
+    PlanQuestionScore,
     PlanScore,
     PlanScoreDocument,
     PlanSection,
     PlanSectionScore,
-    PlanQuestion,
-    PlanQuestionScore,
 )
-from scoring.filters import PlanScoreFilter, QuestionScoreFilter
-
-from scoring.forms import ScoringSort
-
-from caps.views import BaseLocationResultsView
-from scoring.mixins import CheckForDownPageMixin, AdvancedFilterMixin
 
 cache_settings = {
     "max-age": 60,
@@ -200,6 +197,12 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         if council.start_date is not None and council.start_date >= new_council_date:
             context["authority_type"] = group
             context["new_council"] = True
+            return context
+
+        old_council_date = date(year=2021, month=4, day=1)
+        if council.end_date is not None and council.end_date <= old_council_date:
+            context["authority_type"] = group
+            context["old_council"] = True
             return context
 
         context["all_councils"] = Council.objects.filter(
