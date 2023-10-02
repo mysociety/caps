@@ -427,6 +427,19 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
     context_object_name = "section"
 =======
 @method_decorator(cache_control(**cache_settings), name="dispatch")
+class CouncilPreviewTopPerformerOverall(DetailView):
+    model = Council
+    context_object_name = "council"
+    template_name = "scoring/council-top-performer-overall-preview.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council = context.get("council")
+        context["page_title"] = council.name
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class CouncilPreviewTopPerfomer(DetailView):
     model = Council
     context_object_name = "council"
