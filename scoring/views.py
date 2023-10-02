@@ -347,6 +347,10 @@ class SectionView(CheckForDownPageMixin, DetailView):
         context = super().get_context_data(**kwargs)
         section = context["section"]
 
+        context[
+            "all_councils"
+        ] = Council.objects.all()  # for location search autocomplete
+
         if section.code.find("_ca") > 0:
             context["section_is_combined"] = True
             alt_section = self.alt_map.get(section.code, None)

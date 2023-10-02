@@ -1,5 +1,11 @@
-.table-question-council {
+.table-question-council,
+.section-question-table {
     width: 100%;
+
+    th {
+        width: 200px;
+        vertical-align: top;
+    }
 
     th, td  {
         @include responsive(padding, 12, 16);
@@ -10,7 +16,7 @@
         min-width: auto;
 
         @include media-breakpoint-up(lg) {
-            min-width: 450px;
+            min-width: 500px;
         }
     }
 
