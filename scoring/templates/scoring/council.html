@@ -166,12 +166,14 @@
                     {{ section.description }}
 
                     {% if section.has_negative_points %}
-                    <p class="d-flex align-items-center mb-0 mt-2 fs-7 text-warning">
-                        {% include 'caps/icons/warning.html' with classes='me-2' width='1em' height='1em' role='presentation' %}
-                        {% comment %} TODO correct percentage {% endcomment %}
-                        <strong class="me-2">Negative points:</strong>
+                    <div class="d-flex flex-column mb-0 mt-2 fs-7 text-warning">
+                        <p class="mb-1">
+                          {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
+                          {% comment %} TODO correct percentage {% endcomment %}
+                          <strong class="me-2">Negative points</strong>
+                        </p>
                         {{ council.name }} incurred a penalty of 15% in this section
-                    </p>
+                    </div>
                     {% endif %}
 
                     <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
