@@ -1,6 +1,8 @@
 {% extends "scoring/base-preview.html" %}
 {% load static %}
 
+{% block bodyclass %}version-4-gradient{% endblock %}
+
 {% block content %}
     <header class="mb-5">
         {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
@@ -8,25 +10,22 @@
         <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
     </header>
 
-    <div class="mb-5 me-auto fw-bold subtitle">
+    <div class="mb-5 me-auto fw-bold text-shadow text-yellow-300" style="font-size: 3rem">
         {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
-        <span>Top perfomer council</span>
-        <span class="fs-1 d-block">Planning & Land Use Questions</span>
+        <span>High scoring council in Planning & Land Use</span>
     </div>
 
 
     <div class="row position-relative">
         <div class="col-8">
-            <h1 id="top-performer-council-name" style="font-size: 5rem">{{ council.name }}</h1>
+            <h1 class="text-shadow" id="top-performer-council-name" style="font-size: 5rem">{{ council.name }}</h1>
         </div>
 
         <div class="col-4">
-            <div class="d-flex flex-column align-items-end justify-items-end text-bg-primary p-4 mt-4 badge" style="width:fit-content; float:right">
-                <span class="mb-3" style="font-size: 2rem">Obtained score</span>
-                <span class="open-graph-preview__score fw-bold" style="font-size: 7rem">9/16</span>
+            <div class="d-flex flex-column align-items-end justify-items-end" style="width:fit-content; float:right">
+                <span class="mb-3 text-shadow" style="font-size: 4rem">Score</span>
+                <span class="open-graph-preview__score fw-bold text-shadow" style="font-size: 9rem">53%</span>
             </div>
         </div>
-
-
     </div>
 {% endblock %}

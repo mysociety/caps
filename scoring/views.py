@@ -42,10 +42,6 @@ class DownPageView(TemplateView):
     template_name = "scoring/down.html"
 
 
-class ScorecardsPreviewView(TemplateView):
-    template_name = "scoring/scorecards-preview-fallback.html"
-
-
 class LoginView(LoginView):
     next_page = "scoring:home"
     template_name = "scoring/login.html"

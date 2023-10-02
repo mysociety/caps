@@ -1,6 +1,8 @@
 {% extends "scoring/base-preview.html" %}
 {% load static %}
 
+{% block bodyclass %}version-2-gradient{% endblock %}
+
 {% block content %}
     <header class="mb-5">
         {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
@@ -8,11 +10,11 @@
         <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
     </header>
 
-    <h1 id="council-name" class="w-75" style="font-size:3rem">{{ council.name }}</h1>
+    <h1 id="council-name" class="w-75 text-shadow" style="font-size:3rem">{{ council.name }}</h1>
     {% comment %} TODO IF it is a top performer in the overall score {% endcomment %}
-    <span class="mb-5 me-auto fw-bold subtitle">
+    <span class="mb-5 me-auto fw-bold subtitle text-shadow text-yellow-300 mt-2">
         {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
-        Top perfomer council
+        High scoring council &mdash; Single Tier
     </span>
 
     <table>
@@ -25,20 +27,20 @@
         </thead>
         <tbody>
             <tr>
-                <td>
+                <td class="align-top">
                     <span class="open-graph-preview__score">54%</span>
                 </td>
-                <td>
+                <td class="align-top">
                     <span class="open-graph-preview__score">90%</span>
                     <span class="open-graph-preview__section">Governance &amp; Finance</span>
-                    {% comment %} TODO IF it is a top performer {% endcomment %}
-                    <span class="mt-3 mx-auto badge text-bg-primary">
-                        {% include 'caps/icons/scorecards-star.html' with classes='me-1' width='1em' height='auto' role='presentation' %}
-                        Top perfomer council in this section
+                    {% comment %} TODO IF it is a top performer council for the highest score section {% endcomment %}
+                    <span class="mt-3 mx-auto text-yellow-300 mt-3 d-block">
+                        {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-top' width='1em' height='auto' role='presentation' %}
+                        High scoring council
                     </span>
                 </td>
-                <td>
-                    <span class="open-graph-preview__score">14%</span>
+                <td class="align-top">
+                    <span class="open-graph-preview__score">2%</span>
                     <span class="open-graph-preview__section">Waste Reduction &amp; Food</span>
                 </td>
             </tr>
