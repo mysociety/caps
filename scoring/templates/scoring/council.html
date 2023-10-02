@@ -267,30 +267,31 @@
                                   </dl>
                               </div>
 
+                                <button type="button" class="link link-primary border-0 p-0 bg-white mt-3 text-decoration-underline" data-bs-toggle="modal" data-bs-target="#section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                                  View criteria
+                                </button>
 
-                                  <!-- Modal -->
-                                  {% comment %} TODO We'll need to include an unique id. Not sure if we have a section shortname, so we can do something like -> shortname + question code  {% endcomment %}
-                                  <div class="modal fade" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                        <div class="modal-content">
-                                          <div class="modal-header">
-                                            <h5 class="modal-title" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
-                                              <p>Criteria</p>
-                                              <div class="fw-normal fs-7">{{ answer.question | linebreaks }}</div>
-                                            </h5>
-                                          </div>
-                                          <div class="modal-body">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                          </div>
+                                <div class="modal fade" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
+                                            <p>Criteria</p>
+                                            <div class="fw-normal fs-7">{{ answer.question | linebreaks }}</div>
+                                          </h5>
+                                        </div>
+                                        {% comment %} TODO Add criteria content {% endcomment %}
+                                        <div class="modal-body">
+                                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                  {% endfor %}
-                                {% endfor %}
+                                </div>
+
                             </div>
                         </div>
                     </div>
