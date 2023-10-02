@@ -1,0 +1,20 @@
+{% extends "scoring/base-preview.html" %}
+{% load static %}
+
+{% block content %}
+    <header class="mb-5">
+        {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
+        <span class="open-graph-preview__year">2023</span>
+        <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
+    </header>
+
+    <h1 class="w-75" style="font-size:6rem">
+        <span style="font-size:4rem">Find out how your </span>
+        council
+        <span style="font-size:4rem">did on the </span>
+        <span>Climate Action Scorecards</span>
+    </h1>
+
+    <img src="{% static 'scoring/img/preview-table.png' %}" alt="" class="position-absolute" style="bottom:-18rem; right:-12rem; transform:rotateZ(335deg) rotateY(55deg) rotateX(45deg); mix-blend-mode:soft-light; width: 80%">
+
+{% endblock %}

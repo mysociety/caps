@@ -51,6 +51,7 @@ scoring_patterns = (
         path("login/", views.LoginView.as_view(), name="login"),
         path("logout/", views.LogoutView.as_view(), name="logout"),
         path("privacy/", views.PrivacyView.as_view(), name="privacy"),
+        path("preview/", views.ScorecardsPreviewView.as_view(), name="preview"),
     ],
     "scoring",
 )

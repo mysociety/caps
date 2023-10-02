@@ -8,7 +8,7 @@
         <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
     </header>
 
-    <h1>{{ council.name }}</h1>
+    <h1 id="council-name" class="w-75" style="font-size:3rem">{{ council.name }}</h1>
     {% comment %} TODO IF it is a top performer in the overall score {% endcomment %}
     <span class="mb-5 me-auto fw-bold subtitle">
         {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}

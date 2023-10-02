@@ -17,5 +17,20 @@
 <body>
     <!-- Facebook OpenGraph image dimensions: 1200px wide, 630px tall -->
     {% block content %}{% endblock %}
+    <script>
+        //fontSize for a shorten council name
+        function adjustText(id, fontSize) {
+            var councilName = document.getElementById(id);
+            if (councilName) {
+                var councilNameLength = councilName.innerText.trim().length;
+                if (councilNameLength < 25) {
+                    councilName.style.fontSize = fontSize;
+                }
+            }
+        }
+
+        adjustText('council-name', '4rem');
+        adjustText('top-performer-council-name', '6.5rem');
+    </script>
 </body>
 </html>
