@@ -1,32 +1,47 @@
 .open-graph-preview {
     font-size: 2vmin;
+    $text-shadow: 0.20rem 0.20rem 0 $black;
 
     body {
         --bs-body-font-size: 1rem;
-
         display: flex;
         flex-direction: column;
         padding: 5vw;
         min-height: 100vh;
         overflow: hidden; // prevent scrollbars from absolutely positioned children
-        background: $primary linear-gradient(45deg, $primary, adjust-hue($primary-300, 15)) 50% 50% no-repeat;
         color: $white;
+        background: $primary linear-gradient(45deg, $primary, adjust-hue($primary-400, 15)) 50% 50% no-repeat;
+
+        .text-shadow {
+            text-shadow: $text-shadow;
+            font-weight: 900;
+
+            svg {
+                filter: drop-shadow($text-shadow);
+            }
+        }
+
+        &.version-2-gradient {
+            background: $primary linear-gradient(45deg, $cyan, adjust-hue($cyan-400, -15)) 50% 50% no-repeat;
+        }
+
+        &.version-3-gradient {
+            background: $primary linear-gradient(45deg, $blue, adjust-hue($blue-400, -15)) 50% 50% no-repeat;
+        }
+
+        &.version-4-gradient {
+            background: $primary linear-gradient(45deg, $green, adjust-hue($green-400, -15)) 50% 50% no-repeat;
+        }
     }
 
     h1 {
         font-size: 4rem;
         font-weight: 900;
-        text-shadow: 0.05em 0.05em 0 $black;
         margin-bottom: 0;
     }
 
     .subtitle {
-        text-shadow: 0.05em 0.05em 0 $black;
         font-size: 2rem;
-
-        svg {
-            filter: drop-shadow(0.05em 0.05em 0 $black);
-        }
     }
 
     header {

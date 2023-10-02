@@ -14,7 +14,7 @@
     <title>{{ page_title }}</title>
     {% stylesheet 'scoring' %}
 </head>
-<body>
+<body class="{% block bodyclass %}{% endblock %}">
     <!-- Facebook OpenGraph image dimensions: 1200px wide, 630px tall -->
     {% block content %}{% endblock %}
     <script>
