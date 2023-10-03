@@ -2,12 +2,17 @@ import os
 
 import numpy as np
 import pandas as pd
-from caps.import_utils import (add_authority_codes, add_extra_authority_info,
-                               get_google_sheet_as_csv, replace_csv_headers)
-from caps.models import Council, PlanDocument
-from caps.utils import char_from_text, date_from_text, integer_from_text
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+
+from caps.import_utils import (
+    add_authority_codes,
+    add_extra_authority_info,
+    get_google_sheet_as_csv,
+    replace_csv_headers,
+)
+from caps.models import Council, PlanDocument
+from caps.utils import char_from_text, date_from_text, integer_from_text
 
 # from os.path import basename, isfile, join, splitext
 

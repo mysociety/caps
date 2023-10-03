@@ -12,13 +12,14 @@ from typing import Optional, Union
 import pandas as pd
 import requests
 import urllib3
-from caps.models import Council
-from caps.utils import char_from_text, integer_from_text
 from django.conf import settings
 from django.core.files import File
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import F, Sum
 from django.template.defaultfilters import pluralize
+
+from caps.models import Council
+from caps.utils import char_from_text, integer_from_text
 from scoring.models import (
     PlanQuestion,
     PlanQuestionGroup,

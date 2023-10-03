@@ -3,8 +3,6 @@ from collections import defaultdict
 from copy import deepcopy
 from datetime import date
 
-from caps.models import Council, Promise
-from caps.views import BaseLocationResultsView
 from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Count, F, OuterRef, Subquery, Sum
@@ -15,6 +13,8 @@ from django.views.decorators.cache import cache_control
 from django.views.generic import DetailView, TemplateView
 from django_filters.views import FilterView
 
+from caps.models import Council, Promise
+from caps.views import BaseLocationResultsView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort
 from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin
