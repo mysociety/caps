@@ -21,6 +21,7 @@ from django.db.models import F, Sum
 from django.template.defaultfilters import pluralize
 from scoring.models import (
     PlanQuestion,
+    PlanQuestionGroup,
     PlanQuestionScore,
     PlanScore,
     PlanSection,
@@ -195,6 +196,17 @@ class Command(BaseCommand):
     def import_questions(self):
         df = pd.read_csv(self.QUESTIONS_CSV)
 
+        group_map = {
+            "single tier": "single",
+            "northern ireland": "northern-ireland",
+            "combined authority": "combined",
+        }
+        groups = ["single", "district", "county", "northern-ireland", "combined"]
+        q_groups = {}
+        for group in groups:
+            g, _ = PlanQuestionGroup.objects.get_or_create(description=group)
+            q_groups[group] = g
+
         section_codes = {name: code for code, name in self.SECTIONS.items()}
 
         for index, row in df.iterrows():
@@ -218,6 +230,14 @@ class Command(BaseCommand):
             question.weighting = row["weighting"]
             question.how_marked = row["how_marked"]
             question.criteria = row["criteria"]
+            question.topic = row["topic"]
+            question.clarifications = row["clarifications"]
+
+            if not pd.isna(row["groups"]):
+                for group in row["groups"].split(","):
+                    group = group.lower()
+                    question.questiongroup.add(q_groups[group_map.get(group, group)])
+
             question.save()
 
     def import_question_scores(self):
