@@ -400,45 +400,13 @@ class SectionView(CheckForDownPageMixin, DetailView):
     def get_object(self):
         return get_object_or_404(PlanSection, code=self.kwargs["code"])
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
-
+    def add_comparisons(self, context, comparison_slugs, comparison_questions):
         section = context["section"]
-
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
-
-        if section.code.find("_ca") > 0:
-            context["section_is_combined"] = True
-            alt_section = self.alt_map.get(section.code, None)
-            if alt_section is not None:
-                alt = PlanSection.objects.get(code=alt_section)
-                context["alternative"] = {
-                    "name": alt.description,
-                    "url": reverse("scoring:section", args=(alt_section,)),
-                }
-        else:
-            ca_alt_section = self.combined_alt_map.get(section.code, None)
-            if ca_alt_section is not None:
-                alt = PlanSection.objects.get(code=ca_alt_section)
-                context["combined_alternative"] = {
-                    "name": alt.description,
-                    "url": reverse("scoring:section", args=(ca_alt_section,)),
-                }
-
-        avgs = section.get_averages_by_council_group()
-
-        comparison_slugs = self.request.GET.getlist("comparisons")
-        comparison_questions = {}
         comparisons = None
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
-                .filter(council__slug__in=comparison_slugs)
+                .filter(year=settings.PLAN_YEAR, council__slug__in=comparison_slugs)
                 .order_by("council__name")
             )
             comparison_sections = PlanSectionScore.sections_for_plans(
@@ -450,24 +418,19 @@ class SectionView(CheckForDownPageMixin, DetailView):
             comparison_scores = comparison_sections[section.code]
 
             for score in comparison_scores:
-                answers = score["section_score"].questions_answered()
-                score["answers"] = answers
-                for answer in answers:
-                    if (
-                        comparison_questions.get(answer.plan_question.code, None)
-                        is None
-                    ):
-                        comparison_questions[answer.plan_question.code] = {
-                            "details": answer.plan_question,
-                            "comparisons": [],
-                        }
-
-                    comparison_questions[answer.plan_question.code][
-                        "comparisons"
-                    ].append(answer)
-                    if answer.score < 0:
-                        score["negative_points"] += answer.score
-                        score["non_negative_max"] -= answer.score
+                answers = {
+                    answer.plan_question.code: answer
+                    for answer in score["section_score"].questions_answered()
+                }
+                for code in comparison_questions.keys():
+                    if answers.get(code, None) is not None:
+                        answer = answers[code]
+                        comparison_questions[code]["comparisons"].append(answer)
+                        if answer.score < 0:
+                            score["negative_points"] += answer.score
+                            score["non_negative_max"] -= answer.score
+                    else:
+                        comparison_questions[code]["comparisons"].append({"score": "-"})
 
                 if score["negative_points"] < 0:
                     score["negative_percent"] = (
@@ -475,14 +438,82 @@ class SectionView(CheckForDownPageMixin, DetailView):
                         * -1
                     )
 
-            context["questions"] = [
-                comparison_questions[k] for k in sorted(comparison_questions.keys())
-            ]
             context["comparison_councils"] = comparisons
             context["comparison_scores"] = comparison_scores
 
+    def get_questions(self, context):
+        section = context["section"]
+
+        # fix sorting to not have 1, 11, 2
+        natsort = lambda q: [
+            int(t) if t.isdigit() else t.lower() for t in re.split("(\d+)", q)
+        ]
+
+        council = self.request.GET.get("council", None)
+        if council is not None:
+            try:
+                council = Council.objects.get(slug=council)
+                council_type = council.get_scoring_group()
+            except Council.NotFoundException:
+                council_type = None
+        else:
+            council_type = Council.SCORING_GROUPS.get(
+                self.request.GET.get("type", None), None
+            )
+
+        if council_type is not None:
+            comparison_questions = {}
+
+            context["council_type"] = council_type
+
+            questions = PlanQuestion.objects.filter(section=section)
+            for question in questions:
+                comparison_questions[question.code] = {
+                    "details": question,
+                    "comparisons": [],
+                }
+
+            q_avgs = PlanQuestion.get_average_scores(section=section)
+
+            for q in q_avgs:
+                comparison_questions[q["plan_question__code"]]["average"] = round(
+                    q["average"], 2
+                )
+
+            comparison_slugs = self.request.GET.getlist("comparisons")
+            if council is not None:
+                comparison_slugs.insert(0, council.slug)
+
+            self.add_comparisons(context, comparison_slugs, comparison_questions)
+
+            context["questions"] = [
+                comparison_questions[k]
+                for k in sorted(comparison_questions.keys(), key=natsort)
+            ]
+            context["council_type"] = council_type
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # for location search autocomplete
+        context["all_councils"] = Council.objects.all()
+
+        section = context["section"]
+
+        alt = section.get_alternative
+        if alt is not None:
+            context["alternative"] = {
+                "name": alt.description,
+                "url": reverse("scoring:section", args=(alt.code,)),
+            }
+
+        self.get_questions(context)
+
+        avgs = section.get_averages_by_council_group()
         avgs["ni"] = avgs["northern-ireland"]
         context["averages"] = avgs
+        if context.get("council_type", None) is not None:
+            context["council_type_avg"] = avgs[context["council_type"]["slug"]]
         return context
 
 
