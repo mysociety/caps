@@ -161,6 +161,16 @@ class PlanSection(models.Model):
         "country": "council__country",
     }
 
+    ALT_MAP = {
+        "s1_b_h": "s1_b_h_gs_ca",
+        "s2_tran": "s2_tran_ca",
+        "s3_p_lu": "s3_p_b_ca",
+        "s4_g_f": "s5_g_f_ca",
+        "s6_c_e": "s6_c_e_ca",
+    }
+
+    COMBINED_ALT_MAP = dict((ca, non_ca) for non_ca, ca in ALT_MAP.items())
+
     code = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -189,6 +199,23 @@ class PlanSection(models.Model):
             averages[group] = {"average": avg["avg"], "maximum": avg["max"]}
 
         return averages
+
+    @property
+    def is_combined(self):
+        return self.code.find("_ca") > 0
+
+    @property
+    def get_alternative(self):
+        alt = None
+        if self.is_combined:
+            alt = self.COMBINED_ALT_MAP.get(self.code, None)
+        else:
+            alt = self.ALT_MAP.get(self.code, None)
+
+        if alt is not None:
+            alt = PlanSection.objects.get(code=alt)
+
+        return alt
 
     @classmethod
     def section_codes(cls, year=settings.PLAN_YEAR):
@@ -459,6 +486,19 @@ class PlanQuestion(models.Model):
             code = "4.13.2"
 
         return code
+
+    @classmethod
+    def get_average_scores(cls, section=None, council_group=None):
+        qs = PlanQuestionScore.objects.all()
+        if section is not None:
+            qs = qs.filter(plan_question__section=section)
+        # XXX fix this when relevant code is merged
+        # if council_group is not None:
+        # qs = qs.filter(question__=section)
+
+        qs = qs.values("plan_question__code").annotate(average=Avg("score"))
+
+        return qs
 
 
 class PlanQuestionScore(ScoreFilterMixin, models.Model):
