@@ -364,3 +364,57 @@ forEachElement('.js-methodology-council-autocomplete', function(input){
         container.setAttribute('data-methodology-active-council-type', council.council_type);
     });
 });
+
+function ajaxLoadCouncilTypeScorecard(url) {
+    var selectors = [
+        '#council-type-filter',
+        '#advancedFilter .modal-body',
+        '.table-header h3',
+        '.scorecard-table'
+    ];
+
+    selectors.forEach(function(selector){
+        document.querySelector(selector).classList.add('loading-shimmer');
+    });
+
+    fetch(url)
+    .then(function(response) {
+        return response.text()
+    })
+    .then(function(html) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, "text/html");
+        selectors.forEach(function(selector){
+            document.querySelector(selector).replaceWith(doc.querySelector(selector));
+        });
+    })
+    .catch(function(err) {
+        window.location.href = url;
+    });
+}
+
+if ( typeof window.fetch !== 'undefined' ) {
+    document.addEventListener('click', function(e){
+        if ( e.target.matches('#council-type-filter a') ) {
+            e.preventDefault();
+            var href = e.target.href;
+            history.pushState({}, '', href);
+            ajaxLoadCouncilTypeScorecard(href);
+        }
+    });
+
+    var councilTypePaths = [
+        '/',
+        '/scoring/district/',
+        '/scoring/county/',
+        '/scoring/combined/',
+        '/scoring/northern-ireland/'
+    ];
+
+    window.addEventListener('popstate', function(e){
+        var url = new URL(window.location.href);
+        if ( councilTypePaths.indexOf(url.pathname) != -1 ) {
+            ajaxLoadCouncilTypeScorecard(window.location.href);
+        }
+    });
+}
