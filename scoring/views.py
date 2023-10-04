@@ -47,6 +47,15 @@ class LogoutView(LogoutView):
     next_page = "scoring:home"
 
 
+class PrivacyView(TemplateView):
+    template_name = "scoring/privacy.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Privacy Policy"
+        return context
+
+
 @method_decorator(cache_control(**cache_settings), name="dispatch")
 class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
     filterset_class = PlanScoreFilter
