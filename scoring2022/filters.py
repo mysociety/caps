@@ -6,7 +6,9 @@ from scoring.models import PlanScore, PlanQuestionScore
 
 class PlanScoreFilter(django_filters.FilterSet):
     country = django_filters.ChoiceFilter(
-        choices=Council.COUNTRY_CHOICES, empty_label="All"
+        field_name="council__country",
+        choices=Council.COUNTRY_CHOICES,
+        empty_label="All",
     )
 
     ruc_cluster = django_filters.ChoiceFilter(
