@@ -18,7 +18,21 @@
     <!-- Facebook OpenGraph image dimensions: 1200px wide, 630px tall -->
     {% block content %}{% endblock %}
     <script>
-        //fontSize for a shorten council name
+        // Check aspect ratio
+        function getAspectRatio() {
+            function gcd(a, b) {
+                return (b === 0) ? a : gcd(b, a % b);
+            }
+
+            var width = document.body.offsetWidth;
+            var height = document.body.offsetHeight;
+            var divisor = gcd(width, height);
+            var aspectWidth = width / divisor;
+            var aspectHeight = height / divisor;
+
+            return aspectWidth + "/" + aspectHeight;
+        }
+
         function adjustText(id, fontSize) {
             var councilName = document.getElementById(id);
             if (councilName) {
@@ -28,10 +42,18 @@
                 }
             }
         }
+        
+        if (getAspectRatio() === '1/1') {
+            adjustText('council-preview-heading', '6rem');
+            adjustText('section-preview-heading', '8rem');
+            adjustText('council-section-top-performer-heading', '7rem');
+            adjustText('council-overall-top-performer-heading', '7rem');
+        } else {
+            adjustText('council-preview-heading', '4rem');
+            adjustText('council-section-top-performer-heading', '6.5rem');
+            adjustText('council-overall-top-performer-heading', '6.5rem');
+        }
 
-        adjustText('council-name', '4rem');
-        adjustText('top-performer-council-name', '6.5rem');
-        adjustText('top-performer-council-name-overall', '6.5rem');
     </script>
 </body>
 </html>

@@ -1,10 +1,10 @@
 {% extends "scoring/base-preview.html" %}
 {% load static %}
 
-{% block bodyclass %}version-3-gradient{% endblock %}
+{% block bodyclass %}version-3-gradient council-overall-top-performer{% endblock %}
 
 {% block content %}
-    <header class="mb-5">
+    <header class="mb-6">
         {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
         <span class="open-graph-preview__year">2023</span>
         <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
@@ -17,13 +17,13 @@
     </div>
 
 
-    <div class="row position-relative">
-        <div class="col-8">
-            <h1 id="top-performer-council-name-overall" class="text-shadow" style="font-size: 4.5rem">{{ council.name }}</h1>
+    <div class="open-graph-preview__grid position-relative">
+        <div class="grid__name d-flex align-items-end">
+            <h1 id="council-overall-top-performer-heading" class="text-shadow" style="font-size: 4.5rem">{{ council.name }}</h1>
         </div>
 
-        <div class="col-4">
-            <div class="d-flex flex-column align-items-end justify-items-end" style="width:fit-content; float:right">
+        <div class="grid__score">
+            <div class="d-flex flex-column align-items-end justify-items-end">
                 <span class="mb-3 text-shadow" style="font-size: 4rem">Score</span>
                 <span class="open-graph-preview__score fw-bold text-shadow" style="font-size: 9rem">65%</span>
             </div>
