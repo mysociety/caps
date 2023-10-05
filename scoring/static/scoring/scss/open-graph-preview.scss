@@ -51,6 +51,10 @@
         font-size: 4rem;
         font-weight: 900;
         margin-bottom: 0;
+
+        &#council-preview-heading {
+            font-size: 3rem;
+        }
     }
 
     .subtitle {
@@ -86,7 +90,7 @@
             border-bottom: 2px solid rgba($white, 0.5);
             .badge {
                 position: absolute;
-                top: -0.2em;
+                top: -0.2rem;
                 left: 0;
                 width: 100%;
                 font-size: 1.2rem;
@@ -125,18 +129,18 @@
 
 .open-graph-preview__score {
     display: block;
-    font-size: 2.5em;
+    font-size: 4.5rem;
     line-height: 0.9;
     font-weight: bold;
 
     td:first-child & {
-        font-size: 4em;
+        font-size: 8rem;
     }
 }
 
 .open-graph-preview__section {
     display: block;
-    margin-top: 0.5em;
+    margin-top: 0.5rem;
 }
 
 .open-graph-preview__ceuk-logo {
@@ -146,13 +150,69 @@
 
 .open-graph-preview__year {
     position: absolute;
-    top: -0.1em;
-    right: -0.1em;
+    top: -0.1rem;
+    right: -0.1rem;
     font-size: 20vw;
     line-height: 0.85;
     opacity: 0.1;
     font-weight: bold;
 }
 
-// In case we want to target instagram:
-// @media (aspect-ratio: 1/1) { }
+.open-graph-preview__grid {
+    display: grid;
+    grid-template-columns: 70% 25%;
+    column-gap: 5%;
+
+    .grid__name {
+        grid-column: 1 / 1;
+    }
+    .grid__score {
+        grid-column: 2 / 2;
+    }
+}
+
+
+@media (aspect-ratio: 1/1) {
+    .open-graph-preview {
+        font-size: 1.5vmin;
+
+        h1 {
+            &#council-preview-heading {
+                font-size: 4rem;
+            }
+        }
+
+        .council-section-top-performer,
+        .council-overall-top-performer {
+            .open-graph-preview__score {
+                font-size: 11rem !important;
+            }
+        }
+
+        .council-preview,
+        .section-preview {
+            h1 {
+                font-size: 4rem;
+            }
+
+            .subtitle {
+                font-size: 3rem;
+            }
+        }
+    }
+
+    .open-graph-preview__grid {
+        grid-template-columns: 100%;
+        grid-template-rows: 1fr 1fr;
+        row-gap: 3rem;
+    
+        .grid__name {
+            grid-row: 1 / 1;
+            grid-column: 1 / 1;
+        }
+        .grid__score {
+            grid-row: 2 / 2;
+            grid-column: 1 / 1;
+        }
+    }
+}

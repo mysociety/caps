@@ -1,14 +1,16 @@
 {% extends "scoring/base-preview.html" %}
 {% load static %}
 
+{% block bodyclass %}section-preview{% endblock %}
+
 {% block content %}
-    <header class="mb-5">
+    <header class="mb-6">
         {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
         <span class="open-graph-preview__year">2023</span>
         <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
     </header>
 
-    <h1 class="text-shadow">Planning & Land Use</h1>
+    <h1 id="section-preview-heading" class="text-shadow">Planning & Land Use</h1>
     <span class="mb-5 me-auto fw-bold text-shadow subtitle">
         {% comment %} TODO Include type of council {% endcomment %}
         Single tier councils

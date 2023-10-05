@@ -1,16 +1,16 @@
 {% extends "scoring/base-preview.html" %}
 {% load static %}
 
-{% block bodyclass %}version-2-gradient{% endblock %}
+{% block bodyclass %}version-2-gradient council-preview{% endblock %}
 
 {% block content %}
-    <header class="mb-5">
+    <header class="mb-6">
         {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
         <span class="open-graph-preview__year">2023</span>
         <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
     </header>
 
-    <h1 id="council-name" class="w-75 text-shadow" style="font-size:3rem">{{ council.name }}</h1>
+    <h1 id="council-preview-heading" class="text-shadow">{{ council.name }}</h1>
     {% comment %} TODO IF it is a top performer in the overall score {% endcomment %}
     <span class="mb-5 me-auto fw-bold subtitle text-shadow text-yellow-300 mt-2">
         {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
