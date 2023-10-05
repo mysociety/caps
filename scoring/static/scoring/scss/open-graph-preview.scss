@@ -124,6 +124,15 @@
         tr > :last-child {
             border-right: none;
         }
+
+        .high-scoring-section-badge {
+            position: absolute;
+            font-size: 1.5rem;
+            text-align: center;
+            display: block;
+            width: 100%;
+            left: 0;
+        }
     }
 }
 
@@ -160,14 +169,20 @@
 
 .open-graph-preview__grid {
     display: grid;
-    grid-template-columns: 70% 25%;
+    grid-template-columns: 75% 20%;
     column-gap: 5%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 10vw);
 
     .grid__name {
         grid-column: 1 / 1;
     }
     .grid__score {
         grid-column: 2 / 2;
+        align-self: end;
     }
 }
 
@@ -180,6 +195,10 @@
             &#council-preview-heading {
                 font-size: 4rem;
             }
+        }
+
+        table {
+            margin-top: 9rem;
         }
 
         .council-section-top-performer,
@@ -203,7 +222,7 @@
 
     .open-graph-preview__grid {
         grid-template-columns: 100%;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: auto;
         row-gap: 3rem;
     
         .grid__name {
