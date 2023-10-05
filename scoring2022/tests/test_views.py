@@ -335,7 +335,7 @@ class TestTopPerormersInViews(TestCase):
                 "code": council["authority_code"],
                 "top_performer": council["top_performer"],
             }
-            for council in councils.all()
+            for council in councils
         ]
 
         self.assertEquals(

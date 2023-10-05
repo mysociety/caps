@@ -84,6 +84,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
                 score=F("weighted_total"),
                 name=F("council__name"),
                 slug=F("council__slug"),
+                authority_code=F("council__authority_code"),
             )
             .order_by(F("weighted_total").desc(nulls_last=True))
         )
@@ -110,13 +111,31 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
         )
         all_scores = PlanSectionScore.get_all_council_scores()
 
+        councils = list(councils.all())
+        council_ids = []
         for council in councils:
+            council_ids.append(council["council_id"])
             council["all_scores"] = all_scores[council["council_id"]]
             if council["score"] is not None:
                 council["percentage"] = council["score"]
             else:
                 council["percentage"] = 0
 
+        missing_councils = Council.objects.exclude(id__in=council_ids).filter(
+            authority_type__in=authority_type["types"],
+            country__in=authority_type["countries"],
+        )
+
+        for council in missing_councils:
+            councils.append(
+                {
+                    "score": None,
+                    "name": council.name,
+                    "slug": council.slug,
+                    "authority_code": council.authority_code,
+                    "top_performer": None,
+                }
+            )
         codes = PlanSection.section_codes()
 
         if authority_type["slug"] == "combined":
