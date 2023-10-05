@@ -49,3 +49,41 @@
         }
     }
 }
+
+.sticky-in-page-nav {
+    & > button {
+        display: none;
+    }
+
+    @include media-breakpoint-down('sm') {
+        position: sticky;
+        top: 0;
+        margin-top: 0 !important;
+        z-index: 999;
+        background: #fff;
+        box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
+
+        & > button {
+            display: block;
+            padding: 1rem 15px 1rem 45px;
+            margin: 0 -15px;
+            width: 100vw;
+            background-image: url('../img/hamburger-black.svg');
+            background-size: 1rem;
+            background-repeat: no-repeat;
+            background-position: 15px 50%;
+
+            &:focus {
+                background-color: $color-scorecard-yellow;
+            }
+        }
+
+        & > button[aria-expanded="false"] + * {
+            display: none;
+        }
+
+        & > button[aria-expanded="true"] + * {
+            display: block;
+        }
+    }
+}
