@@ -46,3 +46,6 @@ conf/stack.yml.deployed
 conf/config.py.deployed
 conf/httpd.conf
 conf/httpd.conf.deployed
+
+# Temporary directory for generate_social_sharing_images.py
+/og-img
