@@ -4,7 +4,7 @@ from scoring.models import PlanScore, PlanSection, PlanSectionScore
 
 
 class TestAverageSectionScores(TestCase):
-    fixtures = ["test_averages.json"]
+    fixtures = ["2022_test_averages.json"]
 
     def test_basic_averages(self):
         averages = PlanSection.get_average_scores(year=2021)
@@ -48,7 +48,7 @@ class TestAverageSectionScores(TestCase):
 
 
 class TestGetAllScores(TestCase):
-    fixtures = ["test_averages.json"]
+    fixtures = ["2022_test_averages.json"]
 
     def test_all_scores(self):
         all_scores = PlanSectionScore.get_all_council_scores(2021)

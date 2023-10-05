@@ -5,7 +5,7 @@ from scoring.models import PlanScore, PlanSectionScore
 
 
 class TestHomePageView(TestCase):
-    fixtures = ["test_homepage.json"]
+    fixtures = ["2022_test_homepage.json"]
 
     def setUp(self):
         self.client = Client()
@@ -40,7 +40,7 @@ class TestHomePageView(TestCase):
 
 
 class TestAnswerView(TestCase):
-    fixtures = ["test_answers.json"]
+    fixtures = ["2022_test_answers.json"]
 
     def setUp(self):
         self.client = Client()
@@ -317,7 +317,7 @@ class TestAnswerView(TestCase):
 
 
 class TestTopPerormersInViews(TestCase):
-    fixtures = ["test_top_performers.json"]
+    fixtures = ["2022_test_top_performers.json"]
 
     def setUp(self):
         self.client = Client()
