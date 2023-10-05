@@ -57,7 +57,7 @@
                         </tr>
                         <tr class="second-row position-sticky z-index-4">
                             <th scope="col" style="min-width:250px" class="bg-primary-100 position-sticky z-index-4">
-                                <span class="ms-4 fs-6 fw-bold">{{ authority_type_label }} average</span>
+                                <span class="ms-4 fs-6 fw-bold d-block">{{ authority_type_label }} average</span>
                                 {% comment %} <div class="table-sticky-border bottom"></div>
                                 <div class="table-sticky-border left"></div> {% endcomment %}
                             </th>
@@ -159,7 +159,7 @@
                             </th>
                         <tr class="second-row position-sticky z-index-4">
                             <th class="bg-white" scope="col" style="min-width:250px">
-                                <span class="ms-4 fs-6 fw-bold">{{ authority_type_label }} average</span>
+                                <span class="ms-4 fs-6 fw-bold d-block" style="white-space: break-spaces;">{{ authority_type_label }} average</span>
                             </th>
                             <th scope="col" class="total-score position-sticky z-index-4">              
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
