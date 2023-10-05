@@ -10,14 +10,12 @@
         <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
     </header>
 
-    <div class="mb-5 me-auto fw-bold text-shadow text-yellow-300" style="font-size: 3rem">
-        {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
-        <span>High scoring council in Planning & Land Use</span>
-    </div>
-
-
-    <div class="open-graph-preview__grid position-relative">
-        <div class="grid__name d-flex align-items-end">
+    <div class="open-graph-preview__grid">
+        <div class="grid__name">
+            <div class="mb-5 me-auto fw-bold text-shadow text-yellow-300" style="font-size: 3rem">
+                {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
+                <span>High scoring council in Planning & Land Use</span>
+            </div>
             <h1 class="text-shadow" id="council-section-top-performer-heading" style="font-size: 4.5rem">{{ council.name }}</h1>
         </div>
 
