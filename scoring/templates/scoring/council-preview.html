@@ -11,11 +11,12 @@
     </header>
 
     <h1 id="council-preview-heading" class="text-shadow">{{ council.name }}</h1>
-    {% comment %} TODO IF it is a top performer in the overall score {% endcomment %}
+    {% if plan_score.top_performer %}
     <span class="mb-5 me-auto fw-bold subtitle text-shadow text-yellow-300 mt-2">
         {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
-        High scoring council &mdash; Single Tier
+        High scoring council &mdash; {% include 'caps/includes/authority_type.html' with group=authority_type %}
     </span>
+    {% endif %}
 
     <table>
         <thead>
@@ -28,20 +29,21 @@
         <tbody>
             <tr>
                 <td class="align-top">
-                    <span class="open-graph-preview__score">54%</span>
+                    <span class="open-graph-preview__score">{{ plan_score.weighted_total|floatformat:0 }}%</span>
                 </td>
                 <td class="align-top">
-                    <span class="open-graph-preview__score">90%</span>
-                    <span class="open-graph-preview__section">Governance &amp; Finance</span>
-                    {% comment %} TODO IF it is a top performer council for the highest score section {% endcomment %}
+                    <span class="open-graph-preview__score">{{ max_score.score|floatformat:0 }}%</span>
+                    <span class="open-graph-preview__section">{{ max_score.section.plan_section.description }}</span>
+                    {% if max_score.section.top_performer %}
                     <span class="high-scoring-section-badge mt-3 mx-auto text-yellow-300 mt-3">
                         {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-top' width='1em' height='auto' role='presentation' %}
                         High scoring council
                     </span>
+                    {% endif %}
                 </td>
                 <td class="align-top">
-                    <span class="open-graph-preview__score">2%</span>
-                    <span class="open-graph-preview__section">Waste Reduction &amp; Food</span>
+                    <span class="open-graph-preview__score">{{ min_score.score|floatformat:0 }}%</span>
+                    <span class="open-graph-preview__section">{{ min_score.section.plan_section.description }}</span>
                 </td>
             </tr>
         </tbody>
