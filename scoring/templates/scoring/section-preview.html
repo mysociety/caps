@@ -10,10 +10,9 @@
         <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
     </header>
 
-    <h1 id="section-preview-heading" class="text-shadow">Planning & Land Use</h1>
+    <h1 id="section-preview-heading" class="text-shadow">{{ section.description }}</h1>
     <span class="mb-5 me-auto fw-bold text-shadow subtitle">
-        {% comment %} TODO Include type of council {% endcomment %}
-        Single tier councils
+        {% include 'caps/includes/authority_type.html' with group=authority_type %} councils
     </span>
 
     <table>
@@ -34,13 +33,13 @@
             {% comment %} TODO Add real scores {% endcomment %}
             <tr>
                 <td>
-                    <span class="open-graph-preview__score">52%</span>
+                    <span class="open-graph-preview__score">{{ scores.average|floatformat:0 }}%</span>
                 </td>
                 <td>
-                    <span class="open-graph-preview__score">65%</span>
+                    <span class="open-graph-preview__score">{{ scores.maximum|floatformat:0 }}%</span>
                 </td>
                 <td>
-                    <span class="open-graph-preview__score">32%</span>
+                    <span class="open-graph-preview__score">{{ scores.minimum|floatformat:0 }}%</span>
                 </td>
             </tr>
         </tbody>
