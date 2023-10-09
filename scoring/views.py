@@ -440,15 +440,27 @@ class CouncilPreview(DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class CouncilPreviewTopPerformerOverall(DetailView):
-    model = Council
-    context_object_name = "council"
+class CouncilTypeTopPerformerView(TemplateView):
     template_name = "scoring/council-top-performer-overall-preview.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        council = context.get("council")
+        council_type = self.kwargs["council_type"]
+        group = Council.SCORING_GROUPS[council_type]
+        scores = PlanScore.objects.filter(
+            year=settings.PLAN_YEAR,
+            council__authority_type__in=group["types"],
+            council__country__in=group["countries"],
+        ).order_by("-weighted_total")
+
+        top = scores.first()
+        council = top.council
+
         context["page_title"] = council.name
+        context["authority_type"] = group
+        context["council"] = council
+        context["score"] = top.weighted_total
+
         return context
 
 
@@ -669,6 +681,31 @@ class SectionPreview(CheckForDownPageMixin, TemplateView):
         context["section"] = section
         context["authority_type"] = group
         context["scores"] = scores
+
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class SectionTopPerformerPreview(CheckForDownPageMixin, TemplateView):
+    template_name = "scoring/council-top-performer-preview.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        code = self.kwargs["slug"]
+
+        section = PlanSection.objects.get(code=code)
+
+        scores = PlanSectionScore.objects.filter(
+            plan_section=section,
+            plan_score__year=settings.PLAN_YEAR,
+        ).order_by("-weighted_score")
+
+        top = scores.first()
+
+        context["section"] = section
+        context["score"] = top.weighted_score
+        context["council"] = top.plan_score.council
 
         return context
 

@@ -12,6 +12,11 @@ scoring_patterns = (
             "scoring/<str:council_type>/", views.HomePageView.as_view(), name="scoring"
         ),
         path(
+            "scoring/<str:council_type>/preview/",
+            views.CouncilTypeTopPerformerView.as_view(),
+            name="council_type_top_preview",
+        ),
+        path(
             "councils/<slug:slug>/preview/",
             views.CouncilPreview.as_view(),
             name="council_preview",
@@ -21,14 +26,14 @@ scoring_patterns = (
             views.CouncilPreviewTopPerfomer.as_view(),
             name="council_top_performer_preview",
         ),
-        path(
-            "councils/<slug:slug>/preview/top-performer-overall",
-            views.CouncilPreviewTopPerformerOverall.as_view(),
-            name="council_top_performer_overall_preview",
-        ),
         path("councils/<slug:slug>/", views.CouncilView.as_view(), name="council"),
         path("sections/<str:code>/", views.SectionView.as_view(), name="section"),
         path("sections/", views.SectionsView.as_view(), name="sections"),
+        path(
+            "section/<slug:slug>/top-performer/preview/",
+            views.SectionTopPerformerPreview.as_view(),
+            name="section_top_preview",
+        ),
         path(
             "section/<slug:slug>/<str:type>/preview/",
             views.SectionPreview.as_view(),

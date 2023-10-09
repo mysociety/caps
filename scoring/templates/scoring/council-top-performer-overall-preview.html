@@ -14,8 +14,7 @@
         <div class="grid__name">
             <div class="mb-5 me-auto fw-bold text-shadow text-yellow-300" style="font-size: 3rem">
                 {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
-                <span>High scoring council &mdash; Single Tier</span>
-                {% comment %} TODO add type of council {% endcomment %}
+                <span>High scoring council &mdash; {% include 'caps/includes/authority_type.html' with group=authority_type %}</span>
             </div>
             <h1 id="council-overall-top-performer-heading" class="text-shadow" style="font-size: 4.5rem">{{ council.name }}</h1>
         </div>
@@ -23,7 +22,7 @@
         <div class="grid__score">
             <div class="d-flex flex-column align-items-end justify-items-end">
                 <span class="mb-3 text-shadow" style="font-size: 4rem">Score</span>
-                <span class="open-graph-preview__score fw-bold text-shadow" style="font-size: 9rem">65%</span>
+                <span class="open-graph-preview__score fw-bold text-shadow" style="font-size: 9rem">{{ score|floatformat:0 }}%</span>
             </div>
         </div>
 
