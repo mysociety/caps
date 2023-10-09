@@ -95,3 +95,15 @@ class Command(BaseCommand):
             )
             filepath = Path(og_images_dir, section.description, f"top_performer.png")
             self.get_shot(url, filepath)
+
+        for council_type in Council.SCORING_GROUPS.keys():
+            url = "{}{}".format(
+                options["baseurl"],
+                reverse_lazy(
+                    "scoring:council_type_top_preview",
+                    urlconf="scoring.urls",
+                    kwargs={"council_type": council_type},
+                ),
+            )
+            filepath = Path(og_images_dir, "top_performers", f"{council_type}.png")
+            self.get_shot(url, filepath)
