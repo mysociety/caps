@@ -1,6 +1,6 @@
 .toggle-section {
     background: #fff;
-    border: $border-width solid $border-color;
+    border: 0.5px solid $border-color;
 }
 
 .toggle-section__header {
@@ -22,6 +22,7 @@
         font-weight: inherit;
         font-size: inherit;
         line-height: inherit;
+        border-width: 0;
 
         padding: 10px 50px 10px 15px;
         background: #fff url('../img/plus-black.svg') no-repeat center right;
@@ -32,7 +33,6 @@
             color: $black;
             background-color: $color-scorecard-yellow;
             background-image: url('../img/plus-black.svg');
-            @include box-shadow(inset 0px, 0px, 0px, 2px, $black);
         }
 
         &:hover {
@@ -50,7 +50,6 @@
                 color: $black;
                 background-color: $color-scorecard-yellow;
                 background-image: url('../img/close-black.svg');
-                @include box-shadow(inset 0px, 0px, 0px, 2px, $black);
             }
     
             &:hover {
@@ -68,9 +67,9 @@
 
 .toggle-section-accordion {
     overflow: hidden; // clip rounded corners
-    border: 1px solid transparentize($color: $black, $amount: 0.8);
+    border: 0.5px solid transparentize($color: $black, $amount: 0.8);
 
     .toggle-section {
-        border-top: $border-width solid $border-color;
+        border-top: 0.5px solid $border-color;
     }
 }

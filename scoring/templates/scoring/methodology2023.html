@@ -76,12 +76,12 @@
                         <h3 class="mt-5 mb-3"><span>See the questions</span></h3>
                         {% include 'scoring/includes/main-filter-methodology.html' %}
 
-                        <form class="radio-wrapper bg-blue-l2 p-3 mb-3 border rounded">
-                            <input class="mr-1" type="checkbox" id="display-complete-content" name="display-complete-content">
-                            <label for="display-complete-content" style="vertical-align:super">Show full question details by default</label>
+                        <form class="border rounded p-3">
+                            <input class="is--small" type="checkbox" id="display-complete-content" name="display-complete-content">
+                            <label for="display-complete-content">Show full question details by default</label>
                         </form>
 
-                        <div class="js-single alert alert-warning mt-3 mt-lg-4 bg-grey border" role="alert">
+                        <div class="js-single alert alert-primary mt-3 mt-lg-4 border" role="alert">
                             <p class="mb-0">A small number of questions might not apply to your council and they are highlighted with a warning icon.</p>
                         </div>
 
@@ -89,7 +89,7 @@
                             {% for section in sections %}
                             <div class="toggle-section {% for council_type in section.council_types %}js-{{ council_type }} {% endfor %}">
                                 <h4 class="toggle-section__header">
-                                    <button class="js-hidden-toggle" aria-controls="section-{{ forloop.counter }}">
+                                    <button class="js-hidden-toggle text-start" aria-controls="section-{{ forloop.counter }}">
                                         {{section.title|escape}}
                                     </button>
                                 </h4>
@@ -132,30 +132,33 @@
                                                         {% endif %}
                                                     </div>
                                                 {% endif %}
-                                                <div class="section-question-heading p-3 bg-green-l2">
+                                                <div class="section-question-heading p-3">
                                                     <!-- QUESTION CODE-->
-                                                    <p class="label pl-0">{{ section.title|escape }} · Question {{ question.code }}</p>
+                                                    <p class="badge bg-secondary">{{ section.title|escape }} · Question {{ question.code }}</p>
                                                     <!-- QUESTION NAME-->
                                                     <h6 class="h5">{{ question.name }}</h6>
-                                                    <button class="btn btn-blue is--light mt-2 js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">Display question details</button>
+                                                    <button class="btn btn-sm btn-outline-primary mt-2 js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">Display question details</button>
                                                 </div>
                                                 <div class="section-question-content" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
                                                     <div class="p-3">
                                                         <div class="section-question-meta-wrapper mb-3">
                                                             <div class="section-question-meta-item">
                                                                 <!-- QUESTION TOPIC-->
-                                                                <p class="label pl-0 mb-0">Topic</p>
+                                                                <p class="fw-bold mb-2">Topic</p>
                                                                 <p>{{ question.topic}}</p>
                                                             </div>
                                                             <div class="section-question-meta-item">
-                                                                <span class="label pl-0 mb-0 scorecards-tooltip" aria-describedby="scorecards-tooltip-1">Question Weighting
-                                                                    <span id="scorecards-tooltip-1" aria-hidden="false" class="hidden-message bg-grey border">Find out more in Question Weightings within section</span>
-                                                                </span>
+                                                                <p class="fw-bold mb-2 d-table" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-custom-class="custom-tooltip"
+                                                                data-bs-title="Find out more in Question Weightings within section">
+                                                                    <span>Single Tier</span>
+                                                                    {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
+                                                                </p>
                                                                 <!-- QUESTION IMPORTANCE-->
                                                                 <p>{{ question.importance}}</p>
                                                             </div>
                                                             <div class="section-question-meta-item">
-                                                                <p class="label pl-0 mb-0">How will this be marked?</p>
+                                                                <p class="fw-bold mb-2">How will this be marked?</p>
                                                                 <!-- QUESTION HOW WILL BE MARKED -->
                                                                 <p>
                                                                     {% autoescape off %}
@@ -165,7 +168,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="section-question-criteria mb-3 mb-4">
-                                                            <h6 class="mb-2"><span>Criteria</span></h6>
+                                                            <p class="fw-bold mb-2"><span>Criteria</span></p>
                                                             <!-- QUESTION CRITERIA -->
                                                             {% autoescape off %}
                                                                 {{ question.criteria}}
@@ -175,7 +178,7 @@
                                                         <!-- QUESTION CLARIFICATION -->
                                                         {% if question.clarifications %}
                                                             <div class="section-question-clarification">
-                                                                <h6 class="mb-2"><span>Clarifications</span></h6>
+                                                                <p class="fw-bold mb-2">Clarifications</p>
                                                                 {% autoescape off %}
                                                                     {{ question.clarifications}}
                                                                 {% endautoescape %}
