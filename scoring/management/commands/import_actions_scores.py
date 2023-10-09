@@ -155,11 +155,11 @@ class Command(BaseCommand):
                     section_score.save()
 
     def label_top_performers(self):
-        plan_sections = PlanSection.objects.filter(year=2021)
+        plan_sections = PlanSection.objects.filter(year=2023)
 
         # reset top performers
-        PlanScore.objects.update(top_performer="")
-        PlanSectionScore.objects.update(top_performer="")
+        PlanScore.objects.filter(year=2023).update(top_performer="")
+        PlanSectionScore.objects.filter(plan_score__year=2023).update(top_performer="")
 
         for group in Council.SCORING_GROUP_CHOICES:
             group_tag = group[0]
@@ -173,6 +173,7 @@ class Command(BaseCommand):
             group_params = Council.SCORING_GROUPS[group_tag]
 
             top_plan_scores = PlanScore.objects.filter(
+                year=2023,
                 council__authority_type__in=group_params["types"],
                 council__country__in=group_params["countries"],
                 weighted_total__gt=0,
@@ -187,7 +188,7 @@ class Command(BaseCommand):
                 continue
 
             top_section_scores = PlanSectionScore.objects.filter(
-                plan_section=section, score=F("max_score")
+                plan_score__year=2023, plan_section=section, score=F("max_score")
             )
 
             for section_score in top_section_scores.all():
