@@ -410,10 +410,32 @@ class CouncilPreview(DetailView):
     context_object_name = "council"
     template_name = "scoring/council-preview.html"
 
+    def get_high_low_scores(self, plan_score):
+        max_score = {"score": 0, "section": None}
+        min_score = {"score": 100, "section": None}
+
+        for section in PlanSectionScore.objects.filter(plan_score=plan_score):
+            score = section.weighted_score
+
+            if score > max_score["score"]:
+                max_score = {"score": score, "section": section}
+
+            if score < min_score["score"]:
+                min_score = {"score": score, "section": section}
+
+        return max_score, min_score
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         council = context.get("council")
+        plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
+        max_score, min_score = self.get_high_low_scores(plan_score)
+
         context["page_title"] = council.name
+        context["plan_score"] = plan_score
+        context["authority_type"] = council.get_scoring_group()
+        context["max_score"] = max_score
+        context["min_score"] = min_score
         return context
 
 
