@@ -74,12 +74,16 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
 
     def get_queryset(self):
         authority_type = self.get_authority_type()
+        filters = {
+            "year": settings.PLAN_YEAR,
+            "council__authority_type__in": authority_type["types"],
+        }
+
+        if self.request.GET.get("country", None) is None:
+            filters["council__country__in"] = authority_type["countries"]
+
         qs = (
-            PlanScore.objects.filter(
-                year=settings.PLAN_YEAR,
-                council__authority_type__in=authority_type["types"],
-                council__country__in=authority_type["countries"],
-            )
+            PlanScore.objects.filter(**filters)
             .annotate(
                 score=F("weighted_total"),
                 name=F("council__name"),
@@ -90,6 +94,26 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
         )
 
         return qs
+
+    def get_missing_councils(self, council_ids, authority_type):
+        filter_params = ["region", "county"]
+
+        filters = {
+            "authority_type__in": authority_type["types"],
+        }
+
+        for f in filter_params:
+            if self.request.GET.get(f, None) is not None:
+                filters[f] = self.request.GET[f]
+
+        if self.request.GET.get("country", None) is None:
+            filters["country__in"] = authority_type["countries"]
+        else:
+            filters["country__in"] = self.request.GET["country"]
+
+        missing_councils = Council.objects.exclude(id__in=council_ids).filter(**filters)
+
+        return missing_councils
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -121,10 +145,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
             else:
                 council["percentage"] = 0
 
-        missing_councils = Council.objects.exclude(id__in=council_ids).filter(
-            authority_type__in=authority_type["types"],
-            country__in=authority_type["countries"],
-        )
+        missing_councils = self.get_missing_councils(council_ids, authority_type)
 
         for council in missing_councils:
             councils.append(
