@@ -68,3 +68,21 @@ $utilities: map-merge(
         background-color: RGBA($color-rgb, var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
     }
 }
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "width": map-merge(
+      map-get($utilities, "width"),
+      (
+        values: map-merge(
+          map-get(map-get($utilities, "width"), "values"),
+          (
+            10: 10%,
+            15: 15%
+          ),
+        ),
+      ),
+    ),
+  )
+);

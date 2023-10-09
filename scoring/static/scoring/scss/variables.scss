@@ -308,3 +308,33 @@ $mysoc-footer-donate-button-background-color: $color-scorecard-red;
 $mysoc-footer-legal-text-color: mix($color-scorecard-grey-200, $color-scorecard-grey-900, 80%);
 $mysoc-footer-image-path: '../img/mysoc-footer-dark/';
 $mysoc-footer-breakpoint-sm: 576px; // see $grid-breakpoints in bootstrap/variables.scss
+
+// Utilities
+
+// This allow to have classes like  w-lg-10
+$utilities: (
+  "width": (
+    property: width,
+    responsive: true,
+    class: w,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      100: 100%,
+      auto: auto
+    )
+  ),
+  "height": (
+    property: height,
+    responsive: true,
+    class: h,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      100: 100%,
+      auto: auto
+    )
+  ),
+);
