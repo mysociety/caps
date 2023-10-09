@@ -84,3 +84,14 @@ class Command(BaseCommand):
                     og_images_dir, section.description, f"{council_type}.png"
                 )
                 self.get_shot(url, filepath)
+
+            url = "{}{}".format(
+                options["baseurl"],
+                reverse_lazy(
+                    "scoring:section_top_preview",
+                    urlconf="scoring.urls",
+                    kwargs={"slug": section.code},
+                ),
+            )
+            filepath = Path(og_images_dir, section.description, f"top_performer.png")
+            self.get_shot(url, filepath)
