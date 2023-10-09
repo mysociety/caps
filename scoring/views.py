@@ -5,7 +5,7 @@ from datetime import date
 
 from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
-from django.db.models import Count, F, OuterRef, Subquery, Sum
+from django.db.models import Avg, Count, F, Max, Min, OuterRef, Subquery, Sum
 from django.shortcuts import get_object_or_404, resolve_url, reverse
 from django.utils.decorators import method_decorator
 from django.utils.text import Truncator
@@ -439,11 +439,6 @@ class CouncilPreview(DetailView):
         return context
 
 
-<<<<<<< HEAD
-class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
-    model = PlanSection
-    context_object_name = "section"
-=======
 @method_decorator(cache_control(**cache_settings), name="dispatch")
 class CouncilPreviewTopPerformerOverall(DetailView):
     model = Council
@@ -471,8 +466,9 @@ class CouncilPreviewTopPerfomer(DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class SectionView(CheckForDownPageMixin, TemplateView):
->>>>>>> ae1a4a79 (Open Graph preview for section top perfomer)
+class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
+    model = PlanSection
+    context_object_name = "section"
     template_name = "scoring/section.html"
 
     combined_alt_map = {
@@ -641,6 +637,38 @@ class SectionsView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView)
                 context["sections"].append(details)
             elif section.code in self.ca_sections:
                 context["ca_sections"].append(details)
+
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class SectionPreview(CheckForDownPageMixin, TemplateView):
+    template_name = "scoring/section-preview.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        code = self.kwargs["slug"]
+        council_type = self.kwargs["type"]
+
+        group = Council.SCORING_GROUPS[council_type]
+
+        section = PlanSection.objects.get(code=code)
+
+        scores = PlanSectionScore.objects.filter(
+            plan_section=section,
+            plan_score__year=settings.PLAN_YEAR,
+            plan_score__council__authority_type__in=group["types"],
+            plan_score__council__country__in=group["countries"],
+        ).aggregate(
+            maximum=Max("weighted_score"),
+            minimum=Min("weighted_score"),
+            average=Avg("weighted_score"),
+        )
+
+        context["section"] = section
+        context["authority_type"] = group
+        context["scores"] = scores
 
         return context
 
