@@ -77,10 +77,8 @@ def download_github_release(
 class Command(BaseCommand):
     help = "Imports plan scores"
 
-    YEAR = settings.PLAN_YEAR
-    SCORECARD_DATA_DIR = Path(
-        settings.DATA_DIR, "scorecard_data", str(settings.PLAN_YEAR)
-    )
+    YEAR = 2021
+    SCORECARD_DATA_DIR = Path(settings.DATA_DIR, "scorecard_data", str(YEAR))
     QUESTIONS_CSV = Path(SCORECARD_DATA_DIR, "questions.csv")
     ANSWERS_CSV = Path(SCORECARD_DATA_DIR, "individual_answers.csv")
     SECTION_SCORES_CSV = Path(SCORECARD_DATA_DIR, "raw_section_marks.csv")
@@ -137,6 +135,7 @@ class Command(BaseCommand):
 
             # update the section max_score as we go
             section = PlanSection.objects.get(
+                year=self.YEAR,
                 code=self.normalise_section_code(row["section"]),
             )
 
@@ -193,7 +192,7 @@ class Command(BaseCommand):
             for code in self.SECTIONS.keys():
                 if not pd.isnull(row[code]):
                     section = PlanSection.objects.get(
-                        code=self.normalise_section_code(code)
+                        year=self.YEAR, code=self.normalise_section_code(code)
                     )
 
                     section_score, created = PlanSectionScore.objects.get_or_create(
@@ -306,8 +305,8 @@ class Command(BaseCommand):
         plan_sections = PlanSection.objects.filter(year=2021)
 
         # reset top performers
-        PlanScore.objects.update(top_performer="")
-        PlanSectionScore.objects.update(top_performer="")
+        PlanScore.objects.filter(year=self.YEAR).update(top_performer="")
+        PlanSectionScore.objects.filter(year=self.YEAR).update(top_performer="")
 
         for group in Council.SCORING_GROUP_CHOICES:
             group_tag = group[0]
@@ -321,6 +320,7 @@ class Command(BaseCommand):
             group_params = Council.SCORING_GROUPS[group_tag]
 
             top_plan_scores = PlanScore.objects.filter(
+                year=self.YEAR,
                 council__authority_type__in=group_params["types"],
                 council__country__in=group_params["countries"],
                 weighted_total__gt=0,
