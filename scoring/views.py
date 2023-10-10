@@ -13,7 +13,7 @@ from django.views.decorators.cache import cache_control
 from django.views.generic import DetailView, TemplateView
 from django_filters.views import FilterView
 
-from caps.models import Council, Promise
+from caps.models import Council, PlanDocument, Promise
 from caps.views import BaseLocationResultsView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort, ScoringSortCA
@@ -274,6 +274,14 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             context["no_plan"] = True
 
         promises = Promise.objects.filter(council=council).all()
+
+        target = None
+        for promise in promises:
+            if target is None:
+                target = promise
+            elif target is not None and promise.scope == PlanDocument.WHOLE_AREA:
+                target = promise
+
         plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
         sections = PlanSectionScore.sections_for_council(
             council=council, plan_year=settings.PLAN_YEAR
@@ -367,7 +375,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         ).count()
 
         context["council_count"] = council_count
-        context["targets"] = promises
+        context["target"] = target
         context["authority_type"] = group
         context["plan_score"] = plan_score
         context["plan_urls"] = plan_urls

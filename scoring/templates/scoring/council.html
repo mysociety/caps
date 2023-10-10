@@ -35,13 +35,11 @@
             <dt>Nation</dt>
             <dd>{{ council.get_country_display }}</dd>
             <dt>Net Zero target date</dt>
-            {% comment %} TODO if whole area target: {% endcomment %}
-            <dd>{{ targets.0.get_scope_display }}: {{ targets.0.target_year }}</dd>
-            {% comment %} TODO else if council-only target: {% endcomment %}
-            <!-- <dd>{{ target.get_scope_display }}: {{ target.target_year }}</dd> -->
-            {% comment %} TODO else: {% endcomment %}
-            <!-- <dd>No target</dd> -->
-            {% comment %} TODO endif {% endcomment %}
+            {% if target %}
+            <dd>{{ target.get_scope_display }}: {{ target.target_year }}</dd>
+            {% else %}
+            <dd>No target</dd>
+            {% endif %}
           {% if plan_score.deprivation_quintile %}
             <dt>Index of multiple deprivation</dt>
             <dd>
