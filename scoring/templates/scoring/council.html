@@ -14,12 +14,12 @@
                 {% include 'caps/icons/chevron-left.html' with classes='me-2' %}
                 See this council in context
             </a>
-            {% comment %} TODO show only if also a 2021 council {% endcomment %}
-            {% comment %} TODO link to 2021 council page {% endcomment %}
-            <a href="#" class="btn btn-sm btn-outline-primary d-flex align-items-center mb-2 me-3">
+            {% if previous_score %}
+            <a href="{% url 'scoring2022:council' slug=council.slug %}" class="btn btn-sm btn-outline-primary d-flex align-items-center mb-2 me-3">
                 See this council’s 2021 Plan Scorecard
                 {% include 'caps/icons/external-link.html' with classes='ms-2' %}
             </a>
+            {% endif %}
         </nav>
 
         <h1 class="mt-4">{{ council.name }}</h1>

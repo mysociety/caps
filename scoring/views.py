@@ -279,6 +279,12 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             council=council, plan_year=settings.PLAN_YEAR
         )
 
+        try:
+            previous_score = PlanScore.objects.get(council=council, year=2021)
+            context["previous_score"] = previous_score
+        except PlanScore.NotFoundException:
+            context["previous_score"] = False
+
         for section in sections.keys():
             sections[section]["non_negative_max"] = sections[section]["score"]
             sections[section]["negative_points"] = 0
