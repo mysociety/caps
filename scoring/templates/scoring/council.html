@@ -199,10 +199,9 @@
                     <div class="d-flex flex-column mb-0 mt-2 fs-7 text-warning">
                         <p class="mb-1">
                           {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
-                          {% comment %} TODO correct percentage {% endcomment %}
                           <strong class="me-2">Negative points</strong>
                         </p>
-                        {{ council.name }} incurred a penalty of 15% in this section
+                        {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
                     </div>
                     {% endif %}
 
@@ -222,7 +221,6 @@
                   <span>{{section.weighted_score|floatformat:0 }}%</span>
                     {% if section.has_negative_points %}
                     <div class="fs-7 mt-2">
-                        {% comment %} TODO Update obtained points minus the penalty {% endcomment %}
                         {{ section.score }} &equals; Total score ({{ section.non_negative_max }}) &minus; Penalty points ({{ section.negative_points }})
                     </div>
                     {% endif %}

@@ -349,6 +349,12 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
             sections[section]["answers"].append(q)
 
+        for section, data in sections.items():
+            if data.get("has_negative_points", False):
+                data["negative_percent"] = (
+                    data["negative_points"] / data["non_negative_max"]
+                ) * -100
+
         council_count = Council.objects.filter(
             authority_type__in=group["types"],
             country__in=group["countries"],
