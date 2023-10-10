@@ -212,19 +212,23 @@ function sortTableByColumn(columnHeader, direction) {
     });
 }
 
-forEachElement('.js-sort-table', function(el){
-    el.addEventListener('click', function(){
-        if ( this.classList.contains('is-sorted-descending') ) {
-            sortTableByColumn(this, 'ascending');
-        } else if ( this.classList.contains('is-sorted-ascending') ) {
-            var defaultSortColumn = this.closest('table').querySelector('[data-sort-default]');
-            var defaultSortDirection = defaultSortColumn.getAttribute('data-sort-default');
-            sortTableByColumn(defaultSortColumn, defaultSortDirection);
-        } else {
-            sortTableByColumn(this, 'descending');
-        }
+function setUpTableSorting() {
+    forEachElement('.js-sort-table', function(el){
+        el.addEventListener('click', function(){
+            if ( this.classList.contains('is-sorted-descending') ) {
+                sortTableByColumn(this, 'ascending');
+            } else if ( this.classList.contains('is-sorted-ascending') ) {
+                var defaultSortColumn = this.closest('table').querySelector('[data-sort-default]');
+                var defaultSortDirection = defaultSortColumn.getAttribute('data-sort-default');
+                sortTableByColumn(defaultSortColumn, defaultSortDirection);
+            } else {
+                sortTableByColumn(this, 'descending');
+            }
+        });
     });
-});
+}
+
+setUpTableSorting();
 
 forEachElement('.js-toggle-council-question-table-section', function(trigger){
     var table = trigger.closest('table');
@@ -387,6 +391,7 @@ function ajaxLoadCouncilTypeScorecard(url) {
         selectors.forEach(function(selector){
             document.querySelector(selector).replaceWith(doc.querySelector(selector));
         });
+        setUpTableSorting();
     })
     .catch(function(err) {
         window.location.href = url;
