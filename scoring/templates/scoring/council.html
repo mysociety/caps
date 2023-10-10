@@ -308,9 +308,8 @@
                                             <div class="fw-normal fs-7">{{ answer.question | linebreaks }}</div>
                                           </h5>
                                         </div>
-                                        {% comment %} TODO Add criteria content {% endcomment %}
                                         <div class="modal-body">
-                                          {{ question.details.criteria|linebreaks }}
+                                          {{ answer.criteria|linebreaks }}
                                         </div>
                                         <div class="modal-footer">
                                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
