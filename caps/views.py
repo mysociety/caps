@@ -180,7 +180,7 @@ class CouncilDetailView(DetailView):
         """
         context = {}
         try:
-            plan_score = PlanScore.objects.get(council=council, year=2021)
+            plan_score = PlanScore.objects.get(council=council, year=2023)
 
             group = council.get_scoring_group()
 
@@ -188,7 +188,7 @@ class CouncilDetailView(DetailView):
                 total__gt=0,
                 council__authority_type__in=group["types"],
                 council__country__in=group["countries"],
-                year=2021,
+                year=2023,
             ).aggregate(average_score=Avg("weighted_total"))
 
             sections = PlanSectionScore.sections_for_council(
@@ -221,8 +221,11 @@ class CouncilDetailView(DetailView):
                 context["scoring_accolades"] = {
                     "overall": plan_score.top_performer,
                     "num_sections": len(top_scoring_sections),
-                    "example_section": top_scoring_sections[0]["description"],
                 }
+                if len(top_scoring_sections) > 0:
+                    context["scoring_accolades"][
+                        "example_section"
+                    ] = top_scoring_sections[0]["description"]
 
             context["scoring_hidden"] = getattr(settings, "SCORECARDS_PRIVATE", False)
 

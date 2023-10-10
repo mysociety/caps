@@ -4,16 +4,13 @@
 {% load humanize %}
 
 {% block title %}
-    Climate Plan Scorecard
+    Climate Actions Scorecard
 {% endblock title %}
 
 {% block cardbody %}
     {% infobox %}
     <p class="mb-3">
-        This council’s climate plans as of 20th September 2021 were assessed and scored by trained Climate Emergency UK volunteers, as part of the Council Climate Plan Scorecards project.
-    </p>
-    <p class="mb-3">
-        A new scorecard based on council actions will be released in Autumn 2023. <a href="https://councilclimatescorecards.uk/methodology/">Read more about this</a>.
+        This council’s climate actions as of May 2023 were assessed and scored by trained Climate Emergency UK volunteers, as part of the Council Climate Actions Scorecards project.
     </p>
 
     <p class="mb-0 d-flex flex-wrap">
@@ -37,7 +34,7 @@
         {% include 'caps/icons/question-circle.html' with width='2rem' height='2rem' classes='mr-3 mr-lg-4 d-none d-sm-block flex-grow-0 flex-shrink-0 text-red' role='presentation' %}
 
             <p class="mb-3">
-                {{ council.name }} scored <strong>zero points</strong> in this assessment. This is because the council either didn’t have any published plans at the time of the assessment, or <a href="https://councilclimatescorecards.uk/methodology/">the plans didn’t qualify</a>.
+                {{ council.name }} scored <strong>zero points</strong> in this assessment. This is because the council didn’t qualify at the time of the assessment.
             </p>
         </div>
     {% endif %}
@@ -76,18 +73,6 @@
             </div>
         </div>
     {% endif %}
-    {% if tags %}
-    <div class="card-body bg-white border">
-        <p class="mt-n1">This council’s climate plan has been tagged with the following features:</p>
-        <div class="ceuk-tag-list">
-            {% for tag in tags %}
-
-                {% include 'caps/includes/tag.html' with tag=tag.tag %}
-
-            {% endfor %}
-        </div>
-    </div>
-{% endif %}
     <div class="ceuk-data-table scorecard-table bg-white border border-top-0">
         <table class="table table-responsive mb-0">
             <thead>

@@ -62,9 +62,9 @@ council_menu = [
     ),
     MenuItem(
         slug="scorecard",
-        title="Council Climate Scorecard",
+        title="Council Actions Scorecard",
         color="green",
-        desc="How this council's plans scored on CEUK's 2021 Scorecards.",
+        desc="How this council's climate actions scored on CEUK's 2023 Scorecards.",
     ),
     MenuItem(
         slug="emissions",
