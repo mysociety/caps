@@ -88,3 +88,12 @@ def boolean_from_text(entry):
         return None
     descriptions_to_booleans = {"y": True, "n": False, "yes": True, "no": False}
     return descriptions_to_booleans.get(entry.strip().lower())
+
+
+def gen_natsort_lamda(keyfunc=None):
+    if keyfunc is None:
+        keyfunc = lambda k: k
+
+    return lambda q: [
+        int(t) if t.isdigit() else t.lower() for t in re.split("(\d+)", keyfunc(q))
+    ]

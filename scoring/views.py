@@ -14,6 +14,7 @@ from django.views.generic import DetailView, TemplateView
 from django_filters.views import FilterView
 
 from caps.models import Council, PlanDocument, Promise
+from caps.utils import gen_natsort_lamda
 from caps.views import BaseLocationResultsView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort, ScoringSortCA
@@ -364,11 +365,13 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
             sections[section]["answers"].append(q)
 
+        natsort = gen_natsort_lamda(lambda k: k["code"])
         for section, data in sections.items():
             if data.get("has_negative_points", False):
                 data["negative_percent"] = (
                     data["negative_points"] / data["non_negative_max"]
                 ) * -100
+            data["answers"] = sorted(data["answers"], key=natsort)
 
         council_count = Council.objects.filter(
             authority_type__in=group["types"],
@@ -697,9 +700,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
         sections = []
 
         # fix sorting to not have 1, 11, 2
-        natsort = lambda q: [
-            int(t) if t.isdigit() else t.lower() for t in re.split("(\d+)", q["code"])
-        ]
+        natsort = gen_natsort_lamda(lambda k: k["code"])
 
         SECTION_WEIGHTINGS = {
             "Buildings & Heating": {
