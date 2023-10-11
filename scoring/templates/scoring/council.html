@@ -219,7 +219,7 @@
                 </td>
               {% else %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
-                    <span>{{ section.score }}/{{ section.max_score }}</span>
+                  <span>{{section.weighted_score|floatformat:0 }}%</span>
                     {% if section.has_negative_points %}
                     <div class="fs-7 mt-2">
                         {% comment %} TODO Update obtained points minus the penalty {% endcomment %}
@@ -231,7 +231,7 @@
 
               {% for comparison in section.comparisons %}
                 <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
-                    {{ comparison.score }}/{{ comparison.max_score }}
+                    {{ comparison.weighted_score|floatformat:0 }}%
                 </td>
               {% endfor %}
 

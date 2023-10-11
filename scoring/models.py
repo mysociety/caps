@@ -325,6 +325,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
             # councils got full marks
             "max_count": 0,
             "score": section.score,
+            "weighted_score": section.weighted_score,
             "answers": [],
             "comparisons": [],
             "non_negative_max": section.max_score,
