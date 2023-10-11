@@ -177,6 +177,7 @@ class PlanSection(models.Model):
     top_performer = models.CharField(
         max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
     )
+    long_description = models.TextField(null=True, blank=True)
 
     def get_averages_by_council_group(self):
         averages = {}
