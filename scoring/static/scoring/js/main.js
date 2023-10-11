@@ -112,12 +112,15 @@ forEachElement('.js-location-jump-autocomplete', function(input){
 });
 
 forEachElement('.js-location-compare-autocomplete', function(input){
+    var council_type = input.dataset.council_type;
     var ac = new Awesomplete(
         input,
         {
-            list: councils.map(function(council){
-                return council.name;
-            }),
+            list: councils.filter(function(council){
+                if (typeof council_type === "undefined") { return true; }
+                if (council.council_type === council_type) { return true; }
+                return false;
+            }).map(function(council) { return council.name; }),
             minChars: 3,
             autoFirst: true
         }
