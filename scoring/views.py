@@ -548,6 +548,7 @@ class SectionsView(CheckForDownPageMixin, TemplateView):
             details = {
                 "name": section.description,
                 "url": reverse("scoring:section", args=(section.code,)),
+                "description": section.long_description,
             }
             if section.code in self.sections:
                 context["sections"].append(details)
