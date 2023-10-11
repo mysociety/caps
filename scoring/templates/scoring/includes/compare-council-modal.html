@@ -6,11 +6,11 @@
   <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name">
 {% endif %}
 {% if comparisons %}
-  <div class="selected-council-wrapper mt-4">
+  <div class="selected-council-wrapper mt-4 mb-3">
     {% for comparison in comparisons %}
       <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
     {% endfor %}
   </div>
-  {% comment %} <a href="{% url "council" council.slug %}" class="mt-3">Clear all</a> {% endcomment %}
+  {% comment %} <a href="{% url "council" council.slug %}">Clear all</a> {% endcomment %}
 {% endif %}
 </form>
