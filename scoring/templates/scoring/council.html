@@ -27,7 +27,7 @@
         {% if plan_score.top_performer %}
         <div class="d-flex align-items-center">
             {% include 'caps/icons/scorecards-star.html' with classes='me-2' width='1rem' height='1rem' role='presentation' %}
-            This council is a top performer among {% include 'caps/includes/authority_type.html' with group=authority_type %} councils in 2023.
+            This council is one of the highest scoring councils in {% include 'caps/includes/authority_type.html' with group=authority_type %}.
         </div>
       {% endif %}
 
@@ -58,7 +58,7 @@
             <dd>{{ plan_score.get_ruc_cluster_display }}</dd>
           {% endif %}
           {% if plan_score.political_control %}
-            <dt>Political control (Jan 2022)</dt>
+            <dt>Political control (Sept 2023)</dt>
             <dd>{{ plan_score.political_control }}</dd>
           {% endif %}
         </dl>
@@ -68,12 +68,31 @@
 
 <div class="py-5 border-bottom">
     <div class="container">
+      {% comment %} TODO enable message if Council is under review {% endcomment %}
+        {% comment %} <div class="row">
+          <div class="col-lg-5">
+            <div class="alert alert-warning mb-4 mb-lg-5" role="alert">
+              <span class="warning-icon">We are currently reviewing this Scorecard at the request of the council.</span>
+            </div>
+          </div>
+        </div> {% endcomment %}
         <div class="row">
             <div class="col-lg-5 mb-5 mb-lg-0">
-                <h2 class="h3 mb-3">About the 2023 Action Scorecards</h2>
-                {% comment %} TODO awaiting text content from CEUK {% endcomment %}
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <a href="{% url 'scoring:methodology' %}" class="btn btn-outline-primary">Read the full methodology</a>
+              <p>Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  Unless otherwise stated, council climate action from 1st January 2019 up until 31st March 2023 was assessed.</p>
+
+              {% comment %} TODO Link to this council plan scorecards {% endcomment %}
+              <p>You can check out how this council scored in the Plan Scorecards (different questions to the Action Scorecards) <a href="">here</a>. </p>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+              <h2 class="mb-4">Key definitions</h2>
+
+              <dl>
+                <dt>Question Weighting</dt>
+                <dd>The question weighting determines the importance of that question to the overall section score. To ensure appropriate weighting to each question, each raw score for a question has been translated into a score out of one, two or three, depending on whether the question is weighted low (one), medium (two) or high (three). The questions that are weighted high are those we consider to have the biggest impact on emission reductions and a sustained long-term impact. For further information on Question Weighting see <a href="{% url 'scoring:methodology' %}#section-question-weighting-within">here</a>.</dd>
+
+                <dt class="mt-3">Section Score & Weighting</dt>
+                <dd>The question weighting determines the importance of that question to the overall section score. To ensure appropriate weighting to each question, each raw score for a question has been translated into a score out of one, two or three, depending on whether the question is weighted low (one), medium (two) or high (three). The questions that are weighted high are those we consider to have the biggest impact on emission reductions and a sustained long-term impact. For further information on Question Weighting see <a href="{% url 'scoring:methodology' %}#section-weightings">here</a>.</dd>
+              </dl>
             </div>
         </div>
     </div>
@@ -82,13 +101,19 @@
 {% if not new_council and not old_council and not no_plan %}
 <div class="container council-page py-5 js-dynamic-content" data-active-source-type="default">
 
-    <h3>{{ council.short_name }}’s 2023 Action Scorecard</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Action Scorecard: {{ council.short_name }}</h3>
+        <p>Councils have been scored across seven sections, each covering the important actions that councils can be taking towards net zero. The marks within these sections add up to make up the council's overall score. Here you can see where a council performs well and not so well in each section — and compare it to other councils at this granular level.</p>
+      </div>
+    </div>
+
 
     <div class="row my-4 my-lg-5">
         <div class="col-md-6 col-lg-4 d-none d-md-block">
             <div class="card h-100">
                 <div class="card-header">
-                    <h3 class="fs-6 mb-0">Add councils to compare</h3>
+                    <h3 class="fs-6 mb-0">Choose councils to compare</h3>
                 </div>
                 <div class="card-body">
                     <form id="advancedFilterForm" action=".">
@@ -103,7 +128,12 @@
                             <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
                           {% endfor %}
                         </div>
+<<<<<<< HEAD
                         <a href="{% url 'scoring:council' council.slug %}">Clear all</a>
+=======
+                        {% comment %} TODO when this bit is uncommented it breaks the page {% endcomment %}
+                        {% comment %} <a href="{% url "council" council.slug %}" class="mt-3">Clear all</a> {% endcomment %}
+>>>>>>> 4f9ed48b ([Council] Updated copy)
                       {% endif %}
                     </form>
                 </div>
@@ -112,7 +142,7 @@
         <div class="col-md-6 col-lg-8">
             <div class="card h-100">
                 <div class="card-header">
-                    <h3 class="fs-6 mb-0">Filter questions</h3>
+                    <h3 class="fs-6 mb-0">Filter questions by how they were marked or other options</h3>
                 </div>
                 <div class="card-body">
                     <div class="d-flex flex-row flex-wrap" style="gap:0.5rem">
@@ -138,6 +168,11 @@
         </div>
     </div>
 
+    <div class="d-md-none bg-secondary p-3">
+      <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
+      <p class="text-white mb-3">You'll find more options, like the ability to compare your council's Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
+    </div>
+
     <table class="table-question-council mb-5 mt-4">
         <thead class="text-bg-primary">
             <tr>
@@ -148,7 +183,7 @@
               {% endfor %}
                 <th scope="col" class="d-none d-md-table-cell d-flex flex-row align-items-center">
                     {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
-                    <span>Councils with full marks</span>
+                    <span>Councils with full marks per question</span>
                 </th>
             </tr>
         </thead>
