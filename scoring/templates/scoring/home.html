@@ -145,25 +145,25 @@
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-1 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s1_b_h.score max=averages.s1_b_h.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s1_b_h.weighted average=1 %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-2 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s2_tran.score max=averages.s2_tran.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s2_tran.weighted average=1 %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-3 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s3_p_lu.score max=averages.s3_p_lu.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s3_p_lu.weighted average=1 %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-4 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s4_g_f.score max=averages.s4_g_f.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s4_g_f.weighted average=1 %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-5 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s5_bio.score max=averages.s5_bio.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s5_bio.weighted average=1 %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-6 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s6_c_e.score max=averages.s6_c_e.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s6_c_e.weighted average=1 %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-7 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with score=averages.s7_wr_f.score max=averages.s7_wr_f.max average=1 %}
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s7_wr_f.weighted average=1 %}
                             </th>
                         </tr>
                     </thead>
@@ -190,25 +190,25 @@
                           {% with scores=council.all_scores %}
                           {% if council.score != 0 and council.score is not None %}
                             <td scope="row" class="council-category-score category-1" data-sort-value="{{ scores.s1_b_h.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s1_b_h.score max=scores.s1_b_h.max %}
+                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s1_b_h.weighted %}
                             </td>
-                            <td scope="row" class="council-category-score category-2" data-sort-value="{{ scores.s2_tran.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s2_tran.score max=scores.s2_tran.max %}
+                            <td scope="row" class="council-category-score category-2" data-sort-value="{{ scores.s2_tran.weighted|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s2_tran.weighted %}
                             </td>
-                            <td scope="row" class="council-category-score category-3" data-sort-value="{{ scores.s3_p_lu.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s3_p_lu.score max=scores.s3_p_lu.max %}
+                            <td scope="row" class="council-category-score category-3" data-sort-value="{{ scores.s3_p_lu.weighted|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s3_p_lu.weighted %}
                             </td>
-                            <td scope="row" class="council-category-score category-4" data-sort-value="{{ scores.s4_g_f.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s4_g_f.score max=scores.s4_g_f.max %}
+                            <td scope="row" class="council-category-score category-4" data-sort-value="{{ scores.s4_g_f.weighted|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s4_g_f.weighted %}
                             </td>
-                            <td scope="row" class="council-category-score category-5" data-sort-value="{{ scores.s5_bio.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s5_bio.score max=scores.s5_bio.max %}
+                            <td scope="row" class="council-category-score category-5" data-sort-value="{{ scores.s5_bio.weighted|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s5_bio.weighted %}
                             </td>
-                            <td scope="row" class="council-category-score category-6" data-sort-value="{{ scores.s6_c_e.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s6_c_e.score max=scores.s6_c_e.max %}
+                            <td scope="row" class="council-category-score category-6" data-sort-value="{{ scores.s6_c_e.weighted|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s6_c_e.weighted %}
                             </td>
-                            <td scope="row" class="council-category-score category-7" data-sort-value="{{ scores.s7_wr_f.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with score=scores.s7_wr_f.score max=scores.s7_wr_f.max %}
+                            <td scope="row" class="council-category-score category-7" data-sort-value="{{ scores.s7_wr_f.weighted|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s7_wr_f.weighted %}
                             </td>
                           {% elif council.score == 0 %}
                             <td class="has-no-plan" colspan="9" data-sort-value="-1">

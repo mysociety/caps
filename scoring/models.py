@@ -259,6 +259,7 @@ class PlanSection(models.Model):
         scores = cls.objects.filter(
             plansectionscore__plan_score__in=list(has_score_list)
         ).annotate(
+            average_weighted=Avg("plansectionscore__weighted_score"),
             average_score=Avg("plansectionscore__score"),
             max_score=Max("plansectionscore__max_score"),
         )
@@ -266,6 +267,7 @@ class PlanSection(models.Model):
         averages = {}
         for score in scores:
             averages[score.code] = {
+                "weighted": round(score.average_weighted),
                 "score": round(score.average_score),
                 "max": score.max_score,
             }
@@ -385,6 +387,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         councils = defaultdict(dict)
         for score in scores:
             councils[score["plan_score__council_id"]][score["plan_section__code"]] = {
+                "weighted": score["weighted_score"],
                 "score": score["score"],
                 "max": score["max_score"],
             }
