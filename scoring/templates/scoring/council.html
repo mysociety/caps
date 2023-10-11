@@ -270,7 +270,7 @@
                                         <strong>Negative points:</strong>
                                         The maximum number of points for this question is 0.
                                         {% comment %} TODO add link to this question in methodology {% endcomment %}
-                                        <a href="{% url 'scoring:methodology' %}#todo" style="color: inherit;">Read more about negative point questions.</a>
+                                        <a href="{% url 'scoring:methodology' %}#{{ answer.code }}" style="color: inherit;">Read more about negative point questions.</a>
                                     </p>
                                 </div>
                               {% endif %}
