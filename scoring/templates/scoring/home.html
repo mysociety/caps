@@ -9,21 +9,6 @@
 
 {% block content %}
 
-    {% comment %} <div class="py-5 text-center" style="background-color: #fff8d9; border-bottom: 1px solid #e8e2c7;">
-        <div class="container">
-            <h2 class="h3 mb-3 mx-auto" style="max-width: 30em;">
-                <b class="d-block" style="font-size: 0.75em; line-height: 1.3;">Now available:</b>
-                Council Climate Action Scorecards
-                draft methodology
-            </h2>
-            <p class="mx-auto" style="max-width: 44em;">We have now published our draft methodology for the next wave of the Scorecards project: the Council Climate Action Scorecards. Last year we marked every UK council's Climate Action Plans; this time we’ll be scoring the actual climate action they  class="text-decoration-none fw-bold link-category-8"have taken.</p>
-            <p><a href="{% url 'scoring:methodology' % class="text-decoration-none fw-bold link-category-8"}" class="btn btn-blue is--light">Read the draft methodology</a></p>
-            <a href="{% url 'scoring:methodology' %}" class="d-none d-sm-block my-4"><img src="{% static 'scoring/img/2023-timeline@2x.png' %}" width="700" height="150" style="max-width: 100%; height: auto;" class="d-block mx-auto" alt="Timeline showing: April to August 2022, research and development; July to September 2022, one-to-one and sector-wide consultations; November to December 2022, publish finalised metrics for Scorecards; February to March 2023, first marking with volunteers; April to May 2023, five week right of reply period; Summer 2023, scoring audit; and Autumn 2023, scorecards launch"></a>
-            <p class="mx-auto mb-3"><a href="https://www.climateemergency.uk/" class="d-inline">Join our mailing list</a> to follow our progress towards the 2023 Scorecards.</p>
-            <p class="mx-auto mb-0">If you want to volunteer to help create the Council Climate Action Scorecards find out more <a href="https://actionnetwork.org/forms/application-scorecards-volunteering/" class="d-inline">here</a>.</p>
-        </div>
-    </div> {% endcomment %}
-
     <div class="pt-5 pb-6 pt-lg-8 pb-lg-8 hero-section with-version-background">
         <div class="d-flex flex-column align-items-end align-items-lg-start hero-version-badge position-absolute">
             <span class="version-year d-block fw-bold lh-1">2023</span>
@@ -31,7 +16,7 @@
         </div>
         <div class="container">
             <h1 class="mb-3">Action Scorecards</h1>
-            <p class="mb-4" style="max-width: 650px;">Climate Emergency UK assessed plans according to 28 questions across nine sections, based on the expert-approved <a class="d-inline" href="https://www.climateemergency.uk/blog/climate-action-plan-checklist/">checklist for Council Action Plans</a>. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between June and December 2021.  
+            <p class="mb-4" style="max-width: 650px;">Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  
             </p>
             <a class="btn btn-primary" href="{% url 'scoring:methodology' %}"> Learn more about the methodology</a>
         </div>
@@ -39,7 +24,7 @@
 
     <div class="container home pt-5">
         <div class="row">
-            <div class="col-12 col-lg-4">
+            <div class="mb-3 mb-lg-0 col-12 col-lg-4">
                 <div class="card h-100">
                     <div class="card-header">
                         <h3 class="fs-6 mb-0">Filter Scorecard table by type of council</h3>
@@ -49,27 +34,26 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-4">
+            <div class="mb-3 mb-lg-0 col-12 col-lg-4">
                 <div class="card h-100">
                     <div class="card-header">
-                        <h3 class="fs-6 mb-0">Check scorecards by sections</h3>
+                        <h3 class="fs-6 mb-0">See Scorecard results by section topics</h3>
                     </div>
                     <div class="card-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <a href="" class="btn btn-primary">Go to sections</a>
+                        <p>Explore in detail the how different councils scored in each of the 7 scorecard sections.</p>
+                        <a href="{% url 'scoring:sections' %}" class="btn btn-primary">Go to sections</a>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-4">
+            <div class="mb-3 mb-lg-0 col-12 col-lg-4">
                 <div class="card h-100">
                     <div class="card-header">
                         <h3 class="fs-6 mb-0">Check a council&rsquo;s scorecard</h3>
                     </div>
                     <div class="card-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        <p>Explore in detail the full results of one council across all sections and questions.</p>
                         <form action="{% url 'scoring:location_results' %}" class="form">
                             <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
-                            <!-- TODO: Do we need a submit button? -->
                         </form>
                     </div>
                 </div>
@@ -109,98 +93,77 @@
                                     <span class="text-center fw-bold">Total Score</span>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-default="descending"></button>
                                 </div>
-                                {% comment %} <div class="table-sticky-border right"></div>
-                                <div class="table-sticky-border left"></div>
-                                <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
                                     <a class="text-decoration-none fw-bold link-category-1" href="{% url 'scoring:methodology' %}#sec-gov">Building & Heating</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's1_b_h' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
-                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
                                     <a class="text-decoration-none fw-bold link-category-2" href="{% url 'scoring:methodology' %}#sec-ma">Transport</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's2_tran' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
-                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
                                     <a class="text-decoration-none fw-bold link-category-3" href="{% url 'scoring:methodology' %}#sec-ca">Planning & Land Use</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's3_p_lu' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
-                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
                                     <a class="text-decoration-none fw-bold link-category-4" href="{% url 'scoring:methodology' %}#sec-coms">Governance & Finance</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's4_g_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
-                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
                                     <a class="text-decoration-none fw-bold link-category-5" href="{% url 'scoring:methodology' %}#sec-mset">Biodiversity</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's5_bio' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
-                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
                                     <a class="text-decoration-none fw-bold link-category-6" href="{% url 'scoring:methodology' %}#sec-co">Collaboration & Engagement</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's6_c_e' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
-                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
                                     <a class="text-decoration-none fw-bold link-category-7" href="{% url 'scoring:methodology' %}#sec-dsi">Waste Reduction & Food</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by == 's7_wr_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
-                                {% comment %} <div class="table-sticky-border top"></div> {% endcomment %}
                             </th>
                         </tr>
                         <tr class="second-row position-sticky z-index-4">
                             <th scope="col" style="min-width:250px" class="bg-primary-100 position-sticky z-index-4">
                                 <span class="ms-4 fs-6 fw-bold d-block">{{ authority_type_label }} average</span>
-                                {% comment %} <div class="table-sticky-border bottom"></div>
-                                <div class="table-sticky-border left"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4 bg-green-l2">              
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
-                                {% comment %} <div class="table-sticky-border bottom"></div>
-                                <div class="table-sticky-border right"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-1 second-row">              
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s1_b_h.score max=averages.s1_b_h.max average=1 %}
-                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-2 second-row">              
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s2_tran.score max=averages.s2_tran.max average=1 %}
-                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-3 second-row">              
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s3_p_lu.score max=averages.s3_p_lu.max average=1 %}
-                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-4 second-row">              
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s4_g_f.score max=averages.s4_g_f.max average=1 %}
-                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-5 second-row">              
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s5_bio.score max=averages.s5_bio.max average=1 %}
-                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-6 second-row">              
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s6_c_e.score max=averages.s6_c_e.max average=1 %}
-                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                             <th scope="col" class="bg-primary-100 category-7 second-row">              
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s7_wr_f.score max=averages.s7_wr_f.max average=1 %}
-                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                         </tr>
                     </thead>
@@ -216,16 +179,13 @@
                                         </div>
                                     </div>
                                     {% else %}
-                                        {% comment %} So there vertical aligment between top performer and non top performers is the same. {% endcomment %}
                                         <div class="pe-4"></div>
                                     {% endif %}
                                     <a class="council-link" href="{% url 'scoring:council' council.slug %}">{{ council.name }}</a>
                                 </div>
-                                {% comment %} <div class="table-sticky-border left"></div> {% endcomment %}
                             </th>
                             <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="{{ council.percentage|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
-                                {% comment %} <div class="table-sticky-border right"></div> {% endcomment %}
                             </th>
                           {% with scores=council.all_scores %}
                           {% if council.score != 0 and council.score is not None %}
@@ -328,7 +288,6 @@
                           {% if council.score != 0 %}
                             <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
-                                {% comment %} <div class="table-sticky-border bottom"></div> {% endcomment %}
                             </th>
                           {% else %}
                             <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="-1">
