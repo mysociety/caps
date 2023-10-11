@@ -6,7 +6,7 @@ from datetime import date
 from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Count, F, OuterRef, Subquery, Sum
-from django.shortcuts import resolve_url, reverse
+from django.shortcuts import get_object_or_404, resolve_url, reverse
 from django.utils.decorators import method_decorator
 from django.utils.text import Truncator
 from django.views.decorators.cache import cache_control
@@ -398,7 +398,7 @@ class SectionView(CheckForDownPageMixin, DetailView):
     alt_map = dict((ca, non_ca) for non_ca, ca in combined_alt_map.items())
 
     def get_object(self):
-        return PlanSection.objects.get(code=self.kwargs["code"])
+        return get_object_or_404(PlanSection, code=self.kwargs["code"])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
