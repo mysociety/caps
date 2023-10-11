@@ -15,6 +15,13 @@ register = template.Library()
 
 
 @register.filter
+@stringfilter
+def prevent_widow(s):
+    # Replace final space in string with &nbsp;
+    return mark_safe('&nbsp;'.join(s.rsplit(' ', 1)))
+
+
+@register.filter
 def randomize_and_limit(value: list, limit: int = 10) -> list:
     """
     Shuffle and return the top of a list

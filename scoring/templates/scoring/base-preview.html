@@ -16,44 +16,23 @@
 </head>
 <body class="{% block bodyclass %}{% endblock %}">
     <!-- Facebook OpenGraph image dimensions: 1200px wide, 630px tall -->
+    <header>
+        {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
+        <span class="open-graph-preview__year">2023</span>
+        <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
+    </header>
     {% block content %}{% endblock %}
     <script>
-        // Check aspect ratio
-        function getAspectRatio() {
-            function gcd(a, b) {
-                return (b === 0) ? a : gcd(b, a % b);
+        document.querySelectorAll('.js-count').forEach(function(el){
+            var l = el.innerText.trim().length;
+            if ( l > 40 ) {
+                el.classList.add('count--long');
+            } else if ( l > 32 ) {
+                el.classList.add('count--medium');
+            } else {
+                el.classList.add('count--short');
             }
-
-            var width = document.body.offsetWidth;
-            var height = document.body.offsetHeight;
-            var divisor = gcd(width, height);
-            var aspectWidth = width / divisor;
-            var aspectHeight = height / divisor;
-
-            return aspectWidth + "/" + aspectHeight;
-        }
-
-        function adjustText(id, fontSize) {
-            var councilName = document.getElementById(id);
-            if (councilName) {
-                var councilNameLength = councilName.innerText.trim().length;
-                if (councilNameLength < 25) {
-                    councilName.style.fontSize = fontSize;
-                }
-            }
-        }
-        
-        if (getAspectRatio() === '1/1') {
-            adjustText('council-preview-heading', '6rem');
-            adjustText('section-preview-heading', '8rem');
-            adjustText('council-section-top-performer-heading', '7rem');
-            adjustText('council-overall-top-performer-heading', '7rem');
-        } else {
-            adjustText('council-preview-heading', '4rem');
-            adjustText('council-section-top-performer-heading', '6.5rem');
-            adjustText('council-overall-top-performer-heading', '6.5rem');
-        }
-
+        });
     </script>
 </body>
 </html>

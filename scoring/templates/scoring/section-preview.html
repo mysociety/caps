@@ -1,17 +1,11 @@
 {% extends "scoring/base-preview.html" %}
-{% load static %}
+{% load static caps_templatetags %}
 
 {% block bodyclass %}section-preview{% endblock %}
 
 {% block content %}
-    <header class="mb-6">
-        {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
-        <span class="open-graph-preview__year">2023</span>
-        <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
-    </header>
-
-    <h1 id="section-preview-heading" class="text-shadow">{{ section.description }}</h1>
-    <span class="mb-5 me-auto fw-bold text-shadow subtitle">
+    <h1 class="text-shadow js-count">{{ section.description|cut:" (CA)"|prevent_widow }}</h1>
+    <span class="fw-bold text-shadow subtitle">
         {% include 'caps/includes/authority_type.html' with group=authority_type %} councils
     </span>
 
