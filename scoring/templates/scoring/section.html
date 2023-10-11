@@ -181,6 +181,7 @@
 
 <div class="container pt-5 pt-lg-6 js-dynamic-content">
     <h3 class="mb-4">Section list of questions</h3>
+    {% if not section.is_combined %}
     <div class="row">
         <div class="col-lg-6">
             <div class="bg-primary-100 p-3 mb-4 border rounded">
@@ -201,6 +202,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
     <div class="row d-none d-md-flex">
       <div class="col-lg-6">
