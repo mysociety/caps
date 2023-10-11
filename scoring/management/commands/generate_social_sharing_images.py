@@ -1,12 +1,14 @@
 import subprocess
 from pathlib import Path
+from shutil import copyfile
 
-from caps.models import Council
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.urls import reverse_lazy
-from scoring.models import PlanSection
 from tqdm import tqdm
+
+from caps.models import Council
+from scoring.models import PlanSection
 
 
 class Command(BaseCommand):
@@ -20,7 +22,7 @@ class Command(BaseCommand):
             help="base url of site, eg: 'http://example.org'",
         )
 
-    def get_shot(self, url, filepath):
+    def get_shot(self, url, filepath, width=1200, height=630):
         subprocess.run(
             [
                 "shot-scraper",
@@ -28,82 +30,125 @@ class Command(BaseCommand):
                 "--output",
                 filepath,
                 "--width",
-                "1200",
+                f"{width}",
                 "--height",
-                "630",
+                f"{height}",
                 "--silent",
             ]
         )
 
     def handle(self, *args, **options):
-        og_images_dir = Path(settings.BASE_DIR, "og-img")
+        og_images_dir = Path(settings.BASE_DIR, "social-images")
+        static_images_dir = Path(
+            settings.BASE_DIR, "scoring/static/scoring/img/og-images/"
+        )
 
-        # Create directory if it doesn’t already exist
         og_images_dir.mkdir(parents=True, exist_ok=True)
-
-        # Create directories for each country/region
-        for region in Council.REGION_CHOICES:
-            Path(og_images_dir, region[0]).mkdir(parents=True, exist_ok=True)
-
-        Path(og_images_dir, "sections").mkdir(parents=True, exist_ok=True)
+        static_images_dir.mkdir(parents=True, exist_ok=True)
 
         councils = Council.current_councils()
         sections = PlanSection.objects.filter(year=2023)
 
-        tqdm.write(
-            f"Generating open graph images for {councils.count()} councils into {og_images_dir}"
-        )
+        sizes = [
+            (1200, 630),
+            (1000, 1000),
+        ]
 
-        for council in tqdm(councils):
-            url = "{}{}".format(
-                options["baseurl"],
-                reverse_lazy(
-                    "scoring:council_preview",
-                    urlconf="scoring.urls",
-                    kwargs={"slug": council.slug},
-                ),
+        for size in sizes:
+            size_by = f"{size[0]}x{size[1]}"
+
+            tqdm.write(
+                f"Generating {size_by} images for {councils.count()} councils into {og_images_dir}/{size_by}/councils"
             )
-            filepath = Path(og_images_dir, council.region, f"{council.slug}.png")
-            self.get_shot(url, filepath)
 
-        tqdm.write(
-            f"Generating open graph images for {sections.count()} sections into {og_images_dir}"
-        )
-
-        for section in tqdm(sections):
-            for council_type in Council.SCORING_GROUPS.keys():
+            for council in tqdm(councils, leave=False):
                 url = "{}{}".format(
                     options["baseurl"],
                     reverse_lazy(
-                        "scoring:section_preview",
+                        "scoring:council_preview",
                         urlconf="scoring.urls",
-                        kwargs={"slug": section.code, "type": council_type},
+                        kwargs={"slug": council.slug},
                     ),
                 )
-                filepath = Path(
-                    og_images_dir, section.description, f"{council_type}.png"
+                dirpath = Path(
+                    og_images_dir,
+                    size_by,
+                    "councils",
+                    council.region,
                 )
-                self.get_shot(url, filepath)
+                dirpath.mkdir(parents=True, exist_ok=True)
 
-            url = "{}{}".format(
-                options["baseurl"],
-                reverse_lazy(
-                    "scoring:section_top_preview",
-                    urlconf="scoring.urls",
-                    kwargs={"slug": section.code},
-                ),
-            )
-            filepath = Path(og_images_dir, section.description, f"top_performer.png")
-            self.get_shot(url, filepath)
+                filepath = Path(
+                    dirpath,
+                    f"{council.slug}.png",
+                )
+                self.get_shot(url, filepath, width=size[0], height=size[1])
 
-        for council_type in Council.SCORING_GROUPS.keys():
-            url = "{}{}".format(
-                options["baseurl"],
-                reverse_lazy(
-                    "scoring:council_type_top_preview",
-                    urlconf="scoring.urls",
-                    kwargs={"council_type": council_type},
-                ),
+                if size == (1200, 630):
+                    og_path = Path(static_images_dir, f"{council.slug}.png")
+                    copyfile(filepath, og_path)
+
+            tqdm.write(
+                f"Generating {size_by} images for {sections.count()} sections into {og_images_dir}/{size_by}/sections"
             )
-            filepath = Path(og_images_dir, "top_performers", f"{council_type}.png")
-            self.get_shot(url, filepath)
+
+            for section in tqdm(sections, position=0, leave=False):
+                for council_type in tqdm(
+                    Council.SCORING_GROUPS.keys(), position=1, leave=False
+                ):
+                    url = "{}{}".format(
+                        options["baseurl"],
+                        reverse_lazy(
+                            "scoring:section_preview",
+                            urlconf="scoring.urls",
+                            kwargs={"slug": section.code, "type": council_type},
+                        ),
+                    )
+                    filepath = Path(
+                        og_images_dir,
+                        size_by,
+                        "sections",
+                        section.description,
+                        f"{council_type}.png",
+                    )
+                    self.get_shot(url, filepath, width=size[0], height=size[1])
+
+                url = "{}{}".format(
+                    options["baseurl"],
+                    reverse_lazy(
+                        "scoring:section_top_preview",
+                        urlconf="scoring.urls",
+                        kwargs={"slug": section.code},
+                    ),
+                )
+                dirpath = Path(
+                    og_images_dir,
+                    size_by,
+                    "sections",
+                    section.description,
+                )
+                dirpath.mkdir(parents=True, exist_ok=True)
+
+                filepath = Path(
+                    dirpath,
+                    "top_performer.png",
+                )
+                self.get_shot(url, filepath, width=size[0], height=size[1])
+
+            tqdm.write(
+                f"Generating {size_by} images for top performing council of each type into {og_images_dir}/{size_by}/top_performers"
+            )
+
+            for council_type in tqdm(Council.SCORING_GROUPS.keys(), leave=False):
+                url = "{}{}".format(
+                    options["baseurl"],
+                    reverse_lazy(
+                        "scoring:council_type_top_preview",
+                        urlconf="scoring.urls",
+                        kwargs={"council_type": council_type},
+                    ),
+                )
+                dirpath = Path(og_images_dir, size_by, "top_performers")
+                dirpath.mkdir(parents=True, exist_ok=True)
+                filepath = Path(dirpath, f"{council_type}.png")
+                self.get_shot(url, filepath, width=size[0], height=size[1])

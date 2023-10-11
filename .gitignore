@@ -48,4 +48,4 @@ conf/httpd.conf
 conf/httpd.conf.deployed
 
 # Temporary directory for generate_social_sharing_images.py
-/og-img
+/social-images
