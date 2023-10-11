@@ -79,7 +79,7 @@
     </div>
 </div>
 
-{% if not new_council and not old_council %}
+{% if not new_council and not old_council and not no_plan %}
 <div class="container council-page py-5 js-dynamic-content" data-active-source-type="default">
 
     <h3>{{ council.short_name }}’s 2023 Action Scorecard</h3>
@@ -327,6 +327,25 @@
 
     </table>
 
+</div>
+{% else %}
+<div class="py-5 border-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 mb-5 mb-lg-0">
+                <h2 class="h3 mb-3">No scorecard available</h2>
+                <p>
+                {% if new_council %}
+                  This council was recently created when the scorecards were marked so was not included.
+                {% elif old_council %}
+                  This council had been disbanded when the scorecards were marked so was not included.
+                {% else
+                  We do not currently have a scorecard for this council.
+                {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 {% endif %}
 

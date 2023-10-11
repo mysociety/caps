@@ -265,8 +265,12 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
 
+        try:
+            plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
+        except PlanScore.DoesNotExist:
+            context["no_plan"] = True
+
         promises = Promise.objects.filter(council=council).all()
-        plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
         plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
         sections = PlanSectionScore.sections_for_council(
             council=council, plan_year=settings.PLAN_YEAR
