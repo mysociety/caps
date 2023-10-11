@@ -18,8 +18,14 @@ from caps.views import BaseLocationResultsView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort, ScoringSortCA
 from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin
-from scoring.models import (PlanQuestion, PlanQuestionScore, PlanScore,
-                            PlanScoreDocument, PlanSection, PlanSectionScore)
+from scoring.models import (
+    PlanQuestion,
+    PlanQuestionScore,
+    PlanScore,
+    PlanScoreDocument,
+    PlanSection,
+    PlanSectionScore,
+)
 
 cache_settings = {
     "max-age": 60,
@@ -260,10 +266,6 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             # newer councils don't have a score so don't include them
             start_date__lt="2023-01-01",
         )
-
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
 
         try:
             plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
