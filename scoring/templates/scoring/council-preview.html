@@ -1,16 +1,10 @@
 {% extends "scoring/base-preview.html" %}
-{% load static %}
+{% load static caps_templatetags %}
 
 {% block bodyclass %}version-2-gradient council-preview{% endblock %}
 
 {% block content %}
-    <header class="mb-6">
-        {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
-        <span class="open-graph-preview__year">2023</span>
-        <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
-    </header>
-
-    <h1 id="council-preview-heading" class="text-shadow">{{ council.name }}</h1>
+    <h1 class="text-shadow js-count">{{ council.name|prevent_widow }}</h1>
     {% if plan_score.top_performer %}
     <span class="mb-5 me-auto fw-bold subtitle text-shadow text-yellow-300 mt-2">
         {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
@@ -33,7 +27,7 @@
                 </td>
                 <td class="align-top">
                     <span class="open-graph-preview__score">{{ max_score.score|floatformat:0 }}%</span>
-                    <span class="open-graph-preview__section">{{ max_score.section.plan_section.description }}</span>
+                    <span class="open-graph-preview__section">{{ max_score.section.plan_section.description|cut:" (CA)" }}</span>
                     {% if max_score.section.top_performer %}
                     <span class="high-scoring-section-badge mt-3 mx-auto text-yellow-300 mt-3">
                         {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-top' width='1em' height='auto' role='presentation' %}
@@ -43,7 +37,7 @@
                 </td>
                 <td class="align-top">
                     <span class="open-graph-preview__score">{{ min_score.score|floatformat:0 }}%</span>
-                    <span class="open-graph-preview__section">{{ min_score.section.plan_section.description }}</span>
+                    <span class="open-graph-preview__section">{{ min_score.section.plan_section.description|cut:" (CA)" }}</span>
                 </td>
             </tr>
         </tbody>
