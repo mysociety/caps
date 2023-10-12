@@ -743,6 +743,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                 current_section = None
 
             if current_section is None:
+                is_combined = False
                 types = [
                     "single",
                     "district",
@@ -750,11 +751,14 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                     "northern-ireland",
                 ]
                 if question.section.code.find("_ca") > 0:
+                    is_combined = True
                     types = ["combined"]
                 current_section = {
+                    "code": question.section.code,
                     "title": question.section.description,
                     "council_types": types,
-                    "description": "",
+                    "description": question.section.long_description,
+                    "is_combined": is_combined,
                     "weightings": SECTION_WEIGHTINGS[question.section.description],
                     "questions": [],
                 }

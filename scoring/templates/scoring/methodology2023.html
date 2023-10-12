@@ -598,30 +598,16 @@
 
                     <h2 id="section-scorecard-summary-and-weighting" class="mt-5 mb-3">Scorecard Sections Summary and Weighting</h2>
 
-                    <h3 class="mt-4">Buildings &amp; Heating</h3>
-                    <p>Buildings and Heating is one of the biggest sectors of carbon and other greenhouse gas emissions in the UK. This section covers the main actions that councils can take to support both private rented and owned homes and socially renting households to reduce the emissions from their homes. </p>
+                    {% for section in sections %}
+                        {% if not section.is_combined %}
+                            <h3 class="mt-4">{{ section.title }}</h3>
+                            {{ section.description|linebreaks }}
 
-                    <h3 class="mt-4">Transport</h3>
-                    <p>Transport is the other biggest sector of greenhouse gas emissions in the UK. This section covers the main enabling actions councils can take to reduce car use and encourage more sustainable transport within their area.</p>
-
-                    <h3 class="mt-4">Governance &amp; Finance</h3>
-                    <p>This section aims to understand to what extent climate action has been incorporated and embedded across the whole of the council in all its activities and services in its decision making, forward planning and structures. This section also looks at how councils are raising funds for climate action and whether the councils’ investments are sustainable or supporting high carbon infrastructure and industries.</p>
-
-                    <h3 class="mt-4">Planning and Land Use</h3>
-                    <p>This section focuses primarily on how councils are using their planning powers, primarily through their Local Plans, to ensure low emission new buildings and homes, as well as ensuring new developments are built to minimise their environmental impact. This section also covers the renewable energy generation and fossil fuel generation planning applications in the area.</p>
-
-                    <h3 class="mt-4">Biodiversity</h3>
-                    <p>The climate emergency is deeply connected to the ecological emergency. This section looks at what councils can do to protect and increase biodiversity in the area through their direct actions, the management of their green spaces, and biodiversity net gain requirements for developers. </p>
-
-                    <h3 class="mt-4">Collaboration &amp; Engagement</h3>
-                    <p>This section addresses how councils can collaborate with others to improve their own climate action and to support others in the area to decarbonise. More than half of the emissions cuts needed to reach net zero rely on people and businesses taking up low-carbon solutions<sup>1</sup>, and councils can work with those in their local area to enable those solutions. </p>
-
-                    <p><i><sup>1</sup> <a href="https://www.theccc.org.uk/publication/local-authorities-and-the-sixth-carbon-budget/">Local Authorities and the Sixth Carbon Budgets</a>, The Climate Change Committee</i></p>
-
-
-                    <h3 class="mt-4">Waste Reduction &amp; Food</h3>
-                    <p>This section looks at the influencing role councils can play in supporting sustainable food production on their land and in their schools, and circular economy initiatives locally. Councils also have an important role to play in waste and recycling locally and improving this. 
-                    </p>
+                            {% if section.code == 's6_c_e' %}
+                            <p>Emissions cuts data from <i><a href="https://www.theccc.org.uk/publication/local-authorities-and-the-sixth-carbon-budget/">Local Authorities and the Sixth Carbon Budgets</a>, The Climate Change Committee</i></p>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
 
                     <h3 class="mt-5 mb-2">Section weightings</h3>
                     <p class="mb-4">Different sections have been weighted differently, and the reasons for this are explained below.</p>
@@ -726,6 +712,7 @@
 
                     <p class="mt-2">Different sections have been weighted differently, and the reasons for this are explained below.</p>
 
+                    {% comment %}These use hardcoded text because we're merging some categories{% endcomment %}
                     <h4 class="mt-4"><span>Transport and Buildings &amp; Heating</span></h4>
                     <p class="mt-2">These are the areas where councils can have the biggest impact on area wide greenhouse gas emissions. It is also where single tier councils can take the most effective action to reduce emissions; therefore they have been given the highest weighting. County councils have more powers over transport than district councils, which is why this section is weighted higher for county councils and a lot lower for district councils. </p>
 
