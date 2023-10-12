@@ -543,6 +543,7 @@ class SectionsView(CheckForDownPageMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["page_title"] = "Sections"
         context["sections"] = []
         context["ca_sections"] = []
         for section in PlanSection.objects.all():
