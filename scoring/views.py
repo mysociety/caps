@@ -564,7 +564,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
         context[
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
-        context["page_title"] = "Draft methodology"
+        context["page_title"] = "2023 Action Scorecards methodology"
         context["current_page"] = "methodology2023-page"
         context["sections"] = [
             {
@@ -1179,7 +1179,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">For this question the Clean Air Zone or Low Emission Zone does not have to require charges for private vehicles.</p>
                             """,
                         "clarifications": """
-                            <p class="mb-0">A Clean Air Zone or Low Emission Zone is where targeted action is being taken to improve air quality and reduce the number of polluting vehicles and is usually defined over a certain area, such as a city centre.</p>
+                            <p>A Clean Air Zone or Low Emission Zone is where targeted action is being taken to improve air quality and reduce the number of polluting vehicles and is usually defined over a certain area, such as a city centre.</p>
+                            <p class="mb-0">To be awarded points in the Scorecards the zone must be more than one street</p>
                             """,
                     },
                     {
@@ -1194,7 +1195,8 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p class="mb-0">For this question the Clean Air Zone or Low Emission Zone does have to require charges for private vehicles.</p>
                             """,
                         "clarifications": """
-                            <p class="mb-0">A Clean Air Zone or Low Emission Zone is where targeted action is being taken to improve air quality and reduce the number of polluting vehicles and is usually defined over a certain area, such as a city centre.</p>
+                            <p>A Clean Air Zone or Low Emission Zone is where targeted action is being taken to improve air quality and reduce the number of polluting vehicles and is usually defined over a certain area, such as a city centre.</p>
+                            <p class="mb-0">To be awarded points in the Scorecards the zone must be more than one street.</p>
                             """,
                     },
                     {
@@ -1205,10 +1207,12 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Medium",
                         "how_marked": "National Data and Volunteer Research",
                         "criteria": """
-                            <p class="mb-0"><i>Data is not currently available to create the criteria for this question. This will be published with the complete methodology when the Scorecard results are published.</i></p>
+                            <p>We will use the Active Travel England's capability ratings to answer this question. The following points will be awarded for each of the 5 different ratings used by Active Travel England.</p>
+                            <p class="mb-0">Points awarded if if the local authority received a "Rating 1". Further marks awarded if the local authority received a "Rating 2", "Rating 3", or "Rating 4" they will receive further points consecutively.</p>
                             """,
                         "clarifications": """
-                            <p class="mb-0">TBC</p>
+                            <p><a href="https://www.gov.uk/government/publications/local-authority-active-travel-capability-ratings/local-authority-active-travel-capability-ratings-accessible-version" class="d-inline">Active Travel England's capability ratings can be found here</a>.</p>
+                            <p class="mb-0">Where a Combined Authority has been marked for the region the Combined Authorities score will be applied to every local authority within the area.</p>
                             """,
                     },
                     {
@@ -1317,6 +1321,46 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Approved = Passed a planning application in favour of expansion or construction of a road/airport since 2019.</p>
                             <p>Expanded = A road/airport has been expanded after 2019, even if it received planning approval before 2019. In the case of airports the expansion would include increasing passenger numbers.</p>
                             <p class="mb-0">Built = A road/airport has been built after 2019, even if it received planning approval before 2019.</p>
+                            """,
+                    },
+                    {
+                        "council_types": ["single", "district"],
+                        "england_only": "yes",
+                        "wales_apply": "yes",
+                        "code": "12a",
+                        "name": "Do the NO2 levels in a significant proportion of neighbourhoods within the council’s area exceed the safe World Health Organisation (WHO) air pollution guidelines?",
+                        "topic": "Air Quality - NO2",
+                        "importance": "High",
+                        "how_marked": "National Data",
+                        "criteria": """
+                            <p><strong>Negatively Scored Question</strong></p>
+                            <p>A council will be negatively scored if they have 25% or more LSOAs (Lower-layer Super Output Areas) above the World Health Organisations (WHO) NO2 guidelines.</p>
+                            <p class="mb-0">A council will be further negatively scored if they have 75% or more LSOAs (Lower-layer Super Output Areas) above the World Health Organisations (WHO) NO2 guidelines.</p>
+                            """,
+                        "clarifications": """
+                            <p>NO2 - Nitrogen dioxide, or NO2, is a gaseous air pollutant composed of nitrogen and oxygen and is one of a group of related gases called nitrogen oxides, or NOx. NO2 forms when fossil fuels such as coal, oil, gas or diesel are burned at high temperatures. NO2 in the UK is mostly a result of fossil fuel cars. Data for NO2 in the UK is strong due to a good network of national sensors therefore we have used a stronger criteria.</p>
+                            <p>LSOAs (Lower-layer Super Output Areas) are small areas designed to be of a similar population size, with an average of approximately 1,500 residents or 650 households. They are used to form the basis of the census.</p>
+                            <p class="mb-0"><strong>WHO NO2 guidelines:</strong> Nitrogen dioxide (NO2) concentrations of 10 µg/m3 annual average.</p>
+                            """,
+                    },
+                    {
+                        "council_types": ["single", "district"],
+                        "england_only": "yes",
+                        "wales_apply": "yes",
+                        "code": "12b",
+                        "name": "Do the PM 2.5 levels in a significant proportion of neighbourhoods in the council’s area exceed the safe World Health Organisation (WHO) air pollution guidelines?",
+                        "topic": "Air Quality - NO2",
+                        "importance": "Medium",
+                        "how_marked": "National Data",
+                        "criteria": """
+                            <p><strong>Negatively Scored Question</strong></p>
+                            <p>A local authority will be negatively scored if they have 25% or more LSOAs (Lower-layer Super Output Areas) above the World Health Organisations (WHO) PM 2.5 guidelines.</p>
+                            <p class="mb-0">A local authority will be further negatively scored if they have 75% or more LSOAs (Lower-layer Super Output Areas) above the World Health Organisations (WHO) PM 2.5 guidelines.</p>
+                            """,
+                        "clarifications": """
+                            <p>PM2.5 (Particulate Matter2.5) is the tiny particles or droplets in the air that are two and one half microns or less in width. PM 2.5 can be caused by burning fossil fuels, tyre wear and brake dust from cars and even weather variations. Data for PM 2.5 is less accurate at the local level and relies upon modelling due to a lack of national sensors.</p>
+                            <p>LSOAs (Lower-layer Super Output Areas) are small areas designed to be of a similar population size, with an average of approximately 1,500 residents or 650 households. They are used to form the basis of the census.</p>
+                            <p class="mb-0"><strong>WHO PM2.5 guidelines:</strong> PM 2.5 concentrations of 5 μg/m3 annual average."</p>
                             """,
                     },
                     {
@@ -1621,7 +1665,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                             <p>Points awarded if the council requires new homes to be operationally net zero with the policy implemented from 2030 to 2040.</p>
                             <p>More points awarded if the council requires new homes to be operationally net zero with the policy already implemented since 2019 or with implementation by 2030.</p>
                             <p>Any date to implement the policy after 2040 would not be awarded points.</p>
-                            <p class="mb-0">This would be equivalent for Scottish authorities to mandate the “Platinum” building standard for carbon emissions for all new buildings.</p>
+                            <p class="mb-0">This would be equivalent for Scottish authorities to mandate the 'Platinum' building standard for carbon emissions for all new buildings.</p>
                             """,
                         "clarifications": """
                             <p>For operationally net-zero policies, we will accept those that define this as only concerning regulated emissions. Definitions for operationally net-zero and regulated emissions are below.</p>
@@ -1763,11 +1807,14 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "name": "Has the Council approved a planning application for a carbon intensive energy system to be built or expanded from 2019?",
                         "topic": "Carbon Intensive Industry",
                         "importance": "High",
-                        "how_marked": "FOI",
+                        "how_marked": "National Data",
                         "criteria": """
-                            <p><strong>Negatively Scored Question:</strong></p>
+                            <p><strong>Negatively Scored Question</strong></p>
                             <p>Points deducted if the council has approved a carbon intensive energy system since 2019. A carbon energy intensive system includes coal mines, fracking/shale gas/gas drilling, oil drilling, and unabated fossil fuel generation.</p>
                             """,
+                        "clarifications": """
+                            <p class="mb-0">The data has been compiled using the <a href="https://drillordrop.com/planning/" class="d-inline">Drill or Drop database on approval of oil, gas and coal projects</a>.</p>
+                            """
                     },
                 ],
             },
@@ -2625,7 +2672,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
                         "importance": "Low",
                         "how_marked": "National Data",
                         "criteria": """
-                            <p class="mb-0">Criteria met if a council has banned the use of pesticides in parks and road verges where they have control. This ban must include the street cleaning/weed control team.</p>
+                            <p class="mb-0">Criteria met if a council has banned the use of glyphosphate or all pesticides in parks and road verges where they have control. This ban must include the street cleaning/weed control team.</p>
                             """,
                         "clarifications": """
                             <p>Banning pesticides includes banning glyphosate and any other pesticides that the council have been using.</p>
