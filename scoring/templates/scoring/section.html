@@ -30,7 +30,7 @@
                     </h3>
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ averages.single.average|floatformat:0 }}/{{ averages.single.maximum }}</span>
+                    <span class="fs-1 lh-0">{{ averages.single.weighted_average|floatformat:0 }}%</span>
                     <span>Average</span>
                 </div>
             </a>
@@ -44,7 +44,7 @@
                     </h3>
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ averages.district.average|floatformat:0 }}/{{ averages.district.maximum }}</span>
+                    <span class="fs-1 lh-0">{{ averages.district.weighted_average|floatformat:0 }}%</span>
                     <span>Average</span>
                 </div>
             </a>
@@ -58,7 +58,7 @@
                     </h3>
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ averages.county.average|floatformat:0 }}/{{ averages.county.maximum }}</span>
+                    <span class="fs-1 lh-0">{{ averages.county.weighted_average|floatformat:0 }}%</span>
                     <span>Average</span>
                 </div>
             </a>
@@ -72,7 +72,7 @@
                     </h3>
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ averages.ni.average|floatformat:0 }}/{{ averages.ni.maximum }}</span>
+                    <span class="fs-1 lh-0">{{ averages.ni.weighted_average|floatformat:0 }}%</span>
                     <span>Average</span>
                 </div>
             </a>
@@ -124,7 +124,7 @@
                     </h3>
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ averages.combined.average|floatformat:0 }}/{{ averages.combined.maximum }}</span>
+                    <span class="fs-1 lh-0">{{ averages.combined.weighted_average|floatformat:0 }}%</span>
                     <span>Average</span>
                 </div>
             </a>
@@ -221,7 +221,7 @@
                 </h3>
             </div>
             <div class="card-body d-flex flex-column align-items-center">
-                <span class="fs-1 lh-0">{{ comparison.score }}/{{ comparison.max_score }}</span>
+                <span class="fs-1 lh-0">{{ comparison.weighted_score|floatformat:0 }}%</span>
                 {% if comparison.negative_points < 0 %}
                 <div class="fs-7 d-none">
                     {{ comparison.score }} = Total score({{ comparison.non_negative_max }}) - Penalty points({{ comparison.negative_points }})
@@ -247,7 +247,7 @@
               </h3>
           </div>
           <div class="card-body d-flex flex-column align-items-center">
-              <span class="fs-1 lh-0">{{ council_type_avg.average|floatformat:0 }}/{{ council_type_avg.maximum }}</span>
+              <span class="fs-1 lh-0">{{ council_type_avg.weighted_average|floatformat:0 }}%</span>
               <span>Average</span>
           </div>
       </a>

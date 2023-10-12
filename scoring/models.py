@@ -194,10 +194,15 @@ class PlanSection(models.Model):
 
             avg = scores.filter(plan_score__council__in=councils).aggregate(
                 avg=Avg("score"),
+                weighted_avg=Avg("weighted_score"),
                 max=Max("max_score"),
             )
 
-            averages[group] = {"average": avg["avg"], "maximum": avg["max"]}
+            averages[group] = {
+                "average": avg["avg"],
+                "maximum": avg["max"],
+                "weighted_average": avg["weighted_avg"],
+            }
 
         return averages
 
