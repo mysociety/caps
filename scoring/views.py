@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Avg, Count, F, Max, Min, OuterRef, Subquery, Sum
 from django.shortcuts import get_object_or_404, resolve_url, reverse
+from django.templatetags.static import static
 from django.utils.decorators import method_decorator
 from django.utils.text import Truncator
 from django.views.decorators.cache import cache_control
@@ -401,6 +402,9 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
                 else council.name
             )
         )
+        context[
+            "og_image_path"
+        ] = f"{settings.MEDIA_URL}scoring/og-images/councils/{council.slug}.png"
         return context
 
 
