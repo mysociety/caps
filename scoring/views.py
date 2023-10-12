@@ -292,7 +292,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         try:
             previous_score = PlanScore.objects.get(council=council, year=2021)
             context["previous_score"] = previous_score
-        except PlanScore.NotFoundException:
+        except PlanScore.DoesNotExist:
             context["previous_score"] = False
 
         for section in sections.keys():
@@ -481,7 +481,7 @@ class SectionView(CheckForDownPageMixin, DetailView):
             try:
                 council = Council.objects.get(slug=council)
                 council_type = council.get_scoring_group()
-            except Council.NotFoundException:
+            except Council.DoesNotExist:
                 council_type = None
         elif section.is_combined:
             council_type = Council.SCORING_GROUPS["combined"]

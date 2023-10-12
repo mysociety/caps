@@ -1,5 +1,6 @@
-from caps.models import Council
 from django.test import TestCase
+
+from caps.models import Council
 from scoring.models import PlanScore, PlanSection, PlanSectionScore
 
 
@@ -13,8 +14,8 @@ class TestAverageSectionScores(TestCase):
             averages,
             {
                 "total": {"score": 23, "max": 25, "percentage": 23},
-                "s1_gov": {"score": 13, "max": 19},
-                "s2_m_a": {"score": 10, "max": 18},
+                "s1_gov": {"score": 13, "max": 19, "weighted": 13},
+                "s2_m_a": {"score": 10, "max": 18, "weighted": 10},
             },
         )
 
@@ -25,8 +26,8 @@ class TestAverageSectionScores(TestCase):
             averages,
             {
                 "total": {"score": 23, "max": 25, "percentage": 23},
-                "s1_gov": {"score": 13, "max": 19},
-                "s2_m_a": {"score": 10, "max": 18},
+                "s1_gov": {"score": 13, "max": 19, "weighted": 13},
+                "s2_m_a": {"score": 10, "max": 18, "weighted": 10},
             },
         )
 
@@ -41,8 +42,8 @@ class TestAverageSectionScores(TestCase):
             averages,
             {
                 "total": {"score": 23, "max": 25, "percentage": 23},
-                "s1_gov": {"score": 13, "max": 19},
-                "s2_m_a": {"score": 10, "max": 18},
+                "s1_gov": {"score": 13, "max": 19, "weighted": 13},
+                "s2_m_a": {"score": 10, "max": 18, "weighted": 10},
             },
         )
 
@@ -60,40 +61,48 @@ class TestGetAllScores(TestCase):
                     "s1_gov": {
                         "score": 15,
                         "max": 19,
+                        "weighted": 15,
                     },
                     "s2_m_a": {
                         "score": 10,
                         "max": 18,
+                        "weighted": 10,
                     },
                 },
                 2: {
                     "s1_gov": {
                         "score": 14,
                         "max": 19,
+                        "weighted": 14,
                     },
                     "s2_m_a": {
                         "score": 4,
                         "max": 18,
+                        "weighted": 4,
                     },
                 },
                 3: {
                     "s1_gov": {
                         "score": 11,
                         "max": 19,
+                        "weighted": 11,
                     },
                     "s2_m_a": {
                         "score": 13,
                         "max": 18,
+                        "weighted": 13,
                     },
                 },
                 4: {
                     "s1_gov": {
                         "score": 12,
                         "max": 19,
+                        "weighted": 12,
                     },
                     "s2_m_a": {
                         "score": 12,
                         "max": 18,
+                        "weighted": 12,
                     },
                 },
             },
