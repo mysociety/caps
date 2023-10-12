@@ -500,10 +500,17 @@ class SectionView(CheckForDownPageMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # for location search autocomplete
-        context["all_councils"] = Council.objects.all()
-
         section = context["section"]
+
+        combined = Council.SCORING_GROUPS["combined"]
+        if section.is_combined:
+            context["all_councils"] = Council.objects.filter(
+                authority_type__in=combined["types"], country__in=combined["countries"]
+            )
+        else:
+            context["all_councils"] = Council.objects.exclude(
+                authority_type__in=combined["types"], country__in=combined["countries"]
+            )
 
         alt = section.get_alternative
         if alt is not None:
