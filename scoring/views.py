@@ -183,6 +183,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
                     else council["all_scores"][sort]["score"],
                     reverse=True,
                 )
+                councils = sorted(councils, key=itemgetter("code"))
         else:
             form = form_class()
 

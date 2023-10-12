@@ -1,7 +1,12 @@
-from caps.models import Council
 from django.test import Client, TestCase
 from django.urls import reverse
+
+from caps.models import Council
 from scoring.models import PlanScore, PlanSectionScore
+
+
+def strip_sections(sections):
+    return [{k: v for k, v in s.items() if k != "section_score"} for s in sections]
 
 
 class TestHomePageView(TestCase):
@@ -50,12 +55,14 @@ class TestAnswerView(TestCase):
         response = self.client.get(
             "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
         )
-        sections = response.context["sections"]
+        sections = strip_sections(response.context["sections"])
 
         self.assertEquals(
             sections,
             [
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s1_gov",
                     "answers": [
@@ -89,17 +96,23 @@ class TestAnswerView(TestCase):
                     "avg": 13.0,
                     "max_score": 19,
                     "max_count": 0,
+                    "non_negative_max": 19,
+                    "negative_points": 0,
                     "description": "Governance, development and funding",
                     "score": 15,
                     "comparisons": [],
                 },
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s2_m_a",
                     "answers": [],
                     "avg": 9.8,
                     "max_score": 18,
                     "max_count": 0,
+                    "non_negative_max": 18,
+                    "negative_points": 0,
                     "description": "Mitigation and adaptation",
                     "score": 10,
                     "comparisons": [],
@@ -120,12 +133,14 @@ class TestAnswerView(TestCase):
         response = self.client.get(
             "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
         )
-        sections = response.context["sections"]
+        sections = strip_sections(response.context["sections"])
 
         self.assertEquals(
             sections,
             [
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s1_gov",
                     "answers": [
@@ -159,17 +174,23 @@ class TestAnswerView(TestCase):
                     "avg": 13.7,
                     "max_score": 19,
                     "max_count": 0,
+                    "non_negative_max": 19,
+                    "negative_points": 0,
                     "description": "Governance, development and funding",
                     "score": 15,
                     "comparisons": [],
                 },
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s2_m_a",
                     "answers": [],
                     "avg": 8.7,
                     "max_score": 18,
                     "max_count": 0,
+                    "non_negative_max": 18,
+                    "negative_points": 0,
                     "description": "Mitigation and adaptation",
                     "score": 10,
                     "comparisons": [],
@@ -190,12 +211,14 @@ class TestAnswerView(TestCase):
         response = self.client.get(
             "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
         )
-        sections = response.context["sections"]
+        sections = strip_sections(response.context["sections"])
 
         self.assertEquals(
             sections,
             [
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s1_gov",
                     "answers": [
@@ -229,17 +252,23 @@ class TestAnswerView(TestCase):
                     "avg": 10.2,
                     "max_score": 19,
                     "max_count": 0,
+                    "non_negative_max": 19,
+                    "negative_points": 0,
                     "description": "Governance, development and funding",
                     "score": 15,
                     "comparisons": [],
                 },
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s2_m_a",
                     "answers": [],
                     "avg": 9.8,
                     "max_score": 18,
                     "max_count": 0,
+                    "non_negative_max": 18,
+                    "negative_points": 0,
                     "description": "Mitigation and adaptation",
                     "score": 10,
                     "comparisons": [],
@@ -258,12 +287,14 @@ class TestAnswerView(TestCase):
         response = self.client.get(
             "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
         )
-        sections = response.context["sections"]
+        sections = strip_sections(response.context["sections"])
 
         self.assertEquals(
             sections,
             [
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s1_gov",
                     "answers": [
@@ -297,17 +328,23 @@ class TestAnswerView(TestCase):
                     "avg": 13.7,
                     "max_score": 19,
                     "max_count": 0,
+                    "non_negative_max": 19,
+                    "negative_points": 0,
                     "description": "Governance, development and funding",
                     "score": 15,
                     "comparisons": [],
                 },
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s2_m_a",
                     "answers": [],
                     "avg": 8.7,
                     "max_score": 18,
                     "max_count": 0,
+                    "non_negative_max": 18,
+                    "negative_points": 0,
                     "description": "Mitigation and adaptation",
                     "score": 10,
                     "comparisons": [],
@@ -354,12 +391,14 @@ class TestTopPerormersInViews(TestCase):
         response = self.client.get(
             "/plan-scorecards-2022" + url, HTTP_HOST="councilclimatescorecards.com"
         )
-        sections = response.context["sections"]
+        sections = strip_sections(response.context["sections"])
 
         self.assertEquals(
             sections,
             [
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": "unitary",
                     "code": "s1_gov",
                     "answers": [
@@ -393,17 +432,23 @@ class TestTopPerormersInViews(TestCase):
                     "avg": 13.0,
                     "max_score": 19,
                     "max_count": 0,
+                    "non_negative_max": 19,
+                    "negative_points": 0,
                     "description": "Governance, development and funding",
                     "score": 15,
                     "comparisons": [],
                 },
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s2_m_a",
                     "answers": [],
                     "avg": 9.8,
                     "max_score": 18,
                     "max_count": 0,
+                    "non_negative_max": 18,
+                    "negative_points": 0,
                     "description": "Mitigation and adaptation",
                     "score": 10,
                     "comparisons": [],

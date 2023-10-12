@@ -1,8 +1,6 @@
 from collections import defaultdict
 from datetime import date
 
-from caps.models import Council, Promise
-from caps.views import BaseLocationResultsView
 from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Count, F, OuterRef, Subquery, Sum
@@ -12,6 +10,9 @@ from django.utils.text import Truncator
 from django.views.decorators.cache import cache_control
 from django.views.generic import DetailView, TemplateView
 from django_filters.views import FilterView
+
+from caps.models import Council, Promise
+from caps.views import BaseLocationResultsView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort
 from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin
@@ -47,7 +48,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
     def get_queryset(self):
         authority_type = self.get_authority_type()
         filters = {
-            "year": settings.PLAN_YEAR,
+            "year": 2021,
             "council__authority_type__in": authority_type["types"],
         }
 
@@ -143,6 +144,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
                     else council["all_scores"][sort]["score"],
                     reverse=True,
                 )
+                councils = sorted(councils, key=itemgetter("code"))
         else:
             form = ScoringSort()
 

@@ -1,7 +1,12 @@
-from caps.models import Council
 from django.test import Client, TestCase
 from django.urls import reverse
+
+from caps.models import Council
 from scoring.models import PlanScore, PlanSectionScore
+
+
+def strip_sections(sections):
+    return [{k: v for k, v in s.items() if k != "section_score"} for s in sections]
 
 
 class TestHomePageView(TestCase):
@@ -44,12 +49,14 @@ class TestAnswerView(TestCase):
     def test_answer_view(self):
         url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
-        sections = response.context["sections"]
+        sections = strip_sections(response.context["sections"])
 
         self.assertEqual(
             sections,
             [
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s1_b_h",
                     "description": "Buildings & Heating",
@@ -100,6 +107,8 @@ class TestAnswerView(TestCase):
                     "negative_points": 0,
                 },
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s2_tran",
                     "answers": [],
@@ -126,12 +135,14 @@ class TestAnswerView(TestCase):
 
         url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
-        sections = response.context["sections"]
+        sections = strip_sections(response.context["sections"])
 
         self.assertEquals(
             sections,
             [
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s1_b_h",
                     "answers": [
@@ -182,6 +193,8 @@ class TestAnswerView(TestCase):
                     "negative_points": 0,
                 },
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s2_tran",
                     "answers": [],
@@ -208,12 +221,14 @@ class TestAnswerView(TestCase):
 
         url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
-        sections = response.context["sections"]
+        sections = strip_sections(response.context["sections"])
 
         self.assertEquals(
             sections,
             [
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s1_b_h",
                     "answers": [
@@ -264,6 +279,8 @@ class TestAnswerView(TestCase):
                     "negative_points": 0,
                 },
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s2_tran",
                     "answers": [],
@@ -288,12 +305,14 @@ class TestAnswerView(TestCase):
 
         url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
-        sections = response.context["sections"]
+        sections = strip_sections(response.context["sections"])
 
         self.assertEquals(
             sections,
             [
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s1_b_h",
                     "answers": [
@@ -344,6 +363,8 @@ class TestAnswerView(TestCase):
                     "negative_points": 0,
                 },
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s2_tran",
                     "answers": [],
@@ -394,12 +415,14 @@ class TestTopPerormersInViews(TestCase):
     def test_answer_view(self):
         url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
         response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
-        sections = response.context["sections"]
+        sections = strip_sections(response.context["sections"])
 
         self.assertEquals(
             sections,
             [
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": "unitary",
                     "code": "s1_b_h",
                     "answers": [
@@ -450,6 +473,8 @@ class TestTopPerormersInViews(TestCase):
                     "negative_points": 0,
                 },
                 {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
                     "top_performer": None,
                     "code": "s2_tran",
                     "answers": [],
