@@ -10,8 +10,7 @@ from copy import deepcopy
 from datetime import date
 from itertools import chain, groupby
 from pathlib import Path
-from typing import (Callable, List, NamedTuple, Optional, Tuple, Type, TypeVar,
-                    Union)
+from typing import Callable, List, NamedTuple, Optional, Tuple, Type, TypeVar, Union
 
 import dateutil.parser
 import django_filters
@@ -20,8 +19,17 @@ import pandas as pd
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import models
-from django.db.models import (Count, Max, Min, OuterRef, Prefetch, Q, QuerySet,
-                              Subquery, Sum)
+from django.db.models import (
+    Count,
+    Max,
+    Min,
+    OuterRef,
+    Prefetch,
+    Q,
+    QuerySet,
+    Subquery,
+    Sum,
+)
 from django.db.models.expressions import RawSQL
 from django.db.models.functions import Length
 from django.forms import Select, TextInput
