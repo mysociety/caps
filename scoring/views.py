@@ -459,6 +459,8 @@ class SectionView(CheckForDownPageMixin, DetailView):
                 council_type = council.get_scoring_group()
             except Council.NotFoundException:
                 council_type = None
+        elif section.is_combined:
+            council_type = Council.SCORING_GROUPS["combined"]
         else:
             council_type = Council.SCORING_GROUPS.get(
                 self.request.GET.get("type", None), None
