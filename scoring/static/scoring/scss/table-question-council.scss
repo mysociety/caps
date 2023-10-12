@@ -1,9 +1,8 @@
 .table-question-council,
 .section-question-table {
-    width: 100%;
+    table-layout: fixed;
 
     th {
-        width: 200px;
         vertical-align: top;
     }
 
@@ -13,10 +12,8 @@
     }
 
     .question-header-cell {
-        min-width: auto;
-
         @include media-breakpoint-up(lg) {
-            min-width: 500px;
+            width: 500px;
         }
     }
 
@@ -33,7 +30,7 @@
 }
 
 td[data-column="answer"] {
-    max-width: 350px;
+    max-width: 500px;
 }
 
 // JavaScript-powered .js-toggle-council-question-table-section
