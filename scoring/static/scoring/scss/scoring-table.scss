@@ -163,7 +163,7 @@ $score-bar-vertical-padding: 8px;
 .sort-icon {
     @include transition(background-image, color, background-color 0.3s ease-in-out);
     margin-right: 0.5rem;
-    @include chevron-down($primary);
+    background-image: url("../img/chevron-down-purple.svg");
     background-size: 15px;
     background-position: center;
     background-repeat: no-repeat;
@@ -172,23 +172,23 @@ $score-bar-vertical-padding: 8px;
     width: 26px;
 
     &:hover {
-        @include chevron-down($white);
+        background-image: url("../img/chevron-down-white.svg");
     }
 
     &:focus {
         background-color: $yellow;
-        @include chevron-down($primary);
+        background-image: url("../img/chevron-down-purple.svg");
     }
 
     &.is-sorted-descending {
         background-color: $primary;
-        @include chevron-down($white);
+        background-image: url("../img/chevron-down-white.svg");
     }
 
     &.is-sorted-ascending {
         transform: rotate(180deg);
         background-color: $primary;
-        @include chevron-down($white);
+        background-image: url("../img/chevron-down-white.svg");
     }
 }
 

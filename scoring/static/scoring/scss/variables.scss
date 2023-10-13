@@ -216,6 +216,16 @@ $btn-hover-border-tint-amount:    100%;
 
 // Forms
 
+$form-check-input-checked-bg-image: url("../img/bootstrap/form-check-input-checked.svg");
+$form-check-radio-checked-bg-image: url("../img/bootstrap/form-check-radio-checked.svg");
+$form-check-input-indeterminate-bg-image: url("../img/bootstrap/form-check-input-indeterminate.svg");
+$form-switch-bg-image: url("../img/bootstrap/form-switch.svg");
+$form-switch-focus-bg-image: url("../img/bootstrap/form-switch-focus.svg");
+$form-switch-checked-bg-image: url("../img/bootstrap/form-switch-checked.svg");
+$form-select-indicator: url("../img/bootstrap/form-select-indicator.svg");
+$form-feedback-icon-valid: url("../img/bootstrap/form-feedback-icon-valid.svg");
+$form-feedback-icon-invalid: url("../img/bootstrap/form-feedback-icon-invalid.svg");
+
 // Form validation
 
 // Z-index master list
@@ -232,11 +242,13 @@ $navbar-dark-color: $white;
 $navbar-dark-hover-color: rgba($navbar-dark-color, 0.8);
 $navbar-dark-active-color: $navbar-dark-color;
 $navbar-dark-toggler-border-color: rgba($navbar-dark-color, 0.3);
+$navbar-dark-toggler-icon-bg: url("../img/bootstrap/navbar-dark-toggler-icon.svg");
 
 $navbar-light-color: $color-scorecard-grey-800;
 $navbar-light-hover-color: rgba($navbar-light-color, 0.8);
 $navbar-light-active-color: $navbar-light-color;
 $navbar-light-toggler-border-color: rgba($color-scorecard-grey-600, 0.3);
+$navbar-light-toggler-icon-bg: url("../img/bootstrap/navbar-light-toggler-icon.svg");
 
 // Dropdowns
 
@@ -250,6 +262,9 @@ $accordion-button-bg: tint-color($primary, 90%);
 
 $accordion-button-active-bg: $primary;
 $accordion-button-active-color: $white;
+
+$accordion-button-icon: url("../img/bootstrap/accordion-button-icon.svg");
+$accordion-button-active-icon: url("../img/bootstrap/accordion-button-icon-active.svg");
 
 // Cards
 
@@ -281,10 +296,15 @@ $modal-backdrop-opacity: 0.25;
 
 // Carousel
 
+$carousel-control-prev-icon-bg: url("../img/bootstrap/carousel-control-prev-icon.svg");
+$carousel-control-next-icon-bg: url("../img/bootstrap/carousel-control-next-icon.svg");
+
 // Spinners
 
 // Close
+
 $btn-close-width: 1rem;
+$btn-close-bg: url("../img/bootstrap/btn-close.svg");
 
 // Code
 
