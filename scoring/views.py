@@ -197,11 +197,11 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
         context["averages"] = averages
 
         title_format_strings = {
-            "single": "Council Climate Plan Scorecards",
-            "district": "{name} Councils’ Climate Plan Scorecards",
-            "county": "{name} Councils’ Climate Plan Scorecards",
-            "combined": "{name} Climate Plan Scorecards",
-            "northern-ireland": "{name} Councils’ Climate Plan Scorecards",
+            "single": "Council Climate Action Scorecards",
+            "district": "{name} Councils’ Climate Action Scorecards",
+            "county": "{name} Councils’ Climate Action Scorecards",
+            "combined": "{name} Climate Action Scorecards",
+            "northern-ireland": "{name} Councils’ Climate Action Scorecards",
         }
 
         context["page_title"] = title_format_strings[authority_type["slug"]].format(
