@@ -4,20 +4,23 @@
   }
 }
 
-// Increase the size of radio buttons and checkboxes
-input[type="checkbox"],
-input[type="radio"] {
-  height: 35px;
-  width: 35px;
-  vertical-align: middle;
+// Custom alternative to .form-check that increases the size of the input,
+// and uses flex positioning rather than floats and margins for simpler
+// vertical alignment as a result.
+.form-check-flex {
+  display: flex;
+  align-items: center;
 
-  &+ label {
-    vertical-align: middle;
+  .form-check-input {
+    width: 2em;
+    height: 2em;
+    margin-top: 0;
+    flex: 0 0 auto; // do not stretch or squish
   }
 
-  &.is--small {
-    height: 25px;
-    width: 25px;
+  .form-check-label {
+    margin-left: 0.75em;
+    flex: 1 1 auto; // fill remaining space
   }
 }
 

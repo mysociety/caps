@@ -32,19 +32,19 @@
                                         <button type="button">Nation</button>
                                     </legend>
                                     <div class="option-group open-div">
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="country_all" name="country" value=""{% if filter_params.country == "" or filter_params.country is None %} checked{% endif %}>
                                             <label class="form-check-label" for="country_all">Any</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="england" name="country" value="1"{% if filter_params.country == "1" %} checked{% endif %}>
                                             <label class="form-check-label" for="england">England</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="scotland" name="country" value="2"{% if filter_params.country == "2" %} checked{% endif %}>
                                             <label class="form-check-label" for="scotland">Scotland</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="wales" name="country" value="3"{% if filter_params.country == "3" %} checked{% endif %}>
                                             <label class="form-check-label" for="wales">Wales</label>
                                         </div>
@@ -70,43 +70,43 @@
                                         <button type="button">Region</button>
                                     </legend>
                                     <div class="option-group open-div">
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="region_all" name="region" value=""{% if filter_params.region == "" or filter_params.region is None %} checked{% endif %}>
                                             <label class="form-check-label" for="country_all">Any</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="East Midlands" name="region" value="East Midlands"{% if filter_params.region == "East Midlands" %} checked{% endif %}>
                                             <label class="form-check-label" for="East Midlands">East Midlands</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="East of England" name="region" value="East of England"{% if filter_params.region == "East of England" %} checked{% endif %}>
                                             <label class="form-check-label" for="East of England">East of England</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="London" name="region" value="London"{% if filter_params.region == "London" %} checked{% endif %}>
                                             <label class="form-check-label" for="London">London</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="North East" name="region" value="North East"{% if filter_params.region == "North East" %} checked{% endif %}>
                                             <label class="form-check-label" for="North East">North East</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="North West" name="region" value="North West"{% if filter_params.region == "North West" %} checked{% endif %}>
                                             <label class="form-check-label" for="North West">North West</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="South East" name="region" value="South East"{% if filter_params.region == "South East" %} checked{% endif %}>
                                             <label class="form-check-label" for="South East">South East</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="South West" name="region" value="South West"{% if filter_params.region == "South West" %} checked{% endif %}>
                                             <label class="form-check-label" for="South West">South West</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="West Midlands" name="region" value="West Midlands"{% if filter_params.region == "West Midlands" %} checked{% endif %}>
                                             <label class="form-check-label" for="West Midlands">West Midlands</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="Yorkshire and The Humber" name="region" value="Yorkshire and The Humber"{% if filter_params.region == "Yorkshire and The Humber" %} checked{% endif %}>
                                             <label class="form-check-label" for="Yorkshire and The Humber">Yorkshire and The Humber</label>
                                         </div>
@@ -133,12 +133,12 @@
                                     </legend>
                     
                                     <div class="option-group open-div">
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="county_all" name="county" value=""{% if filter_params.county == "" or filter_params.county is None %} checked{% endif %}>
                                             <label class="form-check-label" for="county_all">All</label>
                                         </div>
                                       {% for option in county_filter %}
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="{{ option.0|slugify }}" name="county" value="{{ option.0 }}"{% if filter_params.county == option.0 %} checked{% endif %}>
                                             <label class="form-check-label" for="{{ option.0|slugify }}">{{ option.1 }}</label>
                                         </div>
@@ -164,12 +164,12 @@
                                         <button type="button">Urbanisation</button>
                                     </legend>
                                     <div class="option-group open-div">
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="urban_all" name="ruc_cluster" value=""{% if filter_params.ruc_cluster == "" or filter_params.ruc_cluster is None %} checked{% endif %}>
                                             <label class="form-check-label" for="urban_all">All</label>
                                         </div>
                                       {% for option in urbanisation_filter %}
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="{{ option.0|slugify }}" name="ruc_cluster" value="{{ option.0 }}"{% if filter_params.ruc_cluster == option.0 %} checked{% endif %}>
                                             <label class="form-check-label" for="{{ option.0|slugify }}">{{ option.1 }}</label>
                                         </div>
@@ -195,31 +195,31 @@
                                         <button type="button">Political control (Sept 2023)</button>
                                     </legend>
                                     <div class="option-group open-div">
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="control_all" name="control" value=""{% if filter_params.control == "" or filter_params.control is None %} checked{% endif %}>
                                             <label class="form-check-label" for="control_all">All</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="control_coalition" name="control" value="Coalition/Minority"{% if filter_params.control == "Coalition/Minority" %} checked{% endif %}>
                                             <label class="form-check-label" for="control_coalition">Coalition/Minority</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="control_conservative" name="control" value="Conservative"{% if filter_params.control == "Conservative" %} checked{% endif %}>
                                             <label class="form-check-label" for="control_conservative">Conservative</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="control_independant" name="control" value="Independent"{% if filter_params.control == "Independent" %} checked{% endif %}>
                                             <label class="form-check-label" for="control_independant">Independent</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="control_labour" name="control" value="Labour"{% if filter_params.control == "Labour" %} checked{% endif %}>
                                             <label class="form-check-label" for="control_labour">Labour</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="control_libdem" name="control" value="Liberal Democrat"{% if filter_params.control == "Liberal Democrat" %} checked{% endif %}>
                                             <label class="form-check-label" for="control_libdem">Liberal Democrat</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="control_plaid" name="control" value="Plaid Cymru"{% if filter_params.control == "Plaid Cymru" %} checked{% endif %}>
                                             <label class="form-check-label" for="control_plaid">Plaid Cymru</label>
                                         </div>
@@ -243,27 +243,27 @@
                                         <button type="button">Index of multiple deprivation</button>
                                     </legend>
                                     <div class="option-group open-div">
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="imdq_all" name="imdq" value=""{% if filter_params.imdq == "" or filter_params.imdq is None %} checked{% endif %}>
                                             <label class="form-check-label" for="imdq_all">All</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="imdq_1" name="imdq" value="1"{% if filter_params.imdq == 1 %} checked{% endif %}>
                                             <label class="form-check-label" for="imdq_1">1 (most deprived)</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="imdq_2" name="imdq" value="2"{% if filter_params.imdq == 2 %} checked{% endif %}>
                                             <label class="form-check-label" for="imdq_2">2</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="imdq_3" name="imdq" value="3"{% if filter_params.imdq == 3 %} checked{% endif %}>
                                             <label class="form-check-label" for="imdq_3">3</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="imdq_4" name="imdq" value="4"{% if filter_params.imdq == 4 %} checked{% endif %}>
                                             <label class="form-check-label" for="imdq_4">4</label>
                                         </div>
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="imdq_5" name="imdq" value="5"{% if filter_params.imdq == 5 %} checked{% endif %}>
                                             <label class="form-check-label" for="imdq_5">5 (least deprived)</label>
                                         </div>
@@ -288,12 +288,12 @@
                                         <button type="button">Total population</button>
                                     </legend>
                                     <div class="option-group open-div">
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="poulation_all" name="population" value=""{% if filter_params.population == "" or filter_params.population is None %} checked{% endif %}>
                                             <label class="form-check-label" for="population_all">Any</label>
                                         </div>
                                       {% for option in population_filter %}
-                                        <div class="py-2">
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="{{ option.0|slugify }}" name="population" value="{{ option.0 }}"{% if filter_params.population == option.0 %} checked{% endif %}>
                                             <label class="form-check-label" for="{{ option.0|slugify }}">{{ option.1 }}</label>
                                         </div>
