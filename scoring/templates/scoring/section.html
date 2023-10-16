@@ -31,7 +31,7 @@
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
                     <span class="fs-1 lh-0">{{ averages.single.weighted_average|floatformat:0 }}%</span>
-                    <span>Average</span>
+                    <span>Average score</span>
                 </div>
             </a>
         </div>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
                     <span class="fs-1 lh-0">{{ averages.district.weighted_average|floatformat:0 }}%</span>
-                    <span>Average</span>
+                    <span>Average score</span>
                 </div>
             </a>
         </div>
@@ -59,7 +59,7 @@
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
                     <span class="fs-1 lh-0">{{ averages.county.weighted_average|floatformat:0 }}%</span>
-                    <span>Average</span>
+                    <span>Average score</span>
                 </div>
             </a>
         </div>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
                     <span class="fs-1 lh-0">{{ averages.ni.weighted_average|floatformat:0 }}%</span>
-                    <span>Average</span>
+                    <span>Average score</span>
                 </div>
             </a>
         </div>
@@ -125,7 +125,7 @@
                 </div>
                 <div class="card-body d-flex flex-column align-items-center">
                     <span class="fs-1 lh-0">{{ averages.combined.weighted_average|floatformat:0 }}%</span>
-                    <span>Average</span>
+                    <span>Average score</span>
                 </div>
             </a>
         </div>
@@ -188,7 +188,7 @@
                 <div class="d-none d-lg-block">
                   <form class="d-none d-lg-block" id="advancedFilterForm" action=".">
                     {% if comparison_councils|length > 2 %}
-                    <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
+                    <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
                   {% else %}
                   <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name"{% if council_type %} data-council_type="{{ council_type.slug }}"{% endif %}>
                   {% endif %}
@@ -264,7 +264,7 @@
               {% for comparison in comparison_councils %}
               <th scope="col">
                   <p class="mb-1">{{ comparison.council.name }}</p>
-                  <a class="fs-7 link-light fw-normal" href="{% url 'scoring:council' comparison.council.slug %}">Go to council scorecard</a>
+                  <a class="fs-7 link-light fw-normal" href="{% url 'scoring:council' comparison.council.slug %}">Go to council Scorecard</a>
               </th>
               {% endfor %}
 
@@ -297,10 +297,9 @@
                       <div class="d-flex flex-nowrap my-3 fs-7 text-red-500">
                         {% include 'caps/icons/warning.html' with classes='mt-1 me-2 flex-shrink-0 flex-grow-0' width='1em' height='1em' role='presentation' %}
                         <p class="mb-0">
-                            <strong>Negative points:</strong>
+                            <strong>Penalty marks:</strong>
                             The maximum number of points for this question is 0.
-                            {% comment %} TODO add link to this question in methodology {% endcomment %}
-                            <a href="{% url 'scoring:methodology' %}#todo" style="color: inherit;">Read more about negative point questions.</a>
+                            <a href="{% url 'scoring:methodology' %}#section-question-weighting-within" style="color: inherit;">Read more about penalty mark questions.</a>
                         </p>
                       </div>
                       {% endif %}
@@ -360,7 +359,7 @@
             <td data-column="score" class="text-start text-md-end d-none flex-row d-md-table-cell score">
               <span class="me-2">{{ comparison.score }}/{{ question.details.max_score }}</span>
               <span class="badge bg-secondary d-md-none">{{ comparison.council_name }}</span>
-                {% comment %} TODO IF question is negative then "No negative points awarded" {% endcomment %}
+                {% comment %} TODO IF question is negative then "No penalty marks awarded" {% endcomment %}
             </td>
             {% endfor %}
 

@@ -688,7 +688,7 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
         context[
             "all_councils"
         ] = Council.objects.all()  # for location search autocomplete
-        context["page_title"] = "Draft methodology"
+        context["page_title"] = "Methodology"
         context["current_page"] = "methodology2023-page"
 
         questions = (

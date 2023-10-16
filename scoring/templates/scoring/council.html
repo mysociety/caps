@@ -76,7 +76,7 @@
         </div> {% endcomment %}
         <div class="row">
             <div class="col-lg-5 mb-5 mb-lg-0">
-              <p>Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  Unless otherwise stated, council climate action from 1st January 2019 up until 31st March 2023 was assessed.</p>
+              <p>Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions or less, depending on council type, across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  Unless otherwise stated, council climate action from 1st January 2019 up until 31st March 2023 was assessed.</p>
 
               {% comment %} TODO Link to this council plan scorecards {% endcomment %}
               <p>You can check out how this council scored in the Plan Scorecards (different questions to the Action Scorecards) <a href="">here</a>. </p>
@@ -116,7 +116,7 @@
                 <div class="card-body">
                     <form id="advancedFilterForm" action=".">
                       {% if comparisons|length > 2 %}
-                        <p class="warning-message">You have reached the maximum number of councils that may be compared.</p>
+                        <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
                       {% else %}
                         <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name">
                       {% endif %}
@@ -173,9 +173,8 @@
               {% for comparison in comparisons %}
                 <th scope="col" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
               {% endfor %}
-                <th scope="col" class="d-none d-md-table-cell d-flex flex-row align-items-center">
-                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
-                    <span>Councils with full marks per question</span>
+                <th scope="col" class="d-none d-md-table-cell">
+                    Councils with full marks per question
                 </th>
             </tr>
         </thead>
@@ -196,7 +195,7 @@
                     <div class="d-flex flex-column mb-0 mt-2 fs-7 text-warning">
                         <p class="mb-1">
                           {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
-                          <strong class="me-2">Negative points</strong>
+                          <strong class="me-2">Penalty marks</strong>
                         </p>
                         {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
                     </div>
@@ -266,10 +265,9 @@
                                 <div class="d-flex mb-3 fs-7 text-red-500">
                                     {% include 'caps/icons/warning.html' with classes='mt-1 me-2 flex-shrink-0 flex-grow-0' width='1em' height='1em' role='presentation' %}
                                     <p class="mb-0">
-                                        <strong>Negative points:</strong>
+                                        <strong>Penalty marks:</strong>
                                         The maximum number of points for this question is 0.
-                                        {% comment %} TODO add link to this question in methodology {% endcomment %}
-                                        <a href="{% url 'scoring:methodology' %}#{{ answer.code }}" style="color: inherit;">Read more about negative point questions.</a>
+                                        <a href="{% url 'scoring:methodology' %}#section-question-weighting-within" style="color: inherit;">Read more about penalty mark questions.</a>
                                     </p>
                                 </div>
                               {% endif %}
@@ -325,7 +323,7 @@
 
                 <td data-column="score" class="score border-bottom">
                     <span>{{ answer.score }}/{{ answer.max }}</span>
-                    {% comment %} TODO IF question is negative then "No negative points awarded" {% endcomment %}
+                    {% comment %} TODO IF question is negative then "No penalty marks awarded" {% endcomment %}
                 </td>
 
               {% for comparison in answer.comparisons %}
@@ -340,7 +338,11 @@
                     </a>
                     <span class="fs-8 mt-1 me-0 ms-auto d-block">
                         {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                      {% if answer.type == "negative" %}
+                        councils got <strong>no penalty marks</strong> for this question.
+                      {% else %}
                         councils got full marks for this question.
+                      {% endif %}
                     </span>
                 </td>
             </tr>
@@ -357,14 +359,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-5 mb-5 mb-lg-0">
-                <h2 class="h3 mb-3">No scorecard available</h2>
+                <h2 class="h3 mb-3">No Scorecard available</h2>
                 <p>
                 {% if new_council %}
-                  This council was recently created when the scorecards were marked so was not included.
+                  This council was recently created when the Scorecards were marked so was not included.
                 {% elif old_council %}
-                  This council had been disbanded when the scorecards were marked so was not included.
-                {% else
-                  We do not currently have a scorecard for this council.
+                  This council had been disbanded when the Scorecards were marked so was not included.
+                {% else %}
+                  We do not currently have a Scorecard for this council.
                 {% endif %}
                 </p>
             </div>
