@@ -35,6 +35,11 @@ scoring_patterns = (
             name="section_top_preview",
         ),
         path(
+            "section/<slug:slug>/top-performer/<str:council>/preview/",
+            views.SectionCouncilTopPerformerPreview.as_view(),
+            name="section_top_council_preview",
+        ),
+        path(
             "section/<slug:slug>/<str:type>/preview/",
             views.SectionPreview.as_view(),
             name="section_preview",
