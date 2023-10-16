@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from tqdm import tqdm
 
 from caps.models import Council
-from scoring.models import PlanSection
+from scoring.models import PlanScore, PlanSection, PlanSectionScore
 
 
 class Command(BaseCommand):
@@ -20,6 +20,11 @@ class Command(BaseCommand):
             nargs="?",
             default="http://councilclimatescorecards.0.0.0.0.nip.io:8000",
             help="base url of site, eg: 'http://example.org'",
+        )
+        parser.add_argument(
+            "--top_performers_only",
+            action="store_true",
+            help="Only generate graphics for top performers",
         )
 
     def get_shot(self, url, filepath, width=1200, height=630):
@@ -38,6 +43,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        top_performers = options["top_performers_only"]
+
         og_images_dir = Path(settings.BASE_DIR, "social-images")
         static_images_dir = Path(
             settings.BASE_DIR, "scoring/static/scoring/img/og-images/"
@@ -48,6 +55,23 @@ class Command(BaseCommand):
 
         councils = Council.current_councils()
         sections = PlanSection.objects.filter(year=2023)
+
+        if top_performers:
+            overall = list(
+                PlanScore.objects.filter(year=2023)
+                .exclude(top_performer="")
+                .values_list("council_id", flat=True)
+            )
+
+            section = list(
+                PlanSectionScore.objects.filter(plan_section__in=sections)
+                .exclude(top_performer="")
+                .values_list("plan_score__council_id", flat=True)
+            )
+
+            top_performer_list = overall + section
+
+            councils = councils.filter(id__in=top_performer_list)
 
         sizes = [
             (1200, 630),
