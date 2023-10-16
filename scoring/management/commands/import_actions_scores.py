@@ -40,13 +40,9 @@ class Command(BaseCommand):
     QUESTIONS_CSV = Path(SCORECARD_DATA_DIR, "question_data.csv")
     ANSWERS_CSV = Path(SCORECARD_DATA_DIR, "all_answer_data.csv")
 
-    DEFAULT_TOP_PERFORMER_COUNT = 10
+    DEFAULT_TOP_PERFORMER_COUNT = 6
     TOP_PERFORMER_COUNT = {
-        "district": 3,
-        "county": 1,
-        "single": 3,
-        "northern-ireland": 0,
-        "combined": 1,
+        "combined": 2,
     }
 
     SKIP_SECTION_PERFORMERS = ["s6_cb"]
@@ -188,7 +184,9 @@ class Command(BaseCommand):
                 continue
 
             top_section_scores = PlanSectionScore.objects.filter(
-                plan_score__year=2023, plan_section=section, score=F("max_score")
+                plan_score__year=2023,
+                plan_section=section,
+                weighted_score__gte=80,
             )
 
             for section_score in top_section_scores.all():
