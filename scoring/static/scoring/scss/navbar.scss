@@ -16,6 +16,10 @@
     }
 }
 
+.site-nav {
+    background-image: linear-gradient(45deg, #fff, tint-color($primary, 90%));
+}
+
 .navbar-location-search-form {
     display: flex;
     flex-direction: column;

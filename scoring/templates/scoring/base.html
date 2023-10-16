@@ -37,7 +37,7 @@
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
 
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg site-nav">
         <div class="d-flex flex-row align-items-center">
             <a class="navbar-brand" href="{% url 'scoring:home' %}">
                 {% include 'caps/icons/council-climate-logo-2023.html' with classes='text-dark' width='7em' height='auto' role='presentation' %}
@@ -86,15 +86,15 @@
         </div>
     </nav>
 
-    <nav class="navbar navbar-expand-lg py-2 justify-content-center bg-primary-100 gap-3">
+    <nav class="navbar navbar-expand-lg py-2 justify-content-center bg-orange-100 border-top gap-2 gap-md-3">
         <span class="text-center">Please help Climate Emergency UK by supporting our <a href="https://www.crowdfunder.co.uk/p/action-scorecards">match-funded Crowdfunder</a>. We rely on donations to remain independent</span>
-        <form action="https://www.paypal.com/donate" method="post" target="_top"><input type="hidden" name="hosted_button_id" value="JB823YSUV5X9S"><input id="ceuk-donate" type="image" src="{% static 'scoring/img/paypal-button.png' %}" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal" border="0" width="106" height="30"><img alt="" src="//www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" border="0"></form>
+        <a href="https://www.crowdfunder.co.uk/p/action-scorecards" class="btn btn-sm btn-primary rounded-pill px-3">Donate</a>
     </nav>
 
 {% block content %}{% endblock %}
 
     <footer>
-        <div class="bg-primary-100 py-4 py-lg-5">
+        <div class="bg-orange-100 py-4 py-lg-5">
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-xl-8">
