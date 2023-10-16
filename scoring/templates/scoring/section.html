@@ -147,7 +147,8 @@
 
 <div class="container pt-5 pt-lg-6 js-dynamic-content">
     <h3 class="mb-4">Section list of questions</h3>
-    {% if not section.is_combined %}
+
+  {% if not section.is_combined %}
     <div class="row">
         <div class="col-lg-6">
             <div class="bg-primary-100 p-3 mb-4 border rounded">
@@ -168,7 +169,7 @@
             </div>
         </div>
     </div>
-    {% endif %}
+  {% endif %}
 
     <div class="row d-none d-md-flex mb-4">
       <div class="col-lg-6">
@@ -188,18 +189,18 @@
                 <div class="d-none d-lg-block">
                   <form class="d-none d-lg-block" id="advancedFilterForm" action=".">
                     {% if comparison_councils|length > 2 %}
-                    <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
-                  {% else %}
-                  <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name"{% if council_type %} data-council_type="{{ council_type.slug }}"{% endif %}>
-                  {% endif %}
-                  {% if comparison_councils %}
-                    <div class="selected-council-wrapper mt-4 mb-3">
-                      {% for comparison in comparison_councils %}
-                        <a href="{% url 'scoring:council' comparison.council.slug %}" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
-                      {% endfor %}
-                    </div>
-                    <a href="{% url 'scoring:section' section.code %}">Clear all</a>
-                  {% endif %}
+                      <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
+                    {% else %}
+                      <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name"{% if council_type %} data-council_type="{{ council_type.slug }}"{% endif %}>
+                    {% endif %}
+                    {% if comparison_councils %}
+                      <div class="selected-council-wrapper mt-4 mb-3">
+                        {% for comparison in comparison_councils %}
+                          <a href="{% url 'scoring:council' comparison.council.slug %}" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
+                        {% endfor %}
+                      </div>
+                      <a href="{% url 'scoring:section' section.code %}">Clear all</a>
+                    {% endif %}
                   </form>
                 </div>
               </div>
@@ -209,175 +210,96 @@
       </div>
     </div>
 
-    {% if council_type %}
+  {% if council_type %}
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4">
-    {% if comparison_scores %}
-    {% for comparison in comparison_scores %}
-      <div class="col">
-          <a href="{% url 'scoring:council' comparison.council_slug %}" class="card text-decoration-none text-black h-100">
-            <div class="card-header py-3 text-bg-primary">
-                <h3 class="fs-5 mb-0 lh-base text-center">
-                    {{ comparison.council_name }}
-                </h3>
-            </div>
-            <div class="card-body d-flex flex-column align-items-center">
-                <span class="fs-1 lh-0">{{ comparison.weighted_score|floatformat:0 }}%</span>
-                <span>{{ section.description }} score</span>
-                {% if comparison.negative_points < 0 %}
-                <div class="fs-7 d-none">
-                    {{ comparison.score }} = Total score({{ comparison.non_negative_max }}) - Penalty points({{ comparison.negative_points }})
+      {% if comparison_scores %}
+      {% for comparison in comparison_scores %}
+        <div class="col">
+            <a href="{% url 'scoring:council' comparison.council_slug %}" class="card text-decoration-none text-black h-100">
+                <div class="card-header py-3 text-bg-primary">
+                    <h3 class="fs-5 mb-0 lh-base text-center">{{ comparison.council_name }}</h3>
                 </div>
-                {% endif %}
-            </div>
-            {% if comparison.negative_points < 0 %}
-            <p class="alert alert-warning d-flex flex-row align-items-center gap-2 p-2 mb-0 rounded-0 border-0">
-              {% include 'caps/icons/warning.html' with classes='align-text-bottom' width='1em' height='1em' role='presentation' %}
-              <span class="fs-7">
-                  {{ comparison.council_name }} has a penalty of {{ comparison.negative_percent }}% in this section
-              </span>
-            </p>
-            {% endif %}
-        </a>
+                <div class="card-body d-flex flex-column align-items-center">
+                    <span class="fs-1 lh-0">{{ comparison.weighted_score|floatformat:0 }}%</span>
+                    <span>{{ section.description }} score</span>
+                  {% if comparison.negative_points < 0 %}
+                    <div class="fs-7 d-none">
+                        {{ comparison.score }} = Total score({{ comparison.non_negative_max }}) - Penalty points({{ comparison.negative_points }})
+                    </div>
+                  {% endif %}
+                </div>
+              {% if comparison.negative_points < 0 %}
+                <p class="alert alert-warning d-flex flex-row align-items-center gap-2 p-2 mb-0 rounded-0 border-0">
+                    {% include 'caps/icons/warning.html' with classes='align-text-bottom' width='1em' height='1em' role='presentation' %}
+                    <span class="fs-7">
+                        {{ comparison.council_name }} has a penalty of {{ comparison.negative_percent }}% in this section
+                    </span>
+                </p>
+              {% endif %}
+            </a>
+        </div>
+      {% endfor %}
+        <div class="col">
+            <a href="#" class="card text-decoration-none text-black h-100">
+                <div class="card-header py-3 text-bg-primary">
+                    <h3 class="fs-5 mb-0 lh-base text-center">{{ council_type.name|title }}</h3>
+                </div>
+                <div class="card-body d-flex flex-column align-items-center">
+                    <span class="fs-1 lh-0">{{ council_type_avg.weighted_average|floatformat:0 }}%</span>
+                    <span>{{ section.description }} average</span>
+                </div>
+            </a>
+        </div>
+      {% endif %}
     </div>
-    {% endfor %}
-    <div class="col">
-      <a href="#" class="card text-decoration-none text-black h-100">
-          <div class="card-header py-3 text-bg-primary">
-              <h3 class="fs-5 mb-0 lh-base text-center">
-                {{ council_type.name|title }}
-              </h3>
-          </div>
-          <div class="card-body d-flex flex-column align-items-center">
-              <span class="fs-1 lh-0">{{ council_type_avg.weighted_average|floatformat:0 }}%</span>
-              <span>{{ section.description }} average</span>
-          </div>
-      </a>
-    </div>
-    {% endif %}
-  </div>
 
-  <table class="section-question-table mb-3">
-      <thead class="text-bg-primary position-sticky z-index-3 top-0">
-          <tr class="d-none d-md-table-row">
-              <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
+    <table class="section-question-table mb-3">
+        <thead class="text-bg-primary position-sticky z-index-3 top-0">
+            <tr class="d-none d-md-table-row">
+                <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
 
               {% for comparison in comparison_councils %}
-              <th scope="col">
-                  <p class="mb-1">{{ comparison.council.name }}</p>
-                  <a class="fs-7 link-light fw-normal" href="{% url 'scoring:council' comparison.council.slug %}">Go to council Scorecard</a>
-              </th>
+                <th scope="col">
+                    <p class="mb-1">{{ comparison.council.name }}</p>
+                    <a class="fs-7 link-light fw-normal" href="{% url 'scoring:council' comparison.council.slug %}">Go to council Scorecard</a>
+                </th>
               {% endfor %}
 
-              <th scope="col">
-                <span class="mb-1 d-block">{{ council_type.name|title }}</span>
-                <span class="fw-normal fs-7 d-block">Average</span>
-              </th>
-          </tr>
-      </thead>
-
-      <tbody class="table-question-council__section border">
-
+                <th scope="col">
+                    <span class="mb-1 d-block">{{ council_type.name|title }}</span>
+                    <span class="fw-normal fs-7 d-block">Average</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="table-question-council__section border">
           {% for question in questions %}
-          <tr class="question-row d-flex flex-column d-md-table-row border-bottom">
-            <td data-column="answer" class="border-end">
+            <tr class="question-row d-flex flex-column d-md-table-row border-bottom">
+                <td data-column="answer" class="border-end">
+                    {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=question.details.pretty_code question_text=question.details.text question_type=question.details.question_type how_marked=question.details.get_how_marked_display weighting=question.details.get_weighting_display evidence_links=question.evidence_links criteria=question.details.criteria %}
+                </td>
 
-                <div class="question-content-table text-start">
-                  <div class="row">
-                    <div class="col-md-1">
-                      <span class="badge bg-secondary p-1 question-no">
-                        {{ question.details.pretty_code }}
-                      </span>
-                    </div>
-                    <div class="col-md-11">
-                      <p>
-                        {{ question.details.text | linebreaks }}
-                      </p>
+              {% for comparison in question.comparisons %}
+                <td data-column="score" class="text-start text-md-end d-none flex-row d-md-table-cell score">
+                    <span class="me-2">{{ comparison.score }}/{{ question.details.max_score }}</span>
+                    <span class="badge bg-secondary d-md-none">{{ comparison.council_name }}</span>
+                </td>
+              {% endfor %}
 
-                      {% if question.details.question_type == 'negative' %}
-                      <div class="d-flex flex-nowrap my-3 fs-7 text-red-500">
-                        {% include 'caps/icons/warning.html' with classes='mt-1 me-2 flex-shrink-0 flex-grow-0' width='1em' height='1em' role='presentation' %}
-                        <p class="mb-0">
-                            <strong>Penalty marks:</strong>
-                            The maximum number of points for this question is 0.
-                            <a href="{% url 'scoring:methodology' %}#section-question-weighting-within" style="color: inherit;">Read more about penalty mark questions.</a>
-                        </p>
-                      </div>
-                      {% endif %}
+                <td data-column="score" class="text-start text-md-end d-flex flex-row d-md-table-cell align-items-center score">
+                    <span class="me-2">{{ question.average }}/{{ question.details.max_score }}</span>
+                    <span class="badge bg-secondary d-md-none">{{ council_type.name|title }} Council average score</span>
+                </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
 
-                      <button class="btn btn-outline-secondary btn-sm js-hidden-toggle" aria-controls="how-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">How this is marked</button>
-
-                      <div class="text-muted fs-7" id="how-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
-                          <dl class="row mt-2 mb-0">
-                              <dt class="col-sm-4">Source</dt>
-                              <dd class="col-sm-8">{{ question.details.get_how_marked_display }}</dd>
-                              <dt class="col-sm-4">Question weight</dt>
-                              <dd class="col-sm-8">{{ question.details.get_weighting_display }}</dd>
-                              <dt class="col-sm-4">Evidence</dt>
-                              <dd class="col-sm-8">
-                                  {% for link in answer.evidence_links %}
-                                  <a href="{{ link }}" style="display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{ link }}</a>
-                                  {% empty %}
-                                  No evidence available.
-                                  {% endfor %}
-                              </dd>
-                          </dl>
-                      </div>
-
-                      {% comment %} TODO Include evidence if we are currently viewing a council {% endcomment %}
-                      <button type="button" class="btn btn-outline-secondary btn-sm d-block mt-3" data-bs-toggle="modal" data-bs-target="#section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
-                        View criteria
-                      </button>
-
-                      <div class="modal fade" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label" aria-hidden="true">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
-                                  <p>Criteria</p>
-                                  <div class="fw-normal fs-7 ">{{ question.details.text | linebreaks }}</div>
-                                </h5>
-                              </div>
-                              <div class="modal-body">
-                                {{ question.details.criteria|linebreaks }}
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-
-                  </div>
-                </div>
-            </td>
-
-            {% for comparison in question.comparisons %}
-            {% comment %} On mobile we will display only the average for the type of council. {% endcomment %}
-            <td data-column="score" class="text-start text-md-end d-none flex-row d-md-table-cell score">
-              <span class="me-2">{{ comparison.score }}/{{ question.details.max_score }}</span>
-              <span class="badge bg-secondary d-md-none">{{ comparison.council_name }}</span>
-                {% comment %} TODO IF question is negative then "No penalty marks awarded" {% endcomment %}
-            </td>
-            {% endfor %}
-
-            <td data-column="score" class="text-start text-md-end d-flex flex-row d-md-table-cell align-items-center score">
-              <span class="me-2">{{ question.average }}/{{ question.details.max_score }}</span>
-              <span class="badge bg-secondary d-md-none">{{ council_type.name|title }} Council average score</span>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-  </table>
-
-  <div class="d-flex gap-2 mb-5">
-    {% comment %} <a class="table-social-icon facebook mr-1" title="Share this page on Facebook" aria-label="Share this page on Facebook" href="https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri|urlencode }}"></a> {% endcomment %}
-    <a class="table-social-icon twitter" title="Share this page on Twitter" aria-label="Share this page on Twitter" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&amp;text={{ twitter_tweet_text|urlencode }}"></a>
-  </div>
+    <div class="d-flex gap-2 mb-5">
+        {% comment %} <a class="table-social-icon facebook mr-1" title="Share this page on Facebook" aria-label="Share this page on Facebook" href="https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri|urlencode }}"></a> {% endcomment %}
+        <a class="table-social-icon twitter" title="Share this page on Twitter" aria-label="Share this page on Twitter" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&amp;text={{ twitter_tweet_text|urlencode }}"></a>
+    </div>
   {% endif %}
-</div>
 
+</div>
 
 {% endblock %}

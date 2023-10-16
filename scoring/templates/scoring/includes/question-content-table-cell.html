@@ -1,0 +1,68 @@
+<div class="question-content-table text-start">
+    <div class="row">
+        <div class="col-1 mb-2">
+            <span class="badge bg-secondary p-1 question-no">{{ code }}</span>
+        </div>
+        <div class="col-11">
+            {{ question_text.strip | linebreaks }}
+
+          {% if question_type == "negative" %}
+            <div class="d-flex mb-3 fs-7 text-red-500">
+                {% include 'caps/icons/warning.html' with classes='mt-1 me-2 flex-shrink-0 flex-grow-0' width='1em' height='1em' role='presentation' %}
+                <p class="mb-0">
+                    <strong>Penalty marks:</strong>
+                    The maximum number of points for this question is 0.
+                    <a href="{% url 'scoring:methodology' %}#section-question-weighting-within" style="color: inherit;">Read more about penalty mark questions.</a>
+                </p>
+            </div>
+          {% endif %}
+
+            <div class="d-flex align-items-center gap-3">
+                <button type="button" class="btn btn-outline-secondary btn-sm js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                    How is this marked?
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#criteria-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                    View criteria
+                </button>
+            </div>
+
+            <div class="text-muted fs-7" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" hidden="true">
+                <dl class="row mt-3 mb-0">
+                    <dt class="col-sm-4">Source</dt>
+                    <dd class="col-sm-8">{{ how_marked }}</dd>
+                    <dt class="col-sm-4">Question weight</dt>
+                    <dd class="col-sm-8">{{ weighting }}</dd>
+                    <dt class="col-sm-4">Evidence</dt>
+                    <dd class="col-sm-8">
+                      {% for link in evidence_links %}
+                        <a href="{{ link }}" style="display: block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{ link }}</a>
+                      {% empty %}
+                        No evidence available.
+                      {% endfor %}
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="modal fade" id="criteria-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" tabindex="-1" aria-labelledby="criteria-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}-label" aria-hidden="true">
+                <div class="modal-dialog shadow-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="criteria-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}-label">Criteria</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pb-0">
+                            <div class="fw-bold">
+                                {{ question_text.strip | linebreaks }}
+                            </div>
+                            {{ answer.criteria.strip | linebreaks }}
+                        </div>
+                        <div class="modal-footer justify-content-start bg-gray-100">
+                            <a href="{% url 'scoring:methodology' %}">See more criteria clarifications in the full methodology</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
