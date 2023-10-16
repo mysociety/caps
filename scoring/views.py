@@ -715,6 +715,33 @@ class SectionTopPerformerPreview(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
+class SectionCouncilTopPerformerPreview(CheckForDownPageMixin, TemplateView):
+    template_name = "scoring/council-top-performer-preview.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        code = self.kwargs["slug"]
+        council = self.kwargs["council"]
+
+        section = PlanSection.objects.get(code=code)
+
+        scores = get_object_or_404(
+            PlanSectionScore,
+            plan_section=section,
+            top_performer=code,
+            plan_score__year=settings.PLAN_YEAR,
+            plan_score__council__slug=council,
+        )
+
+        context["section"] = section
+        context["score"] = scores.weighted_score
+        context["council"] = scores.plan_score.council
+
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
     template_name = "scoring/location_results.html"
 
