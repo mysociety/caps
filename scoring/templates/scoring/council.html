@@ -27,7 +27,7 @@
         {% if plan_score.top_performer %}
         <div class="d-flex align-items-center">
             {% include 'caps/icons/scorecards-star.html' with classes='me-2' width='1rem' height='1rem' role='presentation' %}
-            This council is one of the highest scoring councils in {% include 'caps/includes/authority_type.html' with group=authority_type %}.
+            This council is one of the highest scoring {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.
         </div>
       {% endif %}
 
@@ -89,7 +89,7 @@
                 <dd>The question weighting determines the importance of that question to the overall section score. To ensure appropriate weighting to each question, each raw score for a question has been translated into a score out of one, two or three, depending on whether the question is weighted low (one), medium (two) or high (three). The questions that are weighted high are those we consider to have the biggest impact on emission reductions and a sustained long-term impact. For further information on Question Weighting see <a href="{% url 'scoring:methodology' %}#section-question-weighting-within">here</a>.</dd>
 
                 <dt class="mt-3">Section Score & Weighting</dt>
-                <dd>The question weighting determines the importance of that question to the overall section score. To ensure appropriate weighting to each question, each raw score for a question has been translated into a score out of one, two or three, depending on whether the question is weighted low (one), medium (two) or high (three). The questions that are weighted high are those we consider to have the biggest impact on emission reductions and a sustained long-term impact. For further information on Question Weighting see <a href="{% url 'scoring:methodology' %}#section-weightings">here</a>.</dd>
+                <dd>The overall section score for a council is given in the table below. The final score is created from adding up the overall section scores and applying the section weighting. For example, receiving a 50% score in Collaboration & Engagement equals 5% of a council’s overall score. This is because Collaboration & Engagement is worth 10% of a council's overall score. For further information on Section Weighting see <a href="{% url 'scoring:methodology' %}#section-weightings">here</a>.</dd>
               </dl>
             </div>
         </div>
@@ -274,7 +274,7 @@
                                 </div>
                               {% endif %}
 
-                              <button type="button" class="js-hidden-toggle btn btn-outline-secondary btn-sm mt-3" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                              <button type="button" class="js-hidden-toggle btn btn-outline-secondary btn-sm" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
                                 How is this marked?
                               </button>
                               <div class="text-muted fs-7" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" hidden="true">
