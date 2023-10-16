@@ -137,6 +137,35 @@ class Command(BaseCommand):
                     )
                     self.get_shot(url, filepath, width=size[0], height=size[1])
 
+                dirpath = Path(
+                    og_images_dir,
+                    size_by,
+                    "sections",
+                    section.description,
+                    "top_performers",
+                )
+                dirpath.mkdir(parents=True, exist_ok=True)
+                performers = PlanSectionScore.objects.filter(
+                    plan_section=section
+                ).exclude(top_performer="")
+                for performer in performers:
+                    url = "{}{}".format(
+                        options["baseurl"],
+                        reverse_lazy(
+                            "scoring:section_top_council_preview",
+                            urlconf="scoring.urls",
+                            kwargs={
+                                "slug": performer.plan_section.code,
+                                "council": performer.plan_score.council.slug,
+                            },
+                        ),
+                    )
+                    filepath = Path(
+                        dirpath,
+                        f"{performer.plan_score.council.slug}.png",
+                    )
+                    self.get_shot(url, filepath, width=size[0], height=size[1])
+
                 url = "{}{}".format(
                     options["baseurl"],
                     reverse_lazy(
