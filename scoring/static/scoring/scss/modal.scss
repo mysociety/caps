@@ -1,0 +1,13 @@
+.modal-content {
+  .modal-header {
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .modal-body {
+    :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
