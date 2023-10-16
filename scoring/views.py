@@ -114,6 +114,7 @@ class HomePageView(
 
         filters = {
             "authority_type__in": authority_type["types"],
+            "end_date__isnull": True,
         }
 
         for f in filter_params:
