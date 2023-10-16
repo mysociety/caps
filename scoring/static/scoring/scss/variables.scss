@@ -36,15 +36,15 @@ $info: $color-scorecard-yellow;
 $dark: $black;
 
 $color-total-score:$primary;
-$color-category-1:adjust-hue($primary, 10);
-$color-category-2:adjust-hue($primary, 20);
-$color-category-3:adjust-hue($primary, 30);
-$color-category-4:adjust-hue($primary, 40);
-$color-category-5:adjust-hue($primary, 50);
-$color-category-6:adjust-hue($primary, 60);
-$color-category-7:adjust-hue($primary, 70);
-$color-category-8:adjust-hue($primary, 80);
-$color-category-9:adjust-hue($primary, 90);
+$color-category-1:#098995;
+$color-category-2:#cc2f62;
+$color-category-3:#12855e;
+$color-category-4:#4357d7;
+$color-category-5:#ca3f1b;
+$color-category-6:#cd1393;
+$color-category-7:#b85c0f;
+$color-category-8:#4d69d1;
+$color-category-9:#982fcc;
 
 $color-total-score-light:mix($color-total-score, $white, 20%);
 $color-category-light-1:mix($color-category-1, $white, 20%);

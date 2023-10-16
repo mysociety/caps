@@ -170,9 +170,37 @@ $score-bar-vertical-padding: 8px;
     border-radius: 50%;
     height: 26px;
     width: 26px;
+    @each $name, $colour in $theme-colors {
+        &.is--#{$name} {
+            border-color: $colour;
+        }
+    }
+    position: relative;
+    @each $name, $colour in $theme-colors {
+        &.is--#{$name} {
+            &::before {
+                content: '';
+                position: absolute;
+                background-color: $colour;
+                display: block;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                top: 0;
+                left: 0;
+                mix-blend-mode: hue;
+            }
+        }
+    }
 
     &:hover {
         background-image: url("../img/chevron-down-white.svg");
+        @each $name, $colour in $theme-colors {
+            &.is--#{$name} {
+                background-color: $colour;
+            }
+        }
+
     }
 
     &:focus {
@@ -183,12 +211,23 @@ $score-bar-vertical-padding: 8px;
     &.is-sorted-descending {
         background-color: $primary;
         background-image: url("../img/chevron-down-white.svg");
+        @each $name, $colour in $theme-colors {
+            &.is--#{$name} {
+                background-color: $colour;
+            }
+        }
     }
 
     &.is-sorted-ascending {
         transform: rotate(180deg);
         background-color: $primary;
         background-image: url("../img/chevron-down-white.svg");
+
+        @each $name, $colour in $theme-colors {
+            &.is--#{$name} {
+                background-color: $colour;
+            }
+        }
     }
 }
 
