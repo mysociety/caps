@@ -290,7 +290,7 @@
                     </div>
                     <div class="col-md-11">
                       <p>
-                        Has the council committed to building all future council owned or managed housing to a high energy efficiency or operationally net-zero standard?
+                        {{ question.details.text | linebreaks }}
                       </p>
 
                       {% if question.details.question_type == 'negative' %}
@@ -335,7 +335,7 @@
                               <div class="modal-header">
                                 <h5 class="modal-title" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}Label">
                                   <p>Criteria</p>
-                                  <div class="fw-normal fs-7">{{ answer.details.text | linebreaks }}</div>
+                                  <div class="fw-normal fs-7 ">{{ question.details.text | linebreaks }}</div>
                                 </h5>
                               </div>
                               <div class="modal-body">
