@@ -165,8 +165,8 @@ class PlanSection(models.Model):
         "s1_b_h": "s1_b_h_gs_ca",
         "s2_tran": "s2_tran_ca",
         "s3_p_lu": "s3_p_b_ca",
-        "s4_g_f": "s5_g_f_ca",
-        "s6_c_e": "s6_c_e_ca",
+        "s4_g_f": "s4_g_f_ca",
+        "s6_c_e": "s5_c_e_ca",
     }
 
     COMBINED_ALT_MAP = dict((ca, non_ca) for non_ca, ca in ALT_MAP.items())
