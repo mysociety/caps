@@ -947,6 +947,8 @@ class Methodology2023View(CheckForDownPageMixin, SearchAutocompleteMixin, Templa
 
             current_section["questions"].append(deepcopy(q))
 
+        current_section["questions"] = sorted(current_section["questions"], key=natsort)
+        sections.append(deepcopy(current_section))
         context["sections"] = sections
 
         context["organisations"] = [
