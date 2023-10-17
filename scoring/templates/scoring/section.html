@@ -265,10 +265,12 @@
                 </th>
               {% endfor %}
 
+              {% comment %}
                 <th scope="col">
                     <span class="mb-1 d-block">{{ council_type.name|title }}</span>
                     <span class="fw-normal fs-7 d-block">Average</span>
                 </th>
+              {% endcomment %}
             </tr>
         </thead>
         <tbody class="table-question-council__section border">
@@ -285,10 +287,12 @@
                 </td>
               {% endfor %}
 
+              {% comment %}
                 <td data-column="score" class="text-start text-md-end d-flex flex-row d-md-table-cell align-items-center score">
                     <span class="me-2">{{ question.average }}/{{ question.details.max_score }}</span>
                     <span class="badge bg-secondary d-md-none">{{ council_type.name|title }} Council average score</span>
                 </td>
+              {% endcomment %}
             </tr>
           {% endfor %}
         </tbody>
