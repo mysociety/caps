@@ -433,6 +433,9 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
 class PlanQuestionGroup(models.Model):
     description = models.TextField(max_length=200)
 
+    def __str__(self):
+        return self.description
+
 
 class PlanQuestion(models.Model):
     """
@@ -460,7 +463,7 @@ class PlanQuestion(models.Model):
     text = models.TextField(null=True, default="")
     max_score = models.PositiveSmallIntegerField(default=0)
     question_type = models.CharField(max_length=100)  # needs choices
-    parent = models.CharField(max_length=100, null=True, default="")
+    parent = models.CharField(max_length=100, null=True, blank=True, default="")
     how_marked = models.CharField(
         max_length=30, null=True, default="", choices=MARKING_TYPES
     )
