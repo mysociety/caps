@@ -361,7 +361,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
             .order_by("plan_section__code", "plan_score__council__name")
         )
 
-        if sections is not None:
+        if plan_sections is not None:
             section_qs = section_qs.filter(plan_section__in=plan_sections)
 
         sections = defaultdict(list)
