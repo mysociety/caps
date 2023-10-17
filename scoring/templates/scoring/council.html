@@ -67,19 +67,51 @@
 <div class="py-5 border-bottom">
     <div class="container">
       {% comment %} TODO enable message if Council is under review {% endcomment %}
-        {% comment %} <div class="row">
+        {% comment %} 
+        <div class="row mb-3">
           <div class="col-lg-5">
             <div class="alert alert-warning mb-4 mb-lg-5" role="alert">
               <span class="warning-icon">We are currently reviewing this Scorecard at the request of the council.</span>
             </div>
           </div>
-        </div> {% endcomment %}
+        </div> 
+      {% endcomment %}
+
+
+
+      {% comment %} TODO for this this council display the "Not scorec message"
+      Cumberland
+      Westmorland and Furness
+      North Yorkshire
+      Somerset
+      {% endcomment %}
+      {% comment %} <div class="row mb-3">
+        <div class="col-lg-5">
+          <div class="alert alert-warning mb-4 mb-lg-5" role="alert">
+            <p class="fw-bold fs-5">Not scored</p>
+            <span class="warning-icon">Newly formed council since April 2023. These councils will be assessed in future Scorecard editions.</span>
+          </div>
+        </div>
+      </div>  {% endcomment %}
+
+      {% comment %} TODO if  Isle of Scilly display the following message:
+      {% endcomment %}
+      {% comment %} <div class="row mb-3">
+        <div class="col-lg-5">
+          <div class="alert alert-info mb-4 mb-lg-5" role="alert">
+            <span class="warning-icon">Due to technical issues, this council results are not yet available. They will be published soon.</span>
+          </div>
+        </div>
+      </div> {% endcomment %}
+
+
         <div class="row">
             <div class="col-lg-5 mb-5 mb-lg-0">
               <p>Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions or less, depending on council type, across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  Unless otherwise stated, council climate action from 1st January 2019 up until 31st March 2023 was assessed.</p>
 
-              {% comment %} TODO Link to this council plan scorecards {% endcomment %}
-              <p>You can check out how this council scored in the Plan Scorecards (different questions to the Action Scorecards) <a href="">here</a>. </p>
+              {% if previous_score %}
+              <p>You can check out how this council scored in the Plan Scorecards (different questions to the Action Scorecards) <a href="{% url 'scoring2022:council' slug=council.slug %}">here</a>. </p>
+              {% endif %}
             </div>
             <div class="col-lg-5 offset-lg-1">
               <h2 class="mb-4">Key definitions</h2>
@@ -165,7 +197,7 @@
       <p class="text-white mb-3">You'll find more options, like the ability to compare your council's Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
     </div>
 
-    <table class="table-question-council mb-5 mt-4">
+    <table class="table-question-council mb-3 mt-4">
         <thead class="text-bg-primary position-sticky z-index-3 top-0">
             <tr>
                 <th scope="col" class="w-50 text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
@@ -352,6 +384,10 @@
       {% endfor %}
 
     </table>
+    <div class="d-flex gap-2 mb-5">
+      {% comment %} <a class="table-social-icon facebook mr-1" title="Share this page on Facebook" aria-label="Share this page on Facebook" href="https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri|urlencode }}"></a> {% endcomment %}
+      <a class="table-social-icon twitter" title="Share this page on Twitter" aria-label="Share this page on Twitter" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&amp;text={{ twitter_tweet_text|urlencode }}"></a>
+    </div>
 
 </div>
 {% else %}

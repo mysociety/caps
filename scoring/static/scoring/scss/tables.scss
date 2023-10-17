@@ -36,14 +36,14 @@
     &.facebook {
         background-image: url('../img/icon-facebook.svg');
         @include hover-focus {
-            background-image: url('../img/icon-facebook-green.svg');
+            background-image: url('../img/icon-facebook-primary.svg');
         }
     }
 
     &.twitter {
         background-image: url('../img/icon-twitter.svg');
         @include hover-focus {
-            background-image: url('../img/icon-twitter-green.svg');
+            background-image: url('../img/icon-twitter-primary.svg');
         }
     }
 }
