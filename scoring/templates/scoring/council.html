@@ -106,22 +106,43 @@
 
         <div class="row">
             <div class="col-lg-5 mb-5 mb-lg-0">
+              <h2 class="h3 mb-4">About the Scorecards</h2>
               <p>Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions or less, depending on council type, across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  Unless otherwise stated, council climate action from 1st January 2019 up until 31st March 2023 was assessed.</p>
 
               {% if previous_score %}
-              <p>You can check out how this council scored in the Plan Scorecards (different questions to the Action Scorecards) <a href="{% url 'scoring2022:council' slug=council.slug %}">here</a>. </p>
+              <p>You can <a href="{% url 'scoring2022:council' slug=council.slug %}">check how this council scored in the 2021 Plan Scorecards</a> (different questions to the Action Scorecards).</p>
               {% endif %}
             </div>
-            <div class="col-lg-5 offset-lg-1">
-              <h2 class="mb-4">Key definitions</h2>
-
-              <dl>
-                <dt>Question Weighting</dt>
-                <dd>The question weighting determines the importance of that question to the overall section score. To ensure appropriate weighting to each question, each raw score for a question has been translated into a score out of one, two or three, depending on whether the question is weighted low (one), medium (two) or high (three). The questions that are weighted high are those we consider to have the biggest impact on emission reductions and a sustained long-term impact. For further information on Question Weighting see <a href="{% url 'scoring:methodology' %}#section-question-weighting-within">here</a>.</dd>
-
-                <dt class="mt-3">Section Score & Weighting</dt>
-                <dd>The overall section score for a council is given in the table below. The final score is created from adding up the overall section scores and applying the section weighting. For example, receiving a 50% score in Collaboration & Engagement equals 5% of a council’s overall score. This is because Collaboration & Engagement is worth 10% of a council's overall score. For further information on Section Weighting see <a href="{% url 'scoring:methodology' %}#section-weightings">here</a>.</dd>
-              </dl>
+            <div class="col-lg-6 offset-lg-1">
+                <h2 class="h3 mb-4">Key definitions</h2>
+                <div class="accordion" id="definitionsAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="definitionHeading1">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#definition1" aria-expanded="false" aria-controls="definition1">
+                                Question Weighting
+                            </button>
+                        </h3>
+                        <div id="definition1" class="accordion-collapse collapse" aria-labelledby="definitionHeading1" data-bs-parent="#definitionsAccordion">
+                            <div class="accordion-body">
+                                <p>The question weighting determines the importance of that question to the overall section score. To ensure appropriate weighting to each question, each raw score for a question has been translated into a score out of one, two or three, depending on whether the question is weighted low (one), medium (two) or high (three). The questions that are weighted high are those we consider to have the biggest impact on emission reductions and a sustained long-term impact.</p>
+                                <p class="mb-0"><a href="{% url 'scoring:methodology' %}#section-question-weighting-within">Click here for further information on Question Weighting.</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="definitionHeading2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#definition2" aria-expanded="false" aria-controls="definition2">
+                                Section Score &amp; Weighting
+                            </button>
+                        </h3>
+                        <div id="definition2" class="accordion-collapse collapse" aria-labelledby="definitionHeading2" data-bs-parent="#definitionsAccordion">
+                            <div class="accordion-body">
+                                <p>The overall section score for a council is given in the table below. The final score is created from adding up the overall section scores and applying the section weighting. For example, receiving a 50% score in Collaboration &amp; Engagement equals 5% of a council’s overall score. This is because Collaboration &amp; Engagement is worth 10% of a council's overall score.</p>
+                                <p class="mb-0"><a href="{% url 'scoring:methodology' %}#section-weightings">Click here for further information on Section Weighting.</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
