@@ -458,6 +458,32 @@ class PlanQuestion(models.Model):
         ("unweighted", "Unweighted"),
     ]
 
+    COUNCIL_OPS_QUESTION_CODES = [
+        "s1_b_h_gs_ca_q1",  # renewable energy
+        "s1_b_h_q1",  # extensive retrofit
+        "s1_b_h_q2",  # renewable energy
+        "s1_b_h_q3",  # homes owned and managed … energy efficient
+        "s1_b_h_q4",  # target to retrofit … owned and managed homes
+        "s2_tran_q1",  # transitioning fleet to electric
+        "s4_g_f_ca_q1a",  # corporate plan … net zero target
+        "s4_g_f_ca_q1b",  # financial plan … net zero target
+        "s4_g_f_ca_q3",  # climate change risk register
+        "s4_g_f_ca_q4a",  # reporting on own emissions
+        "s4_g_f_ca_q4b",  # emissions reduced since 2019
+        "s4_g_f_q1a",  # corporate plan … net zero target
+        "s4_g_f_q1b",  # financial plan … net zero target
+        "s4_g_f_q2",  # climate change risk register
+        "s4_g_f_q3a",  # reporting on own emissions
+        "s4_g_f_q3b",  # emissions reduced since 2019
+        "s5_c_e_ca_q1a",  # climate action plan with smart targets
+        "s5_c_e_ca_q1b",  # easy-to-read annual report
+        "s6_c_e_q1",  # behaviour changes that residents can take
+        "s6_c_e_q2a",  # climate action plan with smart targets
+        "s6_c_e_q2b",  # easy-to-read annual report
+        "s7_wr_f_q1a",  # single use plastic in its buildings
+        "s7_wr_f_q1b",  # single use plastic at external events
+    ]
+
     section = models.ForeignKey(PlanSection, on_delete=models.CASCADE)
     code = models.CharField(max_length=100)
     text = models.TextField(null=True, default="")
@@ -499,6 +525,10 @@ class PlanQuestion(models.Model):
             code = "4.13.2"
 
         return code
+
+    @property
+    def is_council_operations_only(self):
+        return self.code in self.COUNCIL_OPS_QUESTION_CODES
 
     @classmethod
     def get_average_scores(cls, section=None, council_group=None):
