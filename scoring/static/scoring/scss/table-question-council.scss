@@ -33,81 +33,38 @@ td[data-column="answer"] {
     max-width: 500px;
 }
 
-// JavaScript-powered .js-toggle-council-question-table-section
-.accordion-enabled {
-    tbody {
-        .question-row {
-            display: none;
-        }
-    }
-
-    tbody.open {
-        .question-row {
-            display: table-row;
-        }
-    }
-}
-
 .js-collapse-children {
     summary + * {
         margin-top: 1rem;
     }
 }
 
-// Source filter
-$source-types: (
-    'default',
+// Question type filter (council page)
+$question-types: (
+    'all',
     'volunteer',
     'foi',
     'national-data',
     'national-data-and-volunteer',
+    'council-only',
 );
 
-@each $source-type in $source-types {
-    // Hide all source-specific elements by default
-    .js-#{$source-type} { 
+@each $question-type in $question-types {
+    .js-question-type-#{$question-type} { 
         display: none;
     }
 
-    // When an active source type has been selected…
-    [data-active-source-type="#{$source-type}"] {
-        // Hide any default (non-source-typed) elements
-        .js-default {
-            display: none !important;
-        }
-
-        // Show the relevant source type elements
-        .table-question-council__section.open {
-            .js-#{$source-type} {
-                display: table-row !important;
-            }
-        }
-
-        // Fake "active" styling for the activated trigger
-        [data-question-source-type="#{$source-type}"] {
-            &.radio-btn.is--with-label {
-                background-color: $primary;
-                color: $white;
-            }
+    [data-active-question-type="#{$question-type}"] {
+        .js-question-type-#{$question-type} {
+            display: table-row !important;
         }
     }
+}
 
-        // When an active source type has been selected…
-        [data-active-source-type="#{$source-type}"][data-active-council-operation-only] {
-            // Hide any default (non-source-typed) elements
-            .js-default {
-                display: none !important;
-            }
-    
-            // Show the relevant source type elements
-            .table-question-council__section.open {
-                .js-#{$source-type}[data-active-council-operation-only="true"] {
-                    display: table-row !important;
-                }
-
-                .js-#{$source-type}[data-active-council-operation-only="false"] {
-                    display: none !important;
-                }
-            }
+.accordion-enabled {
+    tbody:not(.open) {
+        .question-row {
+            display: none !important;
         }
+    }
 }

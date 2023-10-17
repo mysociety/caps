@@ -325,20 +325,25 @@ if (document.getElementById('display-complete-content')) {
     });
 }
 
+forEachElement('#expand-all-sections', function(el){
+    el.addEventListener('change', function(){
+        if ( this.checked ) {
+            document.querySelector('table.table-question-council').classList.remove('accordion-enabled');
+        } else {
+            document.querySelector('table.table-question-council').classList.add('accordion-enabled');
+        }
+    });
+});
 
-var councilOperationsButton = document.getElementById("council-operations-only");
-if (councilOperationsButton) {
-    councilOperationsButton.onclick = function(e) {
-        var container = document.querySelector('.js-dynamic-content');
-        container.toggleAttribute('data-active-council-operation-only');
-    }
-}
-
-forEachElement('[data-question-source-type]', function(trigger){
+forEachElement('[data-question-type]', function(trigger){
     trigger.addEventListener('click', function(){
-        var questionSourceType = trigger.getAttribute('data-question-source-type');
+        var questionType = trigger.getAttribute('data-question-type');
         var container = document.querySelector('.js-dynamic-content');
-        container.setAttribute('data-active-source-type', questionSourceType);
+        container.setAttribute('data-active-question-type', questionType);
+        document.querySelectorAll('[data-question-type].active').forEach(function(el){
+            el.classList.remove('active');
+        });
+        trigger.classList.add('active');
     });
 });
 

@@ -244,6 +244,7 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             # need to do this to make the JS work
             "how_marked": question.how_marked.replace("_", "-"),
             "how_marked_display": question.get_how_marked_display(),
+            "is_council_operations_only": question.is_council_operations_only,
             "weighting": question.get_weighting_display(),
             "evidence_links": question.evidence_links.splitlines(),
         }
