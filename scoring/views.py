@@ -18,7 +18,7 @@ from caps.utils import gen_natsort_lamda
 from caps.views import BaseLocationResultsView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort, ScoringSortCA
-from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin
+from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin, SearchAutocompleteMixin
 from scoring.models import (
     PlanQuestion,
     PlanQuestionScore,
@@ -60,7 +60,7 @@ class PrivacyView(TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
+class HomePageView(CheckForDownPageMixin, SearchAutocompleteMixin, AdvancedFilterMixin, FilterView):
     filterset_class = PlanScoreFilter
 
     def get_template_names(self):
@@ -124,9 +124,6 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
 
         authority_type = self.get_authority_type()
 
@@ -215,7 +212,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class CouncilView(CheckForDownPageMixin, DetailView):
+class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
     model = Council
     context_object_name = "council"
     template_name = "scoring/council.html"
@@ -262,13 +259,6 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             context["authority_type"] = group
             context["old_council"] = True
             return context
-
-        context["all_councils"] = Council.objects.filter(
-            authority_type__in=group["types"],
-            country__in=group["countries"],
-            # newer councils don't have a score so don't include them
-            start_date__lt="2023-01-01",
-        )
 
         try:
             plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
@@ -409,7 +399,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class SectionView(CheckForDownPageMixin, DetailView):
+class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
     model = PlanSection
     context_object_name = "section"
     template_name = "scoring/section.html"
@@ -527,16 +517,6 @@ class SectionView(CheckForDownPageMixin, DetailView):
         section = context["section"]
         context["page_title"] = section.description
 
-        combined = Council.SCORING_GROUPS["combined"]
-        if section.is_combined:
-            context["all_councils"] = Council.objects.filter(
-                authority_type__in=combined["types"], country__in=combined["countries"]
-            )
-        else:
-            context["all_councils"] = Council.objects.exclude(
-                authority_type__in=combined["types"], country__in=combined["countries"]
-            )
-
         alt = section.get_alternative
         if alt is not None:
             context["alternative"] = {
@@ -555,7 +535,7 @@ class SectionView(CheckForDownPageMixin, DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class SectionsView(CheckForDownPageMixin, TemplateView):
+class SectionsView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/sections.html"
 
     sections = [
@@ -595,27 +575,21 @@ class SectionsView(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
+class LocationResultsView(CheckForDownPageMixin, SearchAutocompleteMixin, BaseLocationResultsView):
     template_name = "scoring/location_results.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
         context["page_title"] = "Choose a council"
         return context
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class MethodologyView(CheckForDownPageMixin, TemplateView):
+class MethodologyView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/methodology.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
 
         # questions = PlanQuestion.objects.all()
         # sections = PlanSection.objects.all()
@@ -661,21 +635,18 @@ class MethodologyView(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class AboutView(CheckForDownPageMixin, TemplateView):
+class AboutView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/about.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
         context["page_title"] = "About"
         context["current_page"] = "about-page"
         return context
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class Methodology2023View(CheckForDownPageMixin, TemplateView):
+class Methodology2023View(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/methodology2023.html"
 
     def get_question_number(self, question):
@@ -686,9 +657,6 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
         context["page_title"] = "Methodology"
         context["current_page"] = "methodology2023-page"
 
@@ -893,28 +861,22 @@ class Methodology2023View(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class ContactView(CheckForDownPageMixin, TemplateView):
+class ContactView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/contact.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
         context["page_title"] = "Contact"
         context["current_page"] = "contact-page"
         return context
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class HowToUseView(TemplateView):
+class HowToUseView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/how-to-use-the-scorecards.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
         context["page_title"] = "How to use the Scorecards"
         context["current_page"] = "how-to-page"
         return context

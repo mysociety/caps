@@ -50,3 +50,13 @@ class AdvancedFilterMixin:
         context["county_filter"] = Council.get_county_choices()
 
         return context
+
+
+# For council search autocompletes (eg: in navbar)
+class SearchAutocompleteMixin():
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["all_councils"] = Council.objects.exclude(
+            start_date__gte="2023-01-01"
+        )
+        return context

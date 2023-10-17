@@ -150,7 +150,7 @@
                       {% if comparisons|length > 2 %}
                         <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
                       {% else %}
-                        <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name">
+                        <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name" data-council_type="{{ council.get_scoring_group.slug }}">
                       {% endif %}
                       {% if comparisons %}
                         <div class="selected-council-wrapper mt-4 mb-3">
