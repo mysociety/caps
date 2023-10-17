@@ -96,7 +96,7 @@
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold mt-1 link-category-1" href="{% url 'scoring:methodology' %}#sec-gov">Building & Heating</a>
+                                    <a class="text-decoration-none fw-bold mt-1 link-category-1" href="{% url 'scoring:methodology' %}#sec-gov">Building &amp; Heating</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-1 {% if sorted_by == 's1_b_h' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
@@ -108,13 +108,13 @@
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold mt-1 link-category-3" href="{% url 'scoring:methodology' %}#sec-ca">Planning & Land Use</a>
+                                    <a class="text-decoration-none fw-bold mt-1 link-category-3" href="{% url 'scoring:methodology' %}#sec-ca">Planning &amp; Land Use</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-3 {% if sorted_by == 's3_p_lu' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold mt-1 link-category-4" href="{% url 'scoring:methodology' %}#sec-coms">Governance & Finance</a>
+                                    <a class="text-decoration-none fw-bold mt-1 link-category-4" href="{% url 'scoring:methodology' %}#sec-coms">Governance &amp; Finance</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-4 {% if sorted_by == 's4_g_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
@@ -126,13 +126,13 @@
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold mt-1 link-category-6" href="{% url 'scoring:methodology' %}#sec-co">Collaboration & Engagement</a>
+                                    <a class="text-decoration-none fw-bold mt-1 link-category-6" href="{% url 'scoring:methodology' %}#sec-co">Collaboration &amp; Engagement</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-6 {% if sorted_by == 's6_c_e' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
                                 <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold mt-1 link-category-7" href="{% url 'scoring:methodology' %}#sec-dsi">Waste Reduction & Food</a>
+                                    <a class="text-decoration-none fw-bold mt-1 link-category-7" href="{% url 'scoring:methodology' %}#sec-dsi">Waste Reduction &amp; Food</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-7 {% if sorted_by == 's7_wr_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
@@ -211,18 +211,18 @@
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s7_wr_f.weighted %}
                             </td>
                           {% elif council.score == 0 %}
-                            <td class="has-no-plan" colspan="9" data-sort-value="-1">
-                                This council did not have an action plan when all plans were assessed on 20th September 2021.
+                            <td class="has-no-plan" colspan="7" data-sort-value="-1">
+                                Not scored: newly formed council since April 2023. This council will be assessed in future Scorecard editions.
                             </td>
-                          {% for x in "12345678" %}
-                            <td scope="row"  data-sort-value="-1" hidden></td>
+                          {% for x in "123456" %}
+                            <td scope="row" data-sort-value="-1" hidden></td>
                           {% endfor %}
                           {% elif council.score is None %}
-                            <td class="has-no-plan" colspan="9" data-sort-value="-1">
-                                This council did not exist when all plans were assessed on 20th September 2021.
+                            <td class="has-no-plan" colspan="7" data-sort-value="-1">
+                                Due to technical issues, this council’s results are not yet available. They will be published soon.
                             </td>
-                          {% for x in "12345678" %}
-                            <td scope="row"  data-sort-value="-1" hidden></td>
+                          {% for x in "123456" %}
+                            <td scope="row" data-sort-value="-1" hidden></td>
                           {% endfor %}
                           {% endif %}
                           {% endwith %}
@@ -296,7 +296,7 @@
                           {% endif %}
 
                           {% with scores=council.all_scores %}
-                          {% if council.score != 0 %}
+                          {% if council.score != 0 and council.score is not None %}
                             <td scope="row" class="council-category-score category-1">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s1_b_h.score max=scores.s1_b_h.max %}
                             </td>
@@ -318,12 +318,19 @@
                             <td scope="row" class="council-category-score category-7">
                                 {% include 'scoring/includes/score-bar.html' with score=scores.s7_wr_f.score max=scores.s7_wr_f.max %}
                             </td>
-                          {% else %}
-                            <td class="has-no-plan" colspan="9">
-                                This council did not have an action plan when all plans were assessed on 20th September 2021.
+                          {% elif council.score == 0 %}
+                            <td class="has-no-plan" colspan="7" data-sort-value="-1">
+                                Not scored: newly formed council since April 2023. This council will be assessed in future Scorecard editions.
                             </td>
-                          {% for x in "12345678" %}
-                            <td scope="row"  data-sort-value="-1" hidden></td>
+                          {% for x in "123456" %}
+                            <td scope="row" data-sort-value="-1" hidden></td>
+                          {% endfor %}
+                          {% elif council.score is None %}
+                            <td class="has-no-plan" colspan="7" data-sort-value="-1">
+                                Due to technical issues, this council’s results are not yet available. They will be published soon.
+                            </td>
+                          {% for x in "123456" %}
+                            <td scope="row" data-sort-value="-1" hidden></td>
                           {% endfor %}
                           {% endif %}
                           {% endwith %}
