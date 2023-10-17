@@ -75,6 +75,7 @@ urlpatterns = [
         "plan-scorecards-2022/",
         include(("scoring2022.urls", "scoring2022"), namespace="scoring2022"),
     ),
+    path("admin/", admin.site.urls),
 ]
 
 if settings.DEBUG:
