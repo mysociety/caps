@@ -530,9 +530,7 @@ class PlanQuestionScore(ScoreFilterMixin, models.Model):
 
     @classmethod
     def all_question_max_score_counts(cls, council_group=None, plan_year=None):
-        max_counts = PlanQuestionScore.objects.filter(
-            score=F("plan_question__max_score"),
-        ).exclude(
+        max_counts = PlanQuestionScore.objects.filter(score=F("max_score"),).exclude(
             plan_question__question_type="HEADER",
         )
 
