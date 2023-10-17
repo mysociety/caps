@@ -570,6 +570,12 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
 
             context["council_type"] = council_type
 
+            council_count = Council.objects.filter(
+                authority_type__in=council_type["types"],
+                country__in=council_type["countries"],
+            ).count()
+            context["council_count"] = council_count
+
             questions = PlanQuestion.objects.filter(section=section)
             for question in questions:
                 comparison_questions[question.code] = {
@@ -577,12 +583,12 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
                     "comparisons": [],
                 }
 
-            q_avgs = PlanQuestion.get_average_scores(section=section)
+            question_max_counts = PlanQuestionScore.all_question_max_score_counts(
+                council_group=council_type, plan_year=settings.PLAN_YEAR
+            )
 
-            for q in q_avgs:
-                comparison_questions[q["plan_question__code"]]["average"] = round(
-                    q["average"], 2
-                )
+            for q in comparison_questions.keys():
+                comparison_questions[q]["scored_max"] = question_max_counts.get(q, None)
 
             comparison_slugs = self.request.GET.getlist("comparisons")
             if council is not None:
