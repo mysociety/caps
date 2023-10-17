@@ -2,6 +2,7 @@ import re
 from collections import defaultdict
 from copy import deepcopy
 from datetime import date
+from operator import itemgetter
 
 from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
@@ -189,7 +190,7 @@ class HomePageView(
                     else council["all_scores"][sort]["score"],
                     reverse=True,
                 )
-                councils = sorted(councils, key=itemgetter("code"))
+                councils = sorted(councils, key=itemgetter("slug"))
         else:
             form = form_class()
 
