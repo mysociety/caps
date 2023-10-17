@@ -318,6 +318,26 @@
         </tbody>
       {% endfor %}
 
+        <tbody class="table-question-council__section">
+            <tr data-has-plan="no" class="section-row bg-purple-200 fw-bold">
+                <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
+                    Total score
+                </td>
+                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                    {{ plan_score.weighted_total|floatformat:0 }}%
+                </td>
+
+              {% for comparison in comparisons %}
+                <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score">
+                    {{ comparison.weighted_total|floatformat:0 }}%
+                </td>
+              {% endfor %}
+
+                <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary"></td>
+                <td class="button-wrapper p-0 bg-white d-none d-md-table-cell"></td>
+            </tr>
+        </tbody>
+
     </table>
     <div class="d-flex gap-2 mb-5">
       {% comment %} <a class="table-social-icon facebook mr-1" title="Share this page on Facebook" aria-label="Share this page on Facebook" href="https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri|urlencode }}"></a> {% endcomment %}
