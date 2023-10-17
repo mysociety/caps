@@ -178,7 +178,7 @@
           <div class="accordion-item">
             <h2 class="accordion-header" id="CouncilsComparissonheadingTwo">
               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#CouncilsComparissoncollapseTwo" aria-expanded="false" aria-controls="CouncilsComparissoncollapseTwo">
-                Add councils to compare
+                Add {% include "scoring/includes/scoring-group-name.html" with group=council_type.slug plural=1 %} to compare
               </button>
             </h2>
             <div id="CouncilsComparissoncollapseTwo" class="accordion-collapse collapse show" aria-labelledby="CouncilsComparissonheadingTwo" data-bs-parent="#accordionCouncilsComparisson">
