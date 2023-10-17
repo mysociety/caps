@@ -1,9 +1,10 @@
 from collections import defaultdict
 
-from caps.models import Council
 from django.conf import settings
 from django.db import models
 from django.db.models import Avg, Count, F, Max, Q
+
+from caps.models import Council
 
 
 # define this here as mixins imports PlanScore so if we import that then we get
@@ -562,8 +563,19 @@ class PlanQuestionScore(ScoreFilterMixin, models.Model):
     evidence_links = models.TextField(null=True, default="")
 
     @classmethod
-    def all_question_max_score_counts(cls, council_group=None, plan_year=None):
-        max_counts = PlanQuestionScore.objects.filter(score=F("max_score"),).exclude(
+    def all_question_max_score_counts(
+        cls, council_group=None, plan_year=None, use_old_max_counts=False
+    ):
+        max_counts = PlanQuestionScore.objects.filter(
+            score=F("max_score"),
+        )
+
+        if use_old_max_counts:
+            max_counts = PlanQuestionScore.objects.filter(
+                score=F("plan_question__max_score"),
+            )
+
+        max_counts = max_counts.exclude(
             plan_question__question_type="HEADER",
         )
 

@@ -242,7 +242,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             ]
 
         question_max_counts = PlanQuestionScore.all_question_max_score_counts(
-            council_group=group, plan_year=2021
+            council_group=group, plan_year=2021, use_old_max_counts=True
         )
 
         comparison_slugs = self.request.GET.getlist("comparisons")
