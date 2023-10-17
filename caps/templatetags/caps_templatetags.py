@@ -18,7 +18,7 @@ register = template.Library()
 @stringfilter
 def prevent_widow(s):
     # Replace final space in string with &nbsp;
-    return mark_safe('&nbsp;'.join(s.rsplit(' ', 1)))
+    return mark_safe("&nbsp;".join(s.rsplit(" ", 1)))
 
 
 @register.filter
