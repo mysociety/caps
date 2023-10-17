@@ -66,9 +66,12 @@
                 <input class="form-control form-control-sm searchbar js-location-search-autocomplete" type="search" name="pc" id="navbarLocationSearch" placeholder="Postcode">
                 <button type="submit" class="visually-hidden">Search</button>
             </form>
-            <ul class="navbar-nav me-lg-n3 mb-lg-n2">
+            <ul class="navbar-nav">
                 <li id="home-page" class="nav-item">
                     <a class="nav-link" href="{% url 'scoring:home' %}">Scorecards</a>
+                </li>
+                <li id="methodology-page" class="nav-item">
+                    <a class="nav-link" href="{% url 'scoring:sections' %}">Sections</a>
                 </li>
                 <li id="methodology-page" class="nav-item">
                     <a class="nav-link" href="{% url 'scoring:methodology' %}">Methodology</a>

@@ -20,6 +20,13 @@
     background-image: linear-gradient(45deg, #fff, tint-color($primary, 90%));
 }
 
+.navbar-collapse .navbar-nav {
+    @include media-breakpoint-up(lg) {
+        margin: 0 ($navbar-nav-link-padding-x*-1) ($nav-link-padding-y*-1) ($navbar-nav-link-padding-x*-1);
+        margin: 0 calc(var(--bs-navbar-nav-link-padding-x)*-1) calc(var(--bs-nav-link-padding-y)*-1) calc(var(--bs-navbar-nav-link-padding-x)*-1);
+    }
+}
+
 .navbar-location-search-form {
     display: flex;
     flex-direction: column;
