@@ -525,6 +525,7 @@ class SectionView(CheckForDownPageMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         section = context["section"]
+        context["page_title"] = section.description
 
         combined = Council.SCORING_GROUPS["combined"]
         if section.is_combined:
