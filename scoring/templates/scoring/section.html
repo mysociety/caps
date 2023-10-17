@@ -262,12 +262,9 @@
                 </th>
               {% endfor %}
 
-              {% comment %}
                 <th scope="col">
-                    <span class="mb-1 d-block">{{ council_type.name|title }}</span>
-                    <span class="fw-normal fs-7 d-block">Average</span>
+                    <span class="mb-1 d-block">Councils with full marks per question</span>
                 </th>
-              {% endcomment %}
             </tr>
         </thead>
         <tbody class="table-question-council__section border">
@@ -284,12 +281,17 @@
                 </td>
               {% endfor %}
 
-              {% comment %}
                 <td data-column="score" class="text-start text-md-end d-flex flex-row d-md-table-cell align-items-center score">
-                    <span class="me-2">{{ question.average }}/{{ question.details.max_score }}</span>
-                    <span class="badge bg-secondary d-md-none">{{ council_type.name|title }} Council average score</span>
+                    <span class="me-2">{{ question.scored_max }} out of {{ council_count }}</span>
+                    <span class="fs-8 mt-1 me-0 ms-auto d-block">
+                        {% include 'caps/includes/authority_type.html' with group=council_type %}
+                      {% if question.details.question_type == "negative" %}
+                        councils got <strong>no penalty marks</strong> for this question.
+                      {% else %}
+                        councils got full marks for this question.
+                      {% endif %}
+                    </span>
                 </td>
-              {% endcomment %}
             </tr>
           {% endfor %}
         </tbody>
