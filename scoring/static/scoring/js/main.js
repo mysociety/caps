@@ -137,7 +137,7 @@ forEachElement('.js-location-compare-autocomplete', function(input){
         for (comparison of comparisons.values()) {
             sp.append('comparisons', comparison);
         }
-        window.location.href = window.location.pathname + '?' + sp.toString();
+        window.location.href = window.location.pathname + '?' + sp.toString() + '#questions';
     });
 });
 
@@ -153,7 +153,7 @@ forEachElement('.js-comparison-council', function(link){
         for (comparison of comparisons.values()) {
             sp.append('comparisons', comparison);
         }
-        window.location.href = window.location.pathname + '?' + sp.toString();
+        window.location.href = window.location.pathname + '?' + sp.toString() + '#questions';
         return false;
     });
 });
