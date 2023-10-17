@@ -21,93 +21,81 @@
 {% if not section.is_combined %}
 <div class="container pt-5 pt-lg-6">
   <h3 class="mb-4">Average score by council type</h3>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
-        <div class="col">
-            <a href="#" class="card text-decoration-none text-black h-100">
+    <div class="row g-3">
+        <div class="col-6 col-sm-4 col-xl">
+            <div class="card text-decoration-none text-black h-100">
                 <div class="card-header py-3 text-bg-primary">
-                    <h3 class="fs-5 mb-0 lh-base text-center">
+                    <h3 class="fs-4 mb-0 text-center">
                         Single Tier
                     </h3>
                 </div>
-                <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ averages.single.weighted_average|floatformat:0 }}%</span>
+                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <span class="fs-1 lh-1 mb-2">{{ averages.single.weighted_average|floatformat:0 }}%</span>
                     <span>Average score</span>
                 </div>
-            </a>
+            </div>
         </div>
 
-        <div class="col">
-            <a href="#" class="card text-decoration-none text-black h-100">
+        <div class="col-6 col-sm-4 col-xl">
+            <div class="card text-decoration-none text-black h-100">
                 <div class="card-header py-3 text-bg-primary">
-                    <h3 class="fs-5 mb-0 lh-base text-center">
+                    <h3 class="fs-4 mb-0 text-center">
                         District
                     </h3>
                 </div>
-                <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ averages.district.weighted_average|floatformat:0 }}%</span>
+                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <span class="fs-1 lh-1 mb-2">{{ averages.district.weighted_average|floatformat:0 }}%</span>
                     <span>Average score</span>
                 </div>
-            </a>
+            </div>
         </div>
 
-        <div class="col">
-            <a href="#" class="card text-decoration-none text-black h-100">
+        <div class="col-6 col-sm-4 col-xl">
+            <div class="card text-decoration-none text-black h-100">
                 <div class="card-header py-3 text-bg-primary">
-                    <h3 class="fs-5 mb-0 lh-base text-center">
+                    <h3 class="fs-4 mb-0 text-center">
                         County
                     </h3>
                 </div>
-                <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ averages.county.weighted_average|floatformat:0 }}%</span>
+                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <span class="fs-1 lh-1 mb-2">{{ averages.county.weighted_average|floatformat:0 }}%</span>
                     <span>Average score</span>
                 </div>
-            </a>
+            </div>
         </div>
 
-        <div class="col">
-            <a href="#" class="card text-decoration-none text-black h-100">
+        <div class="col-6 col-sm-4 col-xl">
+            <div class="card text-decoration-none text-black h-100">
                 <div class="card-header py-3 text-bg-primary">
-                    <h3 class="fs-5 mb-0 lh-base text-center">
+                    <h3 class="fs-4 mb-0 text-center">
                         Northern Ireland
                     </h3>
                 </div>
-                <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ averages.ni.weighted_average|floatformat:0 }}%</span>
+                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <span class="fs-1 lh-1 mb-2">{{ averages.ni.weighted_average|floatformat:0 }}%</span>
                     <span>Average score</span>
                 </div>
-            </a>
+            </div>
         </div>
 
-
-        {% if alternative %}
-        <div class="col">
-            <div href="#" class="card text-decoration-none text-black h-100">
+        <div class="col-6 col-sm-4 col-xl">
+            <div class="card text-decoration-none text-black h-100">
                 <div class="card-header py-3 text-bg-primary">
-                    <h3 class="fs-5 mb-0 lh-base text-center">
+                    <h3 class="fs-4 mb-0 text-center">
                         Combined Authority
                     </h3>
                 </div>
                 <div class="card-body alert alert-info mb-0">
+                  {% if alternative %}
                     <p class="mb-2 fs-7">This section does not apply to Combined Authorities. Visit the following equivalent section:</p>
-                    <a href="{{ alternative.url }}" class="alert-link">{{ alternative.name }}</a>
+                    <a href="{{ alternative.url }}" class="alert-link">Section: {{ alternative.name }}</a>
+                  {% else %}
+                    <p class="mb-2 fs-7">This section does not apply to Combined Authorities, and there is no direct equivalent for Combined Authorities.</p>
+                    <a href="{% url 'scoring:sections' %}?type=combined" class="alert-link">Show all Combined Authority sections</a>
+                  {% endif %}
                 </div>
             </div>
         </div>
-        {% else %}
-        <div class="col">
-          <div href="#" class="card text-decoration-none text-black h-100">
-              <div class="card-header py-3 text-bg-primary">
-                  <h3 class="fs-5 mb-0 lh-base text-center">
-                      Combined Authority
-                  </h3>
-              </div>
-              <div class="card-body alert alert-info mb-0">
-                  <p class="mb-2 fs-7">This section does not apply to Combined Authorities, and there is no direct equivalent for Combined Authorities.</p>
-                  <a href="{% url 'scoring:sections' %}?type=combined" class="alert-link">Show all Combined Authority sections</a>
-              </div>
-          </div>
-        </div>
-        {% endif %}
 
     </div>
 </div>
@@ -117,17 +105,17 @@
   <h3 class="mb-4">Average score</h3>
     <div class="row">
         <div class="col-lg-4">
-            <a href="#" class="card text-decoration-none text-black h-100">
+            <div class="card text-decoration-none text-black h-100">
                 <div class="card-header py-3 text-bg-primary">
-                    <h3 class="fs-5 mb-0 lh-base text-center">
-                      Combined Authority
+                    <h3 class="fs-4 mb-0 text-center">
+                        Combined Authority
                     </h3>
                 </div>
-                <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ averages.combined.weighted_average|floatformat:0 }}%</span>
+                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <span class="fs-1 lh-1 mb-2">{{ averages.combined.weighted_average|floatformat:0 }}%</span>
                     <span>Average score</span>
                 </div>
-            </a>
+            </div>
         </div>
         <div class="col-lg-4">
           <div class="alert alert-info mb-0 h-100">
@@ -216,8 +204,8 @@
                 <div class="card-header py-3 text-bg-primary">
                     <h3 class="fs-5 mb-0 lh-base text-center">{{ comparison.council_name }}</h3>
                 </div>
-                <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ comparison.weighted_score|floatformat:0 }}%</span>
+                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <span class="fs-1 lh-1 mb-2">{{ comparison.weighted_score|floatformat:0 }}%</span>
                     <span>{{ section.description }} score</span>
                   {% if comparison.negative_points < 0 %}
                     <div class="fs-7 d-none">
@@ -241,8 +229,8 @@
                 <div class="card-header py-3 text-bg-primary">
                     <h3 class="fs-5 mb-0 lh-base text-center">{{ council_type.name|title }}</h3>
                 </div>
-                <div class="card-body d-flex flex-column align-items-center">
-                    <span class="fs-1 lh-0">{{ council_type_avg.weighted_average|floatformat:0 }}%</span>
+                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                    <span class="fs-1 lh-1 mb-2">{{ council_type_avg.weighted_average|floatformat:0 }}%</span>
                     <span>{{ section.description }} average</span>
                 </div>
             </a>
