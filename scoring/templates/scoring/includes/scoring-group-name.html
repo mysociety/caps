@@ -1,0 +1,14 @@
+{% if group == "combined" %}
+    {% if plural %}Combined Authorities{% else %}Combined Authority{% endif %}
+{% else %}
+    {% if group == "northern-ireland" %}
+        Northern Irish
+    {% elif group == "single" %}
+        single tier
+    {% elif group == "district" %}
+        district
+    {% elif group == "county" %}
+        county
+    {% endif %}
+    {% if plural %}council{% else %}council{% endif %}
+{% endif %}
