@@ -40,7 +40,7 @@ class Command(BaseCommand):
     QUESTIONS_CSV = Path(SCORECARD_DATA_DIR, "question_data.csv")
     ANSWERS_CSV = Path(SCORECARD_DATA_DIR, "all_answer_data.csv")
 
-    DEFAULT_TOP_PERFORMER_COUNT = 6
+    DEFAULT_TOP_PERFORMER_COUNT = 1
     TOP_PERFORMER_COUNT = {
         "combined": 2,
     }
