@@ -146,7 +146,7 @@
 
 
 <div class="container pt-5 pt-lg-6 js-dynamic-content">
-    <h3 class="mb-4">Section list of questions</h3>
+    <h3 class="mb-4" id="questions">Section list of questions</h3>
 
   {% if not section.is_combined %}
     <div class="row">
@@ -156,15 +156,15 @@
                 <input class="form-control searchbar js-methodology-council-autocomplete" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
                 <p class="mt-3 mt-lg-4 mb-2">Or show questions by type of council</p>
                 <div class="d-flex flex-wrap gap-1">
-                    <a href="{% url 'scoring:section' section.code %}?type=single" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                    <a href="{% url 'scoring:section' section.code %}?type=single#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
                     data-bs-custom-class="custom-tooltip"
                     data-bs-title="This includes all London, Welsh and Scottish councils as well as Metropolitan Borough Councils and Unitary Councils.">
                         <span>Single Tier</span>
                         {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
                     </a>
-                    <a href="{% url 'scoring:section' section.code %}?type=district" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="district">District</a>
-                    <a href="{% url 'scoring:section' section.code %}?type=county" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="county">County</a>
-                    <a href="{% url 'scoring:section' section.code %}?type=northern-ireland" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="northern-ireland">Northern Ireland</a>
+                    <a href="{% url 'scoring:section' section.code %}?type=district#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="district">District</a>
+                    <a href="{% url 'scoring:section' section.code %}?type=county#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="county">County</a>
+                    <a href="{% url 'scoring:section' section.code %}?type=northern-ireland#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="northern-ireland">Northern Ireland</a>
                 </div>
             </div>
         </div>
