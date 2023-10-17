@@ -20,7 +20,7 @@
 
 {% if not section.is_combined %}
 <div class="container pt-5 pt-lg-6">
-  <h3 class="mb-4">Section overview</h3>
+  <h3 class="mb-4">Average score by council type</h3>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
         <div class="col">
             <a href="#" class="card text-decoration-none text-black h-100">
@@ -88,7 +88,7 @@
                     </h3>
                 </div>
                 <div class="card-body alert alert-info mb-0">
-                    <p class="mb-2 fs-7">This section does not apply to combined authorities. Visit the following similar section:</p>
+                    <p class="mb-2 fs-7">This section does not apply to Combined Authorities. Visit the following equivalent section:</p>
                     <a href="{{ alternative.url }}" class="alert-link">{{ alternative.name }}</a>
                 </div>
             </div>
@@ -102,8 +102,8 @@
                   </h3>
               </div>
               <div class="card-body alert alert-info mb-0">
-                  <p class="mb-2 fs-7">This section does not apply to combined authority councils.</p>
-                  <p class="mb-2 fs-7">Currently there is not an equivalent section.</p>
+                  <p class="mb-2 fs-7">This section does not apply to Combined Authorities, and there is no direct equivalent for Combined Authorities.</p>
+                  <a href="{% url 'scoring:sections' %}?type=combined" class="alert-link">Show all Combined Authority sections</a>
               </div>
           </div>
         </div>
@@ -114,7 +114,7 @@
 
 {% elif section.is_combined %}
 <div class="container pt-5 pt-lg-6">
-  <h3 class="mb-4">Section overview</h3>
+  <h3 class="mb-4">Average score</h3>
     <div class="row">
         <div class="col-lg-4">
             <a href="#" class="card text-decoration-none text-black h-100">
@@ -129,17 +129,14 @@
                 </div>
             </a>
         </div>
-    </div>
-  
-    <div class="row mt-3">
-      <div class="col-lg-4">
-        <div class="alert alert-info">
-          <p>This section only apply to Combined Authority. For all the other type of councils you can visit the following equivalent sections:</p>
-          <div class="d-flex flex-column gap-1">
-            <a href="{{ alternative.url }}" class="alert-link">{{ alternative.name }}</a>
+        <div class="col-lg-4">
+          <div class="alert alert-info mb-0 h-100">
+            <p>This section only applies to Combined Authorities. For all other types of council, you can visit the following equivalent section:</p>
+            <div class="d-flex flex-column gap-1">
+              <a href="{{ alternative.url }}" class="alert-link">Section: {{ alternative.name }}</a>
+            </div>
           </div>
         </div>
-      </div>
     </div>
 </div>
 {% endif %}
