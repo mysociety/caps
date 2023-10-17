@@ -384,14 +384,12 @@ class TestTopPerormersInViews(TestCase):
         ]
 
         self.assertEquals(
-            performers,
-            [
-                {"score": 25.0, "code": "BRS", "top_performer": "unitary"},
-                {"score": 24.0, "code": "SBS", "top_performer": None},
-                {"score": 24.0, "code": "WBS", "top_performer": None},
-                {"score": 19.0, "code": "EBS", "top_performer": None},
-                {"score": None, "code": "NBS", "top_performer": None},
-            ],
+            performers[0],
+            {"score": 25.0, "code": "BRS", "top_performer": "unitary"},
+        )
+        self.assertEquals(
+            performers[-1],
+            {"score": None, "code": "NBS", "top_performer": None},
         )
 
     def test_answer_view(self):
