@@ -263,7 +263,7 @@
               {% if section.top_performer %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                     {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
-                    <span>{{ section.score }}/{{ section.max_score }}</span>
+                    <span>{{ section.weighted_score|floatformat:0 }}%</span>
                 </td>
               {% else %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
