@@ -12,11 +12,11 @@
         <h1 class="mb-2">Sections</h1>
     </div>
 </div>
-<div class="container py-5 js-dynamic-content" data-methodology-active-council-type="single">
+<div class="container pt-5 pb-7 js-dynamic-content" data-methodology-active-council-type="single">
+
     <div class="row">
         <div class="col-lg-6">
             <div class="bg-primary-100 p-3 mb-4 border rounded">
-                {% comment %} TODO var councils = [] is empty so automcomplete is not working {% endcomment %}
                 <label for="questions-council-name" class="fs-6 d-block mb-2">Show sections for a specific council</label>
                 <input class="form-control searchbar js-methodology-council-autocomplete" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
                 <p class="mt-3 mt-lg-4 mb-2 fs-6">Or show sections by type of council</p>
@@ -36,42 +36,38 @@
         </div>
     </div>
 
-
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 js-default js-single js-district js-county js-northern-ireland">
-        {% for section in sections %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 g-xl-5 mt-0 js-default js-single js-district js-county js-northern-ireland">
+      {% for section in sections %}
         <div class="col">
-            <a href="{{ section.url }}" class="card text-decoration-none text-black h-100">
-                <div class="card-header py-3 text-bg-primary">
-                    <h3 class="fs-6 mb-0 lh-base">
-                        {{ section.name }}
-                    </h3>
-                </div>
-                <div class="card-body">
-                    {{ section.description|linebreaks }}
-                    <span href="{{ section.url }}" class="btn btn-primary">View section</span>
-                </div>
-            </a>
+            <div class="position-relative border rounded p-3 p-lg-4 h-100">
+                <h3 class="fw-bold mb-lg-3 text-category-{{ forloop.counter }}">
+                    {{ section.name }}
+                </h3>
+                {{ section.description|linebreaks }}
+                <a href="{{ section.url }}" class="stretched-link d-flex align-items-center fw-bold link-category-{{ forloop.counter }}">
+                    View section
+                    {% include 'caps/icons/chevron-right.html' with classes='ms-2' %}
+                </a>
+            </div>
         </div>
-        {% endfor %}
-
+      {% endfor %}
     </div>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 js-combined">
-        {% for section in ca_sections %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 g-xl-5 mt-0 js-combined">
+      {% for section in ca_sections %}
         <div class="col">
-            <a href="{{ section.url }}" class="card text-decoration-none text-black h-100">
-                <div class="card-header py-3 text-bg-primary">
-                    <h3 class="fs-6 mb-0 lh-base">
-                        {{ section.name }}
-                    </h3>
-                </div>
-                <div class="card-body">
-                    {{ section.description|linebreaks }}
-                    <span href="{{ section.url }}" class="btn btn-primary">View section</span>
-                </div>
-            </a>
+            <div class="position-relative border rounded p-3 p-lg-4 h-100">
+                <h3 class="fw-bold mb-lg-3 text-category-{{ forloop.counter }}">
+                    {{ section.name }}
+                </h3>
+                {{ section.description|linebreaks }}
+                <a href="{{ section.url }}" class="stretched-link d-flex align-items-center fw-bold link-category-{{ forloop.counter }}">
+                    View section
+                    {% include 'caps/icons/chevron-right.html' with classes='ms-2' %}
+                </a>
+            </div>
         </div>
-        {% endfor %}
+      {% endfor %}
     </div>
 </div>
 
