@@ -18,7 +18,7 @@
     },
     "files.associations": {
         "**/*.html": "html",
-        "**/templates/**/*.html": "jinja-html",
+        "**/templates/**/*.html": "django-html",
         "**/templates/**/*.md": "jinja-md",
         "**/templates/**/*": "django-txt",
         "**/requirements{/**,*}.{txt,in}": "pip-requirements"
