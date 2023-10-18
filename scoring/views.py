@@ -765,56 +765,6 @@ class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class MethodologyView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
-    template_name = "scoring/methodology.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # questions = PlanQuestion.objects.all()
-        # sections = PlanSection.objects.all()
-
-        section_qs = PlanSection.objects.filter(year=settings.PLAN_YEAR)
-
-        sections = {}
-        for section in section_qs.all():
-            sections[section.code] = {
-                "code": section.code,
-                "description": section.description,
-                "questions": [],
-            }
-
-        questions = PlanQuestion.objects.raw(
-            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code \
-            from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
-            where s.year = '2021' order by q.code"
-        )
-
-        for question in questions:
-            section = question.section_code
-            q = {
-                "code": question.code,
-                "pretty_code": question.pretty_code(),
-                "display_code": question.code.replace(
-                    "{}_".format(question.section_code), "", 1
-                ),
-                "question": question.text,
-                "type": question.question_type,
-                "max": question.max_score,
-                "section": question.section.code,
-            }
-            sections[section]["questions"].append(q)
-
-        # context['questions'] = questions
-        context["sections"] = sorted(
-            sections.values(), key=lambda section: section["code"]
-        )
-        context["page_title"] = "Methodology"
-        context["current_page"] = "methodology-page"
-        return context
-
-
-@method_decorator(cache_control(**cache_settings), name="dispatch")
 class AboutView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/about.html"
 
@@ -826,8 +776,8 @@ class AboutView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class Methodology2023View(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
-    template_name = "scoring/methodology2023.html"
+class MethodologyView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
+    template_name = "scoring/methodology.html"
 
     def get_question_number(self, question):
         code = question.code
@@ -838,7 +788,7 @@ class Methodology2023View(CheckForDownPageMixin, SearchAutocompleteMixin, Templa
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Methodology"
-        context["current_page"] = "methodology2023-page"
+        context["current_page"] = "methodology-page"
 
         questions = (
             PlanQuestion.objects.filter(section__year=settings.PLAN_YEAR)

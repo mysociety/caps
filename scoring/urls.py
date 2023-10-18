@@ -46,13 +46,8 @@ scoring_patterns = (
         ),
         path("location/", views.LocationResultsView.as_view(), name="location_results"),
         path(
-            "plan-scorecards-2022/methodology/",
-            views.MethodologyView.as_view(),
-            name="methodology2022",
-        ),
-        path(
             "methodology/",
-            views.Methodology2023View.as_view(),
+            views.MethodologyView.as_view(),
             name="methodology",
         ),
         path("about/", views.AboutView.as_view(), name="about"),
