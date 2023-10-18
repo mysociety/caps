@@ -499,7 +499,7 @@ class PlanQuestion(models.Model):
     topic = models.TextField(null=True, default="")
     clarifications = models.TextField(null=True, default="")
 
-    questiongroup = models.ManyToManyField(PlanQuestionGroup, null=True, blank=True)
+    questiongroup = models.ManyToManyField(PlanQuestionGroup)
 
     def pretty_code(self):
         """
