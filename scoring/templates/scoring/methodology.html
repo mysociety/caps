@@ -180,7 +180,7 @@
                                                             <div class="section-question-clarification">
                                                                 <p class="fw-bold mb-2">Clarifications</p>
                                                                 {% autoescape off %}
-                                                                    {{ question.clarifications|linebreaks }}
+                                                                    {{ question.clarifications|linebreaks|urlize }}
                                                                 {% endautoescape %}
                                                             </div>
                                                         {% endif %}
