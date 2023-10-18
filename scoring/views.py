@@ -370,9 +370,12 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
         natsort = gen_natsort_lamda(lambda k: k["code"])
         for section, data in sections.items():
             if data.get("has_negative_points", False):
-                data["negative_percent"] = (
-                    data["negative_points"] / data["non_negative_max"]
-                ) * -100
+                if data["non_negative_max"] != 0:
+                    data["negative_percent"] = (
+                        data["negative_points"] / data["non_negative_max"]
+                    ) * -100
+                else:
+                    data["only_negative"] = True
             data["answers"] = sorted(data["answers"], key=natsort)
 
         council_count = Council.objects.filter(

@@ -250,7 +250,11 @@
                           {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
                           <strong class="me-2">Penalty marks</strong>
                         </p>
-                        {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
+                        {% if section.only_negative %}
+                          {{ council.name }} was only awarded penalty marks in this section
+                        {% else %}
+                          {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
+                        {% endif %}
                     </div>
                     {% endif %}
 
