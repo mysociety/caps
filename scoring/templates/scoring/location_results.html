@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="container-fluid hero text-center">
+<div class="container py-7 py-lg-8 text-center">
     <h1 class="mb-3">Find your council</h1>
 
   {% if error %}
@@ -12,14 +12,13 @@
   {% endif %}
 
     <form action="{% url 'scoring:location_results' %}" class="form">
-        <label for="check-score-input" class="h6 mb-3">Check for a council’s complete score</label>
+        <label for="check-score-input" class="h6 mb-3 d-block">Check for a council’s complete score</label>
         <input class="mx-auto form-control searchbar green dark js-location-search-autocomplete" type="search" name="pc" id="check-score-input" value="{{ postcode|default_if_none:'' }}" placeholder="Postcode">
-        <!-- TODO: Do we need a submit button? -->
     </form>
 </div>
 
 {% if councils %}
-<div class="container-fluid">
+<div class="container">
     <h2 class="text-center mb-3">Multiple councils cover {{ postcode|upper|default_if_none:'that location' }}</h2>
     <p class="text-center mx-auto">Your postcode is served by multiple councils. Which one would you like to see in more detail?</p>
 

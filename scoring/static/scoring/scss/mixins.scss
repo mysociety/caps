@@ -45,26 +45,7 @@ $max-viewport: 1792;
     #{$property}: calc(#{$property-min}px + (#{$property-max} - #{$property-min}) * ( (100vw - #{$min-viewport}px) / (#{$max-viewport} - #{$min-viewport}) )) !important;
 }
 
-//Placeholder
-@mixin placeholder {
-    &::-webkit-input-placeholder {@content;}
-    &:-moz-placeholder           {@content;}
-    &::-moz-placeholder          {@content;}
-    &:-ms-input-placeholder      {@content;}
-    &::placeholder               {@content;}
-}
-
 // Scorecard Table
-@mixin table-category-color-header($color) {
-    background-color: lighten($color: $color, $amount: 65%);
-    a {
-        color: $color;
-        &:hover {
-            color: darken($color: $color, $amount: 80%);
-        }
-    }
-}
-
 @mixin progress-bar-header($color) {
     .score-bar {
         border-color: $color;
@@ -85,81 +66,6 @@ $max-viewport: 1792;
         .progress-bar {
             background-color: mix($color, $white, 10%);
         }
-    }
-}
-
-// Mixin table header
-//usage thead th {@include table-header;}
-@mixin table-header {
-    background-color: $white;
-    font-family: $body-font-family;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 130%;
-    text-align: center;
-    letter-spacing: 0.06em;
-    @include responsive(font-size, 15, 16);
-    span.filter-active {
-        font-family: $headings-font-family;
-        font-style: normal;
-        font-weight: 500;
-        font-size: 13px;
-        line-height: 120%;
-        text-align: center;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        opacity: 0.7;
-    }
-}
-
-// Mixin borders
-//usage @include border-priority-1(right);
-@mixin border-priority-1($direction) {
-    border-#{$direction}: $border-priority-1;
-}
-
-@mixin border-priority-2($direction) {
-    border-#{$direction}: $border-priority-2;
-}
-
-@mixin border-priority-3($direction) {
-    border-#{$direction}: $border-priority-3;
-}
-
-// Active nav-link active
-
-@mixin nav-link-active {
-    background-color:lighten($green, 40%);
-    color: $black;
-    opacity: 1;
-    border-color: $green;
-}
-
-// Show height for hidden content div
-
-@mixin show-height {
-    height: 0;
-    overflow: hidden;
-    @include transition(height 0.3s ease-in-out);
-    &.show-height {
-        height: auto;
-        overflow: visible;
-    }
-    &.collapse:not(.show-height) {
-        display: block;
-    }
-    &.collapse:not(.show) {
-        display: flex;
-        height: auto;
-        @media only screen and (max-width: $navbar-mobile-breakpoint) {
-            display: block;
-            height: 0;
-        }
-    }
-
-    @media only screen and (max-width: $navbar-mobile-breakpoint) {
-        overflow: hidden;
     }
 }
 

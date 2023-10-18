@@ -43,7 +43,6 @@
             <dt>Index of multiple deprivation</dt>
             <dd>
                 {{ plan_score.deprivation_quintile }}
-                {% comment %} TODO show word equivalent? eg "high deprivation"? {% endcomment %}
             </dd>
           {% endif %}
           {% if plan_score.population %}
@@ -65,8 +64,7 @@
 
 <div class="py-5 border-bottom">
     <div class="container">
-      {% comment %} TODO enable message if Council is under review {% endcomment %}
-        {% comment %} 
+      {% comment %} 
         <div class="row mb-3">
           <div class="col-lg-5">
             <div class="alert alert-warning mb-4 mb-lg-5" role="alert">
@@ -76,33 +74,26 @@
         </div> 
       {% endcomment %}
 
-
-
-      {% comment %} TODO for this this council display the "Not scorec message"
-      Cumberland
-      Westmorland and Furness
-      North Yorkshire
-      Somerset
-      {% endcomment %}
-      {% comment %} <div class="row mb-3">
-        <div class="col-lg-5">
-          <div class="alert alert-warning mb-4 mb-lg-5" role="alert">
-            <p class="fw-bold fs-5">Not scored</p>
-            <span class="warning-icon">Newly formed council since April 2023. These councils will be assessed in future Scorecard editions.</span>
+      {% comment %}
+        <div class="row mb-3">
+          <div class="col-lg-5">
+            <div class="alert alert-warning mb-4 mb-lg-5" role="alert">
+              <p class="fw-bold fs-5">Not scored</p>
+              <span class="warning-icon">Newly formed council since April 2023. These councils will be assessed in future Scorecard editions.</span>
+            </div>
           </div>
         </div>
-      </div>  {% endcomment %}
-
-      {% comment %} TODO if  Isle of Scilly display the following message:
       {% endcomment %}
-      {% comment %} <div class="row mb-3">
-        <div class="col-lg-5">
-          <div class="alert alert-info mb-4 mb-lg-5" role="alert">
-            <span class="warning-icon">Due to technical issues, this council results are not yet available. They will be published soon.</span>
+
+      {% comment %}
+        <div class="row mb-3">
+          <div class="col-lg-5">
+            <div class="alert alert-info mb-4 mb-lg-5" role="alert">
+              <span class="warning-icon">Due to technical issues, this council results are not yet available. They will be published soon.</span>
+            </div>
           </div>
         </div>
-      </div> {% endcomment %}
-
+      {% endcomment %}
 
         <div class="row">
             <div class="col-lg-5 mb-5 mb-lg-0">
@@ -303,7 +294,6 @@
 
                 <td data-column="score" class="score border-bottom">
                     <span>{{ answer.score }}/{{ answer.max }}</span>
-                    {% comment %} TODO IF question is negative then "No penalty marks awarded" {% endcomment %}
                 </td>
 
               {% for comparison in answer.comparisons %}

@@ -33,12 +33,6 @@ td[data-column="answer"] {
     max-width: 500px;
 }
 
-.js-collapse-children {
-    summary + * {
-        margin-top: 1rem;
-    }
-}
-
 // Question type filter (council page)
 $question-types: (
     'all',

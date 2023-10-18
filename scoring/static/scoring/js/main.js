@@ -158,25 +158,6 @@ forEachElement('.js-comparison-council', function(link){
     });
 });
 
-// var navbarButton = document.getElementById("navbar-toggler");
-// var navbarContent = document.getElementById("navbarSupportedContent");
-// navbarButton.addEventListener('click', function(){
-//     if(!navbarContent.classList.contains('show-height')) {
-//         navbarContent.classList.toggle('show-height');
-//         navbarContent.style.height = "auto";
-//         let height = navbarContent.clientHeight + "px";
-//         navbarContent.style.height = "0px";
-//         setTimeout(function(){
-//             navbarContent.style.height = height;
-//         }, 0);
-//     } else {
-//         navbarContent.style.height = "0px";
-//         navbarContent.addEventListener('transitionend', function(){
-//             navbarContent.classList.remove('show-height');
-//         }, {once: true})
-//     }
-// });
-
 function sortTableByColumn(columnHeader, direction) {
     var table = columnHeader.closest('table');
     var headerCell = columnHeader.closest('th');
@@ -250,23 +231,6 @@ forEachElement('.js-toggle-council-question-table-section', function(trigger){
         }
         thisTbody.scrollIntoView({ behavior: 'smooth' });
     });
-});
-
-forEachElement('.js-collapse-children', function(wrapper){
-    var children = Array.prototype.slice.call(wrapper.children);
-
-    if ( children.length > 1 ) {
-        var details = document.createElement('details');
-        var summary = document.createElement('summary');
-        summary.textContent = 'Show more';
-        details.appendChild(summary);
-
-        for ( var i=1; i < children.length; i++ ) {
-            details.appendChild(children[i]);
-        }
-
-        wrapper.appendChild(details);
-    }
 });
 
 forEachElement('.sticky-in-page-nav > button', function(button){

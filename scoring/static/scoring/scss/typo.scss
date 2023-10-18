@@ -1,9 +1,0 @@
-body, .body {
-    font-family: $body-font-family;
-    font-style: normal;
-    font-weight: normal;
-    line-height: 150%;
-    letter-spacing: 0.02em;
-    color:$black;
-    @include responsive(font-size, 14, 15);
-}
