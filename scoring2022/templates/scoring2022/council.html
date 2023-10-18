@@ -28,6 +28,10 @@
                 <h3 class="mb-3">About this council</h3>
                 {% if new_council %}
                 <p>This council was created on April 1, 2023 so was not included in the 2021 Scorecards.</p>
+                {% elif old_council %}
+                <p>This council was disbanded before April 1, 2021 so was not included in the 2021 Scorecards.</p>
+                {% elif no_plan %}
+                <p>We do not currently have a Scorecard for this council.</p>
                 {% else %}
                 {% if plan_score.top_performer %}
                 <p class="top-performer.active mb-0">This council is a top performer within {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.</p>
@@ -104,7 +108,7 @@
     </div>
 </div>
 
-{% if not new_council %}
+{% if not new_council and not old_council and not no_plan %}
 <div class="container council-page mt-4">
     <div class="row">
         <div class="col-md-12">

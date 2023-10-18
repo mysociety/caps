@@ -204,10 +204,16 @@ class CouncilView(CheckForDownPageMixin, DetailView):
         council = context.get("council")
         group = council.get_scoring_group()
 
+        context["authority_type"] = group
         new_council_date = date(year=2023, month=1, day=1)
         if council.start_date is not None and council.start_date >= new_council_date:
-            context["authority_type"] = group
             context["new_council"] = True
+            return context
+
+        old_council_date = date(year=2021, month=4, day=1)
+        if council.end_date is not None and council.end_date <= old_council_date:
+            context["authority_type"] = group
+            context["old_council"] = True
             return context
 
         context["all_councils"] = Council.objects.filter(
@@ -217,8 +223,13 @@ class CouncilView(CheckForDownPageMixin, DetailView):
             start_date__lt="2023-01-01",
         )
 
+        try:
+            plan_score = PlanScore.objects.get(council=council, year=2021)
+        except PlanScore.DoesNotExist:
+            context["no_plan"] = True
+            return context
+
         promises = Promise.objects.filter(council=council).all()
-        plan_score = PlanScore.objects.get(council=council, year=2021)
         plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
         sections = PlanSectionScore.sections_for_council(
             council=council, plan_year=2021
@@ -283,7 +294,6 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
         context["council_count"] = council_count
         context["targets"] = promises
-        context["authority_type"] = group
         context["plan_score"] = plan_score
         context["plan_urls"] = plan_urls
         context["sections"] = sorted(
