@@ -171,7 +171,7 @@
                                                             <p class="fw-bold mb-2"><span>Criteria</span></p>
                                                             <!-- QUESTION CRITERIA -->
                                                             {% autoescape off %}
-                                                                {{ question.criteria}}
+                                                                {{ question.criteria|linebreaks }}
                                                             {% endautoescape %}
                                                         </div>
 
@@ -180,7 +180,7 @@
                                                             <div class="section-question-clarification">
                                                                 <p class="fw-bold mb-2">Clarifications</p>
                                                                 {% autoescape off %}
-                                                                    {{ question.clarifications}}
+                                                                    {{ question.clarifications|linebreaks }}
                                                                 {% endautoescape %}
                                                             </div>
                                                         {% endif %}
