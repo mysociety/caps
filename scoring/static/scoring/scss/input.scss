@@ -18,6 +18,16 @@
   }
 }
 
+.form-check-input,
+.form-control,
+.form-select {
+  &:focus {
+    outline: 0 !important;
+    border-color: $black !important;
+    box-shadow: 0 0 0 1px $black inset, 0 0 0 2px $black, 0 0 0 6px $color-scorecard-yellow !important;
+  }
+}
+
 // Radio buttons
 .radio-btn.is--with-label {
   @include responsive(font-size, 12, 13);
