@@ -270,11 +270,6 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             context["old_council"] = True
             return context
 
-        try:
-            plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
-        except PlanScore.DoesNotExist:
-            context["no_plan"] = True
-
         promises = Promise.objects.filter(council=council).all()
 
         target = None
@@ -283,6 +278,13 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
                 target = promise
             elif target is not None and promise.scope == PlanDocument.WHOLE_AREA:
                 target = promise
+        context["target"] = target
+
+        try:
+            plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
+        except PlanScore.DoesNotExist:
+            context["no_plan"] = True
+            return context
 
         plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
         sections = PlanSectionScore.sections_for_council(
@@ -379,7 +381,6 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
         ).count()
 
         context["council_count"] = council_count
-        context["target"] = target
         context["authority_type"] = group
         context["plan_score"] = plan_score
         context["plan_urls"] = plan_urls
