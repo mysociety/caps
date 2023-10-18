@@ -1,5 +1,6 @@
-from requests_cache import CachedSession
 from django.conf import settings
+from requests.models import RequestsJSONDecodeError
+from requests_cache import CachedSession
 
 session = CachedSession(cache_name=settings.CACHE_FILE, expire_after=86400)
 
@@ -77,13 +78,17 @@ class MapIt(object):
     def get(self, url):
         if url not in self.cache:
             resp = session.get(url)
-            data = resp.json()
+            try:
+                data = resp.json()
+            except RequestsJSONDecodeError:
+                data = {"error": "There was an error looking up that postcode"}
+
             if resp.status_code == 403:
                 raise ForbiddenException(data["error"])
             if resp.status_code == 500:
                 raise InternalServerErrorException(data["error"])
             if resp.status_code == 404:
-                raise NotFoundException(data["error"])
+                raise NotFoundException("Postcode not found")
             if resp.status_code == 400:
                 raise BadRequestException(data["error"])
             self.cache[url] = data
