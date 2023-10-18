@@ -55,6 +55,10 @@ footer {
             letter-spacing: 0 !important;
         }
 
+        a {
+            color: var(--bs-link-color) !important;
+        }
+
         #can_embed_form_inner > h4,
         #action_info,
         #logo_wrap {
@@ -72,7 +76,7 @@ footer {
             .check_radio_label {
                 color: $gray-800 !important;
             }
-        } 
+        }
 
         #form_col1 {
             display: grid;
