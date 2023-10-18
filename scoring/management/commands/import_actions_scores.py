@@ -29,6 +29,11 @@ from scoring.models import (
     PlanSectionScore,
 )
 
+YELLOW = "\033[33m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+NOBOLD = "\033[0m"
+
 
 class Command(BaseCommand):
     help = "Imports plan scores"
@@ -70,6 +75,13 @@ class Command(BaseCommand):
         "PC": "Plaid Cymru",
         "IND": "Independent",
     }
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--update_questions",
+            action="store_true",
+            help="Updates/creates the text of questions",
+        )
 
     def create_sections(self):
         for code, desc in self.SECTIONS.items():
@@ -290,10 +302,15 @@ class Command(BaseCommand):
             to_create.append(score_obj)
         PlanQuestionScore.objects.bulk_create(to_create)
 
-    def handle(self, *args, **options):
+    def handle(self, update_questions: bool = False, *args, **options):
+        if not update_questions:
+            self.stdout.write(
+                f"{YELLOW}Not creating or updating questions, call with --update_questions to do so{NOBOLD}"
+            )
         self.create_sections()
         self.import_section_scores()
         self.import_overall_scores()
         self.label_top_performers()
-        self.import_questions()
+        if update_questions:
+            self.import_questions()
         self.import_question_scores()
