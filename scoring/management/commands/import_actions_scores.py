@@ -298,6 +298,7 @@ class Command(BaseCommand):
                 score=row["score"],
                 answer=row["answer"],
                 evidence_links=links,
+                max_score=row["max_score"],
             )
             to_create.append(score_obj)
         PlanQuestionScore.objects.bulk_create(to_create)
