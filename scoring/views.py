@@ -338,11 +338,12 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
                 sections[section]["comparisons"] = details
 
             comparison_ids = [p.id for p in comparisons]
-            for question in PlanScore.questions_answered_for_councils(
-                plan_ids=comparison_ids, plan_year=settings.PLAN_YEAR
-            ):
-                q = self.make_question_obj(question)
-                comparison_answers[question.code][question.council_name] = q
+            if len(comparison_ids) > 0:
+                for question in PlanScore.questions_answered_for_councils(
+                    plan_ids=comparison_ids, plan_year=settings.PLAN_YEAR
+                ):
+                    q = self.make_question_obj(question)
+                    comparison_answers[question.code][question.council_name] = q
 
         for question in plan_score.questions_answered():
             section = question.section_code
