@@ -524,6 +524,8 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
                 plan_sections=PlanSection.objects.filter(code=section.code),
             )
 
+            first_comparison = comparison_slugs[0]
+
             comparison_scores = comparison_sections[section.code]
 
             for score in comparison_scores:
@@ -538,8 +540,17 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
                         if answer.score < 0:
                             score["negative_points"] += answer.score
                             score["non_negative_max"] -= answer.score
+
+                        # need to add this manually to the section question object so it displays
+                        # the evidence if it's relevant
+                        if score["council_slug"] == first_comparison:
+                            comparison_questions[code][
+                                "evidence_links"
+                            ] = answer.evidence_links.splitlines()
+
                     else:
                         comparison_questions[code]["comparisons"].append({"score": "-"})
+                        comparison_questions[code]["evidence_links"] = []
 
                 if score["negative_points"] < 0:
                     score["negative_percent"] = (
@@ -592,6 +603,7 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             for question in questions:
                 comparison_questions[question.code] = {
                     "details": question,
+                    "evidence_links": "CouncilTypeOnly",
                     "comparisons": [],
                 }
 
