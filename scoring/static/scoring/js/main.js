@@ -341,6 +341,27 @@ forEachElement('.js-methodology-council-autocomplete', function(input){
     });
 });
 
+forEachElement('.js-section-council-autocomplete', function(input){
+    var ac = new Awesomplete(
+        input,
+        {
+            list: councils.map(function(council){
+                return council.name;
+            }),
+            minChars: 3,
+            autoFirst: true
+        }
+    );
+    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
+        var council = findItem(councils, {'name': data.text });
+        var sp = new URLSearchParams(window.location.search)
+        sp.delete('type');
+        sp.delete('council');
+        sp.append('council', council.slug);
+        window.location.href = window.location.pathname + '?' + sp.toString() + '#questions';
+    });
+});
+
 function ajaxLoadCouncilTypeScorecard(url) {
     var selectors = [
         '#council-type-filter',
