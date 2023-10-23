@@ -373,7 +373,7 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             if data.get("has_negative_points", False):
                 if data["non_negative_max"] != 0:
                     data["negative_percent"] = (
-                        data["negative_points"] / data["non_negative_max"]
+                        data["negative_points"] / data["max_score"]
                     ) * -100
                 else:
                     data["only_negative"] = True
