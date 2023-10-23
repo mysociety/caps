@@ -27,6 +27,7 @@ from scoring.mixins import (
 )
 from scoring.models import (
     PlanQuestion,
+    PlanQuestionGroup,
     PlanQuestionScore,
     PlanScore,
     PlanScoreDocument,
@@ -574,6 +575,9 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
         if council_type is not None:
             comparison_questions = {}
 
+            council_group = PlanQuestionGroup.objects.get(
+                description=council_type["slug"]
+            )
             context["council_type"] = council_type
 
             council_count = Council.objects.filter(
@@ -582,7 +586,9 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             ).count()
             context["council_count"] = council_count
 
-            questions = PlanQuestion.objects.filter(section=section)
+            questions = PlanQuestion.objects.filter(
+                section=section, questiongroup=council_group
+            )
             for question in questions:
                 comparison_questions[question.code] = {
                     "details": question,
