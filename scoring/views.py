@@ -676,7 +676,7 @@ class SectionsView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView)
         context["page_title"] = "Sections"
         context["sections"] = []
         context["ca_sections"] = []
-        for section in PlanSection.objects.all():
+        for section in PlanSection.objects.order_by("code").all():
             details = {
                 "name": section.description,
                 "url": reverse("scoring:section", args=(section.code,)),
