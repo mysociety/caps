@@ -56,7 +56,7 @@
                             <div class="fw-bold">
                                 {{ question_text.strip | linebreaks }}
                             </div>
-                            {{ answer.criteria.strip | linebreaks }}
+                            {{ criteria.strip | linebreaks }}
                         </div>
                         <div class="modal-footer justify-content-start bg-gray-100">
                             <a href="{% url 'scoring:methodology' %}">See more criteria clarifications in the full methodology</a>
