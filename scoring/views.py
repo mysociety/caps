@@ -564,10 +564,7 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
     def get_questions(self, context):
         section = context["section"]
 
-        # fix sorting to not have 1, 11, 2
-        natsort = lambda q: [
-            int(t) if t.isdigit() else t.lower() for t in re.split("(\d+)", q)
-        ]
+        natsort = gen_natsort_lamda()
 
         council = self.request.GET.get("council", None)
         if council is not None:
