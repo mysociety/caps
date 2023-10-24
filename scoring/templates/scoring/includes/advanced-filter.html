@@ -204,6 +204,10 @@
                                             <label class="form-check-label" for="control_coalition">Coalition/Minority</label>
                                         </div>
                                         <div class="form-check-flex py-2">
+                                            <input type="radio" class="form-check-input" id="control_coalition" name="control" value="NOC"{% if filter_params.control == "NOC" %} checked{% endif %}>
+                                            <label class="form-check-label" for="control_coalition">No overall control</label>
+                                        </div>
+                                        <div class="form-check-flex py-2">
                                             <input type="radio" class="form-check-input" id="control_conservative" name="control" value="Conservative"{% if filter_params.control == "Conservative" %} checked{% endif %}>
                                             <label class="form-check-label" for="control_conservative">Conservative</label>
                                         </div>
