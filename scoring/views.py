@@ -586,9 +586,6 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
         if council_type is not None:
             comparison_questions = {}
 
-            council_group = PlanQuestionGroup.objects.get(
-                description=council_type["slug"]
-            )
             context["council_type"] = council_type
 
             council_count = Council.objects.filter(
@@ -597,9 +594,16 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             ).count()
             context["council_count"] = council_count
 
-            questions = PlanQuestion.objects.filter(
-                section=section, questiongroup=council_group
-            )
+            try:
+                council_group = PlanQuestionGroup.objects.get(
+                    description=council_type["slug"]
+                )
+                questions = PlanQuestion.objects.filter(
+                    section=section, questiongroup=council_group
+                )
+            except PlanQuestionGroup.DoesNotExist:
+                questions = PlanQuestion.objects.filter(section=section)
+
             for question in questions:
                 comparison_questions[question.code] = {
                     "details": question,
