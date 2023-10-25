@@ -111,6 +111,25 @@ forEachElement('.js-location-jump-autocomplete', function(input){
     });
 });
 
+forEachElement('.js-question-jump-autocomplete', function(input){
+    var ac = new Awesomplete(
+        input,
+        {
+            list: councils.map(function(council){
+                return council.name;
+            }),
+            minChars: 3,
+            autoFirst: true
+        }
+    );
+    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
+        var council = findItem(councils, {'name': data.text });
+        window.location.href = window.location.pathname + '?type=' + council.council_type + '#' + serialiseObject({
+            'jump': council.slug
+        });
+    });
+});
+
 forEachElement('.js-location-compare-autocomplete', function(input){
     var council_type = input.dataset.council_type;
     var ac = new Awesomplete(

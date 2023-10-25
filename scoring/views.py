@@ -790,6 +790,62 @@ class SectionCouncilTopPerformerPreview(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
+class QuestionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
+    model = PlanQuestion
+    context_object_name = "question"
+    template_name = "scoring/question.html"
+
+    def get_object(self):
+        return get_object_or_404(PlanQuestion, code=self.kwargs["code"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        question = self.get_object()
+        context["page_title"] = question.text
+
+        context["applicable_authority_types"] = question.questiongroup.all()
+
+        # If question only applies to a single authority type,
+        # assume the user wants to see that.
+        if context["applicable_authority_types"].count() == 1:
+            context["authority_type"] = context["applicable_authority_types"][0].description
+
+        # Otherwise, see whether they’ve provided a valid
+        # scoring group slug as a query param in the URL.
+        elif self.request.GET.get("type") in Council.SCORING_GROUPS:
+            context["authority_type"] = Council.SCORING_GROUPS[self.request.GET.get("type")]["slug"]
+
+        if "authority_type" in context:
+            scores = PlanQuestionScore.objects.filter(
+                plan_score__year=settings.PLAN_YEAR,
+                plan_question__code=question.code
+            ).order_by("-score", "plan_score__council__name")
+
+            context["scores"] = []
+            for score in scores:
+                if score.plan_score.council.get_scoring_group()["slug"] == context["authority_type"]:
+                    context["scores"].append(score)
+
+            # We don’t actually know what all the possible scores are for
+            # any given question. So we could either assume the scores range
+            # from 0 up to question.max_score (which doesn’t work for penalty
+            # questions with their negative scores), or we can just display all
+            # the unique scores that were actually achieved by councils of the
+            # given type. We decided to go with the latter.
+            possible_scores = sorted(set([s.score for s in context["scores"]]))
+
+            context["totals"] = []
+            for score in possible_scores:
+                context["totals"].append({
+                    "score": score,
+                    "count": sum(q.score == score for q in context["scores"])
+                })
+
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
     template_name = "scoring/location_results.html"
 

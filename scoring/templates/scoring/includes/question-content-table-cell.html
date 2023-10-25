@@ -1,10 +1,12 @@
 <div class="question-content-table text-start">
     <div class="row">
         <div class="col-1 mb-2">
-            <span class="badge bg-secondary p-1 question-no">{{ code }}</span>
+            <span class="badge bg-secondary p-1 question-no">{{ pretty_code }}</span>
         </div>
         <div class="col-11">
-            {{ question_text.strip | linebreaks }}
+            <a href="{% url 'scoring:question' code %}{% if council %}?type={{ council_type_slug }}{% endif %}">
+                {{ question_text.strip | linebreaks }}
+            </a>
 
           {% if question_type == "negative" %}
             <div class="d-flex mb-3 fs-7 text-red-500">

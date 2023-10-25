@@ -289,7 +289,7 @@
           {% for answer in section.answers %}
             <tr class="question-row js-question-type-all js-question-type-{{ answer.how_marked }} {% if answer.is_council_operations_only %}js-question-type-council-only{% endif %}">
                 <td data-column="answer" class="border-start border-bottom border-end">
-                    {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria %}
+                    {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.code pretty_code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria council_type_slug=council.get_scoring_group.slug %}
                 </td>
 
                 <td data-column="score" class="score border-bottom">
