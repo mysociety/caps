@@ -562,6 +562,25 @@ class PlanQuestionScore(ScoreFilterMixin, models.Model):
     notes = models.TextField(null=True, default="")
     evidence_links = models.TextField(null=True, default="")
 
+    @property
+    def evidence_links_cleaned(self):
+        # Evidence "links" can be one of:
+        # - an empty line
+        # - a string like "Airports:"
+        # - a string like "www.whatever.com/…"
+        # - a string like "http://www…"
+        # So attempt to tidy them up, before passing to
+        # a template filter like domain_human or urlizetrunc.
+        links = []
+        for line in self.evidence_links.splitlines():
+            if line == "":
+                pass
+            elif line.startswith("www."):
+                links.append(f"http://{line}")
+            else:
+                links.append(line)
+        return links
+
     @classmethod
     def all_question_max_score_counts(
         cls, council_group=None, plan_year=None, use_old_max_counts=False
