@@ -790,6 +790,76 @@ class SectionCouncilTopPerformerPreview(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
+class QuestionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
+    model = PlanQuestion
+    context_object_name = "question"
+    template_name = "scoring/question.html"
+
+    def get_object(self):
+        return get_object_or_404(
+            PlanQuestion.objects.select_related("section"), code=self.kwargs["code"]
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        question = context["question"]
+        context["page_title"] = question.text
+
+        context["applicable_authority_types"] = question.questiongroup.all()
+        authority_type = None
+
+        # If question only applies to a single authority type,
+        # assume the user wants to see that.
+        if context["applicable_authority_types"].count() == 1:
+            authority_type = Council.SCORING_GROUPS[
+                context["applicable_authority_types"][0].description
+            ]
+
+        # Otherwise, see whether they’ve provided a valid
+        # scoring group slug as a query param in the URL.
+        elif self.request.GET.get("type") in Council.SCORING_GROUPS:
+            authority_type = Council.SCORING_GROUPS[self.request.GET.get("type")]
+
+        if authority_type is not None:
+            context["authority_type"] = authority_type["slug"]
+            authority_types = authority_type["types"]
+            context["scores"] = (
+                PlanQuestionScore.objects.filter(
+                    plan_score__year=settings.PLAN_YEAR,
+                    plan_question=question,
+                    plan_score__council__authority_type__in=authority_types,
+                )
+                .select_related("plan_score", "plan_score__council")
+                .order_by("-score", "plan_score__council__name")
+            )
+
+            score_counts = question.get_scores_breakdown(
+                year=settings.PLAN_YEAR, council_group=authority_type
+            )
+
+            totals = {}
+
+            # make sure we display all possible scores for positive marks
+            if question.question_type != "negative":
+                for score in range(question.max_score + 1):
+                    totals[score] = {
+                        "score": score,
+                        "count": 0,
+                    }
+
+            for score in score_counts:
+                totals[score["score"]] = {
+                    "score": score["score"],
+                    "count": score["score_count"],
+                }
+
+            context["totals"] = [totals[k] for k in sorted(totals.keys())]
+
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
 class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
     template_name = "scoring/location_results.html"
 

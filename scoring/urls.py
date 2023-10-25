@@ -46,6 +46,7 @@ scoring_patterns = (
             views.SectionPreview.as_view(),
             name="section_preview",
         ),
+        path("question/<str:code>/", views.QuestionView.as_view(), name="question"),
         path("location/", views.LocationResultsView.as_view(), name="location_results"),
         path(
             "methodology/",

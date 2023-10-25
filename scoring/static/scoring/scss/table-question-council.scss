@@ -1,7 +1,11 @@
 .table-question-council,
 .section-question-table {
     table-layout: fixed;
+}
 
+.table-question-council,
+.section-question-table,
+.table-council-question-performance {
     th {
         vertical-align: top;
     }
@@ -20,6 +24,12 @@
     // Accordion button
     .button-wrapper {
         padding: 0 !important;
+    }
+
+    .highlight {
+        th, td {
+            background: lighten($color-scorecard-yellow, 30%) !important;
+        }
     }
 }
 

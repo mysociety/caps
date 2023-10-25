@@ -552,6 +552,24 @@ class PlanQuestion(models.Model):
 
         return qs
 
+    def get_scores_breakdown(self, year=None, council_group=None):
+        filters = {
+            "plan_question": self,
+        }
+        if year is not None:
+            filters["plan_score__year"] = year
+        if council_group is not None:
+            filters["plan_score__council__authority_type__in"] = council_group["types"]
+
+        counts = (
+            PlanQuestionScore.objects.filter(**filters)
+            .values("score")
+            .annotate(score_count=Count("score"))
+            .order_by("score")
+        )
+
+        return counts
+
 
 class PlanQuestionScore(ScoreFilterMixin, models.Model):
     """

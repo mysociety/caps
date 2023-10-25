@@ -259,7 +259,7 @@
           {% for question in questions %}
             <tr class="question-row d-flex flex-column d-md-table-row border-bottom">
                 <td data-column="answer" class="border-end">
-                    {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=question.details.pretty_code question_text=question.details.text question_type=question.details.question_type how_marked=question.details.get_how_marked_display weighting=question.details.get_weighting_display evidence_links=question.evidence_links criteria=question.details.criteria %}
+                    {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=question.details.code pretty_code=question.details.pretty_code question_text=question.details.text question_type=question.details.question_type how_marked=question.details.get_how_marked_display weighting=question.details.get_weighting_display evidence_links=question.evidence_links criteria=question.details.criteria %}
                 </td>
 
               {% for comparison in question.comparisons %}

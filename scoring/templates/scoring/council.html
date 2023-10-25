@@ -289,7 +289,7 @@
           {% for answer in section.answers %}
             <tr class="question-row js-question-type-all js-question-type-{{ answer.how_marked }} {% if answer.is_council_operations_only %}js-question-type-council-only{% endif %}">
                 <td data-column="answer" class="border-start border-bottom border-end">
-                    {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria %}
+                    {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.code pretty_code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria council_type_slug=council.get_scoring_group.slug %}
                 </td>
 
                 <td data-column="score" class="score border-bottom">
@@ -303,7 +303,7 @@
               {% endfor %}
 
                 <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
-                    <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">
+                  <a href="{% url 'scoring:question' answer.code %}?type={{ authority_type.slug }}" class="mx-auto" style="text-transform: none">
                         {{ answer.council_count }} out of {{ council_count }}
                     </a>
                     <span class="fs-8 mt-1 me-0 ms-auto d-block">

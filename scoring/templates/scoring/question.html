@@ -1,0 +1,148 @@
+{% extends "scoring/base.html" %}
+{% load django_bootstrap5 caps_templatetags %}
+
+{% block content %}
+<div class="pt-5 pb-6 pt-lg-8 pb-lg-8 hero-section with-version-background">
+    <div class="d-flex flex-column align-items-end align-items-lg-start hero-version-badge position-absolute">
+        <span class="version-year d-block fw-bold lh-1">2023</span>
+        <span class="version-name d-block fw-bold lh-1">Action Scorecards</span>
+    </div>
+    <div class="container">
+        <h2 class="fs-4">Action Scorecards 2023</h2>
+        <h1 class="mb-2">Question: {{ question.text }}</h1>
+        <dl class="row mt-4 mb-0" style="max-width: 30em">
+            <dt class="col-sm-4">Question code</dt>
+            <dd class="col-sm-8">{{ question.pretty_code }}</dd>
+            <dt class="col-sm-4">Section</dt>
+            <dd class="col-sm-8"><a href="{% url 'scoring:section' question.section.code %}">
+                {{ question.section.description }}
+            </a></dd>
+            <dt class="col-sm-4">Topic</dt>
+            <dd class="col-sm-8">{{ question.topic }}</dd>
+            <dt class="col-sm-4">Source</dt>
+            <dd class="col-sm-8">{{ question.get_how_marked_display }}</dd>
+            <dt class="col-sm-4">Question weight</dt>
+            <dd class="col-sm-8">
+                <a href="{% url 'scoring:methodology' %}#section-question-weighting-within" class="d-inline-flex align-items-center" title="Read more about question weighting within sections">
+                    {{ question.get_weighting_display }}
+                    {% include 'caps/icons/question-circle.html' with classes='ms-2 align-text-top' width='1rem' height='1rem' role='presentation' %}
+                </a>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="container py-5 py-lg-6">
+    <div class="row gx-lg-5 gx-xl-6">
+        <div class="col-md-6">
+            <h3>Criteria</h3>
+          {% autoescape off %}
+            {{ question.criteria|linebreaks|urlize }}
+          {% endautoescape %}
+        </div>
+        <div class="col-md-6 mt-5 mt-md-0">
+            <h3>Clarifications</h3>
+          {% autoescape off %}
+            {{ question.clarifications|linebreaks|urlize }}
+          {% endautoescape %}
+        </div>
+    </div>
+
+    <h3 class="mt-5 mb-4" id="performance">Question performance</h3>
+
+  {% if applicable_authority_types|length > 1 %}
+    <div class="bg-primary-100 p-3 border rounded">
+        <label for="questions-council-name" class="fs-6 d-block mb-2">Show scores for a specific council</label>
+        <input class="form-control searchbar js-question-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
+        <p class="mt-3 mb-2 fs-6">Or show scores by type of council</p>
+        <div class="d-flex flex-wrap gap-1">
+          {% for t in applicable_authority_types %}
+            <a href="?type={{ t.description }}#performance" class="btn btn-outline-primary btn-sm is--with-label {% if t.description == authority_type %}active{% endif %}">
+              {% if t.description == "single" %}
+                Single Tier
+              {% elif t.description == "district" %}
+                District
+              {% elif t.description == "county" %}
+                County
+              {% elif t.description == "northern-ireland" %}
+                Northern Ireland
+              {% elif t.description == "combined" %}
+                Combined Authority
+              {% endif %}
+            </a>
+          {% endfor %}
+        </div>
+    </div>
+  {% endif %}
+
+  {% if authority_type and totals %}
+    <div class="row mt-4 mb-n4 mb-sm-0">
+      {% for t in totals %}
+        <div class="col-sm mb-4 mb-sm-0">
+            <div class="card h-100">
+                <div class="card-header py-3 text-bg-primary">
+                    <h3 class="fs-4 mb-0 text-center">
+                      {% if question.is_negatively_marked and t.score == 0 %}
+                        Councils without penalty marks
+                      {% else %}
+                        {{ t.score|floatformat:0 }} point{{ t.score|pluralize }}
+                      {% endif %}
+                    </h3>
+                </div>
+                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center {% if t.score < 0 %}bg-red-100{% endif %}">
+                    <span class="fs-1 lh-1 mb-2">
+                        {{ t.count }}
+                    </span>
+                    <span>
+                      {% if t.count == 1 %}
+                        {% include 'scoring/includes/scoring-group-name.html' with group=authority_type plural=0 %}
+                      {% else %}
+                        {% include 'scoring/includes/scoring-group-name.html' with group=authority_type plural=1 %}
+                      {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if scores %}
+    <table class="table-council-question-performance w-100 mt-4">
+        <thead class="text-bg-primary position-sticky z-index-3 top-0">
+            <tr>
+                <th scope="col" class="text-start border-end border-opacity-25 border-primary">Council</th>
+                <th scope="col" class="text-center border-end border-opacity-25 border-primary">Score</th>
+                <th scope="col" class="text-start border-end border-opacity-25 border-primary">Evidence</th>
+            </tr>
+        </thead>
+        <tbody>
+          {% for score in scores %}
+            <tr data-jump-slug="{{ score.plan_score.council.slug }}">
+                <td class="text-start border-bottom border-start border-end border-opacity-25 border-primary">
+                    <a href="{% url 'scoring:council' score.plan_score.council.slug %}">
+                        {{ score.plan_score.council.name }}
+                    </a>
+                </td>
+                <td class="text-center border-bottom border-end border-opacity-25 border-primary {% if score.score < 0 %}bg-red-100{% endif %}">
+                    {{ score.score|floatformat:"-2" }}/{{ score.max_score }}
+                </td>
+                <td class="text-start border-bottom border-end border-opacity-25 border-primary">
+                  {% if score.score != 0 %}
+                    {% for evidence_link in score.evidence_links_cleaned %}
+                      {% if not forloop.first %}<br>{% endif %}
+                      {% if evidence_link|slice:":4" == "http" %}
+                        <a href="{{ evidence_link }}">{{ evidence_link|domain_human }}</a>
+                      {% else %}
+                        {{ evidence_link }}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+  {% endif %}
+</div>
+{% endblock %}
