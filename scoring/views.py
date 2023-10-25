@@ -809,22 +809,23 @@ class QuestionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
         # If question only applies to a single authority type,
         # assume the user wants to see that.
         if context["applicable_authority_types"].count() == 1:
-            context["authority_type"] = context["applicable_authority_types"][0].description
+            context["authority_type"] = context["applicable_authority_types"][0].description  # fmt: skip
 
         # Otherwise, see whether they’ve provided a valid
         # scoring group slug as a query param in the URL.
         elif self.request.GET.get("type") in Council.SCORING_GROUPS:
-            context["authority_type"] = Council.SCORING_GROUPS[self.request.GET.get("type")]["slug"]
+            context["authority_type"] = Council.SCORING_GROUPS[
+                self.request.GET.get("type")
+            ]["slug"]
 
         if "authority_type" in context:
             scores = PlanQuestionScore.objects.filter(
-                plan_score__year=settings.PLAN_YEAR,
-                plan_question__code=question.code
+                plan_score__year=settings.PLAN_YEAR, plan_question__code=question.code
             ).order_by("-score", "plan_score__council__name")
 
             context["scores"] = []
             for score in scores:
-                if score.plan_score.council.get_scoring_group()["slug"] == context["authority_type"]:
+                if score.plan_score.council.get_scoring_group()["slug"] == context["authority_type"]:  # fmt: skip
                     context["scores"].append(score)
 
             # We don’t actually know what all the possible scores are for
@@ -837,10 +838,12 @@ class QuestionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
 
             context["totals"] = []
             for score in possible_scores:
-                context["totals"].append({
-                    "score": score,
-                    "count": sum(q.score == score for q in context["scores"])
-                })
+                context["totals"].append(
+                    {
+                        "score": score,
+                        "count": sum(q.score == score for q in context["scores"]),
+                    }
+                )
 
         return context
 
