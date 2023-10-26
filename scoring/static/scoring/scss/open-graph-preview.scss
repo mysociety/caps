@@ -227,6 +227,10 @@
                 &.count--long {
                     font-size: 5.5rem;
                 }
+
+                .text-nowrap {
+                    white-space: normal !important;
+                }
             }
         }
 

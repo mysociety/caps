@@ -444,6 +444,11 @@ class CouncilPreview(DetailView):
         plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
         max_score, min_score = self.get_high_low_scores(plan_score)
 
+        words = council.name.split()
+        last_two_words = f"{words[-2]} {words[-1]}"
+        if len(last_two_words) < 16:
+            context["add_nosplit_span"] = True
+
         context["page_title"] = council.name
         context["plan_score"] = plan_score
         context["authority_type"] = council.get_scoring_group()

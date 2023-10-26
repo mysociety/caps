@@ -4,7 +4,11 @@
 {% block bodyclass %}version-2-gradient council-preview{% endblock %}
 
 {% block content %}
-    <h1 class="text-shadow js-count">{{ council.name|prevent_widow }}</h1>
+    <h1 class="text-shadow js-count">
+        <span{% if add_nosplit_span %} class="text-nowrap"{% endif %}>
+        {{ council.name }}
+        </span>
+    </h1>
     {% if plan_score.top_performer %}
     <span class="mb-5 me-auto fw-bold subtitle text-shadow text-yellow-300 mt-2">
         {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
