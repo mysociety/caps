@@ -702,7 +702,7 @@ class SectionPreview(CheckForDownPageMixin, TemplateView):
 
         group = Council.SCORING_GROUPS[council_type]
 
-        section = PlanSection.objects.get(code=code)
+        section = PlanSection.objects.get(code=code, year=settings.PLAN_YEAR)
 
         scores = PlanSectionScore.objects.filter(
             plan_section=section,
@@ -731,7 +731,7 @@ class SectionTopPerformerPreview(CheckForDownPageMixin, TemplateView):
 
         code = self.kwargs["slug"]
 
-        section = PlanSection.objects.get(code=code)
+        section = PlanSection.objects.get(code=code, year=settings.PLAN_YEAR)
 
         scores = PlanSectionScore.objects.filter(
             plan_section=section,
@@ -757,7 +757,7 @@ class SectionCouncilTopPerformerPreview(CheckForDownPageMixin, TemplateView):
         code = self.kwargs["slug"]
         council = self.kwargs["council"]
 
-        section = PlanSection.objects.get(code=code)
+        section = PlanSection.objects.get(code=code, year=settings.PLAN_YEAR)
 
         scores = get_object_or_404(
             PlanSectionScore,
