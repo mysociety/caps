@@ -63,6 +63,7 @@ class PrivacyView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Privacy Policy"
+        context["canonical_path"] = self.request.path
         return context
 
 
@@ -217,6 +218,7 @@ class HomePageView(
         context["site_title"] = "Climate Emergency UK"
 
         context["current_page"] = "home-page"
+        context["canonical_path"] = self.request.path
 
         return context
 
@@ -385,6 +387,7 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             country__in=group["countries"],
         ).count()
 
+        context["canonical_path"] = self.request.path
         context["council_count"] = council_count
         context["authority_type"] = group
         context["plan_score"] = plan_score
@@ -656,6 +659,8 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
         context["averages"] = avgs
         if context.get("council_type", None) is not None:
             context["council_type_avg"] = avgs[context["council_type"]["slug"]]
+
+        context["canonical_path"] = self.request.path
         return context
 
 
@@ -696,6 +701,7 @@ class SectionsView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView)
             elif section.code in self.ca_sections:
                 context["ca_sections"].append(details)
 
+        context["canonical_path"] = self.request.path
         return context
 
 
@@ -801,6 +807,7 @@ class AboutView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "About"
         context["current_page"] = "about-page"
+        context["canonical_path"] = self.request.path
         return context
 
 
@@ -1018,6 +1025,8 @@ class MethodologyView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateVi
             {"name": "Winchester Action on Climate Change"},
             {"name": "Zap Map"},
         ]
+
+        context["canonical_path"] = self.request.path
         return context
 
 
@@ -1029,6 +1038,7 @@ class ContactView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Contact"
         context["current_page"] = "contact-page"
+        context["canonical_path"] = self.request.path
         return context
 
 
@@ -1040,4 +1050,5 @@ class HowToUseView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView)
         context = super().get_context_data(**kwargs)
         context["page_title"] = "How to use the Scorecards"
         context["current_page"] = "how-to-page"
+        context["canonical_path"] = self.request.path
         return context
