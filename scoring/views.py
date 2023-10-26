@@ -590,10 +590,14 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
 
             context["council_type"] = council_type
 
-            council_count = Council.objects.filter(
-                authority_type__in=council_type["types"],
-                country__in=council_type["countries"],
-            ).count()
+            council_count = (
+                Council.objects.filter(
+                    authority_type__in=council_type["types"],
+                    country__in=council_type["countries"],
+                )
+                .exclude(end_date__isnull=False)
+                .count()
+            )
             context["council_count"] = council_count
 
             try:
