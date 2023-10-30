@@ -796,54 +796,65 @@ class QuestionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
     template_name = "scoring/question.html"
 
     def get_object(self):
-        return get_object_or_404(PlanQuestion, code=self.kwargs["code"])
+        return get_object_or_404(
+            PlanQuestion.objects.select_related("section"), code=self.kwargs["code"]
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        question = self.get_object()
+        question = context["question"]
         context["page_title"] = question.text
 
         context["applicable_authority_types"] = question.questiongroup.all()
+        authority_type = None
 
         # If question only applies to a single authority type,
         # assume the user wants to see that.
         if context["applicable_authority_types"].count() == 1:
-            context["authority_type"] = context["applicable_authority_types"][0].description  # fmt: skip
+            authority_type = Council.SCORING_GROUPS[
+                context["applicable_authority_types"][0].description
+            ]
 
         # Otherwise, see whether they’ve provided a valid
         # scoring group slug as a query param in the URL.
         elif self.request.GET.get("type") in Council.SCORING_GROUPS:
-            context["authority_type"] = Council.SCORING_GROUPS[
-                self.request.GET.get("type")
-            ]["slug"]
+            authority_type = Council.SCORING_GROUPS[self.request.GET.get("type")]
 
-        if "authority_type" in context:
-            scores = PlanQuestionScore.objects.filter(
-                plan_score__year=settings.PLAN_YEAR, plan_question__code=question.code
-            ).order_by("-score", "plan_score__council__name")
-
-            context["scores"] = []
-            for score in scores:
-                if score.plan_score.council.get_scoring_group()["slug"] == context["authority_type"]:  # fmt: skip
-                    context["scores"].append(score)
-
-            # We don’t actually know what all the possible scores are for
-            # any given question. So we could either assume the scores range
-            # from 0 up to question.max_score (which doesn’t work for penalty
-            # questions with their negative scores), or we can just display all
-            # the unique scores that were actually achieved by councils of the
-            # given type. We decided to go with the latter.
-            possible_scores = sorted(set([s.score for s in context["scores"]]))
-
-            context["totals"] = []
-            for score in possible_scores:
-                context["totals"].append(
-                    {
-                        "score": score,
-                        "count": sum(q.score == score for q in context["scores"]),
-                    }
+        if authority_type is not None:
+            context["authority_type"] = authority_type["slug"]
+            authority_types = authority_type["types"]
+            context["scores"] = (
+                PlanQuestionScore.objects.filter(
+                    plan_score__year=settings.PLAN_YEAR,
+                    plan_question=question,
+                    plan_score__council__authority_type__in=authority_types,
                 )
+                .select_related("plan_score", "plan_score__council")
+                .order_by("-score", "plan_score__council__name")
+            )
+
+            score_counts = question.get_scores_breakdown(
+                year=settings.PLAN_YEAR, council_group=authority_type
+            )
+
+            totals = {}
+
+            # make sure we display all possible scores for positive marks
+            if question.question_type != "negative":
+                for score in range(question.max_score + 1):
+                    totals[score] = {
+                        "score": score,
+                        "count": 0,
+                    }
+
+            for score in score_counts:
+                totals[score["score"]] = {
+                    "score": score["score"],
+                    "count": score["score_count"],
+                }
+
+            context["totals"] = [totals[k] for k in sorted(totals.keys())]
 
         return context
 

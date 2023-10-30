@@ -121,7 +121,7 @@
                     </a>
                 </td>
                 <td class="text-center border-bottom border-end border-opacity-25 border-primary {% if score.score < 0 %}bg-red-100{% endif %}">
-                    {{ score.score }}/{{ score.plan_question.max_score }}
+                    {{ score.score }}/{{ score.max_score }}
                 </td>
                 <td class="text-start border-bottom border-end border-opacity-25 border-primary">
                   {% for evidence_link in score.evidence_links_cleaned %}
