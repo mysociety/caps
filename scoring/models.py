@@ -557,7 +557,7 @@ class PlanQuestionScore(ScoreFilterMixin, models.Model):
         PlanQuestion, on_delete=models.CASCADE, related_name="questions"
     )
     answer = models.TextField(null=True, default="")
-    score = models.SmallIntegerField(default=0)
+    score = models.FloatField(default=0)
     max_score = models.PositiveSmallIntegerField(default=0)
     notes = models.TextField(null=True, default="")
     evidence_links = models.TextField(null=True, default="")
