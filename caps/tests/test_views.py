@@ -284,3 +284,15 @@ class TestSearchPage(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "caps/search_results.html")
         self.assertRegex(response.content, rb"Looking for your local council")
+
+
+class TestMarkDownView(TestCase):
+    def test_page_works(self):
+        url = reverse("content", args=("mrp",))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_missing_template_404(self):
+        url = reverse("content", args=("missing-template",))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)

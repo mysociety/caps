@@ -23,9 +23,10 @@ from django.db.models import (
     Value,
     When,
 )
-from django.http import HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import Context, Template
+from django.template.exceptions import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 from django.views.generic import DetailView, ListView, TemplateView, View
@@ -901,7 +902,10 @@ class MarkdownView(TemplateView):
         # sanitise the slug to prevent directory traversal
         markdown_slug = re.sub(r"[^a-zA-Z0-9_-]", "", markdown_slug)
         template_path = Path("caps", "markdown/{}.md".format(markdown_slug))
-        template = get_template(template_path)
+        try:
+            template = get_template(template_path)
+        except TemplateDoesNotExist:
+            raise Http404
 
         markdown_body = template.template.source.strip()
 
