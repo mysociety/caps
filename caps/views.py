@@ -958,3 +958,26 @@ class MarkdownView(TemplateView):
         context["body"] = mark_safe(str(soup))
         context["header_links"] = header_links
         return context
+
+
+class NotFoundPageView(TemplateView):
+    template_name = "caps/404.html"
+    extra_context = {
+        "page_title": "Page not found",
+    }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["all_councils"] = Council.current_councils()
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        response_kwargs.setdefault("content_type", self.content_type)
+        return self.response_class(
+            request=self.request,
+            template=self.get_template_names(),
+            context=context,
+            using=self.template_engine,
+            status=404,
+            **response_kwargs,
+        )

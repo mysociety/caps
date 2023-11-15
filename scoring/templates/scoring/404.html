@@ -1,0 +1,44 @@
+{% extends "scoring/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<div class="pt-5 pb-6 pt-lg-8 pb-lg-8 hero-section with-version-background">
+  <div class="container">
+      <h1 class="mb-3">Page not found</h1>
+  </div>
+</div>
+
+
+<div class="container py-4 py-lg-5">
+  <div class="row">
+      <div class="mb-3 mb-lg-0 col-12 col-lg-4">
+          <div class="card h-100">
+              <div class="card-header">
+                  <h3 class="fs-6 mb-0">Check a council&rsquo;s Scorecard</h3>
+              </div>
+              <div class="card-body">
+                  <p>Explore in detail the full results of one council across all sections and questions.</p>
+                  <form action="{% url 'scoring:location_results' %}" class="form">
+                      <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
+                  </form>
+              </div>
+          </div>
+      </div>
+      <div class="mb-3 mb-lg-0 col-12 col-lg-4">
+          <div class="card h-100">
+              <div class="card-header">
+                  <h3 class="fs-6 mb-0">See Scorecard results by section topics</h3>
+              </div>
+              <div class="card-body">
+                  <p>Explore in detail the how different councils scored in each of the 7 Scorecard sections.</p>
+                  <a href="{% url 'scoring:sections' %}" class="btn btn-primary">Go to sections</a>
+              </div>
+          </div>
+      </div>
+  </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "caps/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="mb-5">
+    <h1 class="mb-4 mb-lg-5">Page not found</h1>
+
+    <h3 class="line-height-1">Find your council’s action plan</h1>
+    {% include 'caps/includes/location-search-form.html' %}
+</div>
+
+{% endblock %}
+
+{% block extrafooterscript %}
+{% include 'caps/includes/location-search-autocomplete.html' %}
+{% endblock %}

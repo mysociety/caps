@@ -14,6 +14,8 @@ router.register(r"councils", api_views.CouncilViewSet, basename="council")
 router.register(r"searchterms", api_views.SearchTermViewSet)
 router.register(r"commitments", api_views.CommitmentsViewSet)
 
+handler404 = views.NotFoundPageView.as_view()
+
 urlpatterns = [
     path("", views.HomePageView.as_view(), name="home"),
     path("councils/<slug:slug>/", views.CouncilDetailView.as_view(), name="council"),
@@ -54,6 +56,8 @@ urlpatterns = [
         name="council-commitments",
     ),
     path("content/<str:markdown_slug>/", views.MarkdownView.as_view(), name="content"),
+    # used for testing page in debug mode
+    path("404/", views.NotFoundPageView.as_view(), name="404"),
 ]
 
 if settings.DEBUG:

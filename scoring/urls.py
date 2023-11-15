@@ -4,6 +4,8 @@ from django.urls import include, path
 
 import scoring.views as views
 
+handler404 = views.NotFoundPageView.as_view()
+
 app_name = "scoring"
 scoring_patterns = (
     [
@@ -61,6 +63,8 @@ scoring_patterns = (
         path("login/", views.LoginView.as_view(), name="login"),
         path("logout/", views.LogoutView.as_view(), name="logout"),
         path("privacy/", views.PrivacyView.as_view(), name="privacy"),
+        # used for testing page in debug mode
+        path("404/", views.NotFoundPageView.as_view(), name="404"),
     ],
     "scoring",
 )
