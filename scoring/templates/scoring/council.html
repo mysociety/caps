@@ -265,7 +265,7 @@
                   <span>{{section.weighted_score|floatformat:0 }}%</span>
                     {% if section.has_negative_points %}
                     <div class="fs-7 mt-2">
-                        {{ section.score }} &equals; Total score ({{ section.non_negative_max }}) &minus; Penalty points ({{ section.negative_points }})
+                        {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
                     </div>
                     {% endif %}
                 </td>
