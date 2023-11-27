@@ -125,17 +125,19 @@
                     </a>
                 </td>
                 <td class="text-center border-bottom border-end border-opacity-25 border-primary {% if score.score < 0 %}bg-red-100{% endif %}">
-                    {{ score.score }}/{{ score.max_score }}
+                    {{ score.score|floatformat:"-2" }}/{{ score.max_score }}
                 </td>
                 <td class="text-start border-bottom border-end border-opacity-25 border-primary">
-                  {% for evidence_link in score.evidence_links_cleaned %}
-                    {% if not forloop.first %}<br>{% endif %}
-                    {% if evidence_link|slice:":4" == "http" %}
-                      <a href="{{ evidence_link }}">{{ evidence_link|domain_human }}</a>
-                    {% else %}
-                      {{ evidence_link }}
-                    {% endif %}
-                  {% endfor %}
+                  {% if score.score != 0 %}
+                    {% for evidence_link in score.evidence_links_cleaned %}
+                      {% if not forloop.first %}<br>{% endif %}
+                      {% if evidence_link|slice:":4" == "http" %}
+                        <a href="{{ evidence_link }}">{{ evidence_link|domain_human }}</a>
+                      {% else %}
+                        {{ evidence_link }}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
                 </td>
             </tr>
           {% endfor %}
