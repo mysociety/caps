@@ -249,7 +249,7 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             "how_marked_display": question.get_how_marked_display(),
             "is_council_operations_only": question.is_council_operations_only,
             "weighting": question.get_weighting_display(),
-            "evidence_links": question.evidence_links,
+            "evidence_links": question.evidence_links_cleaned,
         }
         if question.question_type == "HEADER":
             q["max"] = question.header_max

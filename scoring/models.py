@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models import Avg, Count, F, Max, Q
 
 from caps.models import Council
+from caps.utils import clean_links
 
 
 # define this here as mixins imports PlanScore so if we import that then we get
@@ -531,6 +532,13 @@ class PlanQuestion(models.Model):
     def is_council_operations_only(self):
         return self.code in self.COUNCIL_OPS_QUESTION_CODES
 
+    # the questions answered methods of PlanScore return PlanQuestion objects that
+    # are used like PlanQuestionScore objects in some cases so we need this in both
+    # classes
+    @property
+    def evidence_links_cleaned(self):
+        return clean_links(self.evidence_links)
+
     @classmethod
     def get_average_scores(cls, section=None, council_group=None):
         qs = PlanQuestionScore.objects.all()
@@ -582,22 +590,7 @@ class PlanQuestionScore(ScoreFilterMixin, models.Model):
 
     @property
     def evidence_links_cleaned(self):
-        # Evidence "links" can be one of:
-        # - an empty line
-        # - a string like "Airports:"
-        # - a string like "www.whatever.com/…"
-        # - a string like "http://www…"
-        # So attempt to tidy them up, before passing to
-        # a template filter like domain_human or urlizetrunc.
-        links = []
-        for line in self.evidence_links.splitlines():
-            if line == "":
-                pass
-            elif line.startswith("www."):
-                links.append(f"http://{line}")
-            else:
-                links.append(line)
-        return links
+        return clean_links(self.evidence_links)
 
     @classmethod
     def all_question_max_score_counts(

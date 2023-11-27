@@ -97,3 +97,22 @@ def gen_natsort_lamda(keyfunc=None):
     return lambda q: [
         int(t) if t.isdigit() else t.lower() for t in re.split("(\d+)", keyfunc(q))
     ]
+
+
+def clean_links(links: str):
+    # Evidence "links" can be one of:
+    # - an empty line
+    # - a string like "Airports:"
+    # - a string like "www.whatever.com/…"
+    # - a string like "http://www…"
+    # So attempt to tidy them up, before passing to
+    # a template filter like domain_human or urlizetrunc.
+    link_list = []
+    for line in links.splitlines():
+        if line == "":
+            pass
+        elif line.startswith("www."):
+            link_list.append(f"http://{line}")
+        else:
+            link_list.append(line)
+    return link_list
