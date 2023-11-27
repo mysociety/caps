@@ -539,6 +539,10 @@ class PlanQuestion(models.Model):
     def evidence_links_cleaned(self):
         return clean_links(self.evidence_links)
 
+    @property
+    def is_negatively_marked(self):
+        return self.question_type == "negative"
+
     @classmethod
     def get_average_scores(cls, section=None, council_group=None):
         qs = PlanQuestionScore.objects.all()
