@@ -303,7 +303,7 @@
               {% endfor %}
 
                 <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
-                    <a href="{% include 'scoring/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">
+                  <a href="{% url 'scoring:question' answer.code %}?type={{ authority_type.slug }}" class="mx-auto" style="text-transform: none">
                         {{ answer.council_count }} out of {{ council_count }}
                     </a>
                     <span class="fs-8 mt-1 me-0 ms-auto d-block">
