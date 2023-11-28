@@ -29,6 +29,7 @@ def replace_headers():
             "wording",
             "source_url",
             "source_name",
+            "data_checked",
             "notes",
         ],
     )
