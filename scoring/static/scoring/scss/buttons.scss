@@ -39,3 +39,25 @@ button {
     box-shadow: 0 4px $black !important;
   }
 }
+
+.btn-facebook {
+  @include button-variant(
+    $color-facebook-blue,
+    $color-facebook-blue,
+    $hover-background: shade-color($color-facebook-blue, $btn-hover-bg-shade-amount),
+    $hover-border: shade-color($color-facebook-blue, $btn-hover-border-shade-amount),
+    $active-background: shade-color($color-facebook-blue, $btn-active-bg-shade-amount),
+    $active-border: shade-color($color-facebook-blue, $btn-active-border-shade-amount)
+  );
+}
+
+.btn-twitter {
+  @include button-variant(
+    $color-twitter-black,
+    $color-twitter-black,
+    $hover-background: tint-color($color-twitter-black, $btn-hover-bg-shade-amount),
+    $hover-border: tint-color($color-twitter-black, $btn-hover-border-shade-amount),
+    $active-background: tint-color($color-twitter-black, $btn-active-bg-shade-amount),
+    $active-border: tint-color($color-twitter-black, $btn-active-border-shade-amount)
+  );
+}
