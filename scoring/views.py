@@ -554,7 +554,7 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
                         if score["council_slug"] == first_comparison:
                             comparison_questions[code][
                                 "evidence_links"
-                            ] = answer.evidence_links_cleaned()
+                            ] = answer.evidence_links_cleaned
 
                     else:
                         comparison_questions[code]["comparisons"].append({"score": "-"})
