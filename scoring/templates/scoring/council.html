@@ -209,7 +209,7 @@
       <p class="text-white mb-3">You'll find more options, like the ability to compare your council's Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
     </div>
 
-    <table class="table-question-council mb-3 mt-4">
+    <table class="table-question-council my-4">
         <thead class="text-bg-primary position-sticky z-index-3 top-0">
             <tr>
                 <th scope="col" class="w-50 text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
@@ -342,11 +342,16 @@
         </tbody>
 
     </table>
-    <div class="d-flex gap-2 mb-5">
-      {% comment %} <a class="table-social-icon facebook mr-1" title="Share this page on Facebook" aria-label="Share this page on Facebook" href="https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri|urlencode }}"></a> {% endcomment %}
-      <a class="table-social-icon twitter" title="Share this page on Twitter" aria-label="Share this page on Twitter" href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&amp;text={{ twitter_tweet_text|urlencode }}"></a>
+    <div class="d-flex gap-3">
+        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&amp;text={{ twitter_tweet_text|urlencode }}" class="btn btn-twitter rounded-pill px-3 d-flex align-items-center gap-2">
+            {% include "scoring/icons/x.html" %}
+            Share this on X (Twitter)
+        </a>
+        <a href="https://www.facebook.com/sharer.php?u={{ request.build_absolute_uri|urlencode }}" class="btn btn-facebook rounded-pill px-3 d-flex align-items-center gap-2">
+            {% include "scoring/icons/facebook.html" %}
+            Share this on Facebook
+        </a>
     </div>
-
 </div>
 {% else %}
 <div class="py-5 border-bottom">
