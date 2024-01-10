@@ -25,15 +25,29 @@ class AdvancedFilterMixin:
         if getattr(filter.form, "cleaned_data", None) is not None:
             params = filter.form.cleaned_data
             descs = []
-            if params["population"] and params["population"] != "":
-                descs.append(params["population"])
-            if params["control"] and params["control"] != "":
-                descs.append(params["control"])
-            if params["ruc_cluster"] and params["ruc_cluster"] != "":
-                descs.append(PlanScore.ruc_cluster_description(params["ruc_cluster"]))
-            if params["imdq"] and params["imdq"] != "":
-                descs.append("deprivation quintile {}".format(params["imdq"]))
-            if params["country"] and params["country"] != "":
+            if (
+                params.get("population", None) is not None
+                and params["population"] != ""
+            ):
+                descs.append(params.get("population", None) is not None)
+            if params.get("control", None) is not None and params["control"] != "":
+                descs.append(params.get("control", None) is not None)
+            if (
+                params.get("ruc_cluster", None) is not None
+                and params["ruc_cluster"] != ""
+            ):
+                descs.append(
+                    PlanScore.ruc_cluster_description(
+                        params.get("ruc_cluster", None) is not None
+                    )
+                )
+            if params.get("imdq", None) is not None and params["imdq"] != "":
+                descs.append(
+                    "deprivation quintile {}".format(
+                        params.get("imdq", None) is not None
+                    )
+                )
+            if params.get("country", None) is not None and params["country"] != "":
                 descs.append(Council.country_description(params["country"]))
             if params.get("region", None) is not None and params["region"] != "":
                 descs.append(params["region"])
