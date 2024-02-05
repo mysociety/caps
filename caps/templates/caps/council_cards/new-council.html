@@ -10,6 +10,7 @@
     <p>
         This council was created in {{ council.start_date }}. It may not have any specific plans yet. Plans and declarations may have been made by former councils.
     </p>
+    {% if council.get_predecessors.exists %}
     <p>This council replaced:</p>
     <ul>
         {% for predecessor in council.get_predecessors %}
@@ -18,4 +19,5 @@
             </li>
         {% endfor %}
     </ul>
+    {% endif %}
 {% endblock content %}
