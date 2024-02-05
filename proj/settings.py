@@ -151,7 +151,7 @@ RAW_CSV = os.path.join(DATA_DIR, RAW_CSV_NAME)
 PROCESSED_CSV_NAME = "plans.csv"
 PROCESSED_CSV = os.path.join(DATA_DIR, PROCESSED_CSV_NAME)
 
-COUNCILS_AS_OF_DATE = date(2023, 4, 2)
+COUNCILS_AS_OF_DATE = date(2024, 2, 2)
 
 # councils after this date get special language
 RECENTLY_ADDED_COUNCILS = date(2022, 1, 1)
