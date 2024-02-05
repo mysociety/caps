@@ -8,6 +8,12 @@ set -e
 # check that we are in the expected directory
 cd `dirname $0`/..
 
+# copy any files that begin la- from media/data/plans to data/plans
+# this stores the pdfs for the citizens assemblies
+echo "==> copying plan files"
+mkdir -p data/plans
+cp media/data/plans/la-* data/plans
+
 cd "data"
 
 echo "==> dumping database"
