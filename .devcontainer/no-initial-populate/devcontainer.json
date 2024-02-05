@@ -2,7 +2,7 @@
 {
 	"name": "caps",
 
-	"dockerComposeFile": ["../docker-compose.yml", "docker-compose-extend-cached-image.yml"],
+	"dockerComposeFile": ["../../docker-compose.yml", "../docker-compose-extend-cached-image.yml"],
 	"service": "app",
 	"workspaceFolder": "/workspaces/caps",
 	"overrideCommand": true,
