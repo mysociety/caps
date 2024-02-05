@@ -94,14 +94,13 @@ class Command(BaseCommand):
             hashed_url = PlanDocument.make_url_hash(cached_pdf_url)
             if hashed_url in existing_assemblies:
                 continue
-
             if not destination_path.exists() or redownload_files:
                 self.download_file(
                     cached_pdf_url, destination_path, verbose=verbose_output
                 )
 
             # get file to be stored within the database
-            document_file = destination_path.relative_to(Path.cwd()).open("rb")
+            document_file = destination_path.relative_to(settings.MEDIA_ROOT).open("rb")
             file_object = File(document_file)
             start_year = assembly["assembly_year"]
             today = datetime.now().date()
