@@ -395,7 +395,7 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
         context["sections"] = sorted(
             sections.values(), key=lambda section: section["code"]
         )
-        context["page_title"] = "{name} Climate Plan Scorecards".format(
+        context["page_title"] = "{name} Climate Action Scorecard".format(
             name=council.name
         )
 
