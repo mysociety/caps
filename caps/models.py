@@ -235,15 +235,17 @@ class Council(models.Model):
         through_fields=("council_a", "council_b"),
         blank=True,
     )
-    twitter_name = models.CharField(max_length=200, null=True)
-    twitter_url = models.URLField(null=True)
-    region = models.CharField(max_length=200, null=True, choices=REGION_CHOICES)
-    county = models.CharField(max_length=200, null=True)
+    twitter_name = models.CharField(max_length=200, null=True, blank=True)
+    twitter_url = models.URLField(null=True, blank=True)
+    region = models.CharField(
+        max_length=200, null=True, choices=REGION_CHOICES, blank=True
+    )
+    county = models.CharField(max_length=200, null=True, blank=True)
     population = models.IntegerField(default=0)
-    start_date = models.DateField(null=True)
-    end_date = models.DateField(null=True)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
     replaced_by = models.CharField(
-        max_length=200, null=True
+        max_length=200, null=True, blank=True
     )  # pipe seperated list of authority codes
 
     class Meta:
