@@ -202,6 +202,13 @@ class CouncilDetailView(DetailView):
             )
 
             for section in section_avgs.all():
+                print(section)
+                if section["plan_section__code"] not in sections:
+                    sections[section["plan_section__code"]] = {
+                        "code": section["plan_section__code"],
+                        "top_performer": False,
+                    }
+
                 sections[section["plan_section__code"]]["avg"] = round(
                     section["avg_score"], 1
                 )
