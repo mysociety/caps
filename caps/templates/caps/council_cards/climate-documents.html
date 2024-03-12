@@ -14,17 +14,13 @@
 {% block cardbody %}
     {% infobox  %}
         <p>
-            The following climate documents have been published by {{ council.name}}.
+            The following documents are likely to shape the climate action that {{ council.name }} takes.
         </p>
-            <p>You can read, search, and see topics we've identified that are present in each document.
-
+        <p class="mb-0">
+            You can browse topics in these documents using the links below, or <a href="{% url "search_results" %}">start your own custom search</a> across all plans stored in our database.
         </p>
-        <p>
-            You can also <a href="{% url "search_results" %}">search across all plans stored in our database</a>.
-        </p>
-        
     {% endinfobox %}
-    <hr />
+    <hr class="mt-0" />
     {% include 'caps/includes/document-list.html' with documents=grouped_documents %}
     <div class="card-footer bg-yellow-light">
         <p class="mb-0">
