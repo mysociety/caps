@@ -273,7 +273,7 @@ class CouncilDetailView(DetailView):
         Get information on the documents associated with this council
         """
         context = {}
-        documents = council.plandocument_set.order_by("-updated_at").all()
+        documents = council.plandocument_set.order_by("-created_at").all()
         grouped_documents = defaultdict(list)
         for document in documents:
             grouped_documents[document.get_document_type].append(document)
