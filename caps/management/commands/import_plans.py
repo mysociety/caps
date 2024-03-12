@@ -1,9 +1,14 @@
-from os.path import join
-from datetime import date
 import math
+from datetime import date
+from os.path import join
 
-import pandas as pd
 import numpy as np
+import pandas as pd
+from django.conf import settings
+from django.core.files import File
+from django.core.management.base import BaseCommand, CommandError
+from django.db.models import Count, Q
+from django.template.defaultfilters import pluralize
 
 from caps.models import Council, PlanDocument
 from caps.utils import (
@@ -12,13 +17,6 @@ from caps.utils import (
     date_from_text,
     integer_from_text,
 )
-
-from django.core.management.base import BaseCommand, CommandError
-from django.core.files import File
-from django.template.defaultfilters import pluralize
-from django.db.models import Count, Q
-
-from django.conf import settings
 
 
 class Command(BaseCommand):
