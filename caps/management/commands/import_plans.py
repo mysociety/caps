@@ -133,9 +133,17 @@ class Command(BaseCommand):
         plans_to_delete_count = 0
         for council_code in plans_to_import.keys():
             council = Council.objects.get(gss_code=council_code)
-            plans = PlanDocument.objects.filter(
-                council=council,
-            ).exclude(url__in=plans_to_import[council_code])
+            plans = (
+                PlanDocument.objects.filter(
+                    council=council,
+                )
+                .exclude(
+                    url__in=plans_to_import[council_code],
+                )
+                .exclude(
+                    document_type=PlanDocument.CITIZENS_ASSEMBLY,
+                )
+            )
             for plan in plans:
                 plans_to_delete_count += 1
                 council_plans = plans_to_delete.get(council_code, set())
