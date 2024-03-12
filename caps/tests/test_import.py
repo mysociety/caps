@@ -153,14 +153,14 @@ class ImportPlansTestCase(ImportTestCase):
             out = self.call_command(confirm_changes=1, verbosity=2)
             self.assertEquals(
                 out,
-                "updating plan for Borsetshire\nadding new plan for West Borsetshire\n1 plan will be added\n1 plan will be updated\nCouncils with a plan went from 2 to 3\nNumber of documents went from 2 to 3\nNumber of plans went from 2 to 3\n",
+                "updating plan for Borsetshire (date_last_found changed)\nadding new plan for West Borsetshire\n1 plan will be added\n1 plan will be updated\nCouncils with a plan went from 2 to 3\nNumber of documents went from 2 to 3\nNumber of plans went from 2 to 3\n",
             )
 
         with self.settings(PROCESSED_CSV="caps/tests/test_processed_update_url.csv"):
             out = self.call_command(confirm_changes=1, verbosity=2)
             self.assertEquals(
                 out,
-                "adding new plan for Borsetshire\ndeleting plan for Borsetshire\n1 plan will be added\n1 plan will be deleted\nCouncils with a plan is unchanged at 3\nNumber of documents is unchanged at 3\nNumber of plans is unchanged at 3\n",
+                "adding new plan for Borsetshire\ndeleting plan for Borsetshire -  (1)\n1 plan will be added\n1 plan will be deleted\nCouncils with a plan is unchanged at 3\nNumber of documents is unchanged at 3\nNumber of plans is unchanged at 3\n",
             )
 
     def test_update_properties(self):

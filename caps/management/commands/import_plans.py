@@ -113,15 +113,20 @@ class Command(BaseCommand):
                 else:
                     plan = PlanDocument.objects.get(council=council, url=row["url"])
                     diffs = 0
+                    diff_keys = []
                     for key, value in self.get_plan_defaults_from_row(row).items():
                         if getattr(plan, key) != value:
                             diffs = 1
+                            diff_keys.append(key)
 
                     if diffs != 0:
                         self.plans_to_process[index] = "update"
                         plan_update_count += 1
                         self.print_change(
-                            "updating plan for %s", row["council"], verbosity=2
+                            "updating plan for %s (%s changed)",
+                            row["council"],
+                            ", ".join(diff_keys),
+                            verbosity=2,
                         )
 
         plans_to_delete = {}
@@ -135,7 +140,13 @@ class Command(BaseCommand):
                 plans_to_delete_count += 1
                 council_plans = plans_to_delete.get(council_code, set())
                 council_plans.update([plan.url])
-                self.print_change("deleting plan for %s", council.name, verbosity=2)
+                self.print_change(
+                    "deleting plan for %s - %s (%s)",
+                    council.name,
+                    plan.title,
+                    plan.document_type,
+                    verbosity=2,
+                )
                 plans_to_delete[council_code] = council_plans
 
         # if a council isn't in the sheet we should remove it entirely from the database
