@@ -2,12 +2,12 @@
         <div class="council-documents">
             {% for group, group_docs in documents.items %}
                 {% for plandocument in group_docs %}
-                    {% if forloop.counter == 2 %}
+                    {% if document_count > 3 and forloop.counter == 2 %}
                         <details class="details">
                             <summary>Show more {{ group }} documents</summary>
-                        {% endif %}
-                        {% include 'caps/includes/council-document.html' with plandocument=plandocument council=council %}
-                        {% if forloop.counter > 1 and forloop.last %}</details>{% endif %}
+                    {% endif %}
+                    {% include 'caps/includes/council-document.html' with plandocument=plandocument council=council %}
+                    {% if document_count > 3 and forloop.counter > 1 and forloop.last %}</details>{% endif %}
                 {% endfor %}
             {% empty %}
                 <p class="text-muted mb-3">We couldn’t find any climate action plans for this council.</p>
