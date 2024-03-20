@@ -1,9 +1,10 @@
 import json
-from django.utils.timezone import make_aware
-from datetime import datetime, date
+from datetime import date, datetime
 
+from django.utils.timezone import make_aware
 from rest_framework.test import APITestCase
-from caps.models import Council, PlanDocument, SavedSearch, Promise
+
+from caps.models import Council, PlanDocument, Promise, SavedSearch
 
 
 class CouncilsAPITestCase(APITestCase):
@@ -38,6 +39,7 @@ class CouncilsAPITestCase(APITestCase):
                     "country": "England",
                     "name": "Borsetshire",
                     "plan_count": 0,
+                    "document_count": 0,
                     "plans_last_update": None,
                     "url": "/councils/borsetshire/",
                     "website_url": "",
@@ -65,10 +67,11 @@ class CouncilsAPITestCase(APITestCase):
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/BOS/commitments",
                     "declared_emergency": None,
+                    "document_count": 1,
                     "gss_code": "E14000111",
                     "country": "England",
                     "name": "Borsetshire",
-                    "plan_count": 1,
+                    "plan_count": 0,
                     "plans_last_update": date.today().isoformat(),
                     "url": "/councils/borsetshire/",
                     "website_url": "",
@@ -110,6 +113,7 @@ class CouncilsAPITestCase(APITestCase):
                     "authority_type": "",
                     "authority_code": "BOS",
                     "plan_count": 0,
+                    "document_count": 0,
                     "plans_last_update": None,
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
@@ -125,6 +129,7 @@ class CouncilsAPITestCase(APITestCase):
                     "authority_type": "City of London",
                     "authority_code": "EBS",
                     "plan_count": 0,
+                    "document_count": 0,
                     "plans_last_update": None,
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
@@ -140,6 +145,7 @@ class CouncilsAPITestCase(APITestCase):
                     "authority_type": "Unitary Authority",
                     "authority_code": "WBS",
                     "plan_count": 0,
+                    "document_count": 0,
                     "plans_last_update": None,
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
@@ -193,6 +199,7 @@ class CouncilsAPITestCase(APITestCase):
                     "authority_type": "County Council",
                     "authority_code": "EBS",
                     "plan_count": 0,
+                    "document_count": 0,
                     "plans_last_update": None,
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
@@ -218,6 +225,7 @@ class CouncilsAPITestCase(APITestCase):
                     "authority_type": "County Council",
                     "authority_code": "EBS",
                     "plan_count": 0,
+                    "document_count": 0,
                     "plans_last_update": None,
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
@@ -233,6 +241,7 @@ class CouncilsAPITestCase(APITestCase):
                     "authority_type": "Unitary Authority",
                     "authority_code": "WBS",
                     "plan_count": 0,
+                    "document_count": 0,
                     "plans_last_update": None,
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
@@ -256,6 +265,7 @@ class CouncilsAPITestCase(APITestCase):
                     "authority_type": "Metropolitan District",
                     "authority_code": "NBS",
                     "plan_count": 0,
+                    "document_count": 0,
                     "plans_last_update": None,
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
@@ -310,6 +320,7 @@ class PromisesAPITest(APITestCase):
                     "authority_type": "",
                     "authority_code": "BOS",
                     "plan_count": 0,
+                    "document_count": 0,
                     "plans_last_update": None,
                     "carbon_neutral_date": 2035,
                     "carbon_reduction_commitment": True,
@@ -325,6 +336,7 @@ class PromisesAPITest(APITestCase):
                     "authority_type": "Unitary Authority",
                     "authority_code": "WBS",
                     "plan_count": 0,
+                    "document_count": 0,
                     "plans_last_update": None,
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,

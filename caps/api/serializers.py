@@ -1,10 +1,12 @@
-from caps.models import Council, SavedSearch, Promise
-from rest_framework import serializers, reverse
+from rest_framework import reverse, serializers
+
+from caps.models import Council, Promise, SavedSearch
 
 
 class CouncilSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.URLField(source="get_absolute_url")
     plan_count = serializers.IntegerField()
+    document_count = serializers.IntegerField()
     country = serializers.CharField(source="get_country_display")
     authority_type = serializers.CharField(source="get_authority_type_display")
     plans_last_update = serializers.DateField()
@@ -26,6 +28,7 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
             "authority_type",
             "authority_code",
             "plan_count",
+            "document_count",
             "plans_last_update",
             "carbon_reduction_commitment",
             "carbon_neutral_date",
@@ -39,6 +42,8 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
         ret = super().to_representation(instance)
         if ret["plan_count"] is None:
             ret["plan_count"] = 0
+        if ret["document_count"] is None:
+            ret["document_count"] = 0
         return ret
 
 

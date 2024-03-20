@@ -1,21 +1,20 @@
 import operator
 from datetime import datetime
 from functools import reduce
-from django.utils.timezone import make_aware
-from django.db.models import Q, Count, Max, Min, Subquery, OuterRef, Exists
 
+from django.db.models import Count, Exists, Max, Min, OuterRef, Q, Subquery
 from django.forms import ValidationError
-
-from rest_framework import viewsets, routers, generics
+from django.utils.timezone import make_aware
+from rest_framework import generics, routers, viewsets
 from rest_framework.exceptions import APIException
 from rest_framework.pagination import PageNumberPagination
 
-from caps.models import Council, SavedSearch, PlanDocument, Promise
 from caps.api.serializers import (
     CouncilSerializer,
-    SearchTermSerializer,
     PromiseSerializer,
+    SearchTermSerializer,
 )
+from caps.models import Council, PlanDocument, Promise, SavedSearch
 
 
 class BiggerPageSize(PageNumberPagination):
@@ -61,6 +60,7 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
     * country - which of the UK home nations the council is located in.
     * authority_type - what type of body (Unitary, District etc) the council is.
     * plan_count - number of plans we have details for.
+    * document_count - number of documents we have details for.
     * plans_last_update - the date of the most recent update to a plan (null if no plans)
     * carbon_reduction_commitment - True if the council has public commitments to reduce emissions
     * carbon_neutral_date - the earliest date for a carbon neutral target (null if no date)
@@ -87,6 +87,15 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         # need to use subqueries otherwise the joins mean we get bad counts
         plans = (
+            PlanDocument.objects.filter(
+                council=OuterRef("pk"), document_type=PlanDocument.ACTION_PLAN
+            )
+            .order_by()
+            .values("council")
+            .annotate(plan_count=Count("council"))
+            .values("plan_count")
+        )
+        documents = (
             PlanDocument.objects.filter(council=OuterRef("pk"))
             .order_by()
             .values("council")
@@ -96,6 +105,7 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
         promised = Promise.objects.filter(council=OuterRef("pk"), has_promise=True)
         queryset = Council.objects.annotate(
             plan_count=Subquery(plans),
+            document_count=Subquery(documents),
             carbon_reduction_commitment=Exists(promised),
             carbon_neutral_date=Min("promise__target_year"),
             declared_emergency=Min("emergencydeclaration__date_declared"),
