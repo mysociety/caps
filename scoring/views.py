@@ -160,18 +160,19 @@ class HomePageView(
             else:
                 council["percentage"] = 0
 
-        missing_councils = self.get_missing_councils(council_ids, authority_type)
+        if context.get("filter_params", None) is None:
+            missing_councils = self.get_missing_councils(council_ids, authority_type)
 
-        for council in missing_councils:
-            councils.append(
-                {
-                    "score": None,
-                    "name": council.name,
-                    "slug": council.slug,
-                    "authority_code": council.authority_code,
-                    "top_performer": None,
-                }
-            )
+            for council in missing_councils:
+                councils.append(
+                    {
+                        "score": None,
+                        "name": council.name,
+                        "slug": council.slug,
+                        "authority_code": council.authority_code,
+                        "top_performer": None,
+                    }
+                )
         codes = PlanSection.section_codes()
 
         if authority_type["slug"] == "combined":
