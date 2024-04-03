@@ -1,23 +1,27 @@
-FROM python:3.9.7 as base
-COPY ./requirements.txt ./requirements.dev.txt /
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get -qq update && \
-    apt-get install -qq -y libpoppler-cpp-dev
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.txt && \
-    pip wheel --no-cache-dir --no-deps --wheel-dir /wheels -r requirements.dev.txt
-
-FROM python:3.9.7-slim
-RUN apt-get -qq update && \
-    apt-get install -qq libpoppler-cpp-dev && \
-    apt-get install -qq libpq5 && \
-    apt-get install -qq git postgresql-client
-WORKDIR /workspaces/caps/
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-RUN pip install --upgrade pip
-COPY --from=base /wheels /wheels
-COPY --from=base requirements.txt requirements.dev.txt ./
-RUN pip install --no-cache-dir /wheels/*
+FROM python:3.9
+ENV INSIDE_DOCKER=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    POETRY_VERSION=1.2.2 \
+    POETRY_VIRTUALENVS_CREATE=false \
+    PYSETUP_PATH="/opt/pysetup"
+RUN apt-get update && apt-get install -y \
+    binutils gdal-bin libproj-dev git npm \
+    libpoppler-cpp-dev postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+RUN curl -sSL https://install.python-poetry.org | python -
+ENV PATH="/root/.local/bin:$PATH"
+WORKDIR $PYSETUP_PATH
+COPY poetry.lock pyproject.toml ./
+RUN poetry install --no-root
+# Not needed (mapping handled by docker-compose)
+# WORKDIR /app
+# COPY . .
+#RUN ./manage.py collectstatic --no-input
 ARG BUILD_COMMIT
 LABEL revision=$BUILD_COMMIT
+WORKDIR /workspaces/caps
 COPY . .
