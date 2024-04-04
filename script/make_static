@@ -8,10 +8,4 @@ cd "$(dirname $BASH_SOURCE)"/..
 
 [ -f .venv/bin/activate ] && source .venv/bin/activate
 
-python3 manage.py collectstatic --noinput
-mkdir -p static/css
-mkdir -p static/img
-sassc --style compressed static/caps/scss/main.scss static/css/caps.css
-sassc --style compressed static/scoring/scss/main.scss static/css/scoring.css
-cp -rf static/caps/img/* static/img/
-cp -rf static/scoring/img/* static/img/
+poetry run ./manage.py collectstatic --noinput

@@ -7,5 +7,5 @@ cd "$(dirname $BASH_SOURCE)"/..
 source .venv/bin/activate
 
 export PYTHONDONTWRITEBYTECODE=1
-pip3 install --requirement requirements.txt
+poetry install --no-interaction --no-root
 find . -name '*.pyc' -delete

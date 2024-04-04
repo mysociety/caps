@@ -3,4 +3,4 @@
 [ -f "$(dirname $0)"/../.venv/bin/activate ] && . "$(dirname $0)"/../.venv/bin/activate
 
 managepy="$(dirname "$0")/../manage.py"
-python3 "$managepy" "$@"
+poetry run "$managepy" "$@"
