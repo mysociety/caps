@@ -1,5 +1,5 @@
 {% load static %}
-{% load pipeline %}
+{% load compress %}
 
 <!doctype html>
 <html class="open-graph-preview">
@@ -12,7 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&amp;family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <title>{{ page_title }}</title>
-    {% stylesheet 'scoring' %}
+    {% compress css %}
+    <link rel="stylesheet" type="text/x-scss" href="{% static 'scoring/scss/main.scss' %}">
+    {% endcompress %}
 </head>
 <body class="{% block bodyclass %}{% endblock %}">
     <!-- Facebook OpenGraph image dimensions: 1200px wide, 630px tall -->

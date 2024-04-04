@@ -1,67 +1,50 @@
 @charset "utf-8";
 
-// A NOTE ABOUT FILE PATHS
-//
-// django.contrib.staticfiles copies this file into the `STATIC_ROOT`
-// (along with any other files/directories defined in `STATICFILES_DIRS`)
-// and then django-pipeline compiles the Sass files from there.
-//
-// So imports in this file are relative to `<STATIC_ROOT>/scoring/sass/main.scss`,
-// not `/caps/static/scoring/scss/main.scss`.
-//
-// That’s why `@import "../../bootstrap5/<whatever>" works – because at the
-// point the Sass files are compiled, django.contrib.staticfiles has
-// already copied the bootstrap5 sass files into `<STATIC_ROOT>/bootstrap5/`.
-//
-// Note that this doesn't work on a dev thing with standard django-pipeline
-// due to this issue: https://github.com/jazzband/django-pipeline/issues/749
-// so we are using a fork with the patch from the above issue
-
-@import "../../bootstrap5/functions";
-@import "../../bootstrap5/mixins/banner";
+@import "../../bootstrap5/scss/functions";
+@import "../../bootstrap5/scss/mixins/banner";
 @include bsBanner("");
 
 @import "variables";
-@import "../../bootstrap5/variables";
+@import "../../bootstrap5/scss/variables";
 
-@import "../../bootstrap5/maps";
-@import "../../bootstrap5/mixins";
-@import "../../bootstrap5/utilities";
+@import "../../bootstrap5/scss/maps";
+@import "../../bootstrap5/scss/mixins";
+@import "../../bootstrap5/scss/utilities";
 @import "_utils";
 
-@import "../../bootstrap5/root";
-@import "../../bootstrap5/reboot";
-@import "../../bootstrap5/type";
-@import "../../bootstrap5/images";
-@import "../../bootstrap5/containers";
-@import "../../bootstrap5/grid";
-@import "../../bootstrap5/tables";
-@import "../../bootstrap5/forms";
-@import "../../bootstrap5/buttons";
-@import "../../bootstrap5/transitions";
-@import "../../bootstrap5/dropdown";
-@import "../../bootstrap5/accordion";
-@import "../../bootstrap5/button-group";
-@import "../../bootstrap5/nav";
-@import "../../bootstrap5/navbar";
-@import "../../bootstrap5/card";
-// @import "../../bootstrap5/breadcrumb";
-// @import "../../bootstrap5/pagination";
-@import "../../bootstrap5/badge";
-@import "../../bootstrap5/alert";
-// @import "../../bootstrap5/progress";
-@import "../../bootstrap5/list-group";
-@import "../../bootstrap5/close";
-// @import "../../bootstrap5/toasts";
-@import "../../bootstrap5/modal";
-@import "../../bootstrap5/tooltip";
-@import "../../bootstrap5/popover";
-// @import "../../bootstrap5/carousel";
-// @import "../../bootstrap5/spinners";
-// @import "../../bootstrap5/offcanvas";
-// @import "../../bootstrap5/placeholders";
-@import "../../bootstrap5/helpers";
-@import "../../bootstrap5/utilities/api";
+@import "../../bootstrap5/scss/root";
+@import "../../bootstrap5/scss/reboot";
+@import "../../bootstrap5/scss/type";
+@import "../../bootstrap5/scss/images";
+@import "../../bootstrap5/scss/containers";
+@import "../../bootstrap5/scss/grid";
+@import "../../bootstrap5/scss/tables";
+@import "../../bootstrap5/scss/forms";
+@import "../../bootstrap5/scss/buttons";
+@import "../../bootstrap5/scss/transitions";
+@import "../../bootstrap5/scss/dropdown";
+@import "../../bootstrap5/scss/accordion";
+@import "../../bootstrap5/scss/button-group";
+@import "../../bootstrap5/scss/nav";
+@import "../../bootstrap5/scss/navbar";
+@import "../../bootstrap5/scss/card";
+// @import "../../bootstrap5/scss/breadcrumb";
+// @import "../../bootstrap5/scss/pagination";
+@import "../../bootstrap5/scss/badge";
+@import "../../bootstrap5/scss/alert";
+// @import "../../bootstrap5/scss/progress";
+@import "../../bootstrap5/scss/list-group";
+@import "../../bootstrap5/scss/close";
+// @import "../../bootstrap5/scss/toasts";
+@import "../../bootstrap5/scss/modal";
+@import "../../bootstrap5/scss/tooltip";
+@import "../../bootstrap5/scss/popover";
+// @import "../../bootstrap5/scss/carousel";
+// @import "../../bootstrap5/scss/spinners";
+// @import "../../bootstrap5/scss/offcanvas";
+// @import "../../bootstrap5/scss/placeholders";
+@import "../../bootstrap5/scss/helpers";
+@import "../../bootstrap5/scss/utilities/api";
 
 @import "mixins";
 @import "buttons";
@@ -77,7 +60,7 @@
 @import "awesomplete";
 @import "methodology";
 @import "toggle-section";
-@import "about";
+//@import "about";
 @import "toggle-buttons";
 @import "loading-shimmer";
 @import "open-graph-preview";

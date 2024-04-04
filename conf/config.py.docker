@@ -3,7 +3,7 @@ from distutils.util import strtobool
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "xx")
 SASSC_LOCATION = os.environ.get("SASSC_LOCATION", "pysassc")
-DEBUG = int(os.environ.get("DEBUG", 1))
+DEBUG = bool(os.environ.get("DEBUG", True))
 ALLOWED_HOSTS = ["*"]
 
 REPOSITORY_DB_HOST = os.environ.get("REPOSITORY_DB_HOST", "postgres")

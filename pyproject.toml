@@ -64,8 +64,6 @@ altair = "^5.1.1"
 mysoc-dataset = "^0.2.1"
 tqdm = "^4.65.0"
 feedparser = "^6.0.11"
-django-pipeline = {git = "https://github.com/mysociety/django-pipeline"}
-django-pipeline-csscompressor = "^0.1"
 django-hosts = "^6.0"
 mailchimp-marketing = {git = "https://github.com/mailchimp/mailchimp-marketing-python.git"}
 django-libsass = "^0.9"

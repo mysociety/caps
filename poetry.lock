@@ -405,33 +405,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "django-pipeline"
-version = "2.0.6.post2+gc67514a"
-description = "Pipeline is an asset packaging library for Django."
-category = "main"
-optional = false
-python-versions = "*"
-develop = false
-
-[package.source]
-type = "git"
-url = "https://github.com/mysociety/django-pipeline"
-reference = "HEAD"
-resolved_reference = "c67514ae828f79454320a37b0aeb154c7359e19c"
-
-[[package]]
-name = "django-pipeline-csscompressor"
-version = "0.1"
-description = "A django-pipeline compressor to compress css files using csscompressor"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-csscompressor = ">=0.9.4"
-django-pipeline = ">=1.6.8"
-
-[[package]]
 name = "django-simple-history"
 version = "3.5.0"
 description = "Store model history and view/revert changes from admin site."
@@ -1266,7 +1239,7 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "c502ab2aab284c49d42ec2ad60db2edf80bfe32485acfbb3e538ad9bbbf22524"
+content-hash = "ae870551de759808b34e965fa082570988ef4661c3fc0083b2d5272444ebbfd8"
 
 [metadata.files]
 altair = [
@@ -1585,11 +1558,6 @@ django-libsass = [
 django-markitup = [
     {file = "django-markitup-4.1.0.tar.gz", hash = "sha256:029603337e8614142f50383c826ba5bd2085bba0b0daee3c4c2d6245519415ed"},
     {file = "django_markitup-4.1.0-py3-none-any.whl", hash = "sha256:16ea75600bedb3a1f01dca0c83473b8ee25ae905543ecef2fd755eeaac0e496a"},
-]
-django-pipeline = []
-django-pipeline-csscompressor = [
-    {file = "django-pipeline-csscompressor-0.1.tar.gz", hash = "sha256:dd5cfd11fd1439ffe8bc42e0d5150881a485613cfc43c7895dbce957bb0adb9a"},
-    {file = "django_pipeline_csscompressor-0.1-py2.py3-none-any.whl", hash = "sha256:f1730cd89042ffc0801698e071501b23798cc4885f9ff77f4fb5a59afd5d9b99"},
 ]
 django-simple-history = [
     {file = "django-simple-history-3.5.0.tar.gz", hash = "sha256:eef2943d7c846270f11c8136f38a3ba00de2bebd7b1b89037de5d9b148ed677a"},

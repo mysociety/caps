@@ -1,5 +1,5 @@
 {% load static %}
-{% load pipeline %}
+{% load compress %}
 {% load hosts %}
 
 <!doctype html>
@@ -24,7 +24,9 @@
     <!--[if lt IE 9]>
     <script src="{% static 'html5shiv/html5shiv.js' %}"></script>
     <![endif]-->
-    {% stylesheet 'caps' %}
+    {% compress css %}
+    <link rel="stylesheet" type="text/x-scss" href="{% static 'caps/scss/main.scss' %}">
+    {% endcompress %}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&amp;family=Montserrat:wght@600;900&amp;display=swap">
     {% block extrastylesheets %}{% endblock %}
 

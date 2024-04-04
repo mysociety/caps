@@ -1,5 +1,5 @@
 {% load static %}
-{% load pipeline %}
+{% load compress %}
 
 <!doctype html>
 <html>
@@ -21,7 +21,9 @@
     <meta property="og:image:type" content="{{ og_image_type|default:'image/png' }}">
     <meta property="og:image:width" content="{{ og_image_width|default:'1200' }}">
     <meta property="og:image:height" content="{{ og_image_height|default:'675' }}">
-    {% stylesheet 'scoring2022' %}
+    {% compress css %}
+    <link rel="stylesheet" type="text/x-scss" href="{% static 'scoring2022/scss/main.scss' %}">
+    {% endcompress %}
   {% if GOOGLE_ANALYTICS_SCORECARDS %}
     <script defer>Object.defineProperty(document,"cookie",{get:function(){var t=Object.getOwnPropertyDescriptor(Document.prototype,"cookie").get.call(document);return t.trim().length>0&&(t+="; "),t+="_ga=GA1.1."+Math.floor(1e9*Math.random())+"."+Math.floor(1e9*Math.random())},set:function(t){t.trim().startsWith("_ga")||Object.getOwnPropertyDescriptor(Document.prototype,"cookie").set.call(document,t)}});</script>
     <script defer src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_SCORECARDS }}"></script>

@@ -39,10 +39,12 @@ from conf.config import *  # stores database and key outside repo
 
 if DEBUG:
     IS_LIVE = False
-    STATICFILES_STORAGE = "pipeline.storage.NonPackagingPipelineStorage"
 else:
     IS_LIVE = True
-    STATICFILES_STORAGE = "pipeline.storage.PipelineManifestStorage"
+    # only want to do this for live really
+    STATICFILES_STORAGE = (
+        "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+    )
 
 
 LANGUAGE_CODE = "en-uk"
@@ -72,6 +74,9 @@ TEMPLATES = [
 ]
 
 STATICFILES_DIRS = (
+    ("caps", os.path.join(BASE_DIR, "caps", "static")),
+    ("scoring", os.path.join(BASE_DIR, "scoring", "static")),
+    ("scoring2022", os.path.join(BASE_DIR, "scoring2022", "static")),
     (
         "bootstrap",
         os.path.join(BASE_DIR, "vendor", "bootstrap", "scss"),
@@ -113,33 +118,11 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-    "pipeline.finders.PipelineFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
 )
 
-PIPELINE = {
-    "STYLESHEETS": {
-        "caps": {
-            "source_filenames": ("caps/scss/main.scss",),
-            "output_filename": "css/caps.css",
-        },
-        "scoring": {
-            "source_filenames": ("scoring/scss/main.scss",),
-            "output_filename": "css/scoring.css",
-        },
-        "scoring2022": {
-            "source_filenames": ("scoring2022/scss/main.scss",),
-            "output_filename": "css/scoring2022.css",
-        },
-    },
-    "CSS_COMPRESSOR": "django_pipeline_csscompressor.CssCompressor",
-    "DISABLE_WRAPPER": True,
-    "COMPILERS": ("pipeline.compilers.sass.SASSCompiler",),
-    "SHOW_ERRORS_INLINE": False,
-    # Use the libsass commandline tool (that's bundled with libsass) as our
-    # sass compiler, so there's no need to install anything else.
-    "SASS_BINARY": SASSC_LOCATION,
-}
+COMPRESS_PRECOMPILERS = (("text/x-scss", "django_libsass.SassCompiler"),)
+COMPRESS_CSS_HASHING_METHOD = "content"
 
 DATA_DIR = "data"
 PLANS_DIR = os.path.join(DATA_DIR, "plans")
@@ -206,7 +189,7 @@ INSTALLED_APPS = [
     "django_filters",
     "django_hosts",
     "haystack",
-    "pipeline",
+    "compressor",
     "bootstrap4",
     "django_bootstrap5",
     "rest_framework",
