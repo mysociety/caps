@@ -176,6 +176,9 @@ COUNCIL_TAGS_CSV = os.path.join(DATA_DIR, COUNCIL_TAGS_CSV_NAME)
 
 FEEDBACK_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeWM8CBVwaksqmEy79JAmgfecodR7skmYBIwhRrc0rho1nisA/viewform"
 
+# make sure CSRF checking still works behind load balancers
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 # Application definition
 
 INSTALLED_APPS = [
