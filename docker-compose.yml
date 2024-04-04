@@ -17,7 +17,7 @@ services:
     environment:
       - REPOSITORY_DB_PASS=${REPOSITORY_DB_PASS:-caps}
       - SECRET_KEY=${SECRET_KEY:-xx}
-      - DEBUG=${DEBUG:-1}
+      - DEBUG=${DEBUG:-True}
       - MAPIT_API_KEY=${MAPIT_API_KEY:-xxx}
       - GOOGLE_ANALYTICS=${GOOGLE_ANALYTICS}
       - GOOGLE_MEASUREMENT_PROTOCOL_SECRET=${GOOGLE_MEASUREMENT_PROTOCOL_SECRET}
@@ -43,9 +43,9 @@ services:
       - 25:25
 
   postgres:
-    image: postgres:11
+    image: postgres:13
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data_13:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=${REPOSITORY_DB_USER:-caps}
       - POSTGRES_PASSWORD=${REPOSITORY_DB_PASS:-caps}
@@ -66,5 +66,5 @@ services:
       - 8983:8983
       
 volumes:
-  postgres_data:
+  postgres_data_13:
   solr_data:

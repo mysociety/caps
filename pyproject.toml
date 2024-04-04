@@ -15,9 +15,9 @@ chardet = "^3.0.4"
 csscompressor = "^0.9.4"
 defusedxml = "^0.6.0"
 diff-match-patch = "^20200713"
-Django = "^3.2.25"
+django = "^4.2.11"
 django-autoslug = "^1.9.7"
-django-bootstrap4 = "^1.1.1"
+django-bootstrap4 = "^24.1"
 django-bootstrap5 = "^23.3"
 django-filter = "^2.4.0"
 django-haystack = "^3.0"
@@ -68,6 +68,7 @@ django-pipeline = {git = "https://github.com/mysociety/django-pipeline"}
 django-pipeline-csscompressor = "^0.1"
 django-hosts = "^6.0"
 mailchimp-marketing = {git = "https://github.com/mailchimp/mailchimp-marketing-python.git"}
+django-libsass = "^0.9"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.1.0"
