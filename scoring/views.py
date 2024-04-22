@@ -600,6 +600,7 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
                     country__in=council_type["countries"],
                 )
                 .exclude(end_date__isnull=False)
+                .exclude(start_date__gt=settings.RECENTLY_ADDED_COUNCILS)
                 .count()
             )
             context["council_count"] = council_count
