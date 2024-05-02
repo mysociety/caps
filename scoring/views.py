@@ -92,7 +92,7 @@ class HomePageView(
     def get_queryset(self):
         authority_type = self.get_authority_type()
         filters = {
-            "year": settings.PLAN_YEAR,
+            "year": self.request.year,
             "council__authority_type__in": authority_type["types"],
         }
 
@@ -140,15 +140,19 @@ class HomePageView(
 
         councils = context["object_list"].values()
         context["plan_sections"] = PlanSection.objects.filter(
-            year=settings.PLAN_YEAR
+            year=self.request.year
         ).all()
 
         context = self.setup_filter_context(context, context["filter"], authority_type)
 
         averages = PlanSection.get_average_scores(
-            authority_type["slug"], filter=context.get("filter_params", None)
+            authority_type["slug"],
+            filter=context.get("filter_params", None),
+            year=self.request.year,
         )
-        all_scores = PlanSectionScore.get_all_council_scores()
+        all_scores = PlanSectionScore.get_all_council_scores(
+            plan_year=self.request.year
+        )
 
         councils = list(councils.all())
         council_ids = []
@@ -173,7 +177,7 @@ class HomePageView(
                         "top_performer": None,
                     }
                 )
-        codes = PlanSection.section_codes()
+        codes = PlanSection.section_codes(year=self.request.year)
 
         if authority_type["slug"] == "combined":
             form_class = ScoringSortCA
@@ -285,14 +289,14 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
         context["target"] = target
 
         try:
-            plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
+            plan_score = PlanScore.objects.get(council=council, year=self.request.year)
         except PlanScore.DoesNotExist:
             context["no_plan"] = True
             return context
 
         plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
         sections = PlanSectionScore.sections_for_council(
-            council=council, plan_year=settings.PLAN_YEAR
+            council=council, plan_year=self.request.year
         )
 
         try:
@@ -307,7 +311,7 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
 
         # get average section scores for authorities of the same type
         section_avgs = PlanSectionScore.get_all_section_averages(
-            council_group=group, plan_year=settings.PLAN_YEAR
+            council_group=group, plan_year=self.request.year
         )
         for section in section_avgs.all():
             sections[section["plan_section__code"]]["avg"] = round(
@@ -315,7 +319,7 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             )
 
         section_top_marks = PlanSectionScore.get_all_section_top_mark_counts(
-            council_group=group, plan_year=settings.PLAN_YEAR
+            council_group=group, plan_year=self.request.year
         )
         for section in section_top_marks.all():
             sections[section["plan_section__code"]]["max_count"] = section[
@@ -323,7 +327,7 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             ]
 
         question_max_counts = PlanQuestionScore.all_question_max_score_counts(
-            council_group=group, plan_year=settings.PLAN_YEAR
+            council_group=group, plan_year=self.request.year
         )
 
         comparison_slugs = self.request.GET.getlist("comparisons")
@@ -332,11 +336,11 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
-                .filter(council__slug__in=comparison_slugs, year=settings.PLAN_YEAR)
+                .filter(council__slug__in=comparison_slugs, year=self.request.year)
                 .order_by("council__name")
             )
             comparison_sections = PlanSectionScore.sections_for_plans(
-                plans=comparisons, plan_year=settings.PLAN_YEAR
+                plans=comparisons, plan_year=self.request.year
             )
             for section, details in comparison_sections.items():
                 sections[section]["comparisons"] = details
@@ -344,7 +348,7 @@ class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             comparison_ids = [p.id for p in comparisons]
             if len(comparison_ids) > 0:
                 for question in PlanScore.questions_answered_for_councils(
-                    plan_ids=comparison_ids, plan_year=settings.PLAN_YEAR
+                    plan_ids=comparison_ids, plan_year=self.request.year
                 ):
                     q = self.make_question_obj(question)
                     comparison_answers[question.code][question.council_name] = q
@@ -445,7 +449,7 @@ class CouncilPreview(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         council = context.get("council")
-        plan_score = PlanScore.objects.get(council=council, year=settings.PLAN_YEAR)
+        plan_score = PlanScore.objects.get(council=council, year=self.request.year)
         max_score, min_score = self.get_high_low_scores(plan_score)
 
         words = council.name.split()
@@ -470,7 +474,7 @@ class CouncilTypeTopPerformerView(TemplateView):
         council_type = self.kwargs["council_type"]
         group = Council.SCORING_GROUPS[council_type]
         scores = PlanScore.objects.filter(
-            year=settings.PLAN_YEAR,
+            year=self.request.year,
             council__authority_type__in=group["types"],
             council__country__in=group["countries"],
         ).order_by("-weighted_total")
@@ -524,12 +528,12 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
-                .filter(year=settings.PLAN_YEAR, council__slug__in=comparison_slugs)
+                .filter(year=self.request.year, council__slug__in=comparison_slugs)
                 .order_by("council__name")
             )
             comparison_sections = PlanSectionScore.sections_for_plans(
                 plans=comparisons,
-                plan_year=2023,  # settings.PLAN_YEAR,
+                plan_year=self.request.year,
                 plan_sections=PlanSection.objects.filter(code=section.code),
             )
 
@@ -623,7 +627,7 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
                 }
 
             question_max_counts = PlanQuestionScore.all_question_max_score_counts(
-                council_group=council_type, plan_year=settings.PLAN_YEAR
+                council_group=council_type, plan_year=self.request.year
             )
 
             for q in comparison_questions.keys():
@@ -719,11 +723,11 @@ class SectionPreview(CheckForDownPageMixin, TemplateView):
 
         group = Council.SCORING_GROUPS[council_type]
 
-        section = PlanSection.objects.get(code=code, year=settings.PLAN_YEAR)
+        section = PlanSection.objects.get(code=code, year=self.request.year)
 
         scores = PlanSectionScore.objects.filter(
             plan_section=section,
-            plan_score__year=settings.PLAN_YEAR,
+            plan_score__year=self.request.year,
             plan_score__council__authority_type__in=group["types"],
             plan_score__council__country__in=group["countries"],
         ).aggregate(
@@ -748,11 +752,11 @@ class SectionTopPerformerPreview(CheckForDownPageMixin, TemplateView):
 
         code = self.kwargs["slug"]
 
-        section = PlanSection.objects.get(code=code, year=settings.PLAN_YEAR)
+        section = PlanSection.objects.get(code=code, year=self.request.year)
 
         scores = PlanSectionScore.objects.filter(
             plan_section=section,
-            plan_score__year=settings.PLAN_YEAR,
+            plan_score__year=self.request.year,
         ).order_by("-weighted_score")
 
         top = scores.first()
@@ -774,13 +778,13 @@ class SectionCouncilTopPerformerPreview(CheckForDownPageMixin, TemplateView):
         code = self.kwargs["slug"]
         council = self.kwargs["council"]
 
-        section = PlanSection.objects.get(code=code, year=settings.PLAN_YEAR)
+        section = PlanSection.objects.get(code=code, year=self.request.year)
 
         scores = get_object_or_404(
             PlanSectionScore,
             plan_section=section,
             top_performer=code,
-            plan_score__year=settings.PLAN_YEAR,
+            plan_score__year=self.request.year,
             plan_score__council__slug=council,
         )
 
@@ -828,7 +832,7 @@ class QuestionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             authority_types = authority_type["types"]
             context["scores"] = (
                 PlanQuestionScore.objects.filter(
-                    plan_score__year=settings.PLAN_YEAR,
+                    plan_score__year=self.request.year,
                     plan_question=question,
                     plan_score__council__authority_type__in=authority_types,
                 )
@@ -837,7 +841,7 @@ class QuestionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
             )
 
             score_counts = question.get_scores_breakdown(
-                year=settings.PLAN_YEAR, council_group=authority_type
+                year=self.request.year, council_group=authority_type
             )
 
             totals = {}
@@ -898,8 +902,15 @@ class MethodologyView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateVi
         context["page_title"] = "Methodology"
         context["current_page"] = "methodology-page"
 
+        context[
+            "intro_template"
+        ] = f"scoring/methodology/{self.request.year}/_intro.html"
+        context[
+            "details_template"
+        ] = f"scoring/methodology/{self.request.year}/_details.html"
+
         questions = (
-            PlanQuestion.objects.filter(section__year=settings.PLAN_YEAR)
+            PlanQuestion.objects.filter(section__year=self.request.year)
             .select_related("section")
             .order_by("section__code", "code")
         )
