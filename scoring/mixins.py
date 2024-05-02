@@ -15,7 +15,7 @@ class CheckForDownPageMixin(AccessMixin):
             return super().dispatch(request, *args, **kwargs)
 
         if not request.user.is_authenticated:
-            return redirect("scoring:downpage")
+            return redirect("generic:downpage")
 
         return super().dispatch(request, *args, **kwargs)
 
