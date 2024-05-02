@@ -232,6 +232,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "htmlmin.middleware.HtmlMinifyMiddleware",
     "htmlmin.middleware.MarkRequestMiddleware",
+    "scoring.middleware.AddYearMiddleware",
     "django_hosts.middleware.HostsResponseMiddleware",
 ]
 
