@@ -22,7 +22,7 @@ from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort, ScoringSortCA
 from scoring.mixins import (
     AdvancedFilterMixin,
-    CheckForDownPageMixin,
+    PrivateScorecardsAccessMixin,
     SearchAutocompleteMixin,
 )
 from scoring.models import (
@@ -46,15 +46,12 @@ class DownPageView(TemplateView):
 
 
 class LoginView(LoginView):
-    next_page = "scoring:home"
+    next_page = "scoring:home"  # used if no ?next= query param
     template_name = "scoring/login.html"
-
-    def get_success_url(self):
-        return resolve_url(self.next_page)
 
 
 class LogoutView(LogoutView):
-    next_page = "scoring:home"
+    next_page = "scoring:home"  # used if no ?next= query param
 
 
 class PrivacyView(TemplateView):
@@ -69,7 +66,10 @@ class PrivacyView(TemplateView):
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
 class HomePageView(
-    CheckForDownPageMixin, SearchAutocompleteMixin, AdvancedFilterMixin, FilterView
+    PrivateScorecardsAccessMixin,
+    SearchAutocompleteMixin,
+    AdvancedFilterMixin,
+    FilterView,
 ):
     filterset_class = PlanScoreFilter
 
@@ -229,7 +229,7 @@ class HomePageView(
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class CouncilView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
+class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailView):
     model = Council
     context_object_name = "council"
     template_name = "scoring/council.html"
@@ -504,7 +504,7 @@ class CouncilPreviewTopPerfomer(DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
+class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailView):
     model = PlanSection
     context_object_name = "section"
     template_name = "scoring/section.html"
@@ -671,7 +671,7 @@ class SectionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class SectionsView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
+class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/sections.html"
 
     sections = [
@@ -712,7 +712,7 @@ class SectionsView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView)
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class SectionPreview(CheckForDownPageMixin, TemplateView):
+class SectionPreview(PrivateScorecardsAccessMixin, TemplateView):
     template_name = "scoring/section-preview.html"
 
     def get_context_data(self, **kwargs):
@@ -744,7 +744,7 @@ class SectionPreview(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class SectionTopPerformerPreview(CheckForDownPageMixin, TemplateView):
+class SectionTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateView):
     template_name = "scoring/council-top-performer-preview.html"
 
     def get_context_data(self, **kwargs):
@@ -769,7 +769,7 @@ class SectionTopPerformerPreview(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class SectionCouncilTopPerformerPreview(CheckForDownPageMixin, TemplateView):
+class SectionCouncilTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateView):
     template_name = "scoring/council-top-performer-preview.html"
 
     def get_context_data(self, **kwargs):
@@ -796,7 +796,7 @@ class SectionCouncilTopPerformerPreview(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class QuestionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
+class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailView):
     model = PlanQuestion
     context_object_name = "question"
     template_name = "scoring/question.html"
@@ -866,7 +866,7 @@ class QuestionView(CheckForDownPageMixin, SearchAutocompleteMixin, DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
+class LocationResultsView(PrivateScorecardsAccessMixin, BaseLocationResultsView):
     template_name = "scoring/location_results.html"
 
     def get_context_data(self, **kwargs):
@@ -876,7 +876,7 @@ class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class AboutView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
+class AboutView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/about.html"
 
     def get_context_data(self, **kwargs):
@@ -888,7 +888,9 @@ class AboutView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class MethodologyView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
+class MethodologyView(
+    PrivateScorecardsAccessMixin, SearchAutocompleteMixin, TemplateView
+):
     template_name = "scoring/methodology.html"
 
     def get_question_number(self, question):
@@ -1114,7 +1116,7 @@ class MethodologyView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateVi
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class ContactView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
+class ContactView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/contact.html"
 
     def get_context_data(self, **kwargs):
@@ -1126,7 +1128,7 @@ class ContactView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class HowToUseView(CheckForDownPageMixin, SearchAutocompleteMixin, TemplateView):
+class HowToUseView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, TemplateView):
     template_name = "scoring/how-to-use-the-scorecards.html"
 
     def get_context_data(self, **kwargs):

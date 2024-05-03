@@ -15,7 +15,7 @@ from caps.models import Council, Promise
 from caps.views import BaseLocationResultsView
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort
-from scoring.mixins import AdvancedFilterMixin, CheckForDownPageMixin
+from scoring.mixins import AdvancedFilterMixin, PrivateScorecardsAccessMixin
 from scoring.models import (
     PlanQuestion,
     PlanQuestionScore,
@@ -32,7 +32,7 @@ cache_settings = {
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
+class HomePageView(PrivateScorecardsAccessMixin, AdvancedFilterMixin, FilterView):
     filterset_class = PlanScoreFilter
     template_name = "scoring2022/home.html"
 
@@ -175,7 +175,7 @@ class HomePageView(CheckForDownPageMixin, AdvancedFilterMixin, FilterView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class CouncilView(CheckForDownPageMixin, DetailView):
+class CouncilView(PrivateScorecardsAccessMixin, DetailView):
     model = Council
     context_object_name = "council"
     template_name = "scoring2022/council.html"
@@ -322,7 +322,7 @@ class CouncilView(CheckForDownPageMixin, DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class QuestionView(CheckForDownPageMixin, AdvancedFilterMixin, DetailView):
+class QuestionView(PrivateScorecardsAccessMixin, AdvancedFilterMixin, DetailView):
     model = PlanQuestion
     context_object_name = "question"
     template_name = "scoring2022/question.html"
@@ -491,7 +491,7 @@ class QuestionView(CheckForDownPageMixin, AdvancedFilterMixin, DetailView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
+class LocationResultsView(PrivateScorecardsAccessMixin, BaseLocationResultsView):
     template_name = "scoring2022/location_results.html"
 
     def get_context_data(self, **kwargs):
@@ -504,7 +504,7 @@ class LocationResultsView(CheckForDownPageMixin, BaseLocationResultsView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class MethodologyView(CheckForDownPageMixin, TemplateView):
+class MethodologyView(PrivateScorecardsAccessMixin, TemplateView):
     template_name = "scoring2022/methodology.html"
 
     def get_context_data(self, **kwargs):
@@ -557,7 +557,7 @@ class MethodologyView(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class AboutView(CheckForDownPageMixin, TemplateView):
+class AboutView(PrivateScorecardsAccessMixin, TemplateView):
     template_name = "scoring2022/about.html"
 
     def get_context_data(self, **kwargs):
@@ -571,7 +571,7 @@ class AboutView(CheckForDownPageMixin, TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class ContactView(CheckForDownPageMixin, TemplateView):
+class ContactView(PrivateScorecardsAccessMixin, TemplateView):
     template_name = "scoring2022/contact.html"
 
     def get_context_data(self, **kwargs):
