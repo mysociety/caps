@@ -255,6 +255,8 @@ USE_L10N = False
 
 USE_TZ = True
 
+LOGIN_URL = "/login/"
+
 BOOTSTRAP4 = {
     "success_css_class": None,
 }

@@ -1,85 +1,9 @@
-{% load static %}
-{% load compress %}
+{% extends "scoring/base-minimal.html" %}
 
-<!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Council Climate Plan Scorecards</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
-    {% compress css %}
-    <link rel="stylesheet" type="text/x-scss" href="{% static 'scoring/scss/main.scss' %}">
-    {% endcompress %}
-</head>
-<body class="down">
-    <nav class="scorecards navbar navbar-expand-lg navbar-light justify-content-between bg-green-gradient">
-        <a class="navbar-brand" href="{% url 'scoring:home' %}">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="https://www.climateemergency.uk/">Climate Emergency UK</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://twitter.com/ClimateEmergUK">Twitter</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://www.facebook.com/climateemergency/">Facebook</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <nav class="subheader bg-blue-gradient">
-        <span>Help Climate Emergency UK by making a quick donation. We depend on you to remain independent and keep you informed!</span>
-        <a class="btn donation ml-2" href="https://www.paypal.com/donate?token=JVAijB-upEdRZMmUvUG04rqaFjj4OfIaEnzewHJZgHGrCCuqOwKlJqaefZttGHMEEo7A45BVdLDBqVkn">Donate</a>
-    </nav>
-
-    <div class="down-message">
-        <h1>We’ll be right back!</h1>
+{% block content %}
+    <div class="container py-5 py-sm-6 py-md-7 py-lg-8">
+        <h1 class="mb-4">We’ll be right back!</h1>
         <p>We’re currently crunching the latest data for you.</p>
         <p>In the meantime, why not <a href="https://www.climateemergency.uk/">sign up to our newsletter</a> to find out what we do next with council climate action data across the UK?</p>
     </div>
-
-    <footer class="container-fluid bg-dark-grey">
-        <div class="mx-auto" style="max-width:1200px">
-            <div class="row">
-                <div class="col-12 col-md-8 d-flex flex-column justify-content-between mb-5 mb-md-0">
-                    <a class="logo scorecards-logo" href="{% url 'scoring:home' %}">Council climate plan scorecards</a>
-                    <div class="d-none d-md-flex  flex-row align-items-center mt-4 mt-lg-5">
-                        <a class="logo ceuk-logo" href="https://www.climateemergency.uk/">Climate Emergency UK</a>
-                        <div class="d-flex flex-column align-items-start">
-                            <span>Built by</span>
-                            <a class="logo mysociety-logo" href="https://www.mysociety.org/">mySociety</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div>
-                        <div class="media-icons-wrapper mt-4 ml-md-auto">
-                            <a class="scorecard-footer__badge scorecard-footer__badge--twitter" href="https://twitter.com/ClimateEmergUK">Twitter</a>
-                            <a class="scorecard-footer__badge scorecard-footer__badge--facebook" href="https://www.facebook.com/climateemergency/">Facebook</a>
-                            <a class="scorecard-footer__badge scorecard-footer__badge--instagram" href="https://www.instagram.com/climateemergencyuk/">Instagram</a>
-                            <a class="scorecard-footer__badge scorecard-footer__badge--github" href="https://github.com/mysociety/caps">Github</a>
-                        </div>
-                        <div class="d-flex d-md-none flex-row align-items-center mt-5">
-                            <a class="logo ceuk-logo" href="https://www.climateemergency.uk/">Climate Emergency UK</a>
-                            <div class="d-flex flex-column align-items-start">
-                                <span>Built by</span>
-                                <a class="logo mysociety-logo" href="https://www.mysociety.org/">mySociety</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-</body>
-</html>
+{% endblock %}

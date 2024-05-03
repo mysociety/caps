@@ -6,16 +6,13 @@ from django.shortcuts import redirect
 from scoring.models import PlanScore
 
 
-class CheckForDownPageMixin(AccessMixin):
-    login_url = "/login/"
-    redirect_field_name = "redirect_to"
-
+class PrivateScorecardsAccessMixin(AccessMixin):
     def dispatch(self, request, *args, **kwargs):
-        if not getattr(settings, "SCORECARDS_PRIVATE", False):
-            return super().dispatch(request, *args, **kwargs)
-
-        if not request.user.is_authenticated:
-            return redirect("generic:downpage")
+        if (
+            getattr(settings, "SCORECARDS_PRIVATE", False)
+            and not request.user.is_authenticated
+        ):
+            return self.handle_no_permission()
 
         return super().dispatch(request, *args, **kwargs)
 
