@@ -208,6 +208,7 @@ class HomePageView(
         context["sorted_by"] = sorted_by
         context["council_data"] = councils
         context["averages"] = averages
+        context["plan_year"] = self.request.year
 
         title_format_strings = {
             "single": "Council Climate Action Scorecards",
@@ -397,6 +398,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         context["authority_type"] = group
         context["plan_score"] = plan_score
         context["plan_urls"] = plan_urls
+        context["plan_year"] = self.request.year
         context["sections"] = sorted(
             sections.values(), key=lambda section: section["code"]
         )
@@ -486,6 +488,7 @@ class CouncilTypeTopPerformerView(TemplateView):
         context["authority_type"] = group
         context["council"] = council
         context["score"] = top.weighted_total
+        context["plan_year"] = self.request.year
 
         return context
 
@@ -500,6 +503,7 @@ class CouncilPreviewTopPerfomer(DetailView):
         context = super().get_context_data(**kwargs)
         council = context.get("council")
         context["page_title"] = council.name
+        context["plan_year"] = self.request.year
         return context
 
 
@@ -667,6 +671,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             context["council_type_avg"] = avgs[context["council_type"]["slug"]]
 
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year
         return context
 
 
@@ -708,6 +713,7 @@ class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
                 context["ca_sections"].append(details)
 
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year
         return context
 
 
@@ -739,6 +745,7 @@ class SectionPreview(PrivateScorecardsAccessMixin, TemplateView):
         context["section"] = section
         context["authority_type"] = group
         context["scores"] = scores
+        context["plan_year"] = self.request.year
 
         return context
 
@@ -764,6 +771,7 @@ class SectionTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateView):
         context["section"] = section
         context["score"] = top.weighted_score
         context["council"] = top.plan_score.council
+        context["plan_year"] = self.request.year
 
         return context
 
@@ -791,6 +799,7 @@ class SectionCouncilTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateVi
         context["section"] = section
         context["score"] = scores.weighted_score
         context["council"] = scores.plan_score.council
+        context["plan_year"] = self.request.year
 
         return context
 
@@ -862,6 +871,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
 
             context["totals"] = [totals[k] for k in sorted(totals.keys())]
 
+        context["plan_year"] = self.request.year
         return context
 
 
