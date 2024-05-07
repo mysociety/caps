@@ -4,10 +4,7 @@
 
 {% block content %}
 <div class="hero-section with-version-background py-5 py-lg-6">
-    <div class="d-flex flex-column align-items-end align-items-lg-start hero-version-badge position-absolute">
-      <span class="version-year d-block fw-bold lh-1">2023</span>
-      <span class="version-name d-block fw-bold lh-1">Action Scorecards</span>
-    </div>
+    {% include 'scoring/includes/scorecards_year.html' %}
     <div class="container">
         <nav class="d-flex align-items-center flex-wrap mb-n2">
             <a href="{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}" class="btn btn-sm btn-outline-primary d-flex align-items-center mb-2 me-3">
