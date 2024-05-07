@@ -914,15 +914,20 @@ class MethodologyView(
         context["page_title"] = "Methodology"
         context["current_page"] = "methodology-page"
 
+        methodology_year = self.request.year
+        if kwargs.get("year") is None:
+            methodology_year = settings.METHODOLOGY_YEAR
+
+        context["methodology_year"] = methodology_year
         context[
             "intro_template"
-        ] = f"scoring/methodology/{self.request.year}/_intro.html"
+        ] = f"scoring/methodology/{methodology_year}/_intro.html"
         context[
             "details_template"
-        ] = f"scoring/methodology/{self.request.year}/_details.html"
+        ] = f"scoring/methodology/{methodology_year}/_details.html"
 
         questions = (
-            PlanQuestion.objects.filter(section__year=self.request.year)
+            PlanQuestion.objects.filter(section__year=methodology_year)
             .select_related("section")
             .order_by("section__code", "code")
         )
