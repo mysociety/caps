@@ -74,6 +74,18 @@ $council-types: (
     column-gap: 1rem; // Avoids heavy length content to overlap the next column.
 }
 
+.type-council-option-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+
+    .radio-btn {
+        margin: 0 !important;
+    }
+}
+
 // Tables highlight
 .minimal-table {
     table-layout: fixed;
