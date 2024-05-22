@@ -919,12 +919,13 @@ class MethodologyView(
             methodology_year = settings.METHODOLOGY_YEAR
 
         context["methodology_year"] = methodology_year
-        context[
-            "intro_template"
-        ] = f"scoring/methodology/{methodology_year}/_intro.html"
-        context[
-            "details_template"
-        ] = f"scoring/methodology/{methodology_year}/_details.html"
+        context["toc_template"] = f"scoring/methodology/{methodology_year}/_toc.html"
+        context["intro_template"] = (
+            f"scoring/methodology/{methodology_year}/_intro.html"
+        )
+        context["details_template"] = (
+            f"scoring/methodology/{methodology_year}/_details.html"
+        )
 
         questions = (
             PlanQuestion.objects.filter(section__year=methodology_year)
