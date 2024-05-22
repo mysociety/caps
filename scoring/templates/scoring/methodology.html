@@ -13,7 +13,12 @@
                     {% include 'caps/icons/chevron-left.html' with classes='me-1 mb-1' %}
                     Back to home page
                 </a>
-                <h1 class="mb-3 w-75">Council Climate Action Scorecards Methodology</h1>
+                <h1 class="mb-3" style="max-width: 20em">
+                  {% if methodology_year == 2025 %}
+                    Draft Updated
+                  {% endif %}
+                    Council Climate Action Scorecards Methodology
+                </h1>
             </div>
         </div>
 
@@ -27,24 +32,12 @@
                         <h3 class="h6 d-none d-md-block" style="margin-left: 1.25rem;">Contents</h3>
 
                         <nav class="list-group list-group-flush">
-                            <a class="list-group-item text-decoration-none" href="#section-summary">Summary</a>
-                            <a class="list-group-item text-decoration-none" href="#section-question-criteria">Question criteria</a>
-                            <a class="list-group-item text-decoration-none" href="#section-question-weighting-within">Question weighting within sections</a>
-                            <a class="list-group-item text-decoration-none" href="#section-what-we-marked">What We Marked</a>
-                            <a class="list-group-item text-decoration-none" href="#section-developing-the-scoring-system">Developing the scoring system</a>
-                            <a class="list-group-item text-decoration-none" href="#section-scoring-process">Scoring Process</a>
-                            <a class="list-group-item text-decoration-none" href="#section-scorecard-summary-and-weighting">Scorecard Sections Summary and Weighting</a>
-                            <a class="list-group-item text-decoration-none" href="#section-further-info">Further info</a>
-                            <a class="list-group-item text-decoration-none" href="#section-thank-you">Thank you</a>
+                            {% include toc_template %}
                         </nav>
                     </div>
 
                 </div>
                 <div class="col-md-8 col-lg-7 col-xl-8 order-md-1 mt-5">
-                    <div class="alert alert-primary mb-5 p-4 border-yellow" role="alert">
-                        <p>Looking for information about how we scored the Council Climate Plan Scorecards in early 2022?</p>
-                        <a href="{% url 'scoring2022:methodology' %}" class="btn btn-sm btn-primary">Read the Council Climate Plans Methodology (2022)</a>
-                    </div>
 
                     {% include intro_template %}
 
