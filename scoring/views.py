@@ -919,6 +919,7 @@ class MethodologyView(
             methodology_year = settings.METHODOLOGY_YEAR
 
         context["methodology_year"] = methodology_year
+        context["toc_template"] = f"scoring/methodology/{methodology_year}/_toc.html"
         context[
             "intro_template"
         ] = f"scoring/methodology/{methodology_year}/_intro.html"
@@ -1078,7 +1079,6 @@ class MethodologyView(
             {"name": "Cycling UK"},
             {"name": "Democracy Club"},
             {"name": "Department of Transport"},
-            {"name": "Ecotricity"},
             {"name": "Energy Savings Trust"},
             {"name": "Food For Life"},
             {"name": "Food Matters"},
@@ -1119,7 +1119,7 @@ class MethodologyView(
             {"name": "Tree Economics"},
             {"name": "Turing Institute"},
             {"name": "UK Divest"},
-            {"name": "Waste Data Flow"},
+            {"name": "WasteDataFlow"},
             {"name": "Wirral Environmental Network"},
             {"name": "Wildlife & Countryside Link"},
             {"name": "Winchester Action on Climate Change"},
