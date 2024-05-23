@@ -69,6 +69,7 @@ non_scoring_patterns = [
 ]
 
 urlpatterns = [
+    path("admin/", admin.site.urls),
     path("", include((scoring_patterns, "scoring"), namespace="scoring")),
     path("", include((non_scoring_patterns, "generic"), namespace="generic")),
     path(
@@ -78,7 +79,6 @@ urlpatterns = [
     path(
         "<year>/", include((scoring_patterns, "year_scoring"), namespace="year_scoring")
     ),
-    path("admin/", admin.site.urls),
 ]
 
 if settings.DEBUG:
