@@ -104,3 +104,40 @@ $council-types: (
         }
     }
 }
+
+.responsive-table {
+    @include media-breakpoint-down('lg') {
+        text-align: left;
+
+        thead {
+            tr {
+                display: none;
+            }
+        }
+
+        tbody {
+            tr {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1rem;
+
+                * + * {
+                    border-top: none;
+                }
+            }
+        }
+    }
+}
+
+.responsive-table__cell-label {
+    display: none;
+
+    @include media-breakpoint-down('lg') {
+        display: block;
+        font-weight: bold;
+        color: $text-muted;
+        @include font-size($font-size-sm);
+        line-height: 1.1;
+        margin-bottom: map-get($spacers, 1);
+    }
+}

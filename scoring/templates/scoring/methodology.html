@@ -15,9 +15,10 @@
                 </a>
                 <h1 class="mb-3" style="max-width: 20em">
                   {% if methodology_year == 2025 %}
-                    Draft Updated
-                  {% endif %}
+                    Council Climate Action Scorecards Updated Methodology (2025)
+                  {% else %}
                     Council Climate Action Scorecards Methodology
+                  {% endif %}
                 </h1>
             </div>
         </div>
@@ -41,130 +42,131 @@
 
                     {% include intro_template %}
 
-                    <div class="mt-4">
+                    <h3 class="mt-5 mb-3">See the questions</h3>
+                    {% include 'scoring/includes/main-filter-methodology.html' %}
 
-                        <h3 class="mt-5 mb-3"><span>See the questions</span></h3>
-                        {% include 'scoring/includes/main-filter-methodology.html' %}
+                    <form class="form-check-flex border rounded p-3 mb-3">
+                        <input class="form-check-input" type="checkbox" id="display-complete-content" name="display-complete-content">
+                        <label class="form-check-label" for="display-complete-content">Show full question details by default</label>
+                    </form>
 
-                        <form class="form-check-flex border rounded p-3 mb-3">
-                            <input class="form-check-input" type="checkbox" id="display-complete-content" name="display-complete-content">
-                            <label class="form-check-label" for="display-complete-content">Show full question details by default</label>
-                        </form>
+                    <div class="js-single alert alert-primary mt-3 mt-lg-4 border" role="alert">
+                        <p class="mb-0">A small number of questions might not apply to your council and they are highlighted with a warning icon.</p>
+                    </div>
 
-                        <div class="js-single alert alert-primary mt-3 mt-lg-4 border" role="alert">
-                            <p class="mb-0">A small number of questions might not apply to your council and they are highlighted with a warning icon.</p>
-                        </div>
+                    <div class="toggle-section-accordion rounded js-single js-district js-county js-northern-ireland js-combined">
+                      {% for section in sections %}
+                        <div class="toggle-section {% for council_type in section.council_types %}js-{{ council_type }} {% endfor %}">
+                            <h4 class="toggle-section__header">
+                                <button class="js-hidden-toggle text-start" aria-controls="section-{{ forloop.counter }}">
+                                    {{section.title|escape}}
+                                </button>
+                            </h4>
+                            <div class="toggle-section__content" id="section-{{ forloop.counter }}">
+                                <div class="mb-3">
 
-                        <div class="toggle-section-accordion rounded js-single js-district js-county js-northern-ireland js-combined">
-                            {% for section in sections %}
-                            <div class="toggle-section {% for council_type in section.council_types %}js-{{ council_type }} {% endfor %}">
-                                <h4 class="toggle-section__header">
-                                    <button class="js-hidden-toggle text-start" aria-controls="section-{{ forloop.counter }}">
-                                        {{section.title|escape}}
-                                    </button>
-                                </h4>
-                                <div class="toggle-section__content" id="section-{{ forloop.counter }}">
-                                    <div class="mb-3">
-                                        {% for council_type, weighting in section.weightings.items %}
-                                            <div class="js-{{ council_type }}">
-                                                <span>
-                                                    <strong>This section will contribute {{ weighting }}% to a
-                                                        {% if council_type == 'single' %}
-                                                            single tier council’s
-                                                        {% elif council_type == 'district' %}
-                                                            district council’s
-                                                        {% elif council_type == 'county' %}
-                                                            county council’s
-                                                        {% elif council_type == 'northern-ireland' %}
-                                                            Northern Irish council’s
-                                                        {% elif council_type == 'combined' %}
-                                                            Combined Authority’s 
-                                                        {% endif %}
-                                                             overall score
-                                                    </strong>
-                                                </span>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                    <p>{{section.description}}</p>
-                                    <div class="section-question-list-wrapper mb-n3">
-                                        {% for question in section.questions %}
-                                            <div class="question-card rounded border mb-3 {% for council_type in question.council_types %}js-{{ council_type }} {% endfor %}">
-                                                {% if question.england_only == "yes" %}
-                                                    <div class="alert alert-warning is-red mb-0 border-0 rounded-0 js-single" role="alert">
-                                                        <span class="warning-icon"></span>
-                                                        <span class="ml-2 h5">This question might not apply to your council
-                                                        </span>
-                                                        {% if question.wales_apply == "yes" %}
-                                                            <p class="mb-0 mt-2">This question only applies to councils in England and Wales as the data is not available for councils in Scotland and Northern Ireland.</p>
-                                                        {% else %}
-                                                            <p class="mb-0 mt-2">This question only applies to councils in England as the data is not available for councils in Scotland, Wales and Northern Ireland.</p>
-                                                        {% endif %}
-                                                    </div>
+                                  {% for council_type, weighting in section.weightings.items %}
+                                    <div class="js-{{ council_type }}">
+                                        <span>
+                                            <strong>This section will contribute {{ weighting }}% to a
+                                                {% if council_type == 'single' %}
+                                                    single tier council’s
+                                                {% elif council_type == 'district' %}
+                                                    district council’s
+                                                {% elif council_type == 'county' %}
+                                                    county council’s
+                                                {% elif council_type == 'northern-ireland' %}
+                                                    Northern Irish council’s
+                                                {% elif council_type == 'combined' %}
+                                                    Combined Authority’s 
                                                 {% endif %}
-                                                <div class="section-question-heading p-3">
-                                                    <!-- QUESTION CODE-->
-                                                    <p class="badge bg-secondary">{{ section.title|escape }} · Question {{ question.code }}</p>
-                                                    <!-- QUESTION NAME-->
-                                                    <h6 class="h5">{{ question.name }}</h6>
-                                                    <button class="btn btn-sm btn-outline-primary mt-2 js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">Display question details</button>
-                                                </div>
-                                                <div class="section-question-content" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
-                                                    <div class="p-3">
-                                                        <div class="section-question-meta-wrapper mb-3">
-                                                            <div class="section-question-meta-item">
-                                                                <!-- QUESTION TOPIC-->
-                                                                <p class="fw-bold mb-2">Topic</p>
-                                                                <p>{{ question.topic}}</p>
-                                                            </div>
-                                                            <div class="section-question-meta-item">
-                                                                <p class="fw-bold mb-2 d-table" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-custom-class="custom-tooltip"
-                                                                data-bs-title="Find out more in Question Weightings within section">
-                                                                    <span>Single Tier</span>
-                                                                    {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
-                                                                </p>
-                                                                <!-- QUESTION IMPORTANCE-->
-                                                                <p>{{ question.importance}}</p>
-                                                            </div>
-                                                            <div class="section-question-meta-item">
-                                                                <p class="fw-bold mb-2">How will this be marked?</p>
-                                                                <!-- QUESTION HOW WILL BE MARKED -->
-                                                                <p>
-                                                                    {% autoescape off %}
-                                                                    {{ question.how_marked}}
-                                                                {% endautoescape %}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="section-question-criteria mb-3 mb-4">
-                                                            <p class="fw-bold mb-2"><span>Criteria</span></p>
-                                                            <!-- QUESTION CRITERIA -->
-                                                            {% autoescape off %}
-                                                                {{ question.criteria|linebreaks }}
-                                                            {% endautoescape %}
-                                                        </div>
+                                                        overall score
+                                            </strong>
+                                        </span>
+                                    </div>
+                                  {% endfor %}
 
-                                                        <!-- QUESTION CLARIFICATION -->
-                                                        {% if question.clarifications %}
-                                                            <div class="section-question-clarification">
-                                                                <p class="fw-bold mb-2">Clarifications</p>
-                                                                {% autoescape off %}
-                                                                    {{ question.clarifications|linebreaks|urlize }}
-                                                                {% endautoescape %}
-                                                            </div>
-                                                        {% endif %}
+                                </div>
+                                <p>{{ section.description }}</p>
+                                <div class="section-question-list-wrapper mb-n3">
+
+                                  {% for question in section.questions %}
+                                    <div class="question-card rounded border mb-3 {% for council_type in question.council_types %}js-{{ council_type }} {% endfor %}">
+
+                                      {% if question.england_only == "yes" %}
+                                        <div class="alert alert-warning is-red mb-0 border-0 rounded-0 js-single" role="alert">
+                                            <span class="warning-icon"></span>
+                                            <span class="ml-2 h5">This question might not apply to your council</span>
+                                          {% if question.wales_apply == "yes" %}
+                                            <p class="mb-0 mt-2">This question only applies to councils in England and Wales as the data is not available for councils in Scotland and Northern Ireland.</p>
+                                          {% else %}
+                                            <p class="mb-0 mt-2">This question only applies to councils in England as the data is not available for councils in Scotland, Wales and Northern Ireland.</p>
+                                          {% endif %}
+                                        </div>
+                                      {% endif %}
+
+                                        <div class="section-question-heading p-3">
+                                            <p class="badge bg-secondary">{{ section.title|escape }} · Question {{ question.code }}</p>
+                                            <h6 class="h5">{{ question.name }}</h6>
+                                            <button class="btn btn-sm btn-outline-primary mt-2 js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">Display question details</button>
+                                        </div>
+  
+                                        <div class="section-question-content" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
+                                            <div class="p-3">
+                                                <div class="section-question-meta-wrapper mb-3">
+                                                    <div class="section-question-meta-item">
+                                                        <p class="fw-bold mb-2">Topic</p>
+                                                        <p>{{ question.topic }}</p>
+                                                    </div>
+                                                    <div class="section-question-meta-item">
+                                                        <p class="fw-bold mb-2 d-table" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        data-bs-custom-class="custom-tooltip"
+                                                        data-bs-title="Find out more in Question Weightings within section">
+                                                            <span>Single Tier</span>
+                                                            {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
+                                                        </p>
+                                                        <p>{{ question.importance }}</p>
+                                                    </div>
+                                                    <div class="section-question-meta-item">
+                                                        <p class="fw-bold mb-2">How will this be marked?</p>
+                                                        <p>
+                                                            {% autoescape off %}
+                                                                {{ question.how_marked }}
+                                                            {% endautoescape %}
+                                                        </p>
                                                     </div>
                                                 </div>
+
+                                                <div class="section-question-criteria mb-3 mb-4">
+                                                    <p class="fw-bold mb-2"><span>Criteria</span></p>
+                                                    <!-- QUESTION CRITERIA -->
+                                                    {% autoescape off %}
+                                                        {{ question.criteria|linebreaks }}
+                                                    {% endautoescape %}
+                                                </div>
+
+                                                <!-- QUESTION CLARIFICATION -->
+                                              {% if question.clarifications %}
+                                                <div class="section-question-clarification">
+                                                    <p class="fw-bold mb-2">Clarifications</p>
+                                                    {% autoescape off %}
+                                                        {{ question.clarifications|linebreaks|urlize }}
+                                                    {% endautoescape %}
+                                                </div>
+                                              {% endif %}
                                             </div>
-                                        {% endfor %}
+                                        </div>
                                     </div>
+                                  {% endfor %}
+
                                 </div>
                             </div>
-                            {% endfor %}
                         </div>
+                      {% endfor %}
 
-                        {% include details_template %}
+                    </div>
+
+                    {% include details_template %}
 
                 </div>
             </div>
