@@ -38,6 +38,8 @@ $danger: $color-scorecard-red;
 $info: $color-scorecard-yellow;
 $dark: $black;
 
+$primary2025: #d77b12;
+
 $color-total-score:$primary;
 $color-category-1:#098995;
 $color-category-2:#cc2f62;
@@ -74,6 +76,7 @@ $color-category-9;
 
 $theme-colors: (
     "primary":    $primary,
+    "primary2025": $primary2025,
     "secondary":  $secondary,
     "success":    $success,
     "info":       $info,
@@ -125,6 +128,28 @@ $primaries: (
   "primary-700": $primary-700,
   "primary-800": $primary-800,
   "primary-900": $primary-900
+);
+
+$primary2025-100: tint-color($primary2025, 80%);
+$primary2025-200: tint-color($primary2025, 60%);
+$primary2025-300: tint-color($primary2025, 40%);
+$primary2025-400: tint-color($primary2025, 20%);
+$primary2025-500: $primary2025;
+$primary2025-600: shade-color($primary2025, 20%);
+$primary2025-700: shade-color($primary2025, 40%);
+$primary2025-800: shade-color($primary2025, 60%);
+$primary2025-900: shade-color($primary2025, 80%);
+
+$primaries2025: (
+  "primary2025-100": $primary2025-100,
+  "primary2025-200": $primary2025-200,
+  "primary2025-300": $primary2025-300,
+  "primary2025-400": $primary2025-400,
+  "primary2025-500": $primary2025-500,
+  "primary2025-600": $primary2025-600,
+  "primary2025-700": $primary2025-700,
+  "primary2025-800": $primary2025-800,
+  "primary2025-900": $primary2025-900
 );
 
 $min-contrast-ratio: 2.5;
