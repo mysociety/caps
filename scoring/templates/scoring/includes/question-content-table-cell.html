@@ -14,7 +14,7 @@
                 <p class="mb-0">
                     <strong>Penalty marks:</strong>
                     The maximum number of points for this question is 0.
-                    <a href="{% url 'scoring:methodology' %}#section-question-weighting-within" style="color: inherit;">Read more about penalty mark questions.</a>
+                    <a href="{% url 'year_scoring:methodology' plan_year %}#section-question-weighting-within" style="color: inherit;">Read more about penalty mark questions.</a>
                 </p>
             </div>
           {% endif %}
@@ -61,7 +61,7 @@
                             {{ criteria.strip | linebreaks }}
                         </div>
                         <div class="modal-footer justify-content-start bg-gray-100">
-                            <a href="{% url 'scoring:methodology' %}">See more criteria clarifications in the full methodology</a>
+                            <a href="{% url 'year_scoring:methodology' plan_year %}">See more criteria clarifications in the full methodology</a>
                         </div>
                     </div>
                 </div>
