@@ -526,7 +526,9 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
     alt_map = dict((ca, non_ca) for non_ca, ca in combined_alt_map.items())
 
     def get_object(self):
-        return get_object_or_404(PlanSection, code=self.kwargs["code"])
+        return get_object_or_404(
+            PlanSection, code=self.kwargs["code"], year=self.request.year
+        )
 
     def add_comparisons(self, context, comparison_slugs, comparison_questions):
         section = context["section"]
@@ -703,7 +705,9 @@ class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         context["page_title"] = "Sections"
         context["sections"] = []
         context["ca_sections"] = []
-        for section in PlanSection.objects.order_by("code").all():
+        for section in (
+            PlanSection.objects.filter(year=self.request.year).order_by("code").all()
+        ):
             details = {
                 "name": section.description,
                 "url": reverse("scoring:section", args=(section.code,)),
