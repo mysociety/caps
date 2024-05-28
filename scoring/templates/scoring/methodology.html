@@ -87,7 +87,11 @@
                                   {% endfor %}
 
                                 </div>
+
+                              {% if section.description %}
                                 <p>{{ section.description }}</p>
+                              {% endif %}
+
                                 <div class="section-question-list-wrapper mb-n3">
 
                                   {% for question in section.questions %}
