@@ -269,6 +269,8 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         council = context.get("council")
         group = council.get_scoring_group()
 
+        context["plan_year"] = self.request.year
+
         new_council_date = date(year=2023, month=1, day=1)
         if council.start_date is not None and council.start_date >= new_council_date:
             context["authority_type"] = group
