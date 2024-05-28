@@ -221,7 +221,7 @@ class PlanSection(models.Model):
             alt = self.ALT_MAP.get(self.code, None)
 
         if alt is not None:
-            alt = PlanSection.objects.get(code=alt)
+            alt = PlanSection.objects.get(code=alt, year=self.year)
 
         return alt
 

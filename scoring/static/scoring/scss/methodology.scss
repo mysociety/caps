@@ -86,6 +86,20 @@ $council-types: (
     }
 }
 
+.question-card--removed {
+    color: $text-muted;
+    background-color: $gray-200;
+
+    .badge {
+        opacity: 0.6;
+    }
+
+    .js-hidden-toggle,
+    .section-question-content {
+        display: none;
+    }
+}
+
 // Tables highlight
 .minimal-table {
     table-layout: fixed;
@@ -102,5 +116,42 @@ $council-types: (
             text-align: left;
             font-weight: 700;
         }
+    }
+}
+
+.responsive-table {
+    @include media-breakpoint-down('lg') {
+        text-align: left;
+
+        thead {
+            tr {
+                display: none;
+            }
+        }
+
+        tbody {
+            tr {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1rem;
+
+                * + * {
+                    border-top: none;
+                }
+            }
+        }
+    }
+}
+
+.responsive-table__cell-label {
+    display: none;
+
+    @include media-breakpoint-down('lg') {
+        display: block;
+        font-weight: bold;
+        color: $text-muted;
+        @include font-size($font-size-sm);
+        line-height: 1.1;
+        margin-bottom: map-get($spacers, 1);
     }
 }

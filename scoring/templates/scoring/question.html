@@ -20,7 +20,7 @@
             <dd class="col-sm-8">{{ question.get_how_marked_display }}</dd>
             <dt class="col-sm-4">Question weight</dt>
             <dd class="col-sm-8">
-                <a href="{% url 'scoring:methodology' %}#section-question-weighting-within" class="d-inline-flex align-items-center" title="Read more about question weighting within sections">
+                <a href="{% url 'year_scoring:methodology' plan_year %}#section-question-weighting-within" class="d-inline-flex align-items-center" title="Read more about question weighting within sections">
                     {{ question.get_weighting_display }}
                     {% include 'caps/icons/question-circle.html' with classes='ms-2 align-text-top' width='1rem' height='1rem' role='presentation' %}
                 </a>
