@@ -95,23 +95,19 @@
                                 <div class="section-question-list-wrapper mb-n3">
 
                                   {% for question in section.questions %}
-                                    <div class="question-card rounded border mb-3 {% for council_type in question.council_types %}js-{{ council_type }} {% endfor %}">
-
-                                      {% if question.england_only == "yes" %}
-                                        <div class="alert alert-warning is-red mb-0 border-0 rounded-0 js-single" role="alert">
-                                            <span class="warning-icon"></span>
-                                            <span class="ml-2 h5">This question might not apply to your council</span>
-                                          {% if question.wales_apply == "yes" %}
-                                            <p class="mb-0 mt-2">This question only applies to councils in England and Wales as the data is not available for councils in Scotland and Northern Ireland.</p>
-                                          {% else %}
-                                            <p class="mb-0 mt-2">This question only applies to councils in England as the data is not available for councils in Scotland, Wales and Northern Ireland.</p>
-                                          {% endif %}
-                                        </div>
-                                      {% endif %}
+                                    <div class="question-card {% if question.removed %}question-card--removed{% endif %} rounded border mb-3 {% for council_type in question.council_types %}js-{{ council_type }} {% endfor %}">
 
                                         <div class="section-question-heading p-3">
                                             <p class="badge bg-secondary">{{ section.title|escape }} · Question {{ question.code }}</p>
                                             <h6 class="h5">{{ question.name }}</h6>
+                                          {% if question.removed %}
+                                            <p class="mt-2 mb-0">{{ question.removed }}</p>
+                                          {% elif question.exceptions %}
+                                            <div class="mt-3 mb-2 color-warning d-flex align-items-center" role="alert">
+                                                {% include "scoring/icons/warning.html" with classes="me-2 flex-shrink-0 flex-grow-0" %}
+                                                <p class="mb-0">{{ question.exceptions }}</p>
+                                            </div>
+                                          {% endif %}
                                             <button class="btn btn-sm btn-outline-primary mt-2 js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">Display question details</button>
                                         </div>
   

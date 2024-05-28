@@ -192,9 +192,11 @@ class HomePageView(
                 sorted_by = sort
                 councils = sorted(
                     councils,
-                    key=lambda council: 0
-                    if council["score"] == 0 or council["score"] is None
-                    else council["all_scores"][sort]["score"],
+                    key=lambda council: (
+                        0
+                        if council["score"] == 0 or council["score"] is None
+                        else council["all_scores"][sort]["score"]
+                    ),
                     reverse=True,
                 )
                 councils = sorted(councils, key=itemgetter("slug"))
@@ -407,23 +409,23 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         )
 
         context["comparisons"] = comparisons
-        context[
-            "page_description"
-        ] = "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
-            name=council.name
-        )
-        context[
-            "twitter_tweet_text"
-        ] = "Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking {name}’s Climate Action Plan on 📋 #CouncilClimateScorecards".format(
-            name=(
-                "@{}".format(council.twitter_name)
-                if council.twitter_name
-                else council.name
+        context["page_description"] = (
+            "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
+                name=council.name
             )
         )
-        context[
-            "og_image_path"
-        ] = f"{settings.MEDIA_URL}scoring/og-images/councils/{council.slug}.png"
+        context["twitter_tweet_text"] = (
+            "Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking {name}’s Climate Action Plan on 📋 #CouncilClimateScorecards".format(
+                name=(
+                    "@{}".format(council.twitter_name)
+                    if council.twitter_name
+                    else council.name
+                )
+            )
+        )
+        context["og_image_path"] = (
+            f"{settings.MEDIA_URL}scoring/og-images/councils/{council.slug}.png"
+        )
         return context
 
 
@@ -909,6 +911,25 @@ class MethodologyView(
         code = code.replace("_q", "")
         return code
 
+    def get_question_removed(self, question):
+        if question.section.year == 2025 and question.code == "s7_wr_f_q1a":
+            return "This question has been removed due to changes in UK law making it a legal requirement to ban the use and sale of some single use plastic"
+        return ""
+
+    def get_question_exceptions(self, question):
+        if question.section.year == 2025:
+            if question.code == "s2_tran_q6":
+                return "This question doesn’t apply to London Boroughs, the GLA, or councils in Scotland or Wales"
+            elif question.code == "s2_tran_8b":
+                return "This question only applies to councils in England"
+            elif question.code == "s5_bio_q4":
+                return "This question only applies to councils in England"
+            elif question.code == "s1_b_h_q8":
+                return "This question only applies to councils in England and Wales"
+            elif question.code == "s7_w_f_q1b":
+                return "This question does not apply to County councils"
+        return ""
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Methodology"
@@ -920,12 +941,12 @@ class MethodologyView(
 
         context["methodology_year"] = methodology_year
         context["toc_template"] = f"scoring/methodology/{methodology_year}/_toc.html"
-        context[
-            "intro_template"
-        ] = f"scoring/methodology/{methodology_year}/_intro.html"
-        context[
-            "details_template"
-        ] = f"scoring/methodology/{methodology_year}/_details.html"
+        context["intro_template"] = (
+            f"scoring/methodology/{methodology_year}/_intro.html"
+        )
+        context["details_template"] = (
+            f"scoring/methodology/{methodology_year}/_details.html"
+        )
 
         questions = (
             PlanQuestion.objects.filter(section__year=methodology_year)
@@ -1041,6 +1062,8 @@ class MethodologyView(
                 "how_marked": question.get_how_marked_display(),
                 "criteria": question.criteria,
                 "clarifications": question.clarifications,
+                "removed": self.get_question_removed(question),
+                "exceptions": self.get_question_exceptions(question),
             }
 
             current_section["questions"].append(deepcopy(q))
