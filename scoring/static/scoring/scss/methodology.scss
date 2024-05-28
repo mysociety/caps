@@ -86,6 +86,20 @@ $council-types: (
     }
 }
 
+.question-card--removed {
+    color: $text-muted;
+    background-color: $gray-200;
+
+    .badge {
+        opacity: 0.6;
+    }
+
+    .js-hidden-toggle,
+    .section-question-content {
+        display: none;
+    }
+}
+
 // Tables highlight
 .minimal-table {
     table-layout: fixed;

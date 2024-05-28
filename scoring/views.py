@@ -192,9 +192,11 @@ class HomePageView(
                 sorted_by = sort
                 councils = sorted(
                     councils,
-                    key=lambda council: 0
-                    if council["score"] == 0 or council["score"] is None
-                    else council["all_scores"][sort]["score"],
+                    key=lambda council: (
+                        0
+                        if council["score"] == 0 or council["score"] is None
+                        else council["all_scores"][sort]["score"]
+                    ),
                     reverse=True,
                 )
                 councils = sorted(councils, key=itemgetter("slug"))
@@ -909,6 +911,25 @@ class MethodologyView(
         code = code.replace("_q", "")
         return code
 
+    def get_question_removed(self, question):
+        if question.section.year == 2025 and question.code == "s7_wr_f_q1a":
+            return "This question has been removed due to changes in UK law making it a legal requirement to ban the use and sale of some single use plastic"
+        return ""
+
+    def get_question_exceptions(self, question):
+        if question.section.year == 2025:
+            if question.code == "s2_tran_q6":
+                return "This question doesn’t apply to London Boroughs, the GLA, or councils in Scotland or Wales"
+            elif question.code == "s2_tran_8b":
+                return "This question only applies to councils in England"
+            elif question.code == "s5_bio_q4":
+                return "This question only applies to councils in England"
+            elif question.code == "s1_b_h_q8":
+                return "This question only applies to councils in England and Wales"
+            elif question.code == "s7_w_f_q1b":
+                return "This question does not apply to County councils"
+        return ""
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Methodology"
@@ -1041,6 +1062,8 @@ class MethodologyView(
                 "how_marked": question.get_how_marked_display(),
                 "criteria": question.criteria,
                 "clarifications": question.clarifications,
+                "removed": self.get_question_removed(question),
+                "exceptions": self.get_question_exceptions(question),
             }
 
             current_section["questions"].append(deepcopy(q))
