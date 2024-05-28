@@ -50,7 +50,7 @@
                         <label class="form-check-label" for="display-complete-content">Show full question details by default</label>
                     </form>
 
-                    <div class="js-single alert alert-primary mt-3 mt-lg-4 border" role="alert">
+                    <div class="js-single alert {% if methodology_year == 2025 %}alert-primary2025{% else %}alert-primary{% endif %} mt-3 mt-lg-4 border" role="alert">
                         <p class="mb-0">A small number of questions might not apply to your council and they are highlighted with a warning icon.</p>
                     </div>
 

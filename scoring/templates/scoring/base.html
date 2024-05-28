@@ -40,7 +40,7 @@
   {% endif %}
     {% block header_extra %}{% endblock %}
 </head>
-<body class="{% block bodyclass %}{% endblock %} {{ current_page }}">
+<body class="{% block bodyclass %}{% endblock %} {{ current_page }} {% if methodology_year == 2025 %}year-2025{% endif %}">
 
     <nav class="navbar navbar-expand-lg site-nav">
         <div class="d-flex flex-row align-items-center">
