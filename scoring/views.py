@@ -818,7 +818,9 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
 
     def get_object(self):
         return get_object_or_404(
-            PlanQuestion.objects.select_related("section"), code=self.kwargs["code"]
+            PlanQuestion.objects.select_related("section"),
+            code=self.kwargs["code"],
+            section__year=self.request.year,
         )
 
     def get_context_data(self, **kwargs):
