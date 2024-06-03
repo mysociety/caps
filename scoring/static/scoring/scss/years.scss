@@ -1,0 +1,23 @@
+.year-2025 {
+    $shades: (
+        "100": $primary2025-100,
+        "200": $primary2025-200,
+        "300": $primary2025-300,
+        "400": $primary2025-400,
+        "500": $primary2025-500,
+        "600": $primary2025-600,
+        "700": $primary2025-700,
+        "800": $primary2025-800,
+        "900": $primary2025-900
+    );
+
+    .bg-primary {
+        background-color: $primary2025-500 !important;
+    }
+
+    @each $n, $shade in $shades {
+        .bg-primary-#{$n} {
+            background-color: $shade !important;
+        }
+    }
+}
