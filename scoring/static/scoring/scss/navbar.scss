@@ -79,10 +79,9 @@
             padding: 1rem 15px 1rem 45px;
             margin: 0 -15px;
             width: 100vw;
-            background-image: url('../img/hamburger-black.svg');
+            border: none;
+            background: #fff url('../img/hamburger-black.svg') 15px 50% no-repeat;
             background-size: 1rem;
-            background-repeat: no-repeat;
-            background-position: 15px 50%;
 
             &:focus {
                 background-color: $color-scorecard-yellow;
@@ -96,5 +95,9 @@
         & > button[aria-expanded="true"] + * {
             display: block;
         }
+    }
+
+    .list-group {
+        --bs-list-group-color: #{$link-color};
     }
 }
