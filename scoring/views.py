@@ -392,9 +392,10 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                     data["only_negative"] = True
             data["answers"] = sorted(data["answers"], key=natsort)
 
-        council_count = Council.objects.filter(
-            authority_type__in=group["types"],
-            country__in=group["countries"],
+        council_count = PlanScore.objects.filter(
+            year=self.request.year,
+            council__authority_type__in=group["types"],
+            council__country__in=group["countries"],
         ).count()
 
         context["canonical_path"] = self.request.path
