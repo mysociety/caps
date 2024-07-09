@@ -1,4 +1,5 @@
 {% extends "scoring/base.html" %}
+{% load static %}
 {% load django_bootstrap5 %}
 
 {% block content %}
@@ -10,6 +11,7 @@
         <div class="row mt-3">
             <div class="col-lg-6">
                 {{ section.long_description|linebreaks }}
+                <a href="#section-questions" class="btn btn-sm btn-primary mt-2">See questions in this section</a>
             </div>
         </div>
     </div>
@@ -75,7 +77,7 @@
             </div>
         </div>
 
-        <div class="col-6 col-sm-4 col-xl">
+        <div class="col-12 col-sm-4 col-xl">
             <div class="card text-decoration-none text-black h-100">
                 <div class="card-header py-3 text-bg-primary">
                     <h3 class="fs-4 mb-0 text-center">
@@ -126,8 +128,54 @@
 </div>
 {% endif %}
 
+{% if social_graphics %}
+<div class="container pt-5 pt-lg-6">
+    <div class="mb-4 d-flex align-items-center justify-content-between">
+        <h3 class="mb-0">Key takeaways</h3>
+      {% if social_graphics.zip %}
+        <a class="btn btn-sm btn-outline-primary" href="{% static social_graphics.zip %}">Download all (.zip)</a>
+      {% endif %}
+    </div>
 
-<div class="container py-5 py-lg-6 js-dynamic-content">
+    <div class="overflow-gallery gap-3">
+      {% for image in social_graphics.images %}
+        <div class="d-flex flex-column gap-3">
+            <a href="{% static image.src_instagram %}" class="d-block d-md-none" title="Opens in a new window" target="_blank">
+                <img loading="lazy" src="{% static image.src_instagram %}" alt="{{ image.alt }}">
+            </a>
+            <a href="{% static image.src_facebook %}" class="d-none d-md-block" title="Opens in a new window" target="_blank">
+                <img loading="lazy" src="{% static image.src_facebook %}" alt="{{ image.alt }}">
+            </a>
+            <div class="d-flex gap-2 justify-content-center align-items-center">
+                <span class="text-muted fs-7">Download:</span>
+                <a href="{% static image.src_facebook %}" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2" download>
+                    <span style="background: currentColor; width: 1.5em; height: 0.75em; display: inline-block;"></span>
+                    Wide
+                </a>
+                <a href="{% static image.src_instagram %}" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2" download>
+                    <span style="background: currentColor; width: 0.75em; height: 0.75em; display: inline-block;"></span>
+                    Square
+                </a>
+            </div>
+        </div>
+      {% endfor %}
+      {% if social_graphics.pdf %}
+        <div class="d-flex flex-column gap-3">
+            <a class="d-block" href="{% static social_graphics.pdf.src_pdf %}" title="Opens in a new window" target="_blank">
+                <img loading="lazy" src="{% static social_graphics.pdf.src_jpg %}" alt="{{ section.description }} summary infographic">
+            </a>
+            <div class="d-flex gap-2 justify-content-center align-items-center">
+                <span class="text-muted fs-7">Download:</span>
+                <a href="{% static social_graphics.pdf.src_pdf %}" class="btn btn-sm btn-outline-primary" download>PDF</a>
+                <a href="{% static social_graphics.pdf.src_jpg %}" class="btn btn-sm btn-outline-primary" download>JPG</a>
+            </div>
+        </div>
+      {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<div id="section-questions" class="container py-5 py-lg-6 js-dynamic-content">
     <h3 class="mb-4" id="questions">Questions in this section</h3>
 
   {% if not section.is_combined %}
@@ -293,7 +341,6 @@
         </a>
     </div>
   {% endif %}
-
 </div>
 
 {% endblock %}

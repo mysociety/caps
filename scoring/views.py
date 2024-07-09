@@ -526,6 +526,117 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         "s6_c_e": "s6_c_e_ca",
     }
 
+    social_graphics = {
+        "s4_g_f": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/governance-and-finance/governance-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/governance-and-finance/governance-graphic.jpg",
+                "height": 1159,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics/governance-and-finance/governance-and-finance.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics/governance-and-finance/facebook-1@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/governance-and-finance/instagram-1@2x.png",
+                    "alt": "Governance & Finance; Leading the Way; 68% of local authorities have raised funds for climate action; 84% of councils have a named climate portfolio holder; 45% of councils include climate as a priority in their Corporate Plan.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/governance-and-finance/facebook-2@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/governance-and-finance/instagram-2@2x.png",
+                    "alt": "Governance & Finance; Climate Governance; 14% of councils have trained all their senior staff and councillors who are cabinet or committee chairs in climate awareness; 64% of councils don’t have a detailed sustainable procurement policy; 47% of councils list climate implications on full council decisions.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/governance-and-finance/facebook-3@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/governance-and-finance/instagram-3@2x.png",
+                    "alt": "Governance & Finance; Funding the Climate Crisis; 1% of councils have committed to divesting their pension fund from fossil fuels by 2030; 13% of councils have passed a motion supporting the divestment of its own investments and their pension fund; 10% of local authorities* have direct investments in airports.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/governance-and-finance/facebook-4@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/governance-and-finance/instagram-4@2x.png",
+                    "alt": "Governance & Finance; Emissions Reductions Between 2019 and 2021; 7% of councils have reduced their own emissions by 20% or more; 2% of district & single tier councils have had area wide emissions reduced by 10% or more; 0% No county, combined authority or Northern Irish council have had area wide emissions reduced by 10% or more.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/governance-and-finance/facebook-0@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/governance-and-finance/instagram-0@2x.png",
+                    "alt": "Governance & Finance; Average scores: 27% for Single Tier; 24% for District; 34% for County; 11% for Northern Ireland; 29% for Combined Authority.",
+                },
+            ],
+        },
+        "s2_tran": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/transport/transport-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/transport/transport-graphic.jpg",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics/transport/transport.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics/transport/facebook-1@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/transport/instagram-1@2x.png",
+                    "alt": "Transport, leading the way; 57% of transport authorities have 20mph as the default speed limit; 59% of transport authorities have low-emission buses in their area",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/transport/facebook-2@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/transport/instagram-2@2x.png",
+                    "alt": "Transport, driving the climate crisis; 25% of local authorities have expanded airports or their road networks",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/transport/facebook-3@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/transport/instagram-3@2x.png",
+                    "alt": "Transport, accelerated action needed; 20% of local authorities have 10% or more of their council fleet as electric vehicles; 32% of councils have 60 or more public electric vehicle chargers across their area",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/transport/facebook-4@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/transport/instagram-4@2x.png",
+                    "alt": "Transport, driving the climate crisis; 0 english councils received the highest capability rating by active travel england; 3 english transport authorities outside of london have high bus ridership.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/transport/facebook-5@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/transport/instagram-5@2x.png",
+                    "alt": "Transport, air quality; 98% of air quality authorities in england have high pm2.5 levels in 25% or more of the council's area; 55% of air quality authorities have high no2 levels in 25% or more of the council's area",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/transport/facebook-6@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/transport/instagram-6@2x.png",
+                    "alt": "Transport; Average scores: 22% for Single Tier; 9% for District; 18% for County; 7% for Northern Ireland; 41% for Combined Authority",
+                },
+            ],
+        },
+        "s2_tran_ca": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/ca-transport/transport-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/ca-transport/transport-graphic.jpg",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics/ca-transport/transport.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics/ca-transport/facebook-1@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/ca-transport/instagram-1@2x.png",
+                    "alt": "Transport, 100% support shared transport schemes like car clubs; 82% include climate as a priority in their Transport Plan; 36% have integrated ticketing for all public transport and shared active travel schemes.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/ca-transport/facebook-2@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/ca-transport/instagram-2@2x.png",
+                    "alt": "Transport, 0% have a capability rating of 4 out of 4 from Active Travel England; 36% have more than 60 public EV chargers per 100,000 residents; 27% have a clean air zone that requires charges for private vehicles.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/ca-transport/facebook-3@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/ca-transport/instagram-3@2x.png",
+                    "alt": "Transport, 73% included high carbon transport projects within their Transport plans.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/ca-transport/facebook-4@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/ca-transport/instagram-4@2x.png",
+                    "alt": "Transport, 91% have a target for a zero emission bus fleet by 2040 or sooner; 27% have a target of 2030 for zero emission bus fleet.",
+                },
+            ],
+        },
+    }
+
     alt_map = dict((ca, non_ca) for non_ca, ca in combined_alt_map.items())
 
     def get_object(self):
@@ -676,6 +787,14 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         context["averages"] = avgs
         if context.get("council_type", None) is not None:
             context["council_type_avg"] = avgs[context["council_type"]["slug"]]
+
+        sg = self.social_graphics.get(section.code, None)
+        if sg:
+            context["social_graphics"] = sg
+            context["og_image_path"] = f"{settings.STATIC_URL}{sg['pdf']['src_jpg']}"
+            context["og_image_type"] = "image/jpeg"
+            context["og_image_height"] = sg["pdf"]["height"]
+            context["og_image_width"] = sg["pdf"]["width"]
 
         context["canonical_path"] = self.request.path
         context["plan_year"] = self.request.year
