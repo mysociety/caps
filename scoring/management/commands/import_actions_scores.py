@@ -102,6 +102,7 @@ class Command(BaseCommand):
             # update the section max_score as we go
             section = PlanSection.objects.get(
                 description=row["section"],
+                year=self.YEAR,
             )
 
             try:
@@ -152,7 +153,7 @@ class Command(BaseCommand):
 
             for desc in self.SECTIONS.values():
                 if not pd.isnull(row[desc]):
-                    section = PlanSection.objects.get(description=desc)
+                    section = PlanSection.objects.get(year=self.YEAR, description=desc)
 
                     section_score, created = PlanSectionScore.objects.get_or_create(
                         plan_section=section,
@@ -163,7 +164,7 @@ class Command(BaseCommand):
                     section_score.save()
 
     def label_top_performers(self):
-        plan_sections = PlanSection.objects.filter(year=2023)
+        plan_sections = PlanSection.objects.filter(year=self.YEAR)
 
         # reset top performers
         PlanScore.objects.filter(year=2023).update(top_performer="")
