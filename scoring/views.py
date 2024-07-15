@@ -606,8 +606,8 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         },
         "s2_tran_ca": {
             "pdf": {
-                "src_pdf": "scoring/img/social-graphics/ca-transport/transport-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/ca-transport/transport-graphic.jpg",
+                "src_pdf": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.jpg",
                 "height": 1125,
                 "width": 2000,
             },
