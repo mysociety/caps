@@ -140,22 +140,31 @@
     <div class="overflow-gallery gap-3">
       {% for image in social_graphics.images %}
         <div class="d-flex flex-column gap-3">
+          {% if image.src_instagram %}
             <a href="{% static image.src_instagram %}" class="d-block d-md-none" title="Opens in a new window" target="_blank">
                 <img loading="lazy" src="{% static image.src_instagram %}" alt="{{ image.alt }}">
             </a>
+          {% endif %}
+          {% if image.src_facebook %}
             <a href="{% static image.src_facebook %}" class="d-none d-md-block" title="Opens in a new window" target="_blank">
                 <img loading="lazy" src="{% static image.src_facebook %}" alt="{{ image.alt }}">
             </a>
+          {% endif %}
+
             <div class="d-flex gap-2 justify-content-center align-items-center">
                 <span class="text-muted fs-7">Download:</span>
+              {% if image.src_facebook %}
                 <a href="{% static image.src_facebook %}" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2" download>
                     <span style="background: currentColor; width: 1.5em; height: 0.75em; display: inline-block;"></span>
                     Wide
                 </a>
+              {% endif %}
+              {% if image.src_instagram %}
                 <a href="{% static image.src_instagram %}" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2" download>
                     <span style="background: currentColor; width: 0.75em; height: 0.75em; display: inline-block;"></span>
                     Square
                 </a>
+              {% endif %}
             </div>
         </div>
       {% endfor %}

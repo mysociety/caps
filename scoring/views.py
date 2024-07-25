@@ -635,6 +635,46 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 },
             ],
         },
+        "s1_b_h": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.jpg",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics/building-and-heating/building-and-heating.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-1@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/building-and-heating/instagram-1@2x.png",
+                    "alt": "Building & Heating, Leading the Way; 96% of local authorities offer funding to residents to retrofit their homes; 59% of councils have a renewable energy tariff or generate renewable energy equal to 20% of their own energy use",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-2@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/building-and-heating/instagram-2@2x.png",
+                    "alt": "Building & Heating, Leading the Way; Only Greater Manchester Combined Authority scored 100% in Buildings & Heating",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-3@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/building-and-heating/instagram-3@2x.png",
+                    "alt": "Building & Heating, Room for Improvement; 59% of local authorities have at least one part-time retrofit staff member; 48% of local authorities support residents to collectively purchase renewable energy",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-31@2x.png",
+                    "alt": "Building & Heating, Room for Improvement; 71% of council owned social housing is energy efficient, EPC band C or higher; 5/11 combined authorities trained over 1,000 people in green skills",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-4@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/building-and-heating/instagram-4@2x.png",
+                    "alt": "Building & Heating, Falling Behind; 75% of single tier & district councils are not actively enforcing Minimum Energy Efficiency Standards of privately rented homes in 2021/22; 24% of local authorities provide support for local community renewable energy creation",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-5@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/building-and-heating/instagram-5@2x.png",
+                    "alt": "Building & Heating, Falling Behind; 43% of UK homes are energy efficient, rated EPC C or higher",
+                },
+            ],
+        },
     }
 
     alt_map = dict((ca, non_ca) for non_ca, ca in combined_alt_map.items())
