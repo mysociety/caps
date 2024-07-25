@@ -257,7 +257,9 @@ class Command(BaseCommand):
         # import related fields in bulk at the start
         councils = {x.gss_code: x for x in Council.objects.all()}
         plan_scores = {x.council: x for x in PlanScore.objects.filter(year=self.YEAR)}
-        questions = {x.code: x for x in PlanQuestion.objects.all()}
+        questions = {
+            x.code: x for x in PlanQuestion.objects.filter(section__year=self.YEAR)
+        }
 
         section_codes = {name: code for code, name in self.SECTIONS.items()}
 
