@@ -169,7 +169,7 @@
         </div>
       {% endfor %}
       {% if social_graphics.pdf %}
-        <div class="d-flex flex-column gap-3">
+        <div class="d-flex flex-column gap-3 order-md-first">
             <a class="d-block" href="{% static social_graphics.pdf.src_pdf %}" title="Opens in a new window" target="_blank">
                 <img loading="lazy" src="{% static social_graphics.pdf.src_jpg %}" alt="{{ section.description }} summary infographic">
             </a>
