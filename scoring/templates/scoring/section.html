@@ -130,12 +130,14 @@
 
 {% if social_graphics %}
 <div class="container pt-5 pt-lg-6">
-    <div class="mb-4 d-flex align-items-center justify-content-between">
+    <div class="mb-2 d-flex align-items-center justify-content-between">
         <h3 class="mb-0">Key takeaways</h3>
       {% if social_graphics.zip %}
         <a class="btn btn-sm btn-outline-primary" href="{% static social_graphics.zip %}">Download all (.zip)</a>
       {% endif %}
     </div>
+
+    <p class="mb-4">{{ social_graphics.images|length|add:"1" }} infographics for you to download and share.</p>
 
     <div class="overflow-gallery gap-3">
       {% for image in social_graphics.images %}
