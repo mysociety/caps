@@ -11,6 +11,7 @@ from rest_framework.pagination import PageNumberPagination
 
 from caps.api.serializers import (
     CouncilSerializer,
+    PlanDocumentSerializer,
     PromiseSerializer,
     SearchTermSerializer,
 )
@@ -191,6 +192,36 @@ class CouncilCommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
             )
             .select_related("council")
             .order_by("target_year")
+            .all()
+        )
+
+
+class CouncilDocumentsViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Information about a council's climate documents.
+
+    Lists all documents we have for a council.
+
+    * council - link to the council
+    * title - title of the document
+    * document_type - the type of document, if known, e.g Action Plan
+    * file_type - what type of file, e.g PDF
+    * url - link to document on the council's website
+    * cached_url - link to our cached copy of the file
+    * updated_at - date the information was last update
+    """
+
+    queryset = PlanDocument.objects.order_by("updated_at").all()
+    serializer_class = PlanDocumentSerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        return (
+            PlanDocument.objects.filter(
+                council__authority_code=self.kwargs["authority_code"]
+            )
+            .select_related("council")
+            .order_by("updated_at")
             .all()
         )
 

@@ -34,6 +34,7 @@ class CouncilsAPITestCase(APITestCase):
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/BOS/commitments",
+                    "climate_documents": "http://testserver/api/councils/BOS/documents",
                     "declared_emergency": None,
                     "gss_code": "E14000111",
                     "country": "England",
@@ -66,6 +67,7 @@ class CouncilsAPITestCase(APITestCase):
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/BOS/commitments",
+                    "climate_documents": "http://testserver/api/councils/BOS/documents",
                     "declared_emergency": None,
                     "document_count": 1,
                     "gss_code": "E14000111",
@@ -118,6 +120,7 @@ class CouncilsAPITestCase(APITestCase):
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/BOS/commitments",
+                    "climate_documents": "http://testserver/api/councils/BOS/documents",
                     "declared_emergency": None,
                 },
                 {
@@ -134,6 +137,7 @@ class CouncilsAPITestCase(APITestCase):
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/EBS/commitments",
+                    "climate_documents": "http://testserver/api/councils/EBS/documents",
                     "declared_emergency": None,
                 },
                 {
@@ -150,6 +154,7 @@ class CouncilsAPITestCase(APITestCase):
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/WBS/commitments",
+                    "climate_documents": "http://testserver/api/councils/WBS/documents",
                     "declared_emergency": None,
                 },
             ],
@@ -204,6 +209,7 @@ class CouncilsAPITestCase(APITestCase):
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/EBS/commitments",
+                    "climate_documents": "http://testserver/api/councils/EBS/documents",
                     "declared_emergency": None,
                 }
             ],
@@ -230,6 +236,7 @@ class CouncilsAPITestCase(APITestCase):
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/EBS/commitments",
+                    "climate_documents": "http://testserver/api/councils/EBS/documents",
                     "declared_emergency": None,
                 },
                 {
@@ -246,6 +253,7 @@ class CouncilsAPITestCase(APITestCase):
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/WBS/commitments",
+                    "climate_documents": "http://testserver/api/councils/WBS/documents",
                     "declared_emergency": None,
                 },
             ],
@@ -270,7 +278,49 @@ class CouncilsAPITestCase(APITestCase):
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/NBS/commitments",
+                    "climate_documents": "http://testserver/api/councils/NBS/documents",
                     "declared_emergency": None,
+                }
+            ],
+        )
+
+
+class DocumentApiTest(APITestCase):
+    council = None
+
+    def setUp(self):
+        self.council = Council.objects.create(
+            name="Borsetshire",
+            slug="borsetshire",
+            country=Council.ENGLAND,
+            authority_code="BOS",
+            gss_code="E14000111",
+        )
+
+    def test_council_with_plan(self):
+        plan = PlanDocument.objects.create(
+            council=self.council,
+            url="https://borsetshire.gov.uk/climate_plan.pdf",
+            document_type=PlanDocument.ACTION_PLAN,
+            file_type="pdf",
+            scope=PlanDocument.COUNCIL_ONLY,
+            title="An Action Plan",
+            updated_at="2024-01-01",
+        )
+
+        response = self.client.get("/api/councils/BOS/documents")
+
+        self.assertEquals(
+            json.loads(response.content),
+            [
+                {
+                    "council": "http://testserver/api/councils/BOS/",
+                    "title": "An Action Plan",
+                    "document_type": "Action plan",
+                    "file_type": "pdf",
+                    "url": "https://borsetshire.gov.uk/climate_plan.pdf",
+                    "cached_url": "",
+                    "updated_at": plan.updated_at.isoformat(),
                 }
             ],
         )
@@ -325,6 +375,7 @@ class PromisesAPITest(APITestCase):
                     "carbon_neutral_date": 2035,
                     "carbon_reduction_commitment": True,
                     "carbon_reduction_statements": "http://testserver/api/councils/BOS/commitments",
+                    "climate_documents": "http://testserver/api/councils/BOS/documents",
                     "declared_emergency": None,
                 },
                 {
@@ -341,6 +392,7 @@ class PromisesAPITest(APITestCase):
                     "carbon_neutral_date": None,
                     "carbon_reduction_commitment": False,
                     "carbon_reduction_statements": "http://testserver/api/councils/WBS/commitments",
+                    "climate_documents": "http://testserver/api/councils/WBS/documents",
                     "declared_emergency": None,
                 },
             ],

@@ -1,13 +1,13 @@
-from django.urls import include, path
-from django.contrib import admin
+import haystack.generic_views
 from django.conf import settings
+from django.contrib import admin
+from django.urls import include, path
 from django.views.generic.base import RedirectView
 
-import haystack.generic_views
-from caps.forms import HighlightedSearchForm
-import caps.views as views
 import caps.api.views as api_views
+import caps.views as views
 from caps.api import routers
+from caps.forms import HighlightedSearchForm
 
 router = routers.Router()
 router.register(r"councils", api_views.CouncilViewSet, basename="council")
@@ -54,6 +54,11 @@ urlpatterns = [
         "api/councils/<str:authority_code>/commitments",
         api_views.CouncilCommitmentsViewSet.as_view({"get": "list"}),
         name="council-commitments",
+    ),
+    path(
+        "api/councils/<str:authority_code>/documents",
+        api_views.CouncilDocumentsViewSet.as_view({"get": "list"}),
+        name="council-documents",
     ),
     path("content/<str:markdown_slug>/", views.MarkdownView.as_view(), name="content"),
     # used for testing page in debug mode

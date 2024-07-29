@@ -1,6 +1,6 @@
 from rest_framework import reverse, serializers
 
-from caps.models import Council, Promise, SavedSearch
+from caps.models import Council, PlanDocument, Promise, SavedSearch
 
 
 class CouncilSerializer(serializers.HyperlinkedModelSerializer):
@@ -16,6 +16,9 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
     carbon_reduction_statements = serializers.HyperlinkedIdentityField(
         view_name="council-commitments", lookup_field="authority_code"
     )
+    climate_documents = serializers.HyperlinkedIdentityField(
+        view_name="council-documents", lookup_field="authority_code"
+    )
 
     class Meta:
         model = Council
@@ -29,6 +32,7 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
             "authority_code",
             "plan_count",
             "document_count",
+            "climate_documents",
             "plans_last_update",
             "carbon_reduction_commitment",
             "carbon_neutral_date",
@@ -72,6 +76,41 @@ class PromiseSerializer(serializers.HyperlinkedModelSerializer):
             ),
         )
         return result
+
+
+class PlanDocumentSerializer(serializers.HyperlinkedModelSerializer):
+    council = serializers.SerializerMethodField()
+    document_type = serializers.SerializerMethodField()
+    cached_url = serializers.CharField(source="file")
+
+    class Meta:
+        model = PlanDocument
+        fields = [
+            "council",
+            "title",
+            "document_type",
+            "file_type",
+            "url",
+            "cached_url",
+            "updated_at",
+        ]
+
+    def get_council(self, obj):
+        code = obj.council.authority_code
+        # do this is a string otherwise you get an array as the result
+        result = "{}".format(
+            reverse.reverse(
+                "council-detail", args=[code], request=self.context["request"]
+            ),
+        )
+        return result
+
+    def get_document_type(self, obj):
+        type_code = obj.get_document_type_display()
+        if type_code is None:
+            type_code = "unknown"
+
+        return type_code
 
 
 class SearchTermSerializer(serializers.HyperlinkedModelSerializer):
