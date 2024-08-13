@@ -10,5 +10,5 @@ export BUILD_COMMIT=$(git log -1 --pretty=%h)
 script/bootstrap
 
 docker build . -t mysocietyorg/caps:latest -t mysocietyorg/caps:${BUILD_COMMIT} --build-arg BUILD_COMMIT=${BUILD_COMMIT}
-docker-compose pull solr
-docker-compose pull postgres
+docker compose pull solr
+docker compose pull postgres
