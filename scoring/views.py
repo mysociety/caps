@@ -529,7 +529,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
     social_graphics = {
         "s4_g_f": {
             "pdf": {
-                "src_pdf": "scoring/img/social-graphics/governance-and-finance/governance-graphic.pdf",
+                "src_pdf": "scoring/img/social-graphics/governance-and-finance/scorecards-governance.pdf",
                 "src_jpg": "scoring/img/social-graphics/governance-and-finance/governance-graphic.jpg",
                 "height": 1159,
                 "width": 2100,
@@ -606,7 +606,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         },
         "s2_tran_ca": {
             "pdf": {
-                "src_pdf": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.pdf",
+                "src_pdf": "scoring/img/social-graphics/ca-transport/scorecards-ca-transport.pdf",
                 "src_jpg": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.jpg",
                 "height": 1125,
                 "width": 2000,
