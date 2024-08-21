@@ -565,7 +565,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         },
         "s2_tran": {
             "pdf": {
-                "src_pdf": "scoring/img/social-graphics/transport/transport-graphic.pdf",
+                "src_pdf": "scoring/img/social-graphics/transport/scorecards-transport.pdf",
                 "src_jpg": "scoring/img/social-graphics/transport/transport-graphic.jpg",
                 "height": 1158,
                 "width": 2100,
