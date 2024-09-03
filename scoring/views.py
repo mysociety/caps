@@ -675,6 +675,42 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 },
             ],
         },
+        "s3_p_lu": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.jpg",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-1@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-1@2x.png",
+                    "alt": "Planning & Land Use; 59% of planning authorities set the highest water efficiency standards for new builds. 42% of planning authorities avoid building new developments on land that is most at risk of flooding.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-2@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-2@2x.png",
+                    "alt": "Planning & Land Use; 14% of planning authorities have set net zero standards for building new housing; 19% of planning authorities require the measurement of a development’s embodied emissions; 46% of planning authorities require onsite renewable energy in new developments",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-3@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-3@2x.png",
+                    "alt": "Planning & Land Use; 58% of planning authorities have mapped where new solar, wind, or district heating infrastructure can be built, but only 8% have mapped for all three. 33% of English, Scottish, and Welsh councils have approved 3 or more renewable energy projects.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-4@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-4@2x.png",
+                    "alt": "Planning & Land Use; 11 mineral planning authorities have approved new, or the expansion of fossil fuel infrastructure.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-5@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-5@2x.png",
+                    "alt": "Planning & Land Use; Average scores: 35% Single tier, 23% District, -25% County, 14% Northern Ireland",
+                },
+            ],
+        },
     }
 
     alt_map = dict((ca, non_ca) for non_ca, ca in combined_alt_map.items())
