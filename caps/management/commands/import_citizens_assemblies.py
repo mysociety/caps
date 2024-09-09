@@ -21,8 +21,11 @@ def get_citizens_assembilies() -> pd.DataFrame:
         done_survey=True,
     )
 
-    # limit to those with 'climate' in the thematic_grouping
-    df = df[df["thematic_grouping"].str.lower().str.contains("climate")]
+    # limit to those with climate-related thematic groups
+    df = df[
+        df["thematic_grouping"].str.contains("climate", case=False)
+        | df["thematic_grouping"].str.contains("air quality", case=False)
+    ]
     # limit to completed assemblies
     df = df[df["assembly_status"] == "Finished"]
     # limit to just those that have a local_authority_code
