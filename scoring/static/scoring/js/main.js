@@ -435,3 +435,26 @@ if ( typeof window.fetch !== 'undefined' ) {
         }
     });
 }
+
+// Graphics click tracking
+var trackEvent = function(eventName, params, callback){
+    params = params || {};
+    callback = callback || function(){};
+    params['event_callback'] = callback;
+    setTimeout(callback, 2000);
+    gtag('event', eventName, params);
+};
+
+document.querySelectorAll('.js-social-graphic-download').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+        e.preventDefault();
+        var eventName = "download";
+        var params = {
+            url: el.getAttribute('href')
+        };
+
+        trackEvent(eventName, params, function(){
+            window.location.href = el.href;
+        });
+    });
+});
