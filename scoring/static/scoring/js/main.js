@@ -435,3 +435,40 @@ if ( typeof window.fetch !== 'undefined' ) {
         }
     });
 }
+
+// Graphic click tracking
+var trackEvent = function(eventName, params, callback){
+    params = params || {};
+    callback = callback || function(){};
+    params['event_callback'] = callback;
+    setTimeout(callback, 2000);
+    gtag('event', eventName, params);
+};
+
+// Function to extract section from the URL
+var getSectionFromURL = function() {
+    var urlParts = window.location.pathname.split('/');
+    return urlParts[urlParts.length - 2];
+};
+
+document.querySelectorAll('.js-social-graphic-download').forEach(function(el) {
+    el.addEventListener('click', function(e) {
+        e.preventDefault();  // Prevent default page navigation
+
+        var eventName = "download";
+        var params = {
+            'file_type': el.getAttribute('fileType'),
+            'section': getSectionFromURL()
+        };
+
+        // Only add image_ratio if it exists
+        var imageRatio = el.getAttribute('imgRatio');
+        if (imageRatio) {
+            params['image_ratio'] = imageRatio;
+        }
+
+        trackEvent(eventName, params, function(){
+            window.location.href = el.href;
+        });
+    });
+});

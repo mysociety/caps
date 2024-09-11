@@ -133,7 +133,7 @@
     <div class="mb-2 d-flex align-items-center justify-content-between">
         <h3 class="mb-0">Key takeaways</h3>
       {% if social_graphics.zip %}
-        <a class="btn btn-sm btn-outline-primary" href="{% static social_graphics.zip %}">Download all (.zip)</a>
+        <a class="btn btn-sm btn-outline-primary js-social-graphic-download" fileType="zip" href="{% static social_graphics.zip %}">Download all (.zip)</a>
       {% endif %}
     </div>
 
@@ -143,26 +143,26 @@
       {% for image in social_graphics.images %}
         <div class="d-flex flex-column gap-3">
           {% if image.src_instagram %}
-            <a href="{% static image.src_instagram %}" class="d-block d-md-none" title="Opens in a new window" target="_blank">
-                <img loading="lazy" src="{% static image.src_instagram %}" alt="{{ image.alt }}">
+            <a href="{% static image.src_instagram %}" fileType="img" imgRatio="square" class="d-block d-md-none js-social-graphic-download" title="Opens in a new window" target="_blank">
+                <img loading="lazy" src="{% static image.src_instagram %}" fileType="img" imgRatio="square" alt="{{ image.alt }}">
             </a>
           {% endif %}
           {% if image.src_facebook %}
-            <a href="{% static image.src_facebook %}" class="d-none d-md-block" title="Opens in a new window" target="_blank">
-                <img loading="lazy" src="{% static image.src_facebook %}" alt="{{ image.alt }}">
+            <a href="{% static image.src_facebook %}" fileType="img" imgRatio="rectangle" class="d-none d-md-block js-social-graphic-download" title="Opens in a new window" target="_blank">
+                <img loading="lazy" src="{% static image.src_facebook %}" fileType="img" imgRatio="rectangle" alt="{{ image.alt }}">
             </a>
           {% endif %}
 
             <div class="d-flex gap-2 justify-content-center align-items-center">
                 <span class="text-muted fs-7">Download:</span>
               {% if image.src_facebook %}
-                <a href="{% static image.src_facebook %}" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2" download>
+                <a href="{% static image.src_facebook %}" fileType="img" imgRatio="rectangle" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2 js-social-graphic-download" download>
                     <span style="background: currentColor; width: 1.5em; height: 0.75em; display: inline-block;"></span>
                     Wide
                 </a>
               {% endif %}
               {% if image.src_instagram %}
-                <a href="{% static image.src_instagram %}" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2" download>
+                <a href="{% static image.src_instagram %}" fileType="img" imgRatio="square" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2 js-social-graphic-download" download>
                     <span style="background: currentColor; width: 0.75em; height: 0.75em; display: inline-block;"></span>
                     Square
                 </a>
@@ -177,8 +177,8 @@
             </a>
             <div class="d-flex gap-2 justify-content-center align-items-center">
                 <span class="text-muted fs-7">Download:</span>
-                <a href="{% static social_graphics.pdf.src_pdf %}" class="btn btn-sm btn-outline-primary" download>PDF</a>
-                <a href="{% static social_graphics.pdf.src_jpg %}" class="btn btn-sm btn-outline-primary" download>JPG</a>
+                <a href="{% static social_graphics.pdf.src_pdf %}" fileType="pdf" class="btn btn-sm btn-outline-primary js-social-graphic-download" download>PDF</a>
+                <a href="{% static social_graphics.pdf.src_jpg %}" fileType="img" class="btn btn-sm btn-outline-primary js-social-graphic-download" download>JPG</a>
             </div>
         </div>
       {% endif %}
