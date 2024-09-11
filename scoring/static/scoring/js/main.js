@@ -436,33 +436,28 @@ if ( typeof window.fetch !== 'undefined' ) {
     });
 }
 
-// Graphic click tracking
+// Graphics click tracking
 var trackEvent = function(eventName, params, callback){
     params = params || {};
     callback = callback || function(){};
     params['event_callback'] = callback;
     setTimeout(callback, 2000);
+    console.log(params)
     gtag('event', eventName, params);
-};
-
-// Function to extract section from the URL
-var getSectionFromURL = function() {
-    var urlParts = window.location.pathname.split('/');
-    return urlParts[urlParts.length - 2];
 };
 
 document.querySelectorAll('.js-social-graphic-download').forEach(function(el) {
     el.addEventListener('click', function(e) {
-        e.preventDefault();  // Prevent default page navigation
-
+        e.preventDefault();
         var eventName = "download";
         var params = {
-            'file_type': el.getAttribute('fileType'),
-            'section': getSectionFromURL()
+            file_type: el.getAttribute('file-type'),
+            // The url will contain the section
+            section: window.location.href
         };
 
         // Only add image_ratio if it exists
-        var imageRatio = el.getAttribute('imgRatio');
+        var imageRatio = el.getAttribute('image-ratio');
         if (imageRatio) {
             params['image_ratio'] = imageRatio;
         }
