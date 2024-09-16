@@ -442,7 +442,6 @@ var trackEvent = function(eventName, params, callback){
     callback = callback || function(){};
     params['event_callback'] = callback;
     setTimeout(callback, 2000);
-    console.log(params)
     gtag('event', eventName, params);
 };
 
@@ -451,16 +450,8 @@ document.querySelectorAll('.js-social-graphic-download').forEach(function(el) {
         e.preventDefault();
         var eventName = "download";
         var params = {
-            file_type: el.getAttribute('file-type'),
-            // The url will contain the section
-            section: window.location.href
+            url: el.getAttribute('href')
         };
-
-        // Only add image_ratio if it exists
-        var imageRatio = el.getAttribute('image-ratio');
-        if (imageRatio) {
-            params['image_ratio'] = imageRatio;
-        }
 
         trackEvent(eventName, params, function(){
             window.location.href = el.href;
