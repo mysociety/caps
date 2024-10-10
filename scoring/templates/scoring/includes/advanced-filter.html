@@ -2,316 +2,211 @@
     Advanced filters
 </button>
 
+<!-- DELETE ALL EMPTY CLASSES TAGS-->
+
 <div class="modal fade" id="advancedFilter" tabindex="-1" aria-labelledby="advancedFilterLabel" aria-hidden="true">
   <form id="advancedFilterForm" action=".">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="advancedFilterLabel">Advanced filter</h5>
+            <h3 class="modal-title" id="advancedFilterLabel">Advanced filters</h3>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-                <div class="d-flex flex-column flex-wrap">
-                    {% if filter_auth_type %}
-                    <input type="hidden" name="council_type" value="{{ authority_type }}">
-                    {% endif %}
+          <div class="filter-grid">
+              {% if filter_auth_type %}
+              <input type="hidden" name="council_type" value="{{ authority_type }}">
+              {% endif %}
 
-                    <div class="accordion" id="accordionAdvancedFilter">
-                        {% if authority_type == 'single' %}
-                        <div id="accordionNation" class="accordion-item">
-                          <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                              Nation
-                              <span id="nationActiveFilter" class="fs-9 text-uppercase badge bg-secondary filter-badge ms-2 me-3">Any</span>
-                            </button>
-                          </h2>
-                          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionAdvancedFilter">
-                            <div class="accordion-body">
-                                <fieldset class="criteria-group-wrapper">
-                                    <legend class="visually-hidden">
-                                        <button type="button">Nation</button>
-                                    </legend>
-                                    <div class="option-group open-div">
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="country_all" name="country" value=""{% if filter_params.country == "" or filter_params.country is None %} checked{% endif %}>
-                                            <label class="form-check-label" for="country_all">Any</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="england" name="country" value="1"{% if filter_params.country == "1" %} checked{% endif %}>
-                                            <label class="form-check-label" for="england">England</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="scotland" name="country" value="2"{% if filter_params.country == "2" %} checked{% endif %}>
-                                            <label class="form-check-label" for="scotland">Scotland</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="wales" name="country" value="3"{% if filter_params.country == "3" %} checked{% endif %}>
-                                            <label class="form-check-label" for="wales">Wales</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-                          </div>
+              {% if authority_type == 'single' %}
+              <div id="filterNation" class="advanced-filter-item p-3 border rounded">
+                <h4 class="d-flex gap-3 flex-row align-items-center">
+                  Nation
+                </h4>
+                <fieldset class="criteria-group-wrapper mt-3">
+                    <legend class="visually-hidden">
+                        <button type="button">Nation</button>
+                    </legend>
+                    <div class="option-group d-flex flex-column row-gap-3">
+                        <div class="form-check-flex">
+                            <input type="radio" class="form-check-input" id="country_all" name="country" value=""{% if filter_params.country == "" or filter_params.country is None %} checked{% endif %}>
+                            <label class="form-check-label" for="country_all">Any</label>
                         </div>
-                        {% endif %}
-
-                        {% if filter_params.country == "1" or filter_params.country == "" or filter_params.country is None %}
-                        <div id="accordionRegion" class="accordion-item">
-                          <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Region
-                                <span id="regionActiveFilter" class="fs-9 text-uppercase badge bg-secondary filter-badge ms-2 me-3">Any</span>
-                            </button>
-                          </h2>
-                          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionAdvancedFilter">
-                            <div class="accordion-body">
-                                <fieldset class="criteria-group-wrapper">
-                                    <legend class="visually-hidden">
-                                        <button type="button">Region</button>
-                                    </legend>
-                                    <div class="option-group open-div">
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="region_all" name="region" value=""{% if filter_params.region == "" or filter_params.region is None %} checked{% endif %}>
-                                            <label class="form-check-label" for="country_all">Any</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="East Midlands" name="region" value="East Midlands"{% if filter_params.region == "East Midlands" %} checked{% endif %}>
-                                            <label class="form-check-label" for="East Midlands">East Midlands</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="East of England" name="region" value="East of England"{% if filter_params.region == "East of England" %} checked{% endif %}>
-                                            <label class="form-check-label" for="East of England">East of England</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="London" name="region" value="London"{% if filter_params.region == "London" %} checked{% endif %}>
-                                            <label class="form-check-label" for="London">London</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="North East" name="region" value="North East"{% if filter_params.region == "North East" %} checked{% endif %}>
-                                            <label class="form-check-label" for="North East">North East</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="North West" name="region" value="North West"{% if filter_params.region == "North West" %} checked{% endif %}>
-                                            <label class="form-check-label" for="North West">North West</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="South East" name="region" value="South East"{% if filter_params.region == "South East" %} checked{% endif %}>
-                                            <label class="form-check-label" for="South East">South East</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="South West" name="region" value="South West"{% if filter_params.region == "South West" %} checked{% endif %}>
-                                            <label class="form-check-label" for="South West">South West</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="West Midlands" name="region" value="West Midlands"{% if filter_params.region == "West Midlands" %} checked{% endif %}>
-                                            <label class="form-check-label" for="West Midlands">West Midlands</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="Yorkshire and The Humber" name="region" value="Yorkshire and The Humber"{% if filter_params.region == "Yorkshire and The Humber" %} checked{% endif %}>
-                                            <label class="form-check-label" for="Yorkshire and The Humber">Yorkshire and The Humber</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-                          </div>
+                        <div class="form-check-flex">
+                            <input type="radio" class="form-check-input" id="england" name="country" value="1"{% if filter_params.country == "1" %} checked{% endif %}>
+                            <label class="form-check-label" for="england">England</label>
                         </div>
-                        {% endif %}
-
-                        {% if authority_type == 'district' %}
-                        <div id="accordionCounty" class="accordion-item">
-                          <h2 class="accordion-header" id="headingThree">
-                            <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                              County
-                              <span id="countyActiveFilter" class="fs-9 text-uppercase badge bg-secondary filter-badge ms-2 me-3">Any</span>
-                            </button>
-                          </h2>
-                          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionAdvancedFilter">
-                            <div class="accordion-body">
-                                <fieldset class="criteria-group-wrapper">
-                                    <legend class="visually-hidden">
-                                        <button type="button">County</button>
-                                    </legend>
-                    
-                                    <div class="option-group open-div">
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="county_all" name="county" value=""{% if filter_params.county == "" or filter_params.county is None %} checked{% endif %}>
-                                            <label class="form-check-label" for="county_all">All</label>
-                                        </div>
-                                      {% for option in county_filter %}
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="{{ option.0|slugify }}" name="county" value="{{ option.0 }}"{% if filter_params.county == option.0 %} checked{% endif %}>
-                                            <label class="form-check-label" for="{{ option.0|slugify }}">{{ option.1 }}</label>
-                                        </div>
-                                      {% endfor %}
-                                    </div>
-                                </fieldset>
-                            </div>
-                          </div>
+                        <div class="form-check-flex">
+                            <input type="radio" class="form-check-input" id="scotland" name="country" value="2"{% if filter_params.country == "2" %} checked{% endif %}>
+                            <label class="form-check-label" for="scotland">Scotland</label>
                         </div>
-                        {% endif %}
+                        <div class="form-check-flex">
+                            <input type="radio" class="form-check-input" id="wales" name="country" value="3"{% if filter_params.country == "3" %} checked{% endif %}>
+                            <label class="form-check-label" for="wales">Wales</label>
+                        </div>
+                    </div>
+                </fieldset>
+              </div>
+              {% endif %}
 
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingFour">
-                              <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                Urbanisation
-                                <span id="urbanisationActiveFilter" class="fs-9 text-uppercase badge bg-secondary filter-badge ms-2 me-3">Any</span>
-                              </button>
-                            </h2>
-                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionAdvancedFilter">
-                              <div class="accordion-body">
-                                <fieldset class="criteria-group-wrapper">
-                                    <legend class="visually-hidden">
-                                        <button type="button">Urbanisation</button>
-                                    </legend>
-                                    <div class="option-group open-div">
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="urban_all" name="ruc_cluster" value=""{% if filter_params.ruc_cluster == "" or filter_params.ruc_cluster is None %} checked{% endif %}>
-                                            <label class="form-check-label" for="urban_all">All</label>
-                                        </div>
-                                      {% for option in urbanisation_filter %}
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="{{ option.0|slugify }}" name="ruc_cluster" value="{{ option.0 }}"{% if filter_params.ruc_cluster == option.0 %} checked{% endif %}>
-                                            <label class="form-check-label" for="{{ option.0|slugify }}">{{ option.1 }}</label>
-                                        </div>
-                                      {% endfor %}
-                                    </div>
-                                </fieldset>
-                              </div>
-                            </div>
-                          </div>
+              <div id="filterUrbanisation" class="advanced-filter-item p-3 border rounded">
+                <h4 class="d-flex gap-3 flex-row align-items-center">
+                  Urbanisation
+                </h4>
+                <fieldset class="criteria-group-wrapper mt-3">
+                  <legend class="visually-hidden">
+                    <button type="button">Urbanisation</button>
+                  </legend>
+                  <div class="option-group d-flex flex-column row-gap-3">
+                    <div class="form-check-flex">
+                      <input type="radio" class="form-check-input" id="urban_all" name="ruc_cluster" value=""{% if filter_params.ruc_cluster == "" or filter_params.ruc_cluster is None %} checked{% endif %}>
+                      <label class="form-check-label" for="urban_all">All</label>
+                    </div>
+                    {% for option in urbanisation_filter %}
+                    <div class="form-check-flex">
+                      <input type="radio" class="form-check-input" id="{{ option.0|slugify }}" name="ruc_cluster" value="{{ option.0 }}"{% if filter_params.ruc_cluster == option.0 %} checked{% endif %}>
+                      <label class="form-check-label" for="{{ option.0|slugify }}">{{ option.1 }}</label>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </fieldset>
+              </div>
 
-                          {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingFive">
-                              <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                Political control (Sept 2023)
-                                <span id="controlActiveFilter" class="fs-9 text-uppercase badge bg-secondary filter-badge ms-2 me-3">Any</span>
-                              </button>
-                            </h2>
-                            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionAdvancedFilter">
-                              <div class="accordion-body">
-                                <fieldset class="criteria-group-wrapper">
-                                    <legend class="visually-hidden">
-                                        <button type="button">Political control (Sept 2023)</button>
-                                    </legend>
-                                    <div class="option-group open-div">
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="control_all" name="control" value=""{% if filter_params.control == "" or filter_params.control is None %} checked{% endif %}>
-                                            <label class="form-check-label" for="control_all">All</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="control_coalition" name="control" value="Coalition/Minority"{% if filter_params.control == "Coalition/Minority" %} checked{% endif %}>
-                                            <label class="form-check-label" for="control_coalition">Coalition/Minority</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="control_coalition" name="control" value="NOC"{% if filter_params.control == "NOC" %} checked{% endif %}>
-                                            <label class="form-check-label" for="control_coalition">No overall control</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="control_conservative" name="control" value="Conservative"{% if filter_params.control == "Conservative" %} checked{% endif %}>
-                                            <label class="form-check-label" for="control_conservative">Conservative</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="control_independant" name="control" value="Independent"{% if filter_params.control == "Independent" %} checked{% endif %}>
-                                            <label class="form-check-label" for="control_independant">Independent</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="control_labour" name="control" value="Labour"{% if filter_params.control == "Labour" %} checked{% endif %}>
-                                            <label class="form-check-label" for="control_labour">Labour</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="control_libdem" name="control" value="Liberal Democrat"{% if filter_params.control == "Liberal Democrat" %} checked{% endif %}>
-                                            <label class="form-check-label" for="control_libdem">Liberal Democrat</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="control_plaid" name="control" value="Plaid Cymru"{% if filter_params.control == "Plaid Cymru" %} checked{% endif %}>
-                                            <label class="form-check-label" for="control_plaid">Plaid Cymru</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                              </div>
-                            </div>
-                          </div>
+              {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
+              <div id="filterDeprivationIndex" class="advanced-filter-item p-3 border rounded">
+                <h4 class="d-flex gap-3 flex-row align-items-center">
+                  <span class="w-75">Index of multiple deprivation</span>
+                </h4>
+                <fieldset class="criteria-group-wrapper mt-3">
+                  <legend class="visually-hidden">
+                    <button type="button">Index of multiple deprivation</button>
+                  </legend>
+                  <div class="option-group d-flex flex-column gap-3">
+                    <div class="form-check-flex">
+                      <input type="radio" class="form-check-input" id="imdq_all" name="imdq" value=""{% if filter_params.imdq == "" or filter_params.imdq is None %} checked{% endif %}>
+                      <label class="form-check-label" for="imdq_all">All</label>
+                    </div>
+                    <div class="form-check-flex">
+                      <input type="radio" class="form-check-input" id="imdq_1" name="imdq" value="1"{% if filter_params.imdq == 1 %} checked{% endif %}>
+                      <label class="form-check-label" for="imdq_1">1 (most deprived)</label>
+                    </div>
+                    <div class="form-check-flex">
+                      <input type="radio" class="form-check-input" id="imdq_2" name="imdq" value="2"{% if filter_params.imdq == 2 %} checked{% endif %}>
+                      <label class="form-check-label" for="imdq_2">2</label>
+                    </div>
+                    <div class="form-check-flex">
+                      <input type="radio" class="form-check-input" id="imdq_3" name="imdq" value="3"{% if filter_params.imdq == 3 %} checked{% endif %}>
+                      <label class="form-check-label" for="imdq_3">3</label>
+                    </div>
+                    <div class="form-check-flex">
+                      <input type="radio" class="form-check-input" id="imdq_4" name="imdq" value="4"{% if filter_params.imdq == 4 %} checked{% endif %}>
+                      <label class="form-check-label" for="imdq_4">4</label>
+                    </div>
+                    <div class="form-check-flex">
+                      <input type="radio" class="form-check-input" id="imdq_5" name="imdq" value="5"{% if filter_params.imdq == 5 %} checked{% endif %}>
+                      <label class="form-check-label" for="imdq_5">5 (least deprived)</label>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              {% endif %}
 
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingSix">
-                              <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                <span class="w-75">Index of multiple deprivation</span>
-                                <span id="imdqActiveFilter" class="fs-9 text-uppercase badge bg-secondary filter-badge ms-2 me-3">Any</span>
-                              </button>
-                            </h2>
-                            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionAdvancedFilter">
-                              <div class="accordion-body">
-                                <fieldset class="criteria-group-wrapper">
-                                    <legend class="visually-hidden">
-                                        <button type="button">Index of multiple deprivation</button>
-                                    </legend>
-                                    <div class="option-group open-div">
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="imdq_all" name="imdq" value=""{% if filter_params.imdq == "" or filter_params.imdq is None %} checked{% endif %}>
-                                            <label class="form-check-label" for="imdq_all">All</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="imdq_1" name="imdq" value="1"{% if filter_params.imdq == 1 %} checked{% endif %}>
-                                            <label class="form-check-label" for="imdq_1">1 (most deprived)</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="imdq_2" name="imdq" value="2"{% if filter_params.imdq == 2 %} checked{% endif %}>
-                                            <label class="form-check-label" for="imdq_2">2</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="imdq_3" name="imdq" value="3"{% if filter_params.imdq == 3 %} checked{% endif %}>
-                                            <label class="form-check-label" for="imdq_3">3</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="imdq_4" name="imdq" value="4"{% if filter_params.imdq == 4 %} checked{% endif %}>
-                                            <label class="form-check-label" for="imdq_4">4</label>
-                                        </div>
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="imdq_5" name="imdq" value="5"{% if filter_params.imdq == 5 %} checked{% endif %}>
-                                            <label class="form-check-label" for="imdq_5">5 (least deprived)</label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                              </div>
-                            </div>
-                          </div>
-                          {% endif %}
 
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingSeven">
-                              <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                                Total population
-                                <span id="populationActiveFilter" class="fs-9 text-uppercase badge bg-secondary filter-badge ms-2 me-3">Any</span>
-                              </button>
-                            </h2>
-                            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionAdvancedFilter">
-                              <div class="accordion-body">
-                                <fieldset class="criteria-group-wrapper">
-                                    <legend class="visually-hidden">
-                                        <button type="button">Total population</button>
-                                    </legend>
-                                    <div class="option-group open-div">
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="poulation_all" name="population" value=""{% if filter_params.population == "" or filter_params.population is None %} checked{% endif %}>
-                                            <label class="form-check-label" for="population_all">Any</label>
-                                        </div>
-                                      {% for option in population_filter %}
-                                        <div class="form-check-flex py-2">
-                                            <input type="radio" class="form-check-input" id="{{ option.0|slugify }}" name="population" value="{{ option.0 }}"{% if filter_params.population == option.0 %} checked{% endif %}>
-                                            <label class="form-check-label" for="{{ option.0|slugify }}">{{ option.1 }}</label>
-                                        </div>
-                                      {% endfor %}
-                                    </div>
-                                </fieldset>
-                              </div>
-                            </div>
-                          </div>
-
-                      </div>
+              <div class="d-flex flex-column gap-3">
+                {% if filter_params.country == "1" or filter_params.country == "" or filter_params.country is None %}
+                <div id="filterRegion" class="advanced-filter-item p-3 border rounded">
+                  <h4 class="d-flex gap-3 flex-row align-items-center">
+                    Region
+                  </h4>
+                  <fieldset class="criteria-group-wrapper mt-3">
+                    <legend class="visually-hidden">
+                      <button type="button">Region</button>
+                    </legend>
+                    <div class="option-group">
+                      <select class="form-select" id="region_select" name="region">
+                        <option value=""{% if filter_params.region == "" or filter_params.region is None %} selected{% endif %}>Any</option>
+                        <option value="East Midlands"{% if filter_params.region == "East Midlands" %} selected{% endif %}>East Midlands</option>
+                        <option value="East of England"{% if filter_params.region == "East of England" %} selected{% endif %}>East of England</option>
+                        <option value="London"{% if filter_params.region == "London" %} selected{% endif %}>London</option>
+                        <option value="North East"{% if filter_params.region == "North East" %} selected{% endif %}>North East</option>
+                        <option value="North West"{% if filter_params.region == "North West" %} selected{% endif %}>North West</option>
+                        <option value="South East"{% if filter_params.region == "South East" %} selected{% endif %}>South East</option>
+                        <option value="South West"{% if filter_params.region == "South West" %} selected{% endif %}>South West</option>
+                        <option value="West Midlands"{% if filter_params.region == "West Midlands" %} selected{% endif %}>West Midlands</option>
+                        <option value="Yorkshire and The Humber"{% if filter_params.region == "Yorkshire and The Humber" %} selected{% endif %}>Yorkshire and The Humber</option>
+                      </select>
+                    </div>
+                  </fieldset>
                 </div>
+                {% endif %}
 
-            
+                {% if authority_type == 'district' %}
+                <div id="filterCounty" class="advanced-filter-item p-3 border rounded">
+                  <h4 class="d-flex gap-3 flex-row align-items-center">
+                    County
+                  </h4>
+                  <fieldset class="criteria-group-wrapper mt-3">
+                    <legend class="visually-hidden">
+                      <button type="button">County</button>
+                    </legend>
+                    <div class="option-group d-flex flex-column row-gap-3">
+                      <select class="form-select" id="countySelect" name="county">
+                        <option value=""{% if filter_params.county == "" or filter_params.county is None %} selected{% endif %}>All</option>
+                        {% for option in county_filter %}
+                        <option value="{{ option.0 }}"{% if filter_params.county == option.0 %} selected{% endif %}>{{ option.1 }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </fieldset>
+                </div>
+                {% endif %}
+
+                {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
+                <div id="filterPoliticalControl" class="advanced-filter-item p-3 border rounded">
+                  <h4>
+                    <p class="mb-2">Political control</p>
+                    <p class="fs-7">(Sept 2023)</p>
+                  </h4>
+                  <fieldset class="criteria-group-wrapper mt-3">
+                    <legend class="visually-hidden">
+                      <button type="button">Political control (Sept 2023)</button>
+                    </legend>
+                    <div class="option-group">
+                      <select class="form-select" id="control_select" name="control">
+                        <option value=""{% if filter_params.control == "" or filter_params.control is None %} selected{% endif %}>All</option>
+                        <option value="Coalition/Minority"{% if filter_params.control == "Coalition/Minority" %} selected{% endif %}>Coalition/Minority</option>
+                        <option value="NOC"{% if filter_params.control == "NOC" %} selected{% endif %}>No overall control</option>
+                        <option value="Conservative"{% if filter_params.control == "Conservative" %} selected{% endif %}>Conservative</option>
+                        <option value="Independent"{% if filter_params.control == "Independent" %} selected{% endif %}>Independent</option>
+                        <option value="Labour"{% if filter_params.control == "Labour" %} selected{% endif %}>Labour</option>
+                        <option value="Liberal Democrat"{% if filter_params.control == "Liberal Democrat" %} selected{% endif %}>Liberal Democrat</option>
+                        <option value="Plaid Cymru"{% if filter_params.control == "Plaid Cymru" %} selected{% endif %}>Plaid Cymru</option>
+                      </select>
+                    </div>
+                  </fieldset>
+                </div>
+                {% endif %}
+
+                <div id="filterTotalPopulation" class="advanced-filter-item p-3 border rounded">
+                  <h4 class="d-flex gap-3 flex-row align-items-center">
+                    Total population
+                  </h4>
+                  <fieldset class="criteria-group-wrapper mt-3">
+                    <legend class="visually-hidden">
+                      <button type="button">Total population</button>
+                    </legend>
+                    <div class="option-group">
+                      <select class="form-select" id="population_select" name="population">
+                        <option value=""{% if filter_params.population == "" or filter_params.population is None %} selected{% endif %}>Any</option>
+                        {% for option in population_filter %}
+                        <option value="{{ option.0 }}"{% if filter_params.population == option.0 %} selected{% endif %}>{{ option.1 }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+          </div>
         </div>
         <div class="modal-footer d-flex justify-content-between">
           <button id="resetButton" type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Reset filters</button>
@@ -324,145 +219,16 @@
 
 <script>
   document.getElementById('resetButton').onclick = function() {
-    //Clear all checked button
-    var ele = document.querySelectorAll("#advancedFilterForm input[type=radio]");
-     for(var i=0;i<ele.length;i++){
-        ele[i].checked = false;
+    // Clear all checked radio buttons
+    var radios = document.querySelectorAll("#advancedFilterForm input[type=radio]");
+    for (var i = 0; i < radios.length; i++) {
+        radios[i].checked = false;
+    }
+
+    // Clear all select elements
+    var selects = document.querySelectorAll("#advancedFilterForm select");
+    for (var j = 0; j < selects.length; j++) {
+        selects[j].selectedIndex = 0; // Reset to the first option
     }
   }
-</script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-
-    // COUNTRY
-    var accordionNation = document.getElementById('accordionNation');
-    if (accordionNation) {
-      var countryRadioButtons = document.getElementsByName('country');
-      var countryActiveLabel = document.getElementById('nationActiveFilter');
-
-      // Update active label on load
-      countryActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=country]:checked").nextElementSibling.textContent;
-
-      // Update active label on change
-      for(var i=0;i< countryRadioButtons.length;i++)
-      {
-          var elem = countryRadioButtons[i];
-          elem.addEventListener('change',function(e){
-              countryActiveLabel.textContent = this.nextElementSibling.textContent;
-          }
-          ,false);
-      }
-    }
-
-
-    // REGION
-    var accordionRegion = document.getElementById('accordionRegion');
-    if (accordionRegion) {
-      var regionRadioButtons = document.getElementsByName('region');
-      var regionActiveLabel = document.getElementById('regionActiveFilter');
-
-      // Update active label on load
-      regionActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=region]:checked").nextElementSibling.textContent;
-
-      // Update active label on change
-      for(var i=0;i< regionRadioButtons.length;i++)
-      {
-          var elem = regionRadioButtons[i];
-          elem.addEventListener('change',function(e){
-              regionActiveLabel.textContent = this.nextElementSibling.textContent;
-          }
-          ,false);
-      }
-    }
-
-    // COUNTY
-    var accordionCounty= document.getElementById('accordionCounty');
-    if(accordionCounty) {
-      var countyRadioButtons = document.getElementsByName('county');
-      var countyActiveLabel = document.getElementById('countyActiveFilter');
-  
-      // Update active label on load
-      countyActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=county]:checked").nextElementSibling.textContent;
-  
-      // Update active label on change
-      for(var i=0;i< countyRadioButtons.length;i++)
-      {
-          var elem = countyRadioButtons[i];
-          elem.addEventListener('change',function(e){
-              countyActiveLabel.textContent = this.nextElementSibling.textContent;
-          }
-          ,false);
-      }
-    }
-
-    // URBANISATION
-    var urbanisationRadioButtons = document.getElementsByName('ruc_cluster');
-    var urbanisationActiveLabel = document.getElementById('urbanisationActiveFilter');
-
-    // Update active label on load
-    urbanisationActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=ruc_cluster]:checked").nextElementSibling.textContent;
-
-    // Update active label on change
-    for(var i=0;i< urbanisationRadioButtons.length;i++)
-    {
-        var elem = urbanisationRadioButtons[i];
-        elem.addEventListener('change',function(e){
-            urbanisationActiveLabel.textContent = this.nextElementSibling.textContent;
-        }
-        ,false);
-    }
-
-    // CONTROL
-    var controlRadioButtons = document.getElementsByName('control');
-    var controlActiveLabel = document.getElementById('controlActiveFilter');
-
-    // Update active label on load
-    controlActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=control]:checked").nextElementSibling.textContent;
-
-    // Update active label on change
-    for(var i=0;i< controlRadioButtons.length;i++)
-    {
-        var elem = controlRadioButtons[i];
-        elem.addEventListener('change',function(e){
-            controlActiveLabel.textContent = this.nextElementSibling.textContent;
-        }
-        ,false);
-    }
-
-    // INDEX
-    var imdqRadioButtons = document.getElementsByName('imdq');
-    var imdqActiveLabel = document.getElementById('imdqActiveFilter');
-
-    // Update active label on load
-    imdqActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=imdq]:checked").nextElementSibling.textContent;
-
-    // Update active label on change
-    for(var i=0;i< imdqRadioButtons.length;i++)
-    {
-        var elem = imdqRadioButtons[i];
-        elem.addEventListener('change',function(e){
-            imdqActiveLabel.textContent = this.nextElementSibling.textContent;
-        }
-        ,false);
-    }
-
-    // POPULATION
-    var populationRadioButtons = document.getElementsByName('population');
-    var populationActiveLabel = document.getElementById('populationActiveFilter');
-
-    // Update active label on load
-    populationActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=population]:checked").nextElementSibling.textContent;
-
-    // Update active label on change
-    for(var i=0;i< populationRadioButtons.length;i++)
-    {
-        var elem = populationRadioButtons[i];
-        elem.addEventListener('change',function(e){
-            populationActiveLabel.textContent = this.nextElementSibling.textContent;
-        }
-        ,false);
-    }
-
- });
 </script>
