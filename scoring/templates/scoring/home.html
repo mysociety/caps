@@ -18,18 +18,35 @@
 
     <div class="container home pt-5">
         <div class="row">
-            <div class="mb-3 mb-lg-0 col-12 col-lg-4">
-                <div class="card h-100">
+            <div class="mb-3 mb-lg-0 col-12 col-lg-5">
+                <div class="card">
                     <div class="card-header">
-                        <h3 class="fs-6 mb-0">Filter Scorecard table by type of council</h3>
+                        <h3 class="fs-6 mb-0">Filter Scorecard table</h3>
                     </div>
                     <div class="card-body">
                         {% include 'scoring/includes/main-filter.html' %}
                     </div>
+                    <div class="card-footer">
+                        <p class="mb-2 fs-7">Filter by <strong>nation</strong>, <strong>population</strong>, <strong>deprivation index</strong> and others</p>
+                        {% include 'scoring/includes/advanced-filter.html' %}
+                    </div>
+                    <div class="card-footer bg-100">
+                        <div>
+                            <p class="mb-1 fw-bold fs-7">Current active filters</p>
+                            <div class="d-flex flex-wrap flex-row gap-1">
+                                <span class="badge bg-secondary">{{ authority_type_label }}</span>
+                                {% for filter in filter_descs %}
+                                    <span class="badge bg-secondary">{{ filter }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="mb-3 mb-lg-0 col-12 col-lg-4">
-                <div class="card h-100">
+            <div class="mb-3 mb-lg-0 col-12 col-lg-1">
+            </div>
+            <div class="mb-3 mb-lg-0 col-12 col-lg-6">
+                <div class="card mb-3">
                     <div class="card-header">
                         <h3 class="fs-6 mb-0">See Scorecard results by section topics</h3>
                     </div>
@@ -38,9 +55,7 @@
                         <a href="{% url 'scoring:sections' %}" class="btn btn-primary">Go to sections</a>
                     </div>
                 </div>
-            </div>
-            <div class="mb-3 mb-lg-0 col-12 col-lg-4">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header">
                         <h3 class="fs-6 mb-0">Check a council&rsquo;s Scorecard</h3>
                     </div>
@@ -55,24 +70,6 @@
         </div>
 
         <div class="my-5 mx-auto position-relative" style="max-width: 1440px;">
-            <div class="table-header mb-4 d-md-flex align-items-end">
-                <div class="me-md-auto">
-                    <h3 class="d-inline-block">
-                        <span>{{ authority_type_label }}</span>
-                        {% if filter_descs %}
-                        <span>·</span>
-                        {% if filter_descs|length > 1 %}
-                        <span>Multiple Filters</span>
-                        {% else %}
-                        <span>{{ filter_descs.0 }}</span>
-                        {% endif %}
-                        {% endif %}
-                    </h3>
-                    <p class="mb-0 fs-5">Council Climate Action Scorecard</p>
-                </div>
-                {% include 'scoring/includes/advanced-filter.html' %}
-            </div>
-
 
             <div class="scorecard-table-wrapper border">
                 {% block "score_table" %}
@@ -80,59 +77,62 @@
                     <thead>
                         <tr class="first-row position-sticky bg-white" style="z-index:30">
                             <th scope="col" class="bg-light position-sticky z-index-4">
-
+                                <h3 class="d-inline-block fs-4 ms-4">
+                                    <p class="mb-1">{{ authority_type_label }}</p>
+                                    <p class="mb-0 fs-7">Council Climate Action Scorecard</p>
+                                </h3>
                             </th>
                             <th scope="col" class="position-sticky pb-0 total-score" style="z-index:2">
-                                <div class="d-flex flex-row-reverse justify-content-end">
+                                <div class="d-flex flex-row-reverse justify-content-end mt-3">
                                     <span class="text-center fw-bold mt-1">Total Score</span>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-default="descending"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
+                                <div class="d-flex flex-row-reverse justify-content-end mt-3">
                                     <a class="text-decoration-none fw-bold mt-1 link-category-1" href="{% url 'scoring:section' 's1_b_h' %}">Building &amp; Heating</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-1 {% if sorted_by == 's1_b_h' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
+                                <div class="d-flex flex-row-reverse justify-content-end mt-3">
                                     <a class="text-decoration-none fw-bold mt-1 link-category-2" href="{% url 'scoring:section' 's2_tran' %}">Transport</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-2 {% if sorted_by == 's2_tran' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
+                                <div class="d-flex flex-row-reverse justify-content-end mt-3">
                                     <a class="text-decoration-none fw-bold mt-1 link-category-3" href="{% url 'scoring:section' 's3_p_lu' %}">Planning &amp; Land Use</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-3 {% if sorted_by == 's3_p_lu' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
+                                <div class="d-flex flex-row-reverse justify-content-end mt-3">
                                     <a class="text-decoration-none fw-bold mt-1 link-category-4" href="{% url 'scoring:section' 's4_g_f' %}">Governance &amp; Finance</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-4 {% if sorted_by == 's4_g_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
+                                <div class="d-flex flex-row-reverse justify-content-end mt-3">
                                     <a class="text-decoration-none fw-bold mt-1 link-category-5" href="{% url 'scoring:section' 's5_bio' %}">Biodiversity</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-5 {% if sorted_by == 's5_bio' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
+                                <div class="d-flex flex-row-reverse justify-content-end mt-3">
                                     <a class="text-decoration-none fw-bold mt-1 link-category-6" href="{% url 'scoring:section' 's6_c_e' %}">Collaboration &amp; Engagement</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-6 {% if sorted_by == 's6_c_e' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
+                                <div class="d-flex flex-row-reverse justify-content-end mt-3">
                                     <a class="text-decoration-none fw-bold mt-1 link-category-7" href="{% url 'scoring:section' 's7_wr_f' %}">Waste Reduction &amp; Food</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-7 {% if sorted_by == 's7_wr_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                         </tr>
                         <tr class="second-row position-sticky z-index-4">
-                            <th scope="col" style="min-width:250px" class="bg-primary-100 position-sticky z-index-4">
+                            <th scope="col" style="min-width:300px" class="bg-primary-100 position-sticky z-index-4">
                                 <span class="ms-4 fs-6 fw-bold d-block">{{ authority_type_label }} average</span>
                             </th>
                             <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4 bg-green-l2">              
@@ -234,7 +234,7 @@
                                 </div>
                             </th>
                         <tr class="second-row position-sticky z-index-4">
-                            <th class="bg-white" scope="col" style="min-width:250px">
+                            <th class="bg-white" scope="col" style="min-width:300px">
                                 <span class="ms-4 fs-6 fw-bold d-block" style="white-space: break-spaces;">{{ authority_type_label }} average</span>
                             </th>
                             <th scope="col" class="total-score position-sticky z-index-4">              
