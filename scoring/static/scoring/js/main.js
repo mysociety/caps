@@ -385,7 +385,6 @@ function ajaxLoadCouncilTypeScorecard(url) {
     var selectors = [
         '#council-type-filter',
         '#advancedFilter .modal-body',
-        '.table-header h3',
         '.scorecard-table'
     ];
 
