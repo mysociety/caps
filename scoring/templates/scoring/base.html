@@ -42,7 +42,7 @@
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }} {% if methodology_year == 2025 %}year-2025{% endif %}">
 
-    <nav class="navbar navbar-expand-lg site-nav">
+    <nav class="navbar navbar-expand-lg site-nav pt-lg-0">
         <div class="d-flex flex-row align-items-center">
             <a class="navbar-brand" href="{% url 'scoring:home' %}">
                 {% include 'caps/icons/council-climate-logo-2023.html' with classes='text-dark' width='7em' height='auto' role='presentation' %}
@@ -73,22 +73,22 @@
             </form>
             <ul class="navbar-nav mt-lg-5">
                 <li id="home-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'scoring:home' %}">Scorecards</a>
+                    <a class="nav-link link-primary" href="{% url 'scoring:home' %}">Scorecards</a>
                 </li>
                 <li id="methodology-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'scoring:sections' %}">Sections</a>
+                    <a class="nav-link link-primary" href="{% url 'scoring:sections' %}">Sections</a>
                 </li>
                 <li id="methodology-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'scoring:methodology' %}">2025 Draft Methodology</a>
+                    <a class="nav-link link-primary" href="{% url 'scoring:methodology' %}">2025 Draft Methodology</a>
                 </li>
                 <li id="how-to-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'generic:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
+                    <a class="nav-link link-primary" href="{% url 'generic:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
                 </li>
                 <li id="about-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'generic:about' %}">About</a>
+                    <a class="nav-link link-primary" href="{% url 'generic:about' %}">About</a>
                 </li>
                 <li id="contact-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'generic:contact' %}">Contact</a>
+                    <a class="nav-link link-primary" href="{% url 'generic:contact' %}">Contact</a>
                 </li>
             </ul>
         </div>
