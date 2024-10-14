@@ -7,12 +7,20 @@
     {% include 'scoring/includes/home-announcement.html' %}
 
     <div class="pt-5 pb-6 pt-lg-8 pb-lg-8 hero-section with-version-background">
-        {% include 'scoring/includes/scorecards_year.html' %}
         <div class="container">
-            <h1 class="mb-3">Action Scorecards</h1>
-            <p class="mb-4" style="max-width: 650px;">Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions or less, depending on council type, across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  
-            </p>
-            <a class="btn btn-primary" href="{% url 'year_scoring:methodology' plan_year %}"> Learn more about the methodology</a>
+            <div class="row">
+                <div class="col-md-6">
+                    <h1 class="mb-3">
+                        <p class="version-year d-block display-1 lh-1 fw-bold mb-2" style="mix-blend-mode: overlay">{{ plan_year }}</p>
+                        Action Scorecards
+                    </h1>
+                    <p class="mb-4" style="max-width: 650px;">Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions or less, depending on council type, across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  
+                    </p>
+                    <a class="btn btn-primary me-3" href="{% url 'year_scoring:methodology' plan_year %}"> Learn more about the methodology</a>
+                    <a href="{% url 'scoring:sections' %}" class="btn btn-primary">Go to sections</a>
+                </div>
+            </div>
+            
         </div>
     </div>
 
@@ -20,50 +28,57 @@
         <div class="row">
             <div class="mb-3 mb-lg-0 col-12 col-lg-5">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="fs-6 mb-0">Filter Scorecard table</h3>
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="fs-3 mb-0">Filter Scorecard table</h3>
                     </div>
                     <div class="card-body">
                         {% include 'scoring/includes/main-filter.html' %}
                     </div>
-                    <div class="card-footer">
-                        <p class="mb-2 fs-7">Filter by <strong>nation</strong>, <strong>population</strong>, <strong>deprivation index</strong> and others</p>
-                        {% include 'scoring/includes/advanced-filter.html' %}
-                    </div>
-                    <div class="card-footer bg-100">
-                        <div>
-                            <p class="mb-1 fw-bold fs-7">Current active filters</p>
-                            <div class="d-flex flex-wrap flex-row gap-1">
-                                <span class="badge bg-secondary">{{ authority_type_label }}</span>
-                                {% for filter in filter_descs %}
-                                    <span class="badge bg-secondary">{{ filter }}</span>
+                </div>
+            </div>
+            <div class="col-lg-7" id="advanced-filter-wrapper">
+                <div class="card h-100">
+                    <div class="card-header bg-100">
+                        <h4 class="mb-1">Advanced filters</h4>
+                        {% if filter_descs %}
+                        <div class="d-flex flex-wrap flex-row gap-1 mt-2" role="status" aria-live="polite" aria-label="Active filters">
+                            {% if 'country' in filter_params and filter_params.country != "" %}
+                            {% comment %} TODO This needs to display the country name, not the index {% endcomment %}
+                                <span class="badge bg-secondary">{{ filter_params.country }}</span>
+                            {% endif %}
+    
+                            {% if 'county' in filter_params and filter_params.county != "" %}
+                                <span class="badge bg-secondary">County: {{ filter_params.county }}</span>
+                            {% endif %}
+    
+                            {% if 'region' in filter_params and filter_params.region != "" %}
+                                <span class="badge bg-secondary">Region: {{ filter_params.region }}</span>
+                            {% endif %}
+    
+                            {% if 'control' in filter_params and filter_params.control != "" %}
+                                <span class="badge bg-secondary">Political control: {{ filter_params.control }}</span>
+                            {% endif %}
+    
+                            {% if 'imdq' in filter_params and filter_params.imdq %}
+                                <span class="badge bg-secondary">IMDQ: {{ filter_params.imdq }}</span>
+                            {% endif %}
+    
+                            {% if 'ruc_cluster' in filter_params and filter_params.ruc_cluster != "" %}
+                                {% for option in urbanisation_filter %}
+                                    {% if filter_params.ruc_cluster == option.0 %}
+                                        <span class="badge bg-secondary">{{ option.1 }}</span>
+                                    {% endif %}
                                 {% endfor %}
-                            </div>
+                            {% endif %}
+    
+                            {% if 'population' in filter_params and filter_params.population != "" %}
+                                <span class="badge bg-secondary">Population: {{ filter_params.population }}</span>
+                            {% endif %}
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3 mb-lg-0 col-12 col-lg-1">
-            </div>
-            <div class="mb-3 mb-lg-0 col-12 col-lg-6">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h3 class="fs-6 mb-0">See Scorecard results by section topics</h3>
+                        {% endif %}
                     </div>
                     <div class="card-body">
-                        <p>Explore in detail the how different councils scored in each of the 7 Scorecard sections.</p>
-                        <a href="{% url 'scoring:sections' %}" class="btn btn-primary">Go to sections</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="fs-6 mb-0">Check a council&rsquo;s Scorecard</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Explore in detail the full results of one council across all sections and questions.</p>
-                        <form action="{% url 'scoring:location_results' %}" class="form">
-                            <input class="form-control searchbar js-location-search-autocomplete" type="search" name="pc" placeholder="Postcode" aria-label="Search">
-                        </form>
+                        {% include 'scoring/includes/advanced-filter.html' %}
                     </div>
                 </div>
             </div>
