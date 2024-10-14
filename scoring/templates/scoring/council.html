@@ -154,19 +154,32 @@
     </div>
 
     <div class="row my-4 my-lg-5">
-        <div class="col-md-6 col-lg-4 d-none d-md-block">
+        <div class="col-md-6 col-lg-5 d-none d-md-block">
             <div class="card h-100">
                 <div class="card-header">
                     <h3 class="fs-6 mb-0">Choose {% include "scoring/includes/scoring-group-name.html" with group=council.get_scoring_group.slug plural=1 %} to compare</h3>
                 </div>
                 <div class="card-body">
                     <form id="advancedFilterForm" action=".">
-                      {% if comparisons|length > 2 %}
+                        {% if comparisons|length > 2 %}
                         <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
-                      {% else %}
-                        <input class="form-control searchbar js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name" data-council_type="{{ council.get_scoring_group.slug }}">
-                      {% endif %}
-                      {% if comparisons %}
+                        {% else %}
+                        <input class="form-control searchbar js-location-compare-autocomplete mb-3" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name" data-council_type="{{ council.get_scoring_group.slug }}">
+                        <p class="mb-1 fs-7">Based on <button type="button" class="d-inline-flex align-items-center p-0 me-1 border-0 bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Overall similarity considers factors such as: terms of emissions profile, deprivation, rural/urban population density, and geographical nearness">
+                          <span>overall similarity</span>
+                          {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1rem' height='1rem' role='presentation' %}
+                        </button> we suggest the following councils:</p>
+                        <div>
+                          <!--TODO we need to pull a list of 5 councils based on overall similarity like we do in CAPE-->
+                          <!--TODO the links below are placeholder -->
+                          <!--TODO add commas except for the last one -->
+                          <a class="d-inline-block js-council-compare-suggestions" href="#" data-slug="manchester-city-council">Manchester city council</a>
+                          <a class="d-inline-block js-council-compare-suggestions" href="#" data-slug="manchester-city-council">Borough of Broxbourne</a>
+                          <a class="d-inline-block js-council-compare-suggestions" href="#" data-slug="manchester-city-council">Spelthorne Borough Council</a>
+                        </div>
+                        {% endif %}
+                        {% if comparisons %}
+                        <hr class="mx-n3">
                         <div class="selected-council-wrapper mt-4 mb-3">
                           {% for comparison in comparisons %}
                             <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
@@ -178,8 +191,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-8">
-            <div class="card h-100">
+        <div class="col-md-6 col-lg-7">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="fs-6 mb-0">Filter questions in the table</h3>
                 </div>
