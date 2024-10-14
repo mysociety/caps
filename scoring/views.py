@@ -405,6 +405,22 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         context["sections"] = sorted(
             sections.values(), key=lambda section: section["code"]
         )
+        context["comparisons"] = comparisons
+
+        for group in council.get_related_councils(5):
+            if group["type"].slug == "composite":
+                if comparisons:
+                    # Filter out any related councils that are already being compared
+                    comparison_slugs = {score.council.slug for score in comparisons}
+                    context["similar_councils"] = [
+                        sc
+                        for sc in group["councils"]
+                        if sc.slug not in comparison_slugs
+                    ]
+                else:
+                    context["similar_councils"] = group["councils"]
+                break
+
         context["page_title"] = "{name} Climate Action Scorecard".format(
             name=council.name
         )

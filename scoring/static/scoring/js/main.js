@@ -144,19 +144,35 @@ forEachElement('.js-location-compare-autocomplete', function(input){
             autoFirst: true
         }
     );
-    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
-        var council = findItem(councils, {'name': data.text });
-        var sp = new URLSearchParams(window.location.search)
-        var comparisons = sp.getAll('comparisons');
 
-        if (!comparisons.includes(council.slug)) {
-            comparisons.push(council.slug);
-        }
-        sp.delete('comparisons');
-        for (comparison of comparisons.values()) {
-            sp.append('comparisons', comparison);
-        }
-        window.location.href = window.location.pathname + '?' + sp.toString() + '#questions';
+    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
+        handleCouncilSelection(data.text);
+    });
+});
+
+// Function to handle selection from both autocomplete and suggestions
+function handleCouncilSelection(councilName) {
+    var council = findItem(councils, {'name': councilName});
+    var sp = new URLSearchParams(window.location.search);
+    var comparisons = sp.getAll('comparisons');
+
+    if (!comparisons.includes(council.slug)) {
+        comparisons.push(council.slug);
+    }
+    sp.delete('comparisons');
+    for (comparison of comparisons.values()) {
+        sp.append('comparisons', comparison);
+    }
+    window.location.href = window.location.pathname + '?' + sp.toString() + '#questions';
+}
+
+// Handling suggestion clicks
+forEachElement('.js-council-compare-suggestions', function(suggestion) {
+    suggestion.addEventListener('click', function(event) {
+        event.preventDefault();
+        var councilSlug = this.dataset.slug;
+        var council = findItem(councils, {'slug': councilSlug}); // Get the council by slug
+        handleCouncilSelection(council.name); // Pass the name to the selection handler
     });
 });
 
