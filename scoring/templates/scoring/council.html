@@ -216,13 +216,26 @@
         <thead class="text-bg-primary position-sticky z-index-3 top-0">
             <tr>
                 <th scope="col" class="w-50 text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
-                <th scope="col" class="current-council-score">{{ council.name }}</th>
+                <th scope="col" class="current-council-score text-start d-none d-md-table-cell">
+                  <!-- Add year dynamically -->
+                  <p class="badge bg-primary-100 mb-1 text-primary fs-7">2023</p>
+                  <p class="fs-7 mb-0">{{ council.name }}</p>
+                </th>
+                <th scope="col" class="current-council-score text-start">
+                  <!-- Add current year dynamically -->
+                  <p class="badge bg-primary-100 mb-1 text-primary fs-7">2025</p>
+                  <p class="fs-7 mb-0">{{ council.name }}</p>
+                </th>
+                <th scope="col" class="text-start">
+                  <!-- Variation column -->
+                  <p class="badge bg-primary-100 mb-1 text-primary fs-7">
+                    Yearly Variation
+                  </p>
+                  <p class="fs-7 mb-0">{{ council.name }}</p>
+                </th>
               {% for comparison in comparisons %}
                 <th scope="col" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
               {% endfor %}
-                <th scope="col" class="d-none d-md-table-cell">
-                    Councils with full marks per question
-                </th>
             </tr>
         </thead>
 
@@ -232,55 +245,80 @@
           {% if section.has_negative_points %}
             <tr data-has-plan="no" class="section-row bg-red-100 text-red-900">
           {% else %}
-            <tr data-has-plan="no" class="section-row bg-primary-100">
+            <tr data-has-plan="no" class="section-row border-start">
           {% endif %}
 
-                <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
-                    {{ section.description }}
+              <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
+                <p class="fs-5 mb-0 fw-bold">{{ section.description }}</p>
 
-                    {% if section.has_negative_points %}
-                    <div class="d-flex flex-column mb-0 mt-2 fs-7 text-warning">
-                        <p class="mb-1">
-                          {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
-                          <strong class="me-2">Penalty marks</strong>
-                        </p>
-                        {% if section.only_negative %}
-                          {{ council.name }} was only awarded penalty marks in this section
-                        {% else %}
-                          {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
-                        {% endif %}
-                    </div>
+                {% if section.has_negative_points %}
+                <div class="d-flex flex-column mb-0 mt-2 fs-7 text-warning">
+                    <p class="mb-1">
+                      {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
+                      <strong class="me-2">Penalty marks</strong>
+                    </p>
+                    {% if section.only_negative %}
+                      {{ council.name }} was only awarded penalty marks in this section
+                    {% else %}
+                      {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
                     {% endif %}
+                </div>
+                {% endif %}
 
-                    <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
-                        {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
-                        Show questions
-                    </button>
-                </td>
+                <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
+                    {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
+                    Show questions
+                </button>
+              </td>
 
               {% if section.top_performer %}
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                <td class="score border-bottom border-end border-opacity-25 border-primary is--section-score text-start fw-bold">
                     {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
                     <span>{{ section.weighted_score|floatformat:0 }}%</span>
                 </td>
               {% else %}
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
-                  <span>{{section.weighted_score|floatformat:0 }}%</span>
+                <td class="score border-bottom border-end border-opacity-25 border-primary is--section-score text-start fs-5">
+                  <span class="fw-bold">{{section.weighted_score|floatformat:0 }}%</span>
                     {% if section.has_negative_points %}
-                    <div class="fs-7 mt-2">
+                    <div class="fs-7 mt-2 text-danger">
                         {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
                     </div>
                     {% endif %}
                 </td>
               {% endif %}
 
+
+              <!-- TODO Update to 2025 numbers-->
+              {% if section.top_performer %}
+                <td class="score border-bottom border-end border-opacity-25 border-primary is--section-score text-start fw-bold">
+                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                    <span>{{ section.weighted_score|floatformat:0 }}%</span>
+                </td>
+              {% else %}
+                <td class="score border-bottom border-end border-opacity-25 border-primary is--section-score text-start fs-5">
+                  <span class="fw-bold">{{section.weighted_score|floatformat:0 }}%</span>
+                    {% if section.has_negative_points %}
+                    <div class="fs-7 mt-2 text-danger">
+                        {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
+                    </div>
+                    {% endif %}
+                </td>
+              {% endif %}
+
+              <td class="fw-bold border-bottom border-end border-opacity-25 border-primary align-top text-start">
+                <span class="mb-0">+50%</span>
+                <button class="bg-transparent p-0 border-0" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                data-bs-custom-class="custom-tooltip"
+                data-bs-title="Relative percentage change calculated by subtracting percentage 2023 from percentage 2025, dividing by percentage 2023, and multiplying by 100.">
+                    {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
+                </button>
+              </td>
+
               {% for comparison in section.comparisons %}
-                <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
+                <td class="d-none d-md-table-cell score border-bottom border-end border-opacity-25 border-primary is--section-score text-start {% if comparison.top_performer %}top-performer{% endif %}">
                     {{ comparison.weighted_score|floatformat:0 }}%
                 </td>
               {% endfor %}
-
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary"></td>
 
                 <td class="button-wrapper p-0 bg-white d-none d-md-table-cell text-start">
                     <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
@@ -295,10 +333,10 @@
                     {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.code pretty_code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria council_type_slug=council.get_scoring_group.slug %}
                 </td>
 
-                <td data-column="score" class="score border-bottom text-start">
+                <td data-column="score" class="score border-bottom border-end text-start">
                     <span class="d-block fw-bold mb-3 fs-5">{{ answer.score }}/{{ answer.max }}</span>
                     <div class="d-flex align-items-center flex-row gap-2">
-                        <div class="progress-ring" style="--ring-size: 45px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
+                        <div class="progress-ring" style="--ring-size: 45px;--ring-percentage: {% widthratio answer.council_count council_count 100%};" aria-label="{% widthratio answer.council_count council_count 100%}% of {% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this question.">
                           <div class="percentage fs-8">
                             {% widthratio answer.council_count council_count 100%}%
                           </div>
@@ -316,11 +354,58 @@
                           </span>
                         </p>
                     </div>
+                </td>
 
+                <!-- TODO Needs to add 2025 stats-->
+                <td data-column="score" class="score border-bottom border-end text-start">
+                  <span class="d-block fw-bold mb-3 fs-5">{{ answer.score }}/{{ answer.max }}</span>
+                  <div class="d-flex align-items-center flex-row gap-2">
+                      <div class="progress-ring" style="--ring-size: 45px;--ring-percentage: {% widthratio answer.council_count council_count 100%};" aria-label="{% widthratio answer.council_count council_count 100%}% of {% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this question.">
+                        <div class="percentage fs-8">
+                          {% widthratio answer.council_count council_count 100%}%
+                        </div>
+                      </div>
+                      <p class="mb-0">
+                        {{ answer.council_count }} out of {{ council_count }}
+                        <span class="fs-8 me-0 ms-auto d-block">
+                          {% if answer.type == "negative" %}
+                            {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                            councils got <strong>no penalty marks</strong> for this question.
+                          {% else %}
+                            {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                            councils got full marks for this question.
+                          {% endif %}
+                        </span>
+                      </p>
+                  </div>
+                </td>
+
+                <td class="fw-bold border-bottom border-end border-opacity-25 border-primary align-top text-start">
+                  <!-- TODO Difference between 2025 and 2023 -->
+                  <p class="mb-2">
+                    <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                    {% comment %} <span class="text-danger">-</span> {% endcomment %}
+                    <span class="text-success">+</span>
+                    1 point
+                  </p>
+
+                  <div>
+                    <span>
+                      <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                      {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
+                      <span class="text-success">&#8593;</span>
+                      100%
+                    </span>
+                    <button class="bg-transparent p-0 border-0" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-custom-class="custom-tooltip"
+                    data-bs-title="Percentage change in marks: Calculated by finding the marks for 2025 and 2023, dividing the difference by maximum marks, and multiplying by 100.">
+                        {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
+                    </button>
+                  </div>
                 </td>
 
               {% for comparison in answer.comparisons %}
-                <td data-column="score" class="d-none d-md-table-cell score border-bottom">
+                <td data-column="score" class="d-none d-md-table-cell score border-bottom border-end">
                     <span>{{ comparison.score }}/{{ comparison.max }}</span>
                 </td>
               {% endfor %}
@@ -335,12 +420,12 @@
                 <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
                     Total score
                 </td>
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                <td class="score border-bottom border-opacity-25 border-primary is--section-score text-start fs-5">
                     {{ plan_score.weighted_total|floatformat:0 }}%
                 </td>
 
               {% for comparison in comparisons %}
-                <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score">
+                <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score text-start fs-5">
                     {{ comparison.weighted_total|floatformat:0 }}%
                 </td>
               {% endfor %}
