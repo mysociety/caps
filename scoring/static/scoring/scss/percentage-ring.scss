@@ -1,0 +1,36 @@
+/* USAGE:
+Always check how the ring will look at 100% and if there is an overlap between elements.
+
+<div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
+  <div class="percentage fs-8">
+    {% widthratio answer.council_count council_count 100%}%
+  </div>
+</div>
+*/
+
+.progress-ring {
+  min-width: var(--ring-size, 150px);
+  height: var(--ring-size, 150px);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: conic-gradient(
+    var(--ring-primary-color, $primary) 0% calc(var(--ring-percentage) * 1%),
+    var(--ring-secondary-color, $primary-200) calc(var(--ring-percentage) * 1%) 100%
+  );
+
+  .percentage {
+    font-weight: bold;
+    color: var(--ring-primary-color, $primary);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(var(--ring-size, 150px) * 0.7);
+    height: calc(var(--ring-size, 150px) * 0.7);
+    background: white;
+    border-radius: 50%;
+  }
+}
