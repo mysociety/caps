@@ -216,11 +216,19 @@
         <thead class="text-bg-primary position-sticky z-index-3 top-0">
             <tr>
                 <th scope="col" class="w-50 text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
-                <th scope="col" class="current-council-score">{{ council.name }}</th>
+                <th scope="col" class="current-council-score text-start">
+                  <p class="badge bg-white text-primary mb-1">2025</p>
+                  <p class="mb-0 fs-7">{{ council.name }}</p>
+                </th>
+                {% comment %} TODO Add previous year row {% endcomment %}
+                <th scope="col" class="current-council-score text-start">
+                  <p class="badge bg-white text-primary mb-1">2023</p>
+                  <p class="mb-0 fs-7">{{ council.name }}</p>
+                </th>
               {% for comparison in comparisons %}
                 <th scope="col" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
               {% endfor %}
-                <th scope="col" class="d-none d-md-table-cell">
+                <th scope="col" class="d-none d-md-table-cell text-start">
                     Councils with full marks per question
                 </th>
             </tr>
@@ -264,7 +272,7 @@
                     <span>{{ section.weighted_score|floatformat:0 }}%</span>
                 </td>
               {% else %}
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                <td class="score border-bottom border-opacity-25 border-primary is--section-score text-start">
                   <span>{{section.weighted_score|floatformat:0 }}%</span>
                     {% if section.has_negative_points %}
                     <div class="fs-7 mt-2">
@@ -274,13 +282,40 @@
                 </td>
               {% endif %}
 
+              {% if section.top_performer %}
+                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                    <span>{{ section.weighted_score|floatformat:0 }}%</span>
+                </td>
+              {% else %}
+                <td class="score border-bottom border-opacity-25 border-primary is--section-score text-start">
+                  <span>{{section.weighted_score|floatformat:0 }}%</span>
+                    {% if section.has_negative_points %}
+                    <div class="fs-7 mt-2">
+                        {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
+                    </div>
+                    {% endif %}
+                </td>
+              {% endif %}
+
+              <td class="score border-bottom border-opacity-25 border-primary is--section-score text-start">
+                <p>
+                  {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
+                  <span class="text-success">&#8593;</span>
+                  50%
+                  <button class="p-0 border-0 bg-transparent" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                  data-bs-custom-class="custom-tooltip"
+                  data-bs-title="Relative percentage change: calculated by subtracting percentage 2023 from percentage 2025, dividing by percentage 2023, and multiplying by 100">
+                      {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1rem' height='1rem' role='presentation' %}
+                  </button>
+                </p>
+              </td>
+
               {% for comparison in section.comparisons %}
                 <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
                     {{ comparison.weighted_score|floatformat:0 }}%
                 </td>
               {% endfor %}
-
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary"></td>
 
                 <td class="button-wrapper p-0 bg-white d-none d-md-table-cell text-start">
                     <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
@@ -295,8 +330,71 @@
                     {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.code pretty_code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria council_type_slug=council.get_scoring_group.slug %}
                 </td>
 
-                <td data-column="score" class="score border-bottom">
-                    <span>{{ answer.score }}/{{ answer.max }}</span>
+                <td data-column="score" class="score border-bottom border-end text-start">
+                    <span class="d-block fw-bold mb-3 fs-5">{{ answer.score }}/{{ answer.max }}</span>
+                    <div class="d-flex align-items-center flex-row gap-2">
+                        <div class="progress-ring" style="--ring-size: 45px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
+                          <div class="percentage fs-8">
+                            {% widthratio answer.council_count council_count 100%}%
+                          </div>
+                        </div>
+                        <p class="mb-0">
+                          {{ answer.council_count }} out of {{ council_count }}
+                          <span class="fs-8 me-0 ms-auto d-block">
+                            {% if answer.type == "negative" %}
+                              {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                              councils got <strong>no penalty marks</strong> for this question.
+                            {% else %}
+                              {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                              councils got full marks for this question.
+                            {% endif %}
+                          </span>
+                        </p>
+                    </div>
+                </td>
+
+                {% comment %} TODO add data for previous year {% endcomment %}
+                <td data-column="score" class="score border-bottom border-end text-start">
+                    <span class="d-block fw-bold mb-3 fs-5">{{ answer.score }}/{{ answer.max }}</span>
+                    <div class="d-flex align-items-center flex-row gap-2">
+                        <div class="progress-ring" style="--ring-size: 45px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
+                          <div class="percentage fs-8">
+                            {% widthratio answer.council_count council_count 100%}%
+                          </div>
+                        </div>
+                        <p class="mb-0">
+                          {{ answer.council_count }} out of {{ council_count }}
+                          <span class="fs-8 me-0 ms-auto d-block">
+                            {% if answer.type == "negative" %}
+                              {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                              councils got <strong>no penalty marks</strong> for this question.
+                            {% else %}
+                              {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                              councils got full marks for this question.
+                            {% endif %}
+                          </span>
+                        </p>
+                    </div>
+                </td>
+
+                <td class="border-bottom border-end text-start align-top">
+                  <!-- TODO if variation is positive then up arrow shoul be display -->
+                    <p class="mb-2">
+                      {% comment %} <span class="text-danger">-</span> {% endcomment %}
+                      <span class="text-success">+</span>
+                      1 
+                      <span class="fs-8">marks compare to previous version</span>
+                    </p>
+                    <p>
+                      {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
+                      <span class="text-success">&#8593;</span>
+                      100%
+                      <button class="p-0 border-0 bg-transparent" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                      data-bs-custom-class="custom-tooltip"
+                      data-bs-title="Percentage change in marks: Calculated by finding the marks for 2025 and 2023, dividing the difference by maximum marks, and multiplying by 100.">
+                          {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1rem' height='1rem' role='presentation' %}
+                      </button>
+                    </p>
                 </td>
 
               {% for comparison in answer.comparisons %}
@@ -304,20 +402,6 @@
                     <span>{{ comparison.score }}/{{ comparison.max }}</span>
                 </td>
               {% endfor %}
-
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
-                  <a href="{% url 'scoring:question' answer.code %}?type={{ authority_type.slug }}" class="mx-auto" style="text-transform: none">
-                        {{ answer.council_count }} out of {{ council_count }}
-                    </a>
-                    <span class="fs-8 mt-1 me-0 ms-auto d-block">
-                        {% include 'caps/includes/authority_type.html' with group=authority_type %}
-                      {% if answer.type == "negative" %}
-                        councils got <strong>no penalty marks</strong> for this question.
-                      {% else %}
-                        councils got full marks for this question.
-                      {% endif %}
-                    </span>
-                </td>
             </tr>
           {% endfor %}
 
