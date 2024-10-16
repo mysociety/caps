@@ -297,18 +297,26 @@
 
                 <td data-column="score" class="score border-bottom text-start">
                     <span class="d-block fw-bold mb-3 fs-5">{{ answer.score }}/{{ answer.max }}</span>
-                    <p class="mb-0">
-                      {{ answer.council_count }} out of {{ council_count }} ({% widthratio answer.council_count council_count 100%}%)
-                    </p>
-                    <span class="fs-8 me-0 ms-auto d-block">
-                      {% if answer.type == "negative" %}
-                        {% include 'caps/includes/authority_type.html' with group=authority_type %}
-                        councils got <strong>no penalty marks</strong> for this question.
-                      {% else %}
-                        {% include 'caps/includes/authority_type.html' with group=authority_type %}
-                        councils got full marks for this question.
-                      {% endif %}
-                    </span>
+                    <div class="d-flex align-items-center flex-row gap-2">
+                        <div class="progress-ring" style="--ring-size: 45px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
+                          <div class="percentage fs-8">
+                            {% widthratio answer.council_count council_count 100%}%
+                          </div>
+                        </div>
+                        <p class="mb-0">
+                          {{ answer.council_count }} out of {{ council_count }}
+                          <span class="fs-8 me-0 ms-auto d-block">
+                            {% if answer.type == "negative" %}
+                              {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                              councils got <strong>no penalty marks</strong> for this question.
+                            {% else %}
+                              {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                              councils got full marks for this question.
+                            {% endif %}
+                          </span>
+                        </p>
+                    </div>
+
                 </td>
 
               {% for comparison in answer.comparisons %}
