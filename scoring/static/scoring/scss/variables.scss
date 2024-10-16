@@ -32,7 +32,7 @@ $cyan: $color-scorecard-cyan;
 $light: $white;
 $primary: $color-scorecard-purple;
 $secondary: $color-scorecard-grey-800;
-$success: darken($color-scorecard-green, 3%); // Pass contrast test
+$success: darken($color-scorecard-green, 5%); // Pass contrast test
 $warning: $color-scorecard-red;
 $danger: $color-scorecard-red;
 $info: $color-scorecard-yellow;
