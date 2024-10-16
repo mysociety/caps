@@ -295,8 +295,20 @@
                     {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.code pretty_code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria council_type_slug=council.get_scoring_group.slug %}
                 </td>
 
-                <td data-column="score" class="score border-bottom">
-                    <span>{{ answer.score }}/{{ answer.max }}</span>
+                <td data-column="score" class="score border-bottom text-start">
+                    <span class="d-block fw-bold mb-3 fs-5">{{ answer.score }}/{{ answer.max }}</span>
+                    <p class="mb-0">
+                      {{ answer.council_count }} out of {{ council_count }} ({% widthratio answer.council_count council_count 100%}%)
+                    </p>
+                    <span class="fs-8 me-0 ms-auto d-block">
+                      {% if answer.type == "negative" %}
+                        {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                        councils got <strong>no penalty marks</strong> for this question.
+                      {% else %}
+                        {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                        councils got full marks for this question.
+                      {% endif %}
+                    </span>
                 </td>
 
               {% for comparison in answer.comparisons %}
@@ -304,20 +316,6 @@
                     <span>{{ comparison.score }}/{{ comparison.max }}</span>
                 </td>
               {% endfor %}
-
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
-                  <a href="{% url 'scoring:question' answer.code %}?type={{ authority_type.slug }}" class="mx-auto" style="text-transform: none">
-                        {{ answer.council_count }} out of {{ council_count }}
-                    </a>
-                    <span class="fs-8 mt-1 me-0 ms-auto d-block">
-                        {% include 'caps/includes/authority_type.html' with group=authority_type %}
-                      {% if answer.type == "negative" %}
-                        councils got <strong>no penalty marks</strong> for this question.
-                      {% else %}
-                        councils got full marks for this question.
-                      {% endif %}
-                    </span>
-                </td>
             </tr>
           {% endfor %}
 
