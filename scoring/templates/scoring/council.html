@@ -215,72 +215,244 @@
     <table class="table-question-council my-4">
         <thead class="text-bg-primary position-sticky z-index-3 top-0">
             <tr>
-                <th scope="col" class="w-50 text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
-                <th scope="col" class="current-council-score">{{ council.name }}</th>
-              {% for comparison in comparisons %}
-                <th scope="col" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
-              {% endfor %}
-                <th scope="col" class="d-none d-md-table-cell">
-                    Councils with full marks per question
+                <th scope="col" class="w-50 text-start question-header-cell border-end border-opacity-25 border-primary align-middle">Questions</th>
+
+                <th scope="col" class="current-council-score text-start" style="width:230px">
+                  <span class="badge bg-white text-primary">2025</span>
+                  <p class="fs-7 mb-0">{{ council.name }}</p>
                 </th>
+
+                <th scope="col" class="text-start d-none d-md-table-cell" style="width:230px">
+                  Councils with full marks per question
+                </th>
+              {% for comparison in comparisons %}
+                <th scope="col" class="d-none d-md-table-cell comparison-council" style="width:230px">{{ comparison.council.name }}</th>
+              {% endfor %}
             </tr>
         </thead>
+
+        <tbody class="table-question-council__section">
+          <tr data-has-plan="no" class="section-row">
+              <td colspan="1" class="section-cell fw-bold border border-opacity-25 border-primary text-start fs-4">
+                  Total score
+              </td>
+              <td class="score border border-opacity-25 border-primary is--section-score text-start fs-2">
+                <div class="mb-0 fs-2 d-flex flex-row justify-content-between align-items-center lh-1">
+                  {{ plan_score.weighted_total|floatformat:0 }}%
+
+                  <div class="card">
+                    <div class="p-2 card-header">
+                      <p class="lh-0 mb-1 fw-bold fs-6">
+                        {% comment %} TODO check if it is a top performer that year {% endcomment %}
+                        {% if section.top_performer %}
+                        <span class="visually-hidden">Top perfomer in this section in the action scorecards 2023</span>
+                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-top' width='0.9em' height='0.9rem' role='presentation' %}
+                        {% endif %}
+                        41%
+                      </p>
+                      <p class="lh-0 mb-1 fs-8">score in 2023</p>
+                    </div>
+                    {% comment %} TODO display tcard his b instead of the previous onelock if question was not measured in 2023 {% endcomment %}
+                    <div class="card d-none">
+                      <div class="card-header">
+                        <span class="fs-8">Not measured in 2023</span>
+                      </div>
+                    </div>
+                    <div class="p-2 card-body fs-5">
+                      <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                      {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
+                      <span class="text-success fw-bold" role="presentation" aria-hidden="true">&#8593;</span>
+                      {% comment %} TODO Update value {% endcomment %}
+                      {% comment %} TODO Update aria-label, there are three scenarios:
+                      - x% increase to compare with previous version of action Scorecards
+                      - x% decrease to compare with previous version of action Scorecards
+                      - No variation compare with previous version of action Scorecards
+                      {% endcomment %}
+                      {% comment %} Replace text-success when needed:
+                      - positive variation: text-success
+                      - negative variation: text-danger 
+                      - no change: text-muted
+                      {% endcomment %}
+                      <span class="text-success fw-bold" aria-label="2% increase compare with previous action scorecards">2%</span>
+                      <span class="fs-8 d-block">compare to 2023</span>
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+            {% for comparison in comparisons %}
+              <td class="d-none d-md-table-cell score border border-opacity-25 border-primary is--section-score text-start fs-5">
+                  {{ comparison.weighted_total|floatformat:0 }}%
+              </td>
+            {% endfor %}
+
+              <td class="d-none d-md-table-cell top-tier-score border border-opacity-25 border-primary"></td>
+              <td class="button-wrapper p-0 bg-white d-none d-md-table-cell"></td>
+          </tr>
+        </tbody>
 
       {% for section in sections %}
         <tbody class="table-question-council__section">
 
-          {% if section.has_negative_points %}
-            <tr data-has-plan="no" class="section-row bg-red-100 text-red-900">
-          {% else %}
-            <tr data-has-plan="no" class="section-row bg-primary-100">
-          {% endif %}
+            <tr data-has-plan="no" class="section-row border-start">
 
-                <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
-                    {{ section.description }}
+              <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
+                <p class="fs-5 mb-0 fw-bold">{{ section.description }}</p>
 
-                    {% if section.has_negative_points %}
-                    <div class="d-flex flex-column mb-0 mt-2 fs-7 text-warning">
-                        <p class="mb-1">
-                          {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
-                          <strong class="me-2">Penalty marks</strong>
-                        </p>
-                        {% if section.only_negative %}
-                          {{ council.name }} was only awarded penalty marks in this section
-                        {% else %}
-                          {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
-                        {% endif %}
-                    </div>
+                {% if section.has_negative_points %}
+                <div class="d-flex flex-column mb-0 mt-2 fs-7 text-warning bg-red-100 p-3 rounded">
+                    <p class="mb-1">
+                      {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
+                      <strong class="me-2">Penalty marks</strong>
+                    </p>
+                    {% if section.only_negative %}
+                      {{ council.name }} was only awarded penalty marks in this section
+                    {% else %}
+                      {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
                     {% endif %}
+                </div>
+                {% endif %}
 
-                    <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
-                        {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
-                        Show questions
-                    </button>
-                </td>
+                <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
+                    {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
+                    Show questions
+                </button>
+              </td>
 
               {% if section.top_performer %}
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
-                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
-                    <span>{{ section.weighted_score|floatformat:0 }}%</span>
+                <td class="score border-bottom border-end border-opacity-25 border-primary is--section-score text-start">
+                  <div class="mb-0 fs-2 d-flex flex-row justify-content-between align-items-center lh-1">
+                    <div>
+                        {% include 'caps/icons/scorecards-star.html' with classes='text-info' width='1rem' height='1rem' role='presentation' %}
+                        <span class="fs-3 mb-0 ms-n1 d-inline-block">{{section.weighted_score|floatformat:0 }}%</span>
+                        <span class="fs-8 mb-0 d-block">Top perfomer</span>
+                        <p class="visually-hidden">Top performer in this section</p>
+                      </div>
+                      <div class="card">
+                        <div class="p-2 card-header">
+                          <p class="lh-0 mb-1 fw-bold fs-6">
+                            {% comment %} TODO check if it is a top performer that year {% endcomment %}
+                            {% if section.top_performer %}
+                            <span class="visually-hidden">Top perfomer in this section in the action scorecards 2023</span>
+                            {% include 'caps/icons/scorecards-star.html' with classes='text-info align-top' width='0.9em' height='0.9rem' role='presentation' %}
+                            {% endif %}
+                            41%
+                          </p>
+                          <p class="lh-0 mb-1 fs-8">score in 2023</p>
+                        </div>
+                        <div class="p-2 card-body fs-5">
+                          <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                          {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
+                          <span class="text-success fw-bold" role="presentation" aria-hidden="true">&#8593;</span>
+                        {% comment %} TODO Update value {% endcomment %}
+                        {% comment %} TODO Update aria-label, there are three scenarios:
+                        - x% increase to compare with previous version of action Scorecards
+                        - x% decrease to compare with previous version of action Scorecards
+                        - No variation compare with previous version of action Scorecards
+                        {% endcomment %}
+                        {% comment %} Replace text-success when needed:
+                        - positive variation: text-success
+                        - negative variation: text-danger 
+                        - no change: text-muted
+                        {% endcomment %}
+                          <span class="fw-bold text-success" aria-label="2% increase compare with previous action scorecards">2%</span>
+                          <span class="fs-8 d-block">compare to 2023</span>
+                        </div>
+                      </div>
+                    </div>
                 </td>
               {% else %}
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
-                  <span>{{section.weighted_score|floatformat:0 }}%</span>
-                    {% if section.has_negative_points %}
-                    <div class="fs-7 mt-2">
-                        {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
+                <td class="score border-bottom border-end border-opacity-25 border-primary is--section-score text-start">
+                  <div class="mb-0 fs-2 d-flex flex-row justify-content-between align-items-center lh-1">
+                    <span class="fs-2">{{section.weighted_score|floatformat:0 }}%</span>
+                    <div class="card">
+                      <div class="p-2 card-header">
+                        <p class="lh-0 mb-1 fw-bold fs-6">
+                          {% comment %} TODO check if it is a top performer that year {% endcomment %}
+                          {% if section.top_performer %}
+                          <span class="visually-hidden">Top perfomer in this section in the action scorecards 2023</span>
+                          {% include 'caps/icons/scorecards-star.html' with classes='text-info align-top' width='0.9em' height='0.9rem' role='presentation' %}
+                          {% endif %}
+                          41%
+                        </p>
+                        <p class="lh-0 mb-1 fs-8">score in 2023</p>
+                      </div>
+                      <div class="p-2 card-body fs-5">
+                        <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                        {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
+                        <span class="text-success fw-bold" role="presentation" aria-hidden="true">&#8593;</span>
+                      {% comment %} TODO Update value {% endcomment %}
+                      {% comment %} TODO Update aria-label, there are three scenarios:
+                      - x% increase to compare with previous version of action Scorecards
+                      - x% decrease to compare with previous version of action Scorecards
+                      - No variation compare with previous version of action Scorecards
+                      {% endcomment %}
+                      {% comment %} Replace text-success when needed:
+                      - positive variation: text-success
+                      - negative variation: text-danger 
+                      - no change: text-muted
+                      {% endcomment %}
+                        <span class="fw-bold text-success" aria-label="2% increase compare with previous action scorecards">2%</span>
+                        <span class="fs-8 d-block">compare to 2023</span>
+                      </div>
                     </div>
-                    {% endif %}
+                  </div>
+
+                  {% comment %} ERASE THIS {% endcomment %}
+                  <div class="d-flex flex-row justify-content-between gap-3 d-none">
+                      <div class="d-flex flex-column justify-content-between">
+                          <div class="fs-7">
+                            <p class="fs-8 mb-0">
+                              Relative variation
+                              <button class="bg-transparent p-0 border-0" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                              data-bs-custom-class="custom-tooltip"
+                              data-bs-title="Percentage change in marks: Calculated by finding the marks for 2025 and 2023, dividing the difference by maximum marks, and multiplying by 100.">
+                                  {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
+                              </button>
+                            </p>
+                            <span class="fw-bold mb-1">
+                              <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                              {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
+                              <span class="text-success">&#8593;</span>
+                              100%
+                            </span>
+                          </div>
+                          <div class="fs-7">
+                            <p class="fs-8 mb-0">
+                              Absolute variation
+                              <button class="bg-transparent p-0 border-0" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                              data-bs-custom-class="custom-tooltip"
+                              data-bs-title="Difference between 2025 and 2023">
+                                  {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
+                              </button>
+                            </p>
+                            <span class="fw-bold mb-1">
+                              <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                              {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
+                              <span class="text-success">&#8593;</span>
+                              4%
+                            </span>
+                          </div>
+                      </div>
+                  </div>
+                  {% comment %}  {% endcomment %}
+
+
+                  {% if section.has_negative_points %}
+                  <div class="fs-8 mt-2 text-warning bg-red-100 p-2 rounded">
+                      {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
+                  </div>
+                  {% endif %}
                 </td>
               {% endif %}
 
+              <td class="d-none d-md-table-cell border-bottom border-end border-opacity-25 border-primary"></td>
+
               {% for comparison in section.comparisons %}
-                <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
+                <td class="d-none d-md-table-cell score border-bottom border-end border-opacity-25 border-primary is--section-score text-start {% if comparison.top_performer %}top-performer{% endif %}">
                     {{ comparison.weighted_score|floatformat:0 }}%
                 </td>
               {% endfor %}
-
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary"></td>
 
                 <td class="button-wrapper p-0 bg-white d-none d-md-table-cell text-start">
                     <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
@@ -295,75 +467,76 @@
                     {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.code pretty_code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria council_type_slug=council.get_scoring_group.slug %}
                 </td>
 
-                <td data-column="score" class="score border-bottom text-start">
-                    <span class="d-block fw-bold mb-3 fs-5">{{ answer.score }}/{{ answer.max }}</span>
+                <td data-column="score" class="score border-bottom border-end text-start">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <div>
+                            <p class="lh-1 fs-3 mb-0">
+                              <span class="d-block mb-n2">{{ answer.score }}</span>
+                              <span class="fs-7">out of</span>
+                              <span class="fs-6"> {{ answer.max }}</span>
+                            </p>
+                        </div>
+
+                        <div class="card">
+                          <div class="p-2 card-header">
+                            <p class="lh-1 mb-1 fs-7 fw-bold">
+                              <span>{{ answer.score }}</span>
+                              <span class="fs-8">out of</span>
+                              <span> {{ answer.max }}</span>
+                            </p>
+                            <p class="fs-8 mb-0">score in 2023</p>
+                          </div>
+                          <div class="p-2 card-body fs-5">
+                            <p class="mb-0 fw-bold fs-7">
+                              <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                              {% comment %} <span class="text-danger">-</span> {% endcomment %}
+                              <span class="text-success">+</span>
+                              <span class="mb-0 lh-1 text-success">1 marks</span>
+                              <span class="d-block fs-8 fw-normal">compare to 2023</span>
+                            </p>
+                          </div>
+                        </div>
+                        {% comment %} TODO display this card block instead of the previous one if question was not measured in 2023 {% endcomment %}
+                        <div class="card d-none">
+                          <div class="card-header">
+                            <span class="fs-8">Not measured in 2023</span>
+                          </div>
+                        </div>
+                    </div>
+                  </td>
+                  
+                  <td class="fw-bold border-bottom border-end border-opacity-25 border-primary text-start">
                     <div class="d-flex align-items-center flex-row gap-2">
-                        <div class="progress-ring" style="--ring-size: 45px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
+                        <div class="progress-ring" style="--ring-size: 45px;--ring-percentage: {% widthratio answer.council_count council_count 100%};" aria-label="{% widthratio answer.council_count council_count 100%}% of {% include 'caps/includes/authority_type.html' with group=authority_type %} councils with full mark per question for 2025">
                           <div class="percentage fs-8">
                             {% widthratio answer.council_count council_count 100%}%
                           </div>
                         </div>
                         <p class="mb-0">
-                          {{ answer.council_count }} out of {{ council_count }}
+                          {% comment %} {{ answer.council_count }} out of {{ council_count }} {% endcomment %}
                           <span class="fs-8 me-0 ms-auto d-block">
                             {% if answer.type == "negative" %}
                               {% include 'caps/includes/authority_type.html' with group=authority_type %}
                               councils got <strong>no penalty marks</strong> for this question.
                             {% else %}
                               {% include 'caps/includes/authority_type.html' with group=authority_type %}
-                              councils got full marks for this question.
+                              councils with full mark per question for 2025
                             {% endif %}
                           </span>
                         </p>
                     </div>
-
                 </td>
 
               {% for comparison in answer.comparisons %}
-                <td data-column="score" class="d-none d-md-table-cell score border-bottom">
+                <td data-column="score" class="d-none d-md-table-cell score border-bottom border-end">
                     <span>{{ comparison.score }}/{{ comparison.max }}</span>
                 </td>
               {% endfor %}
-
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
-                  <a href="{% url 'scoring:question' answer.code %}?type={{ authority_type.slug }}" class="mx-auto" style="text-transform: none">
-                        {{ answer.council_count }} out of {{ council_count }}
-                    </a>
-                    <span class="fs-8 mt-1 me-0 ms-auto d-block">
-                        {% include 'caps/includes/authority_type.html' with group=authority_type %}
-                      {% if answer.type == "negative" %}
-                        councils got <strong>no penalty marks</strong> for this question.
-                      {% else %}
-                        councils got full marks for this question.
-                      {% endif %}
-                    </span>
-                </td>
             </tr>
           {% endfor %}
 
         </tbody>
       {% endfor %}
-
-        <tbody class="table-question-council__section">
-            <tr data-has-plan="no" class="section-row bg-purple-200 fw-bold">
-                <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
-                    Total score
-                </td>
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
-                    {{ plan_score.weighted_total|floatformat:0 }}%
-                </td>
-
-              {% for comparison in comparisons %}
-                <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score">
-                    {{ comparison.weighted_total|floatformat:0 }}%
-                </td>
-              {% endfor %}
-
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary"></td>
-                <td class="button-wrapper p-0 bg-white d-none d-md-table-cell"></td>
-            </tr>
-        </tbody>
-
     </table>
     <div class="d-flex gap-3">
         <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri|urlencode }}&amp;text={{ twitter_tweet_text|urlencode }}" class="btn btn-twitter rounded-pill px-3 d-flex align-items-center gap-2">
