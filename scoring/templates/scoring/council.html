@@ -300,7 +300,7 @@
                 </td>
               {% endif %}
 
-              <td></td>
+              <td class="border-bottom border-end border-opacity-25 border-primary"></td>
 
               {% for comparison in section.comparisons %}
                 <td class="d-none d-md-table-cell score border-bottom border-end border-opacity-25 border-primary is--section-score text-start {% if comparison.top_performer %}top-performer{% endif %}">
@@ -322,40 +322,75 @@
                 </td>
 
                 <td data-column="score" class="score border-bottom border-end text-start">
-                    <div class="d-flex flex-row align-start justify-content-between mb-3">
-                        <div>
-                            <!-- TODO add current year -->
-                            <p class="badge bg-primary-100 text-primary mb-0">2025</p>
-                            <span class="d-block fw-bold fs-3">{{ answer.score }}/{{ answer.max }}</span>
-                        </div>
-                        <div>
-                            <!-- TODO add current year -->
-                            <p class="badge bg-primary-100 text-primary mb-0">2023</p>
-                            <span class="d-block fw-bold fs-3">{{ answer.score }}/{{ answer.max }}</span>
-                        </div>
-                    </div>
-                    <!-- TODO Difference between 2025 and 2023 -->
-                    <p class="fs-7 mb-2">Variation between 2025 and 2023:</p>
-                    <div class="d-flex justify-content-between">
-                        <p class="mb-0 fw-bold p-2 rounded bg-green-100 text-success">
-                          <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
-                          {% comment %} <span class="text-danger">-</span> {% endcomment %}
-                          <span class="text-success">+</span>
-                          1 point
-                        </p>
-                        <div class="rounded p-2 bg-green-100 text-success">
-                          <span class="fw-bold text-success">
-                            <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
-                            {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
-                            <span class="text-success">&#8593;</span>
-                            100%
-                          </span>
-                          <button class="bg-transparent p-0 border-0" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
-                          data-bs-custom-class="custom-tooltip"
-                          data-bs-title="Percentage change in marks: Calculated by finding the marks for 2025 and 2023, dividing the difference by maximum marks, and multiplying by 100.">
-                              {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
-                          </button>
-                        </div>
+                    <div class="d-flex flex-column align-start justify-content-between mb-3 gap-2">
+                      <div class="d-flex flex-row justify-content-between align-items-start">
+                          <div class="d-flex flex-column gap-2">
+                              <div>
+                                  <!-- TODO add current year -->
+                                  <p class="badge bg-primary-100 text-primary-600 mb-1">2025</p>
+                                  <p class="mb-1 lh-1 fs-3">
+                                    <span>{{ answer.score }}</span>
+                                    <span class="fs-6">out of</span>
+                                    <span> {{ answer.max }}</span>
+                                  </p>
+                              </div>
+
+                              <div class="d-flex flex-row gap-2">
+                                <!-- TODO add current year -->
+                                <div>
+                                    <p class="badge bg-primary-200 text-primary mb-1">2023</p>
+                                    <p class="mb-1 lh-1 fs-4">
+                                      <span>{{ answer.score }}</span>
+                                      <span class="fs-6">out of</span>
+                                      <span> {{ answer.max }}</span>
+                                    </p>
+                                </div>
+                              </div>
+                          </div>
+
+                          <!-- TODO Difference between 2025 and 2023 -->
+                          <!--TODO Add a conditional that if the variation is negative add classes bg-red-100 text-danger -->
+                          <div class="d-flex flex-column p-2 rounded bg-green-100 text-success gap-2">
+                              <p class="mb-0 fw-bold fs-7 text-success">
+                                <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                                {% comment %} <span class="text-danger">-</span> {% endcomment %}
+                                <span class="text-success">+</span>
+                                1 marks
+                              </p>
+                              <div class="fs-7">
+                                <p class="fs-8 mb-0">
+                                  Relative variation
+                                  <button class="bg-transparent p-0 border-0" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-custom-class="custom-tooltip"
+                                  data-bs-title="Percentage change in marks: Calculated by finding the marks for 2025 and 2023, dividing the difference by maximum marks, and multiplying by 100.">
+                                      {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
+                                  </button>
+                                </p>
+                                <span class="fw-bold mb-1">
+                                  <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                                  {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
+                                  <span class="text-success">&#8593;</span>
+                                  100%
+                                </span>
+                              </div>
+                              <div class="fs-7">
+                                <p class="fs-8 mb-0">
+                                  Absolute variation
+                                  <button class="bg-transparent p-0 border-0" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                                  data-bs-custom-class="custom-tooltip"
+                                  data-bs-title="Difference between 2025 and 2023">
+                                      {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
+                                  </button>
+                                </p>
+                                <span class="fw-bold mb-1">
+                                  <!--TODO Add a conditional so when the variation is negative the text-danger gets displayed -->
+                                  {% comment %} <span class="text-danger">&#8595;</span> {% endcomment %}
+                                  <span class="text-success">&#8593;</span>
+                                  4%
+                                </span>
+                              </div>
+                          </div>
+                      </div>
                     </div>
                   </td>
                   
