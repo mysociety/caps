@@ -42,7 +42,7 @@
 </head>
 <body class="{% block bodyclass %}{% endblock %} {{ current_page }} {% if methodology_year == 2025 %}year-2025{% endif %}">
 
-    <nav class="navbar navbar-expand-lg site-nav">
+    <nav class="navbar navbar-expand-lg site-nav pt-lg-0">
         <div class="d-flex flex-row align-items-center">
             <a class="navbar-brand" href="{% url 'scoring:home' %}">
                 {% include 'caps/icons/council-climate-logo-2023.html' with classes='text-dark' width='7em' height='auto' role='presentation' %}
@@ -51,7 +51,7 @@
     
             <div class="navbar-nav">
                 <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" id="scorecardsVersion" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="dropdown-toggle btn btn-primary" href="#" role="button" id="scorecardsVersion" data-bs-toggle="dropdown" aria-expanded="false">
                         2023
                     </a>
                     <ul class="dropdown-menu position-absolute ms-n3 shadow-lg" aria-labelledby="scorecardsVersion">
@@ -66,29 +66,29 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse flex-column align-items-end" id="navbarSupportedContent">
-            <form action="{% url 'scoring:location_results' %}" class="navbar-location-search-form">
+            <form action="{% url 'scoring:location_results' %}" class="navbar-location-search-form p-2 bg-primary text-white rounded-bottom">
                 <label for="navbarLocationSearch">Jump to a council</label>
                 <input class="form-control form-control-sm searchbar js-location-search-autocomplete" type="search" name="pc" id="navbarLocationSearch" placeholder="Postcode">
                 <button type="submit" class="visually-hidden">Search</button>
             </form>
             <ul class="navbar-nav">
                 <li id="home-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'scoring:home' %}">Scorecards</a>
+                    <a class="nav-link link-primary" href="{% url 'scoring:home' %}">Scorecards</a>
                 </li>
                 <li id="methodology-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'scoring:sections' %}">Sections</a>
+                    <a class="nav-link link-primary" href="{% url 'scoring:sections' %}">Sections</a>
                 </li>
                 <li id="methodology-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'scoring:methodology' %}">2025 Draft Methodology</a>
+                    <a class="nav-link link-primary" href="{% url 'scoring:methodology' %}">2025 Draft Methodology</a>
                 </li>
                 <li id="how-to-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'generic:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
+                    <a class="nav-link link-primary" href="{% url 'generic:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
                 </li>
                 <li id="about-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'generic:about' %}">About</a>
+                    <a class="nav-link link-primary" href="{% url 'generic:about' %}">About</a>
                 </li>
                 <li id="contact-page" class="nav-item">
-                    <a class="nav-link" href="{% url 'generic:contact' %}">Contact</a>
+                    <a class="nav-link link-primary" href="{% url 'generic:contact' %}">Contact</a>
                 </li>
             </ul>
         </div>
