@@ -83,7 +83,7 @@
               <button type="button">Region</button>
             </legend>
             <div class="option-group">
-              <select class="form-select" id="region_select" name="region">
+              <select class="form-select{% if filter_params.region and filter_params.region != '' %} active{% endif %}" id="region_select" name="region">
                 <option value=""{% if filter_params.region == "" or filter_params.region is None %} selected{% endif %}>Any</option>
                 <option value="East Midlands"{% if filter_params.region == "East Midlands" %} selected{% endif %}>East Midlands</option>
                 <option value="East of England"{% if filter_params.region == "East of England" %} selected{% endif %}>East of England</option>
@@ -94,7 +94,7 @@
                 <option value="South West"{% if filter_params.region == "South West" %} selected{% endif %}>South West</option>
                 <option value="West Midlands"{% if filter_params.region == "West Midlands" %} selected{% endif %}>West Midlands</option>
                 <option value="Yorkshire and The Humber"{% if filter_params.region == "Yorkshire and The Humber" %} selected{% endif %}>Yorkshire and The Humber</option>
-              </select>
+            </select>
             </div>
           </fieldset>
         </div>

@@ -26,6 +26,10 @@
     border-color: $black !important;
     box-shadow: 0 0 0 1px $black inset, 0 0 0 2px $black, 0 0 0 6px $color-scorecard-yellow !important;
   }
+
+  &.active {
+    border-color: $primary;
+  }
 }
 
 // Radio buttons
