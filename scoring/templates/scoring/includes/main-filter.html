@@ -1,4 +1,4 @@
-<form class="form">
+<form class="form" id="home-page-main-filter">
     <label for="council-search-table" class="mb-2 fs-7 d-block">Show council in the Scorecard table</label>
     <input id="council-search-table" class="form-control searchbar js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
     <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
@@ -8,6 +8,20 @@
         <a class="mb-1 btn btn-sm btn-outline-primary fs-6 {% if authority_type == 'district' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='district' %}">District</a>
         <a class="mb-1 btn btn-sm btn-outline-primary fs-6 {% if authority_type == 'county' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='county' %}">County</a>
         <a class="mb-1 btn btn-sm btn-outline-primary fs-6 {% if authority_type == 'combined' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='combined' %}">Combined Authority</a>
-        <a class="mb-1 btn btn-sm btn-outline-primary fs-6 {% if authority_type == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
     </div>
+    <p class="fs-7 mt-3 mb-2">Or filter by <b>nation</b></p>
+    {% if authority_type == 'single' %}
+
+        <a role="button" id="js-filter-nation-england" class="mb-1 btn btn-sm btn-outline-primary fs-6 {% if filter_params.country == '1' %}active{% endif %}">England</a>
+        <a role="button" id="js-filter-nation-scotland" class="mb-1 btn btn-sm btn-outline-primary fs-6 {% if filter_params.country == '2' %}active{% endif %}">Scotland</a>
+        <a role="button" id="js-filter-nation-wales" class="mb-1 btn btn-sm btn-outline-primary fs-6 {% if filter_params.country == '3' %}active{% endif %}">Wales</a>
+
+    {% endif %}
+    <a class="mb-1 btn btn-sm btn-outline-primary fs-6 {% if authority_type == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        initializeFilterButtons();
+    });
+</script>

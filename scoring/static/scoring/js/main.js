@@ -381,9 +381,33 @@ forEachElement('.js-section-council-autocomplete', function(input){
     });
 });
 
+function initializeFilterButtons() {
+    var form = document.getElementById("advancedFilterForm");
+    var countrySelect = document.getElementById("countrySelect");
+
+    function setCountryAndSubmit(countryValue) {
+        if (countrySelect) {
+            countrySelect.value = countryValue;
+            form.submit();
+        }
+    }
+
+    document.getElementById("js-filter-nation-england")?.addEventListener("click", function() {
+        setCountryAndSubmit("1");
+    });
+
+    document.getElementById("js-filter-nation-scotland")?.addEventListener("click", function() {
+        setCountryAndSubmit("2");
+    });
+
+    document.getElementById("js-filter-nation-wales")?.addEventListener("click", function() {
+        setCountryAndSubmit("3");
+    });
+}
+
 function ajaxLoadCouncilTypeScorecard(url) {
     var selectors = [
-        '#council-type-filter',
+        '#home-page-main-filter',
         '#advanced-filter-wrapper',
         '.scorecard-table'
     ];
@@ -403,6 +427,7 @@ function ajaxLoadCouncilTypeScorecard(url) {
             document.querySelector(selector).replaceWith(doc.querySelector(selector));
         });
         setUpTableSorting();
+        initializeFilterButtons();
     })
     .catch(function(err) {
         window.location.href = url;

@@ -37,16 +37,11 @@
                 </div>
             </div>
             <div class="col-lg-7" id="advanced-filter-wrapper">
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header bg-100">
                         <h4 class="mb-1">Advanced filters</h4>
                         {% if filter_descs %}
                         <div class="d-flex flex-wrap flex-row gap-1 mt-2" role="status" aria-live="polite" aria-label="Active filters">
-                            {% if 'country' in filter_params and filter_params.country != "" %}
-                            {% comment %} TODO This needs to display the country name, not the index {% endcomment %}
-                                <span class="badge bg-secondary">{{ filter_params.country }}</span>
-                            {% endif %}
-    
                             {% if 'county' in filter_params and filter_params.county != "" %}
                                 <span class="badge bg-secondary">County: {{ filter_params.county }}</span>
                             {% endif %}
