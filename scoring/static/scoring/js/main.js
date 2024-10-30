@@ -381,6 +381,25 @@ forEachElement('.js-section-council-autocomplete', function(input){
     });
 });
 
+
+// When the form is submitted, it scrolls you down to the same place you were before submitting it.
+function setupScrollRestoration() {
+    var form = document.getElementById('advancedFilterForm');
+    form.addEventListener('submit', function() {
+        sessionStorage.setItem('scrollPosition', window.scrollY);
+    });
+
+    window.addEventListener('load', function() {
+        var scrollPosition = sessionStorage.getItem('scrollPosition');
+        if (scrollPosition) {
+            window.scrollTo(0, scrollPosition);
+            sessionStorage.removeItem('scrollPosition');
+        }
+    });
+}
+
+setupScrollRestoration();
+
 function initializeFilterButtons() {
     var form = document.getElementById("advancedFilterForm");
     var countrySelect = document.getElementById("countrySelect");
@@ -388,6 +407,7 @@ function initializeFilterButtons() {
     function setCountryAndSubmit(countryValue) {
         if (countrySelect) {
             countrySelect.value = countryValue;
+            sessionStorage.setItem('scrollPosition', window.scrollY);
             form.submit();
         }
     }
