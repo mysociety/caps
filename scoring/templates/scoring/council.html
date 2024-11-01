@@ -296,12 +296,12 @@
                 </td>
 
                 <td data-column="score" class="score border-bottom">
-                    <span>{{ answer.score }}/{{ answer.max }}</span>
+                    <span>{{ answer.score|format_mark }}/{{ answer.max }}</span>
                 </td>
 
               {% for comparison in answer.comparisons %}
                 <td data-column="score" class="d-none d-md-table-cell score border-bottom">
-                    <span>{{ comparison.score }}/{{ comparison.max }}</span>
+                    <span>{{ comparison.score|format_mark }}/{{ comparison.max }}</span>
                 </td>
               {% endfor %}
 

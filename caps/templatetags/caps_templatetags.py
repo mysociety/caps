@@ -71,6 +71,22 @@ def percentage(value: float):
     return f"{value * 100:.0f}%"
 
 
+@register.filter
+def format_mark(value):
+    """
+    Display whole-number marks as a whole numbers, and
+    fractional marks as decimals, removing trailing zeroes.
+    """
+    try:
+        value = float(value)
+        if value.is_integer():
+            return f"{int(value)}"
+        else:
+            return f"{value}"
+    except (ValueError, TypeError):
+        return value
+
+
 @register.simple_tag(takes_context=True)
 def council_card(context: dict, slug: str, title="", color: str = "red"):
     """
