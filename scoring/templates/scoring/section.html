@@ -320,7 +320,7 @@
 
               {% for comparison in question.comparisons %}
                 <td data-column="score" class="text-start text-md-end d-none flex-row d-md-table-cell score">
-                    <span class="me-2">{{ comparison.score }}/{{ question.details.max_score }}</span>
+                    <span class="me-2">{{ comparison.score|format_mark }}/{{ question.details.max_score }}</span>
                     <span class="badge bg-secondary d-md-none">{{ comparison.council_name }}</span>
                 </td>
               {% endfor %}
