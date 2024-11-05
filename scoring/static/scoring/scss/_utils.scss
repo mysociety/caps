@@ -92,3 +92,9 @@ $utilities: map-merge(
         background-color: RGBA($color-rgb, var(--#{$prefix}bg-opacity, 1)) if($enable-important-utilities, !important, null);
     }
 }
+
+@each $color, $value in $theme-colors {
+    .btn-outline-#{$color} {
+        --bs-btn-bg: rgba(255, 255, 255, 0.3) !important;
+    }
+}
