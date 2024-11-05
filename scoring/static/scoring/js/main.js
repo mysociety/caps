@@ -400,8 +400,7 @@ forEachElement('.js-section-council-autocomplete', function(input){
 function ajaxLoadCouncilTypeScorecard(url) {
     var selectors = [
         '#council-type-filter',
-        '#advancedFilter .modal-body',
-        '.table-header h3',
+        // '#advancedFilter .modal-body',
         '.scorecard-table'
     ];
 

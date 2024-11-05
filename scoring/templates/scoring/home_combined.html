@@ -8,41 +8,44 @@
                     <thead>
                         <tr class="first-row position-sticky bg-white" style="z-index:30">
                             <th scope="col" class="bg-light position-sticky z-index-4">
-
+                                <div class="ms-4">
+                                    <h2 class="mb-1 fs-5 lh-1">{{ authority_type_label }}</h2>
+                                    <p class="mb-0 fs-8">Council Climate Action Scorecard</p>
+                                </div>
                             </th>
                             <th scope="col" class="position-sticky pb-0 total-score" style="z-index:2">
-                                <div class="d-flex flex-row-reverse justify-content-end">
-                                    <span class="text-center fw-bold mt-1">Total Score</span>
+                                <div class="section-title">
+                                    <span class="text-center fw-bold">Total Score</span>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-default="descending"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold mt-1 link-category-1" href="{% url 'scoring:section' 's1_b_h_gs_ca' %}">Buildings &amp; Heating &amp; Green Skills</a>
+                                <div class="section-title">
+                                    <a class="text-decoration-none fw-bold link-category-1" href="{% url 'scoring:section' 's1_b_h_gs_ca' %}">Buildings &amp; Heating &amp; Green Skills</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-1 {% if sorted_by == 's1_b_h_gs_ca' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold mt-1 link-category-2" href="{% url 'scoring:section' 's2_tran_ca' %}">Transport</a>
+                                <div class="section-title">
+                                    <a class="text-decoration-none fw-bold link-category-2" href="{% url 'scoring:section' 's2_tran_ca' %}">Transport</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-2 {% if sorted_by == 's2_tran_ca' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold mt-1 link-category-3" href="{% url 'scoring:section' 's3_p_b_ca' %}">Planning &amp; Biodiversity</a>
+                                <div class="section-title">
+                                    <a class="text-decoration-none fw-bold link-category-3" href="{% url 'scoring:section' 's3_p_b_ca' %}">Planning &amp; Biodiversity</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-3 {% if sorted_by == 's3_p_b_ca' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold mt-1 link-category-4" href="{% url 'scoring:section' 's4_g_f_ca' %}">Governance &amp; Finance</a>
+                                <div class="section-title">
+                                    <a class="text-decoration-none fw-bold link-category-4" href="{% url 'scoring:section' 's4_g_f_ca' %}">Governance &amp; Finance</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-4 {% if sorted_by == 's4_g_f_ca' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col" class="pb-0">
-                                <div class="d-flex flex-row-reverse justify-content-end">
-                                    <a class="text-decoration-none fw-bold mt-1 link-category-6" href="{% url 'scoring:section' 's5_c_e_ca' %}">Collaboration &amp; Engagement</a>
+                                <div class="section-title">
+                                    <a class="text-decoration-none fw-bold link-category-6" href="{% url 'scoring:section' 's5_c_e_ca' %}">Collaboration &amp; Engagement</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-5 {% if sorted_by == 's5_c_e_ca' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
