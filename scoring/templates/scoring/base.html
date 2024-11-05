@@ -66,12 +66,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse flex-column align-items-end" id="navbarSupportedContent">
-            <form action="{% url 'scoring:location_results' %}" class="navbar-location-search-form">
-                <label for="navbarLocationSearch">Jump to a council</label>
+            <form action="{% url 'scoring:location_results' %}" class="navbar-location-search-form p-3 p-lg-2 rounded-bottom">
+                <label for="navbarLocationSearch">Go to a council's page</label>
                 <input class="form-control form-control-sm searchbar js-location-search-autocomplete" type="search" name="pc" id="navbarLocationSearch" placeholder="Postcode">
                 <button type="submit" class="visually-hidden">Search</button>
             </form>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav {% if current_page == 'home-page' %}mt-lg-4{% endif %}">
                 <li id="home-page" class="nav-item">
                     <a class="nav-link" href="{% url 'scoring:home' %}">Scorecards</a>
                 </li>
