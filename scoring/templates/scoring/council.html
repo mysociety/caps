@@ -161,24 +161,25 @@
                 </div>
                 <div class="card-body">
                     <form id="advancedFilterForm" action=".">
-                        {% if comparisons|length > 2 %}
+                      {% if comparisons|length > 2 %}
                         <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
-                        {% else %}
+                      {% else %}
                         <input class="form-control searchbar js-location-compare-autocomplete mb-3" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name" data-council_type="{{ council.get_scoring_group.slug }}">
-                        <p class="mb-1 fs-7">Based on <button type="button" class="d-inline-flex align-items-center p-0 me-1 border-0 bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Overall similarity considers factors such as: terms of emissions profile, deprivation, rural/urban population density, and geographical nearness">
-                          <span>overall similarity</span>
-                          {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1rem' height='1rem' role='presentation' %}
-                        </button> we suggest the following councils:</p>
-                        <div>
-                          <!--TODO we need to pull a list of 5 councils based on overall similarity like we do in CAPE-->
-                          <!--TODO the links below are placeholder -->
-                          <!--TODO add commas except for the last one -->
-                          <a class="d-inline-block js-council-compare-suggestions" href="#" data-slug="manchester-city-council">Manchester city council</a>
-                          <a class="d-inline-block js-council-compare-suggestions" href="#" data-slug="manchester-city-council">Borough of Broxbourne</a>
-                          <a class="d-inline-block js-council-compare-suggestions" href="#" data-slug="manchester-city-council">Spelthorne Borough Council</a>
-                        </div>
-                        {% endif %}
-                        {% if comparisons %}
+                          {% if similar_councils %}
+                            <p class="mb-1 fs-7">
+                                <button type="button" class="d-inline-flex align-items-center p-0 me-1 border-0 bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Overall similarity based on emissions profile, deprivation, rural/urban population density, and geographical proximity">
+                                    <span>Similar councils:</span>
+                                    {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1rem' height='1rem' role='presentation' %}
+                                </button>
+                            </p>
+                            <div class="d-flex flex-wrap lh-sm mt-2" style="column-gap: 1rem; row-gap: 0.5rem;">
+                              {% for similar_council in similar_councils %}
+                                <a class="d-inline-block js-council-compare-suggestions" href="#" data-slug="{{ similar_council.slug }}">{{ similar_council.name }}</a>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
+                      {% endif %}
+                      {% if comparisons %}
                         <hr class="mx-n3">
                         <div class="selected-council-wrapper mt-4 mb-3">
                           {% for comparison in comparisons %}

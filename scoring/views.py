@@ -407,28 +407,41 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         context["sections"] = sorted(
             sections.values(), key=lambda section: section["code"]
         )
+        context["comparisons"] = comparisons
+
+        for group in council.get_related_councils(5):
+            if group["type"].slug == "composite":
+                if comparisons:
+                    # Filter out any related councils that are already being compared
+                    context["similar_councils"] = [
+                        sc
+                        for sc in group["councils"]
+                        if sc.slug not in {score.council.slug for score in comparisons}
+                    ]
+                else:
+                    context["similar_councils"] = group["councils"]
+                break
+
         context["page_title"] = "{name} Climate Action Scorecard".format(
             name=council.name
         )
-
-        context["comparisons"] = comparisons
-        context[
-            "page_description"
-        ] = "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
-            name=council.name
-        )
-        context[
-            "twitter_tweet_text"
-        ] = "Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking {name}’s Climate Action Plan on 📋 #CouncilClimateScorecards".format(
-            name=(
-                "@{}".format(council.twitter_name)
-                if council.twitter_name
-                else council.name
+        context["page_description"] = (
+            "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
+                name=council.name
             )
         )
-        context[
-            "og_image_path"
-        ] = f"{settings.MEDIA_URL}scoring/og-images/councils/{council.slug}.png"
+        context["twitter_tweet_text"] = (
+            "Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking {name}’s Climate Action Plan on 📋 #CouncilClimateScorecards".format(
+                name=(
+                    "@{}".format(council.twitter_name)
+                    if council.twitter_name
+                    else council.name
+                )
+            )
+        )
+        context["og_image_path"] = (
+            f"{settings.MEDIA_URL}scoring/og-images/councils/{council.slug}.png"
+        )
         return context
 
 
