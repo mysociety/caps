@@ -398,56 +398,121 @@ forEachElement('.js-section-council-autocomplete', function(input){
 });
 
 function ajaxLoadCouncilTypeScorecard(url) {
-    var selectors = [
-        '#council-type-filter',
-        // '#advancedFilter .modal-body',
-        '.scorecard-table'
+    const selectors = [
+      '#home-page-main-filter',
+      '.scorecard-table'
     ];
-
-    selectors.forEach(function(selector){
-        document.querySelector(selector).classList.add('loading-shimmer');
+    
+    selectors.forEach(selector => {
+      document.querySelector(selector)?.classList.add('loading-shimmer');
     });
-
+  
     fetch(url)
-    .then(function(response) {
-        return response.text()
-    })
-    .then(function(html) {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(html, "text/html");
-        selectors.forEach(function(selector){
-            document.querySelector(selector).replaceWith(doc.querySelector(selector));
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        
+        selectors.forEach(selector => {
+          const newElement = doc.querySelector(selector);
+          const currentElement = document.querySelector(selector);
+          if (newElement && currentElement) {
+            currentElement.replaceWith(newElement);
+          }
         });
+
         setUpTableSorting();
-    })
-    .catch(function(err) {
+
+        const advancedFilter = document.querySelector('#advancedFilter');
+        if (advancedFilter) {
+          new bootstrap.Collapse(advancedFilter, {
+            toggle: false
+          });
+        }
+      })
+      .catch(err => {
         window.location.href = url;
-    });
+      });
 }
 
-if ( typeof window.fetch !== 'undefined' ) {
-    document.addEventListener('click', function(e){
-        if ( e.target.matches('#council-type-filter a') ) {
-            e.preventDefault();
-            var href = e.target.href;
-            history.pushState({}, '', href);
-            ajaxLoadCouncilTypeScorecard(href);
-        }
+function handleFilterChange(e) {
+    e.preventDefault();
+    
+    const mainForm = document.getElementById('home-page-main-filter');
+    if (!mainForm) return;
+    const formData = new FormData(mainForm);
+    
+    // Convert FormData to URLSearchParams
+    const params = new URLSearchParams(formData);
+    
+    // Get the base URL (current path without query parameters)
+    const baseUrl = window.location.pathname;
+    const url = `${baseUrl}?${params.toString()}`;
+    history.pushState({}, '', url);
+
+    ajaxLoadCouncilTypeScorecard(url);
+}
+
+if (typeof window.fetch !== 'undefined') {
+    document.addEventListener('click', e => {
+      if (e.target.matches('#council-type-filter a')) {
+        e.preventDefault();
+        const href = e.target.href;
+        history.pushState({}, '', href);
+        ajaxLoadCouncilTypeScorecard(href);
+      }
     });
 
-    var councilTypePaths = [
-        '/',
-        '/scoring/district/',
-        '/scoring/county/',
-        '/scoring/combined/',
-        '/scoring/northern-ireland/'
+    // Handle form submission (Apply filters button)
+    document.addEventListener('submit', e => {
+      if (e.target.matches('#home-page-main-filter')) {
+        handleFilterChange(e);
+      }
+    });
+
+    // Handle radio buttons and select changes
+    document.addEventListener('change', e => {
+      if (e.target.matches('#home-page-main-filter input[type="radio"]') ||
+          e.target.matches('#home-page-main-filter select')) {
+        handleFilterChange(new Event('submit'));
+      }
+    });
+
+    // Handle reset button
+    document.addEventListener('click', e => {
+      if (e.target.matches('#resetButton')) {
+        e.preventDefault();
+
+        const mainForm = document.getElementById('home-page-main-filter');
+        if (mainForm) {
+          // Reset radio buttons
+          mainForm.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.checked = radio.defaultChecked;
+          });
+
+          // Reset select elements
+          mainForm.querySelectorAll('select').forEach(select => {
+            select.selectedIndex = 0;
+          });
+
+          handleFilterChange(new Event('submit'));
+        }
+      }
+    });
+
+    const councilTypePaths = [
+      '/',
+      '/scoring/district/',
+      '/scoring/county/',
+      '/scoring/combined/',
+      '/scoring/northern-ireland/'
     ];
 
-    window.addEventListener('popstate', function(e){
-        var url = new URL(window.location.href);
-        if ( councilTypePaths.indexOf(url.pathname) != -1 ) {
-            ajaxLoadCouncilTypeScorecard(window.location.href);
-        }
+    window.addEventListener('popstate', e => {
+      const url = new URL(window.location.href);
+      if (councilTypePaths.includes(url.pathname)) {
+        ajaxLoadCouncilTypeScorecard(window.location.href);
+      }
     });
 }
 
