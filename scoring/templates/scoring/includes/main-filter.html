@@ -1,9 +1,41 @@
-<form class="form">
-    <div class="type-council-option-wrapper" id="council-type-filter">
-        <a class="mb-1 btn btn-outline-primary {% if authority_type == 'single' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='single' %}">Single Tier</a>
-        <a class="mb-1 btn btn-outline-primary {% if authority_type == 'district' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='district' %}">District</a>
-        <a class="mb-1 btn btn-outline-primary {% if authority_type == 'county' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='county' %}">County</a>
-        <a class="mb-1 btn btn-outline-primary {% if authority_type == 'combined' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='combined' %}">Combined Authority</a>
-        <a class="mb-1 btn btn-outline-primary {% if authority_type == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
+<form class="form" id="home-page-main-filter">
+    <fieldset class="type-council-option-wrapper" id="council-type-filter">
+        <legend class="visually-hidden">Filter by type of council</legend>
+        <a class="mb-1 btn btn-outline-primary fs-6 {% if authority_type == 'single' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='single' %}">Single Tier</a>
+        <a class="mb-1 btn btn-outline-primary fs-6 {% if authority_type == 'district' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='district' %}">District</a>
+        <a class="mb-1 btn btn-outline-primary fs-6 {% if authority_type == 'county' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='county' %}">County</a>
+        <a class="mb-1 btn btn-outline-primary fs-6 {% if authority_type == 'combined' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='combined' %}">Combined Authority</a>
+        <a class="btn btn-outline-primary {% if authority_type == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
+    </fieldset>
+
+    <div class="d-flex flex-row flex-wrap align-items-center mt-3 pt-3 border-top gap-2">
+        {% if authority_type == 'single' %}
+        <fieldset class="d-flex flex-row flex-wrap align-items-center gap-2">
+            <legend class="visually-hidden">You can filter by nation. Only Single Tier council can be filter by Nation. The other types of councils are present in England only.</legend>
+            <div>
+                <input class="btn-check" type="radio" name="country" id="countryAny" value=""{% if filter_params.country == "" or filter_params.country is None %} checked{% endif %}>
+                <label class="btn btn-sm btn-outline-primary" for="countryAny">Great Britain</label>
+            </div>
+            <div>
+                <input class="btn-check" type="radio" name="country" id="countryEngland" value="1"{% if filter_params.country == "1" %} checked{% endif %}>
+                <label class="btn btn-sm btn-outline-primary" for="countryEngland">England</label>
+            </div>
+            <div>
+                <input class="btn-check" type="radio" name="country" id="countryScotland" value="2"{% if filter_params.country == "2" %} checked{% endif %}>
+                <label class="btn btn-sm btn-outline-primary" for="countryScotland">Scotland</label>
+            </div>
+            <div>
+                <input class="btn-check" type="radio" name="country" id="countryWales" value="3"{% if filter_params.country == "3" %} checked{% endif %}>
+                <label class="btn btn-sm btn-outline-primary" for="countryWales">Wales</label>
+            </div>
+        </fieldset>
+        {% endif %}
+        <a type="button" class="link-primary" data-bs-toggle="collapse" data-bs-target="#advancedFilter" {% if filter_descs %}aria-expanded="true"{% endif %}>
+            Filter by region, population and others...
+        </a>
+    </div>
+
+    <div class="collapse mt-3 pt-3 border-top" id="advancedFilter">
+        {% include 'scoring/includes/advanced-filter.html' %}
     </div>
 </form>
