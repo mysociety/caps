@@ -34,7 +34,7 @@
         </button>
     </div>
 
-    <div class="collapse mt-3 pt-3 border-top" id="advancedFilter">
+    <div class="collapse mt-3 pt-3 border-top {% if filter_descs %}show{% endif %}" id="advancedFilter">
         {% include 'scoring/includes/advanced-filter.html' %}
     </div>
 </form>
