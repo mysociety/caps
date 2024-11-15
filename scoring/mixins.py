@@ -18,7 +18,7 @@ class PrivateScorecardsAccessMixin(AccessMixin):
 
 
 class AdvancedFilterMixin:
-    def setup_filter_context(self, context, filter, authority_type):
+    def setup_filter_context(self, context, filter, scoring_group):
         if getattr(filter.form, "cleaned_data", None) is not None:
             params = filter.form.cleaned_data
             descs = []
@@ -61,7 +61,7 @@ class AdvancedFilterMixin:
 
         context["urbanisation_filter"] = PlanScore.RUC_TYPES
         context["population_filter"] = PlanScore.POPULATION_FILTER_CHOICES.get(
-            authority_type["slug"]
+            scoring_group["slug"]
         )
         context["county_filter"] = Council.get_county_choices()
         context["authority_type_filter"] = (

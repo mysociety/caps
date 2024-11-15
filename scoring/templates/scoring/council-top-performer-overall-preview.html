@@ -6,7 +6,7 @@
 {% block content %}
     <div class="mb-5 me-auto fw-bold text-shadow text-yellow-300 d-flex align-items-center" style="font-size: 3rem; line-height: 1.2;">
         {% include 'caps/icons/scorecards-star.html' with classes='me-4 align-text-top' width='1.2em' height='auto' role='presentation' %}
-        <span>High scorer &mdash; {% include 'caps/includes/authority_type.html' with group=authority_type %} councils</span>
+        <span>High scorer &mdash; {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=True %}</span>
     </div>
     <div class="open-graph-preview__grid">
         <div class="grid__name">

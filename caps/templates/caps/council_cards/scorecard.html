@@ -49,23 +49,14 @@
                     {{ council.name }} was a <strong>top performer</strong>
                     {% if scoring_accolades.overall %}
                         amongst
-
-                        {% include 'caps/includes/authority_type.html' with group=scoring_group %}
-
-                        councils.
+                        {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=True %}.
                     {% elif scoring_accolades.num_sections == 1 %}
                         amongst
-
-                        {% include 'caps/includes/authority_type.html' with group=scoring_group %}
-
-                        councils,
+                        {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=True %},
                         in the <strong>{{ scoring_accolades.example_section }}</strong> section.
                     {% else %}
                         amongst
-
-                        {% include 'caps/includes/authority_type.html' with group=scoring_group %}
-
-                        councils,
+                        {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=True %},
                         in {{ scoring_accolades.num_sections|apnumber }} sections
                         including <strong>{{ scoring_accolades.example_section }}</strong>.
                     {% endif %}
@@ -89,10 +80,7 @@
                     </th>
                     <th class="border-0" scope="col">
                         Average
-
-                        {% include 'caps/includes/authority_type.html' with group=scoring_group %}
-
-                        council
+                        {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=False %}
                     </th>
                 </tr>
             </thead>

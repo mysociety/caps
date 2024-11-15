@@ -12,7 +12,7 @@
     {% if plan_score.top_performer %}
     <span class="mb-5 me-auto fw-bold subtitle text-shadow text-yellow-300 mt-2">
         {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
-        High scoring council &mdash; {% include 'caps/includes/authority_type.html' with group=authority_type %}
+        High scoring {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=False %}
     </span>
     {% endif %}
 

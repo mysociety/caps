@@ -6,7 +6,7 @@
 {% block content %}
     <h1 class="text-shadow js-count">{{ section.description|cut:" (CA)"|prevent_widow }}</h1>
     <span class="fw-bold text-shadow subtitle">
-        {% include 'caps/includes/authority_type.html' with group=authority_type %} councils
+        {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=True %}
     </span>
 
     <table>

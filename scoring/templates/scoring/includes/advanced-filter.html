@@ -13,11 +13,11 @@
         <div class="modal-body">
                 <div class="d-flex flex-column flex-wrap">
                     {% if filter_auth_type %}
-                    <input type="hidden" name="council_type" value="{{ authority_type }}">
+                    <input type="hidden" name="council_type" value="{{ scoring_group.slug }}">
                     {% endif %}
 
                     <div class="accordion" id="accordionAdvancedFilter">
-                        {% if authority_type == 'single' %}
+                        {% if scoring_group.slug == 'single' %}
                         <div id="accordionNation" class="accordion-item">
                           <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -117,7 +117,7 @@
                         </div>
                         {% endif %}
 
-                        {% if authority_type == 'district' %}
+                        {% if scoring_group.slug == 'district' %}
                         <div id="accordionCounty" class="accordion-item">
                           <h2 class="accordion-header" id="headingThree">
                             <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -150,7 +150,7 @@
                         </div>
                         {% endif %}
 
-                        {% if authority_type == 'single' %}
+                        {% if scoring_group.slug == 'single' %}
                         <div id="accordionAuthorityType" class="accordion-item">
                           <h2 class="accordion-header" id="headingEight">
                             <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
@@ -212,7 +212,7 @@
                             </div>
                           </div>
 
-                          {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
+                          {% if scoring_group.slug != 'combined' and scoring_group.slug != 'northern-ireland' %}
                           <div class="accordion-item">
                             <h2 class="accordion-header" id="headingFive">
                               <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">

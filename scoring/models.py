@@ -235,7 +235,7 @@ class PlanSection(models.Model):
 
     @classmethod
     def get_average_scores(
-        cls, council_group=None, filter=None, year=settings.PLAN_YEAR
+        cls, scoring_group=None, filter=None, year=settings.PLAN_YEAR
     ):
         """
         This excludes plans with zero score as it's assumed that if they have 0 then they
@@ -243,11 +243,10 @@ class PlanSection(models.Model):
         reduce the average.
         """
         has_score = PlanScore.objects.filter(total__gt=0, year=year)
-        if council_group is not None:
-            group = Council.SCORING_GROUPS[council_group]
+        if scoring_group is not None:
             has_score = has_score.filter(
-                council__authority_type__in=group["types"],
-                council__country__in=group["countries"],
+                council__authority_type__in=scoring_group["types"],
+                council__country__in=scoring_group["countries"],
             )
 
         if filter is not None:
@@ -433,6 +432,11 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
 
 
 class PlanQuestionGroup(models.Model):
+    """
+    Typically referred to as "scoring_group" elsewhere in the code.
+    """
+
+    # This is the scoring_group’s slug, eg: "single-tier"
     description = models.TextField(max_length=200)
 
     def __str__(self):
@@ -543,27 +547,14 @@ class PlanQuestion(models.Model):
     def is_negatively_marked(self):
         return self.question_type == "negative"
 
-    @classmethod
-    def get_average_scores(cls, section=None, council_group=None):
-        qs = PlanQuestionScore.objects.all()
-        if section is not None:
-            qs = qs.filter(plan_question__section=section)
-        # XXX fix this when relevant code is merged
-        # if council_group is not None:
-        # qs = qs.filter(question__=section)
-
-        qs = qs.values("plan_question__code").annotate(average=Avg("score"))
-
-        return qs
-
-    def get_scores_breakdown(self, year=None, council_group=None):
+    def get_scores_breakdown(self, year=None, scoring_group=None):
         filters = {
             "plan_question": self,
         }
         if year is not None:
             filters["plan_score__year"] = year
-        if council_group is not None:
-            filters["plan_score__council__authority_type__in"] = council_group["types"]
+        if scoring_group is not None:
+            filters["plan_score__council__authority_type__in"] = scoring_group["types"]
 
         counts = (
             PlanQuestionScore.objects.filter(**filters)

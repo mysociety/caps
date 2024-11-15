@@ -74,30 +74,30 @@ class HomePageView(
     filterset_class = PlanScoreFilter
 
     def get_template_names(self):
-        authority_type = self.get_authority_type()["slug"]
-        if authority_type == "combined":
+        scoring_group_slug = self.get_scoring_group()["slug"]
+        if scoring_group_slug == "combined":
             return ["scoring/home_combined.html"]
 
         return ["scoring/home.html"]
 
-    def get_authority_type(self):
-        authority_type = self.kwargs.get("council_type", "")
+    def get_scoring_group(self):
+        scoring_group_slug = self.kwargs.get("council_type", "")
         try:
-            group = Council.SCORING_GROUPS[authority_type]
+            group = Council.SCORING_GROUPS[scoring_group_slug]
         except:
             group = Council.SCORING_GROUPS["single"]
 
         return group
 
     def get_queryset(self):
-        authority_type = self.get_authority_type()
+        scoring_group = self.get_scoring_group()
         filters = {
             "year": self.request.year,
-            "council__authority_type__in": authority_type["types"],
+            "council__authority_type__in": scoring_group["types"],
         }
 
         if self.request.GET.get("country", None) is None:
-            filters["council__country__in"] = authority_type["countries"]
+            filters["council__country__in"] = scoring_group["countries"]
 
         qs = (
             PlanScore.objects.filter(**filters)
@@ -112,11 +112,11 @@ class HomePageView(
 
         return qs
 
-    def get_missing_councils(self, council_ids, authority_type):
+    def get_missing_councils(self, council_ids, scoring_group):
         filter_params = ["region", "county"]
 
         filters = {
-            "authority_type__in": authority_type["types"],
+            "authority_type__in": scoring_group["types"],
             "end_date__isnull": True,
         }
 
@@ -125,7 +125,7 @@ class HomePageView(
                 filters[f] = self.request.GET[f]
 
         if self.request.GET.get("country", None) is None:
-            filters["country__in"] = authority_type["countries"]
+            filters["country__in"] = scoring_group["countries"]
         else:
             filters["country__in"] = self.request.GET["country"]
 
@@ -136,17 +136,17 @@ class HomePageView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        authority_type = self.get_authority_type()
+        scoring_group = self.get_scoring_group()
 
         councils = context["object_list"].values()
         context["plan_sections"] = PlanSection.objects.filter(
             year=self.request.year
         ).all()
 
-        context = self.setup_filter_context(context, context["filter"], authority_type)
+        context = self.setup_filter_context(context, context["filter"], scoring_group)
 
         averages = PlanSection.get_average_scores(
-            authority_type["slug"],
+            scoring_group=scoring_group,
             filter=context.get("filter_params", None),
             year=self.request.year,
         )
@@ -165,7 +165,7 @@ class HomePageView(
                 council["percentage"] = 0
 
         if context.get("filter_params", None) is None:
-            missing_councils = self.get_missing_councils(council_ids, authority_type)
+            missing_councils = self.get_missing_councils(council_ids, scoring_group)
 
             for council in missing_councils:
                 councils.append(
@@ -179,7 +179,7 @@ class HomePageView(
                 )
         codes = PlanSection.section_codes(year=self.request.year)
 
-        if authority_type["slug"] == "combined":
+        if scoring_group["slug"] == "combined":
             form_class = ScoringSortCA
         else:
             form_class = ScoringSort
@@ -203,8 +203,7 @@ class HomePageView(
         else:
             form = form_class()
 
-        context["authority_type"] = authority_type["slug"]
-        context["authority_type_label"] = authority_type["name"]
+        context["scoring_group"] = scoring_group
 
         context["form"] = form
         context["sorted_by"] = sorted_by
@@ -220,8 +219,8 @@ class HomePageView(
             "northern-ireland": "{name} Councils’ Climate Action Scorecards",
         }
 
-        context["page_title"] = title_format_strings[authority_type["slug"]].format(
-            name=authority_type["name"]
+        context["page_title"] = title_format_strings[scoring_group["slug"]].format(
+            name=scoring_group["name"]
         )
         context["site_title"] = "Climate Emergency UK"
 
@@ -273,13 +272,13 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         new_council_date = date(year=2023, month=1, day=1)
         if council.start_date is not None and council.start_date >= new_council_date:
-            context["authority_type"] = group
+            context["scoring_group"] = group
             context["new_council"] = True
             return context
 
         old_council_date = date(year=2021, month=4, day=1)
         if council.end_date is not None and council.end_date <= old_council_date:
-            context["authority_type"] = group
+            context["scoring_group"] = group
             context["old_council"] = True
             return context
 
@@ -400,7 +399,6 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         context["canonical_path"] = self.request.path
         context["council_count"] = council_count
-        context["authority_type"] = group
         context["plan_score"] = plan_score
         context["plan_urls"] = plan_urls
         context["plan_year"] = self.request.year
@@ -466,7 +464,7 @@ class CouncilPreview(DetailView):
 
         context["page_title"] = council.name
         context["plan_score"] = plan_score
-        context["authority_type"] = council.get_scoring_group()
+        context["scoring_group"] = council.get_scoring_group()
         context["max_score"] = max_score
         context["min_score"] = min_score
         return context
@@ -490,7 +488,7 @@ class CouncilTypeTopPerformerView(TemplateView):
         council = top.council
 
         context["page_title"] = council.name
-        context["authority_type"] = group
+        context["scoring_group"] = group
         context["council"] = council
         context["score"] = top.weighted_total
         context["plan_year"] = self.request.year
@@ -929,9 +927,9 @@ class SectionPreview(PrivateScorecardsAccessMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         code = self.kwargs["slug"]
-        council_type = self.kwargs["type"]
+        scoring_group_slug = self.kwargs["type"]
 
-        group = Council.SCORING_GROUPS[council_type]
+        group = Council.SCORING_GROUPS[scoring_group_slug]
 
         section = PlanSection.objects.get(code=code, year=self.request.year)
 
@@ -947,7 +945,7 @@ class SectionPreview(PrivateScorecardsAccessMixin, TemplateView):
         )
 
         context["section"] = section
-        context["authority_type"] = group
+        context["scoring_group"] = group
         context["scores"] = scores
         context["plan_year"] = self.request.year
 
@@ -1027,36 +1025,35 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
         question = context["question"]
         context["page_title"] = question.text
 
-        context["applicable_authority_types"] = question.questiongroup.all()
-        authority_type = None
+        context["applicable_scoring_groups"] = question.questiongroup.all()
+        scoring_group = None
 
         # If question only applies to a single authority type,
         # assume the user wants to see that.
-        if context["applicable_authority_types"].count() == 1:
-            authority_type = Council.SCORING_GROUPS[
-                context["applicable_authority_types"][0].description
+        if context["applicable_scoring_groups"].count() == 1:
+            scoring_group = Council.SCORING_GROUPS[
+                context["applicable_scoring_groups"][0].description
             ]
 
         # Otherwise, see whether they’ve provided a valid
         # scoring group slug as a query param in the URL.
         elif self.request.GET.get("type") in Council.SCORING_GROUPS:
-            authority_type = Council.SCORING_GROUPS[self.request.GET.get("type")]
+            scoring_group = Council.SCORING_GROUPS[self.request.GET.get("type")]
 
-        if authority_type is not None:
-            context["authority_type"] = authority_type["slug"]
-            authority_types = authority_type["types"]
+        if scoring_group is not None:
+            context["scoring_group"] = scoring_group
             context["scores"] = (
                 PlanQuestionScore.objects.filter(
                     plan_score__year=self.request.year,
                     plan_question=question,
-                    plan_score__council__authority_type__in=authority_types,
+                    plan_score__council__authority_type__in=scoring_group["types"],
                 )
                 .select_related("plan_score", "plan_score__council")
                 .order_by("-score", "plan_score__council__name")
             )
 
             score_counts = question.get_scores_breakdown(
-                year=self.request.year, council_group=authority_type
+                year=self.request.year, scoring_group=scoring_group
             )
 
             totals = {}

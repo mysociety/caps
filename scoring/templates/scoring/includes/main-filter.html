@@ -2,10 +2,10 @@
     <input class="form-control searchbar js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
     <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
     <div class="type-council-option-wrapper mt-4" id="council-type-filter">
-        <a class="mb-1 btn btn-sm btn-outline-primary {% if authority_type == 'single' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='single' %}">Single Tier</a>
-        <a class="mb-1 btn btn-sm btn-outline-primary {% if authority_type == 'district' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='district' %}">District</a>
-        <a class="mb-1 btn btn-sm btn-outline-primary {% if authority_type == 'county' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='county' %}">County</a>
-        <a class="mb-1 btn btn-sm btn-outline-primary {% if authority_type == 'combined' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='combined' %}">Combined Authority</a>
-        <a class="mb-1 btn btn-sm btn-outline-primary {% if authority_type == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
+        <a class="mb-1 btn btn-sm btn-outline-primary {% if scoring_group.slug == 'single' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='single' %}">Single Tier</a>
+        <a class="mb-1 btn btn-sm btn-outline-primary {% if scoring_group.slug == 'district' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='district' %}">District</a>
+        <a class="mb-1 btn btn-sm btn-outline-primary {% if scoring_group.slug == 'county' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='county' %}">County</a>
+        <a class="mb-1 btn btn-sm btn-outline-primary {% if scoring_group.slug == 'combined' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='combined' %}">Combined Authority</a>
+        <a class="mb-1 btn btn-sm btn-outline-primary {% if scoring_group.slug == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
     </div>
 </form>

@@ -329,11 +329,11 @@
                 <td data-column="score" class="text-start text-md-end d-flex flex-row d-md-table-cell align-items-center score">
                     <span class="me-2">{{ question.scored_max }} out of {{ council_count }}</span>
                     <span class="fs-8 mt-1 me-0 ms-auto d-block">
-                        {% include 'caps/includes/authority_type.html' with group=council_type %}
+                        {% include 'scoring/includes/scoring-group-name.html' with group=council_type plural=True %}
                       {% if question.details.question_type == "negative" %}
-                        councils got <strong>no penalty marks</strong> for this question.
+                        got <strong>no penalty marks</strong> for this question.
                       {% else %}
-                        councils got full marks for this question.
+                        got full marks for this question.
                       {% endif %}
                     </span>
                 </td>

@@ -24,7 +24,7 @@
         {% if plan_score.top_performer %}
         <div class="d-flex align-items-center">
             {% include 'caps/icons/scorecards-star.html' with classes='me-2' width='1rem' height='1rem' role='presentation' %}
-            This council is one of the highest scoring {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.
+            This council is one of the highest scoring {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %}.
         </div>
         {% endif %}
         <dl class="mt-4 mb-0 council-stats-grid">
@@ -306,15 +306,15 @@
               {% endfor %}
 
                 <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
-                  <a href="{% url 'scoring:question' answer.code %}?type={{ authority_type.slug }}" class="mx-auto" style="text-transform: none">
+                  <a href="{% url 'scoring:question' answer.code %}?type={{ council.get_scoring_group.slug }}" class="mx-auto" style="text-transform: none">
                         {{ answer.council_count }} out of {{ council_count }}
                     </a>
                     <span class="fs-8 mt-1 me-0 ms-auto d-block">
-                        {% include 'caps/includes/authority_type.html' with group=authority_type %}
+                        {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %}
                       {% if answer.type == "negative" %}
-                        councils got <strong>no penalty marks</strong> for this question.
+                        got <strong>no penalty marks</strong> for this question.
                       {% else %}
-                        councils got full marks for this question.
+                        got full marks for this question.
                       {% endif %}
                     </span>
                 </td>

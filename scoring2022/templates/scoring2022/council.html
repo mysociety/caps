@@ -11,7 +11,7 @@
             {% if plan_score.top_performer %}
             <span class="top-performer hero-sub">Top Performer · </span>
             {% endif %}
-            <span class="hero-sub">{{ authority_type.name }}</span>
+            <span class="hero-sub">{{ council.get_scoring_group.name }}</span>
         </div>
     </div>
 </div>
@@ -34,7 +34,7 @@
                 <p>We do not currently have a Scorecard for this council.</p>
                 {% else %}
                 {% if plan_score.top_performer %}
-                <p class="top-performer.active mb-0">This council is a top performer within {% include 'caps/includes/authority_type.html' with group=authority_type %} councils.</p>
+                <p class="top-performer.active mb-0">This council is a top performer among {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %}.</p>
                 {% endif %}
                 <a href="{% include 'scoring2022/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}">See council in context</a>
                 <div class="group-label-wrapper mt-3">
@@ -162,7 +162,7 @@
                               {% for comparison in comparisons %}
                                 <th scope="col">{{ comparison.council.name }}</th>
                               {% endfor %}
-                                <th scope="col">Average {% include 'caps/includes/authority_type.html' with group=authority_type %} council score</th>
+                                <th scope="col">Average {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=False %} score</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -249,7 +249,7 @@
                                 </td>
                               {% endfor %}
                                 <td class="top-tier-score">
-                                  <a href="{% include 'scoring2022/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this section.</span>
+                                  <a href="{% include 'scoring2022/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ section.max_count }} out of {{ council_count }}</a> <span>{% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %} got full marks for this section.</span>
                                 </td>
                                 <td class="button-wrapper p-0">
                                     <button type="button" class="accordion js-toggle-council-question-table-section" aria-label="Expand this section" title="Expand this section">
@@ -307,7 +307,7 @@
                               {% endfor %}
                               {% endif %}
                               <td class="top-tier-score">
-                                <a href="{% include 'scoring2022/includes/scoring_url.html' with slug=authority_type.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ answer.council_count }} out of {{ council_count }}</a> <span>{% include 'caps/includes/authority_type.html' with group=authority_type %} councils got full marks for this question.</span>
+                                <a href="{% include 'scoring2022/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}?sort_by={{ section.code }}" class="mx-auto" style="text-transform: none">{{ answer.council_count }} out of {{ council_count }}</a> <span>{% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %} got full marks for this question.</span>
                                 </td>
                             </tr>
                           {% endfor %}

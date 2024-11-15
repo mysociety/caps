@@ -58,7 +58,7 @@
             <div class="table-header mb-4 d-md-flex align-items-end">
                 <div class="me-md-auto">
                     <h3 class="d-inline-block">
-                        <span>{{ authority_type_label }}</span>
+                        <span>{{ scoring_group.name }}</span>
                         {% if filter_descs %}
                         <span>·</span>
                         {% if filter_descs|length > 1 %}
@@ -133,7 +133,7 @@
                         </tr>
                         <tr class="second-row position-sticky z-index-4">
                             <th scope="col" style="min-width:250px" class="bg-primary-100 position-sticky z-index-4">
-                                <span class="ms-4 fs-6 fw-bold d-block">{{ authority_type_label }} average</span>
+                                <span class="ms-4 fs-6 fw-bold d-block">{{ scoring_group.name }} average</span>
                             </th>
                             <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4 bg-green-l2">              
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
@@ -235,7 +235,7 @@
                             </th>
                         <tr class="second-row position-sticky z-index-4">
                             <th class="bg-white" scope="col" style="min-width:250px">
-                                <span class="ms-4 fs-6 fw-bold d-block" style="white-space: break-spaces;">{{ authority_type_label }} average</span>
+                                <span class="ms-4 fs-6 fw-bold d-block" style="white-space: break-spaces;">{{ scoring_group.name }} average</span>
                             </th>
                             <th scope="col" class="total-score position-sticky z-index-4">              
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}

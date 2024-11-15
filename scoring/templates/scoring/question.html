@@ -47,14 +47,14 @@
 
     <h3 class="mt-5 mb-4" id="performance">Question performance</h3>
 
-  {% if applicable_authority_types|length > 1 %}
+  {% if applicable_scoring_groups|length > 1 %}
     <div class="bg-primary-100 p-3 border rounded">
         <label for="questions-council-name" class="fs-6 d-block mb-2">Show scores for a specific council</label>
         <input class="form-control searchbar js-question-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
         <p class="mt-3 mb-2 fs-6">Or show scores by type of council</p>
         <div class="d-flex flex-wrap gap-1">
-          {% for t in applicable_authority_types %}
-            <a href="?type={{ t.description }}#performance" class="btn btn-outline-primary btn-sm is--with-label {% if t.description == authority_type %}active{% endif %}">
+          {% for t in applicable_scoring_groups %}
+            <a href="?type={{ t.description }}#performance" class="btn btn-outline-primary btn-sm is--with-label {% if t.description == scoring_group.slug %}active{% endif %}">
               {% if t.description == "single" %}
                 Single Tier
               {% elif t.description == "district" %}
@@ -72,7 +72,7 @@
     </div>
   {% endif %}
 
-  {% if authority_type and totals %}
+  {% if scoring_group and totals %}
     <div class="row mt-4 mb-n4 mb-sm-0">
       {% for t in totals %}
         <div class="col-sm mb-4 mb-sm-0">
@@ -92,9 +92,9 @@
                     </span>
                     <span>
                       {% if t.count == 1 %}
-                        {% include 'scoring/includes/scoring-group-name.html' with group=authority_type plural=0 %}
+                        {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=0 %}
                       {% else %}
-                        {% include 'scoring/includes/scoring-group-name.html' with group=authority_type plural=1 %}
+                        {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}
                       {% endif %}
                     </span>
                 </div>

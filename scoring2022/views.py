@@ -102,7 +102,9 @@ class HomePageView(PrivateScorecardsAccessMixin, AdvancedFilterMixin, FilterView
         context = self.setup_filter_context(context, context["filter"], authority_type)
 
         averages = PlanSection.get_average_scores(
-            authority_type["slug"], filter=context.get("filter_params", None), year=2021
+            scoring_group=authority_type,
+            filter=context.get("filter_params", None),
+            year=2021,
         )
         all_scores = PlanSectionScore.get_all_council_scores(plan_year=2021)
 
