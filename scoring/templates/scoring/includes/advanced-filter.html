@@ -150,6 +150,38 @@
                         </div>
                         {% endif %}
 
+                        {% if authority_type == 'single' %}
+                        <div id="accordionAuthorityType" class="accordion-item">
+                          <h2 class="accordion-header" id="headingEight">
+                            <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                              Single Tier authority type
+                              <span id="authorityTypeActiveFilter" class="fs-9 text-uppercase badge bg-secondary filter-badge ms-2 me-3">Any</span>
+                            </button>
+                          </h2>
+                          <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight" data-bs-parent="#accordionAdvancedFilter">
+                            <div class="accordion-body">
+                                <fieldset class="criteria-group-wrapper">
+                                    <legend class="visually-hidden">
+                                        <button type="button">Single Tier authority type</button>
+                                    </legend>
+                                    <div class="option-group open-div">
+                                        <div class="form-check-flex py-2">
+                                            <input type="radio" class="form-check-input" id="authority_type_all" name="authority_type" value=""{% if filter_params.authority_type == "" or filter_params.authority_type is None %} checked{% endif %}>
+                                            <label class="form-check-label" for="authority_type_all">All</label>
+                                        </div>
+                                      {% for option in authority_type_filter %}
+                                        <div class="form-check-flex py-2">
+                                            <input type="radio" class="form-check-input" id="{{ option.0|slugify }}" name="authority_type" value="{{ option.0 }}"{% if filter_params.authority_type == option.0 %} checked{% endif %}>
+                                            <label class="form-check-label" for="{{ option.0|slugify }}">{{ option.1 }}</label>
+                                        </div>
+                                      {% endfor %}
+                                    </div>
+                                </fieldset>
+                            </div>
+                          </div>
+                        </div>
+                        {% endif %}
+
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingFour">
                               <button class="accordion-button flex-row justify-content-between fs-7 fs-lg-6 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
@@ -391,6 +423,26 @@
           var elem = countyRadioButtons[i];
           elem.addEventListener('change',function(e){
               countyActiveLabel.textContent = this.nextElementSibling.textContent;
+          }
+          ,false);
+      }
+    }
+
+    // DISTRICT TYPE (Authority type)
+    var accordionAuthorityType= document.getElementById('accordionAuthorityType');
+    if(accordionAuthorityType) {
+      var authorityTypeRadioButtons = document.getElementsByName('authority_type');
+      var authorityTypeActiveLabel = document.getElementById('authorityTypeActiveFilter');
+
+      // Update active label on load
+      authorityTypeActiveLabel.textContent =  document.querySelector("#advancedFilterForm input[name=authority_type]:checked").nextElementSibling.textContent;
+
+      // Update active label on change
+      for(var i=0;i< authorityTypeRadioButtons.length;i++)
+      {
+          var elem = authorityTypeRadioButtons[i];
+          elem.addEventListener('change',function(e){
+              authorityTypeActiveLabel.textContent = this.nextElementSibling.textContent;
           }
           ,false);
       }

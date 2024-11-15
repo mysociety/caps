@@ -35,6 +35,11 @@ class PlanScoreFilter(django_filters.FilterSet):
         choices=Council.get_county_choices(),
     )
 
+    authority_type = django_filters.ChoiceFilter(
+        field_name="council__authority_type",
+        choices=Council.get_authority_type_choices_for_scoring_group("single"),
+    )
+
     class Meta:
         model = PlanScore
         fields = []

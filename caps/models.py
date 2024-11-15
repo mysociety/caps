@@ -632,6 +632,19 @@ class Council(models.Model):
         return descriptions_to_codes.get(authority_type.lower().strip())
 
     @classmethod
+    def authority_type_desc(cls, authority_type_code):
+        """
+        Return an authority type description given a code, or None if the code
+        isn't in the authority type choices
+        """
+        if pd.isnull(authority_type_code):
+            return None
+        codes_to_descriptions = dict(
+            (code, type) for code, type in Council.AUTHORITY_TYPE_CHOICES
+        )
+        return codes_to_descriptions.get(authority_type_code)
+
+    @classmethod
     def percent_with_plan(cls):
         """
         Return the percentage of councils that have a plan document
@@ -675,6 +688,14 @@ class Council(models.Model):
             ("Regions of England", (regions)),
             ("English Counties", (counties)),
         )
+
+    @classmethod
+    def get_authority_type_choices_for_scoring_group(cls, scoring_group_slug):
+        return [
+            choice
+            for choice in cls.AUTHORITY_TYPE_CHOICES
+            if choice[0] in cls.SCORING_GROUPS["single"]["types"]
+        ]
 
 
 class OverwriteStorage(FileSystemStorage):

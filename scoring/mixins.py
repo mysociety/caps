@@ -1,8 +1,8 @@
-from caps.models import Council
 from django.conf import settings
 from django.contrib.auth.mixins import AccessMixin
 from django.shortcuts import redirect
 
+from caps.models import Council
 from scoring.models import PlanScore
 
 
@@ -46,6 +46,11 @@ class AdvancedFilterMixin:
                 )
             if params.get("country", None) is not None and params["country"] != "":
                 descs.append(Council.country_description(params["country"]))
+            if (
+                params.get("authority_type", None) is not None
+                and params["authority_type"] != ""
+            ):
+                descs.append(Council.authority_type_desc(params["authority_type"]))
             if params.get("region", None) is not None and params["region"] != "":
                 descs.append(params["region"])
             if params.get("county", None) is not None and params["county"] != "":
@@ -59,6 +64,9 @@ class AdvancedFilterMixin:
             authority_type["slug"]
         )
         context["county_filter"] = Council.get_county_choices()
+        context["authority_type_filter"] = (
+            Council.get_authority_type_choices_for_scoring_group("single")
+        )
 
         return context
 
