@@ -480,20 +480,10 @@ class Council(models.Model):
         return df
 
     def get_scoring_group(self):
-        if self.country == self.NORTHERN_IRELAND:
-            group = "northern-ireland"
-        elif self.authority_type in ("CC", "LBO", "MD", "UA"):
-            group = "single"
-        elif self.authority_type == "NMD":
-            group = "district"
-        elif self.authority_type == "CTY":
-            group = "county"
-        elif self.authority_type in ["COMB", "SRA"]:
-            group = "combined"
-        else:
-            group = "single"
-
-        return self.SCORING_GROUPS[group]
+        for slug, group in self.SCORING_GROUPS.items():
+            if self.authority_type in group["types"]:
+                return group
+        return self.SCORING_GROUPS["single"]
 
     @property
     def powers(self):
