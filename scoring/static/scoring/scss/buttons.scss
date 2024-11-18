@@ -24,6 +24,8 @@ a,
 .btn,
 .link-light,
 button {
+  text-decoration-skip-ink: none; // Prevents the underline to get cut off
+  text-underline-offset: 0.2rem; // Improve readability of links
   &:focus {
     outline: 0 !important;
     color: $black !important;
