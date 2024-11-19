@@ -70,3 +70,11 @@
   background-repeat: no-repeat;
   background-position: right 10px center;
 }
+
+// When anything other than the first <option> is selected,
+// style the <select> to look like an "active" button.
+.form-select-show-modifications:has(option ~ option[selected]) {
+  background-color: $primary;
+  background-image: url("../img/bootstrap/form-select-indicator-white.svg");
+  color: color-contrast($primary);
+}
