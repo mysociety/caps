@@ -7,7 +7,7 @@
         <a class="btn btn-outline-primary {% if authority_type == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
     </div>
 
-    <div class="d-flex flex-row flex-wrap align-items-center mt-3 pt-3 border-top gap-2">
+    <div class="d-flex flex-row flex-wrap align-items-center mt-3 pt-3 border-top gap-3">
         {% if authority_type == 'single' %}
         <fieldset class="d-flex flex-row flex-wrap align-items-center gap-2">
             <legend class="visually-hidden">You can filter by nation. Only Single Tier council can be filter by Nation. The other types of councils are present in England only.</legend>
@@ -29,9 +29,9 @@
             </div>
         </fieldset>
         {% endif %}
-        <a class="btn btn-link btn-sm" data-bs-toggle="collapse" data-bs-target="#advancedFilter" {% if filter_descs %}aria-expanded="true"{% endif %}>
+        <button type="button" class="btn btn-link btn-sm p-0 rounded-0" data-bs-toggle="collapse" data-bs-target="#advancedFilter" {% if filter_descs %}aria-expanded="true"{% endif %}>
             Filter by region, population, and more…
-        </a>
+        </button>
     </div>
 
     <div class="collapse mt-3 pt-3 border-top {% if filter_descs %}show{% endif %}" id="advancedFilter">
