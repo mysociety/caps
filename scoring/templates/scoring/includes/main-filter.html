@@ -10,7 +10,7 @@
     <div class="d-flex flex-row flex-wrap align-items-center mt-3 pt-3 border-top gap-3">
         {% if authority_type == 'single' %}
         <fieldset class="d-flex flex-row flex-wrap align-items-center gap-2">
-            <legend class="visually-hidden">You can filter by nation. Only Single Tier council can be filter by Nation. The other types of councils are present in England only.</legend>
+            <legend class="visually-hidden">Filter by nation</legend>
             <div>
                 <input class="btn-check" type="radio" name="country" id="countryAny" value=""{% if filter_params.country == "" or filter_params.country is None %} checked{% endif %}>
                 <label class="btn btn-sm btn-outline-primary" for="countryAny">Great Britain</label>
