@@ -154,7 +154,7 @@
     </div>
 
     <div class="row my-4 my-lg-5">
-        <div class="col-md-6 col-lg-4 d-none d-md-block">
+        <div class="col-md-6 col-lg-5 d-none d-md-block">
             <div class="card h-100">
                 <div class="card-header">
                     <h3 class="fs-6 mb-0">Choose {% include "scoring/includes/scoring-group-name.html" with group=council.get_scoring_group.slug plural=1 %} to compare</h3>
@@ -164,9 +164,23 @@
                       {% if comparisons|length > 2 %}
                         <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
                       {% else %}
-                        <input class="form-control searchbar js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name" data-council_type="{{ council.get_scoring_group.slug }}">
+                        <input class="form-control searchbar js-location-compare-autocomplete mb-3" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name" data-council_type="{{ council.get_scoring_group.slug }}">
+                          {% if similar_councils %}
+                            <p class="mb-1 fs-7">
+                                <button type="button" class="d-inline-flex align-items-center p-0 me-1 border-0 bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Overall similarity based on emissions profile, deprivation, rural/urban population density, and geographical proximity">
+                                    <span>Similar councils:</span>
+                                    {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1rem' height='1rem' role='presentation' %}
+                                </button>
+                            </p>
+                            <div class="d-flex flex-wrap lh-sm mt-2" style="column-gap: 1rem; row-gap: 0.5rem;">
+                              {% for similar_council in similar_councils %}
+                                <a class="d-inline-block js-council-compare-suggestions" href="#" data-slug="{{ similar_council.slug }}">{{ similar_council.name }}</a>
+                              {% endfor %}
+                            </div>
+                          {% endif %}
                       {% endif %}
                       {% if comparisons %}
+                        <hr class="mx-n3">
                         <div class="selected-council-wrapper mt-4 mb-3">
                           {% for comparison in comparisons %}
                             <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
@@ -178,8 +192,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-8">
-            <div class="card h-100">
+        <div class="col-md-6 col-lg-7">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="fs-6 mb-0">Filter questions in the table</h3>
                 </div>
