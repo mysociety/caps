@@ -2,7 +2,6 @@
 Forms for the CAPS app
 """
 
-
 from django.forms import CharField, ChoiceField, ModelChoiceField, RadioSelect, Select
 from haystack.forms import SearchForm
 from haystack.inputs import Exact

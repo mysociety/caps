@@ -1,6 +1,7 @@
 """
 Functions for use by the semantic search features
 """
+
 import re
 from collections import namedtuple
 from itertools import groupby

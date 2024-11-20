@@ -3,6 +3,7 @@ functions and pandas api to speed up working with
 local authority data
 
 """
+
 from functools import lru_cache
 from typing import Callable, Optional, List
 import string
