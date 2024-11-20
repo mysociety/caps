@@ -413,10 +413,11 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             if group["type"].slug == "composite":
                 if comparisons:
                     # Filter out any related councils that are already being compared
+                    comparison_slugs = {score.council.slug for score in comparisons}
                     context["similar_councils"] = [
                         sc
                         for sc in group["councils"]
-                        if sc.slug not in {score.council.slug for score in comparisons}
+                        if sc.slug not in comparison_slugs
                     ]
                 else:
                     context["similar_councils"] = group["councils"]
