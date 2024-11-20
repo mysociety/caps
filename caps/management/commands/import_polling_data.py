@@ -1,6 +1,7 @@
 """
 Import local authority_emissions
 """
+
 import pandas as pd
 from caps.models import Council, DataPoint, DataType
 from django.core.management.base import BaseCommand
