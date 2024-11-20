@@ -90,9 +90,9 @@ class HomePageView(PrivateScorecardsAccessMixin, AdvancedFilterMixin, FilterView
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
+        context["all_councils"] = (
+            Council.objects.all()
+        )  # for location search autocomplete
 
         authority_type = self.get_authority_type()
 
@@ -139,9 +139,11 @@ class HomePageView(PrivateScorecardsAccessMixin, AdvancedFilterMixin, FilterView
                 sorted_by = sort
                 councils = sorted(
                     councils,
-                    key=lambda council: 0
-                    if council["score"] == 0 or council["score"] is None
-                    else council["all_scores"][sort]["score"],
+                    key=lambda council: (
+                        0
+                        if council["score"] == 0 or council["score"] is None
+                        else council["all_scores"][sort]["score"]
+                    ),
                     reverse=True,
                 )
                 councils = sorted(councils, key=itemgetter("code"))
@@ -304,18 +306,18 @@ class CouncilView(PrivateScorecardsAccessMixin, DetailView):
         )
 
         context["comparisons"] = comparisons
-        context[
-            "page_description"
-        ] = "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
-            name=council.name
+        context["page_description"] = (
+            "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
+                name=council.name
+            )
         )
-        context[
-            "twitter_tweet_text"
-        ] = "Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking {name}’s Climate Action Plan on 📋 #CouncilClimateScorecards".format(
-            name=(
-                "@{}".format(council.twitter_name)
-                if council.twitter_name
-                else council.name
+        context["twitter_tweet_text"] = (
+            "Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking {name}’s Climate Action Plan on 📋 #CouncilClimateScorecards".format(
+                name=(
+                    "@{}".format(council.twitter_name)
+                    if council.twitter_name
+                    else council.name
+                )
             )
         )
         return context
@@ -339,9 +341,9 @@ class QuestionView(PrivateScorecardsAccessMixin, AdvancedFilterMixin, DetailView
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
+        context["all_councils"] = (
+            Council.objects.all()
+        )  # for location search autocomplete
 
         filter_args = {
             "data": self.request.GET or None,
@@ -496,9 +498,9 @@ class LocationResultsView(PrivateScorecardsAccessMixin, BaseLocationResultsView)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
+        context["all_councils"] = (
+            Council.objects.all()
+        )  # for location search autocomplete
         context["page_title"] = "Choose a council"
         return context
 
@@ -509,9 +511,9 @@ class MethodologyView(PrivateScorecardsAccessMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
+        context["all_councils"] = (
+            Council.objects.all()
+        )  # for location search autocomplete
 
         # questions = PlanQuestion.objects.all()
         # sections = PlanSection.objects.all()
@@ -562,9 +564,9 @@ class AboutView(PrivateScorecardsAccessMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
+        context["all_councils"] = (
+            Council.objects.all()
+        )  # for location search autocomplete
         context["page_title"] = "About"
         context["current_page"] = "about-page"
         return context
@@ -576,9 +578,9 @@ class ContactView(PrivateScorecardsAccessMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
+        context["all_councils"] = (
+            Council.objects.all()
+        )  # for location search autocomplete
         context["page_title"] = "Contact"
         context["current_page"] = "contact-page"
         return context
@@ -590,9 +592,9 @@ class HowToUseView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "all_councils"
-        ] = Council.objects.all()  # for location search autocomplete
+        context["all_councils"] = (
+            Council.objects.all()
+        )  # for location search autocomplete
         context["page_title"] = "How to use the Scorecards"
         context["current_page"] = "how-to-page"
         return context

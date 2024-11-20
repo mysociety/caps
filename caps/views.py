@@ -108,9 +108,9 @@ class AssemblyView(TemplateView):
         )
         context = add_context_for_plans_download_and_search(context)
         context["page_title"] = "Local Climate Assemblies - CAPE"
-        context[
-            "page_description"
-        ] = "Search and view reports from local climate assemblies."
+        context["page_description"] = (
+            "Search and view reports from local climate assemblies."
+        )
         return context
 
 
@@ -156,9 +156,9 @@ class CouncilDetailView(DetailView):
             latest_year_total_emissions = council_emissions_data.get(
                 year=latest_year, data_type__name="Total Emissions"
             ).value
-            context[
-                "latest_year_per_capita_emissions"
-            ] = latest_year_per_capita_emissions
+            context["latest_year_per_capita_emissions"] = (
+                latest_year_per_capita_emissions
+            )
             context["latest_year_per_km2_emissions"] = latest_year_per_km2_emissions
             context["latest_year_total_emissions"] = latest_year_total_emissions
             context["emissions_data"] = True
@@ -166,9 +166,9 @@ class CouncilDetailView(DetailView):
             pass
 
         if context["emissions_data"]:
-            context[
-                "current_emissions_breakdown"
-            ] = council.current_emissions_breakdown(year=latest_year)
+            context["current_emissions_breakdown"] = (
+                council.current_emissions_breakdown(year=latest_year)
+            )
             multi_emission_chart = charts.multi_emissions_chart(council, latest_year)
             context["chart_collection"] = ChartCollection()
             context["chart_collection"].register(multi_emission_chart)
@@ -231,9 +231,9 @@ class CouncilDetailView(DetailView):
                     "num_sections": len(top_scoring_sections),
                 }
                 if len(top_scoring_sections) > 0:
-                    context["scoring_accolades"][
-                        "example_section"
-                    ] = top_scoring_sections[0]["description"]
+                    context["scoring_accolades"]["example_section"] = (
+                        top_scoring_sections[0]["description"]
+                    )
 
             context["scoring_hidden"] = getattr(settings, "SCORECARDS_PRIVATE", False)
 
