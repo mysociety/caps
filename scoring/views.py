@@ -410,23 +410,23 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         )
 
         context["comparisons"] = comparisons
-        context[
-            "page_description"
-        ] = "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
-            name=council.name
-        )
-        context[
-            "twitter_tweet_text"
-        ] = "Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking {name}’s Climate Action Plan on 📋 #CouncilClimateScorecards".format(
-            name=(
-                "@{}".format(council.twitter_name)
-                if council.twitter_name
-                else council.name
+        context["page_description"] = (
+            "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
+                name=council.name
             )
         )
-        context[
-            "og_image_path"
-        ] = f"{settings.MEDIA_URL}scoring/og-images/councils/{council.slug}.png"
+        context["twitter_tweet_text"] = (
+            "Up to 30% of the UK’s transition to zero carbon is within the influence of local councils - that’s why I’m checking {name}’s Climate Action Plan on 📋 #CouncilClimateScorecards".format(
+                name=(
+                    "@{}".format(council.twitter_name)
+                    if council.twitter_name
+                    else council.name
+                )
+            )
+        )
+        context["og_image_path"] = (
+            f"{settings.MEDIA_URL}scoring/og-images/councils/{council.slug}.png"
+        )
         return context
 
 
@@ -706,6 +706,42 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                     "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-5@2x.png",
                     "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-5@2x.png",
                     "alt": "Planning & Land Use; Average scores: 35% Single tier, 23% District, -25% County, 14% Northern Ireland",
+                },
+            ],
+        },
+        "s6_c_e": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.pdf",
+                "src_jpg": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.jpg",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics/collaboration-and-engagement/facebook-1@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/collaboration-and-engagement/instagram-1@2x.png",
+                    "alt": "Collaboration & Engagement; 79% of councils have a Climate Action Plan with SMART targets",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/collaboration-and-engagement/facebook-2@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/collaboration-and-engagement/instagram-2@2x.png",
+                    "alt": "Collaboration & Engagement; 63% of councils published an annual Climate Action Update report; 53% of councils have ongoing ways for residents to influence Climate Action Plan development; 43% of local authorities have lobbied the UK or devolved governments for further climate action",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/collaboration-and-engagement/facebook-3@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/collaboration-and-engagement/instagram-3@2x.png",
+                    "alt": "Collaboration & Engagement; 10 out of 11 Mayoral Authorities have three or more active schemes providing support or tailored advice to businesses in the local area to help them decarbonise",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/collaboration-and-engagement/facebook-4@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/collaboration-and-engagement/instagram-4@2x.png",
+                    "alt": "Collaboration & Engagement; 5 out of 11 Mayoral Authorities have published a study of different decarbonisation pathways and scenarios to reach net zero",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/collaboration-and-engagement/facebook-5@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/collaboration-and-engagement/instagram-5@2x.png",
+                    "alt": "Collaboration & Engagement; Average scores by council type: 53% Single Tier; 43% District; 60% County; 23% Northern Ireland; 55% Combined Authority",
                 },
             ],
         },
@@ -1142,12 +1178,12 @@ class MethodologyView(
 
         context["methodology_year"] = methodology_year
         context["toc_template"] = f"scoring/methodology/{methodology_year}/_toc.html"
-        context[
-            "intro_template"
-        ] = f"scoring/methodology/{methodology_year}/_intro.html"
-        context[
-            "details_template"
-        ] = f"scoring/methodology/{methodology_year}/_details.html"
+        context["intro_template"] = (
+            f"scoring/methodology/{methodology_year}/_intro.html"
+        )
+        context["details_template"] = (
+            f"scoring/methodology/{methodology_year}/_details.html"
+        )
 
         questions = (
             PlanQuestion.objects.filter(section__year=methodology_year)
