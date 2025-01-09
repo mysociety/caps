@@ -761,6 +761,42 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 },
             ],
         },
+        "s5_bio": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/biodiversity/biodiversity-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/biodiversity/biodiversity-graphic@2x.jpg",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics/biodiversity/biodiversity.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics/biodiversity/facebook-1@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/biodiversity/instagram-1@2x.png",
+                    "alt": "Biodiversity - Enhancing Habitat. 80% of local authorities have reduced mowing or created wildflower habitat in their area. 49% of local authorities turn off or dim their street lighting, including 86% of county councils",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/biodiversity/facebook-2@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/biodiversity/instagram-2@2x.png",
+                    "alt": "Biodiversity - Enhancing Habitat. 6 out of 11 combined authorities provide significant funding for biodiversity",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/biodiversity/facebook-3@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/biodiversity/instagram-3@2x.png",
+                    "alt": "Biodiversity - Room for Improvement. 6% of councils have stopped using all pesticides. 5% of planning authorities have set a higher minimum standard than the 10% Biodiversity Net Gain for new developments. 17% of councils have a tree cover target and a tree management plan",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/biodiversity/facebook-4@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/biodiversity/instagram-4@2x.png",
+                    "alt": "Biodiversity - Mayoral Authorities. 32% of local authorities employ a planning ecologist to enforce Biodiversity Net Gain to new developments",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/biodiversity/facebook-5@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/biodiversity/instagram-5@2x.png",
+                    "alt": "Biodiversity - Average Scores by Council Type. 27% Single Tier. 30% County. 55% Combined Authority. 22% District. 38% Northern Ireland",
+                },
+            ],
+        },
     }
 
     alt_map = dict((ca, non_ca) for non_ca, ca in combined_alt_map.items())
