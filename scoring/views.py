@@ -797,6 +797,37 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 },
             ],
         },
+        "s7_wr_f": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic@2x.jpg",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics/waste-reduction-and-food/facebook-1@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/waste-reduction-and-food/instagram-1@2x.png",
+                    "alt": "Waste Reduction and Food - Leading the Way. 61% of local authorities provide kerbside food waste recycling to most homes. 57% of local authorities support community food growing initiatives. 43% of local authorities support food surplus redistributions initiatives.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/waste-reduction-and-food/facebook-2@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/waste-reduction-and-food/instagram-2@2x.png",
+                    "alt": "Waste Reduction and Food - Room for Improvement. 29% of local authorities are part of a sustainable food partnership. 26% of local authorities support circular economy initiatives. 24% of single tier and county councils provide at least one complete vegetarian meal in schools each week.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/waste-reduction-and-food/facebook-3@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/waste-reduction-and-food/instagram-3@2x.png",
+                    "alt": "Waste Reduction and Food - Falling Behind. 84% of local authorities don't have a sustainable food strategy. 70% of local authorities recycle less than half of their waste from residents. 94% of local authorities send to landfill or incinerate over 300kg of waste per household each year.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics/waste-reduction-and-food/facebook-4@2x.png",
+                    "src_instagram": "scoring/img/social-graphics/waste-reduction-and-food/instagram-4@2x.png",
+                    "alt": "Waste Reduction and Food - Average Scores by Council Type. Single Tier councils score 37%, District councils score 23%, County councils score 30%, and Northern Ireland councils score 35%",
+                },
+            ],
+        },
     }
 
     alt_map = dict((ca, non_ca) for non_ca, ca in combined_alt_map.items())
