@@ -276,24 +276,22 @@
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                     {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
                     <span>{{ section.weighted_score|floatformat:0 }}%</span>
-                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
-                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
-                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
-                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
-                    <!-- TODO: If there is no comparison then display '-' -->
-                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
-                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if variation is negative -->
+                    <!-- TODO: Change text-success to text-danger if variation is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no variation -->
+                    <!-- TODO: Change text-success to text-dark if there is no variation -->
+                    <!-- TODO: If there is no variation then display '-' -->
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+5%</button>
                 </td>
               {% else %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                     <span>{{section.weighted_score|floatformat:0 }}%</span>
-                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
-                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
-                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
-                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
-                    <!-- TODO: If there is no comparison then display '-' -->
-                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
-                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if variation is negative -->
+                    <!-- TODO: Change text-success to text-danger if variation is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no variation -->
+                    <!-- TODO: Change text-success to text-dark if there is no variation -->
+                    <!-- TODO: If there is no variation then display '-' -->
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+5%</button>
                 </td>
               {% endif %}
 
@@ -306,8 +304,7 @@
                     <!-- TODO: Change text-success to text-dark if there is no comparison -->
                     <!-- TODO: If there is no comparison then display '-' -->
                     <!-- TODO: If question didn't exist in previous years then let's add 'NA' with bg-gray-100 text-dark -->
-                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
-                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
+                    <button button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+5%</button>
                 </td>
               {% endfor %}
 
@@ -334,8 +331,7 @@
                     <!-- TODO: Change text-success to text-dark if there is no comparison -->
                     <!-- TODO: If there is no comparison then display '-' -->
                     <!-- TODO: If question didn't exist in previous years then let's add 'NA' with bg-gray-100 text-dark -->
-                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
-                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+1</p>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+1</button>
                 </td>
 
               {% for comparison in answer.comparisons %}
@@ -347,8 +343,7 @@
                     <!-- TODO: Change text-success to text-dark if there is no comparison -->
                     <!-- TODO: If there is no comparison then display '-' -->
                     <!-- TODO: If question didn't exist in previous years then let's add 'NA' with bg-gray-100 text-dark -->
-                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
-                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+1</p>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+1</button>
                 </td>
               {% endfor %}
 
@@ -378,27 +373,23 @@
                 </td>
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                     {{ plan_score.weighted_total|floatformat:0 }}%
-                    <span>{{ section.weighted_score|floatformat:0 }}%</span>
-                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
-                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
-                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
-                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
-                    <!-- TODO: If there is no comparison then display '-' -->
-                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
-                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if variation is negative -->
+                    <!-- TODO: Change text-success to text-danger if variation is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no variation -->
+                    <!-- TODO: Change text-success to text-dark if there is no variation -->
+                    <!-- TODO: If there is no variation then display '-' -->
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+5%</button>
                 </td>
 
               {% for comparison in comparisons %}
                 <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score">
                     {{ comparison.weighted_total|floatformat:0 }}%
-                    <span>{{ section.weighted_score|floatformat:0 }}%</span>
-                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
-                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
-                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
-                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
-                    <!-- TODO: If there is no comparison then display '-' -->
-                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
-                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if variation is negative -->
+                    <!-- TODO: Change text-success to text-danger if variation is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no variation -->
+                    <!-- TODO: Change text-success to text-dark if there is no variation -->
+                    <!-- TODO: If there is no variation then display '-' -->
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+5%</button>
                 </td>
               {% endfor %}
 
