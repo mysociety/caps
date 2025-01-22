@@ -243,29 +243,29 @@
       {% for section in sections %}
         <tbody class="table-question-council__section">
 
-          {% if section.has_negative_points %}
-            <tr data-has-plan="no" class="section-row bg-red-100 text-red-900">
-          {% else %}
-            <tr data-has-plan="no" class="section-row bg-primary-100">
-          {% endif %}
+            <tr data-has-plan="no" class="section-row fw-bold">
 
-                <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
+                <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
                     {{ section.description }}
 
                     {% if section.has_negative_points %}
-                    <div class="d-flex flex-column mb-0 mt-2 fs-7 text-warning">
+                    <div class="d-flex flex-column mb-0 mt-2 fs-7 rounded p-2 bg-red-100 text-warning">
                         <p class="mb-1">
                           {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
                           <strong class="me-2">Penalty marks</strong>
                         </p>
-                        {% if section.only_negative %}
-                          {{ council.name }} was only awarded penalty marks in this section
-                        {% else %}
-                          {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
-                        {% endif %}
+                        <p class="fw-normal mb-1">
+                          {% if section.only_negative %}
+                            {{ council.name }} was only awarded penalty marks in this section
+                          {% else %}
+                            {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
+                          {% endif %}
+                        </p>
+                        <p class="fw-normal mt-1 mb-0">
+                          {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
+                        </p>
                     </div>
                     {% endif %}
-
                     <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
                         {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
                         Show questions
@@ -294,11 +294,6 @@
                     <!-- TODO: If there is no comparison then display '-' -->
                     <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
                     <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
-                    {% if section.has_negative_points %}
-                    <div class="fs-7 mt-2">
-                        {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
-                    </div>
-                    {% endif %}
                 </td>
               {% endif %}
 
@@ -316,7 +311,7 @@
                 </td>
               {% endfor %}
 
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary"></td>
+                <td class="d-none d-md-table-cell top-tier-score border-end border-bottom border-opacity-25 border-primary"></td>
 
                 <td class="button-wrapper p-0 bg-white d-none d-md-table-cell text-start">
                     <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
@@ -377,8 +372,8 @@
       {% endfor %}
 
         <tbody class="table-question-council__section">
-            <tr data-has-plan="no" class="section-row bg-purple-200 fw-bold">
-                <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
+            <tr data-has-plan="no" class="section-row bg-purple-100 fw-bold">
+                <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
                     Total score
                 </td>
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
@@ -407,7 +402,7 @@
                 </td>
               {% endfor %}
 
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary"></td>
+                <td class="d-none d-md-table-cell top-tier-score border-end border-bottom border-opacity-25 border-primary"></td>
                 <td class="button-wrapper p-0 bg-white d-none d-md-table-cell"></td>
             </tr>
         </tbody>
