@@ -276,10 +276,24 @@
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                     {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
                     <span>{{ section.weighted_score|floatformat:0 }}%</span>
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
+                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
+                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
+                    <!-- TODO: If there is no comparison then display '-' -->
+                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
+                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
                 </td>
               {% else %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
-                  <span>{{section.weighted_score|floatformat:0 }}%</span>
+                    <span>{{section.weighted_score|floatformat:0 }}%</span>
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
+                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
+                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
+                    <!-- TODO: If there is no comparison then display '-' -->
+                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
+                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
                     {% if section.has_negative_points %}
                     <div class="fs-7 mt-2">
                         {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
@@ -291,6 +305,14 @@
               {% for comparison in section.comparisons %}
                 <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
                     {{ comparison.weighted_score|floatformat:0 }}%
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
+                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
+                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
+                    <!-- TODO: If there is no comparison then display '-' -->
+                    <!-- TODO: If question didn't exist in previous years then let's add 'NA' with bg-gray-100 text-dark -->
+                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
+                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
                 </td>
               {% endfor %}
 
@@ -311,11 +333,27 @@
 
                 <td data-column="score" class="score border-bottom">
                     <span>{{ answer.score|format_mark }}/{{ answer.max }}</span>
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
+                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
+                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
+                    <!-- TODO: If there is no comparison then display '-' -->
+                    <!-- TODO: If question didn't exist in previous years then let's add 'NA' with bg-gray-100 text-dark -->
+                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
+                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+1</p>
                 </td>
 
               {% for comparison in answer.comparisons %}
                 <td data-column="score" class="d-none d-md-table-cell score border-bottom">
                     <span>{{ comparison.score|format_mark }}/{{ comparison.max }}</span>
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
+                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
+                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
+                    <!-- TODO: If there is no comparison then display '-' -->
+                    <!-- TODO: If question didn't exist in previous years then let's add 'NA' with bg-gray-100 text-dark -->
+                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
+                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+1</p>
                 </td>
               {% endfor %}
 
@@ -345,11 +383,27 @@
                 </td>
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                     {{ plan_score.weighted_total|floatformat:0 }}%
+                    <span>{{ section.weighted_score|floatformat:0 }}%</span>
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
+                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
+                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
+                    <!-- TODO: If there is no comparison then display '-' -->
+                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
+                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
                 </td>
 
               {% for comparison in comparisons %}
                 <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score">
                     {{ comparison.weighted_total|floatformat:0 }}%
+                    <span>{{ section.weighted_score|floatformat:0 }}%</span>
+                    <!-- TODO: Change bg-green-100 to bg-red-100 if comparison is negative -->
+                    <!-- TODO: Change text-success to text-danger if comparison is negative  -->
+                    <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
+                    <!-- TODO: Change text-success to text-dark if there is no comparison -->
+                    <!-- TODO: If there is no comparison then display '-' -->
+                    <!-- TODO Designer: Add tooltip to badge explaining this is a comparison -->
+                    <p class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success">+5%</p>
                 </td>
               {% endfor %}
 
