@@ -348,17 +348,21 @@
               {% endfor %}
 
                 <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
-                  <a href="{% url 'scoring:question' answer.code %}?type={{ council.get_scoring_group.slug }}" class="mx-auto" style="text-transform: none">
-                        {{ answer.council_count }} out of {{ council_count }}
-                    </a>
-                    <span class="fs-8 mt-1 me-0 ms-auto d-block">
-                        {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %}
-                      {% if answer.type == "negative" %}
-                        got <strong>no penalty marks</strong> for this question.
-                      {% else %}
-                        got full marks for this question.
-                      {% endif %}
-                    </span>
+                    <div class="d-flex flex-row gap-2 justify-content-end">
+                      <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
+                        <div class="percentage fs-8">
+                          {% widthratio answer.council_count council_count 100%}%
+                        </div>
+                      </div>
+                      <span class="fs-8 mt-1 me-0 text-start">
+                          {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %}
+                        {% if answer.type == "negative" %}
+                          got <strong>no penalty marks</strong> for this question.
+                        {% else %}
+                          got full marks for this question.
+                        {% endif %}
+                      </span>
+                    </div>
                 </td>
             </tr>
           {% endfor %}
