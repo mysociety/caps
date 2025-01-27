@@ -227,8 +227,16 @@
     </div>
 
     <table class="table-question-council my-4">
-        <thead class="text-bg-primary position-sticky z-index-3 top-0">
-            <tr>
+        <thead class="position-sticky z-index-3 top-0">
+            <tr class="bg-white">
+                <th style="padding: 0 !important;"></th>
+                <th style="padding: 0 !important;" colspan="2">
+                  <div class="bg-primary-100 text-primary text-start fw-normal fs-7 px-3 py-2 my-1 rounded">
+                    <p class="mb-0">&#11045; Comparison with Action Scorecards 2023</p>
+                  </div>
+                </th>
+            </tr>
+            <tr class="text-bg-primary">
                 <th scope="col" class="w-50 text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
                 <th scope="col" class="current-council-score">{{ council.name }}</th>
               {% for comparison in comparisons %}
@@ -281,7 +289,10 @@
                     <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
                     <!-- TODO: Change text-success to text-dark if there is no comparison -->
                     <!-- TODO: If there is no comparison then display '-' -->
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+5%</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">
+                      <span class="bg-green-600 text-light p-1 rounded">Vs</span>
+                      +5%
+                    </button>
                 </td>
               {% else %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
@@ -291,7 +302,7 @@
                     <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
                     <!-- TODO: Change text-success to text-dark if there is no comparison -->
                     <!-- TODO: If there is no comparison then display '-' -->
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+5%</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">&#11045; +5%</button>
                 </td>
               {% endif %}
 
@@ -304,7 +315,7 @@
                     <!-- TODO: Change text-success to text-dark if there is no comparison -->
                     <!-- TODO: If there is no comparison then display '-' -->
                     <!-- TODO: If question didn't exist in previous years then let's add 'NA' with bg-gray-100 text-dark -->
-                    <button button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+5%</button>
+                    <button button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">&#11045; +5%</button>
                 </td>
               {% endfor %}
 
@@ -335,7 +346,7 @@
                         <!-- TODO: Change text-success to text-dark if there is no comparison -->
                         <!-- TODO: If there is no comparison then display '-' -->
                         <!-- TODO: If question didn't exist in previous years then let's add 'NA' with bg-gray-100 text-dark -->
-                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+1</button>
+                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">&#11045; +1</button>
                     </div>
                 </td>
 
@@ -352,7 +363,7 @@
                         <!-- TODO: Change text-success to text-dark if there is no comparison -->
                         <!-- TODO: If there is no comparison then display '-' -->
                         <!-- TODO: If question didn't exist in previous years then let's add 'NA' with bg-gray-100 text-dark -->
-                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+1</button>
+                        <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">&#11045; +1</button>
                     </div>
                 </td>
               {% endfor %}
@@ -392,7 +403,7 @@
                     <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
                     <!-- TODO: Change text-success to text-dark if there is no comparison -->
                     <!-- TODO: If there is no comparison then display '-' -->
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+5%</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">&#11045; +5%</button>
                 </td>
 
               {% for comparison in comparisons %}
@@ -403,7 +414,10 @@
                     <!-- TODO: Change bg-green-100 to bg-gray-100 if there is no comparison -->
                     <!-- TODO: Change text-success to text-dark if there is no comparison -->
                     <!-- TODO: If there is no comparison then display '-' -->
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">+5%</button>
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">
+                      <span class="bg-green-600 text-light p-1 rounded">Vs</span>
+                      +5%
+                    </button>
                 </td>
               {% endfor %}
 
