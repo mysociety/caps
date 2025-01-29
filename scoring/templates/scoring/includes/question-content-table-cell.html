@@ -26,6 +26,7 @@
                 <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#criteria-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
                     View criteria
                 </button>
+                <a href="{% url 'scoring:question' code %}{% if council %}?type={{ council_type_slug }}{% endif %}" class="btn btn-outline-secondary btn-sm" aria-label="Go to this question's page">Go to question</a>
             </div>
 
             <div class="text-muted fs-7" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" hidden="true">
