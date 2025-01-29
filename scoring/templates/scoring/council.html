@@ -230,23 +230,25 @@
         <thead class="position-sticky z-index-3 top-0">
             <tr class="text-bg-primary">
                 <th scope="col" class="w-50 text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
-                <th scope="col"  colspan="2" class="current-council-score border-end border-opacity-25 border-primary">{{ council.name }}</th>
+                <th scope="col"  colspan="3" class="current-council-score border-end border-opacity-25 border-primary">{{ council.name }}</th>
               {% for comparison in comparisons %}
-                <th scope="col" colspan="2" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
+                <th scope="col" colspan="3" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
               {% endfor %}
                 <th scope="col" class="d-none d-md-table-cell">
                     Councils with full marks per question
                 </th>
             </tr>
             <tr class="bg-primary-100">
-                <th scope="col" class="py-2 px-3 border-start"></th>
-                <th scope="col" class="fs-7 py-2 px-3">2025</th>
-                <th scope="col" class="fs-7 py-2 px-3">2023 Variation</th>
+                <th scope="col" class="py-2 border-start"></th>
+                <th scope="col" class="text-primary-500 fs-7 py-2 border-start border-light">2025</th>
+                <th scope="col" class="text-primary-500 fs-7 py-2 js-previous-year-score">2023</th>
+                <th scope="col" class="text-primary-500 fs-7 py-2 border-end border-light">2023 Variation</th>
                 {% for comparison in comparisons %}
-                <th scope="col" class="d-none d-md-table-cell comparison-council py-2 px-3">2025</th>
-                <th scope="col" class="d-none d-md-table-cell comparison-council py-2 px-3">Variation 2023</th>
+                <th scope="col" class="text-primary-500 d-none d-md-table-cell comparison-council fs-7 py-2 border-start border-light">2025</th>
+                <th scope="col" class="text-primary-500 d-none d-md-table-cell comparison-council fs-7 py-2">2023</th>
+                <th scope="col" class="text-primary-500 d-none d-md-table-cell comparison-council fs-7 py-2 border-end border-light">2023 Variation</th>
                 {% endfor %}
-                <th class="py-2 px-3 border-end"></th>
+                <th class="py-2 border-end"></th>
             </tr>
         </thead>
 
@@ -283,10 +285,12 @@
                 </td>
 
               {% if section.top_performer %}
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                  <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                     {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
                     <span>{{ section.weighted_score|floatformat:0 }}%</span>
                   </td>
+                  {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                  <td class="js-previous-year-score">{{ section.weighted_score|floatformat:0 }}%</td>
                   <td>
                       {% comment %} TODO: Change bg-green-100 to bg-red-100 if comparison is negative {% endcomment %}
                       {% comment %} TODO: Change text-success to text-danger if comparison is negative  {% endcomment %}
@@ -294,13 +298,15 @@
                       {% comment %} TODO: Change bg-green-100 to bg-gray-100 if there is no comparison {% endcomment %}
                       {% comment %} TODO: Change text-success to text-dark if there is no comparison {% endcomment %}
                       {% comment %} TODO: If there is no comparison then display '-' {% endcomment %}
-                      <span class="badge align-text-bottom bg-green-100 text-success">&#8593; 5%</span>
+                      <span class="badge align-text-bottom bg-green-100 text-success text-center">&#8593; 5%</span>
                   </td>
               {% else %}
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                     <span>{{section.weighted_score|floatformat:0 }}%</span>
                 </td>
-                <td class="border-end border-bottom border-opacity-25 border-primary">
+                <td class="js-previous-year-score border-bottom border-opacity-25 border-primary">{{ section.weighted_score|floatformat:0 }}%</td>
+                <td class="border-end border-bottom border-opacity-25 border-primary text-center">
                     {% comment %} TODO: Change bg-green-100 to bg-red-100 if comparison is negative {% endcomment %}
                     {% comment %} TODO: Change text-success to text-danger if comparison is negative  {% endcomment %}
                     {% comment %} TODO: Change &#8593; to &#8595; if comparison is negative {% endcomment %}
@@ -315,7 +321,9 @@
                 <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
                     {{ comparison.weighted_score|floatformat:0 }}%
                 </td>
-                <td class="border-end border-bottom border-opacity-25 border-primary">
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                <td class="js-previous-year-score border-bottom border-opacity-25 border-primary">{{ section.weighted_score|floatformat:0 }}%</td>
+                <td class="border-end border-bottom border-opacity-25 border-primary text-center">
                     {% comment %} TODO: Change bg-green-100 to bg-red-100 if comparison is negative {% endcomment %}
                     {% comment %} TODO: Change text-success to text-danger if comparison is negative  {% endcomment %}
                     {% comment %} TODO: Change &#8593; to &#8595; if comparison is negative {% endcomment %}
@@ -342,10 +350,17 @@
                 </td>
 
                 <td data-column="score" class="score border-bottom">
-                    <span class="fs-5">{{ answer.score|format_mark }} <span class="fs-7">out of </span> {{ answer.max }}
+                    <span class="fs-6 d-none">{{ answer.score|format_mark }} <span class="fs-7">out of </span> {{ answer.max }}
                     </span>
+                    {{ answer.score|format_mark }}/{{ answer.max }}
                 </td>
-                <td class="border-end border-bottom border-opacity-25">
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                <td class="js-previous-year-score border-bottom">
+                    <span class="fs-6 d-none">{{ answer.score|format_mark }} <span class="fs-7">out of </span> {{ answer.max }}
+                    </span>
+                    {{ answer.score|format_mark }}/{{ answer.max }}
+                </td>
+                <td class="border-end border-bottom border-opacity-25 text-center">
                     {% comment %} TODO: Change bg-green-100 to bg-red-100 if comparison is negative {% endcomment %}
                     {% comment %} TODO: Change text-success to text-danger if comparison is negative  {% endcomment %}
                     {% comment %} TODO: Change &#8593; to &#8595; if comparison is negative {% endcomment %}
@@ -358,9 +373,14 @@
 
               {% for comparison in answer.comparisons %}
                 <td data-column="score" class="d-none d-md-table-cell score border-bottom">
-                    <span class="fs-5">{{ comparison.score|format_mark }} <span class="fs-7">out of </span> {{ comparison.max }}
+                    <span class="fs-6">{{ comparison.score|format_mark }} <span class="fs-7">out of </span> {{ comparison.max }}
                 </td>
-                <td>
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                <td class="js-previous-year-score border-bottom">
+                    <span class="fs-6">{{ comparison.score|format_mark }} <span class="fs-7">out of </span> {{ comparison.max }}
+                    </span>
+                </td>
+                <td class="border-end border-bottom border-opacity-25 text-center">
                     {% comment %} TODO: Change bg-green-100 to bg-red-100 if comparison is negative {% endcomment %}
                     {% comment %} TODO: Change text-success to text-danger if comparison is negative  {% endcomment %}
                     {% comment %} TODO: Change &#8593; to &#8595; if comparison is negative {% endcomment %}
@@ -373,7 +393,7 @@
               {% endfor %}
 
                 <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
-                    <div class="d-flex flex-row gap-2 justify-content-end">
+                    <div class="d-flex flex-row gap-2 justify-content-center">
                       <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
                         <div class="percentage fs-8">
                           {% widthratio answer.council_count council_count 100%}%
@@ -402,10 +422,12 @@
                 </td>
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
                     {{ plan_score.weighted_total|floatformat:0 }}%
-
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Comparison with Action Scorecards 2023" class="badge small ms-2 mb-0 align-text-bottom bg-green-100 text-success border-0">&#11045; +5%</button>
                 </td>
-                <td>
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                <td class="js-previous-year-score border-bottom border-opacity-25 border-primary">
+                    {{ plan_score.weighted_total|floatformat:0 }}%
+                </td>
+                <td class="text-center border-bottom border-opacity-25 border-primary">
                     {% comment %} TODO: Change bg-green-100 to bg-red-100 if comparison is negative {% endcomment %}
                     {% comment %} TODO: Change text-success to text-danger if comparison is negative  {% endcomment %}
                     {% comment %} TODO: Change &#8593; to &#8595; if comparison is negative {% endcomment %}
@@ -419,7 +441,11 @@
                 <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score">
                     {{ comparison.weighted_total|floatformat:0 }}%
                 </td>
-                <td>
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                <td class="js-previous-year-score d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score">
+                    {{ comparison.weighted_total|floatformat:0 }}%
+                </td>
+                <td class="text-center border-bottom border-opacity-25 border-primary">
                     {% comment %} TODO: Change bg-green-100 to bg-red-100 if comparison is negative {% endcomment %}
                     {% comment %} TODO: Change text-success to text-danger if comparison is negative  {% endcomment %}
                     {% comment %} TODO: Change &#8593; to &#8595; if comparison is negative {% endcomment %}
@@ -428,6 +454,7 @@
                     {% comment %} TODO: If there is no comparison then display '-' {% endcomment %}
                     <span class="badge align-text-bottom bg-green-100 text-success">&#8593; 5%</span>
                 </td>
+
               {% endfor %}
 
                 <td class="d-none d-md-table-cell top-tier-score border-end border-bottom border-opacity-25 border-primary border-primary"></td>
