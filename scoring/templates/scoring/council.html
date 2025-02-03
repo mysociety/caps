@@ -379,14 +379,10 @@
                 </td>
 
                 <td data-column="score" class="score border-bottom">
-                    <span class="fs-6 d-none">{{ answer.score|format_mark }} <span class="fs-7">out of </span> {{ answer.max }}
-                    </span>
                     {{ answer.score|format_mark }}/{{ answer.max }}
                 </td>
                 {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
                 <td class="js-previous-year-score border-bottom">
-                    <span class="fs-6 d-none">{{ answer.score|format_mark }} <span class="fs-7">out of </span> {{ answer.max }}
-                    </span>
                     {{ answer.score|format_mark }}/{{ answer.max }}
                 </td>
                 <td class="border-end border-bottom border-opacity-25 text-center">
@@ -402,12 +398,11 @@
 
               {% for comparison in answer.comparisons %}
                 <td data-column="score" class="d-none d-md-table-cell score border-bottom">
-                    <span class="fs-6">{{ comparison.score|format_mark }} <span class="fs-7">out of </span> {{ comparison.max }}
+                    {{ comparison.score|format_mark }}/{{ comparison.max }}
                 </td>
                 {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
                 <td class="js-previous-year-score border-bottom">
-                    <span class="fs-6">{{ comparison.score|format_mark }} <span class="fs-7">out of </span> {{ comparison.max }}
-                    </span>
+                    {{ comparison.score|format_mark }}/{{ comparison.max }}
                 </td>
                 <td class="border-end border-bottom border-opacity-25 text-center">
                     {% comment %} TODO: Change bg-green-100 to bg-red-100 if comparison is negative {% endcomment %}
