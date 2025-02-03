@@ -161,7 +161,7 @@
                 </div>
                 <div class="card-body">
                     <form id="advancedFilterForm" action=".">
-                      {% if comparisons|length > 2 %}
+                      {% if comparisons|length > 1 %}
                         <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
                       {% else %}
                         <input class="form-control searchbar js-location-compare-autocomplete mb-3" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name" data-council_type="{{ council.get_scoring_group.slug }}">
