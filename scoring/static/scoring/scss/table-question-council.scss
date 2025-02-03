@@ -75,3 +75,18 @@ $question-types: (
         }
     }
 }
+
+// Previous year comparison tool
+.js-previous-year-score {
+    display: none;
+}
+
+.js-previous-year-score-display {
+    .js-current-year-score {
+        display: none;
+    }
+
+    .js-previous-year-score {
+        display: table-cell;
+    }
+}

@@ -154,7 +154,7 @@
     </div>
 
     <div class="row my-4 my-lg-5">
-        <div class="col-md-6 col-lg-5 d-none d-md-block">
+        <div class="col-md-6 col-lg-4 d-none d-md-block">
             <div class="card h-100">
                 <div class="card-header">
                     <h3 class="fs-6 mb-0">Choose {% include "scoring/includes/scoring-group-name.html" with group=council.get_scoring_group.slug plural=1 %} to compare</h3>
@@ -192,7 +192,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-7">
+        <div class="col-md-6 col-lg-8">
             <div class="card">
                 <div class="card-header">
                     <h3 class="fs-6 mb-0">Filter questions in the table</h3>
@@ -215,6 +215,10 @@
                             <input class="form-check-input" type="checkbox" id="expand-all-sections">
                             <label class="form-check-label" for="expand-all-sections">Expand all sections</label>
                         </div>
+                        <div class="form-check-flex position-relative">
+                          <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-score" aria-checked="false" role="switch">
+                          <label class="form-check-label" for="js-toggle-previous-year-score"><span class="badge bg-primary-100 text-primary position-absolute" style="top: -1rem;">NEW</span>Display 2023 scores</label>
+                        </div>
                       </div>
                 </div>
             </div>
@@ -230,9 +234,11 @@
         <thead class="position-sticky z-index-3 top-0">
             <tr class="text-bg-primary">
                 <th scope="col" class="w-50 text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
-                <th scope="col"  colspan="3" class="current-council-score border-end border-opacity-25 border-primary">{{ council.name }}</th>
+                <th scope="col"  colspan="3" class="js-previous-year-score current-council-score border-end border-opacity-25 border-primary">{{ council.name }}</th>
+                <th scope="col"  colspan="2" class="js-current-year-score current-council-score border-end border-opacity-25 border-primary">{{ council.name }}</th>
               {% for comparison in comparisons %}
-                <th scope="col" colspan="3" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
+                <th scope="col" colspan="3" class="js-previous-year-score d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
+                <th scope="col" colspan="2" class="js-current-year-score d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
               {% endfor %}
                 <th scope="col" class="d-none d-md-table-cell">
                     Councils with full marks per question
@@ -242,11 +248,13 @@
                 <th scope="col" class="py-2 border-start"></th>
                 <th scope="col" class="text-primary-500 fs-7 py-2 border-start border-light">2025</th>
                 <th scope="col" class="text-primary-500 fs-7 py-2 js-previous-year-score">2023</th>
-                <th scope="col" class="text-primary-500 fs-7 py-2 border-end border-light">2023 Variation</th>
+                <th scope="col" class="js-current-year-score text-primary-500 fs-7 py-2 border-end border-light">2023 Variation</th>
+                <th scope="col" class="js-previous-year-score text-primary-500 fs-7 py-2 border-end border-light">Variation</th>
                 {% for comparison in comparisons %}
                 <th scope="col" class="text-primary-500 d-none d-md-table-cell comparison-council fs-7 py-2 border-start border-light">2025</th>
                 <th scope="col" class="text-primary-500 d-none d-md-table-cell comparison-council fs-7 py-2">2023</th>
                 <th scope="col" class="text-primary-500 d-none d-md-table-cell comparison-council fs-7 py-2 border-end border-light">2023 Variation</th>
+                <th scope="col" class="js-previous-year-score text-primary-500 fs-7 py-2 border-end border-light">Variation</th>
                 {% endfor %}
                 <th class="py-2 border-end"></th>
             </tr>
