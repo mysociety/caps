@@ -78,15 +78,15 @@ $question-types: (
 
 // Previous year comparison tool
 .js-previous-year-score {
-    display: none;
+    display: none !important;
 }
 
 .js-previous-year-score-display {
     .js-current-year-score {
-        display: none;
+        display: none !important;
     }
 
     .js-previous-year-score {
-        display: table-cell;
+        display: table-cell !important;
     }
 }
