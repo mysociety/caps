@@ -539,6 +539,11 @@ class SearchResultsView(HaystackSearchView):
     """
 
     def save_search(self, context):
+        # we occasionally get super long search strings which cause an error becuase the saved search
+        # field only copes with searches up to 1000 characters so truncate those as realistically they
+        # are not great searches.
+        if len(context["query"]) > 1000:
+            context["query"] = context["query"][:1000]
         if context["query"] and context["page_obj"].number == 1:
             # Save the search.
             saved_search = SavedSearch(
