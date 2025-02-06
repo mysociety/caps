@@ -377,7 +377,9 @@ class Council(models.Model):
             assignments__council=self, type__slug="emissions"
         )
 
-    def get_related_councils(self, cut_off: int = 10) -> List[dict]:
+    def get_related_councils(
+        self, cut_off: int = 10, scoring_group: str = None
+    ) -> List[dict]:
         """
         get all related councils
         """
@@ -397,6 +399,13 @@ class Council(models.Model):
             declared_emergency=Min("emergencydeclaration__date_declared"),
         )
 
+        if scoring_group is not None:
+            group = self.SCORING_GROUPS[scoring_group]
+            councils = councils.filter(
+                authority_type__in=group["types"],
+                country__in=group["countries"],
+            )
+
         council_lookup = {council.id: council for council in councils}
         council_ids = list(council_lookup.keys()) + [self.id]
 
@@ -413,7 +422,14 @@ class Council(models.Model):
             labels[comparison.label.type_id][comparison.council_id] = comparison
 
         processed_councils = []
-        for d in self.distances.all().order_by("type_id", "-match_score"):
+        distances = self.distances.all().order_by("type_id", "-match_score")
+        if scoring_group is not None:
+            group = self.SCORING_GROUPS[scoring_group]
+            distances = distances.filter(
+                council_b__authority_type__in=group["types"],
+                council_b__country__in=group["countries"],
+            )
+        for d in distances:
             # deepcopy to make sure the same council in multiple comparison types
             # are seperate objects with seperate links to Distance objects
             nc = deepcopy(council_lookup[d.council_b_id])

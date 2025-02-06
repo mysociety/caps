@@ -407,7 +407,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         )
         context["comparisons"] = comparisons
 
-        for group in council.get_related_councils(5):
+        for group in council.get_related_councils(5, group["slug"]):
             if group["type"].slug == "composite":
                 if comparisons:
                     # Filter out any related councils that are already being compared
