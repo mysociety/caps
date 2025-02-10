@@ -11,7 +11,17 @@ import os
 import socket
 from datetime import date
 
+import environ
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+env_file = os.path.join(BASE_DIR, ".env")
+
+env = environ.Env(
+    PLAN_YEAR=(str, "2023"),
+    METHODOLOGY_YEAR=(str, "2025"),
+)
+environ.Env.read_env(env_file)
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
@@ -153,8 +163,8 @@ DECLARATIONS_CSV = os.path.join(DATA_DIR, DECLARATIONS_CSV_NAME)
 RELATED_SEARCH_THRESHOLD = 0.7
 RELATED_SEARCH_THRESHOLD_LOOSE = 0.5
 
-PLAN_YEAR = 2023
-METHODOLOGY_YEAR = 2025
+PLAN_YEAR = env("PLAN_YEAR")
+METHODOLOGY_YEAR = env("METHODOLOGY_YEAR")
 
 PLAN_SCORECARD_DATASET_DETAILS = {
     "org": "mysociety",
