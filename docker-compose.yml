@@ -34,6 +34,8 @@ services:
       - FEEDBACK_EMAIL=${FEEDBACK_EMAIL:-xxx}
       - EMAIL_HOST=${EMAIL_HOST:-localhost}
       - EMAIL_PORT=${EMAIL_PORT:-25}
+      - PLAN_YEAR=${PLAN_YEAR:-2023}
+      - METHODOLOGY_YEAR=${METHODOLOGY_YEAR:-2025}
 
     depends_on:
       - postgres
