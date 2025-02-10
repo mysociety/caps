@@ -136,7 +136,7 @@ class Command(BaseCommand):
             try:
                 council = Council.objects.get(gss_code=row["gss"])
             except Council.DoesNotExist:
-                print("Did not find council in db: {}".format(row["name"]))
+                print("Did not find council in db: {}".format(row["council"]))
                 continue
 
             plan_score, created = PlanScore.objects.get_or_create(
@@ -267,6 +267,7 @@ class Command(BaseCommand):
 
         # can fix at series level rather than testing individual entries
         df["score"] = df["score"].fillna(0)
+        df["score"] = df["score"].str.replace("-", "0")
         to_create = []
 
         # more efficent just to delete everything and quickly reload
