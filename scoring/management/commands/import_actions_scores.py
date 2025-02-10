@@ -38,7 +38,7 @@ NOBOLD = "\033[0m"
 class Command(BaseCommand):
     help = "Imports plan scores"
 
-    YEAR = 2023  # settings.PLAN_YEAR
+    YEAR = settings.PLAN_YEAR
     SCORECARD_DATA_DIR = Path(settings.DATA_DIR, "scorecard_data", str(YEAR))
     SECTION_SCORES_CSV = Path(SCORECARD_DATA_DIR, "raw_section_marks.csv")
     OVERALL_SCORES_CSV = Path(SCORECARD_DATA_DIR, "all_section_scores.csv")
