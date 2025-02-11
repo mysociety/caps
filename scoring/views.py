@@ -61,6 +61,7 @@ class PrivacyView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Privacy Policy"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year
         return context
 
 
@@ -1229,6 +1230,7 @@ class LocationResultsView(PrivateScorecardsAccessMixin, BaseLocationResultsView)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Choose a council"
+        context["plan_year"] = self.request.year
         return context
 
 
