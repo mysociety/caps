@@ -76,21 +76,39 @@
                 <li id="home-page" class="nav-item">
                     <a class="nav-link link-primary" href="{% url 'scoring:home' %}">Scorecards</a>
                 </li>
-                <li id="methodology-page" class="nav-item">
-                    <a class="nav-link link-primary" href="{% url 'scoring:sections' %}">Sections</a>
-                </li>
-                <li id="methodology-page" class="nav-item">
-                    <a class="nav-link link-primary" href="{% url 'scoring:methodology' %}">2025 Draft Methodology</a>
-                </li>
-                <li id="how-to-page" class="nav-item">
-                    <a class="nav-link link-primary" href="{% url 'generic:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
-                </li>
-                <li id="about-page" class="nav-item">
-                    <a class="nav-link link-primary" href="{% url 'generic:about' %}">About</a>
-                </li>
-                <li id="contact-page" class="nav-item">
-                    <a class="nav-link link-primary" href="{% url 'generic:contact' %}">Contact</a>
-                </li>
+                {% if current_plan_year %}
+                    <li id="sections-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'scoring:sections' %}">Sections</a>
+                    </li>
+                    <li id="methodology-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'scoring:methodology' %}">{{ plan_year }} Methodology</a>
+                    </li>
+                    <li id="how-to-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'generic:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
+                    </li>
+                    <li id="about-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'generic:about' %}">About</a>
+                    </li>
+                    <li id="contact-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'generic:contact' %}">Contact</a>
+                    </li>
+                {% else %}
+                    <li id="sections-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'year_scoring:sections' plan_year %}">Sections</a>
+                    </li>
+                    <li id="methodology-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'year_scoring:methodology' plan_year %}">{{ plan_year }} Methodology</a>
+                    </li>
+                    <li id="how-to-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'generic:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
+                    </li>
+                    <li id="about-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'generic:about' %}">About</a>
+                    </li>
+                    <li id="contact-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'generic:contact' %}">Contact</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
