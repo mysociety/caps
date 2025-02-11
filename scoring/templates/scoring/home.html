@@ -15,7 +15,11 @@
             <p class="mb-4" style="max-width: 650px;">Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions or less, depending on council type, across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  
             </p>
             <a class="btn btn-outline-primary me-3 mb-3" href="{% url 'year_scoring:methodology' plan_year %}"> Learn more about the methodology</a>
-            <a href="{% url 'scoring:sections' %}" class="btn btn-outline-primary mb-3">Go to sections</a>
+            {% if current_plan_year %}
+                <a href="{% url 'scoring:sections' %}" class="btn btn-outline-primary mb-3">Go to sections</a>
+            {% else %}
+                <a href="{% url 'year_scoring:sections' plan_year %}" class="btn btn-outline-primary mb-3">Go to sections</a>
+            {% endif %}
         </div>
     </div>
 
@@ -51,42 +55,43 @@
                             </th>
                             <th scope="col">
                                 <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-1" href="{% url 'scoring:section' 's1_b_h' %}">Building &amp; Heating</a>
+                                    {% include section_link_template with section_code='s1_b_h' section_name='Building &amp; Heating' %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-1 {% if sorted_by == 's1_b_h' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-2" href="{% url 'scoring:section' 's2_tran' %}">Transport</a>
+                                    {% include section_link_template with section_code='s2_tran' section_name='Transport' %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-2 {% if sorted_by == 's2_tran' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-3" href="{% url 'scoring:section' 's3_p_lu' %}">Planning &amp; Land Use</a>
+                                    {% include section_link_template with section_code='s3_p_lu' section_name='Planning &amp; Land Use' %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-3 {% if sorted_by == 's3_p_lu' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-4" href="{% url 'scoring:section' 's4_g_f' %}">Governance &amp; Finance</a>
+                                    {% include section_link_template with section_code='s4_g_f' section_name='Governance &amp; Finance' %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-4 {% if sorted_by == 's4_g_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-5" href="{% url 'scoring:section' 's5_bio' %}">Biodiversity</a>
+                                    {% include section_link_template with section_code='s5_bio' section_name='Biodiversity' %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-5 {% if sorted_by == 's5_bio' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-6" href="{% url 'scoring:section' 's6_c_e' %}">Collaboration &amp; Engagement</a>
+                                    {% include section_link_template with section_code='s6_c_e' section_name='Collaboration &amp; Engagement' %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-6 {% if sorted_by == 's6_c_e' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="section-title">
+                                    {% include section_link_template with section_code='s7_wr_f' section_name='Waste Reduction &amp; Food' %}
                                     <a class="text-decoration-none fw-bold link-category-7" href="{% url 'scoring:section' 's7_wr_f' %}">Waste Reduction &amp; Food</a>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-7 {% if sorted_by == 's7_wr_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
@@ -136,7 +141,7 @@
                                     {% else %}
                                         <div class="pe-4"></div>
                                     {% endif %}
-                                    <a class="council-link" href="{% url 'scoring:council' council.slug %}">{{ council.name }}</a>
+                                    {% include council_link_template with plan_year=plan_year council=council %}
                                 </div>
                             </th>
                             <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="{{ council.percentage|default:"0" }}">
