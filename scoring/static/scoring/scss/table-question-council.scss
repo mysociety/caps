@@ -31,6 +31,10 @@
             background: lighten($color-scorecard-yellow, 30%) !important;
         }
     }
+
+    .how-is-marked-section {
+        max-width: 350px;
+    }
 }
 
 .top-tier-score {
