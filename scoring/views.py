@@ -1244,6 +1244,7 @@ class AboutView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, TemplateV
         context["current_page"] = "about-page"
         context["canonical_path"] = self.request.path
         context["plan_year"] = self.request.year
+        context["year_content"] = f"scoring/includes/{self.request.year}_about.html"
         return context
 
 

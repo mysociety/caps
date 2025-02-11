@@ -50,10 +50,10 @@ scoring_patterns = [
         views.MethodologyView.as_view(),
         name="methodology",
     ),
+    path("about/", views.AboutView.as_view(), name="about"),
 ]
 
 non_scoring_patterns = [
-    path("about/", views.AboutView.as_view(), name="about"),
     path("contact/", views.ContactView.as_view(), name="contact"),
     path(
         "how-to-use-the-scorecards/",
