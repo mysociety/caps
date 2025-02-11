@@ -1241,6 +1241,7 @@ class AboutView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, TemplateV
         context["page_title"] = "About"
         context["current_page"] = "about-page"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year
         return context
 
 
@@ -1507,6 +1508,7 @@ class ContactView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templat
         context["page_title"] = "Contact"
         context["current_page"] = "contact-page"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year
         return context
 
 
@@ -1519,6 +1521,7 @@ class HowToUseView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         context["page_title"] = "How to use the Scorecards"
         context["current_page"] = "how-to-page"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year
         return context
 
 
