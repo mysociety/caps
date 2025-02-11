@@ -52,10 +52,11 @@
             <div class="navbar-nav">
                 <div class="nav-item dropdown">
                     <a class="dropdown-toggle btn btn-primary" href="#" role="button" id="scorecardsVersion" data-bs-toggle="dropdown" aria-expanded="false">
-                        2023
+                        {{ plan_year }}
                     </a>
                     <ul class="dropdown-menu position-absolute ms-n3 shadow-lg" aria-labelledby="scorecardsVersion">
-                        <li><a class="dropdown-item" href="{% url 'scoring:home' %}" aria-current="page">2023 Action Scorecards</a></li>
+                        <li><a class="dropdown-item" href="{% url 'scoring:home' %}"{% if plan_year == '2025' %} aria-current="page"{% endif %}>2025 Action Scorecards</a></li>
+                        <li><a class="dropdown-item" href="{% url 'year_scoring:home' 2023 %}"{% if plan_year == '2023' %} aria-current="page"{% endif %}>2023 Action Scorecards</a></li>
                         <li><a class="dropdown-item" href="{% url 'scoring2022:home' %}">2021 Plan Scorecards</a></li>
                     </ul>
                 </div>
