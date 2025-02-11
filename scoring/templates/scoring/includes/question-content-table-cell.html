@@ -1,3 +1,6 @@
+{% load django_bootstrap5 %}
+{% load caps_templatetags %}
+
 <div class="question-content-table text-start">
     <div class="row">
         <div class="col-1 mb-2">
@@ -7,6 +10,27 @@
 
             {{ question_text.strip | linebreaks }} 
 
+            {% comment %} Mobile version {% endcomment %}
+            <dl class="d-md-none mb-3 d-flex flex-row gap-3">
+                <div class="card">
+                    <dt class="card-header fs-7">2025</dt>
+                    <dd class="card-body text-center py-2 mb-0">
+                        {{ answer.score|format_mark }}/{{ answer.max }}
+                    </dd>
+                </div>
+                <div class="card">
+                    <dt class="card-header fs-7">2023</dt>
+                    <dd class="card-body text-center py-2 mb-0">
+                        {{ answer.score|format_mark }}/{{ answer.max }}
+                    </dd>
+                </div>
+                <div class="card">
+                    <dt class="card-header fs-7">Variation</dt>
+                    <dd class="card-body text-success py-2 mb-0 text-center">
+                        &#8593; 1
+                    </dd>
+                </div>
+            </dl>
 
             {% if question_type == "negative" %}
                 <div class="d-flex mb-3 fs-7 text-red-500">
