@@ -38,7 +38,7 @@ NOBOLD = "\033[0m"
 class Command(BaseCommand):
     help = "Imports plan scores"
 
-    YEAR = 2023  # settings.PLAN_YEAR
+    YEAR = settings.PLAN_YEAR
     SCORECARD_DATA_DIR = Path(settings.DATA_DIR, "scorecard_data", str(YEAR))
     SECTION_SCORES_CSV = Path(SCORECARD_DATA_DIR, "raw_section_marks.csv")
     OVERALL_SCORES_CSV = Path(SCORECARD_DATA_DIR, "all_section_scores.csv")
@@ -136,7 +136,7 @@ class Command(BaseCommand):
             try:
                 council = Council.objects.get(gss_code=row["gss"])
             except Council.DoesNotExist:
-                print("Did not find council in db: {}".format(row["name"]))
+                print("Did not find council in db: {}".format(row["council"]))
                 continue
 
             plan_score, created = PlanScore.objects.get_or_create(
@@ -267,6 +267,7 @@ class Command(BaseCommand):
 
         # can fix at series level rather than testing individual entries
         df["score"] = df["score"].fillna(0)
+        df["score"] = df["score"].str.replace("-", "0")
         to_create = []
 
         # more efficent just to delete everything and quickly reload

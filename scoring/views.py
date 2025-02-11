@@ -61,6 +61,7 @@ class PrivacyView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Privacy Policy"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year
         return context
 
 
@@ -209,7 +210,22 @@ class HomePageView(
         context["sorted_by"] = sorted_by
         context["council_data"] = councils
         context["averages"] = averages
+        context["current_plan_year"] = False
         context["plan_year"] = self.request.year
+        context["council_link_template"] = (
+            "scoring/includes/council_link_with_year.html"
+        )
+        context["section_link_template"] = (
+            "scoring/includes/section_link_with_year.html"
+        )
+        if self.request.year == settings.PLAN_YEAR:
+            context["current_plan_year"] = True
+            context["council_link_template"] = (
+                "scoring/includes/council_link_current.html"
+            )
+            context["section_link_template"] = (
+                "scoring/includes/section_link_current.html"
+            )
 
         title_format_strings = {
             "single": "Council Climate Action Scorecards",
@@ -1023,9 +1039,19 @@ class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         for section in (
             PlanSection.objects.filter(year=self.request.year).order_by("code").all()
         ):
+            if self.request.year == settings.PLAN_YEAR:
+                url = reverse("scoring:section", args=(section.code,))
+            else:
+                url = reverse(
+                    "year_scoring:section",
+                    args=(
+                        self.request.year,
+                        section.code,
+                    ),
+                )
             details = {
                 "name": section.description,
-                "url": reverse("scoring:section", args=(section.code,)),
+                "url": url,
                 "description": section.long_description,
             }
             if section.code in self.sections:
@@ -1204,6 +1230,7 @@ class LocationResultsView(PrivateScorecardsAccessMixin, BaseLocationResultsView)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Choose a council"
+        context["plan_year"] = self.request.year
         return context
 
 
@@ -1216,6 +1243,8 @@ class AboutView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, TemplateV
         context["page_title"] = "About"
         context["current_page"] = "about-page"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year
+        context["year_content"] = f"scoring/includes/{self.request.year}_about.html"
         return context
 
 
@@ -1482,6 +1511,7 @@ class ContactView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templat
         context["page_title"] = "Contact"
         context["current_page"] = "contact-page"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year
         return context
 
 
@@ -1494,6 +1524,7 @@ class HowToUseView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         context["page_title"] = "How to use the Scorecards"
         context["current_page"] = "how-to-page"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year
         return context
 
 
