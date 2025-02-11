@@ -27,7 +27,7 @@
                 <a href="{% url 'scoring:question' code %}{% if council %}?type={{ council_type_slug }}{% endif %}">Visit question &#8594;</a>
             </div>
 
-            <div class="text-muted fs-7" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" hidden="true">
+            <div class="text-muted fs-7 how-is-marked-section" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" hidden="true">
                 <dl class="row mt-3 mb-0">
                     <dt class="col-sm-4">Source</dt>
                     <dd class="col-sm-8">{{ how_marked }}</dd>
