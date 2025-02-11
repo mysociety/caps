@@ -4,20 +4,20 @@
             <span class="badge bg-secondary p-1 question-no">{{ pretty_code }}</span>
         </div>
         <div class="col-11">
-            <a href="{% url 'scoring:question' code %}{% if council %}?type={{ council_type_slug }}{% endif %}">
-                {{ question_text.strip | linebreaks }}
-            </a>
 
-          {% if question_type == "negative" %}
-            <div class="d-flex mb-3 fs-7 text-red-500">
-                {% include 'caps/icons/warning.html' with classes='mt-1 me-2 flex-shrink-0 flex-grow-0' width='1em' height='1em' role='presentation' %}
-                <p class="mb-0">
-                    <strong>Penalty marks:</strong>
-                    The maximum number of points for this question is 0.
-                    <a href="{% url 'year_scoring:methodology' plan_year %}#section-question-weighting-within" style="color: inherit;">Read more about penalty mark questions.</a>
-                </p>
-            </div>
-          {% endif %}
+            {{ question_text.strip | linebreaks }} 
+
+
+            {% if question_type == "negative" %}
+                <div class="d-flex mb-3 fs-7 text-red-500">
+                    {% include 'caps/icons/warning.html' with classes='mt-1 me-2 flex-shrink-0 flex-grow-0' width='1em' height='1em' role='presentation' %}
+                    <p class="mb-0">
+                        <strong>Penalty marks:</strong>
+                        The maximum number of points for this question is 0.
+                        <a href="{% url 'year_scoring:methodology' plan_year %}#section-question-weighting-within" style="color: inherit;">Read more about penalty mark questions.</a>
+                    </p>
+                </div>
+            {% endif %}
 
             <div class="d-flex align-items-center gap-3">
                 <button type="button" class="btn btn-outline-secondary btn-sm js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
@@ -26,7 +26,7 @@
                 <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#criteria-section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
                     View criteria
                 </button>
-                <a href="{% url 'scoring:question' code %}{% if council %}?type={{ council_type_slug }}{% endif %}" class="btn btn-outline-secondary btn-sm" aria-label="Go to this question's page">Go to question</a>
+                <a href="{% url 'scoring:question' code %}{% if council %}?type={{ council_type_slug }}{% endif %}">Visit question <span class="text-decoration-none">&#8594;</span></a>
             </div>
 
             <div class="text-muted fs-7" id="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}" hidden="true">
