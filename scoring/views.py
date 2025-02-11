@@ -209,7 +209,22 @@ class HomePageView(
         context["sorted_by"] = sorted_by
         context["council_data"] = councils
         context["averages"] = averages
+        context["current_plan_year"] = False
         context["plan_year"] = self.request.year
+        context["council_link_template"] = (
+            "scoring/includes/council_link_with_year.html"
+        )
+        context["section_link_template"] = (
+            "scoring/includes/section_link_with_year.html"
+        )
+        if self.request.year == settings.PLAN_YEAR:
+            context["current_plan_year"] = True
+            context["council_link_template"] = (
+                "scoring/includes/council_link_current.html"
+            )
+            context["section_link_template"] = (
+                "scoring/includes/section_link_current.html"
+            )
 
         title_format_strings = {
             "single": "Council Climate Action Scorecards",
@@ -1023,9 +1038,19 @@ class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         for section in (
             PlanSection.objects.filter(year=self.request.year).order_by("code").all()
         ):
+            if self.request.year == settings.PLAN_YEAR:
+                url = reverse("scoring:section", args=(section.code,))
+            else:
+                url = reverse(
+                    "year_scoring:section",
+                    args=(
+                        self.request.year,
+                        section.code,
+                    ),
+                )
             details = {
                 "name": section.description,
-                "url": reverse("scoring:section", args=(section.code,)),
+                "url": url,
                 "description": section.long_description,
             }
             if section.code in self.sections:
