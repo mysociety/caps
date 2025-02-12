@@ -95,7 +95,11 @@ class PlanScore(models.Model):
     total = models.FloatField(default=0)
 
     top_performer = models.CharField(
-        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True, blank=True
+    )
+
+    most_improved = models.CharField(
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True, blank=True
     )
 
     # filter data
@@ -181,7 +185,10 @@ class PlanSection(models.Model):
     description = models.CharField(max_length=1000)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
     top_performer = models.CharField(
-        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True, blank=True
+    )
+    most_improved = models.CharField(
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True, blank=True
     )
     long_description = models.TextField(null=True, blank=True)
 
@@ -313,7 +320,10 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
     # this is a percentage
     weighted_score = models.FloatField(default=0)
     top_performer = models.CharField(
-        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True, blank=True
+    )
+    most_improved = models.CharField(
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True, blank=True
     )
 
     def questions_answered(self, prev_year=None):
