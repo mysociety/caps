@@ -21,6 +21,16 @@ scoring_patterns = [
         name="council_preview",
     ),
     path(
+        "councils/most_improved/<int:previous_year>/",
+        views.OverallMostImproved.as_view(),
+        name="overall_most_improved",
+    ),
+    path(
+        "councils/<str:group>/most_improved/<int:previous_year>/",
+        views.CouncilMostImproved.as_view(),
+        name="council_most_improved",
+    ),
+    path(
         "councils/<slug:slug>/preview/top-performer",
         views.CouncilPreviewTopPerfomer.as_view(),
         name="council_top_performer_preview",
@@ -32,6 +42,11 @@ scoring_patterns = [
         "section/<slug:slug>/top-performer/preview/",
         views.SectionTopPerformerPreview.as_view(),
         name="section_top_preview",
+    ),
+    path(
+        "section/<str:section>/most_improved/<int:previous_year>/",
+        views.SectionMostImproved.as_view(),
+        name="section_most_improved",
     ),
     path(
         "section/<slug:slug>/top-performer/<str:council>/preview/",
