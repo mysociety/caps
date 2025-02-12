@@ -97,6 +97,10 @@ class PlanScore(models.Model):
         max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
     )
 
+    most_improved = models.CharField(
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
+    )
+
     # filter data
     deprivation_quintile = models.SmallIntegerField(default=0)
     population = models.CharField(max_length=20, null=True, blank=True)
@@ -177,6 +181,9 @@ class PlanSection(models.Model):
     description = models.CharField(max_length=1000)
     year = models.PositiveSmallIntegerField(null=True, blank=True)
     top_performer = models.CharField(
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
+    )
+    most_improved = models.CharField(
         max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
     )
     long_description = models.TextField(null=True, blank=True)
@@ -309,6 +316,9 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
     # this is a percentage
     weighted_score = models.FloatField(default=0)
     top_performer = models.CharField(
+        max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
+    )
+    most_improved = models.CharField(
         max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
     )
 
