@@ -627,6 +627,154 @@ class CouncilPreview(DetailView):
         return context
 
 
+class MostImprovedBase(DetailView):
+    def calculate_change(self, current_score, previous_score):
+        return ((current_score - previous_score) / previous_score) * 100
+
+    def get_changes(self, plan_score, previous_year):
+        previous_plan_score = PlanScore.objects.get(
+            council=plan_score.council, year=previous_year
+        )
+        previous_score = previous_plan_score.weighted_total
+
+        change = self.calculate_change(plan_score.weighted_total, previous_score)
+
+        return previous_score, change
+
+    def add_nosplit_span(self, council):
+        add_nosplit_span = False
+        words = council.name.split()
+        last_two_words = f"{words[-2]} {words[-1]}"
+        if len(last_two_words) < 16:
+            add_nosplit_span = True
+
+        return add_nosplit_span
+
+    def add_common_context(self, context, previous_year, council):
+        context["add_nosplit_span"] = self.add_nosplit_span(council)
+        context["plan_year"] = self.request.year
+        context["previous_year"] = previous_year
+        context["council"] = council
+        context["page_title"] = council.name
+
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class OverallMostImproved(MostImprovedBase):
+    model = PlanScore
+    context_object_name = "plan_score"
+    template_name = "scoring/overall-most-improved.html"
+
+    def get_object(self, queryset=None):
+        plan_score = get_object_or_404(
+            PlanScore,
+            year=self.request.year,
+            most_improved="overall",
+        )
+
+        return plan_score
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        plan_score = context.get("plan_score")
+        previous_year = self.kwargs["previous_year"]
+
+        council = plan_score.council
+        last_score, change = self.get_changes(plan_score, previous_year)
+
+        context = self.add_common_context(context, previous_year, council)
+        context["current_score"] = plan_score.weighted_total
+        context["last_score"] = last_score
+        context["change"] = change
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class CouncilMostImproved(MostImprovedBase):
+    model = PlanScore
+    context_object_name = "plan_score"
+    template_name = "scoring/council-most-improved.html"
+
+    def get_object(self, queryset=None):
+        group = Council.SCORING_GROUPS[self.kwargs["group"]]
+        plan_score = get_object_or_404(
+            PlanScore,
+            year=self.request.year,
+            council__authority_type__in=group["types"],
+            council__country__in=group["countries"],
+            most_improved__in=[group["slug"], "overall"],
+        )
+
+        return plan_score
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        plan_score = context.get("plan_score")
+        previous_year = self.kwargs["previous_year"]
+
+        council = plan_score.council
+        last_score, change = self.get_changes(plan_score, previous_year)
+
+        context = self.add_common_context(context, previous_year, council)
+
+        context["current_score"] = plan_score.weighted_total
+        context["scoring_group"] = council.get_scoring_group()
+        context["last_score"] = last_score
+        context["change"] = change
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class SectionMostImproved(MostImprovedBase):
+    model = PlanSectionScore
+    context_object_name = "section_score"
+    template_name = "scoring/section-most-improved.html"
+
+    def get_object(self, queryset=None):
+        section = self.kwargs["section"]
+        plan_score = get_object_or_404(
+            PlanSectionScore,
+            plan_score__year=self.request.year,
+            most_improved=section,
+        )
+
+        return plan_score
+
+    def get_changes(self, section_score, previous_year):
+        previous_section_score = PlanSectionScore.objects.get(
+            plan_score__council=section_score.plan_score.council,
+            plan_section__code=section_score.plan_section.code,
+            plan_score__year=previous_year,
+        )
+        previous_score = previous_section_score.weighted_score
+
+        change = self.calculate_change(section_score.weighted_score, previous_score)
+
+        return previous_score, change
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        section_score = context.get("section_score")
+        section_code = self.kwargs["section"]
+        previous_year = self.kwargs["previous_year"]
+
+        section = get_object_or_404(
+            PlanSection, year=self.request.year, code=section_code
+        )
+        council = section_score.plan_score.council
+        last_score, change = self.get_changes(section_score, previous_year)
+
+        context = self.add_common_context(context, previous_year, council)
+
+        context["section"] = section
+        context["current_score"] = section_score.weighted_score
+        context["scoring_group"] = council.get_scoring_group()
+        context["last_score"] = last_score
+        context["change"] = change
+        return context
+
+
 @method_decorator(cache_control(**cache_settings), name="dispatch")
 class CouncilTypeTopPerformerView(TemplateView):
     template_name = "scoring/council-top-performer-overall-preview.html"
