@@ -31,6 +31,11 @@ scoring_patterns = [
         views.CouncilMostImproved.as_view(),
         name="council_most_improved",
     ),
+    path(
+        "councils/<slug:slug>/preview/top-performer",
+        views.CouncilPreviewTopPerfomer.as_view(),
+        name="council_top_performer_preview",
+    ),
     path("councils/<slug:slug>/", views.CouncilView.as_view(), name="council"),
     path("sections/<str:code>/", views.SectionView.as_view(), name="section"),
     path("sections/", views.SectionsView.as_view(), name="sections"),
