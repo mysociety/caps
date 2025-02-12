@@ -7,6 +7,7 @@ from operator import itemgetter
 from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Avg, Count, F, Max, Min, OuterRef, Subquery, Sum
+from django.http import Http404
 from django.shortcuts import get_object_or_404, resolve_url, reverse
 from django.templatetags.static import static
 from django.utils.decorators import method_decorator
@@ -733,12 +734,23 @@ class CouncilMostImproved(MostImprovedBase):
 
     def get_object(self, queryset=None):
         group = Council.SCORING_GROUPS[self.kwargs["group"]]
-        plan_score = get_object_or_404(
-            PlanScore,
-            year=self.request.year.year,
-            council__authority_type__in=group["types"],
-            council__country__in=group["countries"],
-            most_improved__in=[group["slug"], "overall"],
+        plan_score = (
+            PlanScore.objects.filter(
+                year=self.request.year.year,
+                council__authority_type__in=group["types"],
+                council__country__in=group["countries"],
+                most_improved__in=[group["slug"], "overall"],
+            )
+            .annotate(
+                previous_total=Subquery(
+                    PlanScore.objects.filter(
+                        id=OuterRef("previous_year__id"),
+                    ).values("weighted_total")
+                )
+            )
+            .annotate(change=(F("weighted_total") - F("previous_total")))
+            .order_by("change")
+            .first()
         )
 
         return plan_score
@@ -768,11 +780,27 @@ class SectionMostImproved(MostImprovedBase):
 
     def get_object(self, queryset=None):
         section = self.kwargs["section"]
-        plan_score = get_object_or_404(
-            PlanSectionScore,
-            plan_score__year=self.request.year.year,
-            most_improved=section,
-        )
+        try:
+            plan_score = (
+                PlanSectionScore.objects.filter(
+                    plan_score__year=self.request.year.year,
+                    most_improved=section,
+                )
+                .annotate(
+                    previous_score=Subquery(
+                        PlanSectionScore.objects.filter(
+                            plan_section__code=section,
+                            plan_score__council=OuterRef("plan_score__council"),
+                            plan_score__year=self.request.year.previous_year.year,
+                        ).values("weighted_score")
+                    ),
+                    change=(F("weighted_score") - F("previous_score")),
+                )
+                .order_by("change")
+                .first()
+            )
+        except PlanSectionScore.DoesNotExist:
+            raise Http404
 
         return plan_score
 
