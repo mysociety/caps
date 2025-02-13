@@ -802,20 +802,6 @@ class CouncilTypeTopPerformerView(TemplateView):
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class CouncilPreviewTopPerfomer(DetailView):
-    model = Council
-    context_object_name = "council"
-    template_name = "scoring/council-top-performer-preview.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        council = context.get("council")
-        context["page_title"] = council.name
-        context["plan_year"] = self.request.year
-        return context
-
-
-@method_decorator(cache_control(**cache_settings), name="dispatch")
 class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailView):
     model = PlanSection
     context_object_name = "section"
