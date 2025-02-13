@@ -243,13 +243,8 @@
       {% for section in sections %}
         <tbody class="table-question-council__section">
 
-          {% if section.has_negative_points %}
-            <tr data-has-plan="no" class="section-row bg-red-100 text-red-900">
-          {% else %}
-            <tr data-has-plan="no" class="section-row bg-primary-100">
-          {% endif %}
-
-                <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
+            <tr data-has-plan="no" class="section-row fw-bold">
+                <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
                     {{ section.description }}
 
                     {% if section.has_negative_points %}
@@ -294,7 +289,7 @@
                 </td>
               {% endfor %}
 
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary"></td>
+                <td class="d-none d-md-table-cell top-tier-score border-bottom border-end border-opacity-25 border-primary"></td>
 
                 <td class="button-wrapper p-0 bg-white d-none d-md-table-cell text-start">
                     <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
@@ -343,8 +338,8 @@
       {% endfor %}
 
         <tbody class="table-question-council__section">
-            <tr data-has-plan="no" class="section-row bg-purple-200 fw-bold">
-                <td colspan="1" class="section-cell border-bottom border-end border-opacity-25 border-primary text-start">
+            <tr data-has-plan="no" class="section-row bg-purple-100 fw-bold">
+                <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
                     Total score
                 </td>
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
@@ -357,7 +352,7 @@
                 </td>
               {% endfor %}
 
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-opacity-25 border-primary"></td>
+                <td class="d-none d-md-table-cell top-tier-score border-end border-bottom border-opacity-25 border-primary"></td>
                 <td class="button-wrapper p-0 bg-white d-none d-md-table-cell"></td>
             </tr>
         </tbody>
