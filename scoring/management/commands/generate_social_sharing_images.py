@@ -27,6 +27,12 @@ class Command(BaseCommand):
             help="Only generate graphics for top performers",
         )
 
+        parser.add_argument(
+            "--previous_year",
+            action="store",
+            help="previous year for producing most improved graphics",
+        )
+
     def get_shot(self, url, filepath, width=1200, height=630):
         subprocess.run(
             [
@@ -44,8 +50,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         top_performers = options["top_performers_only"]
+        previous_year = options["previous_year"]
 
-        og_images_dir = Path(settings.BASE_DIR, "social-images")
+        og_images_dir = Path(settings.BASE_DIR, "social-images", settings.PLAN_YEAR)
         static_images_dir = Path(
             settings.BASE_DIR, "scoring/static/scoring/img/og-images/"
         )
@@ -54,11 +61,11 @@ class Command(BaseCommand):
         static_images_dir.mkdir(parents=True, exist_ok=True)
 
         councils = Council.current_councils()
-        sections = PlanSection.objects.filter(year=2023)
+        sections = PlanSection.objects.filter(year=settings.PLAN_YEAR)
 
         if top_performers:
             overall = list(
-                PlanScore.objects.filter(year=2023)
+                PlanScore.objects.filter(year=settings.PLAN_YEAR)
                 .exclude(top_performer="")
                 .values_list("council_id", flat=True)
             )
@@ -84,6 +91,29 @@ class Command(BaseCommand):
             tqdm.write(
                 f"Generating {size_by} images for {councils.count()} councils into {og_images_dir}/{size_by}/councils"
             )
+
+            if previous_year:
+                url = "{}{}".format(
+                    options["baseurl"],
+                    reverse_lazy(
+                        "scoring:overall_most_improved",
+                        urlconf="scoring.urls",
+                        kwargs={
+                            "previous_year": previous_year,
+                        },
+                    ),
+                )
+                dirpath = Path(
+                    og_images_dir,
+                    size_by,
+                    "most_improved",
+                )
+                dirpath.mkdir(parents=True, exist_ok=True)
+                filepath = Path(
+                    dirpath,
+                    f"most_improved_overall.png",
+                )
+                self.get_shot(url, filepath, width=size[0], height=size[1])
 
             for council in tqdm(councils, leave=False):
                 url = "{}{}".format(
@@ -112,11 +142,68 @@ class Command(BaseCommand):
                     og_path = Path(static_images_dir, f"{council.slug}.png")
                     copyfile(filepath, og_path)
 
+            if options["previous_year"]:
+                tqdm.write(
+                    f"Generating {size_by} images for most improved into {og_images_dir}/{size_by}/most_improved"
+                )
+                dirpath = Path(
+                    og_images_dir,
+                    size_by,
+                    "most_improved",
+                )
+                dirpath.mkdir(parents=True, exist_ok=True)
+
+                for council_type in tqdm(
+                    Council.SCORING_GROUPS.keys(), position=1, leave=False
+                ):
+                    url = "{}{}".format(
+                        options["baseurl"],
+                        reverse_lazy(
+                            "scoring:council_most_improved",
+                            urlconf="scoring.urls",
+                            kwargs={
+                                "group": council_type,
+                                "previous_year": options["previous_year"],
+                            },
+                        ),
+                    )
+                    filepath = Path(
+                        og_images_dir,
+                        size_by,
+                        "most_improved",
+                        f"most_improved_{council_type}.png",
+                    )
+                    self.get_shot(url, filepath, width=size[0], height=size[1])
+
             tqdm.write(
                 f"Generating {size_by} images for {sections.count()} sections into {og_images_dir}/{size_by}/sections"
             )
 
             for section in tqdm(sections, position=0, leave=False):
+                if previous_year:
+                    url = "{}{}".format(
+                        options["baseurl"],
+                        reverse_lazy(
+                            "scoring:section_most_improved",
+                            urlconf="scoring.urls",
+                            kwargs={
+                                "section": section.code,
+                                "previous_year": previous_year,
+                            },
+                        ),
+                    )
+                    dirpath = Path(
+                        og_images_dir,
+                        size_by,
+                        "most_improved",
+                    )
+                    dirpath.mkdir(parents=True, exist_ok=True)
+                    filepath = Path(
+                        dirpath,
+                        f"most_improved_{section.code}.png",
+                    )
+                    self.get_shot(url, filepath, width=size[0], height=size[1])
+
                 for council_type in tqdm(
                     Council.SCORING_GROUPS.keys(), position=1, leave=False
                 ):
