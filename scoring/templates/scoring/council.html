@@ -248,16 +248,21 @@
                     {{ section.description }}
 
                     {% if section.has_negative_points %}
-                    <div class="d-flex flex-column mb-0 mt-2 fs-7 text-warning">
+                    <div class="d-flex flex-column mb-0 mt-2 fs-7 rounded p-2 bg-red-100 text-warning">
                         <p class="mb-1">
                           {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
                           <strong class="me-2">Penalty marks</strong>
                         </p>
-                        {% if section.only_negative %}
-                          {{ council.name }} was only awarded penalty marks in this section
-                        {% else %}
-                          {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
-                        {% endif %}
+                        <p class="fw-normal mb-1">
+                            {% if section.only_negative %}
+                              {{ council.name }} was only awarded penalty marks in this section
+                            {% else %}
+                              {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
+                            {% endif %}
+                        </p>
+                        <p class="fw-normal mt-1 mb-0">
+                            {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
+                        </p>
                     </div>
                     {% endif %}
 
@@ -274,12 +279,7 @@
                 </td>
               {% else %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score">
-                  <span>{{section.weighted_score|floatformat:0 }}%</span>
-                    {% if section.has_negative_points %}
-                    <div class="fs-7 mt-2">
-                        {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
-                    </div>
-                    {% endif %}
+                    <span>{{section.weighted_score|floatformat:0 }}%</span>
                 </td>
               {% endif %}
 
