@@ -154,14 +154,14 @@
     </div>
 
     <div class="row my-4 my-lg-5">
-        <div class="col-md-6 col-lg-5 d-none d-md-block">
-            <div class="card h-100">
+        <div class="col-lg-5 d-none d-md-block mb-3">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="fs-6 mb-0">Choose {% include "scoring/includes/scoring-group-name.html" with group=council.get_scoring_group.slug plural=1 %} to compare</h3>
                 </div>
                 <div class="card-body">
                     <form id="advancedFilterForm" action=".">
-                      {% if comparisons|length > 2 %}
+                      {% if comparisons|length > 1 %}
                         <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
                       {% else %}
                         <input class="form-control searchbar js-location-compare-autocomplete mb-3" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name" data-council_type="{{ council.get_scoring_group.slug }}">
@@ -192,7 +192,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-lg-7">
+        <div class="col-lg-7">
             <div class="card">
                 <div class="card-header">
                     <h3 class="fs-6 mb-0">Filter questions in the table</h3>
@@ -215,7 +215,24 @@
                             <input class="form-check-input" type="checkbox" id="expand-all-sections">
                             <label class="form-check-label" for="expand-all-sections">Expand all sections</label>
                         </div>
-                      </div>
+                    </div>
+                    
+                    {% comment %} On mobile previous year score will be display by default {% endcomment %}
+                    <hr class="d-none d-md-block">
+
+                    <div class="form-check-flex d-none d-md-flex">
+                        <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-score" aria-checked="false" role="switch">
+                        <label class="form-check-label" for="js-toggle-previous-year-score">Display 2023 scores<span class="badge bg-primary-100 text-primary ms-1">NEW</span></label>
+                    </div>
+                    <div class="d-none d-md-flex flex-row gap-3 mt-3">
+                        <h4 class="visually-hidden">Legends for variation column</h4>
+                        <div>
+                            <span class="badge bg-gray-300 text-dark">--</span> No change
+                        </div>
+                        <div>
+                            <span class="badge bg-gray-300 text-dark">NA</span> New question (not in previous scorecards)
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -226,16 +243,46 @@
       <p class="text-white mb-3">You'll find more options, like the ability to compare your council's Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
     </div>
 
-    <table class="table-question-council my-4">
-        <thead class="text-bg-primary position-sticky z-index-3 top-0">
-            <tr>
-                <th scope="col" class="w-50 text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
-                <th scope="col" class="current-council-score">{{ council.name }}</th>
+    <table class="table-question-council my-4 w-lg-75 {% if comparisons %}w-lg-100{% endif %}">
+        <thead class="position-sticky z-index-3 top-0">
+            {% comment %} Desktop version {% endcomment %}
+            <tr class="text-bg-primary display-only-large-up">
+                <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
+                <th scope="col"  colspan="3" class="js-previous-year-score current-council-score border-end border-opacity-25 border-primary">{{ council.name }}</th>
+                <th scope="col"  colspan="2" class="js-current-year-score current-council-score border-end border-opacity-25 border-primary" style="width:170px">{{ council.name }}</th>
               {% for comparison in comparisons %}
-                <th scope="col" class="d-none d-md-table-cell comparison-council">{{ comparison.council.name }}</th>
+                <th scope="col" colspan="3" class="js-previous-year-score display-only-large-up comparison-council">{{ comparison.council.name }}</th>
+                <th scope="col" colspan="2" class="js-current-year-score display-only-large-up comparison-council" style="width:170px">{{ comparison.council.name }}</th>
               {% endfor %}
-                <th scope="col" class="d-none d-md-table-cell">
+                <th scope="col" class="display-only-large-up text-start">
                     Councils with full marks per question
+                </th>
+            </tr>
+
+
+            <tr class="bg-primary-100 display-only-large-up fs-7 text-primary">
+                <th scope="col" class="py-2 border-start"></th>
+                <th scope="col" class="py-2 border-start border-light">2025</th>
+                {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
+                <th scope="col" class="py-2 js-previous-year-score">2023</th>
+                {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
+                <th scope="col" class="js-current-year-score py-2 border-end border-light text-center">2023 Variation</th>
+                <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Variation</th>
+                {% for comparison in comparisons %}
+                <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 border-start border-light">2025</th>
+                {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
+                <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 js-previous-year-score">2023</th>
+                {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
+                <th scope="col" class="js-current-year-score display-only-large-up comparison-council fs-7 py-2 border-end border-light text-center">2023 Variation</th>
+                <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Variation</th>
+                {% endfor %}
+                <th class="py-2 border-end">2025 results</th>
+            </tr>
+
+            {% comment %} Mobile version {% endcomment %}
+            <tr class="text-bg-primary d-lg-none">
+                <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">
+                    Questions: {{ council.name }}
                 </th>
             </tr>
         </thead>
@@ -246,6 +293,31 @@
             <tr data-has-plan="no" class="section-row fw-bold">
                 <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
                     {{ section.description }}
+
+                    {% comment %} Mobile {% endcomment %}
+                    <dl class="d-md-none mt-3 d-flex flex-row gap-3">
+                        <div class="card">
+                            <dt class="card-header fs-7 py-1">2025</dt>
+                            <dd class="card-body text-center py-2 mb-0">
+                                {% if section.top_performer %}
+                                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                                {% endif%}
+                                {{ section.weighted_score|floatformat:0 }}%
+                            </dd>
+                        </div>
+                        <div class="card">
+                            <dt class="card-header fs-7 py-1">2023</dt>
+                            <dd class="card-body text-center py-2 mb-0">
+                                {{ section.weighted_score|floatformat:0 }}%
+                            </dd>
+                        </div>
+                        <div class="card">
+                            <dt class="card-header fs-7 py-1">Variation</dt>
+                            <dd class="card-body text-success py-2 mb-0 text-center">
+                                &#8593; 5%
+                            </dd>
+                        </div>
+                    </dl>
 
                     {% if section.has_negative_points %}
                     <div class="d-flex flex-column mb-0 mt-2 fs-7 rounded p-2 bg-red-100 text-warning">
@@ -266,32 +338,68 @@
                     </div>
                     {% endif %}
 
-                    <button type="button" class="d-block mt-2 d-md-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
+                    <button type="button" class="d-block mt-2 d-lg-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
                         {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
-                        Show questions
+                        Show questions list
                     </button>
                 </td>
 
               {% if section.top_performer %}
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                <td  class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
                     {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
                     <span>{{ section.weighted_score|floatformat:0 }}%</span>
                 </td>
+
+                </td>
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                <td class="js-previous-year-score display-only-large-up">{{ section.weighted_score|floatformat:0 }}%</td>
+
+                <td class="display-only-large-up">
+                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
+                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
+                    <span class="badge align-text-bottom bg-green-100 text-success text-center">&#8593; 5%</span>
+                </td>
               {% else %}
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                <td class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
                     <span>{{section.weighted_score|floatformat:0 }}%</span>
+                </td>
+                <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary display-only-large-up">{{ section.weighted_score|floatformat:0 }}%</td>
+                <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
+                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
+                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
+                    <span class="badge align-text-bottom bg-green-100 text-success">&#8593; 5%</span>
                 </td>
               {% endif %}
 
               {% for comparison in section.comparisons %}
-                <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
+                <td class="display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
                     {{ comparison.weighted_score|floatformat:0 }}%
+                </td>
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">{{ section.weighted_score|floatformat:0 }}%</td>
+                <td class="display-only-large-up border-end border-bottom border-opacity-25 border-primary text-center">
+                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
+                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
+                    <span class="badge align-text-bottom bg-green-100 text-success">&#8593; 5%</span>
                 </td>
               {% endfor %}
 
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-end border-opacity-25 border-primary"></td>
+                <td class="display-only-large-up top-tier-score border-bottom border-end border-opacity-25 border-primary"></td>
 
-                <td class="button-wrapper p-0 bg-white d-none d-md-table-cell text-start">
+                <td class="button-wrapper p-0 bg-white display-only-large-up text-start">
                     <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
                         {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
                     </button>
@@ -304,18 +412,56 @@
                     {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.code pretty_code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria council_type_slug=council.get_scoring_group.slug %}
                 </td>
 
-                <td data-column="score" class="score border-bottom">
-                    <span>{{ answer.score|format_mark }}/{{ answer.max }}</span>
+                <td data-column="score" class="score border-bottom display-only-large-up">
+                    {{ answer.score|format_mark }}/{{ answer.max }}
+                </td>
+
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
+                <td class="js-previous-year-score display-only-large-up border-bottom">
+                    {{ answer.score|format_mark }}/{{ answer.max }}
+                </td>
+
+                <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
+                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
+                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
+                    {% comment %} TODO: IF NA(Question didn't exist previous version): Change bg-green-100 to bg-gray-300 {% endcomment %}
+                    {% comment %} TODO: IF NA(Question didn't exist previous version): Change text-success to text-dark {% endcomment %}
+                    {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
+                    <span class="badge small align-text-bottom bg-green-100 text-success">&#8593; 1</span>
                 </td>
 
               {% for comparison in answer.comparisons %}
-                <td data-column="score" class="d-none d-md-table-cell score border-bottom">
-                    <span>{{ comparison.score|format_mark }}/{{ comparison.max }}</span>
+                <td data-column="score" class="display-only-large-up score border-bottom">
+                    {{ comparison.score|format_mark }}/{{ comparison.max }}
+                </td>
+
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
+                <td class="js-previous-year-score display-only-large-up border-bottom">
+                    {{ comparison.score|format_mark }}/{{ comparison.max }}
+                </td>
+
+                <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
+                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
+                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
+                    {% comment %} TODO: IF NA(Question didn't exist previous version): Change bg-green-100 to bg-gray-300 {% endcomment %}
+                    {% comment %} TODO: IF NA(Question didn't exist previous version): Change text-success to text-dark {% endcomment %}
+                    {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
+                    <span class="badge small align-text-bottom bg-green-100 text-success">&#8593; 1</span>
                 </td>
               {% endfor %}
 
-                <td class="d-none d-md-table-cell top-tier-score border-bottom border-end">
-                    <div class="d-flex flex-row gap-2 justify-content-end">
+                <td class="display-only-large-up top-tier-score border-bottom border-end">
+                    <div class="d-flex flex-row gap-2 justify-content-center flex-wrap flex-md-nowrap">
                         <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
                             <div class="percentage fs-8">
                             {% widthratio answer.council_count council_count 100%}%
@@ -342,18 +488,49 @@
                 <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
                     Total score
                 </td>
-                <td class="score border-bottom border-opacity-25 border-primary is--section-score">
+
+                <td class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
                     {{ plan_score.weighted_total|floatformat:0 }}%
                 </td>
 
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">
+                    {{ plan_score.weighted_total|floatformat:0 }}%
+                </td>
+
+                <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
+                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
+                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
+                    <span class="badge align-text-bottom bg-green-100 text-success">&#8593; 5%</span>
+                </td>
+
               {% for comparison in comparisons %}
-                <td class="d-none d-md-table-cell score border-bottom border-opacity-25 border-primary is--section-score">
+                <td class="display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score">
                     {{ comparison.weighted_total|floatformat:0 }}%
+                </td>
+
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                <td class="js-previous-year-score display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score">
+                    {{ comparison.weighted_total|floatformat:0 }}%
+                </td>
+
+                <td class="display-only-large-up text-center border-bottom border-opacity-25 border-primary">
+                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
+                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
+                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
+                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
+                    <span class="badge align-text-bottom bg-green-100 text-success">&#8593; 5%</span>
                 </td>
               {% endfor %}
 
-                <td class="d-none d-md-table-cell top-tier-score border-end border-bottom border-opacity-25 border-primary"></td>
-                <td class="button-wrapper p-0 bg-white d-none d-md-table-cell"></td>
+                <td class="display-only-large-up top-tier-score border-end border-bottom border-opacity-25 border-primary"></td>
+                <td class="button-wrapper p-0 bg-white display-only-large-up"></td>
             </tr>
         </tbody>
 
