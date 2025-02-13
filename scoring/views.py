@@ -665,7 +665,7 @@ class CouncilPreview(DetailView):
 
 class MostImprovedBase(DetailView):
     def calculate_change(self, current_score, previous_score):
-        return ((current_score - previous_score) / previous_score) * 100
+        return current_score - previous_score
 
     def get_changes(self, plan_score, previous_year):
         previous_plan_score = PlanScore.objects.get(
