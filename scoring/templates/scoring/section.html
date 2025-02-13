@@ -326,16 +326,22 @@
                 </td>
               {% endfor %}
 
-                <td data-column="score" class="text-start text-md-end d-flex flex-row d-md-table-cell align-items-center score">
-                    <span class="me-2">{{ question.scored_max }} out of {{ council_count }}</span>
-                    <span class="fs-8 mt-1 me-0 ms-auto d-block">
-                        {% include 'scoring/includes/scoring-group-name.html' with group=council_type plural=True %}
-                      {% if question.details.question_type == "negative" %}
-                        got <strong>no penalty marks</strong> for this question.
-                      {% else %}
-                        got full marks for this question.
-                      {% endif %}
-                    </span>
+                <td data-column="score" class="text-start text-md-end score">
+                  <div class="d-flex flex-row gap-2 justify-content-md-end align-items-center">
+                      <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio question.scored_max council_count 100 %};">
+                          <div class="percentage fs-8">
+                              {% widthratio question.scored_max council_count 100 %}%
+                          </div>
+                      </div>
+                      <span class="fs-8 mt-1 me-0 text-start">
+                          {% include 'scoring/includes/scoring-group-name.html' with group=council_type plural=True %}
+                          {% if question.details.question_type == "negative" %}
+                          got <strong>no penalty marks</strong> for this question.
+                          {% else %}
+                          got full marks for this question.
+                          {% endif %}
+                      </span>
+                  </div>
                 </td>
             </tr>
           {% endfor %}
