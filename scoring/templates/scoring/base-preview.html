@@ -20,7 +20,7 @@
     <!-- Facebook OpenGraph image dimensions: 1200px wide, 630px tall -->
     <header>
         {% include 'caps/icons/council-climate-logo-2023.html' with classes='open-graph-preview__scorecards-logo' width='10em' height='auto' role='presentation' %}
-        <span class="open-graph-preview__year">2023</span>
+        <span class="open-graph-preview__year">{{ plan_year }}</span>
         <img src="{% static 'scoring/img/ceuk-logo-white.png' %}" alt="" class="open-graph-preview__ceuk-logo">
     </header>
     {% block content %}{% endblock %}

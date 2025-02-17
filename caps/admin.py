@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from caps.models import Council, DataPoint, DataType, PlanDocument
-from scoring.models import PlanQuestion, PlanSection
+from scoring.models import PlanQuestion, PlanScore, PlanSection
 
 
 class CouncilAdmin(admin.ModelAdmin):
@@ -62,3 +62,11 @@ class PlanQuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(PlanQuestion, PlanQuestionAdmin)
+
+
+class PlanScoreAdmin(admin.ModelAdmin):
+    list_display = ("council", "year")
+    search_fields = ("council__name",)
+
+
+admin.site.register(PlanScore, PlanScoreAdmin)
