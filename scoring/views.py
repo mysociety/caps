@@ -316,14 +316,27 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
         sections = PlanSectionScore.sections_for_council(
-            council=council, plan_year=self.request.year
+            council=council,
+            plan_year=self.request.year,
+            previous_year=2025,
         )
 
         try:
-            previous_score = PlanScore.objects.get(council=council, year=2021)
-            context["previous_score"] = previous_score
+            original_plan_score = PlanScore.objects.get(council=council, year=2021)
+            context["original_plan_score"] = original_plan_score
         except PlanScore.DoesNotExist:
-            context["previous_score"] = False
+            context["original_plan_score"] = False
+
+        try:
+            previous_total = PlanScore.objects.get(
+                council=council, year=2023
+            ).weighted_total
+            context["previous_total"] = previous_total
+            context["previous_diff"] = (
+                (previous_total - plan_score.weighted_total) / previous_total
+            ) * 100
+        except PlanScore.DoesNotExist:
+            context["previous_total"] = False
 
         for section in sections.keys():
             sections[section]["non_negative_max"] = sections[section]["score"]
