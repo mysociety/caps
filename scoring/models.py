@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.db import models
-from django.db.models import Avg, Count, F, Max, Q
+from django.db.models import Avg, Count, F, Max, OuterRef, Q, Subquery
 
 from caps.models import Council
 from caps.utils import clean_links
@@ -320,8 +320,8 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         return questions
 
     @classmethod
-    def make_section_object(cls, section):
-        return {
+    def make_section_object(cls, section, previous_year=None):
+        obj = {
             "section_score": section,
             "council_name": section.plan_score.council.name,
             "council_slug": section.plan_score.council.slug,
@@ -340,16 +340,40 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
             "negative_points": 0,
         }
 
+        if previous_year is not None:
+            obj["previous_score"] = section.previous_score
+            obj["change"] = 0
+            if section.previous_score:
+                obj["change"] = (
+                    (section.weighted_score - section.previous_score)
+                    / section.previous_score
+                ) * 100
+
+        return obj
+
     @classmethod
-    def sections_for_council(cls, council=None, plan_year=None):
+    def sections_for_council(cls, council=None, plan_year=None, previous_year=None):
         sections = {}
-        section_qs = cls.objects.select_related(
-            "plan_section", "plan_score", "plan_score__council"
-        ).filter(plan_score__council=council, plan_section__year=plan_year)
+        section_qs = (
+            cls.objects.select_related(
+                "plan_section", "plan_score", "plan_score__council"
+            )
+            .filter(plan_score__council=council, plan_section__year=plan_year)
+            .annotate(
+                previous_score=Subquery(
+                    cls.objects.filter(
+                        plan_score=OuterRef("plan_score__previous_year"),
+                        plan_section__code=OuterRef("plan_section__code"),
+                    ).values("weighted_score")
+                )
+            )
+        )
 
         sections = {}
         for section in section_qs.all():
-            sections[section.plan_section.code] = cls.make_section_object(section)
+            sections[section.plan_section.code] = cls.make_section_object(
+                section, previous_year
+            )
 
         return sections
 
