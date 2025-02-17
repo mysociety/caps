@@ -109,7 +109,7 @@ class PlanScore(models.Model):
     def questions_answered(self):
         # do this in raw SQL as otherwise we need an extra query
         questions = PlanQuestion.objects.raw(
-            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score, a.max_score as header_max, q.weighting, q.how_marked, a.evidence_links \
+            "select q.id, q.code, q.text, q.question_type, q.max_score, q.criteria, s.code as section_code, a.answer, a.score, a.max_score as header_max, q.weighting, q.how_marked, a.evidence_links \
             from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
             left join scoring_planquestionscore a on q.id = a.plan_question_id \
             where s.year = %s and ( a.plan_score_id = %s or a.plan_score_id is null) and a.plan_question_id is not null\
@@ -343,9 +343,9 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
     @classmethod
     def sections_for_council(cls, council=None, plan_year=None):
         sections = {}
-        section_qs = cls.objects.select_related("plan_section").filter(
-            plan_score__council=council, plan_section__year=plan_year
-        )
+        section_qs = cls.objects.select_related(
+            "plan_section", "plan_score", "plan_score__council"
+        ).filter(plan_score__council=council, plan_section__year=plan_year)
 
         sections = {}
         for section in section_qs.all():
