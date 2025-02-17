@@ -11,7 +11,7 @@
                 {% include 'caps/icons/chevron-left.html' with classes='me-2' %}
                 See this council in context
             </a>
-            {% if previous_score %}
+            {% if original_plan_score_score %}
             <a href="{% url 'scoring2022:council' slug=council.slug %}" class="btn btn-sm btn-outline-primary d-flex align-items-center mb-2 me-3">
                 See this council’s 2021 Plan Scorecard
                 {% include 'caps/icons/external-link.html' with classes='ms-2' %}
@@ -97,7 +97,7 @@
               <h2 class="h3 mb-4">About the Scorecards</h2>
               <p>Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions or less, depending on council type, across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  Unless otherwise stated, council climate action from 1st January 2019 up until 31st March 2023 was assessed.</p>
 
-              {% if previous_score %}
+              {% if original_plan_score %}
               <p>You can <a href="{% url 'scoring2022:council' slug=council.slug %}">check how this council scored in the 2021 Plan Scorecards</a> (different questions to the Action Scorecards).</p>
               {% endif %}
             </div>
@@ -308,13 +308,13 @@
                         <div class="card">
                             <dt class="card-header fs-7 py-1">2023</dt>
                             <dd class="card-body text-center py-2 mb-0">
-                                {{ section.weighted_score|floatformat:0 }}%
+                                {{ section.previous_score|floatformat:0 }}%
                             </dd>
                         </div>
                         <div class="card">
                             <dt class="card-header fs-7 py-1">Variation</dt>
                             <dd class="card-body text-success py-2 mb-0 text-center">
-                                &#8593; 5%
+                              {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
                             </dd>
                         </div>
                     </dl>
@@ -352,31 +352,19 @@
 
                 </td>
                 {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
-                <td class="js-previous-year-score display-only-large-up">{{ section.weighted_score|floatformat:0 }}%</td>
+                <td class="js-previous-year-score display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
 
                 <td class="display-only-large-up">
-                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
-                    <span class="badge align-text-bottom bg-green-100 text-success text-center">&#8593; 5%</span>
+                    {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
                 </td>
               {% else %}
                 {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
                     <span>{{section.weighted_score|floatformat:0 }}%</span>
                 </td>
-                <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary display-only-large-up">{{ section.weighted_score|floatformat:0 }}%</td>
+                <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
                 <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
-                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
-                    <span class="badge align-text-bottom bg-green-100 text-success">&#8593; 5%</span>
+                    {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
                 </td>
               {% endif %}
 
@@ -423,16 +411,7 @@
                 </td>
 
                 <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
-                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
-                    {% comment %} TODO: IF NA(Question didn't exist previous version): Change bg-green-100 to bg-gray-300 {% endcomment %}
-                    {% comment %} TODO: IF NA(Question didn't exist previous version): Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
-                    <span class="badge small align-text-bottom bg-green-100 text-success">&#8593; 1</span>
+                    {% include "scoring/includes/integer_score_change.html" with change=answer.change %}
                 </td>
 
               {% for comparison in answer.comparisons %}
@@ -447,16 +426,7 @@
                 </td>
 
                 <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
-                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
-                    {% comment %} TODO: IF NA(Question didn't exist previous version): Change bg-green-100 to bg-gray-300 {% endcomment %}
-                    {% comment %} TODO: IF NA(Question didn't exist previous version): Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
-                    <span class="badge small align-text-bottom bg-green-100 text-success">&#8593; 1</span>
+                    {% include "scoring/includes/percentage_score_change.html" with change=comparison.change %}
                 </td>
               {% endfor %}
 
@@ -495,17 +465,11 @@
 
                 {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
                 <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">
-                    {{ plan_score.weighted_total|floatformat:0 }}%
+                    {{ previous_total|floatformat:0 }}%
                 </td>
 
                 <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
-                    {% comment %} TODO: IF Negative variation: Change bg-green-100 to bg-red-100 {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change bg-green-100 to bg-gray-300 {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
-                    <span class="badge align-text-bottom bg-green-100 text-success">&#8593; 5%</span>
+                    {% include "scoring/includes/percentage_score_change.html" with change=previous_diff %}
                 </td>
 
               {% for comparison in comparisons %}

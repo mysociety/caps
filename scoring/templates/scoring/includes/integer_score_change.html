@@ -1,0 +1,9 @@
+{% if change < 0 %}
+  <span class="badge align-text-bottom bg-red-100 text-danger">&#8595; {{ change }}</span>
+{% elif change > 0 %}
+  <span class="badge align-text-bottom bg-green-100 text-success">&#8593; {{ change }}</span>
+{% elif change == 0 %}
+  <span class="badge align-text-bottom bg-gray-300 text-dark">--</span>
+{% else %}
+  <span class="badge align-text-bottom bg-gray-300 text-dark">NA</span>
+{% endif %}
