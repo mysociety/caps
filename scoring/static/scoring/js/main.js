@@ -400,7 +400,7 @@ forEachElement('.js-section-council-autocomplete', function(input){
 // Previous year comparison toggle
 forEachElement('#js-toggle-previous-year-score', function(el) {
     el.addEventListener('change', function() {
-        document.querySelector('table.table-question-council').classList.toggle('js-previous-year-score-display', el.checked);
+        document.querySelector('table.js-table-year-comparison').classList.toggle('js-previous-year-score-display', el.checked);
         el.setAttribute('aria-checked', el.checked);
     });
 });
