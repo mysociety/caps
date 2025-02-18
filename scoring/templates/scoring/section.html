@@ -271,8 +271,8 @@
                   {% endif %}
                 </div>
               {% if comparison.negative_points < 0 %}
-                <p class="alert alert-warning d-flex flex-row align-items-center gap-2 p-2 mb-0 rounded-0 border-0">
-                    {% include 'caps/icons/warning.html' with classes='align-text-bottom' width='1em' height='1em' role='presentation' %}
+                <p class="alert alert-warning d-flex flex-row flex-nowrap align-items-center gap-2 p-2 mb-0 rounded-0 border-0">
+                    {% include 'caps/icons/warning.html' with classes='align-text-bottom' width='2rem' height='1.5rem' role='presentation' %}
                     <span class="fs-7">
                         {{ comparison.council_name }} has a penalty of {{ comparison.negative_percent }}% in this section
                     </span>
