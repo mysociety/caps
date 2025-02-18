@@ -1,16 +1,10 @@
 // FILE for styles share across all scorecards tables
 
-// Attributes for both tables
-.z-index-3 {
-    z-index: 3 !important;
-}
-
-.z-index-4 {
-    z-index: 4 !important;
-}
-
-.z-index-5 {
-    z-index: 5 !important;
+// Generate z-index classes from 2 to 5
+@for $i from 2 through 5 {
+    .z-index-#{$i} {
+      z-index: $i !important;
+    }
 }
 
 
