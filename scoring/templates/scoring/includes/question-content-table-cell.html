@@ -21,18 +21,18 @@
                     {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
                     <dt class="card-header fs-7">2023</dt>
                     {% comment %} TODO: Pull previous year score {% endcomment %}
-                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
+                    {% comment %} TODO: IF No difference: display '--' {% endcomment %}
                     {% comment %} TODO: IF NA(Question didn't exist previous version): Change text-success to text-dark {% endcomment %}
                     <dd class="card-body text-center py-2 mb-0">
                         {{ answer.score|format_mark }}/{{ answer.max }}
                     </dd>
                 </div>
                 <div class="card">
-                    <dt class="card-header fs-7">Variation</dt>
-                    {% comment %} TODO: IF Negative variation: Change text-success to text-danger  {% endcomment %}
-                    {% comment %} TODO: IF Negative variation: Change &#8593; to &#8595; {% endcomment %}
-                    {% comment %} TODO: IF No variation: Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF No variation: display '--' {% endcomment %}
+                    <dt class="card-header fs-7">Difference</dt>
+                    {% comment %} TODO: IF Negative difference: Change text-success to text-danger  {% endcomment %}
+                    {% comment %} TODO: IF Negative difference: Change &#8593; to &#8595; {% endcomment %}
+                    {% comment %} TODO: IF No difference: Change text-success to text-dark {% endcomment %}
+                    {% comment %} TODO: IF No difference: display '--' {% endcomment %}
                     {% comment %} TODO: IF NA(Question didn't exist previous version): Change text-success to text-dark {% endcomment %}
                     {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
                     <dd class="card-body text-success py-2 mb-0 text-center">
