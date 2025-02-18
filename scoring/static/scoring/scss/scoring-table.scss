@@ -1,19 +1,6 @@
 $table-desktop-breakpoint: map-get($grid-breakpoints, lg);
 $border-table: 1px solid transparentize($color: $black, $amount: 1);
 
-// Attributes for both tables
-.z-index-3 {
-    z-index: 3 !important;
-}
-
-.z-index-4 {
-    z-index: 4 !important;
-}
-
-.z-index-5 {
-    z-index: 5 !important;
-}
-
 // Table scorecard Desktop
 .scorecard-table-wrapper {
     width: 100%;
@@ -28,24 +15,58 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
 }
 
 .scorecard-table {
+    $first-cell-width: 250px;
+    $default-cell-width: 165px;
+    $small-cell-width: 85px;
+    $xsmall-cell-width: 65px;
+
     th, td {
         vertical-align: middle;
-        position: relative;
         z-index: 0;
-        min-width: 200px;
+        min-width: $default-cell-width;
+        max-width: $default-cell-width;
+        font-size: 0.85rem;
         font-weight: 400;
-        padding: 1rem 0.5rem;
+        padding: 1rem 0.25rem 1rem 0.75rem;
+
+        &.previous-year-score,
+        &.previous-year-score-difference {
+            min-width: $small-cell-width;
+            text-align: center;
+            padding-left: 0;
+            padding-right: 1rem;
+        }
+    }
+
+    th {
+        &:first-child {
+            min-width: $first-cell-width !important;
+        }
+    }
+
+    th.previous-year-score-difference {
+        position: sticky;
+        z-index: 3;
+        left: $first-cell-width +  $default-cell-width;
+    }
+
+    &.js-previous-year-score-difference-table[has-difference="false"] {
+        $default-cell-width: 200px;
+
+        th,td {
+            max-width: $default-cell-width;
+            min-width: $default-cell-width;
+        }
     }
 
     th {
         background-color: $white;
-        font-size: 0.85rem;
         vertical-align: middle;
 
         .section-title {
             display: flex;
             flex-direction: row-reverse;
-            justify-content: flex-end;
+            justify-content: center;
             align-items: center;
             gap: 0.5rem;
         }
@@ -55,19 +76,11 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
         display: none;
     }
 
-    $first-row-height: 80px;
+    $first-row-height: 60px;
     thead {
         th {
-            position: sticky;
-            top: 0;
-            z-index: 1;
             max-height: $first-row-height;
             height: $first-row-height;
-        }
-
-        .second-row th {
-            top:$first-row-height;
-            height: auto;
         }
     }
 
@@ -99,8 +112,8 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
         }
     }
 
-    .council-category-total-score, .total-score {
-        left: 250px;
+    .total-score {
+        left: $first-cell-width;
     }
 
     .has-no-plan {
