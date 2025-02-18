@@ -326,8 +326,8 @@
                 </td>
               {% endfor %}
 
-                <td data-column="score" class="text-start text-md-end score">
-                  <div class="d-flex flex-row gap-2 justify-content-md-end align-items-center">
+                <td data-column="score" class="score">
+                  <div class="d-flex flex-row gap-2 align-items-center">
                       <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio question.scored_max council_count 100 %};">
                           <div class="percentage fs-8">
                               {% widthratio question.scored_max council_count 100 %}%
