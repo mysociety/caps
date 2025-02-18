@@ -38,93 +38,158 @@
             </div>
             <div class="scorecard-table-wrapper border border-top-0">
                 {% block "score_table" %}
-                <table class="scorecard-table">
-                    <thead>
-                        <tr class="first-row position-sticky bg-white" style="z-index:30">
-                            <th scope="col" class="bg-light position-sticky z-index-4">
+                <table class="scorecard-table js-previous-year-score-difference-table" has-difference="true">
+                    <thead class="position-sticky top-0 z-index-4">
+                        <tr class="first-row position-sticky bg-white z-index-5">
+                            <th scope="col" class="bg-light position-sticky z-index-4 pb-1">
                                 <div class="ms-4">
                                     <h2 class="mb-1 fs-5 lh-1">{{ authority_type_label }}</h2>
                                     <p class="mb-0 fs-8">Council Climate Action Scorecard</p>
                                 </div>
                             </th>
-                            <th scope="col" class="position-sticky total-score" style="z-index:2">
+                            <th scope="col" colspan="2" class="total-score js-previous-year-difference-header position-sticky pb-1 z-index-2">
                                 <div class="section-title">
                                     <span class="text-center fw-bold">Total Score</span>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-default="descending"></button>
                                 </div>
                             </th>
-                            <th scope="col">
+
+                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
                                 <div class="section-title">
-                                    {% include section_link_template with section_code='s1_b_h' section_name='Building &amp; Heating' %}
+                                    {% include section_link_template with section_code='s1_b_h' section_name='Building &amp; Heating' category_number=1 %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-1 {% if sorted_by == 's1_b_h' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
-                            <th scope="col">
+
+                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
                                 <div class="section-title">
-                                    {% include section_link_template with section_code='s2_tran' section_name='Transport' %}
+                                    {% include section_link_template with section_code='s2_tran' section_name='Transport' category_number=2 %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-2 {% if sorted_by == 's2_tran' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
-                            <th scope="col">
+
+                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
                                 <div class="section-title">
-                                    {% include section_link_template with section_code='s3_p_lu' section_name='Planning &amp; Land Use' %}
+                                    {% include section_link_template with section_code='s3_p_lu' section_name='Planning &amp; Land Use' category_number=3 %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-3 {% if sorted_by == 's3_p_lu' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
-                            <th scope="col">
+
+                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
                                 <div class="section-title">
-                                    {% include section_link_template with section_code='s4_g_f' section_name='Governance &amp; Finance' %}
+                                    {% include section_link_template with section_code='s4_g_f' section_name='Governance &amp; Finance' category_number=4 %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-4 {% if sorted_by == 's4_g_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
-                            <th scope="col">
+
+                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
                                 <div class="section-title">
-                                    {% include section_link_template with section_code='s5_bio' section_name='Biodiversity' %}
+                                    {% include section_link_template with section_code='s5_bio' section_name='Biodiversity' category_number=5 %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-5 {% if sorted_by == 's5_bio' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
-                            <th scope="col">
+
+                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
                                 <div class="section-title">
-                                    {% include section_link_template with section_code='s6_c_e' section_name='Collaboration &amp; Engagement' %}
+                                    {% include section_link_template with section_code='s6_c_e' section_name='Collaboration &amp; Engagement' category_number=6 %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-6 {% if sorted_by == 's6_c_e' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
-                            <th scope="col">
+
+                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
                                 <div class="section-title">
-                                    {% include section_link_template with section_code='s7_wr_f' section_name='Waste Reduction &amp; Food' %}
-                                    <a class="text-decoration-none fw-bold link-category-7" href="{% url 'scoring:section' 's7_wr_f' %}">Waste Reduction &amp; Food</a>
+                                    {% include section_link_template with section_code='s7_wr_f' section_name='Waste Reduction &amp; Food' category_number=7 %}
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-7 {% if sorted_by == 's7_wr_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                 </div>
                             </th>
                         </tr>
+                        <tr class="js-previous-year-score-difference">
+                            <th class="h-auto pb-2 pt-0 bg-white position-sticky"></th>
+                            <th scope="col" class="h-auto pb-2 pt-0 fs-8 text-center total-score position-sticky">2025</th>
+                            {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
+                            <th scope="col" class="h-auto pb-2 pt-0 fs-8 previous-year-score-difference text-center position-sticky">versus 2023</th>
+
+                            {% for x in "1234567" %}
+                                <th scope="col" class="h-auto pb-2 pt-0 fs-8 text-center total-score">2025</th>
+                                {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
+                                <th scope="col" class="h-auto pb-2 pt-0 fs-8 previous-year-score-difference text-center position-static">versus 2023</th>
+                            {% endfor %}
+                        </tr>
                         <tr class="second-row position-sticky z-index-4">
-                            <th scope="col" style="min-width:250px" class="bg-primary-100 position-sticky z-index-4">
+                            <th scope="col" class="bg-primary-100 position-sticky z-index-4">
                                 <span class="ms-4 fs-6 fw-bold d-block">{{ scoring_group.name }} average</span>
                             </th>
-                            <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4 bg-green-l2">              
+                            <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                             </th>
-                            <th scope="col" class="bg-primary-100 category-1 second-row">              
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100 position-sticky z-index-4"><span class="fs-8">&#9650;</span> 5</th>
+
+                            <th scope="col" class="bg-primary-100 category-1 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s1_b_h.weighted average=1 %}
                             </th>
-                            <th scope="col" class="bg-primary-100 category-2 second-row">              
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+
+                            <th scope="col" class="bg-primary-100 category-2 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s2_tran.weighted average=1 %}
                             </th>
-                            <th scope="col" class="bg-primary-100 category-3 second-row">              
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+
+                            <th scope="col" class="bg-primary-100 category-3 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s3_p_lu.weighted average=1 %}
                             </th>
-                            <th scope="col" class="bg-primary-100 category-4 second-row">              
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+
+                            <th scope="col" class="bg-primary-100 category-4 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s4_g_f.weighted average=1 %}
                             </th>
-                            <th scope="col" class="bg-primary-100 category-5 second-row">              
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+
+                            <th scope="col" class="bg-primary-100 category-5 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s5_bio.weighted average=1 %}
                             </th>
-                            <th scope="col" class="bg-primary-100 category-6 second-row">              
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+
+                            <th scope="col" class="bg-primary-100 category-6 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s6_c_e.weighted average=1 %}
                             </th>
-                            <th scope="col" class="bg-primary-100 category-7 second-row">              
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+
+                            <th scope="col" class="bg-primary-100 category-7 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s7_wr_f.weighted average=1 %}
                             </th>
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -147,29 +212,71 @@
                             <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="{{ council.percentage|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                             </th>
+                            <th scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success">&#9650; 5</th>
                           {% with scores=council.all_scores %}
                           {% if council.score != 0 and council.score is not None %}
                             <td scope="row" class="council-category-score category-1" data-sort-value="{{ scores.s1_b_h.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s1_b_h.weighted %}
                             </td>
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+
                             <td scope="row" class="council-category-score category-2" data-sort-value="{{ scores.s2_tran.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s2_tran.weighted %}
                             </td>
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+
                             <td scope="row" class="council-category-score category-3" data-sort-value="{{ scores.s3_p_lu.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s3_p_lu.weighted %}
                             </td>
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+
                             <td scope="row" class="council-category-score category-4" data-sort-value="{{ scores.s4_g_f.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s4_g_f.weighted %}
                             </td>
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+
                             <td scope="row" class="council-category-score category-5" data-sort-value="{{ scores.s5_bio.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s5_bio.weighted %}
                             </td>
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+
                             <td scope="row" class="council-category-score category-6" data-sort-value="{{ scores.s6_c_e.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s6_c_e.weighted %}
                             </td>
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+
                             <td scope="row" class="council-category-score category-7" data-sort-value="{{ scores.s7_wr_f.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s7_wr_f.weighted %}
                             </td>
+                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
+                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
+                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
+                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
+                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
                           {% elif council.score == 0 %}
                             <td class="has-no-plan" colspan="7" data-sort-value="-1">
                                 Not scored: newly formed council since April 2023. This council will be assessed in future Scorecard editions.
@@ -203,28 +310,28 @@
                             <th class="bg-white" scope="col" style="min-width:250px">
                                 <span class="ms-4 fs-6 fw-bold d-block" style="white-space: break-spaces;">{{ scoring_group.name }} average</span>
                             </th>
-                            <th scope="col" class="total-score position-sticky z-index-4">              
+                            <th scope="col" class="total-score position-sticky z-index-4">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                             </th>
-                            <th scope="col" class="category-1 second-row">              
+                            <th scope="col" class="category-1 second-row">
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s1_b_h.score max=averages.s1_b_h.max average=1 %}
                             </th>
-                            <th scope="col" class="category-2 second-row">              
+                            <th scope="col" class="category-2 second-row">
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s2_tran.score max=averages.s2_tran.max average=1 %}
                             </th>
-                            <th scope="col" class="category-3 second-row">              
+                            <th scope="col" class="category-3 second-row">
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s3_p_lu.score max=averages.s3_p_lu.max average=1 %}
                             </th>
-                            <th scope="col" class="category-4 second-row">              
+                            <th scope="col" class="category-4 second-row">
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s4_g_f.score max=averages.s4_g_f.max average=1 %}
                             </th>
-                            <th scope="col" class="category-5 second-row">              
+                            <th scope="col" class="category-5 second-row">
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s5_bio.score max=averages.s5_bio.max average=1 %}
                             </th>
-                            <th scope="col" class="category-6 second-row">              
+                            <th scope="col" class="category-6 second-row">
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s6_c_e.score max=averages.s6_c_e.max average=1 %}
                             </th>
-                            <th scope="col" class="category-7 second-row">              
+                            <th scope="col" class="category-7 second-row">
                                 {% include 'scoring/includes/score-bar.html' with score=averages.s7_wr_f.score max=averages.s7_wr_f.max average=1 %}
                             </th>
                         </tr>

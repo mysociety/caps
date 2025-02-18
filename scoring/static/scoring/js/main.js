@@ -405,6 +405,27 @@ forEachElement('#js-toggle-previous-year-score', function(el) {
     });
 });
 
+var toggleCheckbox = document.getElementById('js-toggle-previous-year-difference');
+if (toggleCheckbox) {
+    toggleCheckbox.addEventListener('change', function() {
+      var isChecked = this.checked;
+      
+      forEachElement('.js-previous-year-difference-header', function(header) {
+        header.setAttribute('colspan', isChecked ? '2' : '1');
+      });
+      
+      forEachElement('.js-previous-year-score-difference', function(element) {
+        element.style.display = isChecked ? 'revert' : 'none';
+      });
+
+      forEachElement('.js-previous-year-score-difference-table', function(table) {
+        table.setAttribute('has-difference', isChecked ? 'true' : 'false');
+      });
+
+      this.setAttribute('aria-checked', isChecked);
+    });
+}
+
 function ajaxLoadCouncilTypeScorecard(url) {
     const selectors = [
       '#home-page-main-filter',

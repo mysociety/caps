@@ -1,4 +1,21 @@
-<form class="d-flex flex-row align-items-center gap-2">
-    <label class="ms-3 fs-7" for="location-jump">Find a council:</label>
-    <input id="location-jump" class="form-control searchbar js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
+<form class="d-flex flex-row justify-content-between gap-5">
+    <div class="d-flex flex-row align-items-center gap-2">
+        <label class="ms-3 fs-7" for="location-jump">Find a council:</label>
+        <input id="location-jump" class="form-control searchbar js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
+    </div>
+    <div class="d-none d-lg-flex flex-row gap-3 align-items-center">
+        <div class="form-check-flex d-none d-md-flex">
+            <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-difference" aria-checked="true" role="switch" checked>
+            <label class="form-check-label fs-7" for="js-toggle-previous-year-difference">Display percentage point change</label>
+        </div>
+        <div class="d-none d-md-flex flex-row gap-3">
+            <h4 class="visually-hidden">Legends for difference column</h4>
+            <div class="fs-8">
+                <span class="badge bg-gray-300 text-dark border border-dark border-opacity-25">--</span> No change
+            </div>
+            <div class="fs-8">
+                <span class="badge bg-gray-300 text-dark border border-dark border-opacity-25">NA</span> New council
+            </div>
+        </div>
+    </div>
 </form>
