@@ -1,4 +1,21 @@
-<form class="d-flex flex-row align-items-center gap-2">
-    <label class="ms-3 fs-7" for="location-jump">Find a council:</label>
-    <input id="location-jump" class="form-control searchbar js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
+<form class="d-flex flex-row justify-content-between gap-5">
+    <div class="d-flex flex-row align-items-center gap-2">
+        <label class="ms-3 fs-7" for="location-jump">Find a council:</label>
+        <input id="location-jump" class="form-control searchbar js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
+    </div>
+    <div class="d-none d-lg-flex flex-row gap-3 align-items-center">
+        <div class="form-check-flex d-none d-md-flex">
+            <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-score" aria-checked="false" role="switch">
+            <label class="form-check-label" for="js-toggle-previous-year-score">Display 2023 scores</label>
+        </div>
+        <div class="d-none d-md-flex flex-row gap-3">
+            <h4 class="visually-hidden">Legends for difference column</h4>
+            <div class="fs-8">
+                <span class="badge bg-gray-300 text-dark border border-dark border-opacity-25">--</span> No change
+            </div>
+            <div class="fs-8">
+                <span class="badge bg-gray-300 text-dark border border-dark border-opacity-25">NA</span> New question (not in previous scorecards)
+            </div>
+        </div>
+    </div>
 </form>
