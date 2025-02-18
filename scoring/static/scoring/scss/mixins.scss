@@ -58,8 +58,7 @@ $max-viewport: 1792;
 
 @mixin progress-bar-body($color) {
     span {
-        opacity: 0.8;
-        @include responsive(font-size, 13, 14);
+        font-size: 0.8rem;
     }
     .score-bar {
         border-color: $color;
