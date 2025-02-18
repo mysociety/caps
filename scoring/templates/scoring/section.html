@@ -149,7 +149,7 @@
             </a>
           {% endif %}
           {% if image.src_facebook %}
-            <a href="{% static image.src_facebook %}" class="d-none d-md-block js-social-graphic-download" title="Opens in a new window" target="_blank">
+            <a href="{% static image.src_facebook %}" class="display-only-large-up js-social-graphic-download" title="Opens in a new window" target="_blank">
                 <img loading="lazy" src="{% static image.src_facebook %}" alt="{{ image.alt }}">
             </a>
           {% endif %}
@@ -191,68 +191,73 @@
     <h3 class="mb-4" id="questions">Questions in this section</h3>
 
   {% if not section.is_combined %}
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="bg-primary-100 p-3 mb-4 border rounded">
-                <label for="questions-council-name" class="d-block mb-2">Show questions for a specific council</label>
-                <input class="form-control searchbar js-section-council-autocomplete" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
-                <p class="mt-3 mt-lg-4 mb-2">Or show questions by type of council</p>
-                <div class="d-flex flex-wrap gap-1">
-                    <a href="{% url 'scoring:section' section.code %}?type=single#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
-                    data-bs-custom-class="custom-tooltip"
-                    data-bs-title="This includes all London, Welsh and Scottish councils as well as Metropolitan Borough Councils and Unitary Councils.">
-                        <span>Single Tier</span>
-                        {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
-                    </a>
-                    <a href="{% url 'scoring:section' section.code %}?type=district#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="district">District</a>
-                    <a href="{% url 'scoring:section' section.code %}?type=county#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="county">County</a>
-                    <a href="{% url 'scoring:section' section.code %}?type=northern-ireland#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="northern-ireland">Northern Ireland</a>
+    <div class="row mb-4">
+        <div class="col-lg-6 mb-3 mb-lg-0">
+            <div class="card">
+                <div class="card-header bg-primary text-light py-3">
+                    <h4 class="h6 mb-0">Table by type of council</h4>
+                </div>
+                <div class="card-body">
+                    <label for="questions-council-name" class="d-block mb-2">Show questions for a specific council</label>
+                    <input class="form-control searchbar js-section-council-autocomplete" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
+                    <p class="mt-3 mt-lg-4 mb-2">Or show questions by type of council</p>
+                    <div class="d-flex flex-wrap gap-1">
+                        <a href="{% url 'scoring:section' section.code %}?type=single#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                        data-bs-custom-class="custom-tooltip"
+                        data-bs-title="This includes all London, Welsh and Scottish councils as well as Metropolitan Borough Councils and Unitary Councils.">
+                            <span>Single Tier</span>
+                            {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
+                        </a>
+                        <a href="{% url 'scoring:section' section.code %}?type=district#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="district">District</a>
+                        <a href="{% url 'scoring:section' section.code %}?type=county#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="county">County</a>
+                        <a href="{% url 'scoring:section' section.code %}?type=northern-ireland#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="northern-ireland">Northern Ireland</a>
+                    </div>
                 </div>
             </div>
         </div>
+
+        {% if council_type %}
+            <div class="col-lg-6">
+                <div class="accordion" id="accordionCouncilsComparisson">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="CouncilsComparissonheadingTwo">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#CouncilsComparissoncollapseTwo" aria-expanded="false" aria-controls="CouncilsComparissoncollapseTwo">
+                        Add {% include "scoring/includes/scoring-group-name.html" with group=council_type.slug plural=1 %} to compare
+                    </button>
+                    </h2>
+                    <div id="CouncilsComparissoncollapseTwo" class="accordion-collapse collapse show" aria-labelledby="CouncilsComparissonheadingTwo" data-bs-parent="#accordionCouncilsComparisson">
+                    <div class="accordion-body">
+                        <div class="mobile-message d-sm-none p-3 text-bg-secondary">
+                        <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
+                        <p class="text-white">You’ll find more options, like the ability to compare your council’s Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
+                        </div>
+                        <div class="display-only-large-up">
+                        <form class="display-only-large-up" id="advancedFilterForm" action=".">
+                            {% if comparison_councils|length > 2 %}
+                            <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
+                            {% else %}
+                            <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name"{% if council_type %} data-council_type="{{ council_type.slug }}"{% endif %}>
+                            {% endif %}
+                            {% if comparison_councils %}
+                            <div class="selected-council-wrapper mt-4 mb-3">
+                                {% for comparison in comparison_councils %}
+                                <a href="{% url 'scoring:council' comparison.council.slug %}" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
+                                {% endfor %}
+                            </div>
+                            <a href="{% url 'scoring:section' section.code %}?type={{ council_type.slug }}#questions">Clear all</a>
+                            {% endif %}
+                        </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
   {% endif %}
 
   {% if council_type %}
-    <div class="row d-none d-md-flex mb-4">
-      <div class="col-lg-6">
-        <div class="accordion" id="accordionCouncilsComparisson">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="CouncilsComparissonheadingTwo">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#CouncilsComparissoncollapseTwo" aria-expanded="false" aria-controls="CouncilsComparissoncollapseTwo">
-                Add {% include "scoring/includes/scoring-group-name.html" with group=council_type.slug plural=1 %} to compare
-              </button>
-            </h2>
-            <div id="CouncilsComparissoncollapseTwo" class="accordion-collapse collapse show" aria-labelledby="CouncilsComparissonheadingTwo" data-bs-parent="#accordionCouncilsComparisson">
-              <div class="accordion-body">
-                <div class="mobile-message d-sm-none p-3 text-bg-secondary">
-                  <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
-                  <p class="text-white">You’ll find more options, like the ability to compare your council’s Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
-                </div>
-                <div class="d-none d-lg-block">
-                  <form class="d-none d-lg-block" id="advancedFilterForm" action=".">
-                    {% if comparison_councils|length > 2 %}
-                      <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
-                    {% else %}
-                      <input class="border border-primary form-control searchbar blue dark js-location-compare-autocomplete" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name"{% if council_type %} data-council_type="{{ council_type.slug }}"{% endif %}>
-                    {% endif %}
-                    {% if comparison_councils %}
-                      <div class="selected-council-wrapper mt-4 mb-3">
-                        {% for comparison in comparison_councils %}
-                          <a href="{% url 'scoring:council' comparison.council.slug %}" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
-                        {% endfor %}
-                      </div>
-                      <a href="{% url 'scoring:section' section.code %}?type={{ council_type.slug }}#questions">Clear all</a>
-                    {% endif %}
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4">
       {% if comparison_scores %}
       {% for comparison in comparison_scores %}
@@ -293,15 +298,42 @@
             </a>
         </div>
       {% endif %}
+
+        {% if comparison_councils %}
+        {% comment %} On mobile previous year score will be display by default {% endcomment %}
+        <div class="col-lg-6 display-only-large-up">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-check-flex d-none d-md-flex">
+                        <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-score" aria-checked="false" role="switch">
+                        <label class="form-check-label" for="js-toggle-previous-year-score">Display 2023 scores<span class="badge bg-primary-100 text-primary ms-1">NEW</span></label>
+                    </div>
+                    <div class="d-none d-md-flex flex-row gap-3 mt-3">
+                        <h4 class="visually-hidden">Legends for difference column</h4>
+                        <div>
+                            <span class="badge bg-gray-300 text-dark">--</span> No change
+                        </div>
+                        <div>
+                            <span class="badge bg-gray-300 text-dark">NA</span> New question (not in previous scorecards)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
-    <table class="section-question-table mb-4">
+    <table class="js-table-year-comparison section-question-table mb-4">
         <thead class="text-bg-primary position-sticky z-index-3 top-0">
-            <tr class="d-none d-md-table-row">
+            <tr class="display-only-large-up">
                 <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
 
               {% for comparison in comparison_councils %}
-                <th scope="col">
+                <th scope="col" colspan="2" class="js-current-year-score">
+                    <p class="mb-1">{{ comparison.council.name }}</p>
+                    <a class="fs-7 link-light fw-normal" href="{% url 'scoring:council' comparison.council.slug %}">Go to council Scorecard</a>
+                </th>
+                <th scope="col" colspan="3" class="js-previous-year-score">
                     <p class="mb-1">{{ comparison.council.name }}</p>
                     <a class="fs-7 link-light fw-normal" href="{% url 'scoring:council' comparison.council.slug %}">Go to council Scorecard</a>
                 </th>
@@ -309,6 +341,28 @@
 
                 <th scope="col">
                     <span class="mb-1 d-block">Councils with full marks per question</span>
+                </th>
+            </tr>
+            <tr class="bg-primary-100 display-only-large-up fs-7 text-primary">
+                <th scope="col" class="py-2 border-start"></th>
+
+                {% for comparison in comparison_councils %}
+                    <th scope="col" class="py-2 border-start border-light">2025</th>
+                    {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
+                    <th scope="col" class="py-2 js-previous-year-score">2023</th>
+                    {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
+                    <th scope="col" class="js-current-year-score py-2 border-end border-light text-center">Versus 2023</th>
+                    <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
+                {% endfor %}
+
+                <th class="py-2 border-end">2025 results</th>
+            </tr>
+
+            {% comment %} Mobile version {% endcomment %}
+            <tr class="text-bg-primary d-lg-none">
+                <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">
+                    {% comment %} TODO: On mobile we are only displaying one council, but if someone shares a link of a comparison with two councils then this is displaying both council names. Not sure if this would be an outliner scenario, but it would be great if we can cover it {% endcomment %}
+                    Questions: {% for comparison in comparison_councils %}{{ comparison.council.name }}{% endfor %}
                 </th>
             </tr>
         </thead>
@@ -320,13 +374,23 @@
                 </td>
 
               {% for comparison in question.comparisons %}
-                <td data-column="score" class="text-start text-md-end d-none flex-row d-md-table-cell score">
+                <td data-column="score" class="display-only-large-up text-start flex-row score">
                     <span class="me-2">{{ comparison.score|format_mark }}/{{ question.details.max_score }}</span>
                     <span class="badge bg-secondary d-md-none">{{ comparison.council_name }}</span>
                 </td>
+                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
+                {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
+                <td data-column="score" class="js-previous-year-score display-only-large-up text-start flex-row score">
+                    <span class="me-2">{{ comparison.score|format_mark }}/{{ question.details.max_score }}</span>
+                    <span class="badge bg-secondary d-md-none">{{ comparison.council_name }}</span>
+                </td>
+
+                <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
+                    {% include "scoring/includes/integer_score_change.html" with change=answer.change %}
+                </td>
               {% endfor %}
 
-                <td data-column="score" class="score">
+                <td data-column="score" class="score ps-5 ps-lg-2">
                   <div class="d-flex flex-row gap-2 align-items-center">
                       <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio question.scored_max council_count 100 %};">
                           <div class="percentage fs-8">
