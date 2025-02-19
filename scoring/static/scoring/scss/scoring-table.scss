@@ -1,4 +1,4 @@
-$table-desktop-breakpoint: 915px;
+$table-desktop-breakpoint: map-get($grid-breakpoints, lg);
 $border-table: 1px solid transparentize($color: $black, $amount: 1);
 
 // Attributes for both tables
