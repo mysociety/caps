@@ -348,7 +348,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
             obj["change"] = 0
             if section.previous_score:
                 obj["change"] = (
-                    (section.previous_score - section.weighted_score)
+                    (section.weighted_score - section.previous_score)
                     / section.previous_score
                 ) * 100
 
