@@ -488,6 +488,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         if plan_score.previous_year is not None:
             prev = plan_score.previous_year
+            context["previous_year"] = prev.year
             context["previous_total"] = prev.weighted_total
             context["previous_diff"] = (
                 (plan_score.weighted_total - prev.weighted_total) / prev.weighted_total
