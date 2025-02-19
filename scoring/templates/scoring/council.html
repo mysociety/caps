@@ -404,10 +404,12 @@
                     {{ answer.score|format_mark }}/{{ answer.max }}
                 </td>
 
-                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
-                {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
                 <td class="js-previous-year-score display-only-large-up border-bottom">
-                    {{ answer.score|format_mark }}/{{ answer.max }}
+                    {% if answer.previous_score is not None %}
+                      {{ answer.previous_score|format_mark }}/{{ answer.previous_max }}
+                    {% else %}
+                      NA
+                    {% endif %}
                 </td>
 
                 <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
