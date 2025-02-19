@@ -185,6 +185,33 @@ COUNCIL_TAGS_CSV_SHEET_NAME = "Councils for Tag"
 COUNCIL_TAGS_CSV_NAME = "council_tags.csv"
 COUNCIL_TAGS_CSV = os.path.join(DATA_DIR, COUNCIL_TAGS_CSV_NAME)
 
+SCORECARD_COUNCIL_CUTOFFS = {
+    "2023": {
+        "new": {
+            "year": 2023,
+            "month": 1,
+            "day": 1,
+        },
+        "old": {
+            "year": 2021,
+            "month": 4,
+            "day": 1,
+        },
+    },
+    "2025": {
+        "new": {
+            "year": 2024,
+            "month": 4,
+            "day": 1,
+        },
+        "old": {
+            "year": 2023,
+            "month": 1,
+            "day": 1,
+        },
+    },
+}
+
 FEEDBACK_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSeWM8CBVwaksqmEy79JAmgfecodR7skmYBIwhRrc0rho1nisA/viewform"
 
 # make sure CSRF checking still works behind load balancers

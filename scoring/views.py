@@ -279,16 +279,24 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         return q
 
-    # TODO: unhardcode dates based on plan year
     def is_active_council(self, council):
-        new_council_date = date(year=2023, month=1, day=1)
+        dates = settings.SCORECARD_COUNCIL_CUTOFFS[str(self.request.year)]
+        new_council_date = date(
+            year=dates["new"]["year"],
+            month=dates["new"]["month"],
+            day=dates["new"]["day"],
+        )
         is_active = True
         inactive_type = ""
         if council.start_date is not None and council.start_date >= new_council_date:
             inactive_type = "new_council"
             is_active = False
 
-        old_council_date = date(year=2021, month=4, day=1)
+        old_council_date = date(
+            year=dates["old"]["year"],
+            month=dates["old"]["month"],
+            day=dates["old"]["day"],
+        )
         if council.end_date is not None and council.end_date <= old_council_date:
             inactive_type = "old_council"
             is_active = False
