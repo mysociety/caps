@@ -430,7 +430,7 @@ forEachElement('.js-category-select', function(categorySelect) {
 function ajaxLoadCouncilTypeScorecard(url) {
     const selectors = [
       '#home-page-main-filter',
-      '.scorecard-table'
+      '.scorecard-table',
     ];
     
     selectors.forEach(selector => {
