@@ -279,93 +279,27 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         return q
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        council = context.get("council")
-        group = council.get_scoring_group()
-
-        context["plan_year"] = self.request.year
-
+    # TODO: unhardcode dates based on plan year
+    def is_active_council(self, council):
         new_council_date = date(year=2023, month=1, day=1)
+        is_active = True
+        inactive_type = ""
         if council.start_date is not None and council.start_date >= new_council_date:
-            context["scoring_group"] = group
-            context["new_council"] = True
-            return context
+            inactive_type = "new_council"
+            is_active = False
 
         old_council_date = date(year=2021, month=4, day=1)
         if council.end_date is not None and council.end_date <= old_council_date:
-            context["scoring_group"] = group
-            context["old_council"] = True
-            return context
+            inactive_type = "old_council"
+            is_active = False
 
-        promises = Promise.objects.filter(council=council).all()
+        return is_active, inactive_type
 
-        target = None
-        for promise in promises:
-            if target is None:
-                target = promise
-            elif target is not None and promise.scope == PlanDocument.WHOLE_AREA:
-                target = promise
-        context["target"] = target
-
-        try:
-            plan_score = PlanScore.objects.get(council=council, year=self.request.year)
-        except PlanScore.DoesNotExist:
-            context["no_plan"] = True
-            return context
-
-        plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
-        sections = PlanSectionScore.sections_for_council(
-            council=council,
-            plan_year=self.request.year,
-            previous_year=plan_score.previous_year,
-        )
-
-        try:
-            original_plan_score = PlanScore.objects.get(council=council, year=2021)
-            context["original_plan_score"] = original_plan_score
-        except PlanScore.DoesNotExist:
-            context["original_plan_score"] = False
-
-        try:
-            previous_total = PlanScore.objects.get(
-                council=council, year=2023
-            ).weighted_total
-            context["previous_total"] = previous_total
-            context["previous_diff"] = (
-                (previous_total - plan_score.weighted_total) / previous_total
-            ) * 100
-        except PlanScore.DoesNotExist:
-            context["previous_total"] = False
-
-        for section in sections.keys():
-            sections[section]["non_negative_max"] = sections[section]["score"]
-            sections[section]["negative_points"] = 0
-
-        # get average section scores for authorities of the same type
-        section_avgs = PlanSectionScore.get_all_section_averages(
-            council_group=group, plan_year=self.request.year
-        )
-        for section in section_avgs.all():
-            sections[section["plan_section__code"]]["avg"] = round(
-                section["avg_score"], 1
-            )
-
-        section_top_marks = PlanSectionScore.get_all_section_top_mark_counts(
-            council_group=group, plan_year=self.request.year
-        )
-        for section in section_top_marks.all():
-            sections[section["plan_section__code"]]["max_count"] = section[
-                "max_score_count"
-            ]
-
-        question_max_counts = PlanQuestionScore.all_question_max_score_counts(
-            council_group=group, plan_year=self.request.year
-        )
-
+    def get_comparison_data(self):
         comparison_slugs = self.request.GET.getlist("comparisons")
         comparisons = None
         comparison_answers = defaultdict(dict)
+        comparison_sections = {}
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
@@ -393,8 +327,6 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 plan_year=self.request.year,
                 previous_year=True,
             )
-            for section, details in comparison_sections.items():
-                sections[section]["comparisons"] = details
 
             comparison_ids = [p.id for p in comparisons]
             if len(comparison_ids) > 0:
@@ -430,6 +362,48 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                             ]
                             - question.score
                         )
+
+        return comparisons, comparison_answers, comparison_sections
+
+    def get_section_details(self, plan_score, group, comparisons, comparison_sections):
+        sections = PlanSectionScore.sections_for_council(
+            council=plan_score.council,
+            plan_year=plan_score.year,
+            previous_year=plan_score.previous_year,
+        )
+
+        for section in sections.keys():
+            sections[section]["non_negative_max"] = sections[section]["score"]
+            sections[section]["negative_points"] = 0
+
+        # get average section scores for authorities of the same type
+        section_avgs = PlanSectionScore.get_all_section_averages(
+            council_group=group, plan_year=self.request.year
+        )
+        for section in section_avgs.all():
+            sections[section["plan_section__code"]]["avg"] = round(
+                section["avg_score"], 1
+            )
+
+        section_top_marks = PlanSectionScore.get_all_section_top_mark_counts(
+            council_group=group, plan_year=self.request.year
+        )
+        for section in section_top_marks.all():
+            sections[section["plan_section__code"]]["max_count"] = section[
+                "max_score_count"
+            ]
+
+        for section, details in comparison_sections.items():
+            sections[section]["comparisons"] = details
+
+        return sections
+
+    def add_answer_details(
+        self, plan_score, group, sections, comparisons, comparison_answers
+    ):
+        question_max_counts = PlanQuestionScore.all_question_max_score_counts(
+            council_group=group, plan_year=self.request.year
+        )
 
         previous_questions = defaultdict(dict)
         if plan_score.previous_year is not None:
@@ -477,6 +451,89 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                     data["only_negative"] = True
             data["answers"] = sorted(data["answers"], key=natsort)
 
+        return sections
+
+    def get_related_councils(self, council, group, comparisons):
+        similar_councils = []
+        for group in council.get_related_councils(5, group["slug"]):
+            if group["type"].slug == "composite":
+                if comparisons:
+                    # Filter out any related councils that are already being compared
+                    comparison_slugs = {score.council.slug for score in comparisons}
+                    similar_councils = [
+                        sc
+                        for sc in group["councils"]
+                        if sc.slug not in comparison_slugs
+                    ]
+                else:
+                    similar_councils = group["councils"]
+                break
+
+        return similar_councils
+
+    def add_previous_scores(self, council, context, plan_score):
+        try:
+            original_plan_score = PlanScore.objects.get(council=council, year=2021)
+            context["original_plan_score"] = original_plan_score
+        except PlanScore.DoesNotExist:
+            context["original_plan_score"] = False
+
+        if plan_score.previous_year is not None:
+            prev = plan_score.previous_year
+            context["previous_total"] = prev.weighted_total
+            context["previous_diff"] = (
+                (plan_score.weighted_total - prev.weighted_total) / prev.weighted_total
+            ) * 100
+        else:
+            context["previous_total"] = False
+
+        return context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council = context.get("council")
+        group = council.get_scoring_group()
+
+        context["scoring_group"] = group
+        context["plan_year"] = self.request.year
+
+        is_active, inactive_type = self.is_active_council(council)
+        if not is_active:
+            context[inactive_type] = True
+            return context
+
+        promises = Promise.objects.filter(council=council).all()
+
+        target = None
+        for promise in promises:
+            if target is None:
+                target = promise
+            elif target is not None and promise.scope == PlanDocument.WHOLE_AREA:
+                target = promise
+        context["target"] = target
+
+        try:
+            plan_score = PlanScore.objects.get(council=council, year=self.request.year)
+        except PlanScore.DoesNotExist:
+            context["no_plan"] = True
+            return context
+
+        plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
+
+        context = self.add_previous_scores(council, context, plan_score)
+
+        comparisons, comparison_answers, comparison_sections = (
+            self.get_comparison_data()
+        )
+
+        sections = self.get_section_details(
+            plan_score, group, comparisons, comparison_sections
+        )
+
+        sections = self.add_answer_details(
+            plan_score, group, sections, comparisons, comparison_sections
+        )
+
         council_count = PlanScore.objects.filter(
             year=self.request.year,
             council__authority_type__in=group["types"],
@@ -492,26 +549,14 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             sections.values(), key=lambda section: section["code"]
         )
         context["comparisons"] = comparisons
-
-        for group in council.get_related_councils(5, group["slug"]):
-            if group["type"].slug == "composite":
-                if comparisons:
-                    # Filter out any related councils that are already being compared
-                    comparison_slugs = {score.council.slug for score in comparisons}
-                    context["similar_councils"] = [
-                        sc
-                        for sc in group["councils"]
-                        if sc.slug not in comparison_slugs
-                    ]
-                else:
-                    context["similar_councils"] = group["councils"]
-                break
+        context["similar_councils"] = self.get_related_councils(
+            council, group, comparisons
+        )
 
         context["page_title"] = "{name} Climate Action Scorecard".format(
             name=council.name
         )
 
-        context["comparisons"] = comparisons
         context["page_description"] = (
             "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
                 name=council.name
