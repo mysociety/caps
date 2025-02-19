@@ -216,14 +216,16 @@
                             <label class="form-check-label" for="expand-all-sections">Expand all sections</label>
                         </div>
                     </div>
-                    
+
                     {% comment %} On mobile previous year score will be display by default {% endcomment %}
                     <hr class="d-none d-md-block">
 
+                    {% if plan_score.previous_year %}
                     <div class="form-check-flex d-none d-md-flex">
                         <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-score" aria-checked="false" role="switch">
-                        <label class="form-check-label" for="js-toggle-previous-year-score">Display 2023 scores<span class="badge bg-primary-100 text-primary ms-1">NEW</span></label>
+                        <label class="form-check-label" for="js-toggle-previous-year-score">Display {{ previous_year }} scores<span class="badge bg-primary-100 text-primary ms-1">NEW</span></label>
                     </div>
+                    {% endif %}
                     <div class="d-none d-md-flex flex-row gap-3 mt-3">
                         <h4 class="visually-hidden">Legends for difference column</h4>
                         <div>
@@ -262,21 +264,23 @@
 
             <tr class="bg-primary-100 display-only-large-up fs-7 text-primary">
                 <th scope="col" class="py-2 border-start"></th>
-                <th scope="col" class="py-2 border-start border-light">2025</th>
-                {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
-                <th scope="col" class="py-2 js-previous-year-score">2023</th>
-                {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
-                <th scope="col" class="js-current-year-score py-2 border-end border-light text-center">Versus 2023</th>
-                <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
+                <th scope="col" class="py-2 border-start border-light">{{ plan_score.year }}</th>
+                {% if plan_score.previous_year %}
+                  <th scope="col" class="py-2 js-previous-year-score">{{ previous_year }}</th>
+                  <th scope="col" class="js-current-year-score py-2 border-end border-light text-center">Versus {{ previous_year }}</th>
+                  <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
+                {% else %}
+                  <th scope="col" class="js-current-year-score py-2 border-end border-light text-center"></th>
+                {% endif %}
                 {% for comparison in comparisons %}
-                <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 border-start border-light">2025</th>
-                {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
-                <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 js-previous-year-score">2023</th>
-                {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
-                <th scope="col" class="js-current-year-score display-only-large-up comparison-council fs-7 py-2 border-end border-light text-center">Versus 2023</th>
-                <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
+                  <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 border-start border-light">{{ plan_score.year }}</th>
+                  {% if plan_score.previous_year %}
+                    <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 js-previous-year-score">{{ previous_year }}</th>
+                    <th scope="col" class="js-current-year-score display-only-large-up comparison-council fs-7 py-2 border-end border-light text-center">Versus {{ previous_year }}</th>
+                    <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
+                  {% endif %}
                 {% endfor %}
-                <th class="py-2 border-end">2025 results</th>
+                <th class="py-2 border-end">{{ plan_score.year }} results</th>
             </tr>
 
             {% comment %} Mobile version {% endcomment %}
@@ -305,18 +309,20 @@
                                 {{ section.weighted_score|floatformat:0 }}%
                             </dd>
                         </div>
-                        <div class="card">
-                            <dt class="card-header fs-7 py-1">2023</dt>
-                            <dd class="card-body text-center py-2 mb-0">
-                                {{ section.previous_score|floatformat:0 }}%
-                            </dd>
-                        </div>
-                        <div class="card">
-                            <dt class="card-header fs-7 py-1">Difference</dt>
-                            <dd class="card-body text-success py-2 mb-0 text-center">
-                              {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
-                            </dd>
-                        </div>
+                        {% if plan_score.previous_year %}
+                          <div class="card">
+                              <dt class="card-header fs-7 py-1">2023</dt>
+                              <dd class="card-body text-center py-2 mb-0">
+                                  {{ section.previous_score|floatformat:0 }}%
+                              </dd>
+                          </div>
+                          <div class="card">
+                              <dt class="card-header fs-7 py-1">Difference</dt>
+                              <dd class="card-body text-success py-2 mb-0 text-center">
+                                {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
+                              </dd>
+                          </div>
+                          {% endif %}
                     </dl>
 
                     {% if section.has_negative_points %}
@@ -351,31 +357,39 @@
                 </td>
 
                 </td>
-                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
-                <td class="js-previous-year-score display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
 
-                <td class="display-only-large-up">
-                    {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
-                </td>
+                {% if plan_score.previous_year %}
+                  <td class="js-previous-year-score display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
+
+                  <td class="display-only-large-up">
+                      {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
+                  </td>
+                {% endif %}
               {% else %}
-                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
                     <span>{{section.weighted_score|floatformat:0 }}%</span>
                 </td>
-                <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
-                <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
-                    {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
-                </td>
+                {% if plan_score.previous_year %}
+                  <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
+                  <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
+                      {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
+                  </td>
+                {% else %}
+                  <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
+                  </td>
+                {% endif %}
               {% endif %}
 
               {% for comparison in section.comparisons %}
                 <td class="display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
                     {{ comparison.weighted_score|floatformat:0 }}%
                 </td>
-                <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">{{ comparison.previous_score|floatformat:0 }}%</td>
-                <td class="display-only-large-up border-end border-bottom border-opacity-25 border-primary text-center">
-                    {% include "scoring/includes/percentage_score_change.html" with change=comparison.change %}
-                </td>
+                {% if plan_score.previous_year %}
+                  <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">{{ comparison.previous_score|floatformat:0 }}%</td>
+                  <td class="display-only-large-up border-end border-bottom border-opacity-25 border-primary text-center">
+                      {% include "scoring/includes/percentage_score_change.html" with change=comparison.change %}
+                  </td>
+                  {% endif %}
               {% endfor %}
 
                 <td class="display-only-large-up top-tier-score border-bottom border-end border-opacity-25 border-primary"></td>
@@ -397,34 +411,41 @@
                     {{ answer.score|format_mark }}/{{ answer.max }}
                 </td>
 
-                <td class="js-previous-year-score display-only-large-up border-bottom">
-                    {% if answer.previous_score is not None %}
-                      {{ answer.previous_score|format_mark }}/{{ answer.previous_max }}
-                    {% else %}
-                      NA
-                    {% endif %}
-                </td>
+                {% if plan_score.previous_year %}
+                  <td class="js-previous-year-score display-only-large-up border-bottom">
+                      {% if answer.previous_score is not None %}
+                        {{ answer.previous_score|format_mark }}/{{ answer.previous_max }}
+                      {% else %}
+                        NA
+                      {% endif %}
+                  </td>
 
-                <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
-                    {% include "scoring/includes/integer_score_change.html" with change=answer.change %}
-                </td>
+                  <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
+                      {% include "scoring/includes/integer_score_change.html" with change=answer.change %}
+                  </td>
+                  {% else %}
+                  <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
+                  </td>
+                  {% endif %}
 
               {% for comparison in answer.comparisons %}
                 <td data-column="score" class="display-only-large-up score border-bottom">
                     {{ comparison.score|format_mark }}/{{ comparison.max }}
                 </td>
 
-                <td class="js-previous-year-score display-only-large-up border-bottom">
-                    {% if comparison.previous_score %}
-                      {{ comparison.previous_score|format_mark }}/{{ comparison.previous_max }}
-                    {% else %}
-                      NA
-                    {% endif %}
-                </td>
+                {% if plan_score.previous_year %}
+                  <td class="js-previous-year-score display-only-large-up border-bottom">
+                      {% if comparison.previous_score %}
+                        {{ comparison.previous_score|format_mark }}/{{ comparison.previous_max }}
+                      {% else %}
+                        NA
+                      {% endif %}
+                  </td>
 
-                <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
-                    {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
-                </td>
+                  <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
+                      {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
+                  </td>
+                {% endif %}
               {% endfor %}
 
                 <td class="display-only-large-up top-tier-score border-bottom border-end">
@@ -460,28 +481,33 @@
                     {{ plan_score.weighted_total|floatformat:0 }}%
                 </td>
 
-                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
-                <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">
-                    {{ previous_total|floatformat:0 }}%
-                </td>
+                {% if plan_score.previous_year %}
+                  <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">
+                      {{ previous_total|floatformat:0 }}%
+                  </td>
 
-                <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
-                    {% include "scoring/includes/percentage_score_change.html" with change=previous_diff %}
-                </td>
+                  <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
+                      {% include "scoring/includes/percentage_score_change.html" with change=previous_diff %}
+                  </td>
+                  {% else %}
+                  <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
+                  </td>
+                  {% endif %}
 
               {% for comparison in comparisons %}
                 <td class="display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score">
                     {{ comparison.weighted_total|floatformat:0 }}%
                 </td>
 
-                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
-                <td class="js-previous-year-score display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score">
-                    {{ comparison.previous_total|floatformat:0 }}%
-                </td>
+                {% if plan_score.previous_year %}
+                  <td class="js-previous-year-score display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score">
+                      {{ comparison.previous_total|floatformat:0 }}%
+                  </td>
 
-                <td class="display-only-large-up text-center border-bottom border-opacity-25 border-primary">
-                    {% include "scoring/includes/percentage_score_change.html" with change=comparison.change %}
-                </td>
+                  <td class="display-only-large-up text-center border-bottom border-opacity-25 border-primary">
+                      {% include "scoring/includes/percentage_score_change.html" with change=comparison.change %}
+                  </td>
+                  {% endif %}
               {% endfor %}
 
                 <td class="display-only-large-up top-tier-score border-end border-bottom border-opacity-25 border-primary"></td>
