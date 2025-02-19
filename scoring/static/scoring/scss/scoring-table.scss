@@ -7,6 +7,10 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
     max-height: 97vh;
     overflow: auto;
 
+    @media only screen and (max-width: $table-desktop-breakpoint) {
+        width: fit-content; // So it doesn;t use extra space on tablet
+    }
+
     .highlight {
         th, td {
             background: lighten($color-scorecard-yellow, 30%) !important;
@@ -127,7 +131,7 @@ $score-bar-vertical-padding: 8px;
 
 .score-bar {
     background: $white;
-    border: 1px solid #005CAB;
+    border: 1px solid $primary;
     border-radius: $score-bar-border-radius;
     width: 150px;
     padding: $score-bar-vertical-padding 0;
@@ -138,9 +142,8 @@ $score-bar-vertical-padding: 8px;
         width: 0;
         height: 100%;
         position: absolute;
-        background: $primary;
+        background-color: mix($primary, $white, 10%);
         top:0;
-        border-radius: $score-bar-border-radius;
         z-index: 0;
     }
 
@@ -148,17 +151,20 @@ $score-bar-vertical-padding: 8px;
         display: block;
         text-align: center;
         line-height: 100%;
-        margin-bottom: 0;
+        margin: 0 auto;
         z-index: 1;
         position: relative;
+        padding: 0.2rem;
+        width: fit-content;
+        border-radius: 4px;
     }
 
     span.average {
         position: absolute;
         right: 10px;
-        top: $score-bar-vertical-padding;
-        font-size: 13px;
-        opacity: 0.9;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.75rem;
         font-weight: 300;
     }
 }
@@ -170,11 +176,7 @@ $score-bar-vertical-padding: 8px;
 }
 
 @each $name, $color in $theme-colors {
-    .second-row  th.#{$name} {
-        @include progress-bar-header($color);
-    }
-
-    .council-category-score.#{$name} {
+    .#{$name} {
         @include progress-bar-body($color);
     }
 }
@@ -253,7 +255,6 @@ $score-bar-vertical-padding: 8px;
 $flex-basis-mobile-council: 80%;
 .council-link {
     display: block;
-    margin-left: 5px;
     white-space: break-spaces;
     text-decoration: none;
     font-weight: normal;
@@ -310,102 +311,117 @@ $flex-basis-mobile-council: 80%;
 }
 
 // Mobile table
-$padding-left: 8px;
+$padding-left: 1rem;
 
 .scorecard-table-mobile {
-    width: 100%;
+    width: auto;
     white-space: nowrap;
     margin: 0;
     border-collapse: separate;
     border-spacing: 0;
-    table-layout: fixed;
 
     @media only screen and (min-width: $table-desktop-breakpoint) {
         display: none;
     }
 
-    th.main-header {
-        // First row "category select"
-        padding: 0 !important;
-        display: table-cell !important;
+    thead {
+        position: sticky;
+        z-index: 2;
+        // Size of the category select element
         top: 0;
-    }
-    // Second row: "Council name"
-    tr.second-row {
-        top:56px;
-    }
-    .council-name.header {
-        font-style: normal;
-        font-weight: normal;
-        font-size: 13px;
-        line-height: 150%;
-        text-transform: uppercase;
-        height: 48px;
-        padding-top: 16px;
-        background-color: $white;
-    }
+        background: $white;
 
-    .second-row .total-score .score-bar {
-        font-size: 13px;
-    }
-
-    // Table body
-    tbody th, thead th {
-        padding: $padding-left;
-        border-top: none;
-    }
-
-    tbody th, tbody td {
-        word-break: break-word;
-        line-height: 1.2; // rather than the 150% inherited from body
-    }
-
-    .council-link {
-        @include media-breakpoint-down('xs') {
-            max-width: 130px;
-        }
-    }
-
-    tr {
-        &:nth-child(odd) {
-                background-color: #F8F8F8;
-        }
-    }
-
-    //Hide Total-score column
-    tbody tr {
-        th {
-            &:nth-child(2) {
-                display:table-cell;
+        .name-row {
+            th, td {
+                padding-top: 1rem;
             }
         }
-    }
-    tbody tr th.active {
-        display: block;
-    }
 
-    tbody tr {
-        td {
-            display:none;
-        }
-    }
-    tbody tr td.active {
-        display: block;
-    }
-
-    thead tr {
-        th {
-            display:none;
-            &:nth-child(1), &:nth-child(2) {
-                display: table-cell;
+        .score-row {
+            th, td {
+                padding-bottom: 1.25rem;
             }
         }
     }
 
-    thead tr {
-        th.active {
-            display: block;
+    th,td {
+        padding: 1rem 0.5rem;
+    }
+
+    .name-row {
+        th,td {
+            padding-top: 2rem;
+            padding-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            text-align: center;
         }
     }
-    // Hide 
+
+    .legend-row {
+        th,td {
+            padding-top: 0.25rem;
+            padding-bottom: 0;
+            text-align: center;
+        }
+    }
+
+    .score-row {
+        box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2);
+        th,td {
+            padding-top: 0.25rem;
+            padding-bottom: 2rem;
+            width: 10rem;
+            text-align: center;
+            width: 30%;
+        }
+
+        th.spacer-cell, td.spacer-cell {
+            width: 20%;
+        }
+    }
+
+    .message-row {
+        box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2);
+        background-color: #f2efef;
+        text-align: center;
+        + tr {
+            td,th {
+              padding-top: 3rem;
+            }
+
+            &.message-row {
+                td, th {
+                    padding-top: 0;
+                }
+            }
+        }
+    }
+
+    .score-bar {
+        width: 120px;
+        padding: 4px 0;
+        font-size: 0.8rem;
+        margin:0 auto;
+
+        span.average {
+            display: none;
+        }
+    }
+}
+
+$js-classes: (
+  'building',
+  'transport',
+  'planning',
+  'governance',
+  'biodiversity',
+  'collaboration',
+  'waste'
+);
+
+@each $class in $js-classes {
+  .js-#{$class} {
+    display: none;
+  }
 }
