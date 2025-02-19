@@ -105,6 +105,9 @@ class PlanScore(models.Model):
         max_length=100, choices=RUC_TYPES, null=True, blank=True
     )
     political_control = models.CharField(max_length=100, null=True, blank=True)
+    previous_year = models.ForeignKey(
+        "PlanScore", null=True, blank=True, on_delete=models.SET_NULL
+    )
 
     def questions_answered(self):
         # do this in raw SQL as otherwise we need an extra query
