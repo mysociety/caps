@@ -1,5 +1,1 @@
-{% if current_plan_year %}
-    {% if slug == 'single'%}{% url 'scoring:home' %}{% else %}{% url 'scoring:scoring' slug %}{% endif %}
-{% else %}
-    {% if slug == 'single'%}{% url 'year_scoring:home' plan_year %}{% else %}{% url 'year_scoring:scoring' plan_year slug %}{% endif %}
-{% endif %}
+{% if current_plan_year %}{% if slug == 'single'%}{% url 'scoring:home' %}{% else %}{% url 'scoring:scoring' slug %}{% endif %}{% else %}{% if slug == 'single'%}{% url 'year_scoring:home' plan_year %}{% else %}{% url 'year_scoring:scoring' plan_year slug %}{% endif %}{% endif %}
