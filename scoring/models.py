@@ -381,7 +381,9 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         return sections
 
     @classmethod
-    def sections_for_plans(cls, plans=None, plan_year=None, plan_sections=None):
+    def sections_for_plans(
+        cls, plans=None, plan_year=None, plan_sections=None, previous_year=None
+    ):
         sections = {}
         section_qs = (
             cls.objects.select_related("plan_section", "plan_score__council")
@@ -392,9 +394,21 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         if plan_sections is not None:
             section_qs = section_qs.filter(plan_section__in=plan_sections)
 
+        if previous_year is not None:
+            section_qs = section_qs.annotate(
+                previous_score=Subquery(
+                    cls.objects.filter(
+                        plan_score=OuterRef("plan_score__previous_year"),
+                        plan_section__code=OuterRef("plan_section__code"),
+                    ).values("weighted_score")
+                )
+            )
+
         sections = defaultdict(list)
         for section in section_qs.all():
-            sections[section.plan_section.code].append(cls.make_section_object(section))
+            sections[section.plan_section.code].append(
+                cls.make_section_object(section, previous_year)
+            )
 
         return sections
 

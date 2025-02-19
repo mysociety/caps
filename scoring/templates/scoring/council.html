@@ -372,16 +372,9 @@
                 <td class="display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
                     {{ comparison.weighted_score|floatformat:0 }}%
                 </td>
-                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
-                <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">{{ section.weighted_score|floatformat:0 }}%</td>
+                <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">{{ comparison.previous_score|floatformat:0 }}%</td>
                 <td class="display-only-large-up border-end border-bottom border-opacity-25 border-primary text-center">
-                    {% comment %} TODO: IF Negative difference: Change bg-green-100 to bg-red-100 {% endcomment %}
-                    {% comment %} TODO: IF Negative difference: Change text-success to text-danger  {% endcomment %}
-                    {% comment %} TODO: IF Negative difference: Change &#9652; to &#9662; {% endcomment %}
-                    {% comment %} TODO: IF No difference: Change bg-green-100 to bg-gray-300 {% endcomment %}
-                    {% comment %} TODO: IF No difference: Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF No difference: display '--' {% endcomment %}
-                    <span class="badge align-text-bottom bg-green-100 text-success">&#9652; 5%</span>
+                    {% include "scoring/includes/percentage_score_change.html" with change=comparison.change %}
                 </td>
               {% endfor %}
 
@@ -421,14 +414,16 @@
                     {{ comparison.score|format_mark }}/{{ comparison.max }}
                 </td>
 
-                {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
-                {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
                 <td class="js-previous-year-score display-only-large-up border-bottom">
-                    {{ comparison.score|format_mark }}/{{ comparison.max }}
+                    {% if comparison.previous_score %}
+                      {{ comparison.previous_score|format_mark }}/{{ comparison.previous_max }}
+                    {% else %}
+                      NA
+                    {% endif %}
                 </td>
 
                 <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
-                    {% include "scoring/includes/percentage_score_change.html" with change=comparison.change %}
+                    {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
                 </td>
               {% endfor %}
 
@@ -481,17 +476,11 @@
 
                 {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
                 <td class="js-previous-year-score display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score">
-                    {{ comparison.weighted_total|floatformat:0 }}%
+                    {{ comparison.previous_total|floatformat:0 }}%
                 </td>
 
                 <td class="display-only-large-up text-center border-bottom border-opacity-25 border-primary">
-                    {% comment %} TODO: IF Negative difference: Change bg-green-100 to bg-red-100 {% endcomment %}
-                    {% comment %} TODO: IF Negative difference: Change text-success to text-danger  {% endcomment %}
-                    {% comment %} TODO: IF Negative difference: Change &#9652; to &#9662; {% endcomment %}
-                    {% comment %} TODO: IF No difference: Change bg-green-100 to bg-gray-300 {% endcomment %}
-                    {% comment %} TODO: IF No difference: Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF No difference: display '--' {% endcomment %}
-                    <span class="badge align-text-bottom bg-green-100 text-success">&#9652; 5%</span>
+                    {% include "scoring/includes/percentage_score_change.html" with change=comparison.change %}
                 </td>
               {% endfor %}
 
