@@ -370,10 +370,28 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             comparisons = (
                 PlanScore.objects.select_related("council")
                 .filter(council__slug__in=comparison_slugs, year=self.request.year)
+                .annotate(
+                    previous_total=Subquery(
+                        PlanScore.objects.filter(
+                            id=OuterRef("previous_year__id"),
+                        ).values("weighted_total")
+                    )
+                )
+                .annotate(
+                    change=(
+                        (
+                            (F("weighted_total") - F("previous_total"))
+                            / F("previous_total")
+                        )
+                        * 100
+                    )
+                )
                 .order_by("council__name")
             )
             comparison_sections = PlanSectionScore.sections_for_plans(
-                plans=comparisons, plan_year=self.request.year
+                plans=comparisons,
+                plan_year=self.request.year,
+                previous_year=True,
             )
             for section, details in comparison_sections.items():
                 sections[section]["comparisons"] = details
@@ -385,6 +403,33 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 ):
                     q = self.make_question_obj(question)
                     comparison_answers[question.code][question.council_name] = q
+                prev_plans = PlanScore.objects.filter(id__in=comparison_ids).values(
+                    "previous_year_id", "previous_year__year"
+                )
+                ids = []
+                year = None
+                for plan in prev_plans:
+                    ids.append(plan["previous_year_id"])
+                    year = plan["previous_year__year"]
+
+                for question in PlanScore.questions_answered_for_councils(
+                    plan_ids=ids, plan_year=year
+                ):
+                    if comparison_answers[question.code].get(question.council_name):
+                        comparison_answers[question.code][question.council_name][
+                            "previous_score"
+                        ] = question.score
+                        comparison_answers[question.code][question.council_name][
+                            "previous_max"
+                        ] = question.max_score
+                        comparison_answers[question.code][question.council_name][
+                            "change"
+                        ] = (
+                            comparison_answers[question.code][question.council_name][
+                                "score"
+                            ]
+                            - question.score
+                        )
 
         previous_questions = defaultdict(dict)
         if plan_score.previous_year is not None:
