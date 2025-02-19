@@ -386,10 +386,22 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                     q = self.make_question_obj(question)
                     comparison_answers[question.code][question.council_name] = q
 
+        previous_questions = defaultdict(dict)
+        if plan_score.previous_year is not None:
+            prev_answers = plan_score.previous_year.questions_answered()
+            for pa in prev_answers:
+                previous_questions[pa.section_code][pa.code] = pa
+
         for question in plan_score.questions_answered():
             section = question.section_code
 
             q = self.make_question_obj(question)
+            if previous_questions[section].get(q["code"]):
+                pq = previous_questions[section][q["code"]]
+                q["previous_score"] = pq.score
+                q["previous_max"] = pq.max_score
+                q["change"] = q["score"] - q["previous_score"]
+
             q["council_count"] = question_max_counts.get(question.code, 0)
             q["comparisons"] = []
             # not all councils have answers for all questions so make sure we
