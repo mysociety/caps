@@ -76,11 +76,19 @@ class Command(BaseCommand):
         "IND": "Independent",
     }
 
+    previous_year = None
+
     def add_arguments(self, parser):
         parser.add_argument(
             "--update_questions",
             action="store_true",
             help="Updates/creates the text of questions",
+        )
+
+        parser.add_argument(
+            "--previous_year",
+            action="store",
+            help="year of previous actions scorecards, for linking",
         )
 
     def create_sections(self):
@@ -114,6 +122,16 @@ class Command(BaseCommand):
             plan_score, created = PlanScore.objects.get_or_create(
                 council=council, year=self.YEAR
             )
+
+            if self.previous_year:
+                try:
+                    prev = PlanScore.objects.get(
+                        council=council, year=self.previous_year
+                    )
+                    plan_score.previous_year = prev
+                    plan_score.save()
+                except PlanScore.DoesNotExist:
+                    pass
 
             score = 0
             if not pd.isnull(row["score"]):
@@ -307,7 +325,14 @@ class Command(BaseCommand):
             to_create.append(score_obj)
         PlanQuestionScore.objects.bulk_create(to_create)
 
-    def handle(self, update_questions: bool = False, *args, **options):
+    def handle(
+        self,
+        update_questions: bool = False,
+        previous_year: int = None,
+        *args,
+        **options,
+    ):
+        self.previous_year = previous_year
         if not update_questions:
             self.stdout.write(
                 f"{YELLOW}Not creating or updating questions, call with --update_questions to do so{NOBOLD}"
