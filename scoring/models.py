@@ -365,9 +365,8 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
             .annotate(
                 previous_score=Subquery(
                     cls.objects.filter(
-                        plan_score__council=OuterRef("plan_score__council"),
+                        plan_score=OuterRef("plan_score__previous_year"),
                         plan_section__code=OuterRef("plan_section__code"),
-                        plan_score__year=previous_year,
                     ).values("weighted_score")
                 )
             )

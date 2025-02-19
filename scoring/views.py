@@ -318,7 +318,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         sections = PlanSectionScore.sections_for_council(
             council=council,
             plan_year=self.request.year,
-            previous_year=2025,
+            previous_year=plan_score.previous_year,
         )
 
         try:
@@ -327,15 +327,13 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         except PlanScore.DoesNotExist:
             context["original_plan_score"] = False
 
-        try:
-            previous_total = PlanScore.objects.get(
-                council=council, year=2023
-            ).weighted_total
-            context["previous_total"] = previous_total
+        if plan_score.previous_year is not None:
+            prev = plan_score.previous_year
+            context["previous_total"] = prev.weighted_total
             context["previous_diff"] = (
-                (previous_total - plan_score.weighted_total) / previous_total
+                (plan_score.weighted_total - prev.weighted_total) / prev.weighted_total
             ) * 100
-        except PlanScore.DoesNotExist:
+        else:
             context["previous_total"] = False
 
         for section in sections.keys():
