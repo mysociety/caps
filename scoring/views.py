@@ -364,7 +364,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                         ] = question.max_score
                         comparison_answers[question.code][question.council_name][
                             "change"
-                        ] = (
+                        ] = int(
                             comparison_answers[question.code][question.council_name][
                                 "score"
                             ]
@@ -427,7 +427,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 pq = previous_questions[section][q["code"]]
                 q["previous_score"] = pq.score
                 q["previous_max"] = pq.max_score
-                q["change"] = q["score"] - q["previous_score"]
+                q["change"] = int(q["score"] - q["previous_score"])
 
             q["council_count"] = question_max_counts.get(question.code, 0)
             q["comparisons"] = []
