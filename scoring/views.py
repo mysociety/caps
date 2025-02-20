@@ -691,17 +691,19 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
     def add_comparisons(self, context, comparison_slugs, comparison_questions):
         section = context["section"]
         comparisons = None
+        previous_year = None
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
                 .filter(year=self.request.year, council__slug__in=comparison_slugs)
                 .order_by("council__name")
             )
+            previous_year = comparisons.first().previous_year
             comparison_sections = PlanSectionScore.sections_for_plans(
                 plans=comparisons,
                 plan_year=self.request.year,
                 plan_sections=PlanSection.objects.filter(code=section.code),
-                previous_year=comparisons.first().previous_year,
+                previous_year=previous_year,
             )
 
             first_comparison = comparison_slugs[0]
@@ -740,6 +742,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                         * -1
                     )
 
+            context["previous_year"] = previous_year
             context["comparison_councils"] = comparisons
             context["comparison_scores"] = comparison_scores
 
