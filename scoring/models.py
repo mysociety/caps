@@ -2,7 +2,8 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.db import models
-from django.db.models import Avg, Count, F, Max, Q
+from django.db.models import Avg, Count, F, IntegerField, Max, OuterRef, Q, Subquery
+from django.db.models.functions import Cast
 
 from caps.models import Council
 from caps.utils import clean_links
@@ -105,11 +106,14 @@ class PlanScore(models.Model):
         max_length=100, choices=RUC_TYPES, null=True, blank=True
     )
     political_control = models.CharField(max_length=100, null=True, blank=True)
+    previous_year = models.ForeignKey(
+        "PlanScore", null=True, blank=True, on_delete=models.SET_NULL
+    )
 
     def questions_answered(self):
         # do this in raw SQL as otherwise we need an extra query
         questions = PlanQuestion.objects.raw(
-            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score, a.max_score as header_max, q.weighting, q.how_marked, a.evidence_links \
+            "select q.id, q.code, q.text, q.question_type, q.max_score, q.criteria, s.code as section_code, a.answer, a.score, a.max_score as header_max, q.weighting, q.how_marked, a.evidence_links \
             from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
             left join scoring_planquestionscore a on q.id = a.plan_question_id \
             where s.year = %s and ( a.plan_score_id = %s or a.plan_score_id is null) and a.plan_question_id is not null\
@@ -312,16 +316,30 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
     )
 
-    def questions_answered(self):
+    def questions_answered(self, prev_year=None):
         questions = PlanQuestionScore.objects.filter(
             plan_score=self.plan_score, plan_question__section=self.plan_section
         ).select_related("plan_question")
 
+        if prev_year is not None:
+            questions = questions.annotate(
+                previous_score=Subquery(
+                    PlanQuestionScore.objects.filter(
+                        plan_score=prev_year,
+                        plan_question__code=OuterRef("plan_question__code"),
+                    ).values("score")
+                )
+            ).annotate(
+                change=(
+                    Cast(F("score") - F("previous_score"), output_field=IntegerField())
+                )
+            )
+
         return questions
 
     @classmethod
-    def make_section_object(cls, section):
-        return {
+    def make_section_object(cls, section, previous_year=None):
+        obj = {
             "section_score": section,
             "council_name": section.plan_score.council.name,
             "council_slug": section.plan_score.council.slug,
@@ -340,21 +358,47 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
             "negative_points": 0,
         }
 
+        if previous_year is not None:
+            obj["previous_score"] = section.previous_score
+            obj["change"] = 0
+            if section.previous_score:
+                obj["change"] = (
+                    (section.weighted_score - section.previous_score)
+                    / section.previous_score
+                ) * 100
+
+        return obj
+
     @classmethod
-    def sections_for_council(cls, council=None, plan_year=None):
+    def sections_for_council(cls, council=None, plan_year=None, previous_year=None):
         sections = {}
-        section_qs = cls.objects.select_related("plan_section").filter(
-            plan_score__council=council, plan_section__year=plan_year
+        section_qs = (
+            cls.objects.select_related(
+                "plan_section", "plan_score", "plan_score__council"
+            )
+            .filter(plan_score__council=council, plan_section__year=plan_year)
+            .annotate(
+                previous_score=Subquery(
+                    cls.objects.filter(
+                        plan_score=OuterRef("plan_score__previous_year"),
+                        plan_section__code=OuterRef("plan_section__code"),
+                    ).values("weighted_score")
+                )
+            )
         )
 
         sections = {}
         for section in section_qs.all():
-            sections[section.plan_section.code] = cls.make_section_object(section)
+            sections[section.plan_section.code] = cls.make_section_object(
+                section, previous_year
+            )
 
         return sections
 
     @classmethod
-    def sections_for_plans(cls, plans=None, plan_year=None, plan_sections=None):
+    def sections_for_plans(
+        cls, plans=None, plan_year=None, plan_sections=None, previous_year=None
+    ):
         sections = {}
         section_qs = (
             cls.objects.select_related("plan_section", "plan_score__council")
@@ -365,9 +409,21 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         if plan_sections is not None:
             section_qs = section_qs.filter(plan_section__in=plan_sections)
 
+        if previous_year is not None:
+            section_qs = section_qs.annotate(
+                previous_score=Subquery(
+                    cls.objects.filter(
+                        plan_score=OuterRef("plan_score__previous_year"),
+                        plan_section__code=OuterRef("plan_section__code"),
+                    ).values("weighted_score")
+                )
+            )
+
         sections = defaultdict(list)
         for section in section_qs.all():
-            sections[section.plan_section.code].append(cls.make_section_object(section))
+            sections[section.plan_section.code].append(
+                cls.make_section_object(section, previous_year)
+            )
 
         return sections
 
