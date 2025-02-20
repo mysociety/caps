@@ -990,6 +990,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 plans=comparisons,
                 plan_year=self.request.year,
                 plan_sections=PlanSection.objects.filter(code=section.code),
+                previous_year=comparisons.first().previous_year,
             )
 
             first_comparison = comparison_slugs[0]
@@ -999,7 +1000,9 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             for score in comparison_scores:
                 answers = {
                     answer.plan_question.code: answer
-                    for answer in score["section_score"].questions_answered()
+                    for answer in score["section_score"].questions_answered(
+                        prev_year=score["section_score"].plan_score.previous_year
+                    )
                 }
                 for code in comparison_questions.keys():
                     if answers.get(code, None) is not None:
