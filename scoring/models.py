@@ -2,7 +2,8 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.db import models
-from django.db.models import Avg, Count, F, Max, OuterRef, Q, Subquery
+from django.db.models import Avg, Count, F, IntegerField, Max, OuterRef, Q, Subquery
+from django.db.models.functions import Cast
 
 from caps.models import Council
 from caps.utils import clean_links
@@ -315,10 +316,24 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         max_length=20, choices=Council.SCORING_GROUP_CHOICES, null=True
     )
 
-    def questions_answered(self):
+    def questions_answered(self, prev_year=None):
         questions = PlanQuestionScore.objects.filter(
             plan_score=self.plan_score, plan_question__section=self.plan_section
         ).select_related("plan_question")
+
+        if prev_year is not None:
+            questions = questions.annotate(
+                previous_score=Subquery(
+                    PlanQuestionScore.objects.filter(
+                        plan_score=prev_year,
+                        plan_question__code=OuterRef("plan_question__code"),
+                    ).values("score")
+                )
+            ).annotate(
+                change=(
+                    Cast(F("score") - F("previous_score"), output_field=IntegerField())
+                )
+            )
 
         return questions
 
