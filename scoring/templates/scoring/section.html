@@ -381,12 +381,12 @@
                 {% comment %} TODO: Include previous scorecards score(2023) {% endcomment %}
                 {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
                 <td data-column="score" class="js-previous-year-score display-only-large-up text-start flex-row score">
-                    <span class="me-2">{{ comparison.score|format_mark }}/{{ question.details.max_score }}</span>
+                    <span class="me-2">{{ comparison.previous_score|format_mark }}/{{ question.details.max_score }}</span>
                     <span class="badge bg-secondary d-md-none">{{ comparison.council_name }}</span>
                 </td>
 
                 <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
-                    {% include "scoring/includes/integer_score_change.html" with change=answer.change %}
+                    {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
                 </td>
               {% endfor %}
 
