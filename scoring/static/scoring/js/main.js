@@ -405,6 +405,28 @@ forEachElement('#js-toggle-previous-year-score', function(el) {
     });
 });
 
+// Mobile category selector for Homepage table
+forEachElement('.js-category-select', function(categorySelect) {
+    const announcementElement = document.querySelector('.js-category-select-announcement');
+
+    categorySelect.addEventListener('change', function() {
+      const selectedValue = this.value;
+      const selectedText = this.options[this.selectedIndex].text;
+
+      if (announcementElement) {
+        announcementElement.textContent = 'Now showing: ' + selectedText;
+      }
+
+      forEachElement('.js-total, .js-building, .js-transport, .js-planning, .js-governance, .js-biodiversity, .js-collaboration, .js-waste', function(element) {
+        element.style.display = 'none';
+      });
+
+      forEachElement('.' + selectedValue, function(element) {
+        element.style.display = 'revert';
+      });
+    });
+});
+
 function ajaxLoadCouncilTypeScorecard(url) {
     const selectors = [
       '#home-page-main-filter',
