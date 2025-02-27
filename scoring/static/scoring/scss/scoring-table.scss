@@ -48,22 +48,21 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
         }
     }
 
-    th.previous-year-score,
     th.previous-year-score-difference {
         position: sticky;
         z-index: 3;
         left: $first-cell-width +  $default-cell-width;
     }
 
-    &.js-previous-year-score-display {
-        th.previous-year-score-difference {
-            left: $first-cell-width +  $default-cell-width + $xsmall-cell-width;
-        }
-        .previous-year-score {
-            padding-right: 0;
-            min-width: $xsmall-cell-width;
-        }
-    }
+    // &.js-previous-year-score-display {
+    //     th.previous-year-score-difference {
+    //         left: $first-cell-width +  $default-cell-width + $xsmall-cell-width;
+    //     }
+    //     .previous-year-score {
+    //         padding-right: 0;
+    //         min-width: $xsmall-cell-width;
+    //     }
+    // }
 
     th {
         background-color: $white;
