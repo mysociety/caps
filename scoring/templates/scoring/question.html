@@ -76,74 +76,191 @@
         </div>
     </div>
 
-  {% if scoring_group and totals %}
-    <div class="row mt-4 mb-n4 mb-sm-0">
-      {% for t in totals %}
-        <div class="col-sm mb-4 mb-sm-0">
-            <div class="card h-100">
-                <div class="card-header py-3 text-bg-primary">
-                    <h3 class="fs-4 mb-0 text-center">
-                      {% if question.is_negatively_marked and t.score == 0 %}
-                        Councils without penalty marks
-                      {% else %}
-                        {{ t.score|floatformat:0 }} point{{ t.score|pluralize }}
-                      {% endif %}
-                    </h3>
+    {% if scoring_group and totals %}
+        <div class="question-summary-grid mt-5">
+        {% for t in totals %}
+            <div class="question-summary-grid__item">
+                <div class="card">
+                    <div class="card-header bg-primary text-light">
+                        <h3 class="fs-4 mb-0 text-center">
+                            {% if question.is_negatively_marked and t.score == 0 %}
+                                Councils without penalty marks
+                            {% else %}
+                                {{ t.score|floatformat:0 }} point{{ t.score|pluralize }}
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                        <span class="fs-1 lh-1 {% if t.score < 0 %}text-warning{% endif %}">
+                            {{ t.count }}
+                        </span>
+                        <span class="lh-sm text-center">
+                            {% if t.count == 1 %}
+                                {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=0 %}
+                            {% else %}
+                                {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% comment %} TODO: Add a conditional for the .card-footer, if question didn't exist in 2023 then it won't get displayed. {% endcomment %}
+                    <div class="card-footer d-flex flex-row justify-content-between">
+                        <div>
+                            {% comment %} TODO: add 2023 council numbers {% endcomment %}
+                            <span class="fs-5 lh-1">122</span>
+                            <span class="fs-8">in 2023</span>
+                        </div>
+                        <div>
+                            {% comment %} TODO: add difference between 2023 and 2025 {% endcomment %}
+                            <span class="fs-5 lh-1"><span class="fs-7">&#9650;</span>12</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body d-flex flex-column align-items-center justify-content-center text-center {% if t.score < 0 %}bg-red-100{% endif %}">
-                    <span class="fs-1 lh-1 mb-2">
-                        {{ t.count }}
-                    </span>
-                    <span>
-                      {% if t.count == 1 %}
-                        {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=0 %}
-                      {% else %}
-                        {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}
-                      {% endif %}
-                    </span>
+            </div>
+        {% endfor %}
+        </div>
+
+        {% comment %} TODO This section should only be displayed if there is a comparison between 2023 and 2025 {% endcomment %}
+        <h3 class="h4 mb-1 mt-5">Performance comparison between 2023 and 2025</h3>
+        <p class="text-capitalize mb-3 fs-5">{% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}</p>
+        <div class="d-flex flex-row flex-wrap gap-3 mt-3">
+            <div class="card overflow-hidden">
+                <div class="card-body bg-green-600 text-light d-flex flew-row flex-nowrap gap-1">
+                    <div class="d-flex align-items-baseline">
+                        {% include 'caps/icons/arrow-up.html' with classes='opacity-50 d-none d-md-block' width='2.5rem' height='2.5rem' role='presentation' %}
+                        <span class="display-3 d-none d-md-block fw-bold lh-1">35</span>
+                        {% include 'caps/icons/arrow-up.html' with classes='opacity-50 d-md-none' width='1.75rem' height='1.75rem' role='presentation' %}
+                        <span class="d-md-none display-1 fw-bold lh-1 mt-1">35</span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="display-6 lh-1">councils</span>
+                        <span class="lh-1">scored higher in 2025</span>
+                    </div>
+                </div>
+                <div class="card-footer bg-green-100 text-dark">
+                    <div class="form-check">
+                        <input class="form-check-input js-checkbox-improved-councils" type="checkbox" value="" id="checkbox-improved-councils">
+                        <label class="form-check-label" for="checkbox-improved-councils">
+                          Show councils
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card overflow-hidden">
+                <div class="card-body bg-red-600 text-light d-flex flew-row flex-nowrap gap-1">
+                    <div class="d-flex align-items-baseline">
+                        {% include 'caps/icons/arrow-down.html' with classes='opacity-50 d-none d-md-block' width='2.5rem' height='2.5rem' role='presentation' %}
+                        <span class="display-3 d-none d-md-block fw-bold lh-1">5</span>
+                        {% include 'caps/icons/arrow-down.html' with classes='opacity-50 d-md-none' width='1.75rem' height='1.75rem' role='presentation' %}
+                        <span class="d-md-none display-1 fw-bold lh-1 mt-1">5</span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="display-6 lh-1">councils</span>
+                        <span class="lh-1">scored lower in 2025</span>
+                    </div>
+                </div>
+                <div class="card-footer bg-red-100 text-dark">
+                    <div class="form-check">
+                        <input class="form-check-input js-checkbox-worsened-councils" type="checkbox" value="" id="checkbox-worsened-councils">
+                        <label class="form-check-label" for="checkbox-worsened-councils">
+                          Show councils
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
-      {% endfor %}
-    </div>
-  {% endif %}
 
-  {% if scores %}
-    <table class="table-council-question-performance w-100 mt-4">
-        <thead class="text-bg-primary position-sticky z-index-3 top-0">
-            <tr>
-                <th scope="col" class="text-start border-end border-opacity-25 border-primary">Council</th>
-                <th scope="col" class="text-center border-end border-opacity-25 border-primary">Score</th>
-                <th scope="col" class="text-start border-end border-opacity-25 border-primary">Evidence</th>
-            </tr>
-        </thead>
-        <tbody>
-          {% for score in scores %}
-            <tr data-jump-slug="{{ score.plan_score.council.slug }}">
-                <td class="text-start border-bottom border-start border-end border-opacity-25 border-primary">
-                    <a href="{% url 'scoring:council' score.plan_score.council.slug %}">
-                        {{ score.plan_score.council.name }}
-                    </a>
-                </td>
-                <td class="text-center border-bottom border-end border-opacity-25 border-primary {% if score.score < 0 %}bg-red-100{% endif %}">
-                    {{ score.score|floatformat:"-2" }}/{{ score.max_score }}
-                </td>
-                <td class="text-start border-bottom border-end border-opacity-25 border-primary">
-                  {% if score.score != 0 %}
-                    {% for evidence_link in score.evidence_links_cleaned %}
-                      {% if not forloop.first %}<br>{% endif %}
-                      {% if evidence_link|slice:":4" == "http" %}
-                        <a href="{{ evidence_link }}">{{ evidence_link|domain_human }}</a>
-                      {% else %}
-                        {{ evidence_link }}
-                      {% endif %}
-                    {% endfor %}
-                  {% endif %}
-                </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-    </table>
-  {% endif %}
+        {% comment %} TODO: if there are changes between scores display the following message: {% endcomment %}
+        <div class="alert alert-dark mt-3 w-md-50" role="alert">
+            <h3 class="h5">Score comparison unavailable</h3>
+            <p class="mb-0">There is no comparison between 2025 and 2023 data because this question's maximum score was modified in 2025.</p>
+        </div>
+        {% comment %} TODO: if new 2025 question display this: {% endcomment %}
+        <div class="alert alert-dark mt-3 w-md-50" role="alert">
+            <h3 class="h5">Score comparison unavailable</h3>
+            <p class="mb-0">This question was introduced in the 2025 Action Scorecards and has no historical data for comparison.</p>
+        </div>
+    {% endif %}
+
+    {% if scores %}
+        <table class="table-council-question-performance w-100 mt-4">
+            <thead class="text-bg-primary position-sticky z-index-3 top-0">
+                <tr>
+                    <th scope="col" class="text-start border-end border-opacity-25 border-primary">Council</th>
+                    <th scope="col" class="d-none d-md-table-cell text-center border-end border-opacity-25 border-primary">Score</th>
+                    {% comment %} TODO only to be displayed if there is a 2023 comparison {% endcomment %}
+                    <th scope="col" class="d-none d-md-table-cell text-center border-end border-opacity-25 border-primary"><span class="d-block mb-0 lh-1">Difference </span><span class="fs-8 lh-1">2023</span></th>
+                    <th scope="col" class="d-none d-md-table-cell text-start border-end border-opacity-25 border-primary">Evidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                {% comment %} TODO: Replace 'year-difference' for the actual value {% endcomment %}
+                    <tr data-jump-slug="{{ score.plan_score.council.slug }}" year-difference-status="improved">
+                        <td class="text-start border-bottom border-start border-end border-opacity-25 border-primary vertical-align-middle">
+                            <a class="fs-5 d-block mb-3 mb-md-0" href="{% url 'scoring:council' score.plan_score.council.slug %}">
+                                {{ score.plan_score.council.name }}
+                            </a>
+
+                            {% comment %} Mobile version {% endcomment %}
+                            <div class="d-md-none overflow-hidden" style="max-width: 18.75rem">
+                                <dl class="d-flex flex-row gap-5 mb-2">
+                                    <div>
+                                        <dt class="fs-8 text-uppercase text-muted mb-0">Score 2025</dt>
+                                        <dd>{{ score.score|floatformat:"-2" }}/{{ score.max_score }}</dd>
+                                    </div>
+
+                                    <div>
+                                        <dt class="fs-8 text-uppercase text-muted mb-0">2023 Difference</dt>
+                                        {% comment %} TODO If difference is negative: change replace &#9650; with &#9660; {% endcomment %}
+                                        {% comment %} TODO If difference is negative: change text-success to text-warning {% endcomment %}
+                                        <dd class="text-success"> &#9650; {{ score.score|floatformat:"-2" }}</dd>
+                                    </div>
+                                </dl>
+                                {% if score.score != 0 %}
+                                    <p class="fs-8 text-uppercase text-muted mb-0 fw-bold">Evidence</p>
+                                    <ul class="ps-3">
+                                        {% for evidence_link in score.evidence_links_cleaned %}
+                                            <li>
+                                                {% if evidence_link|slice:":4" == "http" %}
+                                                    <a href="{{ evidence_link }}">{{ evidence_link|domain_human }}</a>
+                                                {% else %}
+                                                    {{ evidence_link }}
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="d-none d-md-table-cell text-center border-bottom border-end border-opacity-25 border-primary {% if score.score < 0 %}bg-red-100{% endif %}">
+                            {{ score.score|floatformat:"-2" }}/{{ score.max_score }}
+                        </td>
+                        {% comment %} TODO only to be displayed if there is a 2023 comparison {% endcomment %}
+                        {% comment %} TODO If difference is negative: change replace &#9650; with &#9660; {% endcomment %}
+                        {% comment %} TODO If difference is negative: change text-success to text-warning {% endcomment %}
+                        <td class="d-none d-md-table-cell text-success text-center border-bottom border-end border-opacity-25 border-primary">
+                            &#9650; {{ score.score|floatformat:"-2" }}
+                        </td>
+                        <td class="d-none d-md-table-cell text-start border-bottom border-end border-opacity-25 border-primary">
+                            {% if score.score != 0 %}
+                            <ul class="ps-3">
+                                {% for evidence_link in score.evidence_links_cleaned %}
+                                    <li>
+                                        {% if evidence_link|slice:":4" == "http" %}
+                                            <a href="{{ evidence_link }}">{{ evidence_link|domain_human }}</a>
+                                        {% else %}
+                                            {{ evidence_link }}
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 </div>
 {% endblock %}

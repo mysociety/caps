@@ -1,8 +1,20 @@
+.question-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 10rem));
+    column-gap: 1rem;
+    row-gap: 1rem;
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(auto-fill, minmax(12.5rem, 13.5rem));
+        column-gap: 2rem;
+    }
+}
+
 .table-question-council,
 .section-question-table,
 .table-council-question-performance {
     th {
-        vertical-align: top;
+        vertical-align: middle;
     }
 
     th, td  {
