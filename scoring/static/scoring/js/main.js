@@ -590,3 +590,53 @@ document.querySelectorAll('.js-social-graphic-download').forEach(function(el) {
         });
     });
 });
+
+// Question display improved or worsened councils
+// Function to update table visibility based on checkbox states
+function updateTableVisibility() {
+    var improvedChecked = document.querySelector('.js-checkbox-improved-councils').checked;
+    var worsenedChecked = document.querySelector('.js-checkbox-worsened-councils').checked;
+    
+    // If no checkboxes are checked, show all rows
+    var showAll = !improvedChecked && !worsenedChecked;
+    
+    // Update visibility for rows with year-difference-status
+    forEachElement('tr[year-difference-status]', function(row) {
+        var status = row.getAttribute('year-difference-status');
+        
+        // Show the row if:
+        // 1. No filters are active (show all)
+        // 2. The row's status matches the active filter
+        if (showAll || 
+            (improvedChecked && status === 'improved') || 
+            (worsenedChecked && status === 'worsened')) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+forEachElement('.js-checkbox-improved-councils', function(checkbox) {
+    checkbox.addEventListener('change', function() {
+        // If this checkbox is checked, uncheck the other one
+        if (this.checked) {
+            forEachElement('.js-checkbox-worsened-councils', function(otherCheckbox) {
+                otherCheckbox.checked = false;
+            });
+        }
+        updateTableVisibility();
+    });
+});
+
+forEachElement('.js-checkbox-worsened-councils', function(checkbox) {
+    checkbox.addEventListener('change', function() {
+        // If this checkbox is checked, uncheck the other one
+        if (this.checked) {
+            forEachElement('.js-checkbox-improved-councils', function(otherCheckbox) {
+                otherCheckbox.checked = false;
+            });
+        }
+        updateTableVisibility();
+    });
+});
