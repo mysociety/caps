@@ -334,7 +334,7 @@ $padding-left: 1rem;
     }
 
     th,td {
-        padding: 1rem;
+        padding: 1rem 0.5rem;
     }
 
     .name-row {
@@ -343,6 +343,7 @@ $padding-left: 1rem;
             padding-bottom: 0.5rem;
             text-transform: uppercase;
             font-size: 0.8rem;
+            text-align: center;
         }
     }
 
@@ -359,6 +360,13 @@ $padding-left: 1rem;
         th,td {
             padding-top: 0.25rem;
             padding-bottom: 1.25rem;
+            width: 10rem;
+            text-align: center;
+            width: 50%;
+
+            @include media-breakpoint-up(sm) {
+                width: 30%;
+            }
         }
     }
 
@@ -379,19 +387,14 @@ $padding-left: 1rem;
     }
 
     .score-bar {
-        width: 85px;
+        width: 120px;
         padding: 4px 0;
         font-size: 0.8rem;
+        margin:0 auto;
 
         span.average {
             display: none;
         }
-    }
-
-    .council-link {
-        display: inline-block;
-        max-width: 100%;
-        font-style: 0.8rem;
     }
 }
 

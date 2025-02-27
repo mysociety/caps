@@ -235,7 +235,7 @@
                 </table>
 
                 {% comment %} Category select for mobile {% endcomment %}
-                <form role="search" class="position-sticky top-0 z-index-3 pt-3 px-3">
+                <form role="search" class="d-lg-none position-sticky top-0 z-index-3 pt-3 px-3">
                     <label class="visually-hidden" for="mobile-category-select">Select category</label>
                     <select id="mobile-category-select" name="category" aria-label="Select category" class="form-select fw-bold js-category-select">
                         <option value="js-total" selected>Total Score</option>
@@ -259,15 +259,10 @@
                             </tr>
                             <tr class="legend-row fs-8">
                                 <th scope="col" class="fw-normal">2025</th>
-                                <th scope="col" class="fw-normal">2023</th>
-                                <th scope="col" class="fw-normal">Difference</th>
+                                <th scope="col" class="fw-normal">versus 2023</th>
                             </tr>
                             <tr class="score-row js-total">
                                 <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
-                                </td>
-                                <td>
-                                    {% comment %} TODO: Add 2023 score {% endcomment %}
                                     {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                                 </td>
                                 <td>
@@ -278,15 +273,9 @@
                                 <td>
                                     {% include 'scoring/includes/score-bar.html' with percentage=averages.s1_b_h.weighted average=1 %}
                                 </td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s1_b_h.weighted average=1 %}
-                                </td>
                                 <td><span class="badge bg-green-100 text-success">&#9650; 10%</span></td>
                             </tr>
                             <tr class="score-row js-transport category-2">
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s2_tran.weighted average=1 %}
-                                </td>
                                 <td>
                                     {% include 'scoring/includes/score-bar.html' with percentage=averages.s2_tran.weighted average=1 %}
                                 </td>
@@ -297,16 +286,10 @@
                                 <td>
                                     {% include 'scoring/includes/score-bar.html' with percentage=averages.s3_p_lu.weighted average=1 %}
                                 </td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s3_p_lu.weighted average=1 %}
-                                </td>
                                 <td><span class="badge bg-green-100 text-success">&#9650; 10%</span></td>
                             </tr>
     
                             <tr class="score-row js-governance category-4">
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s4_g_f.weighted average=1 %}
-                                </td>
                                 <td>
                                     {% include 'scoring/includes/score-bar.html' with percentage=averages.s4_g_f.weighted average=1 %}
                                 </td>
@@ -317,9 +300,6 @@
                                 <td>
                                     {% include 'scoring/includes/score-bar.html' with percentage=averages.s5_bio.weighted average=1 %}
                                 </td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s5_bio.weighted average=1 %}
-                                </td>
                                 <td><span class="badge bg-green-100 text-success">&#9650; 10%</span></td>
                             </tr>
     
@@ -327,16 +307,10 @@
                                 <td>
                                     {% include 'scoring/includes/score-bar.html' with percentage=averages.s6_c_e.weighted average=1 %}
                                 </td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s6_c_e.weighted average=1 %}
-                                </td>
                                 <td><span class="badge bg-green-100 text-success">&#9650; 10%</span></td>
                             </tr>
     
                             <tr class="score-row js-waste category-7">
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s7_wr_f.weighted average=1 %}
-                                </td>
                                 <td>
                                     {% include 'scoring/includes/score-bar.html' with percentage=averages.s7_wr_f.weighted average=1 %}
                                 </td>
@@ -348,7 +322,7 @@
                             {% for council in council_data %}
                                 <tr class="name-row" data-jump-slug="{{ council.slug }}">
                                     <th class="fw-normal" scope="row" colspan="3">
-                                        <a class="lh-base council-link d-flex flex-column align-items-start" href="{% url 'scoring:council' council.slug %}">
+                                        <a class="lh-base council-link d-flex flex-column align-items-center" href="{% url 'scoring:council' council.slug %}">
                                             {% if council.top_performer %}
                                             <div class="d-flex flex-row align-items-center badge bg-primary-100 text-primary mb-1">
                                                 {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
@@ -359,11 +333,6 @@
                                         </a>
                                     </th>
                                 </tr>
-                                <tr class="legend-row fs-8">
-                                    <th scope="col" class="fw-normal">2025</th>
-                                    <th scope="col" class="fw-normal">2023</th>
-                                    <th scope="col" class="fw-normal">Difference</th>
-                                </tr>
                                 <tr class="score-row js-total">
                                     <td>
                                         {% if council.score != 0 %}
@@ -371,10 +340,6 @@
                                         {% else %}
                                             <span>--</span>
                                         {% endif %}
-                                    </td>
-                                    <td>
-                                        {% comment %} TODO: Add 2023 score {% endcomment %}
-                                        {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                                     </td>
                                     <td>
                                         <span class="badge bg-green-100 text-success">&#9650; 10%</span>
@@ -401,17 +366,11 @@
                                             <td class="council-category-score category-1">
                                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s1_b_h.weighted %}
                                             </td>
-                                            <td class="council-category-score category-1">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s1_b_h.weighted %}
-                                            </td>
                                             <td>
                                                 <span class="badge bg-green-100 text-success">&#9650; 4%</span>
                                             </td>
                                         </tr>
                                         <tr class="score-row js-transport">
-                                            <td class="council-category-score category-2">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s2_tran.weighted %}
-                                            </td>
                                             <td class="council-category-score category-2">
                                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s2_tran.weighted %}
                                             </td>
@@ -424,18 +383,12 @@
                                             <td class="council-category-score category-3">
                                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s3_p_lu.weighted %}
                                             </td>
-                                            <td class="council-category-score category-3">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s3_p_lu.weighted %}
-                                            </td>
                                             <td>
                                                 <span class="badge bg-green-100 text-success">&#9650; 4%</span>
                                             </td>
                                         </tr>
 
                                         <tr class="score-row js-governance">
-                                            <td class="council-category-score category-4">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s4_g_f.weighted %}
-                                            </td>
                                             <td class="council-category-score category-4">
                                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s4_g_f.weighted %}
                                             </td>
@@ -448,9 +401,6 @@
                                             <td class="council-category-score category-5">
                                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s5_bio.weighted %}
                                             </td>
-                                            <td class="council-category-score category-5">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s5_bio.weighted %}
-                                            </td>
                                             <td>
                                                 <span class="badge bg-green-100 text-success">&#9650; 4%</span>
                                             </td>
@@ -460,18 +410,12 @@
                                             <td class="council-category-score category-6">
                                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s6_c_e.weighted %}
                                             </td>
-                                            <td class="council-category-score category-6">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s6_c_e.weighted %}
-                                            </td>
                                             <td>
                                                 <span class="badge bg-green-100 text-success">&#9650; 4%</span>
                                             </td>
                                         </tr>
 
                                         <tr class="score-row js-waste">
-                                            <td class="council-category-score category-7">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s7_wr_f.weighted %}
-                                            </td>
                                             <td class="council-category-score category-7">
                                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s7_wr_f.weighted %}
                                             </td>
