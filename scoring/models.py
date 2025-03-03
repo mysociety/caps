@@ -572,6 +572,10 @@ class PlanQuestion(models.Model):
 
     questiongroup = models.ManyToManyField(PlanQuestionGroup)
 
+    previous_question = models.ForeignKey(
+        "PlanQuestion", null=True, blank=True, on_delete=models.SET_NULL
+    )
+
     def pretty_code(self):
         """
         returns a more human-readable version of the question code
