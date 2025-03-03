@@ -1,4 +1,4 @@
-from django.test import Client, TestCase
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from caps.models import Council
@@ -40,6 +40,7 @@ class TestHomePageView(TestCase):
             self.assertEquals(councils[0]["name"], name)
 
 
+@override_settings(PLAN_YEAR="2023")
 class TestAnswerView(TestCase):
     fixtures = ["test_answers.json"]
 
@@ -405,6 +406,7 @@ class TestAnswerView(TestCase):
         )
 
 
+@override_settings(PLAN_YEAR="2023")
 class TestTopPerormersInViews(TestCase):
     fixtures = ["test_top_performers.json"]
 
