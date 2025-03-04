@@ -1,0 +1,576 @@
+[
+  {
+    "model": "caps.council",
+    "pk": 1,
+    "fields": {
+      "created_at": "2021-12-15",
+      "updated_at": "2021-12-15",
+      "start_date": "2021-12-15",
+      "name": "Borsetshire County",
+      "slug": "borsetshire",
+      "country": 2,
+      "authority_code": "BRS",
+      "authority_type": "UA",
+      "gss_code": "S10000003",
+      "whatdotheyknow_id": 1,
+      "mapit_area_code": "",
+      "website_url": "",
+      "combined_authority": null,
+      "twitter_name": "",
+      "twitter_url": ""
+    }
+  },
+  {
+    "model": "caps.council",
+    "pk": 2,
+    "fields": {
+      "created_at": "2021-12-15",
+      "updated_at": "2021-12-15",
+      "start_date": "2021-12-15",
+      "name": "East Borsetshire",
+      "slug": "east-borsetshire",
+      "country": 2,
+      "authority_code": "EBS",
+      "authority_type": "UA",
+      "gss_code": "S10000002",
+      "whatdotheyknow_id": 2,
+      "mapit_area_code": "",
+      "website_url": "",
+      "combined_authority": null,
+      "twitter_name": "",
+      "twitter_url": ""
+    }
+  },
+  {
+    "model": "caps.council",
+    "pk": 3,
+    "fields": {
+      "created_at": "2021-12-15",
+      "updated_at": "2021-12-15",
+      "start_date": "2021-12-15",
+      "name": "West Borsetshire",
+      "slug": "west-borsetshire",
+      "country": 1,
+      "authority_code": "WBS",
+      "authority_type": "UA",
+      "gss_code": "E10000003",
+      "whatdotheyknow_id": 3,
+      "mapit_area_code": "",
+      "website_url": "",
+      "combined_authority": null,
+      "twitter_name": "",
+      "twitter_url": ""
+    }
+  },
+  {
+    "model": "caps.council",
+    "pk": 4,
+    "fields": {
+      "created_at": "2021-12-15",
+      "updated_at": "2021-12-15",
+      "start_date": "2021-12-15",
+      "name": "South Borsetshire",
+      "slug": "south-borsetshire",
+      "country": 1,
+      "authority_code": "SBS",
+      "authority_type": "UA",
+      "gss_code": "E10000004",
+      "whatdotheyknow_id": 4,
+      "mapit_area_code": "",
+      "website_url": "",
+      "combined_authority": null,
+      "twitter_name": "",
+      "twitter_url": ""
+    }
+  },
+  {
+    "model": "caps.council",
+    "pk": 5,
+    "fields": {
+      "created_at": "2021-12-15",
+      "updated_at": "2021-12-15",
+      "start_date": "2021-12-15",
+      "name": "North Borsetshire",
+      "slug": "north-borsetshire",
+      "country": 1,
+      "authority_code": "NBS",
+      "authority_type": "UA",
+      "gss_code": "E10000005",
+      "whatdotheyknow_id": 5,
+      "mapit_area_code": "",
+      "website_url": "",
+      "combined_authority": null,
+      "twitter_name": "",
+      "twitter_url": ""
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 1,
+    "fields": {
+      "council": 1,
+      "year": 2023,
+      "weighted_total": 25,
+      "total": 25
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 2,
+    "fields": {
+      "council": 2,
+      "year": 2023,
+      "weighted_total": 19,
+      "total": 19
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 3,
+    "fields": {
+      "council": 3,
+      "year": 2023,
+      "weighted_total": 24,
+      "total": 24
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 4,
+    "fields": {
+      "council": 4,
+      "year": 2023,
+      "weighted_total": 24,
+      "total": 24
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 5,
+    "fields": {
+      "council": 1,
+      "year": 2025,
+      "previous_year": 1,
+      "weighted_total": 23,
+      "total": 23
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 6,
+    "fields": {
+      "council": 2,
+      "year": 2025,
+      "previous_year": 3,
+      "weighted_total": 19,
+      "total": 19
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 7,
+    "fields": {
+      "council": 3,
+      "year": 2025,
+      "previous_year": 4,
+      "weighted_total": 25,
+      "total": 25
+    }
+  },
+  {
+    "model": "scoring.plansection",
+    "pk": 1,
+    "fields": {
+      "code": "s1_b_h",
+      "description": "Buildings & Heating",
+      "year": 2023
+    }
+  },
+  {
+    "model": "scoring.plansection",
+    "pk": 2,
+    "fields": {
+      "code": "s2_tran",
+      "description": "Transport",
+      "year": 2023
+    }
+  },
+  {
+    "model": "scoring.plansection",
+    "pk": 3,
+    "fields": {
+      "code": "s1_b_h",
+      "description": "Buildings & Heating",
+      "year": 2025
+    }
+  },
+  {
+    "model": "scoring.plansection",
+    "pk": 4,
+    "fields": {
+      "code": "s2_tran",
+      "description": "Transport",
+      "year": 2025
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 1,
+    "fields": {
+      "plan_score": 1,
+      "plan_section": 1,
+      "score": 15,
+      "max_score": 19,
+      "weighted_score": 15
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 2,
+    "fields": {
+      "plan_score": 2,
+      "plan_section": 1,
+      "score": 14,
+      "max_score": 19,
+      "weighted_score": 14
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 3,
+    "fields": {
+      "plan_score": 3,
+      "plan_section": 1,
+      "score": 11,
+      "max_score": 19,
+      "weighted_score": 11
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 4,
+    "fields": {
+      "plan_score": 4,
+      "plan_section": 1,
+      "score": 12,
+      "max_score": 19,
+      "weighted_score": 12
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 5,
+    "fields": {
+      "plan_score": 1,
+      "plan_section": 2,
+      "score": 10,
+      "max_score": 18,
+      "weighted_score": 10
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 6,
+    "fields": {
+      "plan_score": 2,
+      "plan_section": 2,
+      "score": 4,
+      "max_score": 18,
+      "weighted_score": 4
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 7,
+    "fields": {
+      "plan_score": 3,
+      "plan_section": 2,
+      "score": 13,
+      "max_score": 18,
+      "weighted_score": 13
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 8,
+    "fields": {
+      "plan_score": 4,
+      "plan_section": 2,
+      "score": 12,
+      "max_score": 18,
+      "weighted_score": 12
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 9,
+    "fields": {
+      "plan_score": 5,
+      "plan_section": 3,
+      "score": 18,
+      "max_score": 19,
+      "weighted_score": 18
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 10,
+    "fields": {
+      "plan_score": 6,
+      "plan_section": 3,
+      "score": 14,
+      "max_score": 19,
+      "weighted_score": 14
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 11,
+    "fields": {
+      "plan_score": 7,
+      "plan_section": 3,
+      "score": 11,
+      "max_score": 19,
+      "weighted_score": 11
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 12,
+    "fields": {
+      "plan_score": 5,
+      "plan_section": 4,
+      "score": 10,
+      "max_score": 18,
+      "weighted_score": 10
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 13,
+    "fields": {
+      "plan_score": 6,
+      "plan_section": 4,
+      "score": 4,
+      "max_score": 18,
+      "weighted_score": 4
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 14,
+    "fields": {
+      "plan_score": 7,
+      "plan_section": 4,
+      "score": 13,
+      "max_score": 18,
+      "weighted_score": 13
+    }
+  },
+  {
+    "model": "scoring.planquestion",
+    "pk": 1,
+    "fields": {
+      "section": 1,
+      "code": "s1_b_h_q1",
+      "text": "This is a sub header",
+      "max_score": 0,
+      "question_type": "HEADER"
+    }
+  },
+  {
+    "model": "scoring.planquestion",
+    "pk": 2,
+    "fields": {
+      "section": 1,
+      "code": "s1_b_h_q1_sp1",
+      "text": "The answer is True or False",
+      "max_score": 1,
+      "question_type": "CHECKBOX"
+    }
+  },
+  {
+    "model": "scoring.planquestion",
+    "pk": 3,
+    "fields": {
+      "section": 2,
+      "code": "s2_tran_q1_sp1",
+      "text": "The answer is a Boolean",
+      "max_score": 1,
+      "question_type": "CHECKBOX"
+    }
+  },
+  {
+    "model": "scoring.planquestion",
+    "pk": 4,
+    "fields": {
+      "section": 3,
+      "code": "s1_b_h_q1",
+      "text": "This is a sub header",
+      "max_score": 0,
+      "question_type": "HEADER"
+    }
+  },
+  {
+    "model": "scoring.planquestion",
+    "pk": 5,
+    "fields": {
+      "section": 3,
+      "code": "s1_b_h_q1_sp1",
+      "text": "The answer is True or False",
+      "max_score": 1,
+      "question_type": "CHECKBOX",
+      "previous_question": 2
+    }
+  },
+  {
+    "model": "scoring.planquestion",
+    "pk": 6,
+    "fields": {
+      "section": 4,
+      "code": "s2_tran_q1_sp1",
+      "text": "The answer is a Boolean",
+      "max_score": 1,
+      "question_type": "CHECKBOX",
+      "previous_question": 3
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 1,
+    "fields": {
+      "plan_score": 1,
+      "plan_question": 1,
+      "answer": "",
+      "score": 1,
+      "max_score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 2,
+    "fields": {
+      "plan_score": 1,
+      "plan_question": 2,
+      "answer": "True",
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 3,
+    "fields": {
+      "plan_score": 2,
+      "plan_question": 1,
+      "answer": "",
+      "max_score": 1,
+      "score": 0,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 4,
+    "fields": {
+      "plan_score": 2,
+      "plan_question": 2,
+      "answer": "False",
+      "score": 0,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 5,
+    "fields": {
+      "plan_score": 3,
+      "plan_question": 1,
+      "answer": "",
+      "max_score": 1,
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 6,
+    "fields": {
+      "plan_score": 3,
+      "plan_question": 2,
+      "answer": "True",
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 7,
+    "fields": {
+      "plan_score": 4,
+      "plan_question": 4,
+      "answer": "",
+      "score": 1,
+      "max_score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 8,
+    "fields": {
+      "plan_score": 4,
+      "plan_question": 5,
+      "answer": "True",
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 9,
+    "fields": {
+      "plan_score": 5,
+      "plan_question": 4,
+      "answer": "",
+      "max_score": 1,
+      "score": 0,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 10,
+    "fields": {
+      "plan_score": 5,
+      "plan_question": 5,
+      "answer": "False",
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 11,
+    "fields": {
+      "plan_score": 6,
+      "plan_question": 4,
+      "answer": "",
+      "max_score": 1,
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 12,
+    "fields": {
+      "plan_score": 6,
+      "plan_question": 5,
+      "answer": "True",
+      "score": 1,
+      "notes": ""
+    }
+  }
+]
