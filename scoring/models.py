@@ -338,7 +338,9 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
                 previous_score=Subquery(
                     PlanQuestionScore.objects.filter(
                         plan_score=prev_year,
-                        plan_question__code=OuterRef("plan_question__code"),
+                        plan_question__code=OuterRef(
+                            "plan_question__previous_question__code"
+                        ),
                     ).values("score")
                 )
             ).annotate(
