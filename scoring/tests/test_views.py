@@ -521,3 +521,104 @@ class TestTopPerormersInViews(TestCase):
                 },
             ],
         )
+
+
+@override_settings(PLAN_YEAR="2025")
+class TestPreviousYearAnswerView(TestCase):
+    fixtures = ["test_previous_years_answers.json"]
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_answer_view(self):
+        url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
+        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+        sections = strip_sections(response.context["sections"])
+
+        self.assertEqual(
+            sections,
+            [
+                {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
+                    "top_performer": None,
+                    "code": "s1_b_h",
+                    "description": "Buildings & Heating",
+                    "max_score": 19,
+                    "max_count": 0,
+                    "score": 18,
+                    "weighted_score": 18.0,
+                    "answers": [
+                        {
+                            "code": "s1_b_h_q1",
+                            "pretty_code": "1.1",
+                            "display_code": "q1",
+                            "question": "This is a sub header",
+                            "criteria": "",
+                            "type": "HEADER",
+                            "max": 1,
+                            "section": "s1_b_h",
+                            "answer": "-",
+                            "score": 0,
+                            "negative": False,
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "is_council_operations_only": True,
+                            "weighting": "Low",
+                            "evidence_links": [],
+                            "council_count": 1,
+                            "comparisons": [],
+                        },
+                        {
+                            "code": "s1_b_h_q1_sp1",
+                            "pretty_code": "1.1.1",
+                            "display_code": "q1_sp1",
+                            "question": "The answer is True or False",
+                            "criteria": "",
+                            "type": "CHECKBOX",
+                            "max": 1,
+                            "section": "s1_b_h",
+                            "answer": "False",
+                            "score": 1.0,
+                            "negative": False,
+                            "how_marked": "",
+                            "how_marked_display": "",
+                            "is_council_operations_only": False,
+                            "weighting": "Low",
+                            "evidence_links": [],
+                            "previous_q_code": "s1_b_h_q1_sp1",
+                            "previous_score": 1.0,
+                            "previous_max": 1,
+                            "change": 0,
+                            "council_count": 0,
+                            "comparisons": [],
+                        },
+                    ],
+                    "comparisons": [],
+                    "non_negative_max": 18,
+                    "change": 20.0,
+                    "negative_points": 0,
+                    "previous_score": 15.0,
+                    "change": 20.0,
+                    "avg": 14.3,
+                },
+                {
+                    "council_name": "Borsetshire County",
+                    "council_slug": "borsetshire",
+                    "top_performer": None,
+                    "code": "s2_tran",
+                    "description": "Transport",
+                    "max_score": 18,
+                    "max_count": 0,
+                    "score": 10,
+                    "weighted_score": 10.0,
+                    "answers": [],
+                    "comparisons": [],
+                    "non_negative_max": 10,
+                    "negative_points": 0,
+                    "previous_score": 10.0,
+                    "change": 0.0,
+                    "avg": 9.0,
+                },
+            ],
+        )
