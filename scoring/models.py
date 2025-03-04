@@ -117,9 +117,10 @@ class PlanScore(models.Model):
     def questions_answered(self):
         # do this in raw SQL as otherwise we need an extra query
         questions = PlanQuestion.objects.raw(
-            "select q.id, q.code, q.text, q.question_type, q.max_score, q.criteria, s.code as section_code, a.answer, a.score, a.max_score as header_max, q.weighting, q.how_marked, a.evidence_links \
+            "select q.id, q.code, q.text, q.question_type, q.max_score, q.criteria, s.code as section_code, a.answer, a.score, a.max_score as header_max, q.weighting, q.how_marked, a.evidence_links, pq.code as previous_question_code \
             from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
             left join scoring_planquestionscore a on q.id = a.plan_question_id \
+            left join scoring_planquestion pq on q.previous_question_id = pq.id \
             where s.year = %s and ( a.plan_score_id = %s or a.plan_score_id is null) and a.plan_question_id is not null\
             order by q.code",
             [self.year, self.id],
@@ -131,9 +132,10 @@ class PlanScore(models.Model):
     def questions_answered_for_councils(cls, plan_ids=None, plan_year=None):
         # do this in raw SQL as otherwise we need an extra query
         questions = PlanQuestion.objects.raw(
-            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score, a.max_score as header_max, q.weighting, q.how_marked, a.evidence_links, c.name as council_name \
+            "select q.id, q.code, q.text, q.question_type, q.max_score, s.code as section_code, a.answer, a.score, a.max_score as header_max, q.weighting, q.how_marked, a.evidence_links, c.name as council_name, pq.code as previous_question_code \
             from scoring_planquestion q join scoring_plansection s on q.section_id = s.id \
             left join scoring_planquestionscore a on q.id = a.plan_question_id \
+            left join scoring_planquestion pq on q.previous_question_id = pq.id \
             join scoring_planscore ps on a.plan_score_id = ps.id \
             join caps_council c on ps.council_id = c.id \
             where s.year = %s and ( a.plan_score_id in %s or a.plan_score_id is null) and (q.question_type = 'HEADER' or a.plan_question_id is not null)\

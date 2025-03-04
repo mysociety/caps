@@ -278,6 +278,9 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         if question.question_type == "HEADER":
             q["max"] = question.header_max
 
+        if question.previous_question_code:
+            q["previous_q_code"] = question.previous_question_code
+
         return q
 
     def is_active_council(self, council):
@@ -353,24 +356,26 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                     ids.append(plan["previous_year_id"])
                     year = plan["previous_year__year"]
 
+                previous_answers = defaultdict(dict)
                 for question in PlanScore.questions_answered_for_councils(
                     plan_ids=ids, plan_year=year
                 ):
-                    if comparison_answers[question.code].get(question.council_name):
-                        comparison_answers[question.code][question.council_name][
-                            "previous_score"
-                        ] = question.score
-                        comparison_answers[question.code][question.council_name][
-                            "previous_max"
-                        ] = question.max_score
-                        comparison_answers[question.code][question.council_name][
-                            "change"
-                        ] = int(
-                            comparison_answers[question.code][question.council_name][
-                                "score"
-                            ]
-                            - question.score
-                        )
+                    previous_answers[question.code][question.council_name] = {}
+                    previous_answers[question.code][question.council_name][
+                        "previous_score"
+                    ] = question.score
+                    previous_answers[question.code][question.council_name][
+                        "previous_max"
+                    ] = question.max_score
+
+                for code in comparison_answers.keys():
+                    for council, answer in comparison_answers[code].items():
+                        prev_code = answer.get("previous_question_code")
+                        if prev_code and previous_answers[prev_code].get(council):
+                            answer = {**answer, **previous_answers[prev_code][council]}
+                            answer["change"] = int(
+                                answer["score"] - answer["previous_score"]
+                            )
 
         return comparisons, comparison_answers, comparison_sections
 
@@ -424,8 +429,10 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             section = question.section_code
 
             q = self.make_question_obj(question)
-            if previous_questions[section].get(q["code"]):
-                pq = previous_questions[section][q["code"]]
+            if q.get("previous_q_code") and previous_questions[section].get(
+                q["previous_q_code"]
+            ):
+                pq = previous_questions[section][q["previous_q_code"]]
                 q["previous_score"] = pq.score
                 q["previous_max"] = pq.max_score
                 q["change"] = int(q["score"] - q["previous_score"])
@@ -541,7 +548,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         )
 
         sections = self.add_answer_details(
-            plan_score, group, sections, comparisons, comparison_sections
+            plan_score, group, sections, comparisons, comparison_answers
         )
 
         council_count = PlanScore.objects.filter(
