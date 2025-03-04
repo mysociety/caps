@@ -351,6 +351,18 @@ class Command(BaseCommand):
             question.topic = row["topic"]
             question.clarifications = row["clarifications"]
 
+            if not pd.isna(row["previous_year_question"]):
+                try:
+                    prev_q = PlanQuestion.objects.get(
+                        section__year=self.previous_year,
+                        code=f"{section}_q{row['previous_year_question']}",
+                    )
+                    question.previous_question = prev_q
+                except PlanQuestion.DoesNotExist:
+                    print(
+                        f"no previous question found for {code} - {row['previous_year_question']}"
+                    )
+
             if not pd.isna(row["groups"]):
                 for group in row["groups"].split(","):
                     group = group.lower()
