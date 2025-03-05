@@ -62,7 +62,7 @@ class PrivacyView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Privacy Policy"
         context["canonical_path"] = self.request.path
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -94,7 +94,7 @@ class HomePageView(
     def get_queryset(self):
         scoring_group = self.get_scoring_group()
         filters = {
-            "year": self.request.year,
+            "year": self.request.year.year,
             "council__authority_type__in": scoring_group["types"],
         }
 
@@ -142,7 +142,7 @@ class HomePageView(
 
         councils = context["object_list"].values()
         context["plan_sections"] = PlanSection.objects.filter(
-            year=self.request.year
+            year=self.request.year.year
         ).all()
 
         context = self.setup_filter_context(context, context["filter"], scoring_group)
@@ -150,10 +150,10 @@ class HomePageView(
         averages = PlanSection.get_average_scores(
             scoring_group=scoring_group,
             filter=context.get("filter_params", None),
-            year=self.request.year,
+            year=self.request.year.year,
         )
         all_scores = PlanSectionScore.get_all_council_scores(
-            plan_year=self.request.year
+            plan_year=self.request.year.year
         )
 
         councils = list(councils.all())
@@ -179,7 +179,7 @@ class HomePageView(
                         "top_performer": None,
                     }
                 )
-        codes = PlanSection.section_codes(year=self.request.year)
+        codes = PlanSection.section_codes(year=self.request.year.year)
 
         if scoring_group["slug"] == "combined":
             form_class = ScoringSortCA
@@ -212,14 +212,14 @@ class HomePageView(
         context["council_data"] = councils
         context["averages"] = averages
         context["current_plan_year"] = False
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         context["council_link_template"] = (
             "scoring/includes/council_link_with_year.html"
         )
         context["section_link_template"] = (
             "scoring/includes/section_link_with_year.html"
         )
-        if self.request.year == settings.PLAN_YEAR:
+        if self.request.year.is_current:
             context["current_plan_year"] = True
             context["council_link_template"] = (
                 "scoring/includes/council_link_current.html"
@@ -284,24 +284,19 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         return q
 
     def is_active_council(self, council):
-        dates = settings.SCORECARD_COUNCIL_CUTOFFS[str(self.request.year)]
-        new_council_date = date(
-            year=dates["new"]["year"],
-            month=dates["new"]["month"],
-            day=dates["new"]["day"],
-        )
         is_active = True
         inactive_type = ""
-        if council.start_date is not None and council.start_date >= new_council_date:
+        if (
+            council.start_date is not None
+            and council.start_date >= self.request.year.new_council_date
+        ):
             inactive_type = "new_council"
             is_active = False
 
-        old_council_date = date(
-            year=dates["old"]["year"],
-            month=dates["old"]["month"],
-            day=dates["old"]["day"],
-        )
-        if council.end_date is not None and council.end_date <= old_council_date:
+        if (
+            council.end_date is not None
+            and council.end_date <= self.request.year.old_council_date
+        ):
             inactive_type = "old_council"
             is_active = False
 
@@ -315,7 +310,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
-                .filter(council__slug__in=comparison_slugs, year=self.request.year)
+                .filter(council__slug__in=comparison_slugs, year=self.request.year.year)
                 .annotate(
                     previous_total=Subquery(
                         PlanScore.objects.filter(
@@ -336,14 +331,14 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             )
             comparison_sections = PlanSectionScore.sections_for_plans(
                 plans=comparisons,
-                plan_year=self.request.year,
+                plan_year=self.request.year.year,
                 previous_year=True,
             )
 
             comparison_ids = [p.id for p in comparisons]
             if len(comparison_ids) > 0:
                 for question in PlanScore.questions_answered_for_councils(
-                    plan_ids=comparison_ids, plan_year=self.request.year
+                    plan_ids=comparison_ids, plan_year=self.request.year.year
                 ):
                     q = self.make_question_obj(question)
                     comparison_answers[question.code][question.council_name] = q
@@ -392,7 +387,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         # get average section scores for authorities of the same type
         section_avgs = PlanSectionScore.get_all_section_averages(
-            council_group=group, plan_year=self.request.year
+            council_group=group, plan_year=self.request.year.year
         )
         for section in section_avgs.all():
             sections[section["plan_section__code"]]["avg"] = round(
@@ -400,7 +395,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             )
 
         section_top_marks = PlanSectionScore.get_all_section_top_mark_counts(
-            council_group=group, plan_year=self.request.year
+            council_group=group, plan_year=self.request.year.year
         )
         for section in section_top_marks.all():
             sections[section["plan_section__code"]]["max_count"] = section[
@@ -416,7 +411,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         self, plan_score, group, sections, comparisons, comparison_answers
     ):
         question_max_counts = PlanQuestionScore.all_question_max_score_counts(
-            council_group=group, plan_year=self.request.year
+            council_group=group, plan_year=self.request.year.year
         )
 
         previous_questions = defaultdict(dict)
@@ -512,7 +507,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         group = council.get_scoring_group()
 
         context["scoring_group"] = group
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
 
         is_active, inactive_type = self.is_active_council(council)
         if not is_active:
@@ -530,7 +525,9 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         context["target"] = target
 
         try:
-            plan_score = PlanScore.objects.get(council=council, year=self.request.year)
+            plan_score = PlanScore.objects.get(
+                council=council, year=self.request.year.year
+            )
         except PlanScore.DoesNotExist:
             context["no_plan"] = True
             return context
@@ -552,7 +549,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         )
 
         council_count = PlanScore.objects.filter(
-            year=self.request.year,
+            year=self.request.year.year,
             council__authority_type__in=group["types"],
             council__country__in=group["countries"],
         ).count()
@@ -561,7 +558,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         context["council_count"] = council_count
         context["plan_score"] = plan_score
         context["plan_urls"] = plan_urls
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         context["sections"] = sorted(
             sections.values(), key=lambda section: section["code"]
         )
@@ -618,7 +615,7 @@ class CouncilPreview(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         council = context.get("council")
-        plan_score = PlanScore.objects.get(council=council, year=self.request.year)
+        plan_score = PlanScore.objects.get(council=council, year=self.request.year.year)
         max_score, min_score = self.get_high_low_scores(plan_score)
 
         words = council.name.split()
@@ -659,7 +656,7 @@ class MostImprovedBase(DetailView):
 
     def add_common_context(self, context, previous_year, council):
         context["add_nosplit_span"] = self.add_nosplit_span(council)
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         context["previous_year"] = previous_year
         context["council"] = council
         context["page_title"] = council.name
@@ -676,7 +673,7 @@ class OverallMostImproved(MostImprovedBase):
     def get_object(self, queryset=None):
         plan_score = get_object_or_404(
             PlanScore,
-            year=self.request.year,
+            year=self.request.year.year,
             most_improved="overall",
         )
 
@@ -707,7 +704,7 @@ class CouncilMostImproved(MostImprovedBase):
         group = Council.SCORING_GROUPS[self.kwargs["group"]]
         plan_score = get_object_or_404(
             PlanScore,
-            year=self.request.year,
+            year=self.request.year.year,
             council__authority_type__in=group["types"],
             council__country__in=group["countries"],
             most_improved__in=[group["slug"], "overall"],
@@ -742,7 +739,7 @@ class SectionMostImproved(MostImprovedBase):
         section = self.kwargs["section"]
         plan_score = get_object_or_404(
             PlanSectionScore,
-            plan_score__year=self.request.year,
+            plan_score__year=self.request.year.year,
             most_improved=section,
         )
 
@@ -767,7 +764,7 @@ class SectionMostImproved(MostImprovedBase):
         previous_year = self.kwargs["previous_year"]
 
         section = get_object_or_404(
-            PlanSection, year=self.request.year, code=section_code
+            PlanSection, year=self.request.year.year, code=section_code
         )
         council = section_score.plan_score.council
         last_score, change = self.get_changes(section_score, previous_year)
@@ -791,7 +788,7 @@ class CouncilTypeTopPerformerView(TemplateView):
         council_type = self.kwargs["council_type"]
         group = Council.SCORING_GROUPS[council_type]
         scores = PlanScore.objects.filter(
-            year=self.request.year,
+            year=self.request.year.year,
             council__authority_type__in=group["types"],
             council__country__in=group["countries"],
         ).order_by("-weighted_total")
@@ -803,7 +800,7 @@ class CouncilTypeTopPerformerView(TemplateView):
         context["scoring_group"] = group
         context["council"] = council
         context["score"] = top.weighted_total
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
 
         return context
 
@@ -826,7 +823,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
     def get_object(self):
         return get_object_or_404(
-            PlanSection, code=self.kwargs["code"], year=self.request.year
+            PlanSection, code=self.kwargs["code"], year=self.request.year.year
         )
 
     def add_comparisons(self, context, comparison_slugs, comparison_questions):
@@ -836,13 +833,13 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
-                .filter(year=self.request.year, council__slug__in=comparison_slugs)
+                .filter(year=self.request.year.year, council__slug__in=comparison_slugs)
                 .order_by("council__name")
             )
             previous_year = comparisons.first().previous_year
             comparison_sections = PlanSectionScore.sections_for_plans(
                 plans=comparisons,
-                plan_year=self.request.year,
+                plan_year=self.request.year.year,
                 plan_sections=PlanSection.objects.filter(code=section.code),
                 previous_year=previous_year,
             )
@@ -940,7 +937,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 }
 
             question_max_counts = PlanQuestionScore.all_question_max_score_counts(
-                council_group=council_type, plan_year=self.request.year
+                council_group=council_type, plan_year=self.request.year.year
             )
 
             for q in comparison_questions.keys():
@@ -979,8 +976,8 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         if context.get("council_type", None) is not None:
             context["council_type_avg"] = avgs[context["council_type"]["slug"]]
 
-        if social_graphics.get(self.request.year):
-            sg = social_graphics[self.request.year].get(section.code)
+        if social_graphics.get(self.request.year.year):
+            sg = social_graphics[self.request.year.year].get(section.code)
             if sg:
                 context["social_graphics"] = sg
                 context["og_image_path"] = (
@@ -991,7 +988,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 context["og_image_width"] = sg["pdf"]["width"]
 
         context["canonical_path"] = self.request.path
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -1022,15 +1019,17 @@ class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         context["sections"] = []
         context["ca_sections"] = []
         for section in (
-            PlanSection.objects.filter(year=self.request.year).order_by("code").all()
+            PlanSection.objects.filter(year=self.request.year.year)
+            .order_by("code")
+            .all()
         ):
-            if self.request.year == settings.PLAN_YEAR:
+            if self.request.year.is_current:
                 url = reverse("scoring:section", args=(section.code,))
             else:
                 url = reverse(
                     "year_scoring:section",
                     args=(
-                        self.request.year,
+                        self.request.year.year,
                         section.code,
                     ),
                 )
@@ -1045,7 +1044,7 @@ class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
                 context["ca_sections"].append(details)
 
         context["canonical_path"] = self.request.path
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -1061,11 +1060,11 @@ class SectionPreview(PrivateScorecardsAccessMixin, TemplateView):
 
         group = Council.SCORING_GROUPS[scoring_group_slug]
 
-        section = PlanSection.objects.get(code=code, year=self.request.year)
+        section = PlanSection.objects.get(code=code, year=self.request.year.year)
 
         scores = PlanSectionScore.objects.filter(
             plan_section=section,
-            plan_score__year=self.request.year,
+            plan_score__year=self.request.year.year,
             plan_score__council__authority_type__in=group["types"],
             plan_score__council__country__in=group["countries"],
         ).aggregate(
@@ -1077,7 +1076,7 @@ class SectionPreview(PrivateScorecardsAccessMixin, TemplateView):
         context["section"] = section
         context["scoring_group"] = group
         context["scores"] = scores
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
 
         return context
 
@@ -1091,11 +1090,11 @@ class SectionTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateView):
 
         code = self.kwargs["slug"]
 
-        section = PlanSection.objects.get(code=code, year=self.request.year)
+        section = PlanSection.objects.get(code=code, year=self.request.year.year)
 
         scores = PlanSectionScore.objects.filter(
             plan_section=section,
-            plan_score__year=self.request.year,
+            plan_score__year=self.request.year.year,
         ).order_by("-weighted_score")
 
         top = scores.first()
@@ -1103,7 +1102,7 @@ class SectionTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateView):
         context["section"] = section
         context["score"] = top.weighted_score
         context["council"] = top.plan_score.council
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
 
         return context
 
@@ -1118,20 +1117,20 @@ class SectionCouncilTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateVi
         code = self.kwargs["slug"]
         council = self.kwargs["council"]
 
-        section = PlanSection.objects.get(code=code, year=self.request.year)
+        section = PlanSection.objects.get(code=code, year=self.request.year.year)
 
         scores = get_object_or_404(
             PlanSectionScore,
             plan_section=section,
             top_performer=code,
-            plan_score__year=self.request.year,
+            plan_score__year=self.request.year.year,
             plan_score__council__slug=council,
         )
 
         context["section"] = section
         context["score"] = scores.weighted_score
         context["council"] = scores.plan_score.council
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
 
         return context
 
@@ -1146,7 +1145,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
         return get_object_or_404(
             PlanQuestion.objects.select_related("section"),
             code=self.kwargs["code"],
-            section__year=self.request.year,
+            section__year=self.request.year.year,
         )
 
     def get_context_data(self, **kwargs):
@@ -1174,7 +1173,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
             context["scoring_group"] = scoring_group
             context["scores"] = (
                 PlanQuestionScore.objects.filter(
-                    plan_score__year=self.request.year,
+                    plan_score__year=self.request.year.year,
                     plan_question=question,
                     plan_score__council__authority_type__in=scoring_group["types"],
                 )
@@ -1183,7 +1182,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
             )
 
             score_counts = question.get_scores_breakdown(
-                year=self.request.year, scoring_group=scoring_group
+                year=self.request.year.year, scoring_group=scoring_group
             )
 
             totals = {}
@@ -1204,7 +1203,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
 
             context["totals"] = [totals[k] for k in sorted(totals.keys())]
 
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -1215,7 +1214,7 @@ class LocationResultsView(PrivateScorecardsAccessMixin, BaseLocationResultsView)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Choose a council"
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -1228,8 +1227,10 @@ class AboutView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, TemplateV
         context["page_title"] = "About"
         context["current_page"] = "about-page"
         context["canonical_path"] = self.request.path
-        context["plan_year"] = self.request.year
-        context["year_content"] = f"scoring/includes/{self.request.year}_about.html"
+        context["plan_year"] = self.request.year.year
+        context["year_content"] = (
+            f"scoring/includes/{self.request.year.year}_about.html"
+        )
         return context
 
 
@@ -1269,7 +1270,7 @@ class MethodologyView(
         context["page_title"] = "Methodology"
         context["current_page"] = "methodology-page"
 
-        methodology_year = self.request.year
+        methodology_year = self.request.year.year
         if kwargs.get("year") is None:
             methodology_year = settings.METHODOLOGY_YEAR
 
@@ -1496,7 +1497,7 @@ class ContactView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templat
         context["page_title"] = "Contact"
         context["current_page"] = "contact-page"
         context["canonical_path"] = self.request.path
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -1509,7 +1510,7 @@ class HowToUseView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         context["page_title"] = "How to use the Scorecards"
         context["current_page"] = "how-to-page"
         context["canonical_path"] = self.request.path
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         return context
 
 

@@ -1,5 +1,25 @@
 [
   {
+    "model": "scoring.planyear",
+    "pk": 1,
+    "fields": {
+      "year": 2023,
+      "new_council_date": "2023-01-01",
+      "old_council_date": "2021-04-01",
+      "is_current": false
+    }
+  },
+  {
+    "model": "scoring.planyear",
+    "pk": 2,
+    "fields": {
+      "year": 2025,
+      "new_council_date": "2024-01-01",
+      "old_council_date": "2023-01-01",
+      "is_current": true
+    }
+  },
+  {
     "model": "caps.council",
     "pk": 1,
     "fields": {
