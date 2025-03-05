@@ -251,8 +251,6 @@ $score-bar-vertical-padding: 8px;
     }
 }
 
-// Hover message for top-performers
-$flex-basis-mobile-council: 80%;
 .council-link {
     display: block;
     white-space: break-spaces;
@@ -261,52 +259,6 @@ $flex-basis-mobile-council: 80%;
 
     &:hover {
         text-decoration: underline;
-    }
-
-    @media only screen and (max-width: $table-desktop-breakpoint) {
-        flex-basis: $flex-basis-mobile-council;
-    }
-}
-
-.scorecard-table,
-.scorecard-table-mobile {
-    .top-performer {
-        display: block;
-        width: 20px;
-        height: 20px;
-        position: relative;
-        flex: 0 0 auto;
-        background: transparent url('../img/star.svg') 0 0 no-repeat;
-        background-size: 16px auto;
-
-        .hover-message {
-            opacity: 0;
-            position: absolute;
-            top:-10px;
-            left: 0;
-            width: 0;
-            z-index: 1000;
-        }
-
-        &:hover {
-            .hover-message {
-               opacity: 1;
-               width: 230px;
-            }
-        }
-    }
-}
-
-.hover-message {
-    background-color: $color-scorecard-grey-900;
-    padding: 8px;
-    border-radius: $border-radius;
-    @media only screen and (max-width: $table-desktop-breakpoint) {
-        display: none;
-    }
-    span {
-        color: $white;
-        
     }
 }
 
