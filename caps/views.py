@@ -61,7 +61,7 @@ from caps.models import (
 from caps.search_funcs import condense_highlights
 from caps.utils import file_size, is_valid_postcode
 from charting import ChartCollection
-from scoring.models import PlanScore, PlanSection, PlanSectionScore
+from scoring.models import PlanScore, PlanSection, PlanSectionScore, PlanYear
 
 
 def add_context_for_plans_download_and_search(context):
@@ -181,7 +181,8 @@ class CouncilDetailView(DetailView):
         """
         context = {}
         try:
-            plan_score = PlanScore.objects.get(council=council, year=2023)
+            plan_year = PlanYear.objects.get(is_current=True)
+            plan_score = PlanScore.objects.get(council=council, year=plan_year.year)
 
             group = council.get_scoring_group()
 
@@ -193,12 +194,12 @@ class CouncilDetailView(DetailView):
             ).aggregate(average_score=Avg("weighted_total"))
 
             sections = PlanSectionScore.sections_for_council(
-                council=council, plan_year=settings.PLAN_YEAR
+                council=council, plan_year=plan_year.year
             )
 
             # get average section scores for authorities of the same type
             section_avgs = PlanSectionScore.get_all_section_averages(
-                council_group=group, plan_year=settings.PLAN_YEAR
+                council_group=group, plan_year=plan_year.year
             )
 
             for section in section_avgs.all():
