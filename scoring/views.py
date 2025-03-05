@@ -108,6 +108,13 @@ class HomePageView(
                 name=F("council__name"),
                 slug=F("council__slug"),
                 authority_code=F("council__authority_code"),
+                previous_percentage=Subquery(
+                    PlanScore.objects.filter(
+                        council=OuterRef("council"),
+                        year=self.request.year.previous_year.year,
+                    ).values("weighted_total")
+                ),
+                change=(F("weighted_total") - F("previous_percentage")),
             )
             .order_by(F("weighted_total").desc(nulls_last=True))
         )
@@ -156,10 +163,27 @@ class HomePageView(
             plan_year=self.request.year.year
         )
 
+        if self.request.year.previous_year:
+            previous_averages = PlanSection.get_average_scores(
+                scoring_group=scoring_group,
+                filter=context.get("filter_params", None),
+                year=self.request.year.previous_year.year,
+            )
+            for section in averages.keys():
+                if section != "total":
+                    averages[section]["change"] = (
+                        averages[section]["weighted"]
+                        - previous_averages[section]["weighted"]
+                    )
+
         councils = list(councils.all())
         council_ids = []
+        out = True
         for council in councils:
             council_ids.append(council["council_id"])
+            if out:
+                print(all_scores[council["council_id"]])
+                out = False
             council["all_scores"] = all_scores[council["council_id"]]
             if council["score"] is not None:
                 council["percentage"] = council["score"]
