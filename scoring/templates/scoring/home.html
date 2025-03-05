@@ -198,11 +198,9 @@
                             <th scope="row" class="first-column position-sticky z-index-3 align-middle">
                                 <div class="d-flex flex-row align-items-center">
                                     {% if council.top_performer %}
-                                    <div class="top-performer">
-                                        <div class="hover-message">
-                                            <span>This is a top performer council.</span>
-                                        </div>
-                                    </div>
+                                        <button class="bg-transparent border-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Top performer council">
+                                            {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.2em' height='1.2em' %}
+                                        </button>
                                     {% else %}
                                         <div class="pe-4"></div>
                                     {% endif %}
@@ -458,15 +456,17 @@
                             {% for council in council_data %}
                                 <tr class="name-row" data-jump-slug="{{ council.slug }}">
                                     <th class="fw-normal" scope="row" colspan="4">
-                                        <a class="lh-base council-link d-flex flex-column align-items-center" href="{% url 'scoring:council' council.slug %}">
-                                            {% if council.top_performer %}
-                                            <div class="d-flex flex-row align-items-center badge bg-primary-100 text-primary mb-1">
-                                                {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
-                                                <span class="text-capitalize">Top performer council</span>
-                                            </div>
+                                        {% if council.top_performer %}
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <button class="bg-transparent border-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Top performer council">
+                                                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.2em' height='1.2em' %}
+                                            </button>
                                             {% endif %}
-                                            <span>{{ council.name }}{% include 'caps/icons/link.html' with classes='align-text-top ms-1' width='1em' height='auto' role='presentation' %}</span>
-                                        </a>
+                                            <a class="lh-base council-link d-flex align-items-center justify-content-center" href="{% url 'scoring:council' council.slug %}">
+                                                <span>{{ council.name }}</span>
+                                                {% include 'caps/icons/link.html' with classes='align-text-top ms-1' width='1em' height='auto' role='presentation' %}
+                                            </a>
+                                        </div>
                                     </th>
                                 </tr>
                                 <tr class="score-row js-total">
