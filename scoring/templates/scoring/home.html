@@ -122,74 +122,42 @@
                             <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                             </th>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100 position-sticky z-index-4"><span class="fs-8">&#9650;</span> 5</th>
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.total.change %}
 
                             <th scope="col" class="bg-primary-100 category-1 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s1_b_h.weighted average=1 %}
                             </th>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s1_b_h.change %}
 
                             <th scope="col" class="bg-primary-100 category-2 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s2_tran.weighted average=1 %}
                             </th>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s2_tran.change %}
 
                             <th scope="col" class="bg-primary-100 category-3 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s3_p_lu.weighted average=1 %}
                             </th>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s3_p_lu.change %}
 
                             <th scope="col" class="bg-primary-100 category-4 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s4_g_f.weighted average=1 %}
                             </th>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s4_g_f.change %}
 
                             <th scope="col" class="bg-primary-100 category-5 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s5_bio.weighted average=1 %}
                             </th>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s5_bio.change %}
 
                             <th scope="col" class="bg-primary-100 category-6 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s6_c_e.weighted average=1 %}
                             </th>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s6_c_e.change %}
 
                             <th scope="col" class="bg-primary-100 category-7 second-row">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.s7_wr_f.weighted average=1 %}
                             </th>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> 5</th>
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s7_wr_f.change %}
                         </tr>
                     </thead>
                     <tbody>
@@ -210,71 +178,43 @@
                             <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="{{ council.percentage|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                             </th>
-                            <th scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success">&#9650; 5</th>
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=council.change %}
                           {% with scores=council.all_scores %}
                           {% if council.score != 0 and council.score is not None %}
                             <td scope="row" class="council-category-score category-1" data-sort-value="{{ scores.s1_b_h.score|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s1_b_h.weighted %}
                             </td>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s1_b_h.change %}
 
                             <td scope="row" class="council-category-score category-2" data-sort-value="{{ scores.s2_tran.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s2_tran.weighted %}
                             </td>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s2_tran.change %}
 
                             <td scope="row" class="council-category-score category-3" data-sort-value="{{ scores.s3_p_lu.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s3_p_lu.weighted %}
                             </td>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s3_p_lu.change %}
 
                             <td scope="row" class="council-category-score category-4" data-sort-value="{{ scores.s4_g_f.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s4_g_f.weighted %}
                             </td>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s4_g_f.change %}
 
                             <td scope="row" class="council-category-score category-5" data-sort-value="{{ scores.s5_bio.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s5_bio.weighted %}
                             </td>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s5_bio.change %}
 
                             <td scope="row" class="council-category-score category-6" data-sort-value="{{ scores.s6_c_e.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s6_c_e.weighted %}
                             </td>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s6_c_e.change %}
 
                             <td scope="row" class="council-category-score category-7" data-sort-value="{{ scores.s7_wr_f.weighted|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=scores.s7_wr_f.weighted %}
                             </td>
-                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; 5</td>
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s7_wr_f.change %}
                           {% elif council.score == 0 %}
                             <td class="has-no-plan" colspan="7" data-sort-value="-1">
                                 Not scored: newly formed council since April 2023. This council will be assessed in future Scorecard editions.
