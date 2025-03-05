@@ -18,6 +18,7 @@ from django_filters.views import FilterView
 from caps.models import Council, PlanDocument, Promise
 from caps.utils import gen_natsort_lamda
 from caps.views import BaseLocationResultsView
+from conf.social_graphics import social_graphics
 from scoring.filters import PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort, ScoringSortCA
 from scoring.mixins import (
@@ -61,6 +62,7 @@ class PrivacyView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Privacy Policy"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -92,7 +94,7 @@ class HomePageView(
     def get_queryset(self):
         scoring_group = self.get_scoring_group()
         filters = {
-            "year": self.request.year,
+            "year": self.request.year.year,
             "council__authority_type__in": scoring_group["types"],
         }
 
@@ -140,7 +142,7 @@ class HomePageView(
 
         councils = context["object_list"].values()
         context["plan_sections"] = PlanSection.objects.filter(
-            year=self.request.year
+            year=self.request.year.year
         ).all()
 
         context = self.setup_filter_context(context, context["filter"], scoring_group)
@@ -148,10 +150,10 @@ class HomePageView(
         averages = PlanSection.get_average_scores(
             scoring_group=scoring_group,
             filter=context.get("filter_params", None),
-            year=self.request.year,
+            year=self.request.year.year,
         )
         all_scores = PlanSectionScore.get_all_council_scores(
-            plan_year=self.request.year
+            plan_year=self.request.year.year
         )
 
         councils = list(councils.all())
@@ -177,7 +179,7 @@ class HomePageView(
                         "top_performer": None,
                     }
                 )
-        codes = PlanSection.section_codes(year=self.request.year)
+        codes = PlanSection.section_codes(year=self.request.year.year)
 
         if scoring_group["slug"] == "combined":
             form_class = ScoringSortCA
@@ -209,7 +211,22 @@ class HomePageView(
         context["sorted_by"] = sorted_by
         context["council_data"] = councils
         context["averages"] = averages
-        context["plan_year"] = self.request.year
+        context["current_plan_year"] = False
+        context["plan_year"] = self.request.year.year
+        context["council_link_template"] = (
+            "scoring/includes/council_link_with_year.html"
+        )
+        context["section_link_template"] = (
+            "scoring/includes/section_link_with_year.html"
+        )
+        if self.request.year.is_current:
+            context["current_plan_year"] = True
+            context["council_link_template"] = (
+                "scoring/includes/council_link_current.html"
+            )
+            context["section_link_template"] = (
+                "scoring/includes/section_link_current.html"
+            )
 
         title_format_strings = {
             "single": "Council Climate Action Scorecards",
@@ -261,53 +278,108 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         if question.question_type == "HEADER":
             q["max"] = question.header_max
 
+        if question.previous_question_code:
+            q["previous_q_code"] = question.previous_question_code
+
         return q
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        council = context.get("council")
-        group = council.get_scoring_group()
+    def is_active_council(self, council):
+        is_active = True
+        inactive_type = ""
+        if (
+            council.start_date is not None
+            and council.start_date >= self.request.year.new_council_date
+        ):
+            inactive_type = "new_council"
+            is_active = False
 
-        context["plan_year"] = self.request.year
+        if (
+            council.end_date is not None
+            and council.end_date <= self.request.year.old_council_date
+        ):
+            inactive_type = "old_council"
+            is_active = False
 
-        new_council_date = date(year=2023, month=1, day=1)
-        if council.start_date is not None and council.start_date >= new_council_date:
-            context["scoring_group"] = group
-            context["new_council"] = True
-            return context
+        return is_active, inactive_type
 
-        old_council_date = date(year=2021, month=4, day=1)
-        if council.end_date is not None and council.end_date <= old_council_date:
-            context["scoring_group"] = group
-            context["old_council"] = True
-            return context
+    def get_comparison_data(self):
+        comparison_slugs = self.request.GET.getlist("comparisons")
+        comparisons = None
+        comparison_answers = defaultdict(dict)
+        comparison_sections = {}
+        if comparison_slugs:
+            comparisons = (
+                PlanScore.objects.select_related("council")
+                .filter(council__slug__in=comparison_slugs, year=self.request.year.year)
+                .annotate(
+                    previous_total=Subquery(
+                        PlanScore.objects.filter(
+                            id=OuterRef("previous_year__id"),
+                        ).values("weighted_total")
+                    )
+                )
+                .annotate(
+                    change=(
+                        (
+                            (F("weighted_total") - F("previous_total"))
+                            / F("previous_total")
+                        )
+                        * 100
+                    )
+                )
+                .order_by("council__name")
+            )
+            comparison_sections = PlanSectionScore.sections_for_plans(
+                plans=comparisons,
+                plan_year=self.request.year.year,
+                previous_year=True,
+            )
 
-        promises = Promise.objects.filter(council=council).all()
+            comparison_ids = [p.id for p in comparisons]
+            if len(comparison_ids) > 0:
+                for question in PlanScore.questions_answered_for_councils(
+                    plan_ids=comparison_ids, plan_year=self.request.year.year
+                ):
+                    q = self.make_question_obj(question)
+                    comparison_answers[question.code][question.council_name] = q
+                prev_plans = PlanScore.objects.filter(id__in=comparison_ids).values(
+                    "previous_year_id", "previous_year__year"
+                )
+                ids = []
+                year = None
+                for plan in prev_plans:
+                    ids.append(plan["previous_year_id"])
+                    year = plan["previous_year__year"]
 
-        target = None
-        for promise in promises:
-            if target is None:
-                target = promise
-            elif target is not None and promise.scope == PlanDocument.WHOLE_AREA:
-                target = promise
-        context["target"] = target
+                previous_answers = defaultdict(dict)
+                for question in PlanScore.questions_answered_for_councils(
+                    plan_ids=ids, plan_year=year
+                ):
+                    previous_answers[question.code][question.council_name] = {}
+                    previous_answers[question.code][question.council_name][
+                        "previous_score"
+                    ] = question.score
+                    previous_answers[question.code][question.council_name][
+                        "previous_max"
+                    ] = question.max_score
 
-        try:
-            plan_score = PlanScore.objects.get(council=council, year=self.request.year)
-        except PlanScore.DoesNotExist:
-            context["no_plan"] = True
-            return context
+                for code in comparison_answers.keys():
+                    for council, answer in comparison_answers[code].items():
+                        prev_code = answer.get("previous_question_code")
+                        if prev_code and previous_answers[prev_code].get(council):
+                            answer = {**answer, **previous_answers[prev_code][council]}
+                            answer["change"] = int(
+                                answer["score"] - answer["previous_score"]
+                            )
 
-        plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
+        return comparisons, comparison_answers, comparison_sections
+
+    def get_section_details(self, plan_score, group, comparisons, comparison_sections):
         sections = PlanSectionScore.sections_for_council(
-            council=council, plan_year=self.request.year
+            council=plan_score.council,
+            plan_year=plan_score.year,
+            previous_year=plan_score.previous_year,
         )
-
-        try:
-            previous_score = PlanScore.objects.get(council=council, year=2021)
-            context["previous_score"] = previous_score
-        except PlanScore.DoesNotExist:
-            context["previous_score"] = False
 
         for section in sections.keys():
             sections[section]["non_negative_max"] = sections[section]["score"]
@@ -315,7 +387,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         # get average section scores for authorities of the same type
         section_avgs = PlanSectionScore.get_all_section_averages(
-            council_group=group, plan_year=self.request.year
+            council_group=group, plan_year=self.request.year.year
         )
         for section in section_avgs.all():
             sections[section["plan_section__code"]]["avg"] = round(
@@ -323,44 +395,43 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             )
 
         section_top_marks = PlanSectionScore.get_all_section_top_mark_counts(
-            council_group=group, plan_year=self.request.year
+            council_group=group, plan_year=self.request.year.year
         )
         for section in section_top_marks.all():
             sections[section["plan_section__code"]]["max_count"] = section[
                 "max_score_count"
             ]
 
+        for section, details in comparison_sections.items():
+            sections[section]["comparisons"] = details
+
+        return sections
+
+    def add_answer_details(
+        self, plan_score, group, sections, comparisons, comparison_answers
+    ):
         question_max_counts = PlanQuestionScore.all_question_max_score_counts(
-            council_group=group, plan_year=self.request.year
+            council_group=group, plan_year=self.request.year.year
         )
 
-        comparison_slugs = self.request.GET.getlist("comparisons")
-        comparisons = None
-        comparison_answers = defaultdict(dict)
-        if comparison_slugs:
-            comparisons = (
-                PlanScore.objects.select_related("council")
-                .filter(council__slug__in=comparison_slugs, year=self.request.year)
-                .order_by("council__name")
-            )
-            comparison_sections = PlanSectionScore.sections_for_plans(
-                plans=comparisons, plan_year=self.request.year
-            )
-            for section, details in comparison_sections.items():
-                sections[section]["comparisons"] = details
-
-            comparison_ids = [p.id for p in comparisons]
-            if len(comparison_ids) > 0:
-                for question in PlanScore.questions_answered_for_councils(
-                    plan_ids=comparison_ids, plan_year=self.request.year
-                ):
-                    q = self.make_question_obj(question)
-                    comparison_answers[question.code][question.council_name] = q
+        previous_questions = defaultdict(dict)
+        if plan_score.previous_year is not None:
+            prev_answers = plan_score.previous_year.questions_answered()
+            for pa in prev_answers:
+                previous_questions[pa.section_code][pa.code] = pa
 
         for question in plan_score.questions_answered():
             section = question.section_code
 
             q = self.make_question_obj(question)
+            if q.get("previous_q_code") and previous_questions[section].get(
+                q["previous_q_code"]
+            ):
+                pq = previous_questions[section][q["previous_q_code"]]
+                q["previous_score"] = pq.score
+                q["previous_max"] = pq.max_score
+                q["change"] = int(q["score"] - q["previous_score"])
+
             q["council_count"] = question_max_counts.get(question.code, 0)
             q["comparisons"] = []
             # not all councils have answers for all questions so make sure we
@@ -391,8 +462,94 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                     data["only_negative"] = True
             data["answers"] = sorted(data["answers"], key=natsort)
 
+        return sections
+
+    def get_related_councils(self, council, group, comparisons):
+        similar_councils = []
+        for group in council.get_related_councils(5, group["slug"]):
+            if group["type"].slug == "composite":
+                if comparisons:
+                    # Filter out any related councils that are already being compared
+                    comparison_slugs = {score.council.slug for score in comparisons}
+                    similar_councils = [
+                        sc
+                        for sc in group["councils"]
+                        if sc.slug not in comparison_slugs
+                    ]
+                else:
+                    similar_councils = group["councils"]
+                break
+
+        return similar_councils
+
+    def add_previous_scores(self, council, context, plan_score):
+        try:
+            original_plan_score = PlanScore.objects.get(council=council, year=2021)
+            context["original_plan_score"] = original_plan_score
+        except PlanScore.DoesNotExist:
+            context["original_plan_score"] = False
+
+        if plan_score.previous_year is not None:
+            prev = plan_score.previous_year
+            context["previous_year"] = prev.year
+            context["previous_total"] = prev.weighted_total
+            context["previous_diff"] = (
+                (plan_score.weighted_total - prev.weighted_total) / prev.weighted_total
+            ) * 100
+        else:
+            context["previous_total"] = False
+
+        return context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        council = context.get("council")
+        group = council.get_scoring_group()
+
+        context["scoring_group"] = group
+        context["plan_year"] = self.request.year.year
+
+        is_active, inactive_type = self.is_active_council(council)
+        if not is_active:
+            context[inactive_type] = True
+            return context
+
+        promises = Promise.objects.filter(council=council).all()
+
+        target = None
+        for promise in promises:
+            if target is None:
+                target = promise
+            elif target is not None and promise.scope == PlanDocument.WHOLE_AREA:
+                target = promise
+        context["target"] = target
+
+        try:
+            plan_score = PlanScore.objects.get(
+                council=council, year=self.request.year.year
+            )
+        except PlanScore.DoesNotExist:
+            context["no_plan"] = True
+            return context
+
+        plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
+
+        context = self.add_previous_scores(council, context, plan_score)
+
+        comparisons, comparison_answers, comparison_sections = (
+            self.get_comparison_data()
+        )
+
+        sections = self.get_section_details(
+            plan_score, group, comparisons, comparison_sections
+        )
+
+        sections = self.add_answer_details(
+            plan_score, group, sections, comparisons, comparison_answers
+        )
+
         council_count = PlanScore.objects.filter(
-            year=self.request.year,
+            year=self.request.year.year,
             council__authority_type__in=group["types"],
             council__country__in=group["countries"],
         ).count()
@@ -401,31 +558,19 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         context["council_count"] = council_count
         context["plan_score"] = plan_score
         context["plan_urls"] = plan_urls
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         context["sections"] = sorted(
             sections.values(), key=lambda section: section["code"]
         )
         context["comparisons"] = comparisons
-
-        for group in council.get_related_councils(5, group["slug"]):
-            if group["type"].slug == "composite":
-                if comparisons:
-                    # Filter out any related councils that are already being compared
-                    comparison_slugs = {score.council.slug for score in comparisons}
-                    context["similar_councils"] = [
-                        sc
-                        for sc in group["councils"]
-                        if sc.slug not in comparison_slugs
-                    ]
-                else:
-                    context["similar_councils"] = group["councils"]
-                break
+        context["similar_councils"] = self.get_related_councils(
+            council, group, comparisons
+        )
 
         context["page_title"] = "{name} Climate Action Scorecard".format(
             name=council.name
         )
 
-        context["comparisons"] = comparisons
         context["page_description"] = (
             "Want to know how effective {name}’s climate plans are? Check out {name}’s Council Climate Scorecard to understand how their climate plans compare to local authorities across the UK.".format(
                 name=council.name
@@ -470,7 +615,7 @@ class CouncilPreview(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         council = context.get("council")
-        plan_score = PlanScore.objects.get(council=council, year=self.request.year)
+        plan_score = PlanScore.objects.get(council=council, year=self.request.year.year)
         max_score, min_score = self.get_high_low_scores(plan_score)
 
         words = council.name.split()
@@ -486,6 +631,154 @@ class CouncilPreview(DetailView):
         return context
 
 
+class MostImprovedBase(DetailView):
+    def calculate_change(self, current_score, previous_score):
+        return ((current_score - previous_score) / previous_score) * 100
+
+    def get_changes(self, plan_score, previous_year):
+        previous_plan_score = PlanScore.objects.get(
+            council=plan_score.council, year=previous_year
+        )
+        previous_score = previous_plan_score.weighted_total
+
+        change = self.calculate_change(plan_score.weighted_total, previous_score)
+
+        return previous_score, change
+
+    def add_nosplit_span(self, council):
+        add_nosplit_span = False
+        words = council.name.split()
+        last_two_words = f"{words[-2]} {words[-1]}"
+        if len(last_two_words) < 16:
+            add_nosplit_span = True
+
+        return add_nosplit_span
+
+    def add_common_context(self, context, previous_year, council):
+        context["add_nosplit_span"] = self.add_nosplit_span(council)
+        context["plan_year"] = self.request.year.year
+        context["previous_year"] = previous_year
+        context["council"] = council
+        context["page_title"] = council.name
+
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class OverallMostImproved(MostImprovedBase):
+    model = PlanScore
+    context_object_name = "plan_score"
+    template_name = "scoring/overall-most-improved.html"
+
+    def get_object(self, queryset=None):
+        plan_score = get_object_or_404(
+            PlanScore,
+            year=self.request.year.year,
+            most_improved="overall",
+        )
+
+        return plan_score
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        plan_score = context.get("plan_score")
+        previous_year = self.kwargs["previous_year"]
+
+        council = plan_score.council
+        last_score, change = self.get_changes(plan_score, previous_year)
+
+        context = self.add_common_context(context, previous_year, council)
+        context["current_score"] = plan_score.weighted_total
+        context["last_score"] = last_score
+        context["change"] = change
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class CouncilMostImproved(MostImprovedBase):
+    model = PlanScore
+    context_object_name = "plan_score"
+    template_name = "scoring/council-most-improved.html"
+
+    def get_object(self, queryset=None):
+        group = Council.SCORING_GROUPS[self.kwargs["group"]]
+        plan_score = get_object_or_404(
+            PlanScore,
+            year=self.request.year.year,
+            council__authority_type__in=group["types"],
+            council__country__in=group["countries"],
+            most_improved__in=[group["slug"], "overall"],
+        )
+
+        return plan_score
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        plan_score = context.get("plan_score")
+        previous_year = self.kwargs["previous_year"]
+
+        council = plan_score.council
+        last_score, change = self.get_changes(plan_score, previous_year)
+
+        context = self.add_common_context(context, previous_year, council)
+
+        context["current_score"] = plan_score.weighted_total
+        context["scoring_group"] = council.get_scoring_group()
+        context["last_score"] = last_score
+        context["change"] = change
+        return context
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class SectionMostImproved(MostImprovedBase):
+    model = PlanSectionScore
+    context_object_name = "section_score"
+    template_name = "scoring/section-most-improved.html"
+
+    def get_object(self, queryset=None):
+        section = self.kwargs["section"]
+        plan_score = get_object_or_404(
+            PlanSectionScore,
+            plan_score__year=self.request.year.year,
+            most_improved=section,
+        )
+
+        return plan_score
+
+    def get_changes(self, section_score, previous_year):
+        previous_section_score = PlanSectionScore.objects.get(
+            plan_score__council=section_score.plan_score.council,
+            plan_section__code=section_score.plan_section.code,
+            plan_score__year=previous_year,
+        )
+        previous_score = previous_section_score.weighted_score
+
+        change = self.calculate_change(section_score.weighted_score, previous_score)
+
+        return previous_score, change
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        section_score = context.get("section_score")
+        section_code = self.kwargs["section"]
+        previous_year = self.kwargs["previous_year"]
+
+        section = get_object_or_404(
+            PlanSection, year=self.request.year.year, code=section_code
+        )
+        council = section_score.plan_score.council
+        last_score, change = self.get_changes(section_score, previous_year)
+
+        context = self.add_common_context(context, previous_year, council)
+
+        context["section"] = section
+        context["current_score"] = section_score.weighted_score
+        context["scoring_group"] = council.get_scoring_group()
+        context["last_score"] = last_score
+        context["change"] = change
+        return context
+
+
 @method_decorator(cache_control(**cache_settings), name="dispatch")
 class CouncilTypeTopPerformerView(TemplateView):
     template_name = "scoring/council-top-performer-overall-preview.html"
@@ -495,7 +788,7 @@ class CouncilTypeTopPerformerView(TemplateView):
         council_type = self.kwargs["council_type"]
         group = Council.SCORING_GROUPS[council_type]
         scores = PlanScore.objects.filter(
-            year=self.request.year,
+            year=self.request.year.year,
             council__authority_type__in=group["types"],
             council__country__in=group["countries"],
         ).order_by("-weighted_total")
@@ -507,22 +800,8 @@ class CouncilTypeTopPerformerView(TemplateView):
         context["scoring_group"] = group
         context["council"] = council
         context["score"] = top.weighted_total
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
 
-        return context
-
-
-@method_decorator(cache_control(**cache_settings), name="dispatch")
-class CouncilPreviewTopPerfomer(DetailView):
-    model = Council
-    context_object_name = "council"
-    template_name = "scoring/council-top-performer-preview.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        council = context.get("council")
-        context["page_title"] = council.name
-        context["plan_year"] = self.request.year
         return context
 
 
@@ -540,316 +819,29 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         "s6_c_e": "s6_c_e_ca",
     }
 
-    social_graphics = {
-        "s4_g_f": {
-            "pdf": {
-                "src_pdf": "scoring/img/social-graphics/governance-and-finance/scorecards-governance.pdf",
-                "src_jpg": "scoring/img/social-graphics/governance-and-finance/governance-graphic.jpg",
-                "height": 1159,
-                "width": 2100,
-            },
-            "zip": "scoring/img/social-graphics/governance-and-finance/governance-and-finance.zip",
-            "images": [
-                {
-                    "src_facebook": "scoring/img/social-graphics/governance-and-finance/facebook-1@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/governance-and-finance/instagram-1@2x.png",
-                    "alt": "Governance & Finance; Leading the Way; 68% of local authorities have raised funds for climate action; 84% of councils have a named climate portfolio holder; 45% of councils include climate as a priority in their Corporate Plan.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/governance-and-finance/facebook-2@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/governance-and-finance/instagram-2@2x.png",
-                    "alt": "Governance & Finance; Climate Governance; 14% of councils have trained all their senior staff and councillors who are cabinet or committee chairs in climate awareness; 64% of councils don’t have a detailed sustainable procurement policy; 47% of councils list climate implications on full council decisions.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/governance-and-finance/facebook-3@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/governance-and-finance/instagram-3@2x.png",
-                    "alt": "Governance & Finance; Funding the Climate Crisis; 1% of councils have committed to divesting their pension fund from fossil fuels by 2030; 13% of councils have passed a motion supporting the divestment of its own investments and their pension fund; 10% of local authorities* have direct investments in airports.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/governance-and-finance/facebook-4@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/governance-and-finance/instagram-4@2x.png",
-                    "alt": "Governance & Finance; Emissions Reductions Between 2019 and 2021; 7% of councils have reduced their own emissions by 20% or more; 2% of district & single tier councils have had area wide emissions reduced by 10% or more; 0% No county, combined authority or Northern Irish council have had area wide emissions reduced by 10% or more.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/governance-and-finance/facebook-0@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/governance-and-finance/instagram-0@2x.png",
-                    "alt": "Governance & Finance; Average scores: 27% for Single Tier; 24% for District; 34% for County; 11% for Northern Ireland; 29% for Combined Authority.",
-                },
-            ],
-        },
-        "s2_tran": {
-            "pdf": {
-                "src_pdf": "scoring/img/social-graphics/transport/scorecards-transport.pdf",
-                "src_jpg": "scoring/img/social-graphics/transport/transport-graphic.jpg",
-                "height": 1158,
-                "width": 2100,
-            },
-            "zip": "scoring/img/social-graphics/transport/transport.zip",
-            "images": [
-                {
-                    "src_facebook": "scoring/img/social-graphics/transport/facebook-1@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/transport/instagram-1@2x.png",
-                    "alt": "Transport, leading the way; 57% of transport authorities have 20mph as the default speed limit; 59% of transport authorities have low-emission buses in their area",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/transport/facebook-2@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/transport/instagram-2@2x.png",
-                    "alt": "Transport, driving the climate crisis; 25% of local authorities have expanded airports or their road networks",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/transport/facebook-3@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/transport/instagram-3@2x.png",
-                    "alt": "Transport, accelerated action needed; 20% of local authorities have 10% or more of their council fleet as electric vehicles; 32% of councils have 60 or more public electric vehicle chargers across their area",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/transport/facebook-4@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/transport/instagram-4@2x.png",
-                    "alt": "Transport, driving the climate crisis; 0 english councils received the highest capability rating by active travel england; 3 english transport authorities outside of london have high bus ridership.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/transport/facebook-5@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/transport/instagram-5@2x.png",
-                    "alt": "Transport, air quality; 98% of air quality authorities in england have high pm2.5 levels in 25% or more of the council's area; 55% of air quality authorities have high no2 levels in 25% or more of the council's area",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/transport/facebook-6@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/transport/instagram-6@2x.png",
-                    "alt": "Transport; Average scores: 22% for Single Tier; 9% for District; 18% for County; 7% for Northern Ireland; 41% for Combined Authority",
-                },
-            ],
-        },
-        "s2_tran_ca": {
-            "pdf": {
-                "src_pdf": "scoring/img/social-graphics/ca-transport/scorecards-ca-transport.pdf",
-                "src_jpg": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.jpg",
-                "height": 1125,
-                "width": 2000,
-            },
-            "zip": "scoring/img/social-graphics/ca-transport/transport.zip",
-            "images": [
-                {
-                    "src_facebook": "scoring/img/social-graphics/ca-transport/facebook-1@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/ca-transport/instagram-1@2x.png",
-                    "alt": "Transport, 100% support shared transport schemes like car clubs; 82% include climate as a priority in their Transport Plan; 36% have integrated ticketing for all public transport and shared active travel schemes.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/ca-transport/facebook-2@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/ca-transport/instagram-2@2x.png",
-                    "alt": "Transport, 0% have a capability rating of 4 out of 4 from Active Travel England; 36% have more than 60 public EV chargers per 100,000 residents; 27% have a clean air zone that requires charges for private vehicles.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/ca-transport/facebook-3@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/ca-transport/instagram-3@2x.png",
-                    "alt": "Transport, 73% included high carbon transport projects within their Transport plans.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/ca-transport/facebook-4@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/ca-transport/instagram-4@2x.png",
-                    "alt": "Transport, 91% have a target for a zero emission bus fleet by 2040 or sooner; 27% have a target of 2030 for zero emission bus fleet.",
-                },
-            ],
-        },
-        "s1_b_h": {
-            "pdf": {
-                "src_pdf": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.jpg",
-                "height": 1125,
-                "width": 2000,
-            },
-            "zip": "scoring/img/social-graphics/building-and-heating/building-and-heating.zip",
-            "images": [
-                {
-                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-1@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/building-and-heating/instagram-1@2x.png",
-                    "alt": "Building & Heating, Leading the Way; 96% of local authorities offer funding to residents to retrofit their homes; 59% of councils have a renewable energy tariff or generate renewable energy equal to 20% of their own energy use",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-2@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/building-and-heating/instagram-2@2x.png",
-                    "alt": "Building & Heating, Leading the Way; Only Greater Manchester Combined Authority scored 100% in Buildings & Heating",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-3@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/building-and-heating/instagram-3@2x.png",
-                    "alt": "Building & Heating, Room for Improvement; 59% of local authorities have at least one part-time retrofit staff member; 48% of local authorities support residents to collectively purchase renewable energy",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-31@2x.png",
-                    "alt": "Building & Heating, Room for Improvement; 71% of council owned social housing is energy efficient, EPC band C or higher; 5/11 combined authorities trained over 1,000 people in green skills",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-4@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/building-and-heating/instagram-4@2x.png",
-                    "alt": "Building & Heating, Falling Behind; 75% of single tier & district councils are not actively enforcing Minimum Energy Efficiency Standards of privately rented homes in 2021/22; 24% of local authorities provide support for local community renewable energy creation",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/building-and-heating/facebook-5@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/building-and-heating/instagram-5@2x.png",
-                    "alt": "Building & Heating, Falling Behind; 43% of UK homes are energy efficient, rated EPC C or higher",
-                },
-            ],
-        },
-        "s3_p_lu": {
-            "pdf": {
-                "src_pdf": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.jpg",
-                "height": 1125,
-                "width": 2000,
-            },
-            "zip": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use.zip",
-            "images": [
-                {
-                    "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-1@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-1@2x.png",
-                    "alt": "Planning & Land Use; 59% of planning authorities set the highest water efficiency standards for new builds. 42% of planning authorities avoid building new developments on land that is most at risk of flooding.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-2@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-2@2x.png",
-                    "alt": "Planning & Land Use; 14% of planning authorities have set net zero standards for building new housing; 19% of planning authorities require the measurement of a development’s embodied emissions; 46% of planning authorities require onsite renewable energy in new developments",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-3@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-3@2x.png",
-                    "alt": "Planning & Land Use; 58% of planning authorities have mapped where new solar, wind, or district heating infrastructure can be built, but only 8% have mapped for all three. 33% of English, Scottish, and Welsh councils have approved 3 or more renewable energy projects.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-4@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-4@2x.png",
-                    "alt": "Planning & Land Use; 11 mineral planning authorities have approved new, or the expansion of fossil fuel infrastructure.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/planning-and-land-use/facebook-5@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/planning-and-land-use/instagram-5@2x.png",
-                    "alt": "Planning & Land Use; Average scores: 35% Single tier, 23% District, -25% County, 14% Northern Ireland",
-                },
-            ],
-        },
-        "s6_c_e": {
-            "pdf": {
-                "src_pdf": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.pdf",
-                "src_jpg": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.jpg",
-                "height": 1158,
-                "width": 2100,
-            },
-            "zip": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.zip",
-            "images": [
-                {
-                    "src_facebook": "scoring/img/social-graphics/collaboration-and-engagement/facebook-1@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/collaboration-and-engagement/instagram-1@2x.png",
-                    "alt": "Collaboration & Engagement; 79% of councils have a Climate Action Plan with SMART targets",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/collaboration-and-engagement/facebook-2@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/collaboration-and-engagement/instagram-2@2x.png",
-                    "alt": "Collaboration & Engagement; 63% of councils published an annual Climate Action Update report; 53% of councils have ongoing ways for residents to influence Climate Action Plan development; 43% of local authorities have lobbied the UK or devolved governments for further climate action",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/collaboration-and-engagement/facebook-3@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/collaboration-and-engagement/instagram-3@2x.png",
-                    "alt": "Collaboration & Engagement; 10 out of 11 Mayoral Authorities have three or more active schemes providing support or tailored advice to businesses in the local area to help them decarbonise",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/collaboration-and-engagement/facebook-4@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/collaboration-and-engagement/instagram-4@2x.png",
-                    "alt": "Collaboration & Engagement; 5 out of 11 Mayoral Authorities have published a study of different decarbonisation pathways and scenarios to reach net zero",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/collaboration-and-engagement/facebook-5@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/collaboration-and-engagement/instagram-5@2x.png",
-                    "alt": "Collaboration & Engagement; Average scores by council type: 53% Single Tier; 43% District; 60% County; 23% Northern Ireland; 55% Combined Authority",
-                },
-            ],
-        },
-        "s5_bio": {
-            "pdf": {
-                "src_pdf": "scoring/img/social-graphics/biodiversity/biodiversity-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/biodiversity/biodiversity-graphic@2x.jpg",
-                "height": 1125,
-                "width": 2000,
-            },
-            "zip": "scoring/img/social-graphics/biodiversity/biodiversity.zip",
-            "images": [
-                {
-                    "src_facebook": "scoring/img/social-graphics/biodiversity/facebook-1@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/biodiversity/instagram-1@2x.png",
-                    "alt": "Biodiversity - Enhancing Habitat. 80% of local authorities have reduced mowing or created wildflower habitat in their area. 49% of local authorities turn off or dim their street lighting, including 86% of county councils",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/biodiversity/facebook-2@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/biodiversity/instagram-2@2x.png",
-                    "alt": "Biodiversity - Enhancing Habitat. 6 out of 11 combined authorities provide significant funding for biodiversity",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/biodiversity/facebook-3@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/biodiversity/instagram-3@2x.png",
-                    "alt": "Biodiversity - Room for Improvement. 6% of councils have stopped using all pesticides. 5% of planning authorities have set a higher minimum standard than the 10% Biodiversity Net Gain for new developments. 17% of councils have a tree cover target and a tree management plan",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/biodiversity/facebook-4@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/biodiversity/instagram-4@2x.png",
-                    "alt": "Biodiversity - Mayoral Authorities. 32% of local authorities employ a planning ecologist to enforce Biodiversity Net Gain to new developments",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/biodiversity/facebook-5@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/biodiversity/instagram-5@2x.png",
-                    "alt": "Biodiversity - Average Scores by Council Type. 27% Single Tier. 30% County. 55% Combined Authority. 22% District. 38% Northern Ireland",
-                },
-            ],
-        },
-        "s7_wr_f": {
-            "pdf": {
-                "src_pdf": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic@2x.jpg",
-                "height": 1125,
-                "width": 2000,
-            },
-            "zip": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food.zip",
-            "images": [
-                {
-                    "src_facebook": "scoring/img/social-graphics/waste-reduction-and-food/facebook-1@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/waste-reduction-and-food/instagram-1@2x.png",
-                    "alt": "Waste Reduction and Food - Leading the Way. 61% of local authorities provide kerbside food waste recycling to most homes. 57% of local authorities support community food growing initiatives. 43% of local authorities support food surplus redistributions initiatives.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/waste-reduction-and-food/facebook-2@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/waste-reduction-and-food/instagram-2@2x.png",
-                    "alt": "Waste Reduction and Food - Room for Improvement. 29% of local authorities are part of a sustainable food partnership. 26% of local authorities support circular economy initiatives. 24% of single tier and county councils provide at least one complete vegetarian meal in schools each week.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/waste-reduction-and-food/facebook-3@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/waste-reduction-and-food/instagram-3@2x.png",
-                    "alt": "Waste Reduction and Food - Falling Behind. 84% of local authorities don't have a sustainable food strategy. 70% of local authorities recycle less than half of their waste from residents. 94% of local authorities send to landfill or incinerate over 300kg of waste per household each year.",
-                },
-                {
-                    "src_facebook": "scoring/img/social-graphics/waste-reduction-and-food/facebook-4@2x.png",
-                    "src_instagram": "scoring/img/social-graphics/waste-reduction-and-food/instagram-4@2x.png",
-                    "alt": "Waste Reduction and Food - Average Scores by Council Type. Single Tier councils score 37%, District councils score 23%, County councils score 30%, and Northern Ireland councils score 35%",
-                },
-            ],
-        },
-    }
-
     alt_map = dict((ca, non_ca) for non_ca, ca in combined_alt_map.items())
 
     def get_object(self):
         return get_object_or_404(
-            PlanSection, code=self.kwargs["code"], year=self.request.year
+            PlanSection, code=self.kwargs["code"], year=self.request.year.year
         )
 
     def add_comparisons(self, context, comparison_slugs, comparison_questions):
         section = context["section"]
         comparisons = None
+        previous_year = None
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
-                .filter(year=self.request.year, council__slug__in=comparison_slugs)
+                .filter(year=self.request.year.year, council__slug__in=comparison_slugs)
                 .order_by("council__name")
             )
+            previous_year = comparisons.first().previous_year
             comparison_sections = PlanSectionScore.sections_for_plans(
                 plans=comparisons,
-                plan_year=self.request.year,
+                plan_year=self.request.year.year,
                 plan_sections=PlanSection.objects.filter(code=section.code),
+                previous_year=previous_year,
             )
 
             first_comparison = comparison_slugs[0]
@@ -859,7 +851,9 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             for score in comparison_scores:
                 answers = {
                     answer.plan_question.code: answer
-                    for answer in score["section_score"].questions_answered()
+                    for answer in score["section_score"].questions_answered(
+                        prev_year=score["section_score"].plan_score.previous_year
+                    )
                 }
                 for code in comparison_questions.keys():
                     if answers.get(code, None) is not None:
@@ -886,6 +880,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                         * -1
                     )
 
+            context["previous_year"] = previous_year
             context["comparison_councils"] = comparisons
             context["comparison_scores"] = comparison_scores
 
@@ -942,7 +937,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                 }
 
             question_max_counts = PlanQuestionScore.all_question_max_score_counts(
-                council_group=council_type, plan_year=self.request.year
+                council_group=council_type, plan_year=self.request.year.year
             )
 
             for q in comparison_questions.keys():
@@ -981,16 +976,19 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         if context.get("council_type", None) is not None:
             context["council_type_avg"] = avgs[context["council_type"]["slug"]]
 
-        sg = self.social_graphics.get(section.code, None)
-        if sg:
-            context["social_graphics"] = sg
-            context["og_image_path"] = f"{settings.STATIC_URL}{sg['pdf']['src_jpg']}"
-            context["og_image_type"] = "image/jpeg"
-            context["og_image_height"] = sg["pdf"]["height"]
-            context["og_image_width"] = sg["pdf"]["width"]
+        if social_graphics.get(self.request.year.year):
+            sg = social_graphics[self.request.year.year].get(section.code)
+            if sg:
+                context["social_graphics"] = sg
+                context["og_image_path"] = (
+                    f"{settings.STATIC_URL}{sg['pdf']['src_jpg']}"
+                )
+                context["og_image_type"] = "image/jpeg"
+                context["og_image_height"] = sg["pdf"]["height"]
+                context["og_image_width"] = sg["pdf"]["width"]
 
         context["canonical_path"] = self.request.path
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -1021,11 +1019,23 @@ class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         context["sections"] = []
         context["ca_sections"] = []
         for section in (
-            PlanSection.objects.filter(year=self.request.year).order_by("code").all()
+            PlanSection.objects.filter(year=self.request.year.year)
+            .order_by("code")
+            .all()
         ):
+            if self.request.year.is_current:
+                url = reverse("scoring:section", args=(section.code,))
+            else:
+                url = reverse(
+                    "year_scoring:section",
+                    args=(
+                        self.request.year.year,
+                        section.code,
+                    ),
+                )
             details = {
                 "name": section.description,
-                "url": reverse("scoring:section", args=(section.code,)),
+                "url": url,
                 "description": section.long_description,
             }
             if section.code in self.sections:
@@ -1034,7 +1044,7 @@ class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
                 context["ca_sections"].append(details)
 
         context["canonical_path"] = self.request.path
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -1050,11 +1060,11 @@ class SectionPreview(PrivateScorecardsAccessMixin, TemplateView):
 
         group = Council.SCORING_GROUPS[scoring_group_slug]
 
-        section = PlanSection.objects.get(code=code, year=self.request.year)
+        section = PlanSection.objects.get(code=code, year=self.request.year.year)
 
         scores = PlanSectionScore.objects.filter(
             plan_section=section,
-            plan_score__year=self.request.year,
+            plan_score__year=self.request.year.year,
             plan_score__council__authority_type__in=group["types"],
             plan_score__council__country__in=group["countries"],
         ).aggregate(
@@ -1066,7 +1076,7 @@ class SectionPreview(PrivateScorecardsAccessMixin, TemplateView):
         context["section"] = section
         context["scoring_group"] = group
         context["scores"] = scores
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
 
         return context
 
@@ -1080,11 +1090,11 @@ class SectionTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateView):
 
         code = self.kwargs["slug"]
 
-        section = PlanSection.objects.get(code=code, year=self.request.year)
+        section = PlanSection.objects.get(code=code, year=self.request.year.year)
 
         scores = PlanSectionScore.objects.filter(
             plan_section=section,
-            plan_score__year=self.request.year,
+            plan_score__year=self.request.year.year,
         ).order_by("-weighted_score")
 
         top = scores.first()
@@ -1092,7 +1102,7 @@ class SectionTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateView):
         context["section"] = section
         context["score"] = top.weighted_score
         context["council"] = top.plan_score.council
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
 
         return context
 
@@ -1107,20 +1117,20 @@ class SectionCouncilTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateVi
         code = self.kwargs["slug"]
         council = self.kwargs["council"]
 
-        section = PlanSection.objects.get(code=code, year=self.request.year)
+        section = PlanSection.objects.get(code=code, year=self.request.year.year)
 
         scores = get_object_or_404(
             PlanSectionScore,
             plan_section=section,
             top_performer=code,
-            plan_score__year=self.request.year,
+            plan_score__year=self.request.year.year,
             plan_score__council__slug=council,
         )
 
         context["section"] = section
         context["score"] = scores.weighted_score
         context["council"] = scores.plan_score.council
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
 
         return context
 
@@ -1135,7 +1145,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
         return get_object_or_404(
             PlanQuestion.objects.select_related("section"),
             code=self.kwargs["code"],
-            section__year=self.request.year,
+            section__year=self.request.year.year,
         )
 
     def get_context_data(self, **kwargs):
@@ -1163,7 +1173,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
             context["scoring_group"] = scoring_group
             context["scores"] = (
                 PlanQuestionScore.objects.filter(
-                    plan_score__year=self.request.year,
+                    plan_score__year=self.request.year.year,
                     plan_question=question,
                     plan_score__council__authority_type__in=scoring_group["types"],
                 )
@@ -1172,7 +1182,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
             )
 
             score_counts = question.get_scores_breakdown(
-                year=self.request.year, scoring_group=scoring_group
+                year=self.request.year.year, scoring_group=scoring_group
             )
 
             totals = {}
@@ -1193,7 +1203,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
 
             context["totals"] = [totals[k] for k in sorted(totals.keys())]
 
-        context["plan_year"] = self.request.year
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -1204,6 +1214,7 @@ class LocationResultsView(PrivateScorecardsAccessMixin, BaseLocationResultsView)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page_title"] = "Choose a council"
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -1216,6 +1227,10 @@ class AboutView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, TemplateV
         context["page_title"] = "About"
         context["current_page"] = "about-page"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year.year
+        context["year_content"] = (
+            f"scoring/includes/{self.request.year.year}_about.html"
+        )
         return context
 
 
@@ -1255,7 +1270,7 @@ class MethodologyView(
         context["page_title"] = "Methodology"
         context["current_page"] = "methodology-page"
 
-        methodology_year = self.request.year
+        methodology_year = self.request.year.year
         if kwargs.get("year") is None:
             methodology_year = settings.METHODOLOGY_YEAR
 
@@ -1482,6 +1497,7 @@ class ContactView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templat
         context["page_title"] = "Contact"
         context["current_page"] = "contact-page"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year.year
         return context
 
 
@@ -1494,6 +1510,7 @@ class HowToUseView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         context["page_title"] = "How to use the Scorecards"
         context["current_page"] = "how-to-page"
         context["canonical_path"] = self.request.path
+        context["plan_year"] = self.request.year.year
         return context
 
 

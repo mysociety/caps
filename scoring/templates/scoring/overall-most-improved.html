@@ -1,0 +1,8 @@
+{% extends "scoring/base-most-improved.html" %}
+
+{% block improved_label %}
+<span class="mb-5 me-auto fw-bold subtitle text-shadow text-yellow-300 mt-2">
+    {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
+    Most Improved Overall
+</span>
+{% endblock %}

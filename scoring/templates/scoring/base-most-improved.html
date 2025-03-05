@@ -1,0 +1,41 @@
+{% extends "scoring/base-preview.html" %}
+{% load static caps_templatetags %}
+
+{% block bodyclass %}version-2-gradient council-preview{% endblock %}
+
+{% block content %}
+    <h1 class="text-shadow js-count">
+        <span{% if add_nosplit_span %} class="text-nowrap"{% endif %}>
+        {{ council.name }}
+        </span>
+    </h1>
+    {% block improved_label %}
+    <span class="mb-5 me-auto fw-bold subtitle text-shadow text-yellow-300 mt-2">
+        {% include 'caps/icons/scorecards-star.html' with classes='me-1 align-text-top' width='1.2em' height='auto' role='presentation' %}
+        Most Improved {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=False %}
+    </span>
+    {% endblock %}
+
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">{{ plan_year }} score</th>
+                <th scope="col">{{ previous_year }} score</th>
+                <th scope="col">Change</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="align-top">
+                    <span class="open-graph-preview__score">{{ current_score|floatformat:0 }}%</span>
+                </td>
+                <td class="align-top">
+                    <span class="open-graph-preview__score">{{ last_score|floatformat:0 }}%</span>
+                </td>
+                <td class="align-top">
+                    <span class="open-graph-preview__score">{{ change|floatformat:0 }}%</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

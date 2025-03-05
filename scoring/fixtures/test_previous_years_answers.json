@@ -6,6 +6,16 @@
       "year": 2023,
       "new_council_date": "2023-01-01",
       "old_council_date": "2021-04-01",
+      "is_current": false
+    }
+  },
+  {
+    "model": "scoring.planyear",
+    "pk": 2,
+    "fields": {
+      "year": 2025,
+      "new_council_date": "2024-01-01",
+      "old_council_date": "2023-01-01",
       "is_current": true
     }
   },
@@ -119,7 +129,7 @@
     "pk": 1,
     "fields": {
       "council": 1,
-      "year": 2021,
+      "year": 2023,
       "weighted_total": 25,
       "total": 25
     }
@@ -129,7 +139,7 @@
     "pk": 2,
     "fields": {
       "council": 2,
-      "year": 2021,
+      "year": 2023,
       "weighted_total": 19,
       "total": 19
     }
@@ -139,7 +149,7 @@
     "pk": 3,
     "fields": {
       "council": 3,
-      "year": 2021,
+      "year": 2023,
       "weighted_total": 24,
       "total": 24
     }
@@ -149,27 +159,78 @@
     "pk": 4,
     "fields": {
       "council": 4,
-      "year": 2021,
+      "year": 2023,
       "weighted_total": 24,
       "total": 24
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 5,
+    "fields": {
+      "council": 1,
+      "year": 2025,
+      "previous_year": 1,
+      "weighted_total": 23,
+      "total": 23
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 6,
+    "fields": {
+      "council": 2,
+      "year": 2025,
+      "previous_year": 3,
+      "weighted_total": 19,
+      "total": 19
+    }
+  },
+  {
+    "model": "scoring.planscore",
+    "pk": 7,
+    "fields": {
+      "council": 3,
+      "year": 2025,
+      "previous_year": 4,
+      "weighted_total": 25,
+      "total": 25
     }
   },
   {
     "model": "scoring.plansection",
     "pk": 1,
     "fields": {
-      "code": "s1_gov",
-      "description": "Governance, development and funding",
-      "year": 2021
+      "code": "s1_b_h",
+      "description": "Buildings & Heating",
+      "year": 2023
     }
   },
   {
     "model": "scoring.plansection",
     "pk": 2,
     "fields": {
-      "code": "s2_m_a",
-      "description": "Mitigation and adaptation",
-      "year": 2021
+      "code": "s2_tran",
+      "description": "Transport",
+      "year": 2023
+    }
+  },
+  {
+    "model": "scoring.plansection",
+    "pk": 3,
+    "fields": {
+      "code": "s1_b_h",
+      "description": "Buildings & Heating",
+      "year": 2025
+    }
+  },
+  {
+    "model": "scoring.plansection",
+    "pk": 4,
+    "fields": {
+      "code": "s2_tran",
+      "description": "Transport",
+      "year": 2025
     }
   },
   {
@@ -261,11 +322,77 @@
     }
   },
   {
+    "model": "scoring.plansectionscore",
+    "pk": 9,
+    "fields": {
+      "plan_score": 5,
+      "plan_section": 3,
+      "score": 18,
+      "max_score": 19,
+      "weighted_score": 18
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 10,
+    "fields": {
+      "plan_score": 6,
+      "plan_section": 3,
+      "score": 14,
+      "max_score": 19,
+      "weighted_score": 14
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 11,
+    "fields": {
+      "plan_score": 7,
+      "plan_section": 3,
+      "score": 11,
+      "max_score": 19,
+      "weighted_score": 11
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 12,
+    "fields": {
+      "plan_score": 5,
+      "plan_section": 4,
+      "score": 10,
+      "max_score": 18,
+      "weighted_score": 10
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 13,
+    "fields": {
+      "plan_score": 6,
+      "plan_section": 4,
+      "score": 4,
+      "max_score": 18,
+      "weighted_score": 4
+    }
+  },
+  {
+    "model": "scoring.plansectionscore",
+    "pk": 14,
+    "fields": {
+      "plan_score": 7,
+      "plan_section": 4,
+      "score": 13,
+      "max_score": 18,
+      "weighted_score": 13
+    }
+  },
+  {
     "model": "scoring.planquestion",
     "pk": 1,
     "fields": {
       "section": 1,
-      "code": "s1_gov_q1",
+      "code": "s1_b_h_q1",
       "text": "This is a sub header",
       "max_score": 0,
       "question_type": "HEADER"
@@ -276,7 +403,7 @@
     "pk": 2,
     "fields": {
       "section": 1,
-      "code": "s1_gov_q1_sp1",
+      "code": "s1_b_h_q1_sp1",
       "text": "The answer is True or False",
       "max_score": 1,
       "question_type": "CHECKBOX"
@@ -287,10 +414,45 @@
     "pk": 3,
     "fields": {
       "section": 2,
-      "code": "s2_m_a_q1_sp1",
+      "code": "s2_tran_q1_sp1",
       "text": "The answer is a Boolean",
       "max_score": 1,
       "question_type": "CHECKBOX"
+    }
+  },
+  {
+    "model": "scoring.planquestion",
+    "pk": 4,
+    "fields": {
+      "section": 3,
+      "code": "s1_b_h_q1",
+      "text": "This is a sub header",
+      "max_score": 0,
+      "question_type": "HEADER"
+    }
+  },
+  {
+    "model": "scoring.planquestion",
+    "pk": 5,
+    "fields": {
+      "section": 3,
+      "code": "s1_b_h_q1_sp1",
+      "text": "The answer is True or False",
+      "max_score": 1,
+      "question_type": "CHECKBOX",
+      "previous_question": 2
+    }
+  },
+  {
+    "model": "scoring.planquestion",
+    "pk": 6,
+    "fields": {
+      "section": 4,
+      "code": "s2_tran_q1_sp1",
+      "text": "The answer is a Boolean",
+      "max_score": 1,
+      "question_type": "CHECKBOX",
+      "previous_question": 3
     }
   },
   {
@@ -357,6 +519,75 @@
     "fields": {
       "plan_score": 3,
       "plan_question": 2,
+      "answer": "True",
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 7,
+    "fields": {
+      "plan_score": 4,
+      "plan_question": 4,
+      "answer": "",
+      "score": 1,
+      "max_score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 8,
+    "fields": {
+      "plan_score": 4,
+      "plan_question": 5,
+      "answer": "True",
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 9,
+    "fields": {
+      "plan_score": 5,
+      "plan_question": 4,
+      "answer": "",
+      "max_score": 1,
+      "score": 0,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 10,
+    "fields": {
+      "plan_score": 5,
+      "plan_question": 5,
+      "answer": "False",
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 11,
+    "fields": {
+      "plan_score": 6,
+      "plan_question": 4,
+      "answer": "",
+      "max_score": 1,
+      "score": 1,
+      "notes": ""
+    }
+  },
+  {
+    "model": "scoring.planquestionscore",
+    "pk": 12,
+    "fields": {
+      "plan_score": 6,
+      "plan_question": 5,
       "answer": "True",
       "score": 1,
       "notes": ""
