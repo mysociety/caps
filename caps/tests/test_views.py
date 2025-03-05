@@ -1,10 +1,10 @@
-from django.test import TestCase, Client
-
 from unittest.mock import patch
 
+from django.test import Client, TestCase
 from django.urls import reverse
 
-from caps.models import Council, Promise, PlanDocument, EmergencyDeclaration
+from caps.models import Council, EmergencyDeclaration, PlanDocument, Promise
+from scoring.models import PlanYear
 
 
 class TestPageRenders(TestCase):
@@ -13,6 +13,8 @@ class TestPageRenders(TestCase):
         council = Council.objects.create(
             name="Borsetshire", slug="borsetshire", country=Council.ENGLAND
         )
+
+        PlanYear.objects.create(year=2023, is_current=True)
 
     def test_home_page(self):
         url = reverse("home")
@@ -74,6 +76,8 @@ class TestPostcodeSearch(TestCase):
             gss_code="E14000333",
             combined_authority=felpersham,
         )
+
+        PlanYear.objects.create(year=2023, is_current=True)
 
     @patch("caps.mapit.session")
     def test_postcode_to_one_council_redirects_to_council(self, mapit_session):
@@ -157,6 +161,8 @@ class TestCouncilDetailPage(TestCase):
             source="http://borsetshire.gov.uk/promise/",
             target_year="2045",
         )
+
+        PlanYear.objects.create(year=2023, is_current=True)
 
     def test_council_has_promise(self):
         url = reverse("council", args=["borsetshire"])
