@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from caps.models import Council, DataPoint, DataType, PlanDocument
-from scoring.models import PlanQuestion, PlanScore, PlanSection
+from scoring.models import PlanQuestion, PlanScore, PlanSection, PlanYear
 
 
 class CouncilAdmin(admin.ModelAdmin):
@@ -70,3 +70,16 @@ class PlanScoreAdmin(admin.ModelAdmin):
 
 
 admin.site.register(PlanScore, PlanScoreAdmin)
+
+
+class PlanYearAdmin(admin.ModelAdmin):
+    list_display = (
+        "year",
+        "previous_year",
+        "old_council_date",
+        "new_council_date",
+        "is_current",
+    )
+
+
+admin.site.register(PlanYear, PlanYearAdmin)
