@@ -1,87 +1,87 @@
 <h3 class="mb-3 h6">Advanced filters</h3>
 
-<div class="d-flex gap-3 gap-lg-4 mb-3">
-  {% if filter_auth_type %}
-    <input type="hidden" name="council_type" value="{{ authority_type }}">
-  {% endif %}
+<div class="row row-cols-2 row-cols-lg-auto g-3 mb-3">
+    {% if filter_auth_type %}
+        <input type="hidden" name="council_type" value="{{ authority_type }}">
+    {% endif %}
 
-    <div id="filterUrbanisation" class="d-flex flex-column justify-content-between">
+    <div id="filterUrbanisation" class="col">
         <label for="ruc_cluster" class="fs-7 mb-2">Urbanisation</label>
         <select class="form-select form-select-sm form-select-show-modifications" id="ruc_cluster" name="ruc_cluster">
             <option value=""{% if filter_params.ruc_cluster == "" or filter_params.ruc_cluster is None %} selected{% endif %}>All</option>
-          {% for option in urbanisation_filter %}
-            <option value="{{ option.0 }}"{% if filter_params.ruc_cluster == option.0 %} selected{% endif %}>{{ option.1 }}</option>
-          {% endfor %}
-        </select>
-    </div>
-
-  {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
-    <div id="filterDeprivationIndex" class="d-flex flex-column justify-content-between">
-        <label for="imd_select" class="fs-7 mb-2">Index of multiple deprivation</label>
-        <select class="form-select form-select-sm form-select-show-modifications" id="imd_select" name="imdq">
-            <option value=""{% if filter_params.imdq == "" or filter_params.imdq is None %} selected{% endif %}>All</option>
-            <option value="1"{% if filter_params.imdq == 1 %} selected{% endif %}>1 (most deprived)</option>
-            <option value="2"{% if filter_params.imdq == 2 %} selected{% endif %}>2</option>
-            <option value="3"{% if filter_params.imdq == 3 %} selected{% endif %}>3</option>
-            <option value="4"{% if filter_params.imdq == 4 %} selected{% endif %}>4</option>
-            <option value="5"{% if filter_params.imdq == 5 %} selected{% endif %}>5 (least deprived)</option>
-        </select>
-    </div>
-  {% endif %}
-
-  {% if filter_params.country == "1" or filter_params.country == "" or filter_params.country is None %}
-    <div id="filterRegion" class="d-flex flex-column justify-content-between">
-        <label for="region_select" class="fs-7 mb-2">Region</label>
-        <select class="form-select form-select-sm form-select-show-modifications" id="region_select" name="region">
-            <option value=""{% if filter_params.region == "" or filter_params.region is None %} selected{% endif %}>Any</option>
-            <option value="East Midlands"{% if filter_params.region == "East Midlands" %} selected{% endif %}>East Midlands</option>
-            <option value="East of England"{% if filter_params.region == "East of England" %} selected{% endif %}>East of England</option>
-            <option value="London"{% if filter_params.region == "London" %} selected{% endif %}>London</option>
-            <option value="North East"{% if filter_params.region == "North East" %} selected{% endif %}>North East</option>
-            <option value="North West"{% if filter_params.region == "North West" %} selected{% endif %}>North West</option>
-            <option value="South East"{% if filter_params.region == "South East" %} selected{% endif %}>South East</option>
-            <option value="South West"{% if filter_params.region == "South West" %} selected{% endif %}>South West</option>
-            <option value="West Midlands"{% if filter_params.region == "West Midlands" %} selected{% endif %}>West Midlands</option>
-            <option value="Yorkshire and The Humber"{% if filter_params.region == "Yorkshire and The Humber" %} selected{% endif %}>Yorkshire and The Humber</option>
-        </select>
-    </div>
-  {% endif %}
-
-  {% if authority_type == 'district' %}
-    <div id="filterCounty" class="d-flex flex-column justify-content-between">
-        <label for="county_select" class="fs-7 mb-2">County</label>
-        <select class="form-select form-select-sm form-select-show-modifications" id="county_select" name="county">
-            <option value=""{% if filter_params.county == "" or filter_params.county is None %} selected{% endif %}>All</option>
-            {% for option in county_filter %}
-            <option value="{{ option.0 }}"{% if filter_params.county == option.0 %} selected{% endif %}>{{ option.1 }}</option>
+            {% for option in urbanisation_filter %}
+                <option value="{{ option.0 }}"{% if filter_params.ruc_cluster == option.0 %} selected{% endif %}>{{ option.1 }}</option>
             {% endfor %}
         </select>
     </div>
-  {% endif %}
 
-  {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
-    <div id="filterPoliticalControl" class="d-flex flex-column justify-content-between">
-        <label for="control_select" class="fs-7 mb-2">Political control (Sept 2023)</label>
-        <select class="form-select form-select-sm form-select-show-modifications" id="control_select" name="control">
-            <option value=""{% if filter_params.control == "" or filter_params.control is None %} selected{% endif %}>All</option>
-            <option value="Coalition/Minority"{% if filter_params.control == "Coalition/Minority" %} selected{% endif %}>Coalition/Minority</option>
-            <option value="NOC"{% if filter_params.control == "NOC" %} selected{% endif %}>No overall control</option>
-            <option value="Conservative"{% if filter_params.control == "Conservative" %} selected{% endif %}>Conservative</option>
-            <option value="Independent"{% if filter_params.control == "Independent" %} selected{% endif %}>Independent</option>
-            <option value="Labour"{% if filter_params.control == "Labour" %} selected{% endif %}>Labour</option>
-            <option value="Liberal Democrat"{% if filter_params.control == "Liberal Democrat" %} selected{% endif %}>Liberal Democrat</option>
-            <option value="Plaid Cymru"{% if filter_params.control == "Plaid Cymru" %} selected{% endif %}>Plaid Cymru</option>
-        </select>
-    </div>
-  {% endif %}
+    {% if filter_params.country == "1" or filter_params.country == "" or filter_params.country is None %}
+        <div id="filterRegion" class="col">
+            <label for="region_select" class="fs-7 mb-2">Region</label>
+            <select class="form-select form-select-sm form-select-show-modifications" id="region_select" name="region">
+                <option value=""{% if filter_params.region == "" or filter_params.region is None %} selected{% endif %}>Any</option>
+                <option value="East Midlands"{% if filter_params.region == "East Midlands" %} selected{% endif %}>East Midlands</option>
+                <option value="East of England"{% if filter_params.region == "East of England" %} selected{% endif %}>East of England</option>
+                <option value="London"{% if filter_params.region == "London" %} selected{% endif %}>London</option>
+                <option value="North East"{% if filter_params.region == "North East" %} selected{% endif %}>North East</option>
+                <option value="North West"{% if filter_params.region == "North West" %} selected{% endif %}>North West</option>
+                <option value="South East"{% if filter_params.region == "South East" %} selected{% endif %}>South East</option>
+                <option value="South West"{% if filter_params.region == "South West" %} selected{% endif %}>South West</option>
+                <option value="West Midlands"{% if filter_params.region == "West Midlands" %} selected{% endif %}>West Midlands</option>
+                <option value="Yorkshire and The Humber"{% if filter_params.region == "Yorkshire and The Humber" %} selected{% endif %}>Yorkshire and The Humber</option>
+            </select>
+        </div>
+    {% endif %}
 
-    <div id="filterTotalPopulation" class="d-flex flex-column justify-content-between">
+    {% if authority_type == 'district' %}
+        <div id="filterCounty" class="col">
+            <label for="county_select" class="fs-7 mb-2">County</label>
+            <select class="form-select form-select-sm form-select-show-modifications" id="county_select" name="county">
+                <option value=""{% if filter_params.county == "" or filter_params.county is None %} selected{% endif %}>All</option>
+                {% for option in county_filter %}
+                    <option value="{{ option.0 }}"{% if filter_params.county == option.0 %} selected{% endif %}>{{ option.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    {% endif %}
+
+    <div id="filterTotalPopulation" class="col">
         <label for="population_select" class="fs-7 mb-2">Total population</label>
         <select class="form-select form-select-sm form-select-show-modifications" id="population_select" name="population">
             <option value=""{% if filter_params.population == "" or filter_params.population is None %} selected{% endif %}>Any</option>
-          {% for option in population_filter %}
-            <option value="{{ option.0 }}"{% if filter_params.population == option.0 %} selected{% endif %}>{{ option.1 }}</option>
-          {% endfor %}
+            {% for option in population_filter %}
+                <option value="{{ option.0 }}"{% if filter_params.population == option.0 %} selected{% endif %}>{{ option.1 }}</option>
+            {% endfor %}
         </select>
     </div>
+
+    {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
+        <div id="filterDeprivationIndex" class="col">
+            <label for="imd_select" class="fs-7 mb-2">Index of multiple deprivation</label>
+            <select class="form-select form-select-sm form-select-show-modifications" id="imd_select" name="imdq">
+                <option value=""{% if filter_params.imdq == "" or filter_params.imdq is None %} selected{% endif %}>All</option>
+                <option value="1"{% if filter_params.imdq == 1 %} selected{% endif %}>1 (most deprived)</option>
+                <option value="2"{% if filter_params.imdq == 2 %} selected{% endif %}>2</option>
+                <option value="3"{% if filter_params.imdq == 3 %} selected{% endif %}>3</option>
+                <option value="4"{% if filter_params.imdq == 4 %} selected{% endif %}>4</option>
+                <option value="5"{% if filter_params.imdq == 5 %} selected{% endif %}>5 (least deprived)</option>
+            </select>
+        </div>
+    {% endif %}
+
+    {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
+        <div id="filterPoliticalControl" class="col">
+            <label for="control_select" class="fs-7 mb-2">Political control (Sept 2023)</label>
+            <select class="form-select form-select-sm form-select-show-modifications" id="control_select" name="control">
+                <option value=""{% if filter_params.control == "" or filter_params.control is None %} selected{% endif %}>All</option>
+                <option value="Coalition/Minority"{% if filter_params.control == "Coalition/Minority" %} selected{% endif %}>Coalition/Minority</option>
+                <option value="NOC"{% if filter_params.control == "NOC" %} selected{% endif %}>No overall control</option>
+                <option value="Conservative"{% if filter_params.control == "Conservative" %} selected{% endif %}>Conservative</option>
+                <option value="Independent"{% if filter_params.control == "Independent" %} selected{% endif %}>Independent</option>
+                <option value="Labour"{% if filter_params.control == "Labour" %} selected{% endif %}>Labour</option>
+                <option value="Liberal Democrat"{% if filter_params.control == "Liberal Democrat" %} selected{% endif %}>Liberal Democrat</option>
+                <option value="Plaid Cymru"{% if filter_params.control == "Plaid Cymru" %} selected{% endif %}>Plaid Cymru</option>
+            </select>
+        </div>
+    {% endif %}
 </div>
