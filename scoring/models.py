@@ -29,6 +29,19 @@ class ScoreFilterMixin:
         return queryset
 
 
+class PlanYear(models.Model):
+    year = models.PositiveSmallIntegerField()
+    previous_year = models.ForeignKey(
+        "PlanYear", null=True, blank=True, on_delete=models.SET_NULL
+    )
+    is_current = models.BooleanField(default=False)
+    new_council_date = models.DateField(null=True, blank=True)
+    old_council_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.year)
+
+
 class PlanScore(models.Model):
     """
     Overall score for a council's plan for a particular year
