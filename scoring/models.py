@@ -159,6 +159,48 @@ class PlanScore(models.Model):
         return questions
 
     @classmethod
+    def get_average(cls, scoring_group=None, filter=None, year=None):
+        if year is None:
+            plan_year = PlanYear.objects.get(is_current=True)
+            year = plan_year.year
+        else:
+            try:
+                plan_year = PlanYear.objects.get(year=year)
+            except PlanYear.DoesNotExist:
+                plan_year = None
+
+        """
+        This excludes plans with zero score as it's assumed that if they have 0 then they
+        were not marked, or the council has no plan, and hence including them would artificially
+        reduce the average.
+        """
+        has_score = PlanScore.objects.filter(total__gt=0, year=year)
+        if scoring_group is not None:
+            has_score = has_score.filter(
+                council__authority_type__in=scoring_group["types"],
+                council__country__in=scoring_group["countries"],
+            )
+
+        if filter is not None:
+            kwargs = {}
+            for field in PlanSection.FILTER_FIELD_MAP.keys():
+                if filter.get(field):
+                    kwargs[PlanSection.FILTER_FIELD_MAP[field]] = filter[field]
+
+            has_score = has_score.filter(Q(**kwargs))
+
+        aggregates = {
+            "maximum": Max("weighted_total"),
+            "average": Avg("weighted_total"),
+        }
+        if plan_year and plan_year.previous_year:
+            aggregates["previous_average"] = Avg("previous_year__weighted_total")
+
+        has_score_avg = has_score.aggregate(**aggregates)
+
+        return has_score, has_score_avg
+
+    @classmethod
     def ruc_cluster_description(cls, ruc_cluster):
         codes_to_descriptions = dict(
             (cluster, description) for cluster, description in cls.RUC_TYPES
@@ -263,28 +305,8 @@ class PlanSection(models.Model):
     def get_average_scores(
         cls, scoring_group=None, filter=None, year=settings.PLAN_YEAR
     ):
-        """
-        This excludes plans with zero score as it's assumed that if they have 0 then they
-        were not marked, or the council has no plan, and hence including them would artificially
-        reduce the average.
-        """
-        has_score = PlanScore.objects.filter(total__gt=0, year=year)
-        if scoring_group is not None:
-            has_score = has_score.filter(
-                council__authority_type__in=scoring_group["types"],
-                council__country__in=scoring_group["countries"],
-            )
-
-        if filter is not None:
-            kwargs = {}
-            for field in PlanSection.FILTER_FIELD_MAP.keys():
-                if filter.get(field):
-                    kwargs[PlanSection.FILTER_FIELD_MAP[field]] = filter[field]
-
-            has_score = has_score.filter(Q(**kwargs))
-
-        has_score_avg = has_score.aggregate(
-            maximum=Max("weighted_total"), average=Avg("weighted_total")
+        has_score, has_score_avg = PlanScore.get_average(
+            scoring_group=scoring_group, filter=filter, year=year
         )
         has_score_list = has_score.values_list("pk", flat=True)
 
@@ -299,6 +321,8 @@ class PlanSection(models.Model):
         averages = {}
         for score in scores:
             averages[score.code] = {
+                "code": score.code,
+                "title": score.description,
                 "weighted": round(score.average_weighted),
                 "score": round(score.average_score),
                 "max": score.max_score,
@@ -315,6 +339,11 @@ class PlanSection(models.Model):
             "max": max_score,
             "percentage": round(avg_score),
         }
+
+        if has_score_avg.get("previous_average"):
+            averages["total"]["change"] = avg_score - round(
+                has_score_avg["previous_average"]
+            )
 
         return averages
 
@@ -455,7 +484,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         return sections
 
     @classmethod
-    def get_all_council_scores(cls, plan_year=settings.PLAN_YEAR):
+    def get_all_council_scores(cls, plan_year=settings.PLAN_YEAR, as_list=False):
         """
         This excludes plans with zero score as it's assumed that if they have 0 then they
         were not marked, or the council has no plan
@@ -464,6 +493,17 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
             cls.objects.all()
             .select_related("plan_section", "plan_score")
             .filter(plan_score__year=plan_year, plan_score__total__gt=0)
+            .annotate(
+                previous_year_score=Subquery(
+                    PlanSectionScore.objects.filter(
+                        plan_score=OuterRef("plan_score__previous_year"),
+                        plan_score__council_id=OuterRef("plan_score__council_id"),
+                        plan_section__code=OuterRef("plan_section__code"),
+                    ).values("weighted_score")
+                )
+            )
+            .annotate(change=(F("weighted_score") - F("previous_year_score")))
+            .order_by("plan_score__council_id", "plan_section__code")
             .values(
                 "plan_score__total",
                 "plan_score__council_id",
@@ -471,15 +511,27 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
                 "weighted_score",
                 "plan_section__code",
                 "max_score",
+                "change",
             )
         )
-        councils = defaultdict(dict)
+        if as_list:
+            councils = defaultdict(list)
+        else:
+            councils = defaultdict(dict)
         for score in scores:
-            councils[score["plan_score__council_id"]][score["plan_section__code"]] = {
+            obj = {
+                "code": score["plan_section__code"],
                 "weighted": score["weighted_score"],
                 "score": score["score"],
                 "max": score["max_score"],
+                "change": score["change"],
             }
+            if as_list:
+                councils[score["plan_score__council_id"]].append(obj)
+            else:
+                councils[score["plan_score__council_id"]][
+                    score["plan_section__code"]
+                ] = obj
 
         return councils
 

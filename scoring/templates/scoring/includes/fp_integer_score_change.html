@@ -1,0 +1,9 @@
+{% if change < 0 %}
+    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning position-static">&#9660; {{ change }}</td>
+{% elif change > 0 %}
+    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; {{ change }}</td>
+{% elif change == 0 %}
+    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">--</td>
+{% else %}
+    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">NA</td>
+{% endif %}

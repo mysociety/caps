@@ -112,6 +112,17 @@ class HomePageView(
             .order_by(F("weighted_total").desc(nulls_last=True))
         )
 
+        if self.request.year.previous_year:
+            qs = qs.annotate(
+                previous_percentage=Subquery(
+                    PlanScore.objects.filter(
+                        council=OuterRef("council"),
+                        year=self.request.year.previous_year.year,
+                    ).values("weighted_total")
+                ),
+                change=(F("weighted_total") - F("previous_percentage")),
+            )
+
         return qs
 
     def get_missing_councils(self, council_ids, scoring_group):
@@ -153,13 +164,34 @@ class HomePageView(
             year=self.request.year.year,
         )
         all_scores = PlanSectionScore.get_all_council_scores(
-            plan_year=self.request.year.year
+            plan_year=self.request.year.year, as_list=True
         )
+
+        if self.request.year.previous_year:
+            previous_averages = PlanSection.get_average_scores(
+                scoring_group=scoring_group,
+                filter=context.get("filter_params", None),
+                year=self.request.year.previous_year.year,
+            )
+            for section in averages.keys():
+                if section != "total":
+                    averages[section]["change"] = (
+                        averages[section]["weighted"]
+                        - previous_averages[section]["weighted"]
+                    )
+
+        section_averages = []
+        for code in sorted(averages.keys()):
+            if code != "total":
+                section_averages.append(averages[code])
 
         councils = list(councils.all())
         council_ids = []
+        out = True
         for council in councils:
             council_ids.append(council["council_id"])
+            if out:
+                out = False
             council["all_scores"] = all_scores[council["council_id"]]
             if council["score"] is not None:
                 council["percentage"] = council["score"]
@@ -211,8 +243,10 @@ class HomePageView(
         context["sorted_by"] = sorted_by
         context["council_data"] = councils
         context["averages"] = averages
+        context["section_averages"] = section_averages
         context["current_plan_year"] = False
         context["plan_year"] = self.request.year.year
+        context["previous_year"] = self.request.year.previous_year
         context["council_link_template"] = (
             "scoring/includes/council_link_with_year.html"
         )

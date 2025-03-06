@@ -14,8 +14,20 @@ class TestAverageSectionScores(TestCase):
             averages,
             {
                 "total": {"score": 23, "max": 25, "percentage": 23},
-                "s1_gov": {"score": 13, "max": 19, "weighted": 13},
-                "s2_m_a": {"score": 10, "max": 18, "weighted": 10},
+                "s1_gov": {
+                    "code": "s1_gov",
+                    "score": 13,
+                    "title": "Governance, development and funding",
+                    "max": 19,
+                    "weighted": 13,
+                },
+                "s2_m_a": {
+                    "code": "s2_m_a",
+                    "score": 10,
+                    "title": "Mitigation and adaptation",
+                    "max": 18,
+                    "weighted": 10,
+                },
             },
         )
 
@@ -26,8 +38,20 @@ class TestAverageSectionScores(TestCase):
             averages,
             {
                 "total": {"score": 23, "max": 25, "percentage": 23},
-                "s1_gov": {"score": 13, "max": 19, "weighted": 13},
-                "s2_m_a": {"score": 10, "max": 18, "weighted": 10},
+                "s1_gov": {
+                    "code": "s1_gov",
+                    "score": 13,
+                    "title": "Governance, development and funding",
+                    "max": 19,
+                    "weighted": 13,
+                },
+                "s2_m_a": {
+                    "code": "s2_m_a",
+                    "score": 10,
+                    "title": "Mitigation and adaptation",
+                    "max": 18,
+                    "weighted": 10,
+                },
             },
         )
 
@@ -42,8 +66,20 @@ class TestAverageSectionScores(TestCase):
             averages,
             {
                 "total": {"score": 23, "max": 25, "percentage": 23},
-                "s1_gov": {"score": 13, "max": 19, "weighted": 13},
-                "s2_m_a": {"score": 10, "max": 18, "weighted": 10},
+                "s1_gov": {
+                    "code": "s1_gov",
+                    "score": 13,
+                    "title": "Governance, development and funding",
+                    "max": 19,
+                    "weighted": 13,
+                },
+                "s2_m_a": {
+                    "code": "s2_m_a",
+                    "score": 10,
+                    "title": "Mitigation and adaptation",
+                    "max": 18,
+                    "weighted": 10,
+                },
             },
         )
 
@@ -59,50 +95,66 @@ class TestGetAllScores(TestCase):
             {
                 1: {
                     "s1_gov": {
+                        "code": "s1_gov",
                         "score": 15,
                         "max": 19,
                         "weighted": 15,
+                        "change": None,
                     },
                     "s2_m_a": {
+                        "code": "s2_m_a",
                         "score": 10,
                         "max": 18,
                         "weighted": 10,
+                        "change": None,
                     },
                 },
                 2: {
                     "s1_gov": {
+                        "code": "s1_gov",
                         "score": 14,
                         "max": 19,
                         "weighted": 14,
+                        "change": None,
                     },
                     "s2_m_a": {
+                        "code": "s2_m_a",
                         "score": 4,
                         "max": 18,
                         "weighted": 4,
+                        "change": None,
                     },
                 },
                 3: {
                     "s1_gov": {
+                        "code": "s1_gov",
                         "score": 11,
                         "max": 19,
                         "weighted": 11,
+                        "change": None,
                     },
                     "s2_m_a": {
+                        "code": "s2_m_a",
                         "score": 13,
                         "max": 18,
                         "weighted": 13,
+                        "change": None,
                     },
                 },
                 4: {
                     "s1_gov": {
+                        "code": "s1_gov",
                         "score": 12,
                         "max": 19,
                         "weighted": 12,
+                        "change": None,
                     },
                     "s2_m_a": {
+                        "code": "s2_m_a",
                         "score": 12,
                         "max": 18,
                         "weighted": 12,
+                        "change": None,
                     },
                 },
             },
