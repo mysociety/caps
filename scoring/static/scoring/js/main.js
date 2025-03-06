@@ -438,7 +438,7 @@ forEachElement('.js-category-select', function(categorySelect) {
         announcementElement.textContent = 'Now showing: ' + selectedText;
       }
 
-      forEachElement('.js-total, .js-building, .js-transport, .js-planning, .js-governance, .js-biodiversity, .js-collaboration, .js-waste', function(element) {
+      forEachElement('.js-score-row', function(element) {
         element.style.display = 'none';
       });
 
