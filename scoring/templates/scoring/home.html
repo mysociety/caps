@@ -181,40 +181,26 @@
                             {% include 'scoring/includes/fp_integer_score_change.html' with change=council.change %}
                           {% with scores=council.all_scores %}
                           {% if council.score != 0 and council.score is not None %}
-                            <td scope="row" class="council-category-score category-1" data-sort-value="{{ scores.s1_b_h.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s1_b_h.weighted %}
-                            </td>
-                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s1_b_h.change %}
-
-                            <td scope="row" class="council-category-score category-2" data-sort-value="{{ scores.s2_tran.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s2_tran.weighted %}
-                            </td>
-                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s2_tran.change %}
-
-                            <td scope="row" class="council-category-score category-3" data-sort-value="{{ scores.s3_p_lu.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s3_p_lu.weighted %}
-                            </td>
-                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s3_p_lu.change %}
-
-                            <td scope="row" class="council-category-score category-4" data-sort-value="{{ scores.s4_g_f.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s4_g_f.weighted %}
-                            </td>
-                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s4_g_f.change %}
-
-                            <td scope="row" class="council-category-score category-5" data-sort-value="{{ scores.s5_bio.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s5_bio.weighted %}
-                            </td>
-                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s5_bio.change %}
-
-                            <td scope="row" class="council-category-score category-6" data-sort-value="{{ scores.s6_c_e.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s6_c_e.weighted %}
-                            </td>
-                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s6_c_e.change %}
-
-                            <td scope="row" class="council-category-score category-7" data-sort-value="{{ scores.s7_wr_f.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s7_wr_f.weighted %}
-                            </td>
-                            {% include 'scoring/includes/fp_integer_score_change.html' with change=scores.s7_wr_f.change %}
+                            {% for score in scores %}
+                            <td scope="row" class="council-category-score category-{{ forloop.counter }}" data-sort-value="{{ score.score|default:"0" }}">
+                                    <div class="score-bar">
+                                      {% if sort %}
+                                        <div class="sort-icon"></div>
+                                      {% endif %}
+                                      <span class="score-percentage">{{ score.weighted|floatformat:"0" }}%</span>
+                                      <div class="progress-bar" style="width: {{ score.weighted }}%;"></div>
+                                    </div>
+                                </td>
+                                {% if score.change < 0 %}
+                                    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning position-static">&#9660; {{ score.change }}</td>
+                                {% elif score.change > 0 %}
+                                    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; {{ score.change }}</td>
+                                {% elif score.change == 0 %}
+                                    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">--</td>
+                                {% else %}
+                                    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">NA</td>
+                                {% endif %}
+                            {% endfor %}
                           {% elif council.score == 0 %}
                             <td class="has-no-plan" colspan="7" data-sort-value="-1">
                                 Not scored: newly formed council since April 2023. This council will be assessed in future Scorecard editions.
