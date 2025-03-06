@@ -1,8 +1,22 @@
+.question-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(13.625rem, 18.75rem), 1fr));
+    gap: 2rem;
+
+    &__item {
+      margin-bottom: 1rem;
+      
+      @media (min-width: 576px) {
+        margin-bottom: 0;
+      }
+    }
+}
+
 .table-question-council,
 .section-question-table,
 .table-council-question-performance {
     th {
-        vertical-align: top;
+        vertical-align: middle;
     }
 
     th, td  {
