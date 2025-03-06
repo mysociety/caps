@@ -232,13 +232,9 @@
                     <label class="visually-hidden" for="mobile-category-select">Select category</label>
                     <select id="mobile-category-select" name="category" aria-label="Select category" class="form-select fw-bold js-category-select">
                         <option value="js-total" selected>Total Score</option>
-                        <option value="js-building">Building & Heating</option>
-                        <option value="js-transport">Transport</option>
-                        <option value="js-planning">Planning & Land Use</option>
-                        <option value="js-governance">Governance & Finance</option>
-                        <option value="js-biodiversity">Biodiversity</option>
-                        <option value="js-collaboration">Collaboration & Engagement</option>
-                        <option value="js-waste">Waste Reduction & Food</option>
+                        {% for section in section_averages %}
+                        <option value="js-{{ section.code }}">{{ section.title }}</option>
+                        {% endfor %}
                     </select>
                 </form>
 
@@ -257,125 +253,44 @@
                                 <th scope="col" class="fw-normal">versus 2023</th>
                                 <th></th>
                             </tr>
-                            <tr class="score-row js-total">
+                            <tr class="score-row js-score-row js-total">
                                 <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                                 <td>
                                     {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                                 </td>
-                                {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
                                 <td>
-                                    <span class="badge bg-green-100 text-success">&#9650; 10</span>
+                                    {% if averages.total.change < 0 %}
+                                        <span class="badge bg-red-100 text-warning">&#9660; {{ averages.total.change }}</span>
+                                    {% elif averages.total.change > 0 %}
+                                        <span class="badge bg-green-100 text-success">&#9650; {{ averages.total.change }}</span>
+                                    {% elif averages.total.change == 0 %}
+                                        <span class="badge bg-gray-100">-- 0</span>
+                                    {% else %}
+                                        <span class="badge bg-gray-100">NA</span>
+                                    {% endif %}
                                 </td>
                                 <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                             </tr>
-                            <tr class="score-row js-building category-1">
+                            {% for section in section_averages %}
+                            <tr class="score-row js-score-row js-score-row-initial-hidden js-{{ section.code }} category-{{ forloop.counter }}">
                                 <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                                 <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s1_b_h.weighted average=1 %}
+                                    {% include 'scoring/includes/score-bar.html' with percentage=section.weighted average=1 %}
                                 </td>
-                                {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                <td><span class="badge bg-green-100 text-success">&#9650; 10</span></td>
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                            </tr>
-                            <tr class="score-row js-transport category-2">
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                                 <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s2_tran.weighted average=1 %}
+                                {% if section.change < 0 %}
+                                    <span class="badge bg-red-100 text-warning">&#9660; {{ section.change }}</span>
+                                {% elif section.change > 0 %}
+                                    <span class="badge bg-green-100 text-success">&#9650; {{ section.change }}</span>
+                                {% elif section.change == 0 %}
+                                    <span class="badge bg-gray-100">-- 0</span>
+                                {% else %}
+                                    <span class="badge bg-gray-100">NA</span>
+                                {% endif %}
                                 </td>
-                                {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                <td><span class="badge bg-green-100 text-success">&#9650; 10</span></td>
                                 <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                             </tr>
-    
-                            <tr class="score-row js-planning category-3">
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s3_p_lu.weighted average=1 %}
-                                </td>
-                                {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                <td><span class="badge bg-green-100 text-success">&#9650; 10</span></td>
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                            </tr>
-    
-                            <tr class="score-row js-governance category-4">
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s4_g_f.weighted average=1 %}
-                                </td>
-                                {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                <td><span class="badge bg-green-100 text-success">&#9650; 10</span></td>
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                            </tr>
-    
-                            <tr class="score-row js-biodiversity category-5">
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s5_bio.weighted average=1 %}
-                                </td>
-                                {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                <td><span class="badge bg-green-100 text-success">&#9650; 10</span></td>
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                            </tr>
-    
-                            <tr class="score-row js-collaboration category-6">
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s6_c_e.weighted average=1 %}
-                                </td>
-                                {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                <td><span class="badge bg-green-100 text-success">&#9650; 10</span></td>
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                            </tr>
-    
-                            <tr class="score-row js-waste category-7">
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.s7_wr_f.weighted average=1 %}
-                                </td>
-                                {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                <td><span class="badge bg-green-100 text-success">&#9650; 10</span></td>
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                            </tr>
+                            {% endfor %}
                         </thead>
 
                         <tbody>
@@ -395,7 +310,7 @@
                                         </div>
                                     </th>
                                 </tr>
-                                <tr class="score-row js-total">
+                                <tr class="score-row js-score-row js-total">
                                     <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                                     <td>
                                         {% if council.score != 0 %}
@@ -404,14 +319,16 @@
                                             <span>--</span>
                                         {% endif %}
                                     </td>
-                                    {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                    {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                    {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                    {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                    {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                    {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
                                     <td>
-                                        <span class="badge bg-green-100 text-success">&#9650; 10</span>
+                                        {% if council.change < 0 %}
+                                        <span class="badge bg-red-100 text-warning">&#9660; {{ council.change }}</span>
+                                        {% elif council.change > 0 %}
+                                            <span class="badge bg-green-100 text-success">&#9650; {{ council.change }}</span>
+                                        {% elif council.change == 0 %}
+                                            <span class="badge bg-gray-100">-- 0</span>
+                                        {% else %}
+                                            <span class="badge bg-gray-100">NA</span>
+                                        {% endif %}
                                     </td>
                                     <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                                 </tr>
@@ -432,123 +349,32 @@
 
                                 {% with scores=council.all_scores %}
                                     {% if council.score != 0 and council.score is not None %}
-                                        <tr class="score-row js-building">
+                                        {% for score in scores %}
+                                        <tr class="score-row js-score-row js-score-row-initial-hidden js-{{ score.code }}">
                                             <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                            <td class="council-category-score category-1">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s1_b_h.weighted %}
+                                            <td class="council-category-score category-{{ forloop.counter }}">
+                                                <div class="score-bar">
+                                                  {% if sort %}
+                                                    <div class="sort-icon"></div>
+                                                  {% endif %}
+                                                  <span class="score-percentage">{{ score.weighted|floatformat:"0" }}%</span>
+                                                  <div class="progress-bar" style="width: {{ score.weighted }}%;"></div>
+                                                </div>
                                             </td>
-                                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
                                             <td>
-                                                <span class="badge bg-green-100 text-success">&#9650; 4</span>
+                                                {% if score.change < 0 %}
+                                                <span class="badge bg-red-100 text-warning">&#9660; {{ score.change }}</span>
+                                                {% elif score.change > 0 %}
+                                                    <span class="badge bg-green-100 text-success">&#9650; {{ score.change }}</span>
+                                                {% elif score.change == 0 %}
+                                                    <span class="badge bg-gray-100">-- 0</span>
+                                                {% else %}
+                                                    <span class="badge bg-gray-100">NA</span>
+                                                {% endif %}
                                             </td>
                                             <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                                         </tr>
-                                        <tr class="score-row js-transport">
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                            <td class="council-category-score category-2">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s2_tran.weighted %}
-                                            </td>
-                                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                            <td>
-                                                <span class="badge bg-green-100 text-success">&#9650; 4</span>
-                                            </td>
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                        </tr>
-
-                                        <tr class="score-row js-planning">
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                            <td class="council-category-score category-3">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s3_p_lu.weighted %}
-                                            </td>
-                                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                            <td>
-                                                <span class="badge bg-green-100 text-success">&#9650; 4</span>
-                                            </td>
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                        </tr>
-
-                                        <tr class="score-row js-governance">
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                            <td class="council-category-score category-4">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s4_g_f.weighted %}
-                                            </td>
-                                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                            <td>
-                                                <span class="badge bg-green-100 text-success">&#9650; 4</span>
-                                            </td>
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                        </tr>
-
-                                        <tr class="score-row js-biodiversity">
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                            <td class="council-category-score category-5">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s5_bio.weighted %}
-                                            </td>
-                                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                            <td>
-                                                <span class="badge bg-green-100 text-success">&#9650; 4</span>
-                                            </td>
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                        </tr>
-
-                                        <tr class="score-row js-collaboration">
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                            <td class="council-category-score category-6">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s6_c_e.weighted %}
-                                            </td>
-                                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                            <td>
-                                                <span class="badge bg-green-100 text-success">&#9650; 4</span>
-                                            </td>
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                        </tr>
-
-                                        <tr class="score-row js-waste">
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                            <td class="council-category-score category-7">
-                                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s7_wr_f.weighted %}
-                                            </td>
-                                            {% comment %} TODO if difference is negative: change text-success to text-warning {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change bg-green-100 to bg-red-100 {% endcomment %}
-                                            {% comment %} TODO if difference is negative: change &#9650; to &#9650; {% endcomment %}
-                                            {% comment %} TODO if difference is zero: remove text-success {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change bg-green-100 to bg-gray-300 {% endcomment %}
-                                            {% comment %} TODO if difference is zero: change &#9650; to -- {% endcomment %}
-                                            <td>
-                                                <span class="badge bg-green-100 text-success">&#9650; 4</span>
-                                            </td>
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                        </tr>
+                                        {% endfor %}
                                     {% elif council.score == 0 %}
                                         <tr class="message-row">
                                             {% comment %} TODO update current year message {% endcomment %}
