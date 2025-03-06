@@ -108,6 +108,12 @@ class HomePageView(
                 name=F("council__name"),
                 slug=F("council__slug"),
                 authority_code=F("council__authority_code"),
+            )
+            .order_by(F("weighted_total").desc(nulls_last=True))
+        )
+
+        if self.request.year.previous_year:
+            qs = qs.annotate(
                 previous_percentage=Subquery(
                     PlanScore.objects.filter(
                         council=OuterRef("council"),
@@ -116,8 +122,6 @@ class HomePageView(
                 ),
                 change=(F("weighted_total") - F("previous_percentage")),
             )
-            .order_by(F("weighted_total").desc(nulls_last=True))
-        )
 
         return qs
 
@@ -187,7 +191,6 @@ class HomePageView(
         for council in councils:
             council_ids.append(council["council_id"])
             if out:
-                print(all_scores[council["council_id"]])
                 out = False
             council["all_scores"] = all_scores[council["council_id"]]
             if council["score"] is not None:
@@ -243,6 +246,7 @@ class HomePageView(
         context["section_averages"] = section_averages
         context["current_plan_year"] = False
         context["plan_year"] = self.request.year.year
+        context["previous_year"] = self.request.year.previous_year
         context["council_link_template"] = (
             "scoring/includes/council_link_with_year.html"
         )
