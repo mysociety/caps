@@ -160,7 +160,7 @@ class HomePageView(
             year=self.request.year.year,
         )
         all_scores = PlanSectionScore.get_all_council_scores(
-            plan_year=self.request.year.year
+            plan_year=self.request.year.year, as_list=True
         )
 
         if self.request.year.previous_year:
@@ -175,6 +175,11 @@ class HomePageView(
                         averages[section]["weighted"]
                         - previous_averages[section]["weighted"]
                     )
+
+        section_averages = []
+        for code in sorted(averages.keys()):
+            if code != "total":
+                section_averages.append(averages[code])
 
         councils = list(councils.all())
         council_ids = []
@@ -235,6 +240,7 @@ class HomePageView(
         context["sorted_by"] = sorted_by
         context["council_data"] = councils
         context["averages"] = averages
+        context["section_averages"] = section_averages
         context["current_plan_year"] = False
         context["plan_year"] = self.request.year.year
         context["council_link_template"] = (
