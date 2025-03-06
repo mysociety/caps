@@ -47,74 +47,42 @@
                                     <p class="mb-0 fs-8">Council Climate Action Scorecard</p>
                                 </div>
                             </th>
+                            {% if previous_year %}
                             <th scope="col" colspan="2" class="total-score js-previous-year-difference-header position-sticky pb-1 z-index-2">
+                            {% else %}
+                            <th scope="col" colspan="1" class="total-score js-previous-year-difference-header position-sticky pb-1 z-index-2">
+                            {% endif %}
                                 <div class="section-title">
                                     <span class="text-center fw-bold">Total Score</span>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-default="descending"></button>
                                 </div>
                             </th>
 
-                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
-                                <div class="section-title">
-                                    {% include section_link_template with section_code='s1_b_h' section_name='Building &amp; Heating' category_number=1 %}
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-1 {% if sorted_by == 's1_b_h' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-
-                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
-                                <div class="section-title">
-                                    {% include section_link_template with section_code='s2_tran' section_name='Transport' category_number=2 %}
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-2 {% if sorted_by == 's2_tran' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-
-                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
-                                <div class="section-title">
-                                    {% include section_link_template with section_code='s3_p_lu' section_name='Planning &amp; Land Use' category_number=3 %}
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-3 {% if sorted_by == 's3_p_lu' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-
-                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
-                                <div class="section-title">
-                                    {% include section_link_template with section_code='s4_g_f' section_name='Governance &amp; Finance' category_number=4 %}
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-4 {% if sorted_by == 's4_g_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-
-                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
-                                <div class="section-title">
-                                    {% include section_link_template with section_code='s5_bio' section_name='Biodiversity' category_number=5 %}
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-5 {% if sorted_by == 's5_bio' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-
-                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
-                                <div class="section-title">
-                                    {% include section_link_template with section_code='s6_c_e' section_name='Collaboration &amp; Engagement' category_number=6 %}
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-6 {% if sorted_by == 's6_c_e' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-
-                            <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
-                                <div class="section-title">
-                                    {% include section_link_template with section_code='s7_wr_f' section_name='Waste Reduction &amp; Food' category_number=7 %}
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-7 {% if sorted_by == 's7_wr_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-                        </tr>
-                        <tr class="js-previous-year-score-difference">
-                            <th class="h-auto pb-2 pt-0 bg-white position-sticky"></th>
-                            <th scope="col" class="h-auto pb-2 pt-0 fs-8 text-center total-score position-sticky">2025</th>
-                            {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
-                            <th scope="col" class="h-auto pb-2 pt-0 fs-8 previous-year-score-difference text-center position-sticky">versus 2023</th>
-
-                            {% for x in "1234567" %}
-                                <th scope="col" class="h-auto pb-2 pt-0 fs-8 text-center total-score">2025</th>
-                                {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
-                                <th scope="col" class="h-auto pb-2 pt-0 fs-8 previous-year-score-difference text-center position-static">versus 2023</th>
+                            {% for section in section_averages %}
+                                {% if previous_year %}
+                                    <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
+                                {% else %}
+                                    <th scope="col" colspan="1" class="pb-1 js-previous-year-difference-header">
+                                {% endif %}
+                                    <div class="section-title">
+                                        {% include section_link_template with section_code=section.code section_name=section.title category_number=forloop.counter %}
+                                        <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-1 {% if sorted_by == section.code %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                    </div>
+                                </th>
                             {% endfor %}
                         </tr>
+                        {% if previous_year %}
+                        <tr class="js-previous-year-score-difference">
+                            <th class="h-auto pb-2 pt-0 bg-white position-sticky"></th>
+                            <th scope="col" class="h-auto pb-2 pt-0 fs-8 text-center total-score position-sticky">{{ plan_year }}</th>
+                            <th scope="col" class="h-auto pb-2 pt-0 fs-8 previous-year-score-difference text-center position-sticky">versus {{ previous_year.year }}</th>
+
+                            {% for x in section_averages %}
+                                <th scope="col" class="h-auto pb-2 pt-0 fs-8 text-center total-score">{{ plan_year }}</th>
+                                <th scope="col" class="h-auto pb-2 pt-0 fs-8 previous-year-score-difference text-center position-static">versus {{ previous_year.year }}</th>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
                         <tr class="second-row position-sticky z-index-4">
                             <th scope="col" class="bg-primary-100 position-sticky z-index-4">
                                 <span class="ms-4 fs-6 fw-bold d-block">{{ scoring_group.name }} average</span>
@@ -122,42 +90,18 @@
                             <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                             </th>
-                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.total.change %}
+                            {% if previous_year %}
+                                {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.total.change %}
+                            {% endif %}
 
-                            <th scope="col" class="bg-primary-100 category-1 second-row">
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s1_b_h.weighted average=1 %}
-                            </th>
-                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s1_b_h.change %}
-
-                            <th scope="col" class="bg-primary-100 category-2 second-row">
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s2_tran.weighted average=1 %}
-                            </th>
-                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s2_tran.change %}
-
-                            <th scope="col" class="bg-primary-100 category-3 second-row">
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s3_p_lu.weighted average=1 %}
-                            </th>
-                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s3_p_lu.change %}
-
-                            <th scope="col" class="bg-primary-100 category-4 second-row">
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s4_g_f.weighted average=1 %}
-                            </th>
-                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s4_g_f.change %}
-
-                            <th scope="col" class="bg-primary-100 category-5 second-row">
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s5_bio.weighted average=1 %}
-                            </th>
-                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s5_bio.change %}
-
-                            <th scope="col" class="bg-primary-100 category-6 second-row">
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s6_c_e.weighted average=1 %}
-                            </th>
-                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s6_c_e.change %}
-
-                            <th scope="col" class="bg-primary-100 category-7 second-row">
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s7_wr_f.weighted average=1 %}
-                            </th>
-                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.s7_wr_f.change %}
+                            {% for section in section_averages %}
+                                <th scope="col" class="bg-primary-100 category-{{ forloop.counter }} second-row">
+                                    {% include 'scoring/includes/score-bar.html' with percentage=section.weighted average=1 %}
+                                </th>
+                                {% if previous_year %}
+                                    {% include 'scoring/includes/fp_header_integer_score_change.html' with change=section.change %}
+                                {% endif %}
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
@@ -178,7 +122,9 @@
                             <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="{{ council.percentage|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                             </th>
-                            {% include 'scoring/includes/fp_integer_score_change.html' with change=council.change %}
+                            {% if previous_year %}
+                                {% include 'scoring/includes/fp_integer_score_change.html' with change=council.change %}
+                            {% endif %}
                           {% with scores=council.all_scores %}
                           {% if council.score != 0 and council.score is not None %}
                             {% for score in scores %}
@@ -191,14 +137,16 @@
                                       <div class="progress-bar" style="width: {{ score.weighted }}%;"></div>
                                     </div>
                                 </td>
-                                {% if score.change < 0 %}
-                                    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning position-static">&#9660; {{ score.change }}</td>
-                                {% elif score.change > 0 %}
-                                    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; {{ score.change }}</td>
-                                {% elif score.change == 0 %}
-                                    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">--</td>
-                                {% else %}
-                                    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">NA</td>
+                                {% if previous_year %}
+                                    {% if score.change < 0 %}
+                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning position-static">&#9660; {{ score.change }}</td>
+                                    {% elif score.change > 0 %}
+                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; {{ score.change }}</td>
+                                    {% elif score.change == 0 %}
+                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">--</td>
+                                    {% else %}
+                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">NA</td>
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                           {% elif council.score == 0 %}
@@ -246,18 +194,20 @@
                             <tr class="name-row">
                                 <th class="fw-bold" scope="row" colspan="4">{{ scoring_group.name }} average</th>
                             </tr>
+                            {% if previous_year %}
                             <tr class="legend-row fs-8">
                                 <th></th>
-                                <th scope="col" class="fw-normal">2025</th>
-                                {% comment %} TODO: Decide is 2023 will be hardcoded or updated dynamically {% endcomment %}
-                                <th scope="col" class="fw-normal">versus 2023</th>
+                                <th scope="col" class="fw-normal">{{ plan_year }}</th>
+                                <th scope="col" class="fw-normal">versus {{ previous_year.year }}</th>
                                 <th></th>
                             </tr>
+                            {% endif %}
                             <tr class="score-row js-score-row js-total">
                                 <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                                 <td>
                                     {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                                 </td>
+                                {% if previous_year %}
                                 <td>
                                     {% if averages.total.change < 0 %}
                                         <span class="badge bg-red-100 text-warning">&#9660; {{ averages.total.change }}</span>
@@ -269,6 +219,7 @@
                                         <span class="badge bg-gray-100">NA</span>
                                     {% endif %}
                                 </td>
+                                {% endif %}
                                 <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                             </tr>
                             {% for section in section_averages %}
@@ -277,6 +228,7 @@
                                 <td>
                                     {% include 'scoring/includes/score-bar.html' with percentage=section.weighted average=1 %}
                                 </td>
+                                {% if previous_year %}
                                 <td>
                                 {% if section.change < 0 %}
                                     <span class="badge bg-red-100 text-warning">&#9660; {{ section.change }}</span>
@@ -286,6 +238,8 @@
                                     <span class="badge bg-gray-100">-- 0</span>
                                 {% else %}
                                     <span class="badge bg-gray-100">NA</span>
+                                {% endif %}
+                                </td>
                                 {% endif %}
                                 </td>
                                 <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
@@ -319,6 +273,7 @@
                                             <span>--</span>
                                         {% endif %}
                                     </td>
+                                    {% if previous_year %}
                                     <td>
                                         {% if council.change < 0 %}
                                         <span class="badge bg-red-100 text-warning">&#9660; {{ council.change }}</span>
@@ -330,6 +285,7 @@
                                             <span class="badge bg-gray-100">NA</span>
                                         {% endif %}
                                     </td>
+                                    {% endif %}
                                     <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                                 </tr>
 
@@ -361,6 +317,7 @@
                                                   <div class="progress-bar" style="width: {{ score.weighted }}%;"></div>
                                                 </div>
                                             </td>
+                                            {% if previous_year %}
                                             <td>
                                                 {% if score.change < 0 %}
                                                 <span class="badge bg-red-100 text-warning">&#9660; {{ score.change }}</span>
@@ -372,6 +329,7 @@
                                                     <span class="badge bg-gray-100">NA</span>
                                                 {% endif %}
                                             </td>
+                                            {% endif %}
                                             <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                                         </tr>
                                         {% endfor %}
