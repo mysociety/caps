@@ -5,8 +5,8 @@
 <div class="pt-5 pb-6 pt-lg-8 pb-lg-8 hero-section with-version-background">
     {% include 'scoring/includes/scorecards_year.html' %}
     <div class="container">
-        <h2 class="fs-4">Action Scorecards {{ plan_year }}</h2>
-        <h1 class="mb-2">Question: {{ question.text }}</h1>
+        <p class="fs-4">Question · Action Scorecards {{ plan_year }}</p>
+        <h1 class="mb-2 w-lg-75 h2">{{ question.text }}</h1>
         <dl class="row mt-4 mb-0" style="max-width: 30em">
             <dt class="col-sm-4">Question code</dt>
             <dd class="col-sm-8">{{ question.pretty_code }}</dd>
@@ -20,7 +20,7 @@
             <dd class="col-sm-8">{{ question.get_how_marked_display }}</dd>
             <dt class="col-sm-4">Question weight</dt>
             <dd class="col-sm-8">
-                <a href="{% url 'year_scoring:methodology' plan_year %}#section-question-weighting-within" class="d-inline-flex align-items-center" title="Read more about question weighting within sections">
+                <a href="{% url 'year_scoring:methodology' plan_year %}#section-question-weighting-within" data-bs-toggle="tooltip" data-bs-placement="top" class="d-inline-flex align-items-center" title="Read more about question weighting within sections">
                     {{ question.get_weighting_display }}
                     {% include 'caps/icons/question-circle.html' with classes='ms-2 align-text-top' width='1rem' height='1rem' role='presentation' %}
                 </a>
@@ -32,45 +32,49 @@
 <div class="container py-5 py-lg-6">
     <div class="row gx-lg-5 gx-xl-6">
         <div class="col-md-6">
-            <h3>Criteria</h3>
-          {% autoescape off %}
-            {{ question.criteria|linebreaks|urlize }}
-          {% endautoescape %}
+            <h2 class="h3">Criteria</h2>
+            {% autoescape off %}
+              {{ question.criteria|linebreaks|urlize }}
+            {% endautoescape %}
         </div>
         <div class="col-md-6 mt-5 mt-md-0">
-            <h3>Clarifications</h3>
-          {% autoescape off %}
-            {{ question.clarifications|linebreaks|urlize }}
-          {% endautoescape %}
+            <h2 class="h3">Clarifications</h2>
+            {% autoescape off %}
+              {{ question.clarifications|linebreaks|urlize }}
+            {% endautoescape %}
         </div>
     </div>
 
-    <h3 class="mt-5 mb-4" id="performance">Question performance</h3>
+    <div class="row">
+        <div class="col-md-6">
+              <h2 class="h3 mt-5 mb-4" id="performance">Question performance</h2>
 
-  {% if applicable_scoring_groups|length > 1 %}
-    <div class="bg-primary-100 p-3 border rounded">
-        <label for="questions-council-name" class="fs-6 d-block mb-2">Show scores for a specific council</label>
-        <input class="form-control searchbar js-question-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
-        <p class="mt-3 mb-2 fs-6">Or show scores by type of council</p>
-        <div class="d-flex flex-wrap gap-1">
-          {% for t in applicable_scoring_groups %}
-            <a href="?type={{ t.description }}#performance" class="btn btn-outline-primary btn-sm is--with-label {% if t.description == scoring_group.slug %}active{% endif %}">
-              {% if t.description == "single" %}
-                Single Tier
-              {% elif t.description == "district" %}
-                District
-              {% elif t.description == "county" %}
-                County
-              {% elif t.description == "northern-ireland" %}
-                Northern Ireland
-              {% elif t.description == "combined" %}
-                Combined Authority
+              {% if applicable_scoring_groups|length > 1 %}
+              <div class="bg-primary-100 p-3 border rounded">
+                    <label for="questions-council-name" class="fs-6 d-block mb-2">Show scores for a specific council</label>
+                    <input class="form-control searchbar js-question-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
+                    <p class="mt-3 mb-2 fs-6">Or show scores by type of council</p>
+                    <div class="d-flex flex-wrap gap-1">
+                        {% for t in applicable_scoring_groups %}
+                            <a href="?type={{ t.description }}#performance" class="btn btn-outline-primary btn-sm is--with-label {% if t.description == scoring_group.slug %}active{% endif %}">
+                              {% if t.description == "single" %}
+                                Single Tier
+                              {% elif t.description == "district" %}
+                                District
+                              {% elif t.description == "county" %}
+                                County
+                              {% elif t.description == "northern-ireland" %}
+                                Northern Ireland
+                              {% elif t.description == "combined" %}
+                                Combined Authority
+                              {% endif %}
+                            </a>
+                        {% endfor %}
+                    </div>
+              </div>
               {% endif %}
-            </a>
-          {% endfor %}
         </div>
     </div>
-  {% endif %}
 
   {% if scoring_group and totals %}
     <div class="row mt-4 mb-n4 mb-sm-0">
