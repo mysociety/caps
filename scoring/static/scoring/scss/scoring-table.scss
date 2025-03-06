@@ -369,7 +369,8 @@ $js-classes: (
   'governance',
   'biodiversity',
   'collaboration',
-  'waste'
+  'waste',
+  'score-row-initial-hidden'
 );
 
 @each $class in $js-classes {
