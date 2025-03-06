@@ -484,7 +484,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         return sections
 
     @classmethod
-    def get_all_council_scores(cls, plan_year=settings.PLAN_YEAR):
+    def get_all_council_scores(cls, plan_year=settings.PLAN_YEAR, as_list=False):
         """
         This excludes plans with zero score as it's assumed that if they have 0 then they
         were not marked, or the council has no plan
@@ -503,6 +503,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
                 )
             )
             .annotate(change=(F("weighted_score") - F("previous_year_score")))
+            .order_by("plan_score__council_id", "plan_section__code")
             .values(
                 "plan_score__total",
                 "plan_score__council_id",
@@ -513,14 +514,24 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
                 "change",
             )
         )
-        councils = defaultdict(dict)
+        if as_list:
+            councils = defaultdict(list)
+        else:
+            councils = defaultdict(dict)
         for score in scores:
-            councils[score["plan_score__council_id"]][score["plan_section__code"]] = {
+            obj = {
+                "code": score["plan_section__code"],
                 "weighted": score["weighted_score"],
                 "score": score["score"],
                 "max": score["max_score"],
                 "change": score["change"],
             }
+            if as_list:
+                councils[score["plan_score__council_id"]].append(obj)
+            else:
+                councils[score["plan_score__council_id"]][
+                    score["plan_section__code"]
+                ] = obj
 
         return councils
 
