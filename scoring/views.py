@@ -74,13 +74,7 @@ class HomePageView(
     FilterView,
 ):
     filterset_class = PlanScoreFilter
-
-    def get_template_names(self):
-        scoring_group_slug = self.get_scoring_group()["slug"]
-        if scoring_group_slug == "combined":
-            return ["scoring/home_combined.html"]
-
-        return ["scoring/home.html"]
+    template_name = "scoring/home.html"
 
     def get_scoring_group(self):
         scoring_group_slug = self.kwargs.get("council_type", "")
