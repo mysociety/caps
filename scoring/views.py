@@ -1204,6 +1204,39 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
                 .order_by("-score", "plan_score__council__name")
             )
 
+            prev_counts = None
+            previous_q = None
+            if self.request.year.previous_year:
+                context["scores"] = (
+                    context["scores"]
+                    .annotate(
+                        previous_score=Subquery(
+                            PlanQuestionScore.objects.filter(
+                                plan_question__code=self.kwargs["code"],
+                                plan_score__year=2023,
+                                plan_score__council=OuterRef("plan_score__council"),
+                            ).values("score")
+                        )
+                    )
+                    .annotate(change=(F("score") - F("previous_score")))
+                )
+
+                context["increased"] = 0
+                context["decreased"] = 0
+                for score in context["scores"]:
+                    if score.change is not None:
+                        if score.change > 0:
+                            context["increased"] += 1
+                        elif score.change < 0:
+                            context["decreased"] += 1
+
+                previous_q = context["question"].previous_question
+
+                prev_counts = previous_q.get_scores_breakdown(
+                    year=self.request.year.previous_year.year,
+                    scoring_group=scoring_group,
+                )
+
             score_counts = question.get_scores_breakdown(
                 year=self.request.year.year, scoring_group=scoring_group
             )
@@ -1224,9 +1257,35 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
                     "count": score["score_count"],
                 }
 
+            if prev_counts:
+                for score in prev_counts:
+                    totals[score["score"]]["prev_count"] = score["score_count"]
+                    totals[score["score"]]["change"] = (
+                        totals[score["score"]]["count"] - score["score_count"]
+                    )
+
+                for score in totals.keys():
+                    if not totals[score].get("prev_count"):
+                        totals[score]["prev_count"] = 0
+                        totals[score]["change"] = totals[score]["count"]
+
             context["totals"] = [totals[k] for k in sorted(totals.keys())]
 
+        if not previous_q:
+            context["no_comparison"] = True
+        elif previous_q.max_score != context["question"].max_score:
+            context["max_score_changed"] = True
+
         context["plan_year"] = self.request.year.year
+        if self.request.year.previous_year:
+            context["previous_year"] = self.request.year.previous_year.year
+
+        if (
+            context.get("previous_year")
+            and not context.get("no_comparison")
+            and not context.get("max_score_changed")
+        ):
+            context["display_comparison"] = True
         return context
 
 
