@@ -102,84 +102,88 @@
                             {% endif %}
                         </span>
                     </div>
-                    {% comment %} TODO: Add a conditional for the .card-footer, if question didn't exist in 2023 then it won't get displayed. {% endcomment %}
-                    <div class="card-footer d-flex flex-row justify-content-between">
-                        <div>
-                            {% comment %} TODO: add 2023 council numbers {% endcomment %}
-                            <span class="fs-5 lh-1">122</span>
-                            <span class="fs-8">in 2023</span>
-                        </div>
-                        <div>
-                            {% comment %} TODO: add difference between 2023 and 2025 {% endcomment %}
-                            <span class="fs-5 lh-1"><span class="fs-7">&#9650;</span>12</span>
-                        </div>
-                    </div>
+                    {% if previous_year %}
+                        {% if not no_comparison and not max_score_changed  %}
+                            <div class="card-footer d-flex flex-row justify-content-between">
+                                <div>
+                                    <span class="fs-5 lh-1">{{ t.prev_count }}</span>
+                                    <span class="fs-8">in {{ previous_year }}</span>
+                                </div>
+                                <div>
+                                    <span class="fs-5 lh-1"><span class="fs-7">{% if t.change > 0 %}&#9650;{% elif t.change < 0 %}&#9660;{% endif %}</span>{{ t.change }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
         </div>
 
-        {% comment %} TODO This section should only be displayed if there is a comparison between 2023 and 2025 {% endcomment %}
-        <h3 class="h4 mb-1 mt-5">Performance comparison between 2023 and 2025</h3>
-        <p class="text-capitalize mb-3 fs-5">{% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}</p>
-        <div class="d-flex flex-row flex-wrap gap-3 mt-3">
-            <div class="card overflow-hidden">
-                <div class="card-body bg-green-600 text-light d-flex flew-row flex-nowrap gap-1">
-                    <div class="d-flex align-items-baseline">
-                        {% include 'caps/icons/arrow-up.html' with classes='opacity-50 d-none d-md-block' width='2.5rem' height='2.5rem' role='presentation' %}
-                        <span class="display-3 d-none d-md-block fw-bold lh-1">35</span>
-                        {% include 'caps/icons/arrow-up.html' with classes='opacity-50 d-md-none' width='1.75rem' height='1.75rem' role='presentation' %}
-                        <span class="d-md-none display-1 fw-bold lh-1 mt-1">35</span>
-                    </div>
-                    <div class="d-flex flex-column">
-                        <span class="display-6 lh-1">councils</span>
-                        <span class="lh-1">scored higher in 2025</span>
-                    </div>
+        {% if previous_year %} 
+            {% if max_score_changed %}
+                <div class="alert alert-dark mt-3 w-md-50" role="alert">
+                    <h3 class="h5">Score comparison unavailable</h3>
+                    <p class="mb-0">There is no comparison between {{ plan_year }} and {{ previous_year }} data because this question's maximum score was modified in {{ plan_year }}.</p>
                 </div>
-                <div class="card-footer bg-green-100 text-dark">
-                    <div class="form-check">
-                        <input class="form-check-input js-checkbox-improved-councils" type="checkbox" value="" id="checkbox-improved-councils">
-                        <label class="form-check-label" for="checkbox-improved-councils">
-                          Show councils
-                        </label>
-                    </div>
+            {% elif no_comparison %}
+                <div class="alert alert-dark mt-3 w-md-50" role="alert">
+                    <h3 class="h5">Score comparison unavailable</h3>
+                    <p class="mb-0">This question was introduced in the {{ plan_year }} Action Scorecards and has no historical data for comparison.</p>
                 </div>
-            </div>
+            {% else %}
+                <h3 class="h4 mb-1 mt-5">Performance comparison between {{ previous_year }} and {{ plan_year }}</h3>
+                <p class="text-capitalize mb-3 fs-5">{% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}</p>
+                <div class="d-flex flex-row flex-wrap gap-3 mt-3">
+                    <div class="card overflow-hidden">
+                        <div class="card-body bg-green-600 text-light d-flex flew-row flex-nowrap gap-1">
+                            <div class="d-flex align-items-baseline">
+                                {% include 'caps/icons/arrow-up.html' with classes='opacity-50 d-none d-md-block' width='2.5rem' height='2.5rem' role='presentation' %}
+                                <span class="display-3 d-none d-md-block fw-bold lh-1">{{ increased }}</span>
+                                {% include 'caps/icons/arrow-up.html' with classes='opacity-50 d-md-none' width='1.75rem' height='1.75rem' role='presentation' %}
+                                <span class="d-md-none display-1 fw-bold lh-1 mt-1">{{ increased }}</span>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span class="display-6 lh-1">councils</span>
+                                <span class="lh-1">scored higher in {{ plan_year }}</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-green-100 text-dark">
+                            <div class="form-check">
+                                <input class="form-check-input js-checkbox-improved-councils" type="checkbox" value="" id="checkbox-improved-councils">
+                                <label class="form-check-label" for="checkbox-improved-councils">
+                                  Show councils
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="card overflow-hidden">
-                <div class="card-body bg-red-600 text-light d-flex flew-row flex-nowrap gap-1">
-                    <div class="d-flex align-items-baseline">
-                        {% include 'caps/icons/arrow-down.html' with classes='opacity-50 d-none d-md-block' width='2.5rem' height='2.5rem' role='presentation' %}
-                        <span class="display-3 d-none d-md-block fw-bold lh-1">5</span>
-                        {% include 'caps/icons/arrow-down.html' with classes='opacity-50 d-md-none' width='1.75rem' height='1.75rem' role='presentation' %}
-                        <span class="d-md-none display-1 fw-bold lh-1 mt-1">5</span>
-                    </div>
-                    <div class="d-flex flex-column">
-                        <span class="display-6 lh-1">councils</span>
-                        <span class="lh-1">scored lower in 2025</span>
+                    <div class="card overflow-hidden">
+                        <div class="card-body bg-red-600 text-light d-flex flew-row flex-nowrap gap-1">
+                            <div class="d-flex align-items-baseline">
+                                {% include 'caps/icons/arrow-down.html' with classes='opacity-50 d-none d-md-block' width='2.5rem' height='2.5rem' role='presentation' %}
+                                <span class="display-3 d-none d-md-block fw-bold lh-1">{{ decreased }}</span>
+                                {% include 'caps/icons/arrow-down.html' with classes='opacity-50 d-md-none' width='1.75rem' height='1.75rem' role='presentation' %}
+                                <span class="d-md-none display-1 fw-bold lh-1 mt-1">{{ decreased }}</span>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span class="display-6 lh-1">councils</span>
+                                <span class="lh-1">scored lower in {{ plan_year }}</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-red-100 text-dark">
+                            <div class="form-check">
+                                <input class="form-check-input js-checkbox-worsened-councils" type="checkbox" value="" id="checkbox-worsened-councils">
+                                <label class="form-check-label" for="checkbox-worsened-councils">
+                                  Show councils
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-footer bg-red-100 text-dark">
-                    <div class="form-check">
-                        <input class="form-check-input js-checkbox-worsened-councils" type="checkbox" value="" id="checkbox-worsened-councils">
-                        <label class="form-check-label" for="checkbox-worsened-councils">
-                          Show councils
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+            {% endif %}
+        {% endif %}
 
-        {% comment %} TODO: if there are changes between scores display the following message: {% endcomment %}
-        <div class="alert alert-dark mt-3 w-md-50" role="alert">
-            <h3 class="h5">Score comparison unavailable</h3>
-            <p class="mb-0">There is no comparison between 2025 and 2023 data because this question's maximum score was modified in 2025.</p>
-        </div>
-        {% comment %} TODO: if new 2025 question display this: {% endcomment %}
-        <div class="alert alert-dark mt-3 w-md-50" role="alert">
-            <h3 class="h5">Score comparison unavailable</h3>
-            <p class="mb-0">This question was introduced in the 2025 Action Scorecards and has no historical data for comparison.</p>
-        </div>
     {% endif %}
 
     {% if scores %}
@@ -188,15 +192,21 @@
                 <tr>
                     <th scope="col" class="text-start border-end border-opacity-25 border-primary">Council</th>
                     <th scope="col" class="d-none d-md-table-cell text-center border-end border-opacity-25 border-primary">Score</th>
-                    {% comment %} TODO only to be displayed if there is a 2023 comparison {% endcomment %}
-                    <th scope="col" class="d-none d-md-table-cell text-center border-end border-opacity-25 border-primary"><span class="d-block mb-0 lh-1">Difference </span><span class="fs-8 lh-1">2023</span></th>
+                    {% if display_comparison %}
+                    <th scope="col" class="d-none d-md-table-cell text-center border-end border-opacity-25 border-primary"><span class="d-block mb-0 lh-1">Difference </span><span class="fs-8 lh-1">{{ previous_year }}</span></th>
+                    {% endif %}
                     <th scope="col" class="d-none d-md-table-cell text-start border-end border-opacity-25 border-primary">Evidence</th>
                 </tr>
             </thead>
             <tbody>
                 {% for score in scores %}
-                {% comment %} TODO: Replace 'year-difference' for the actual value {% endcomment %}
+                    {% if score.change and score.change > 0 %}
                     <tr data-jump-slug="{{ score.plan_score.council.slug }}" year-difference-status="improved">
+                    {% elif score.change and score.change < 0 %}
+                    <tr data-jump-slug="{{ score.plan_score.council.slug }}" year-difference-status="worsened">
+                    {% else %}
+                    <tr data-jump-slug="{{ score.plan_score.council.slug }}" year-difference-status="unchanged">
+                    {% endif %}
                         <td class="text-start border-bottom border-start border-end border-opacity-25 border-primary vertical-align-middle">
                             <a class="fs-5 d-block mb-3 mb-md-0" href="{% url 'scoring:council' score.plan_score.council.slug %}">
                                 {{ score.plan_score.council.name }}
@@ -206,15 +216,19 @@
                             <div class="d-md-none overflow-hidden" style="max-width: 18.75rem">
                                 <dl class="d-flex flex-row gap-5 mb-2">
                                     <div>
-                                        <dt class="fs-8 text-uppercase text-muted mb-0">Score 2025</dt>
+                                        <dt class="fs-8 text-uppercase text-muted mb-0">Score {{ plan_year }}</dt>
                                         <dd>{{ score.score|floatformat:"-2" }}/{{ score.max_score }}</dd>
                                     </div>
 
                                     <div>
-                                        <dt class="fs-8 text-uppercase text-muted mb-0">2023 Difference</dt>
-                                        {% comment %} TODO If difference is negative: change replace &#9650; with &#9660; {% endcomment %}
-                                        {% comment %} TODO If difference is negative: change text-success to text-warning {% endcomment %}
-                                        <dd class="text-success"> &#9650; {{ score.score|floatformat:"-2" }}</dd>
+                                        <dt class="fs-8 text-uppercase text-muted mb-0">{{ previous_year }} Difference</dt>
+                                        {% if score.change > 0 %}
+                                            <dd class="text-success"> &#9650; {{ score.score|floatformat:"-2" }}</dd>
+                                        {% elif score.change < 0 %}
+                                            <dd class="text-warning"> &#9660; {{ score.score|floatformat:"-2" }}</dd>
+                                        {% elif score.change == 0 %}
+                                            <dd class="text-grey-100"> -- </dd>
+                                        {% endif %}
                                     </div>
                                 </dl>
                                 {% if score.score != 0 %}
@@ -236,12 +250,21 @@
                         <td class="d-none d-md-table-cell text-center border-bottom border-end border-opacity-25 border-primary {% if score.score < 0 %}bg-red-100{% endif %}">
                             {{ score.score|floatformat:"-2" }}/{{ score.max_score }}
                         </td>
-                        {% comment %} TODO only to be displayed if there is a 2023 comparison {% endcomment %}
-                        {% comment %} TODO If difference is negative: change replace &#9650; with &#9660; {% endcomment %}
-                        {% comment %} TODO If difference is negative: change text-success to text-warning {% endcomment %}
-                        <td class="d-none d-md-table-cell text-success text-center border-bottom border-end border-opacity-25 border-primary">
-                            &#9650; {{ score.score|floatformat:"-2" }}
-                        </td>
+                        {% if display_comparison %}
+                            {% if score.change > 0 %}
+                            <td class="d-none d-md-table-cell text-success text-center border-bottom border-end border-opacity-25 border-primary">
+                                &#9650; {{ score.change|floatformat:"-2" }}
+                            </td>
+                            {% elif score.change < 0 %}
+                            <td class="d-none d-md-table-cell text-warning text-center border-bottom border-end border-opacity-25 border-primary">
+                                &#9660; {{ score.change|floatformat:"-2" }}
+                            </td>
+                            {% elif score.change == 0 %}
+                            <td class="d-none d-md-table-cell text-grey-100 text-center border-bottom border-end border-opacity-25 border-primary">
+                                --
+                            </td>
+                            {% endif %}
+                        {% endif %}
                         <td class="d-none d-md-table-cell text-start border-bottom border-end border-opacity-25 border-primary">
                             {% if score.score != 0 %}
                             <ul class="ps-3">
