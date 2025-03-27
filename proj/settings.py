@@ -78,6 +78,7 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 "caps.context_processors.analytics",
+                "scoring.context_processors.site_title",
             ],
         },
     },

@@ -14,22 +14,25 @@ class AddYearMiddleware:
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         if request.host.name == "scoring" and request.path not in ["/down/"]:
-            year = None
-            if view_kwargs.get("year") is not None:
-                try:
-                    year = int(view_kwargs["year"])
-                except ValueError:
-                    year = None
+            if request.resolver_match.app_name == "scoring2022":
+                request.year = 2021
+            elif request.host.name == "scoring":
+                year = None
+                if view_kwargs.get("year") is not None:
+                    try:
+                        year = int(view_kwargs["year"])
+                    except ValueError:
+                        year = None
 
-            if year is not None:
-                try:
-                    plan_year = PlanYear.objects.get(year=year)
-                except PlanYear.DoesNotExist:
-                    raise Http404("No such year")
-            else:
-                try:
-                    plan_year = PlanYear.objects.get(is_current=True)
-                except PlanYear.DoesNotExist:
-                    raise HttpResponseServerError("No current Plan Year found")
+                if year is not None:
+                    try:
+                        plan_year = PlanYear.objects.get(year=year)
+                    except PlanYear.DoesNotExist:
+                        raise Http404("No such year")
+                else:
+                    try:
+                        plan_year = PlanYear.objects.get(is_current=True)
+                    except PlanYear.DoesNotExist:
+                        raise HttpResponseServerError("No current Plan Year found")
 
-            request.year = plan_year
+                request.year = plan_year
