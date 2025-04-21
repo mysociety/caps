@@ -239,6 +239,9 @@ class HomePageView(
         context["page_title"] = title_format_strings[scoring_group["slug"]].format(
             name=scoring_group["name"]
         )
+        if not self.request.year.is_current:
+            context["page_title"] = f"{self.request.year.year} {context['page_title']}"
+
         context["site_title"] = "Climate Emergency UK"
 
         context["current_page"] = "home-page"
