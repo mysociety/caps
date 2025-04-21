@@ -3,18 +3,16 @@ This management command is no longer used!
 
 There's a prepare_text method in search_indexes.py
 that uses the build in haystack text extraction stuff
-for different file formats. 
+for different file formats.
 
 """
 
 import glob
 
 import pandas as pd
-
 import pdftotext
-
-from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
 
 from caps.models import PlanDocument
 
