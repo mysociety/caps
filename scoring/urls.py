@@ -50,6 +50,8 @@ scoring_patterns = [
         views.MethodologyView.as_view(),
         name="methodology",
     ),
+    path("nations/", views.NationListView.as_view(), name="nations_list"),
+    path("nations/<str:nation_name>/", views.NationDetailView.as_view(), name="nation_detail"),
 ]
 
 non_scoring_patterns = [
