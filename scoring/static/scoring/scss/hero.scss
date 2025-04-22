@@ -1,6 +1,8 @@
 .hero-section {
   &.with-version-background  {
     position: relative;
+    background: linear-gradient(90deg, mix($white, $primary-100, 25%) 0%, adjust-hue($primary-200, 20) 100%);
+
     .hero-version-badge {
       mix-blend-mode: overlay;
       @include responsive(right, 10, 200);
@@ -32,4 +34,12 @@
   .year-2025 & {
     background: linear-gradient(90deg, $primary2025-200 0%, adjust-hue($primary2025-200, -10) 100%);
   }
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, $primary 0%, $primary-300 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }

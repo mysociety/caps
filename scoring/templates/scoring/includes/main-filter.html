@@ -1,14 +1,26 @@
 <form class="form" id="home-page-main-filter">
-    <div class="type-council-option-wrapper" id="council-type-filter">
-        <a class="btn btn-outline-primary {% if scoring_group.slug == 'single' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='single' %}">Single Tier</a>
-        <a class="btn btn-outline-primary {% if scoring_group.slug == 'district' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='district' %}">District</a>
-        <a class="btn btn-outline-primary {% if scoring_group.slug == 'county' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='county' %}">County</a>
-        <a class="btn btn-outline-primary {% if scoring_group.slug == 'combined' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='combined' %}">Combined Authority</a>
-        <a class="btn btn-outline-primary {% if scoring_group.slug == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
-    </div>
+    {% if current_page == 'home-page' %}
+        <div class="type-council-option-wrapper" id="council-type-filter">
+            <a class="btn btn-outline-primary {% if scoring_group.slug == 'single' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='single' %}">Single Tier</a>
+            <a class="btn btn-outline-primary {% if scoring_group.slug == 'district' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='district' %}">District</a>
+            <a class="btn btn-outline-primary {% if scoring_group.slug == 'county' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='county' %}">County</a>
+            <a class="btn btn-outline-primary {% if scoring_group.slug == 'combined' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='combined' %}">Combined Authority</a>
+            <a class="btn btn-outline-primary {% if scoring_group.slug == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
+        </div>
+    {% elif current_page == 'nation-detail' and nation.slug == 'england' %}
+    {{ filter_params.council_group }}
+        <div id="filterRegion" class="col">
+            <select class="form-select form-select-sm form-select-show-modifications" id="council_group_select" name="council_group">
+                <option value="CC,LBO,MD,UA"{% if filter_params.council_group == "single" %} selected{% endif %}>Single Tier</option>
+                <option value="CTY"{% if filter_params.council_group == "CTY" %} selected{% endif %}>County</option>
+                <option value="NMD"{% if filter_params.council_group == "NMD" %} selected{% endif %}>District</option>
+                <option value="combined"{% if filter_params.council_group == "combined" %} selected{% endif %}>Combined Authority</option>
+            </select>
+        </div>
+    {% endif %}
 
     <div class="d-flex flex-row flex-wrap align-items-center mt-3 pt-3 border-top gap-3">
-        {% if scoring_group.slug == 'single' %}
+        {% if current_page == 'home-page' and scoring_group.slug == 'single' %}
         <fieldset class="d-flex flex-row flex-wrap align-items-center gap-2">
             <legend class="visually-hidden">Filter by nation</legend>
             <div>
@@ -33,6 +45,12 @@
             Filter by region, population, and more…
         </button>
     </div>
+
+    {% if current_page == 'home-page' %}
+    <div class="alert alert-secondary w-lg-25 py-1 px-2 mt-3 mt-md-2 mb-0 fs-7">
+        {% include 'caps/icons/info.html' with classes='me-1 mb-1' width='1em' height='1em' role='presentation' %}Checkout the new <a href="{% url 'scoring:nations_list' %}">nations' pages</a>
+    </div>
+    {% endif %}
 
     <div class="collapse mt-3 pt-3 border-top {% if filter_descs %}show{% endif %}" id="advancedFilter">
         {% include 'scoring/includes/advanced-filter.html' %}

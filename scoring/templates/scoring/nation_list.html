@@ -1,0 +1,43 @@
+{% extends "scoring/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <div class="py-5 py-md-6 hero-section with-version-background">
+        <div class="container">
+            <div class="mb-4">
+                <a href="{% url 'scoring:home' %}">
+                    Home
+                </a>
+                {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+                <span>Nations</span>
+            </div>
+            <h1 class="display-1 mb-3">
+                <p class="fs-3 gradient-text version-year d-block lh-1 fw-bold mb-0">Action Scorecards 2025 {{ plan_year }}</p>
+                Nations
+            </h1>
+        </div>
+    </div>
+
+    <section class="container py-4 py-lg-6">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+          {% for nation in nations %}
+            <div class="col mb-4">
+                <div class="card h-100">
+                    <div class="card-header py-3 text-bg-primary">
+                        <h2 class="h3 lh-1 mb-0">{{ nation.name }}</h2>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <span class="fs-1 lh-1">{{ nation.statistic_value }}</span>
+                        <span class="text-muted">{{ nation.statistic_label }}</span>
+                        <p class="my-3">{{ nation.description }}</p>
+                        <a href="{% url 'scoring:nation_detail' nation.slug %}" class="stretched-link d-flex align-items-center fw-bold mt-auto">
+                            {{ nation.cta_label }}
+                            {% include 'caps/icons/chevron-right.html' with classes='ms-2' %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+    </section>
+{% endblock %}

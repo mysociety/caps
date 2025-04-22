@@ -1,16 +1,10 @@
 import django_filters
 
 from caps.models import Council
-from scoring.models import PlanScore, PlanQuestionScore
+from scoring.models import PlanQuestionScore, PlanScore
 
 
-class PlanScoreFilter(django_filters.FilterSet):
-    country = django_filters.ChoiceFilter(
-        field_name="council__country",
-        choices=Council.COUNTRY_CHOICES,
-        empty_label="All",
-    )
-
+class BaseScoreFilter(django_filters.FilterSet):
     ruc_cluster = django_filters.ChoiceFilter(
         field_name="ruc_cluster", choices=PlanScore.RUC_TYPES
     )
@@ -26,10 +20,6 @@ class PlanScoreFilter(django_filters.FilterSet):
 
     control = django_filters.CharFilter(field_name="political_control")
 
-    region = django_filters.ChoiceFilter(
-        field_name="council__region", choices=Council.REGION_CHOICES
-    )
-
     county = django_filters.ChoiceFilter(
         field_name="council__county",
         choices=Council.get_county_choices(),
@@ -43,6 +33,35 @@ class PlanScoreFilter(django_filters.FilterSet):
     class Meta:
         model = PlanScore
         fields = []
+
+
+class ChoiceInFilter(django_filters.BaseInFilter, django_filters.ChoiceFilter):
+    pass
+
+
+class NationPlanScoreFilter(BaseScoreFilter):
+    council_group = ChoiceInFilter(
+        field_name="council__authority_type",
+        lookup_expr="in",
+        choices=(
+            (",".join(Council.SCORING_GROUPS["single"]["types"]), "single"),
+            (",".join(Council.SCORING_GROUPS["county"]["types"]), "county"),
+            (",".join(Council.SCORING_GROUPS["district"]["types"]), "district"),
+            (",".join(Council.SCORING_GROUPS["combined"]["types"]), "combined"),
+        ),
+    )
+
+
+class PlanScoreFilter(BaseScoreFilter):
+    region = django_filters.ChoiceFilter(
+        field_name="council__region", choices=Council.REGION_CHOICES
+    )
+
+    country = django_filters.ChoiceFilter(
+        field_name="council__country",
+        choices=Council.COUNTRY_CHOICES,
+        empty_label="All",
+    )
 
 
 class QuestionScoreFilter(django_filters.FilterSet):
