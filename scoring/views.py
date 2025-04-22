@@ -1584,20 +1584,53 @@ class NotFoundPageView(SearchAutocompleteMixin, TemplateView):
             **response_kwargs,
         )
 
+
 class NationListView(TemplateView):
     template_name = "scoring/nation_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        nation_short_descriptions = {
-            "england": "We've summarised the key findings from across the 324 English councils and mayoral authorities to provide an overview of the results from the 2023 Council Climate Action Scorecards.",
-            "wales": "We've summarised the key findings from across the 22 councils in Wales to provide a Welsh overview of these councils' results in the 2023 Council Climate Action Scorecards.",
-            "scotland": "We've summarised the key findings from across the councils in Scotland to provide a Scottish overview of these councils' results in the 2023 Council Climate Action Scorecards.",
-            "northern_ireland": "We've summarised the key findings from the 2023 Council Climate Action Scorecards to provide a comprehensive overview of Northern Irish councils' climate action progress."
-        }
+        # Theoretically we could get the country names (but not slugs)
+        # out of models.Council.COUNTRY_CHOICES, but it doesn’t seem worth it,
+        # when we need to add in so much extra stuff anyway.
+        context["nations"] = [
+            {
+                "slug": "england",
+                "name": "England",
+                "statistic_value": "XX%",  # TODO
+                "statistic_label": "Average Single Tier council score",
+                "description": "We've summarised the key findings from across the 324 English councils and mayoral authorities to provide an overview of the results from the 2025 Council Climate Action Scorecards.",
+                "cta_label": "View English scores",
+            },
+            {
+                "slug": "scotland",
+                "name": "Scotland",
+                "statistic_value": "XX%",  # TODO
+                "statistic_label": "Average score",
+                "description": "We've summarised the key findings from across the councils in Scotland to provide a Scottish overview of these councils' results in the 2025 Council Climate Action Scorecards.",
+                "cta_label": "View Scottish scores",
+            },
+            {
+                "slug": "northern-ireland",
+                "name": "Northern Ireland",
+                "statistic_value": "XX%",  # TODO
+                "statistic_label": "Average score",
+                "description": "We've summarised the key findings from the 2025 Council Climate Action Scorecards to provide a comprehensive overview of Northern Irish councils' climate action progress.",
+                "cta_label": "View Northern Irish scores",
+            },
+            {
+                "slug": "wales",
+                "name": "Wales",
+                "statistic_value": "XX%",  # TODO
+                "statistic_label": "Average score",
+                "description": "We've summarised the key findings from across the 22 councils in Wales to provide a Welsh overview of these councils' results in the 2025 Council Climate Action Scorecards.",
+                "cta_label": "View Welsh scores",
+            },
+        ]
 
-        context['nation_short_descriptions'] = nation_short_descriptions
+        context["page_title"] = "Nations"
+
         return context
 
 class NationDetailView(TemplateView):
