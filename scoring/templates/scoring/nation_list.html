@@ -19,53 +19,61 @@
     </div>
 
     <section class="container py-4 py-lg-6">
-        <div class="row">
-            <div class="col-md-6 col-lg-3">
-                <a href="" class="card">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
+            <div class="col">
+                <div class="card text-center">
                     <div class="card-header py-3 text-bg-primary">
-                        <h2 class="h3 text-center">England</h2>
+                        <h2 class="h3 text-center lh-1 mb-0">England</h2>
                     </div>
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                        <span class="fs-1 lh-1 mb-2">22%</span>
-                        <span>Average score</span>
+                        <span class="fs-1 lh-1">22%</span>
+                        <span class="fw-normal fst-normal" id="" aria-describedby="average-score-england">
+                            Average score<sup>*</sup>
+                        </span>
+                        <a href="{% url 'scoring:nations_list' %}/england" class="stretched-link"></a>
                     </div>
-                </a>
+                    <div class="card-footer">
+                        <small id="average-score-england">
+                            <i><sup>*</sup>Single Tier councils only</i>
+                        </small>
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-6 col-lg-3">
-                <a href="" class="card">
+            <div class="col">
+                <div class="card text-center">
                     <div class="card-header py-3 text-bg-primary">
-                        <h2 class="h3 text-center">England</h2>
+                        <h2 class="h3 text-center lh-1 mb-0">Wales</h2>
                     </div>
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                        <span class="fs-1 lh-1 mb-2">22%</span>
+                        <span class="fs-1 lh-1">22%</span>
                         <span>Average score</span>
                     </div>
-                </a>
+                </div>
             </div>
 
-            <div class="col-md-6 col-lg-3">
-                <a href="" class="card">
+            <div class="col">
+                <div class="card text-center">
                     <div class="card-header py-3 text-bg-primary">
-                        <h2 class="h3 text-center">England</h2>
+                        <h2 class="h3 text-center lh-1 mb-0">Scotland</h2>
                     </div>
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                        <span class="fs-1 lh-1 mb-2">22%</span>
+                        <span class="fs-1 lh-1">22%</span>
                         <span>Average score</span>
                     </div>
-                </a>
+                </div>
             </div>
 
-            <div class="col-md-6 col-lg-3">
-                <a href="" class="card">
+            <div class="col">
+                <div class="card text-center">
                     <div class="card-header py-3 text-bg-primary">
-                        <h2 class="h3 text-center">England</h2>
+                        <h2 class="h3 text-center lh-1 mb-0">Northern Ireland</h2>
                     </div>
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                        <span class="fs-1 lh-1 mb-2">22%</span>
+                        <span class="fs-1 lh-1">22%</span>
                         <span>Average score</span>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
     </section>
