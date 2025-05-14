@@ -1,11 +1,16 @@
 <form class="form" id="home-page-main-filter">
+    {% if current_page == 'home-page' or nation_name == 'england' %}
     <div class="type-council-option-wrapper" id="council-type-filter">
         <a class="btn btn-outline-primary {% if scoring_group.slug == 'single' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='single' %}">Single Tier</a>
         <a class="btn btn-outline-primary {% if scoring_group.slug == 'district' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='district' %}">District</a>
         <a class="btn btn-outline-primary {% if scoring_group.slug == 'county' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='county' %}">County</a>
         <a class="btn btn-outline-primary {% if scoring_group.slug == 'combined' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='combined' %}">Combined Authority</a>
+
+        {% if current_page == 'home-page' %}        
         <a class="btn btn-outline-primary {% if scoring_group.slug == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
+        {% endif %}
     </div>
+    {% endif %}
 
     <div class="d-flex flex-row flex-wrap align-items-center mt-3 pt-3 border-top gap-3">
         {% if scoring_group.slug == 'single' %}
@@ -33,6 +38,12 @@
             Filter by region, population, and more…
         </button>
     </div>
+
+    {% if current_page == 'home-page' %}
+    <div class="alert alert-secondary w-lg-25 py-1 px-2 mt-3 mt-md-2 mb-0 fs-7">
+        {% include 'caps/icons/info.html' with classes='me-1 mb-1' width='1em' height='1em' role='presentation' %}Checkout the new <a href="{% url 'scoring:nations_list' %}">nations' pages</a>
+    </div>
+    {% endif %}
 
     <div class="collapse mt-3 pt-3 border-top {% if filter_descs %}show{% endif %}" id="advancedFilter">
         {% include 'scoring/includes/advanced-filter.html' %}
