@@ -66,7 +66,7 @@
                                 {% endif %}
                                     <div class="section-title">
                                         {% include section_link_template with section_code=section.code section_name=section.title category_number=forloop.counter %}
-                                        <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-1 {% if sorted_by == section.code %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                        <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-{{ forloop.counter }} {% if sorted_by == section.code %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
                                     </div>
                                 </th>
                             {% endfor %}
