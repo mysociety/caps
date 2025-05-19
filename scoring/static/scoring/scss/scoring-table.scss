@@ -61,6 +61,12 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
             max-width: $default-cell-width;
             min-width: $default-cell-width;
         }
+
+        .js-previous-year-difference-header {
+            .section-title {
+                justify-content: left;
+            }
+        }
     }
 
     th {
