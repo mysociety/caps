@@ -39,7 +39,7 @@ class Command(BaseCommand):
     }
 
     def handle(self, *args, **options):
-        if PlanYear.objects.exist():
+        if PlanYear.objects.exists():
             self.stderr.write("Existing plans, not doing anything")
             return
 
