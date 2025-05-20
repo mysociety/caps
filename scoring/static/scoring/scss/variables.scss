@@ -288,15 +288,17 @@ $navbar-light-toggler-icon-bg: url("../img/bootstrap/navbar-light-toggler-icon.s
 $accordion-button-color: $primary;
 $accordion-button-bg: tint-color($primary, 90%);
 
-$accordion-button-active-bg: $primary;
-$accordion-button-active-color: $white;
+$accordion-button-active-bg: $color-scorecard-grey-200;
+$accordion-button-active-color: $black;
 
 $accordion-button-icon: url("../img/bootstrap/accordion-button-icon.svg");
-$accordion-button-active-icon: url("../img/bootstrap/accordion-button-icon-active.svg");
+$accordion-button-active-icon: url("../img/bootstrap/accordion-button-icon.svg");
 
 // Cards
 
 $card-spacer-y: 1rem;
+$card-cap-bg: $color-scorecard-grey-200;
+$accordion-border-color: var(--bs-border-color-translucent); // same as card component
 
 // Tooltips
 
