@@ -19,64 +19,25 @@
     </div>
 
     <section class="container py-4 py-lg-6">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
-            <div class="col">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+          {% for nation in nations %}
+            <div class="col mb-4">
                 <div class="card h-100">
                     <div class="card-header py-3 text-bg-primary">
-                        <h2 class="h3 lh-1 mb-0">England</h2>
+                        <h2 class="h3 lh-1 mb-0">{{ nation.name }}</h2>
                     </div>
                     <div class="card-body d-flex flex-column">
-                        <span class="fs-1 lh-1">22%</span>
-                        <span class="fw-normal fst-normal" id="" aria-describedby="average-score-england">
-                            Average score<sup>*</sup>
-                        </span>
-                        <p class="mt-2 mb-0 fs-7">{{ nation_short_descriptions.england }}<small id="average-score-england"> <i><sup>*</sup>Single Tier councils only</i></small></p>
-                        <a href="{% url 'scoring:nations_list' %}england" class="stretched-link mt-2">Go to nation's page</a>
+                        <span class="fs-1 lh-1">{{ nation.statistic_value }}</span>
+                        <span class="text-muted">{{ nation.statistic_label }}</span>
+                        <p class="my-3">{{ nation.description }}</p>
+                        <a href="{% url 'scoring:nation_detail' nation.slug %}" class="stretched-link d-flex align-items-center fw-bold mt-auto">
+                            {{ nation.cta_label }}
+                            {% include 'caps/icons/chevron-right.html' with classes='ms-2' %}
+                        </a>
                     </div>
                 </div>
             </div>
-
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-header py-3 text-bg-primary">
-                        <h2 class="h3 lh-1 mb-0">Wales</h2>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <span class="fs-1 lh-1">35%</span>
-                        <span>Average score</span>
-                        <p class="mt-2 mb-0 fs-7">{{ nation_short_descriptions.wales }}</p>
-                        <a href="{% url 'scoring:nations_list' %}wales" class="stretched-link mt-2">Go to nation's page</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-header py-3 text-bg-primary">
-                        <h2 class="h3 lh-1 mb-0">Scotland</h2>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <span class="fs-1 lh-1">12%</span>
-                        <span>Average score</span>
-                        <p class="mt-2 mb-0 fs-7">{{ nation_short_descriptions.scotland }}</p>
-                        <a href="{% url 'scoring:nations_list' %}scotland" class="stretched-link mt-2">Go to nation's page</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card h-100">
-                    <div class="card-header py-3 text-bg-primary">
-                        <h2 class="h3 lh-1 mb-0">Northern Ireland</h2>
-                    </div>
-                    <div class="card-body d-flex flex-column">
-                        <span class="fs-1 lh-1">62%</span>
-                        <span>Average score</span>
-                        <p class="mt-2 mb-0 fs-7">{{ nation_short_descriptions.northern_ireland }}</p>
-                        <a href="{% url 'scoring:nations_list' %}northren-ireland" class="stretched-link mt-2">Go to nation's page</a>
-                    </div>
-                </div>
-            </div>
+          {% endfor %}
         </div>
     </section>
 {% endblock %}
