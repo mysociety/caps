@@ -7,6 +7,7 @@ from operator import itemgetter
 from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Avg, Count, F, Max, Min, OuterRef, Subquery, Sum
+from django.http import Http404
 from django.shortcuts import get_object_or_404, resolve_url, reverse
 from django.templatetags.static import static
 from django.utils.decorators import method_decorator
@@ -1606,18 +1607,50 @@ class NationListView(TemplateView):
 
         return context
 
+
 class NationDetailView(TemplateView):
     template_name = "scoring/nation_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        nation_name = self.kwargs['nation_name'].lower()
 
-        nation_description = {
-            "england": "We’ve summarised the key findings from across the 324 English councils and mayoral authorities to provide an overview of the results from the 2023 Council Climate Action Scorecards. Whilst the scores vary across England, it is noticeable that, of the lowest scoring councils in the UK, 80% are in England. There are low scoring councils across all four types of English authorities: district, county, single tier and mayoral, with at least 10% of councils across each type of English authority scoring 20% or below.Whilst most legislation is the same across all four nations, in England there is no statutory duty for councils to act on climate.",
-            "wales": "We’ve summarised the key findings from across the 22 councils in Wales to provide a Welsh overview of these councils’ results in the 2023 Council Climate Action Scorecards.Whilst the scores vary across Wales, it is noticeable that, of the lowest scoring councils in the UK, none are Welsh or Scottish. And, whilst most legislation is the same across all 4 nations, in Wales in 2017, the Welsh Government set the ambition of achieving a carbon neutral public sector by 2030, which includes Welsh councils.",
-            "scotland": "We've summarised the key findings from across the councils in Scotland to provide a Scottish overview of these councils' results in the 2023 Council Climate Action Scorecards. Whilst the scores vary across Scotland, it is noticeable that, of the lowest scoring councils in the UK, none are Welsh or Scottish. Whilst most legislation is the same across all 4 nations, in Scotland they have set a net zero target for 2045 and Scottish councils have a statutory duty to contribute towards this, as well as to report on their emissions.",
-            "northern-ireland": "We’ve summarised the key findings from the 2023 Council Climate Action Scorecards  to provide an overview of Northern Irish councils’ climate action. The scores vary across Northern Ireland, and on average, Northern Irish councils score lower than other nations in the UK. Northern Irish councils have fewer powers than other councils in the UK in relation to schools, housing and transport. Whilst most legislation is the same across all four nations, Northern Irish and English councils (unlike in Wales and Scotland) do not have a statutory duty to work towards net zero across their whole operations or council area."
+        nations = {
+            "england": {
+                "slug": "england",
+                "name": "England",
+                "description": """
+                    We’ve summarised the key findings from across the 324 English councils and mayoral authorities to provide an overview of the results from the 2025 Council Climate Action Scorecards.
+
+                    Whilst the scores vary across England, it is noticeable that, of the lowest scoring councils in the UK, 80% are in England. There are low scoring councils across all four types of English authorities: district, county, single tier and mayoral, with at least 10% of councils across each type of English authority scoring 20% or below. And, whilst most legislation is the same across all four nations, in England there is no statutory duty for councils to act on climate.
+                """,
+            },
+            "scotland": {
+                "slug": "scotland",
+                "name": "Scotland",
+                "description": """
+                    We've summarised the key findings from across the councils in Scotland to provide a Scottish overview of these councils' results in the 2025 Council Climate Action Scorecards.
+
+                    Whilst the scores vary across Scotland, it is noticeable that, of the lowest scoring councils in the UK, none are Welsh or Scottish. Whilst most legislation is the same across all 4 nations, in Scotland they have set a net zero target for 2045 and Scottish councils have a statutory duty to contribute towards this, as well as to report on their emissions.
+                """,
+            },
+            "northern-ireland": {
+                "slug": "northern-ireland",
+                "name": "Northern Ireland",
+                "description": """
+                    We’ve summarised the key findings from the 2025 Council Climate Action Scorecards  to provide an overview of Northern Irish councils’ climate action.
+
+                    The scores vary across Northern Ireland, and on average, Northern Irish councils score lower than other nations in the UK. Northern Irish councils have fewer powers than other councils in the UK in relation to schools, housing and transport. Whilst most legislation is the same across all four nations, Northern Irish and English councils (unlike in Wales and Scotland) do not have a statutory duty to work towards net zero across their whole operations or council area.
+                """,
+            },
+            "wales": {
+                "slug": "wales",
+                "name": "Wales",
+                "description": """
+                    We’ve summarised the key findings from across the 22 councils in Wales to provide a Welsh overview of these councils’ results in the 2025 Council Climate Action Scorecards.
+
+                    Whilst the scores vary across Wales, it is noticeable that, of the lowest scoring councils in the UK, none are Welsh or Scottish. And, whilst most legislation is the same across all 4 nations, in Wales in 2017, the Welsh Government set the ambition of achieving a carbon neutral public sector by 2030, which includes Welsh councils.
+                """,
+            },
         }
 
         social_graphics = {
@@ -1690,8 +1723,20 @@ class NationDetailView(TemplateView):
             },
         }
 
-        context['nation_name'] = nation_name
-        context['nation_description'] = nation_description.get(nation_name)
-        context['social_graphics'] = social_graphics.get(nation_name)
-        context['plan_year'] = self.request.year
+        nation = nations.get(self.kwargs["nation_name"].lower())
+
+        if not nation:
+            raise Http404("Page not found")
+
+        context["nation"] = nation
+        context["social_graphics"] = social_graphics.get(nation["slug"])
+        context["plan_year"] = self.request.year
+        context["page_title"] = nation["name"]
+
+        # TODO
+        context["authority_type_label"] = None
+        context["sorted_by"] = None
+        context["scoring_group"] = None
+        context["council_data"] = []
+
         return context
