@@ -14,13 +14,13 @@
                 {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
                 <a href="{% url 'scoring:nations_list' %}">Nations</a>
                 {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
-                <span>{{ nation_name|title }}</span>
+                <span>{{ nation.name }}</span>
             </div>
             <h1 class="display-1 mb-2">
                 <p class="fs-3 gradient-text version-year d-block lh-1 fw-bold mb-0">Action Scorecards {{ plan_year }}</p>
-                {{ nation_name|title }}
+                {{ nation.name }}
             </h1>
-            <p class="w-lg-50">{{ nation_description }}</p>
+            <div class="w-lg-50">{{ nation.description | linebreaks }}</div>
         </div>
     </div>
 
@@ -91,9 +91,9 @@
     <div class="container home pt-5">
         <div class="row">
             <div class="mb-3 mb-lg-0 col-12">
-                {% if nation_name == 'england' %}
+              {% if nation.slug == 'england' %}
                 <h3 class="fs-6 mb-3 lh-1">Load a Scorecard by council type</h3>
-                {% endif %}
+              {% endif %}
                 {% include 'scoring/includes/main-filter.html' %}
             </div>
         </div>
