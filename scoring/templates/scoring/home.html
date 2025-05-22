@@ -139,9 +139,9 @@
                                 </td>
                                 {% if previous_year %}
                                     {% if score.change < 0 %}
-                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning position-static">&#9660; {{ score.change }}</td>
+                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning position-static">&#9660; {{ score.change|floatformat:"0" }}</td>
                                     {% elif score.change > 0 %}
-                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; {{ score.change }}</td>
+                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; {{ score.change|floatformat:"0" }}</td>
                                     {% elif score.change == 0 %}
                                         <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">--</td>
                                     {% else %}
