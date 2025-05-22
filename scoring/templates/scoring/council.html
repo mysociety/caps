@@ -319,7 +319,7 @@
                           <div class="card">
                               <dt class="card-header fs-7 py-1">Difference</dt>
                               <dd class="card-body text-success py-2 mb-0 text-center">
-                                {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
+                                {% include "scoring/includes/integer_score_change.html" with change=section.change %}
                               </dd>
                           </div>
                           {% endif %}
@@ -362,7 +362,7 @@
                   <td class="js-previous-year-score display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
 
                   <td class="display-only-large-up">
-                      {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
+                      {% include "scoring/includes/integer_score_change.html" with change=section.change %}
                   </td>
                 {% endif %}
               {% else %}
@@ -372,7 +372,7 @@
                 {% if plan_score.previous_year %}
                   <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
                   <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
-                      {% include "scoring/includes/percentage_score_change.html" with change=section.change %}
+                      {% include "scoring/includes/integer_score_change.html" with change=section.change %}
                   </td>
                 {% else %}
                   <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
@@ -387,7 +387,7 @@
                 {% if plan_score.previous_year %}
                   <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">{{ comparison.previous_score|floatformat:0 }}%</td>
                   <td class="display-only-large-up border-end border-bottom border-opacity-25 border-primary text-center">
-                      {% include "scoring/includes/percentage_score_change.html" with change=comparison.change %}
+                      {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
                   </td>
                   {% endif %}
               {% endfor %}
@@ -487,7 +487,7 @@
                   </td>
 
                   <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
-                      {% include "scoring/includes/percentage_score_change.html" with change=previous_diff %}
+                      {% include "scoring/includes/integer_score_change.html" with change=previous_diff %}
                   </td>
                   {% else %}
                   <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
@@ -505,7 +505,7 @@
                   </td>
 
                   <td class="display-only-large-up text-center border-bottom border-opacity-25 border-primary">
-                      {% include "scoring/includes/percentage_score_change.html" with change=comparison.change %}
+                      {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
                   </td>
                   {% endif %}
               {% endfor %}

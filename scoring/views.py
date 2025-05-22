@@ -349,15 +349,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                         ).values("weighted_total")
                     )
                 )
-                .annotate(
-                    change=(
-                        (
-                            (F("weighted_total") - F("previous_total"))
-                            / F("previous_total")
-                        )
-                        * 100
-                    )
-                )
+                .annotate(change=(F("weighted_total") - F("previous_total")))
                 .order_by("council__name")
             )
             comparison_sections = PlanSectionScore.sections_for_plans(
