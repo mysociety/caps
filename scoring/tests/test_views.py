@@ -596,10 +596,9 @@ class TestPreviousYearAnswerView(TestCase):
                     ],
                     "comparisons": [],
                     "non_negative_max": 18,
-                    "change": 20.0,
                     "negative_points": 0,
                     "previous_score": 15.0,
-                    "change": 20.0,
+                    "change": 3.0,
                     "avg": 14.3,
                 },
                 {
