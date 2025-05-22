@@ -405,10 +405,54 @@ forEachElement('#js-toggle-previous-year-score', function(el) {
     });
 });
 
+var toggleCheckbox = document.getElementById('js-toggle-previous-year-difference');
+if (toggleCheckbox) {
+    toggleCheckbox.addEventListener('change', function() {
+      var isChecked = this.checked;
+      
+      forEachElement('.js-previous-year-difference-header', function(header) {
+        header.setAttribute('colspan', isChecked ? '2' : '1');
+      });
+      
+      forEachElement('.js-previous-year-score-difference', function(element) {
+        element.style.display = isChecked ? 'revert' : 'none';
+      });
+
+      forEachElement('.js-previous-year-score-difference-table', function(table) {
+        table.setAttribute('has-difference', isChecked ? 'true' : 'false');
+      });
+
+      this.setAttribute('aria-checked', isChecked);
+    });
+}
+
+// Mobile category selector for Homepage table
+forEachElement('.js-category-select', function(categorySelect) {
+    const announcementElement = document.querySelector('.js-category-select-announcement');
+
+    categorySelect.addEventListener('change', function() {
+      const selectedValue = this.value;
+      const selectedText = this.options[this.selectedIndex].text;
+
+      if (announcementElement) {
+        announcementElement.textContent = 'Now showing: ' + selectedText;
+      }
+
+      forEachElement('.js-score-row', function(element) {
+        element.style.display = 'none';
+      });
+
+      forEachElement('.' + selectedValue, function(element) {
+        element.style.display = 'revert';
+      });
+    });
+});
+
 function ajaxLoadCouncilTypeScorecard(url) {
     const selectors = [
       '#home-page-main-filter',
-      '.scorecard-table'
+      '.scorecard-table',
+      '.scorecard-table-mobile'
     ];
     
     selectors.forEach(selector => {
