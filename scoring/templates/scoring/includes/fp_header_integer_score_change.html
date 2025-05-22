@@ -1,7 +1,7 @@
 {% if change < 0 %}
-    <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning bg-primary-100"><span class="fs-8">&#9660;</span> {{ change }}</th>
+    <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning bg-primary-100"><span class="fs-8">&#9660;</span> {{ change|floatformat:"0" }}</th>
 {% elif change > 0 %}
-    <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> {{ change }}</th>
+    <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> {{ change|floatformat:"0" }}</th>
 {% elif change == 0 %}
     <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference bg-primary-100"><span class="fs-8">--</span> {{ change }}</th>
 {% else %}

@@ -1,7 +1,7 @@
 {% if change < 0 %}
-  <span class="badge align-text-bottom bg-red-100 text-danger">&#8595; {{ change }}</span>
+  <span class="badge align-text-bottom bg-red-100 text-danger">&#8595; {{ change|floatformat:"0" }}</span>
 {% elif change > 0 %}
-  <span class="badge align-text-bottom bg-green-100 text-success">&#8593; {{ change }}</span>
+  <span class="badge align-text-bottom bg-green-100 text-success">&#8593; {{ change|floatformat:"0" }}</span>
 {% elif change == 0 %}
   <span class="badge align-text-bottom bg-gray-300 text-dark">--</span>
 {% else %}
