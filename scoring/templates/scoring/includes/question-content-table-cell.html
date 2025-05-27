@@ -9,37 +9,31 @@
         <div class="col-11">
             {{ question_text.strip | linebreaks }}
 
-            {% comment %} Mobile version {% endcomment %}
-            {% comment %} TODO for Section page: Is it possible to display this info for the council selected when users use 'Show questions for a specific council' {% endcomment %}
             <dl class="d-lg-none mb-3 d-flex flex-row gap-3">
                 <div class="card">
-                    <dt class="card-header fs-7">2025</dt>
+                    <dt class="card-header fs-7">{{ plan_score.year }}</dt>
                     <dd class="card-body text-center py-2 mb-0">
                         {{ answer.score|format_mark }}/{{ answer.max }}
                     </dd>
                 </div>
+                {% if plan_score.previous_year %}
                 <div class="card">
-                    {% comment %} TODO: Add previous year dynamically or we can just hardcode it. {% endcomment %}
-                    <dt class="card-header fs-7">2023</dt>
-                    {% comment %} TODO: Pull previous year score {% endcomment %}
-                    {% comment %} TODO: IF No difference: display '--' {% endcomment %}
-                    {% comment %} TODO: IF NA(Question didn't exist previous version): Change text-success to text-dark {% endcomment %}
+                    <dt class="card-header fs-7">{{ plan_score.previous_year.year }}</dt>
                     <dd class="card-body text-center py-2 mb-0">
-                        {{ answer.score|format_mark }}/{{ answer.max }}
+                    {% if answer.previous_score is not None %}
+                      {{ answer.previous_score|format_mark }}/{{ answer.previous_max }}
+                    {% else %}
+                      NA
+                    {% endif %}
                     </dd>
                 </div>
                 <div class="card">
                     <dt class="card-header fs-7">Difference</dt>
-                    {% comment %} TODO: IF Negative difference: Change text-success to text-danger  {% endcomment %}
-                    {% comment %} TODO: IF Negative difference: Change &#9652; to &#9662; {% endcomment %}
-                    {% comment %} TODO: IF No difference: Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF No difference: display '--' {% endcomment %}
-                    {% comment %} TODO: IF NA(Question didn't exist previous version): Change text-success to text-dark {% endcomment %}
-                    {% comment %} TODO: IF NA(Question didn't exist previous version): display "NA" {% endcomment %}
                     <dd class="card-body text-success py-2 mb-0 text-center">
-                        &#9652; 1
+                      {% include "scoring/includes/integer_score_change.html" with change=answer.change %}
                     </dd>
                 </div>
+                {% endif %}
             </dl>
 
             {% if question_type == "negative" %}
