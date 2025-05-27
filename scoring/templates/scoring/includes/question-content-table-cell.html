@@ -69,7 +69,7 @@
                     <dd class="col-sm-8">{{ how_marked }}</dd>
                     <dt class="col-sm-4">Question weight</dt>
                     <dd class="col-sm-8">{{ weighting }}</dd>
-                    {% if evidence_links != 'CouncilTypeOnly' %}
+                    {% if evidence_links != 'CouncilTypeOnly' and answer.score != 0 %}
                     <dt class="col-sm-4">Evidence</dt>
                     <dd class="col-sm-8">
                       {% for link in evidence_links %}
@@ -77,6 +77,12 @@
                       {% empty %}
                         No evidence available.
                       {% endfor %}
+                    </dd>
+                    {% endif %}
+                    {% if answer.score == 0 %}
+                    <dt class="col-sm-4">Evidence</dt>
+                    <dd class="col-sm-8">
+                        {{ answer.answer }}
                     </dd>
                     {% endif %}
                 </dl>
