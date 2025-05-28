@@ -21,7 +21,7 @@ from caps.models import Council, PlanDocument, Promise
 from caps.utils import gen_natsort_lamda
 from caps.views import BaseLocationResultsView
 from conf.social_graphics import social_graphics
-from scoring.filters import PlanScoreFilter, QuestionScoreFilter
+from scoring.filters import NationPlanScoreFilter, PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort, ScoringSortCA
 from scoring.mixins import (
     AdvancedFilterMixin,
@@ -68,13 +68,106 @@ class PrivacyView(TemplateView):
         return context
 
 
-@method_decorator(cache_control(**cache_settings), name="dispatch")
-class HomePageView(
+class BaseCouncilListView(
     PrivateScorecardsAccessMixin,
     SearchAutocompleteMixin,
     AdvancedFilterMixin,
     FilterView,
 ):
+    def get_missing_councils(self, council_ids, scoring_group):
+        return []
+
+    def get_averages(self, context):
+        scoring_group = self.get_scoring_group()
+        country = self.kwargs.get("nation_name")
+        if country:
+            country = Council.country_code(country)
+
+        averages = PlanSection.get_average_scores(
+            scoring_group=scoring_group,
+            filter=context.get("filter_params", None),
+            year=self.request.year.year,
+            country=country,
+        )
+
+        if self.request.year.previous_year:
+            previous_averages = PlanSection.get_average_scores(
+                scoring_group=scoring_group,
+                filter=context.get("filter_params", None),
+                year=self.request.year.previous_year.year,
+            )
+            for section in averages.keys():
+                if section != "total":
+                    averages[section]["change"] = (
+                        averages[section]["weighted"]
+                        - previous_averages[section]["weighted"]
+                    )
+
+        section_averages = []
+        for code in sorted(averages.keys()):
+            if code != "total":
+                section_averages.append(averages[code])
+
+        return averages, section_averages
+
+    def get_council_data(self, context):
+        scoring_group = self.get_scoring_group()
+        councils = context["object_list"].values()
+
+        all_scores = PlanSectionScore.get_all_council_scores(
+            plan_year=self.request.year.year, as_list=True
+        )
+
+        councils = list(councils.all())
+        council_ids = []
+        out = True
+        for council in councils:
+            council_ids.append(council["council_id"])
+            if out:
+                out = False
+            council["all_scores"] = all_scores[council["council_id"]]
+            if council["score"] is not None:
+                council["percentage"] = council["score"]
+            else:
+                council["percentage"] = 0
+
+        if context.get("filter_params", None) is None:
+            missing_councils = self.get_missing_councils(council_ids, scoring_group)
+
+            for council in missing_councils:
+                councils.append(
+                    {
+                        "score": None,
+                        "name": council.name,
+                        "slug": council.slug,
+                        "authority_code": council.authority_code,
+                        "top_performer": None,
+                    }
+                )
+        return councils
+
+    def get_sorted_councils(self, form, councils):
+        sorted_by = None
+        if form.is_valid():
+            sort = form.cleaned_data["sort_by"]
+            if sort != "":
+                sorted_by = sort
+                councils = sorted(
+                    councils,
+                    key=lambda council: (
+                        0
+                        if council["score"] == 0 or council["score"] is None
+                        else council["all_scores"][sort]["score"]
+                    ),
+                    reverse=True,
+                )
+                councils = sorted(councils, key=itemgetter("slug"))
+
+        return sorted_by, councils
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class HomePageView(BaseCouncilListView):
     filterset_class = PlanScoreFilter
     template_name = "scoring/home.html"
 
@@ -154,11 +247,8 @@ class HomePageView(
 
         context = self.setup_filter_context(context, context["filter"], scoring_group)
 
-        averages = PlanSection.get_average_scores(
-            scoring_group=scoring_group,
-            filter=context.get("filter_params", None),
-            year=self.request.year.year,
-        )
+        averages, section_averages = self.get_averages(context)
+
         all_scores = PlanSectionScore.get_all_council_scores(
             plan_year=self.request.year.year, as_list=True
         )
@@ -1621,7 +1711,7 @@ class NationListView(TemplateView):
         )
         scores = (
             PlanScore.objects.filter(
-                year=2025,
+                year=self.request.year.year,
                 council__authority_type__in=council_types,
             )
             .values("council__country")
@@ -1658,7 +1748,6 @@ class NationListView(TemplateView):
             {
                 "slug": "northern-ireland",
                 "name": "Northern Ireland",
-                "statistic_value": "XX%",  # TODO
                 "statistic_value": f"{country_averages['Northern Ireland']}%",
                 "statistic_label": "Average score",
                 "description": "We've summarised the key findings from the 2025 Council Climate Action Scorecards to provide a comprehensive overview of Northern Irish councils' climate action progress.",
@@ -1675,16 +1764,74 @@ class NationListView(TemplateView):
         ]
 
         context["page_title"] = "Nations"
-        context["plan_year"] = 2025
+        context["plan_year"] = self.request.year
 
         return context
 
 
-class NationDetailView(TemplateView):
+class NationDetailView(BaseCouncilListView):
+    filterset_class = NationPlanScoreFilter
     template_name = "scoring/nation_detail.html"
+
+    def get_scoring_group(self):
+        country = self.kwargs["nation_name"]
+        scoring_group_slug = self.kwargs.get("council_type", "")
+        group = None
+
+        if country == "england":
+            try:
+                group = Council.SCORING_GROUPS[scoring_group_slug]
+            except:
+                group = Council.SCORING_GROUPS["single"]
+        elif country == "northern-ireland":
+            group = Council.SCORING_GROUPS["northern-ireland"]["types"]
+        else:
+            group = Council.SCORING_GROUPS["single"]
+
+        return group
+
+    def get_queryset(self):
+        nation = self.kwargs["nation_name"]
+        scoring_group = self.get_scoring_group()
+
+        filters = {
+            "year": self.request.year.year,
+            "council__country": Council.country_code(nation),
+            "council__authority_type__in": scoring_group["types"],
+        }
+
+        qs = (
+            PlanScore.objects.filter(**filters)
+            .annotate(
+                score=F("weighted_total"),
+                name=F("council__name"),
+                slug=F("council__slug"),
+                authority_code=F("council__authority_code"),
+            )
+            .order_by(F("weighted_total").desc(nulls_last=True))
+        )
+
+        return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        scoring_group = self.get_scoring_group()
+        councils = self.get_council_data(context)
+        averages, section_averages = self.get_averages(context)
+        context["averages"] = averages
+        context["section_averages"] = section_averages
+        context = self.setup_filter_context(context, context["filter"], scoring_group)
+
+        form_class = ScoringSort
+        form = form_class(self.request.GET)
+        sorted_by, councils = self.get_sorted_councils(form, councils)
+
+        context["council_data"] = councils
+        context["form"] = form
+        context["sorted_by"] = sorted_by
+        nation = self.kwargs["nation_name"]
+        context["section_link_template"] = "scoring/includes/section_link_current.html"
 
         nations = {
             "england": {
@@ -1805,11 +1952,6 @@ class NationDetailView(TemplateView):
         context["social_graphics"] = social_graphics.get(nation["slug"])
         context["plan_year"] = self.request.year
         context["page_title"] = nation["name"]
-
-        # TODO
-        context["authority_type_label"] = None
-        context["sorted_by"] = None
-        context["scoring_group"] = None
-        context["council_data"] = []
+        context["current_page"] = "nation-detail"
 
         return context
