@@ -1619,6 +1619,26 @@ class NationListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        council_types = (
+            Council.SCORING_GROUPS["single"]["types"]
+            + Council.SCORING_GROUPS["northern-ireland"]["types"]
+        )
+        scores = (
+            PlanScore.objects.filter(
+                year=2025,
+                council__authority_type__in=council_types,
+            )
+            .values("council__country")
+            .annotate(avg=Avg("weighted_total"))
+            .values("council__country", "avg")
+        )
+
+        country_averages = {}
+        for score in scores:
+            country_averages[Council.country_description(score["council__country"])] = (
+                round(score["avg"], None)
+            )
+
         # Theoretically we could get the country names (but not slugs)
         # out of models.Council.COUNTRY_CHOICES, but it doesn’t seem worth it,
         # when we need to add in so much extra stuff anyway.
@@ -1626,7 +1646,7 @@ class NationListView(TemplateView):
             {
                 "slug": "england",
                 "name": "England",
-                "statistic_value": "XX%",  # TODO
+                "statistic_value": f"{country_averages['England']}%",
                 "statistic_label": "Average Single Tier council score",
                 "description": "We've summarised the key findings from across the 324 English councils and mayoral authorities to provide an overview of the results from the 2025 Council Climate Action Scorecards.",
                 "cta_label": "View English scores",
@@ -1634,7 +1654,7 @@ class NationListView(TemplateView):
             {
                 "slug": "scotland",
                 "name": "Scotland",
-                "statistic_value": "XX%",  # TODO
+                "statistic_value": f"{country_averages['Scotland']}%",
                 "statistic_label": "Average score",
                 "description": "We've summarised the key findings from across the councils in Scotland to provide a Scottish overview of these councils' results in the 2025 Council Climate Action Scorecards.",
                 "cta_label": "View Scottish scores",
@@ -1643,6 +1663,7 @@ class NationListView(TemplateView):
                 "slug": "northern-ireland",
                 "name": "Northern Ireland",
                 "statistic_value": "XX%",  # TODO
+                "statistic_value": f"{country_averages['Northern Ireland']}%",
                 "statistic_label": "Average score",
                 "description": "We've summarised the key findings from the 2025 Council Climate Action Scorecards to provide a comprehensive overview of Northern Irish councils' climate action progress.",
                 "cta_label": "View Northern Irish scores",
@@ -1650,7 +1671,7 @@ class NationListView(TemplateView):
             {
                 "slug": "wales",
                 "name": "Wales",
-                "statistic_value": "XX%",  # TODO
+                "statistic_value": f"{country_averages['Wales']}%",
                 "statistic_label": "Average score",
                 "description": "We've summarised the key findings from across the 22 councils in Wales to provide a Welsh overview of these councils' results in the 2025 Council Climate Action Scorecards.",
                 "cta_label": "View Welsh scores",
@@ -1658,6 +1679,7 @@ class NationListView(TemplateView):
         ]
 
         context["page_title"] = "Nations"
+        context["plan_year"] = 2025
 
         return context
 
@@ -1720,44 +1742,44 @@ class NationDetailView(TemplateView):
                     {
                         "src_facebook": "scoring/img/social-graphics/england/facebook-1@2x.png",
                         "src_instagram": "scoring/img/social-graphics/england/instagram-1@2x.png",
-                        "alt": "England Leading the Way; 79% of councils have reduced mowing or created wildflower habitat in their area; 85% of councils, including all county councils, have a named climate Portfolio Holder"
+                        "alt": "England Leading the Way; 79% of councils have reduced mowing or created wildflower habitat in their area; 85% of councils, including all county councils, have a named climate Portfolio Holder",
                     },
                     {
                         "src_facebook": "scoring/img/social-graphics/england/facebook-2@2x.png",
                         "src_instagram": "scoring/img/social-graphics/england/instagram-2@2x.png",
-                        "alt": "England Leading the Way; 83% of councils help residents retrofit their homes; 81% of councils have a Climate Action Plan with SMART targets"
+                        "alt": "England Leading the Way; 83% of councils help residents retrofit their homes; 81% of councils have a Climate Action Plan with SMART targets",
                     },
                     {
                         "src_facebook": "scoring/img/social-graphics/england/facebook-3@2x.png",
                         "src_instagram": "scoring/img/social-graphics/england/instagram-3@2x.png",
-                        "alt": "England Room for Improvement; 60% of English planning authorities have set the highest water efficiency standards for new builds"
+                        "alt": "England Room for Improvement; 60% of English planning authorities have set the highest water efficiency standards for new builds",
                     },
                     {
                         "src_facebook": "scoring/img/social-graphics/england/facebook-4@2x.png",
                         "src_instagram": "scoring/img/social-graphics/england/instagram-4@2x.png",
-                        "alt": "England Room for Improvement; 62% of transport authorities have low-emission buses used on routes; 62% of councils produced an annual Climate Action Plan update report"
+                        "alt": "England Room for Improvement; 62% of transport authorities have low-emission buses used on routes; 62% of councils produced an annual Climate Action Plan update report",
                     },
                     {
                         "src_facebook": "scoring/img/social-graphics/england/facebook-5@2x.png",
                         "src_instagram": "scoring/img/social-graphics/england/instagram-5@2x.png",
-                        "alt": "England Falling Behind; 17% of English planning authorities have set net zero standards for building new housing; 7% of councils have adopted a detailed decision making process that puts the climate crisis at the heart of all council decisions"
+                        "alt": "England Falling Behind; 17% of English planning authorities have set net zero standards for building new housing; 7% of councils have adopted a detailed decision making process that puts the climate crisis at the heart of all council decisions",
                     },
                     {
                         "src_facebook": "scoring/img/social-graphics/england/facebook-6@2x.png",
                         "src_instagram": "scoring/img/social-graphics/england/instagram-6@2x.png",
-                        "alt": "England Falling Behind; Only 7 English councils recycle more than 60% of their waste; No councils are above 70% waste recycling"
+                        "alt": "England Falling Behind; Only 7 English councils recycle more than 60% of their waste; No councils are above 70% waste recycling",
                     },
                     {
                         "src_facebook": "scoring/img/social-graphics/england/facebook-7@2x.png",
                         "src_instagram": "scoring/img/social-graphics/england/instagram-7@2x.png",
-                        "alt": "England Falling Behind; East Devon is the only English council that produces less than 300kg of residual waste per household"
+                        "alt": "England Falling Behind; East Devon is the only English council that produces less than 300kg of residual waste per household",
                     },
                     {
                         "src_facebook": "scoring/img/social-graphics/england/facebook-8@2x.png",
                         "src_instagram": "scoring/img/social-graphics/england/instagram-8@2x.png",
-                        "alt": "England Average Score by Council Type; 35% for Single Tier, 29% for District, 35% for County, 45% for Mayoral Authority"
+                        "alt": "England Average Score by Council Type; 35% for Single Tier, 29% for District, 35% for County, 45% for Mayoral Authority",
                     },
-                ]
+                ],
             },
             "wales": {
                 "pdf": {
@@ -1771,9 +1793,10 @@ class NationDetailView(TemplateView):
                     {
                         "src_facebook": f"scoring/img/social-graphics/wales/facebook-{i}@2x.png",
                         "src_instagram": f"scoring/img/social-graphics/wales/instagram-{i}@2x.png",
-                        "alt": f"Wales Overview Graphic {i}"
-                    } for i in range(1, 6)  # Assuming 5 graphics
-                ]
+                        "alt": f"Wales Overview Graphic {i}",
+                    }
+                    for i in range(1, 6)  # Assuming 5 graphics
+                ],
             },
         }
 
