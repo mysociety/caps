@@ -89,6 +89,7 @@
     {% endif %} {% endcomment %}
 
     <div class="container home pt-5">
+        {% comment %}
         <div class="row">
             <div class="mb-3 mb-lg-0 col-12">
               {% if nation.slug == 'england' %}
@@ -97,16 +98,19 @@
                 {% include 'scoring/includes/main-filter.html' %}
             </div>
         </div>
+        {% endcomment %}
 
         <div class="my-5 mx-auto position-relative" style="max-width: 1440px;">
 
+            {% comment %}
             <div class="bg-gray-200 px-3 py-2 border">
                 {% include 'scoring/includes/jump-to-council.html' %}
             </div>
-            <div class="scorecard-table-wrapper border border-top-0">
+            {% endcomment %}
+            <div class="scorecard-table-wrapper border">
                 {% block "score_table" %}
                 <table class="scorecard-table">
-                    <thead>
+                    <thead class="position-sticky top-0 z-index-4">
                         <tr class="first-row position-sticky bg-white" style="z-index:30">
                             <th scope="col" class="bg-light position-sticky z-index-4">
                                 <div class="ms-4">
@@ -120,77 +124,24 @@
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-default="descending"></button>
                                 </div>
                             </th>
-                            <th scope="col">
-                                <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-1" href="{% url 'scoring:section' 's1_b_h' %}">Building &amp; Heating</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-1 {% if sorted_by == 's1_b_h' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-2" href="{% url 'scoring:section' 's2_tran' %}">Transport</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-2 {% if sorted_by == 's2_tran' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-3" href="{% url 'scoring:section' 's3_p_lu' %}">Planning &amp; Land Use</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-3 {% if sorted_by == 's3_p_lu' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-4" href="{% url 'scoring:section' 's4_g_f' %}">Governance &amp; Finance</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-4 {% if sorted_by == 's4_g_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-5" href="{% url 'scoring:section' 's5_bio' %}">Biodiversity</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-5 {% if sorted_by == 's5_bio' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-6" href="{% url 'scoring:section' 's6_c_e' %}">Collaboration &amp; Engagement</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-6 {% if sorted_by == 's6_c_e' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div class="section-title">
-                                    <a class="text-decoration-none fw-bold link-category-7" href="{% url 'scoring:section' 's7_wr_f' %}">Waste Reduction &amp; Food</a>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-7 {% if sorted_by == 's7_wr_f' %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
-                                </div>
-                            </th>
+                            {% for section in section_averages %}
+                                <th scope="col" colspan="1" class="pb-1 js-previous-year-difference-header">
+                                    <div class="section-title">
+                                        {% include section_link_template with section_code=section.code section_name=section.title category_number=forloop.counter %}
+                                        <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-{{ forloop.counter }} {% if sorted_by == section.code %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                    </div>
+                                </th>
+                            {% endfor %}
                         </tr>
                         <tr class="second-row position-sticky z-index-4">
                             <th scope="col" style="min-width:250px" class="bg-primary-100 position-sticky z-index-4">
-                                <span class="ms-4 fs-6 fw-bold d-block">{{ scoring_group.name }} average</span>
+                                <span class="ms-4 fs-6 fw-bold d-block">{{ nation.name }} average</span>
                             </th>
-                            <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4 bg-green-l2">              
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
-                            </th>
-                            <th scope="col" class="bg-primary-100 category-1 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s1_b_h.weighted average=1 %}
-                            </th>
-                            <th scope="col" class="bg-primary-100 category-2 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s2_tran.weighted average=1 %}
-                            </th>
-                            <th scope="col" class="bg-primary-100 category-3 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s3_p_lu.weighted average=1 %}
-                            </th>
-                            <th scope="col" class="bg-primary-100 category-4 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s4_g_f.weighted average=1 %}
-                            </th>
-                            <th scope="col" class="bg-primary-100 category-5 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s5_bio.weighted average=1 %}
-                            </th>
-                            <th scope="col" class="bg-primary-100 category-6 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s6_c_e.weighted average=1 %}
-                            </th>
-                            <th scope="col" class="bg-primary-100 category-7 second-row">              
-                                {% include 'scoring/includes/score-bar.html' with percentage=averages.s7_wr_f.weighted average=1 %}
-                            </th>
+                            {% for section in section_averages %}
+                                <th scope="col" class="bg-primary-100 category-{{ forloop.counter }} second-row">
+                                    {% include 'scoring/includes/score-bar.html' with percentage=section.weighted average=1 %}
+                                </th>
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
@@ -199,11 +150,9 @@
                             <th scope="row" class="first-column position-sticky z-index-3 align-middle">
                                 <div class="d-flex flex-row align-items-center">
                                     {% if council.top_performer %}
-                                    <div class="top-performer">
-                                        <div class="hover-message">
-                                            <span>This is a top performer council.</span>
-                                        </div>
-                                    </div>
+                                        <button class="bg-transparent border-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Top performer council">
+                                            {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.2em' height='1.2em' %}
+                                        </button>
                                     {% else %}
                                         <div class="pe-4"></div>
                                     {% endif %}
@@ -214,42 +163,32 @@
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                             </th>
                           {% with scores=council.all_scores %}
-                          {% if council.score != 0 and council.score is not None %}
-                            <td scope="row" class="council-category-score category-1" data-sort-value="{{ scores.s1_b_h.score|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s1_b_h.weighted %}
-                            </td>
-                            <td scope="row" class="council-category-score category-2" data-sort-value="{{ scores.s2_tran.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s2_tran.weighted %}
-                            </td>
-                            <td scope="row" class="council-category-score category-3" data-sort-value="{{ scores.s3_p_lu.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s3_p_lu.weighted %}
-                            </td>
-                            <td scope="row" class="council-category-score category-4" data-sort-value="{{ scores.s4_g_f.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s4_g_f.weighted %}
-                            </td>
-                            <td scope="row" class="council-category-score category-5" data-sort-value="{{ scores.s5_bio.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s5_bio.weighted %}
-                            </td>
-                            <td scope="row" class="council-category-score category-6" data-sort-value="{{ scores.s6_c_e.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s6_c_e.weighted %}
-                            </td>
-                            <td scope="row" class="council-category-score category-7" data-sort-value="{{ scores.s7_wr_f.weighted|default:"0" }}">
-                                {% include 'scoring/includes/score-bar.html' with percentage=scores.s7_wr_f.weighted %}
-                            </td>
-                          {% elif council.score == 0 %}
-                            <td class="has-no-plan" colspan="7" data-sort-value="-1">
-                                Not scored: newly formed council since April 2023. This council will be assessed in future Scorecard editions.
-                            </td>
-                          {% for x in "123456" %}
-                            <td scope="row" data-sort-value="-1" hidden></td>
-                          {% endfor %}
-                          {% elif council.score is None %}
-                            <td class="has-no-plan" colspan="7" data-sort-value="-1">
-                                Due to technical issues, this council’s results are not yet available. They will be published soon.
-                            </td>
-                          {% for x in "123456" %}
-                            <td scope="row" data-sort-value="-1" hidden></td>
-                          {% endfor %}
+                            {% if council.score != 0 and council.score is not None %}
+                                {% for score in scores %}
+                                <td scope="row" class="council-category-score category-{{ forloop.counter }}" data-sort-value="{{ score.score|default:"0" }}">
+                                        <div class="score-bar">
+                                          {% if sort %}
+                                            <div class="sort-icon"></div>
+                                          {% endif %}
+                                          <span class="score-percentage">{{ score.weighted|floatformat:"0" }}%</span>
+                                          <div class="progress-bar" style="width: {{ score.weighted }}%;"></div>
+                                        </div>
+                                    </td>
+                                {% endfor %}
+                              {% elif council.score == 0 %}
+                                <td class="has-no-plan" colspan="7" data-sort-value="-1">
+                                    Not scored: newly formed council since April 2023. This council will be assessed in future Scorecard editions.
+                                </td>
+                              {% for x in "123456" %}
+                                <td scope="row" data-sort-value="-1" hidden></td>
+                              {% endfor %}
+                              {% elif council.score is None %}
+                                <td class="has-no-plan" colspan="7" data-sort-value="-1">
+                                    Due to technical issues, this council’s results are not yet available. They will be published soon.
+                                </td>
+                              {% for x in "123456" %}
+                                <td scope="row" data-sort-value="-1" hidden></td>
+                              {% endfor %}
                           {% endif %}
                           {% endwith %}
                         </tr>
