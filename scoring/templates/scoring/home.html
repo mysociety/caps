@@ -13,21 +13,24 @@
                 <span class="version-year d-block display-1 lh-1 fw-bold mb-0" style="mix-blend-mode: overlay">{{ plan_year }}</span>
                 Action Scorecards
             </h1>
-            <p class="mb-4" style="max-width: 650px;">Climate Emergency UK assessed all UK councils on the actions they've taken towards net zero. The Scorecard assessment consists of 91 questions or less, depending on council type, across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between January and August 2023.  
-            </p>
-            <a class="btn btn-outline-primary me-3 mb-3" href="{% url 'year_scoring:methodology' plan_year %}"> Learn more about the methodology</a>
-            {% if current_plan_year %}
-                <a href="{% url 'scoring:sections' %}" class="btn btn-outline-primary mb-3">Go to sections</a>
-            {% else %}
-                <a href="{% url 'year_scoring:sections' plan_year %}" class="btn btn-outline-primary mb-3">Go to sections</a>
-            {% endif %}
+            <p class="mb-4" style="max-width: 650px;">Climate Emergency UK assessed all UK councils on the actions they’ve taken towards net zero. The 2025 Action Scorecard assessment consists of 93 questions or less, depending on council type, across 7 different sections, created in consultation with over 90 different organisations and individuals. Each council was marked against these criteria and given a right to reply before the scores underwent a final audit. This work was completed between July 2024 and March 2025.</p>
+            <div class="d-flex flex-wrap gap-3">
+                <a class="btn btn-outline-primary" href="{% url 'year_scoring:methodology' plan_year %}"> Learn more about the methodology</a>
+              {% if current_plan_year %}
+                <a href="#TODO" class="btn btn-outline-primary">Go to Nations</a>
+                <a href="{% url 'scoring:sections' %}" class="btn btn-outline-primary">Go to sections</a>
+              {% else %}
+                <a href="#TODO" class="btn btn-outline-primary">Go to Nations</a>
+                <a href="{% url 'year_scoring:sections' plan_year %}" class="btn btn-outline-primary">Go to sections</a>
+              {% endif %}
+            </div>
         </div>
     </div>
 
     <div class="container home pt-5">
         <div class="row">
             <div class="mb-3 mb-lg-0 col-12">
-                <h3 class="fs-6 mb-3 lh-1">Load a Scorecard by council type</h3>
+                <h3 class="fs-6 mb-3 lh-1">Load Scorecards by council type</h3>
                 {% include 'scoring/includes/main-filter.html' %}
             </div>
         </div>
@@ -159,7 +162,7 @@
                           {% endfor %}
                           {% elif council.score is None %}
                             <td class="has-no-plan" colspan="7" data-sort-value="-1">
-                                Due to technical issues, this council’s results are not yet available. They will be published soon.
+                                We do not currently have a Scorecard for this {{ council.council_or_combined_authority }}
                             </td>
                           {% for x in "123456" %}
                             <td scope="row" data-sort-value="-1" hidden></td>
@@ -361,7 +364,7 @@
             </div>
 
             <p class="mt-4 mt-lg-5 mb-0">
-                <a href="https://climateemergency.uk/council-climate-action-scorecards-data-packages/" class="cta mx-auto">Click here</a> to buy the data that is available on this website in spreadsheet (.csv) format.
+                <a href="https://climateemergency.uk/action-scorecards/#data-packages" class="cta mx-auto">Click here</a> to buy the data that is available on this website in spreadsheet (.csv) format.
             </p>
         </div>    
     </div>
