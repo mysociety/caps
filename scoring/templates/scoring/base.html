@@ -81,6 +81,9 @@
                     <li id="sections-page" class="nav-item">
                         <a class="nav-link link-primary" href="{% url 'scoring:sections' %}">Sections</a>
                     </li>
+                    <li id="nations-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'scoring:nations_list' %}">Nations</a>
+                    </li>
                     <li id="methodology-page" class="nav-item">
                         <a class="nav-link link-primary" href="{% url 'scoring:methodology' %}">{{ plan_year }} Methodology</a>
                     </li>
@@ -96,6 +99,9 @@
                 {% else %}
                     <li id="sections-page" class="nav-item">
                         <a class="nav-link link-primary" href="{% url 'year_scoring:sections' plan_year %}">Sections</a>
+                    </li>
+                    <li id="nations-page" class="nav-item">
+                        <a class="nav-link link-primary" href="{% url 'year_scoring:nations_list' plan_year %}">Nations</a>
                     </li>
                     <li id="methodology-page" class="nav-item">
                         <a class="nav-link link-primary" href="{% url 'year_scoring:methodology' plan_year %}">{{ plan_year }} Methodology</a>
