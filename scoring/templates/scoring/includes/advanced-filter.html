@@ -15,20 +15,6 @@
         </select>
     </div>
 
-  {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
-    <div id="filterDeprivationIndex" class="d-flex flex-column justify-content-between">
-        <label for="imd_select" class="fs-7 mb-2">Index of multiple deprivation</label>
-        <select class="form-select form-select-sm form-select-show-modifications" id="imd_select" name="imdq">
-            <option value=""{% if filter_params.imdq == "" or filter_params.imdq is None %} selected{% endif %}>All</option>
-            <option value="1"{% if filter_params.imdq == 1 %} selected{% endif %}>1 (most deprived)</option>
-            <option value="2"{% if filter_params.imdq == 2 %} selected{% endif %}>2</option>
-            <option value="3"{% if filter_params.imdq == 3 %} selected{% endif %}>3</option>
-            <option value="4"{% if filter_params.imdq == 4 %} selected{% endif %}>4</option>
-            <option value="5"{% if filter_params.imdq == 5 %} selected{% endif %}>5 (least deprived)</option>
-        </select>
-    </div>
-  {% endif %}
-
   {% if filter_params.country == "1" or filter_params.country == "" or filter_params.country is None %}
     <div id="filterRegion" class="d-flex flex-column justify-content-between">
         <label for="region_select" class="fs-7 mb-2">Region</label>
@@ -59,9 +45,33 @@
     </div>
   {% endif %}
 
+    <div id="filterTotalPopulation" class="d-flex flex-column justify-content-between">
+        <label for="population_select" class="fs-7 mb-2">Total population</label>
+        <select class="form-select form-select-sm form-select-show-modifications" id="population_select" name="population">
+            <option value=""{% if filter_params.population == "" or filter_params.population is None %} selected{% endif %}>Any</option>
+          {% for option in population_filter %}
+            <option value="{{ option.0 }}"{% if filter_params.population == option.0 %} selected{% endif %}>{{ option.1 }}</option>
+          {% endfor %}
+        </select>
+    </div>
+
+  {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
+    <div id="filterDeprivationIndex" class="d-flex flex-column justify-content-between">
+        <label for="imd_select" class="fs-7 mb-2">Index of multiple deprivation</label>
+        <select class="form-select form-select-sm form-select-show-modifications" id="imd_select" name="imdq">
+            <option value=""{% if filter_params.imdq == "" or filter_params.imdq is None %} selected{% endif %}>All</option>
+            <option value="1"{% if filter_params.imdq == 1 %} selected{% endif %}>1 (most deprived)</option>
+            <option value="2"{% if filter_params.imdq == 2 %} selected{% endif %}>2</option>
+            <option value="3"{% if filter_params.imdq == 3 %} selected{% endif %}>3</option>
+            <option value="4"{% if filter_params.imdq == 4 %} selected{% endif %}>4</option>
+            <option value="5"{% if filter_params.imdq == 5 %} selected{% endif %}>5 (least deprived)</option>
+        </select>
+    </div>
+  {% endif %}
+
   {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
     <div id="filterPoliticalControl" class="d-flex flex-column justify-content-between">
-        <label for="control_select" class="fs-7 mb-2">Political control (Sept 2023)</label>
+        <label for="control_select" class="fs-7 mb-2">Current political control (June  2025)</label>
         <select class="form-select form-select-sm form-select-show-modifications" id="control_select" name="control">
             <option value=""{% if filter_params.control == "" or filter_params.control is None %} selected{% endif %}>All</option>
             <option value="Coalition/Minority"{% if filter_params.control == "Coalition/Minority" %} selected{% endif %}>Coalition/Minority</option>
@@ -74,14 +84,4 @@
         </select>
     </div>
   {% endif %}
-
-    <div id="filterTotalPopulation" class="d-flex flex-column justify-content-between">
-        <label for="population_select" class="fs-7 mb-2">Total population</label>
-        <select class="form-select form-select-sm form-select-show-modifications" id="population_select" name="population">
-            <option value=""{% if filter_params.population == "" or filter_params.population is None %} selected{% endif %}>Any</option>
-          {% for option in population_filter %}
-            <option value="{{ option.0 }}"{% if filter_params.population == option.0 %} selected{% endif %}>{{ option.1 }}</option>
-          {% endfor %}
-        </select>
-    </div>
 </div>
