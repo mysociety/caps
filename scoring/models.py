@@ -42,6 +42,12 @@ class PlanYear(models.Model):
         return str(self.year)
 
 
+class PlanYearConfig(models.Model):
+    year = models.ForeignKey(PlanYear, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    value = models.JSONField()
+
+
 class PlanScore(models.Model):
     """
     Overall score for a council's plan for a particular year
