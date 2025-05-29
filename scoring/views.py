@@ -1425,9 +1425,9 @@ class MethodologyView(
                     "council_types": types,
                     "description": question.section.long_description,
                     "is_combined": is_combined,
-                    "weightings": defaults.SECTION_WEIGHTINGS[
-                        question.section.description
-                    ],
+                    "weightings": defaults.get_config(
+                        "section_weightings", self.request.year.year
+                    )[question.section.description],
                     "questions": [],
                 }
 
@@ -1451,7 +1451,9 @@ class MethodologyView(
         sections.append(deepcopy(current_section))
         context["sections"] = sections
 
-        context["organisations"] = defaults.ORGANISATIONS
+        context["organisations"] = defaults.get_config(
+            "organisations", self.request.year.year
+        )
 
         context["canonical_path"] = self.request.path
         return context
@@ -1525,7 +1527,7 @@ class NationListView(TemplateView):
                 round(score["avg"], None)
             )
 
-        nations = defaults.NATIONS
+        nations = defaults.get_config("nations", self.request.year.year)
         for nation in nations:
             average = country_averages[nation["name"]]
             nation["statistic_value"] = f"{average}%"
@@ -1602,7 +1604,7 @@ class NationDetailView(BaseCouncilListView):
         context["section_link_template"] = "scoring/includes/section_link_current.html"
 
         nations = {}
-        for nation in defaults.NATIONS:
+        for nation in defaults.get_config("nations", self.request.year.year):
             nations[nation["slug"]] = nation
 
         nation = nations.get(self.kwargs["nation_name"].lower())
@@ -1611,9 +1613,9 @@ class NationDetailView(BaseCouncilListView):
             raise Http404("Page not found")
 
         context["nation"] = nation
-        context["social_graphics"] = defaults.NATIONS_SOCIAL_GRAPHICS.get(
-            nation["slug"]
-        )
+        context["social_graphics"] = defaults.get_config(
+            "nations_social_graphics", self.request.year.year
+        ).get(nation["slug"])
         context["plan_year"] = self.request.year
         context["page_title"] = nation["name"]
         context["current_page"] = "nation-detail"
