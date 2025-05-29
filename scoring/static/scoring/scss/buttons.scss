@@ -63,3 +63,25 @@ button {
     $active-border: tint-color($color-twitter-black, $btn-active-border-shade-amount)
   );
 }
+
+.btn-linkedin {
+  @include button-variant(
+    $color-linkedin-blue,
+    $color-linkedin-blue,
+    $hover-background: shade-color($color-linkedin-blue, $btn-hover-bg-shade-amount),
+    $hover-border: shade-color($color-linkedin-blue, $btn-hover-border-shade-amount),
+    $active-background: shade-color($color-linkedin-blue, $btn-active-bg-shade-amount),
+    $active-border: shade-color($color-linkedin-blue, $btn-active-border-shade-amount)
+  );
+}
+
+.btn-bluesky {
+  @include button-variant(
+    $color-bluesky-blue,
+    $color-bluesky-blue,
+    $hover-background: shade-color($color-bluesky-blue, $btn-hover-bg-shade-amount),
+    $hover-border: shade-color($color-bluesky-blue, $btn-hover-border-shade-amount),
+    $active-background: shade-color($color-bluesky-blue, $btn-active-bg-shade-amount),
+    $active-border: shade-color($color-bluesky-blue, $btn-active-border-shade-amount)
+  );
+}
