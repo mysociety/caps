@@ -1779,6 +1779,17 @@ class NationDetailView(BaseCouncilListView):
             .order_by(F("weighted_total").desc(nulls_last=True))
         )
 
+        if self.request.year.previous_year:
+            qs = qs.annotate(
+                previous_percentage=Subquery(
+                    PlanScore.objects.filter(
+                        council=OuterRef("council"),
+                        year=self.request.year.previous_year.year,
+                    ).values("weighted_total")
+                ),
+                change=(F("weighted_total") - F("previous_percentage")),
+            )
+
         return qs
 
     def get_context_data(self, **kwargs):
@@ -1811,6 +1822,7 @@ class NationDetailView(BaseCouncilListView):
             raise Http404("Page not found")
 
         context["nation"] = nation
+        context["previous_year"] = self.request.year.previous_year
         context["social_graphics"] = defaults.get_config(
             "nations_social_graphics", self.request.year.year
         ).get(nation["slug"])
