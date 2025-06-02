@@ -102,11 +102,9 @@
 
         <div class="my-5 mx-auto position-relative" style="max-width: 1440px;">
 
-            {% comment %}
             <div class="bg-gray-200 px-3 py-2 border">
                 {% include 'scoring/includes/jump-to-council.html' %}
             </div>
-            {% endcomment %}
             <div class="scorecard-table-wrapper border">
                 {% block "score_table" %}
                 <table class="scorecard-table">
@@ -118,14 +116,23 @@
                                     <p class="mb-0 fs-8">Council Climate Action Scorecard</p>
                                 </div>
                             </th>
-                            <th scope="col" class="position-sticky total-score" style="z-index:2">
+                            {% if previous_year %}
+                            <th scope="col" colspan="2" class="total-score js-previous-year-difference-header position-sticky pb-1 z-index-2">
+                            {% else %}
+                            <th scope="col" colspan="1" class="total-score js-previous-year-difference-header position-sticky pb-1 z-index-2">
+                            {% endif %}
                                 <div class="section-title">
                                     <span class="text-center fw-bold">Total Score</span>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-default="descending"></button>
                                 </div>
                             </th>
+
                             {% for section in section_averages %}
-                                <th scope="col" colspan="1" class="pb-1 js-previous-year-difference-header">
+                                {% if previous_year %}
+                                    <th scope="col" colspan="2" class="pb-1 js-previous-year-difference-header">
+                                {% else %}
+                                    <th scope="col" colspan="1" class="pb-1 js-previous-year-difference-header">
+                                {% endif %}
                                     <div class="section-title">
                                         {% include section_link_template with section_code=section.code section_name=section.title category_number=forloop.counter %}
                                         <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-{{ forloop.counter }} {% if sorted_by == section.code %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
@@ -133,14 +140,36 @@
                                 </th>
                             {% endfor %}
                         </tr>
+                        {% if previous_year %}
+                        <tr class="js-previous-year-score-difference">
+                            <th class="h-auto pb-2 pt-0 bg-white position-sticky"></th>
+                            <th scope="col" class="h-auto pb-2 pt-0 fs-8 text-center total-score position-sticky">{{ plan_year }}</th>
+                            <th scope="col" class="h-auto pb-2 pt-0 fs-8 previous-year-score-difference text-center position-sticky">versus {{ previous_year.year }}</th>
+
+                            {% for x in section_averages %}
+                                <th scope="col" class="h-auto pb-2 pt-0 fs-8 text-center total-score">{{ plan_year }}</th>
+                                <th scope="col" class="h-auto pb-2 pt-0 fs-8 previous-year-score-difference text-center position-static">versus {{ previous_year.year }}</th>
+                            {% endfor %}
+                        </tr>
+                        {% endif %}
                         <tr class="second-row position-sticky z-index-4">
-                            <th scope="col" style="min-width:250px" class="bg-primary-100 position-sticky z-index-4">
+                            <th scope="col" class="bg-primary-100 position-sticky z-index-4">
                                 <span class="ms-4 fs-6 fw-bold d-block">{{ nation.name }} average</span>
                             </th>
+                            <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4">
+                                {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
+                            </th>
+                            {% if previous_year %}
+                                {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.total.change %}
+                            {% endif %}
+
                             {% for section in section_averages %}
                                 <th scope="col" class="bg-primary-100 category-{{ forloop.counter }} second-row">
                                     {% include 'scoring/includes/score-bar.html' with percentage=section.weighted average=1 %}
                                 </th>
+                                {% if previous_year %}
+                                    {% include 'scoring/includes/fp_header_integer_score_change.html' with change=section.change %}
+                                {% endif %}
                             {% endfor %}
                         </tr>
                     </thead>
@@ -162,6 +191,9 @@
                             <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="{{ council.percentage|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                             </th>
+                            {% if previous_year %}
+                                {% include 'scoring/includes/fp_integer_score_change.html' with change=council.change %}
+                            {% endif %}
                           {% with scores=council.all_scores %}
                             {% if council.score != 0 and council.score is not None %}
                                 {% for score in scores %}
@@ -174,6 +206,17 @@
                                           <div class="progress-bar" style="width: {{ score.weighted }}%;"></div>
                                         </div>
                                     </td>
+                                    {% if previous_year %}
+                                        {% if score.change < 0 %}
+                                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning position-static">&#9660; {{ score.change|floatformat:"0" }}</td>
+                                        {% elif score.change > 0 %}
+                                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success position-static">&#9650; {{ score.change|floatformat:"0" }}</td>
+                                        {% elif score.change == 0 %}
+                                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">--</td>
+                                        {% else %}
+                                            <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference position-static">NA</td>
+                                        {% endif %}
+                                    {% endif %}
                                 {% endfor %}
                               {% elif council.score == 0 %}
                                 <td class="has-no-plan" colspan="7" data-sort-value="-1">
