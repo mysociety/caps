@@ -3,6 +3,7 @@
         <label class="ms-lg-3 fs-7" for="location-jump">Find a council:</label>
         <input id="location-jump" class="form-control searchbar js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
     </div>
+    {% if previous_year %}
     <div class="d-none d-lg-flex flex-row gap-3 align-items-center">
         <div class="form-check-flex d-none d-md-flex">
             <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-difference" aria-checked="true" role="switch" checked>
@@ -18,4 +19,5 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </form>
