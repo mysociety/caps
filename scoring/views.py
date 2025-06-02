@@ -987,9 +987,20 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         alt = section.get_alternative
         if alt is not None:
+            if context.get("current_plan_year"):
+                url = reverse("scoring:section", args=(alt.code,))
+            else:
+                url = reverse(
+                    "year_scoring:section",
+                    args=(
+                        self.request.year.year,
+                        alt.code,
+                    ),
+                )
+
             context["alternative"] = {
                 "name": alt.description,
-                "url": reverse("scoring:section", args=(alt.code,)),
+                "url": url,
             }
 
         self.get_questions(context)
