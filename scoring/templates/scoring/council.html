@@ -262,26 +262,22 @@
             </tr>
 
 
+            {% if plan_score.previous_year %}
             <tr class="bg-primary-100 display-only-large-up fs-7 text-primary">
                 <th scope="col" class="py-2 border-start"></th>
                 <th scope="col" class="py-2 border-start border-light">{{ plan_score.year }}</th>
-                {% if plan_score.previous_year %}
                   <th scope="col" class="py-2 js-previous-year-score">{{ previous_year }}</th>
                   <th scope="col" class="js-current-year-score py-2 border-end border-light text-center">Versus {{ previous_year }}</th>
                   <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
-                {% else %}
-                  <th scope="col" class="js-current-year-score py-2 border-end border-light text-center"></th>
-                {% endif %}
                 {% for comparison in comparisons %}
                   <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 border-start border-light">{{ plan_score.year }}</th>
-                  {% if plan_score.previous_year %}
-                    <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 js-previous-year-score">{{ previous_year }}</th>
-                    <th scope="col" class="js-current-year-score display-only-large-up comparison-council fs-7 py-2 border-end border-light text-center">Versus {{ previous_year }}</th>
-                    <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
-                  {% endif %}
+                  <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 js-previous-year-score">{{ previous_year }}</th>
+                  <th scope="col" class="js-current-year-score display-only-large-up comparison-council fs-7 py-2 border-end border-light text-center">Versus {{ previous_year }}</th>
+                  <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
                 {% endfor %}
                 <th class="py-2 border-end">{{ plan_score.year }} results</th>
             </tr>
+            {% endif %}
 
             {% comment %} Mobile version {% endcomment %}
             <tr class="text-bg-primary d-lg-none">

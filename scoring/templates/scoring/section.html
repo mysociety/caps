@@ -91,7 +91,11 @@
                     <a href="{{ alternative.url }}" class="alert-link">Section: {{ alternative.name }}</a>
                   {% else %}
                     <p class="mb-2 fs-7">This section does not apply to Combined Authorities, and there is no direct equivalent for Combined Authorities.</p>
+                    {% if current_plan_year %}
                     <a href="{% url 'scoring:sections' %}?type=combined" class="alert-link">Show all Combined Authority sections</a>
+                    {% else %}
+                    <a href="{% url 'year_scoring:sections' plan_year %}?type=combined" class="alert-link">Show all Combined Authority sections</a>
+                    {% endif %}
                   {% endif %}
                 </div>
             </div>
@@ -202,15 +206,25 @@
                     <input class="form-control searchbar js-section-council-autocomplete" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
                     <p class="mt-3 mt-lg-4 mb-2">Or show questions by type of council</p>
                     <div class="d-flex flex-wrap gap-1">
-                        <a href="{% url 'scoring:section' section.code %}?type=single#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                        {% if current_plan_year %}
+                            <a href="{% url 'scoring:section' section.code %}?type=single#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                        {% else %}
+                            <a href="{% url 'year_scoring:section' plan_year section.code %}?type=single#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="single" data-bs-toggle="tooltip" data-bs-placement="top"
+                        {% endif %}
                         data-bs-custom-class="custom-tooltip"
                         data-bs-title="This includes all London, Welsh and Scottish councils as well as Metropolitan Borough Councils and Unitary Councils.">
                             <span>Single Tier</span>
                             {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1.1rem' height='1.1rem' role='presentation' %}
                         </a>
-                        <a href="{% url 'scoring:section' section.code %}?type=district#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="district">District</a>
-                        <a href="{% url 'scoring:section' section.code %}?type=county#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="county">County</a>
-                        <a href="{% url 'scoring:section' section.code %}?type=northern-ireland#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="northern-ireland">Northern Ireland</a>
+                        {% if current_plan_year %}
+                            <a href="{% url 'scoring:section' section.code %}?type=district#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="district">District</a>
+                            <a href="{% url 'scoring:section' section.code %}?type=county#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="county">County</a>
+                            <a href="{% url 'scoring:section' section.code %}?type=northern-ireland#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="northern-ireland">Northern Ireland</a>
+                        {% else %}
+                            <a href="{% url 'year_scoring:section' plan_year section.code %}?type=district#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="district">District</a>
+                            <a href="{% url 'year_scoring:section' plan_year section.code %}?type=county#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="county">County</a>
+                            <a href="{% url 'year_scoring:section' plan_year section.code %}?type=northern-ireland#questions" class="btn btn-outline-primary btn-sm is--with-label" data-methodology-switch-council-type="northern-ireland">Northern Ireland</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -241,10 +255,18 @@
                             {% if comparison_councils %}
                             <div class="selected-council-wrapper mt-4 mb-3">
                                 {% for comparison in comparison_councils %}
-                                <a href="{% url 'scoring:council' comparison.council.slug %}" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
+                                    {% if current_plan_year %}
+                                        <a href="{% url 'scoring:council' comparison.council.slug %}" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
+                                    {% else %}
+                                        <a href="{% url 'year_scoring:council' plan_year comparison.council.slug %}" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
-                            <a href="{% url 'scoring:section' section.code %}?type={{ council_type.slug }}#questions">Clear all</a>
+                            {% if current_plan_year %}
+                                <a href="{% url 'scoring:section' section.code %}?type={{ council_type.slug }}#questions">Clear all</a>
+                            {% else %}
+                                <a href="{% url 'year_scoring:section' plan_year section.code %}?type={{ council_type.slug }}#questions">Clear all</a>
+                            {% endif %}
                             {% endif %}
                         </form>
                         </div>
@@ -262,7 +284,11 @@
       {% if comparison_scores %}
       {% for comparison in comparison_scores %}
         <div class="col">
+            {% if current_plan_year %}
             <a href="{% url 'scoring:council' comparison.council_slug %}" class="card text-decoration-none text-black h-100">
+            {% else %}
+            <a href="{% url 'year_scoring:council' plan_year comparison.council_slug %}" class="card text-decoration-none text-black h-100">
+            {% endif %}
                 <div class="card-header py-3 text-bg-primary">
                     <h3 class="fs-5 mb-0 lh-base text-center">{{ comparison.council_name }}</h3>
                 </div>
@@ -331,11 +357,19 @@
               {% for comparison in comparison_councils %}
                 <th scope="col" colspan="2" class="js-current-year-score">
                     <p class="mb-1">{{ comparison.council.name }}</p>
+                    {% if current_plan_year %}
                     <a class="fs-7 link-light fw-normal" href="{% url 'scoring:council' comparison.council.slug %}">Go to council Scorecard</a>
+                    {% else %}
+                    <a class="fs-7 link-light fw-normal" href="{% url 'year_scoring:council' plan_year comparison.council.slug %}">Go to council Scorecard</a>
+                    {% endif %}
                 </th>
                 <th scope="col" colspan="3" class="js-previous-year-score">
                     <p class="mb-1">{{ comparison.council.name }}</p>
+                    {% if current_plan_year %}
                     <a class="fs-7 link-light fw-normal" href="{% url 'scoring:council' comparison.council.slug %}">Go to council Scorecard</a>
+                    {% else %}
+                    <a class="fs-7 link-light fw-normal" href="{% url 'year_scoring:council' plan_year comparison.council.slug %}">Go to council Scorecard</a>
+                    {% endif %}
                 </th>
               {% endfor %}
 
