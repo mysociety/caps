@@ -36,3 +36,14 @@ class AddYearMiddleware:
                         raise HttpResponseServerError("No current Plan Year found")
 
                 request.year = plan_year
+
+    def process_template_response(self, request, response):
+        if request.host.name == "scoring" and request.path not in ["/down/"]:
+            context = response.context_data
+            if request.year is not None and isinstance(request.year, PlanYear):
+                if request.year.is_current:
+                    context["current_plan_year"] = True
+
+                    request.context_data = context
+
+        return response
