@@ -42,6 +42,12 @@ class PlanYear(models.Model):
         return str(self.year)
 
 
+class PlanYearConfig(models.Model):
+    year = models.ForeignKey(PlanYear, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    value = models.JSONField()
+
+
 class PlanScore(models.Model):
     """
     Overall score for a council's plan for a particular year
@@ -159,7 +165,7 @@ class PlanScore(models.Model):
         return questions
 
     @classmethod
-    def get_average(cls, scoring_group=None, filter=None, year=None):
+    def get_average(cls, scoring_group=None, filter=None, year=None, country=None):
         if year is None:
             plan_year = PlanYear.objects.get(is_current=True)
             year = plan_year.year
@@ -178,8 +184,14 @@ class PlanScore(models.Model):
         if scoring_group is not None:
             has_score = has_score.filter(
                 council__authority_type__in=scoring_group["types"],
-                council__country__in=scoring_group["countries"],
             )
+            if country is None:
+                has_score = has_score.filter(
+                    council__country__in=scoring_group["countries"],
+                )
+
+        if country is not None:
+            has_score = has_score.filter(council__country=country)
 
         if filter is not None:
             kwargs = {}
@@ -303,10 +315,10 @@ class PlanSection(models.Model):
 
     @classmethod
     def get_average_scores(
-        cls, scoring_group=None, filter=None, year=settings.PLAN_YEAR
+        cls, scoring_group=None, filter=None, year=settings.PLAN_YEAR, country=None
     ):
         has_score, has_score_avg = PlanScore.get_average(
-            scoring_group=scoring_group, filter=filter, year=year
+            scoring_group=scoring_group, filter=filter, year=year, country=country
         )
         has_score_list = has_score.values_list("pk", flat=True)
 

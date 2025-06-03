@@ -7,6 +7,7 @@ from operator import itemgetter
 from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Avg, Count, F, Max, Min, OuterRef, Subquery, Sum
+from django.http import Http404
 from django.shortcuts import get_object_or_404, resolve_url, reverse
 from django.templatetags.static import static
 from django.utils.decorators import method_decorator
@@ -15,11 +16,12 @@ from django.views.decorators.cache import cache_control
 from django.views.generic import DetailView, TemplateView
 from django_filters.views import FilterView
 
+import scoring.defaults as defaults
 from caps.models import Council, PlanDocument, Promise
 from caps.utils import gen_natsort_lamda
 from caps.views import BaseLocationResultsView
 from conf.social_graphics import social_graphics
-from scoring.filters import PlanScoreFilter, QuestionScoreFilter
+from scoring.filters import NationPlanScoreFilter, PlanScoreFilter, QuestionScoreFilter
 from scoring.forms import ScoringSort, ScoringSortCA
 from scoring.mixins import (
     AdvancedFilterMixin,
@@ -66,13 +68,106 @@ class PrivacyView(TemplateView):
         return context
 
 
-@method_decorator(cache_control(**cache_settings), name="dispatch")
-class HomePageView(
+class BaseCouncilListView(
     PrivateScorecardsAccessMixin,
     SearchAutocompleteMixin,
     AdvancedFilterMixin,
     FilterView,
 ):
+    def get_missing_councils(self, council_ids, scoring_group):
+        return []
+
+    def get_averages(self, context):
+        scoring_group = self.get_scoring_group()
+        country = self.kwargs.get("nation_name")
+        if country:
+            country = Council.country_code(country)
+
+        averages = PlanSection.get_average_scores(
+            scoring_group=scoring_group,
+            filter=context.get("filter_params", None),
+            year=self.request.year.year,
+            country=country,
+        )
+
+        if self.request.year.previous_year:
+            previous_averages = PlanSection.get_average_scores(
+                scoring_group=scoring_group,
+                filter=context.get("filter_params", None),
+                year=self.request.year.previous_year.year,
+            )
+            for section in averages.keys():
+                if section != "total":
+                    averages[section]["change"] = (
+                        averages[section]["weighted"]
+                        - previous_averages[section]["weighted"]
+                    )
+
+        section_averages = []
+        for code in sorted(averages.keys()):
+            if code != "total":
+                section_averages.append(averages[code])
+
+        return averages, section_averages
+
+    def get_council_data(self, context):
+        scoring_group = self.get_scoring_group()
+        councils = context["object_list"].values()
+
+        all_scores = PlanSectionScore.get_all_council_scores(
+            plan_year=self.request.year.year, as_list=True
+        )
+
+        councils = list(councils.all())
+        council_ids = []
+        out = True
+        for council in councils:
+            council_ids.append(council["council_id"])
+            if out:
+                out = False
+            council["all_scores"] = all_scores[council["council_id"]]
+            if council["score"] is not None:
+                council["percentage"] = council["score"]
+            else:
+                council["percentage"] = 0
+
+        if context.get("filter_params", None) is None:
+            missing_councils = self.get_missing_councils(council_ids, scoring_group)
+
+            for council in missing_councils:
+                councils.append(
+                    {
+                        "score": None,
+                        "name": council.name,
+                        "slug": council.slug,
+                        "authority_code": council.authority_code,
+                        "top_performer": None,
+                    }
+                )
+        return councils
+
+    def get_sorted_councils(self, form, councils):
+        sorted_by = None
+        if form.is_valid():
+            sort = form.cleaned_data["sort_by"]
+            if sort != "":
+                sorted_by = sort
+                councils = sorted(
+                    councils,
+                    key=lambda council: (
+                        0
+                        if council["score"] == 0 or council["score"] is None
+                        else council["all_scores"][sort]["score"]
+                    ),
+                    reverse=True,
+                )
+                councils = sorted(councils, key=itemgetter("slug"))
+
+        return sorted_by, councils
+
+
+@method_decorator(cache_control(**cache_settings), name="dispatch")
+class HomePageView(BaseCouncilListView):
     filterset_class = PlanScoreFilter
     template_name = "scoring/home.html"
 
@@ -152,32 +247,11 @@ class HomePageView(
 
         context = self.setup_filter_context(context, context["filter"], scoring_group)
 
-        averages = PlanSection.get_average_scores(
-            scoring_group=scoring_group,
-            filter=context.get("filter_params", None),
-            year=self.request.year.year,
-        )
+        averages, section_averages = self.get_averages(context)
+
         all_scores = PlanSectionScore.get_all_council_scores(
             plan_year=self.request.year.year, as_list=True
         )
-
-        if self.request.year.previous_year:
-            previous_averages = PlanSection.get_average_scores(
-                scoring_group=scoring_group,
-                filter=context.get("filter_params", None),
-                year=self.request.year.previous_year.year,
-            )
-            for section in averages.keys():
-                if section != "total":
-                    averages[section]["change"] = (
-                        averages[section]["weighted"]
-                        - previous_averages[section]["weighted"]
-                    )
-
-        section_averages = []
-        for code in sorted(averages.keys()):
-            if code != "total":
-                section_averages.append(averages[code])
 
         councils = list(councils.all())
         council_ids = []
@@ -1376,66 +1450,6 @@ class MethodologyView(
         # fix sorting to not have 1, 11, 2
         natsort = gen_natsort_lamda(lambda k: k["code"])
 
-        SECTION_WEIGHTINGS = {
-            "Buildings & Heating": {
-                "single": 20,
-                "district": 25,
-                "county": 20,
-                "northern-ireland": 20,
-            },
-            "Transport": {
-                "single": 20,
-                "district": 5,
-                "county": 30,
-                "northern-ireland": 15,
-            },
-            "Planning & Land Use": {
-                "single": 15,
-                "district": 25,
-                "county": 5,
-                "northern-ireland": 15,
-            },
-            "Governance & Finance": {
-                "single": 15,
-                "district": 15,
-                "county": 15,
-                "northern-ireland": 20,
-            },
-            "Biodiversity": {
-                "single": 10,
-                "district": 10,
-                "county": 10,
-                "northern-ireland": 10,
-            },
-            "Collaboration & Engagement": {
-                "single": 10,
-                "district": 10,
-                "county": 10,
-                "northern-ireland": 10,
-            },
-            "Waste Reduction & Food": {
-                "single": 10,
-                "district": 10,
-                "county": 10,
-                "northern-ireland": 10,
-            },
-            "Transport (CA)": {
-                "combined": 25,
-            },
-            "Buildings & Heating & Green Skills (CA)": {
-                "combined": 25,
-            },
-            "Governance & Finance (CA)": {
-                "combined": 20,
-            },
-            "Planning & Biodiversity (CA)": {
-                "combined": 10,
-            },
-            "Collaboration & Engagement (CA)": {
-                "combined": 20,
-            },
-        }
-
         current_section = None
         for question in questions:
             if (
@@ -1465,7 +1479,9 @@ class MethodologyView(
                     "council_types": types,
                     "description": question.section.long_description,
                     "is_combined": is_combined,
-                    "weightings": SECTION_WEIGHTINGS[question.section.description],
+                    "weightings": defaults.get_config(
+                        "section_weightings", self.request.year.year
+                    )[question.section.description],
                     "questions": [],
                 }
 
@@ -1489,82 +1505,9 @@ class MethodologyView(
         sections.append(deepcopy(current_section))
         context["sections"] = sections
 
-        context["organisations"] = [
-            {"name": "20’s Plenty for Us"},
-            {"name": "Abundance Investment"},
-            {"name": "Active Travel Academy"},
-            {"name": "Ad Free Cities"},
-            {"name": "ADEPT"},
-            {"name": "Anthesis"},
-            {"name": "Architects Action Network"},
-            {"name": "Association of Local Government Ecologists"},
-            {"name": "Badvertising"},
-            {"name": "Brighton Peace and Environment Centre"},
-            {"name": "British Lung Foundation"},
-            {"name": "Buglife"},
-            {"name": "Campaign for Better Transport"},
-            {"name": "Carbon Co-op"},
-            {"name": "Chartered Institute of Public Finance and Accountancy"},
-            {"name": "CLES"},
-            {"name": "Climate Conversations"},
-            {"name": "Climate Emergency Manchester"},
-            {"name": "Climate Museum UK"},
-            {"name": "Collective for Climate Action"},
-            {"name": "Community Energy England"},
-            {"name": "Community Rights Planning"},
-            {"name": "CoMoUK"},
-            {"name": "Crossing Footprints"},
-            {"name": "Culture Declares Emergency"},
-            {"name": "Cycle Streets"},
-            {"name": "Cycling UK"},
-            {"name": "Democracy Club"},
-            {"name": "Department of Transport"},
-            {"name": "Energy Savings Trust"},
-            {"name": "Food For Life"},
-            {"name": "Food Matters"},
-            {"name": "Friends of the Earth"},
-            {"name": "Generation Rent"},
-            {"name": "Green Finance Institute"},
-            {"name": "Green Flag (Keep Britain Tidy)"},
-            {"name": "Institute for Local Government"},
-            {"name": "Involve"},
-            {"name": "Living Streets"},
-            {"name": "Local Partnerships"},
-            {"name": "London Cycling Campaign"},
-            {"name": "Making Places Together"},
-            {"name": "mySociety"},
-            {"name": "National Farmers’ Union"},
-            {"name": "Passivhaus Homes"},
-            {"name": "Pesticides Action Network"},
-            {"name": "PETA (People for the Ethical Treatment of Animals)"},
-            {"name": "Place Based Carbon Calculator"},
-            {"name": "Planning Aid Wales"},
-            {"name": "Planning Scotland"},
-            {"name": "Plantlife"},
-            {"name": "Plastic Free Communities"},
-            {"name": "Possible"},
-            {"name": "ProVeg"},
-            {"name": "Quantum Strategy & Technology"},
-            {"name": "Solar Together"},
-            {"name": "Southampton Climate Action Network"},
-            {"name": "Sustain"},
-            {"name": "Sustrans"},
-            {"name": "The Campaign to Protect Rural England"},
-            {"name": "The Climate Change Committee"},
-            {"name": "The Soil Association"},
-            {"name": "The Wildlife Trusts"},
-            {"name": "Town and Country Planning Association"},
-            {"name": "Transport Action Network"},
-            {"name": "Transport for New Homes"},
-            {"name": "Tree Economics"},
-            {"name": "Turing Institute"},
-            {"name": "UK Divest"},
-            {"name": "WasteDataFlow"},
-            {"name": "Wirral Environmental Network"},
-            {"name": "Wildlife & Countryside Link"},
-            {"name": "Winchester Action on Climate Change"},
-            {"name": "Zap Map"},
-        ]
+        context["organisations"] = defaults.get_config(
+            "organisations", self.request.year.year
+        )
 
         context["canonical_path"] = self.request.path
         return context
@@ -1610,3 +1553,137 @@ class NotFoundPageView(SearchAutocompleteMixin, TemplateView):
             status=404,
             **response_kwargs,
         )
+
+
+class NationListView(TemplateView):
+    template_name = "scoring/nation_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        council_types = (
+            Council.SCORING_GROUPS["single"]["types"]
+            + Council.SCORING_GROUPS["northern-ireland"]["types"]
+        )
+        scores = (
+            PlanScore.objects.filter(
+                year=self.request.year.year,
+                council__authority_type__in=council_types,
+            )
+            .values("council__country")
+            .annotate(avg=Avg("weighted_total"))
+            .values("council__country", "avg")
+        )
+
+        country_averages = {}
+        for score in scores:
+            country_averages[Council.country_description(score["council__country"])] = (
+                round(score["avg"], None)
+            )
+
+        nations = defaults.get_config("nations", self.request.year.year)
+        for nation in nations:
+            average = country_averages[nation["name"]]
+            nation["statistic_value"] = f"{average}%"
+        context["nations"] = nations
+
+        context["page_title"] = "Nations"
+        context["plan_year"] = self.request.year
+
+        return context
+
+
+class NationDetailView(BaseCouncilListView):
+    filterset_class = NationPlanScoreFilter
+    template_name = "scoring/nation_detail.html"
+
+    def get_scoring_group(self):
+        country = self.kwargs["nation_name"]
+        scoring_group_slug = self.kwargs.get("council_type", "")
+        group = None
+
+        if country == "england":
+            try:
+                group = Council.SCORING_GROUPS[scoring_group_slug]
+            except:
+                group = Council.SCORING_GROUPS["single"]
+        elif country == "northern-ireland":
+            group = Council.SCORING_GROUPS["northern-ireland"]["types"]
+        else:
+            group = Council.SCORING_GROUPS["single"]
+
+        return group
+
+    def get_queryset(self):
+        nation = self.kwargs["nation_name"]
+        scoring_group = self.get_scoring_group()
+
+        filters = {
+            "year": self.request.year.year,
+            "council__country": Council.country_code(nation),
+            "council__authority_type__in": scoring_group["types"],
+        }
+
+        qs = (
+            PlanScore.objects.filter(**filters)
+            .annotate(
+                score=F("weighted_total"),
+                name=F("council__name"),
+                slug=F("council__slug"),
+                authority_code=F("council__authority_code"),
+            )
+            .order_by(F("weighted_total").desc(nulls_last=True))
+        )
+
+        if self.request.year.previous_year:
+            qs = qs.annotate(
+                previous_percentage=Subquery(
+                    PlanScore.objects.filter(
+                        council=OuterRef("council"),
+                        year=self.request.year.previous_year.year,
+                    ).values("weighted_total")
+                ),
+                change=(F("weighted_total") - F("previous_percentage")),
+            )
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        scoring_group = self.get_scoring_group()
+        councils = self.get_council_data(context)
+        averages, section_averages = self.get_averages(context)
+        context["averages"] = averages
+        context["section_averages"] = section_averages
+        context = self.setup_filter_context(context, context["filter"], scoring_group)
+
+        form_class = ScoringSort
+        form = form_class(self.request.GET)
+        sorted_by, councils = self.get_sorted_councils(form, councils)
+
+        context["council_data"] = councils
+        context["form"] = form
+        context["sorted_by"] = sorted_by
+        nation = self.kwargs["nation_name"]
+        context["section_link_template"] = "scoring/includes/section_link_current.html"
+
+        nations = {}
+        for nation in defaults.get_config("nations", self.request.year.year):
+            nations[nation["slug"]] = nation
+
+        nation = nations.get(self.kwargs["nation_name"].lower())
+
+        if not nation:
+            raise Http404("Page not found")
+
+        context["nation"] = nation
+        context["previous_year"] = self.request.year.previous_year
+        context["social_graphics"] = defaults.get_config(
+            "nations_social_graphics", self.request.year.year
+        ).get(nation["slug"])
+        context["plan_year"] = self.request.year
+        context["page_title"] = nation["name"]
+        context["current_page"] = "nation-detail"
+
+        return context
