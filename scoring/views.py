@@ -1192,6 +1192,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
         elif self.request.GET.get("type") in Council.SCORING_GROUPS:
             scoring_group = Council.SCORING_GROUPS[self.request.GET.get("type")]
 
+        previous_q = None
         if scoring_group is not None:
             context["scoring_group"] = scoring_group
             context["scores"] = (
@@ -1205,7 +1206,6 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
             )
 
             prev_counts = None
-            previous_q = None
             if self.request.year.previous_year:
                 context["scores"] = (
                     context["scores"]
