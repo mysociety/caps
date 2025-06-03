@@ -571,6 +571,13 @@ class Council(models.Model):
         return n
 
     @property
+    def council_or_combined_authority(self):
+        if self.authority_type == "COMB":
+            return "combined authority"
+        else:
+            return "council"
+
+    @property
     def foe_slug(self):
         if self.country not in (self.ENGLAND, self.WALES) or self.is_upper_tier:
             return ""
