@@ -1232,10 +1232,11 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
 
                 previous_q = context["question"].previous_question
 
-                prev_counts = previous_q.get_scores_breakdown(
-                    year=self.request.year.previous_year.year,
-                    scoring_group=scoring_group,
-                )
+                if previous_q:
+                    prev_counts = previous_q.get_scores_breakdown(
+                        year=self.request.year.previous_year.year,
+                        scoring_group=scoring_group,
+                    )
 
             score_counts = question.get_scores_breakdown(
                 year=self.request.year.year, scoring_group=scoring_group
@@ -1259,6 +1260,8 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
 
             if prev_counts:
                 for score in prev_counts:
+                    if not totals.get(score["score"]):
+                        continue
                     totals[score["score"]]["prev_count"] = score["score_count"]
                     totals[score["score"]]["change"] = (
                         totals[score["score"]]["count"] - score["score_count"]
