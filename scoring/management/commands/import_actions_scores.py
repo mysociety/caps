@@ -86,6 +86,12 @@ class Command(BaseCommand):
         )
 
         parser.add_argument(
+            "--update_political_control",
+            action="store_true",
+            help="Updates poltical control",
+        )
+
+        parser.add_argument(
             "--previous_year",
             action="store",
             help="Previous scorecards year, for calculating most improved, and linking",
@@ -163,7 +169,7 @@ class Command(BaseCommand):
 
             plan_score.total = round(row["raw_total"] * 100, 3)
             plan_score.weighted_total = round(row["weighted_total"] * 100, 3)
-            if not pd.isna(row["political_control"]):
+            if self.update_control and not pd.isna(row["political_control"]):
                 plan_score.political_control = self.CONTROL_MAP.get(
                     row["political_control"], row["political_control"]
                 )
@@ -429,10 +435,12 @@ class Command(BaseCommand):
     def handle(
         self,
         update_questions: bool = False,
+        update_political_control: bool = False,
         previous_year: int = None,
         *args,
         **options,
     ):
+        self.update_control = update_political_control
         self.previous_year = previous_year
         self.stdout.write(f"Importing council action scores for {self.YEAR}")
         if not update_questions:
