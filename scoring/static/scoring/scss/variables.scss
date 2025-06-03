@@ -5,7 +5,7 @@ $color-scorecard-pink: #9e0d7a;
 $color-scorecard-red: #7c0006;
 $color-scorecard-orange: #f29e1a;
 $color-scorecard-yellow: #ffd80b;
-$color-scorecard-green: #038966;
+$color-scorecard-green: #075f48; // It passes contrast test against bg-green-100
 $color-scorecard-cyan: #1b97a0;
 $color-scorecard-grey-100: #f3f6fb;
 $color-scorecard-grey-200: #ecf0f5;
@@ -254,6 +254,8 @@ $form-select-indicator: url("../img/bootstrap/form-select-indicator.svg");
 $form-feedback-icon-valid: url("../img/bootstrap/form-feedback-icon-valid.svg");
 $form-feedback-icon-invalid: url("../img/bootstrap/form-feedback-icon-invalid.svg");
 
+$form-check-input-border: 1px solid rgba($black, .5);
+
 // Form validation
 
 // Z-index master list
@@ -288,15 +290,17 @@ $navbar-light-toggler-icon-bg: url("../img/bootstrap/navbar-light-toggler-icon.s
 $accordion-button-color: $primary;
 $accordion-button-bg: tint-color($primary, 90%);
 
-$accordion-button-active-bg: $primary;
-$accordion-button-active-color: $white;
+$accordion-button-active-bg: $color-scorecard-grey-200;
+$accordion-button-active-color: $black;
 
 $accordion-button-icon: url("../img/bootstrap/accordion-button-icon.svg");
-$accordion-button-active-icon: url("../img/bootstrap/accordion-button-icon-active.svg");
+$accordion-button-active-icon: url("../img/bootstrap/accordion-button-icon.svg");
 
 // Cards
 
 $card-spacer-y: 1rem;
+$card-cap-bg: $color-scorecard-grey-200;
+$accordion-border-color: var(--bs-border-color-translucent); // same as card component
 
 // Tooltips
 
@@ -366,11 +370,26 @@ $utilities: (
     responsive: true,
     class: w,
     values: (
+      10: 10%,
+      15: 15%,
       25: 25%,
       50: 50%,
       75: 75%,
       100: 100%,
       auto: auto
+    )
+  ),
+  "max-width": (
+    property: max-width,
+    responsive: true,
+    class: mw,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      95: 95%,
+      100: 100%,
+      none: none
     )
   ),
   "height": (

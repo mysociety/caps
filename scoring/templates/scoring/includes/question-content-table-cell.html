@@ -1,3 +1,6 @@
+{% load django_bootstrap5 %}
+{% load caps_templatetags %}
+
 <div class="question-content-table text-start">
     <div class="row">
         <div class="col-1 mb-2">
@@ -6,8 +9,35 @@
         <div class="col-11">
             {{ question_text.strip | linebreaks }}
 
+            <dl class="d-lg-none mb-3 d-flex flex-row gap-3">
+                <div class="card">
+                    <dt class="card-header fs-7">{{ plan_score.year }}</dt>
+                    <dd class="card-body text-center py-2 mb-0">
+                        {{ answer.score|format_mark }}/{{ answer.max }}
+                    </dd>
+                </div>
+                {% if plan_score.previous_year %}
+                <div class="card">
+                    <dt class="card-header fs-7">{{ plan_score.previous_year.year }}</dt>
+                    <dd class="card-body text-center py-2 mb-0">
+                    {% if answer.previous_score is not None %}
+                      {{ answer.previous_score|format_mark }}/{{ answer.previous_max }}
+                    {% else %}
+                      NA
+                    {% endif %}
+                    </dd>
+                </div>
+                <div class="card">
+                    <dt class="card-header fs-7">Difference</dt>
+                    <dd class="card-body text-success py-2 mb-0 text-center">
+                      {% include "scoring/includes/integer_score_change.html" with change=answer.change %}
+                    </dd>
+                </div>
+                {% endif %}
+            </dl>
+
             {% if question_type == "negative" %}
-                <div class="d-flex mb-3 fs-7 text-red-500">
+                <div class="d-flex mb-3 fs-7 text-warning bg-red-100 rounded p-2">
                     {% include 'caps/icons/warning.html' with classes='mt-1 me-2 flex-shrink-0 flex-grow-0' width='1em' height='1em' role='presentation' %}
                     <p class="mb-0">
                         <strong>Penalty marks:</strong>
@@ -17,7 +47,7 @@
                 </div>
             {% endif %}
 
-            <div class="d-flex align-items-center gap-3">
+            <div class="d-flex flex-wrap align-items-center gap-3">
                 <button type="button" class="btn btn-outline-secondary btn-sm js-hidden-toggle" aria-controls="section-{{ forloop.parentloop.counter }}-question-{{ forloop.counter }}">
                     How is this marked?
                 </button>
@@ -33,7 +63,7 @@
                     <dd class="col-sm-8">{{ how_marked }}</dd>
                     <dt class="col-sm-4">Question weight</dt>
                     <dd class="col-sm-8">{{ weighting }}</dd>
-                    {% if evidence_links != 'CouncilTypeOnly' %}
+                    {% if evidence_links != 'CouncilTypeOnly' and answer.score != 0 %}
                     <dt class="col-sm-4">Evidence</dt>
                     <dd class="col-sm-8">
                       {% for link in evidence_links %}
@@ -41,6 +71,12 @@
                       {% empty %}
                         No evidence available.
                       {% endfor %}
+                    </dd>
+                    {% endif %}
+                    {% if answer.score == 0 %}
+                    <dt class="col-sm-4">Evidence</dt>
+                    <dd class="col-sm-8">
+                        {{ answer.answer }}
                     </dd>
                     {% endif %}
                 </dl>
