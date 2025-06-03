@@ -264,6 +264,7 @@ class Command(BaseCommand):
                     )
                 )
                 .annotate(difference=(F("weighted_total") - F("previous_score")))
+                .filter(difference__lt=F("weighted_total"))
                 .order_by("-difference")
             )
 
@@ -290,6 +291,7 @@ class Command(BaseCommand):
                     )
                 )
                 .annotate(difference=(F("weighted_score") - F("previous_score")))
+                .filter(difference__lt=F("weighted_score"))
                 .order_by("-difference")
             )
 
@@ -310,6 +312,7 @@ class Command(BaseCommand):
                 )
             )
             .annotate(difference=(F("weighted_total") - F("previous_score")))
+            .filter(difference__lt=F("weighted_total"))
             .order_by("-difference")
         )
 
