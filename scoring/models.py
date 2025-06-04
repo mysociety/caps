@@ -406,6 +406,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
             "council_name": section.plan_score.council.name,
             "council_slug": section.plan_score.council.slug,
             "top_performer": section.top_performer,
+            "most_improved": section.most_improved,
             "code": section.plan_section.code,
             "description": section.plan_section.description,
             "max_score": section.max_score,
