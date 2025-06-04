@@ -64,6 +64,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s1_gov",
                     "answers": [
                         {
@@ -107,6 +108,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_m_a",
                     "answers": [],
                     "avg": 9.8,
@@ -144,6 +146,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s1_gov",
                     "answers": [
                         {
@@ -187,6 +190,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_m_a",
                     "answers": [],
                     "avg": 8.7,
@@ -224,6 +228,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s1_gov",
                     "answers": [
                         {
@@ -267,6 +272,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_m_a",
                     "answers": [],
                     "avg": 9.8,
@@ -302,6 +308,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s1_gov",
                     "answers": [
                         {
@@ -345,6 +352,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_m_a",
                     "answers": [],
                     "avg": 8.7,
@@ -406,6 +414,7 @@ class TestTopPerormersInViews(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": "unitary",
+                    "most_improved": None,
                     "code": "s1_gov",
                     "answers": [
                         {
@@ -449,6 +458,7 @@ class TestTopPerormersInViews(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_m_a",
                     "answers": [],
                     "avg": 9.8,
