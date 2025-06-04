@@ -15,7 +15,7 @@ import urllib3
 from django.conf import settings
 from django.core.files import File
 from django.core.management.base import BaseCommand, CommandError
-from django.db.models import F, OuterRef, Subquery, Sum
+from django.db.models import F, OuterRef, Q, Subquery, Sum
 from django.template.defaultfilters import pluralize
 
 from caps.models import Council
@@ -48,6 +48,12 @@ class Command(BaseCommand):
     DEFAULT_TOP_PERFORMER_COUNT = 1
     TOP_PERFORMER_COUNT = {
         "combined": 2,
+    }
+    DEFAULT_MOST_IMPROVED_COUNT = 3
+    MOST_IMPROVED_COUNT = {
+        "county": 4,
+        "combined": 1,
+        "northern-ireland": 1,
     }
 
     SKIP_SECTION_PERFORMERS = ["s6_cb"]
@@ -264,12 +270,40 @@ class Command(BaseCommand):
                     )
                 )
                 .annotate(difference=(F("weighted_total") - F("previous_score")))
-                .filter(difference__lt=F("weighted_total"))
+                .exclude(Q(previous_score=0) | Q(weighted_total=0))
+                .order_by("-difference")
+            )
+            count = self.MOST_IMPROVED_COUNT.get(
+                group_tag, self.DEFAULT_MOST_IMPROVED_COUNT
+            )
+            if count == 0:
+                continue
+
+            for most_improved in score_differences.all()[:count]:
+                most_improved.most_improved = group_tag
+                most_improved.save()
+
+        for country in Council.COUNTRY_CHOICES:
+            score_differences = (
+                PlanScore.objects.filter(
+                    year=self.YEAR,
+                    council__country=country[0],
+                    weighted_total__gt=0,
+                )
+                .annotate(
+                    previous_score=Subquery(
+                        PlanScore.objects.filter(
+                            year=previous_year, council_id=OuterRef("council_id")
+                        ).values("weighted_total")
+                    )
+                )
+                .annotate(difference=(F("weighted_total") - F("previous_score")))
+                .exclude(Q(previous_score=0) | Q(weighted_total=0))
                 .order_by("-difference")
             )
 
             most_improved = score_differences.first()
-            most_improved.most_improved = group_tag
+            most_improved.most_improved = country[1]
             most_improved.save()
 
         for section in plan_sections.all():
@@ -291,13 +325,13 @@ class Command(BaseCommand):
                     )
                 )
                 .annotate(difference=(F("weighted_score") - F("previous_score")))
-                .filter(difference__lt=F("weighted_score"))
+                .exclude(Q(previous_score=0) | Q(weighted_score=0))
                 .order_by("-difference")
             )
 
-            most_improved = differences.first()
-            most_improved.most_improved = section.code
-            most_improved.save()
+            for most_improved in differences.all()[: self.DEFAULT_MOST_IMPROVED_COUNT]:
+                most_improved.most_improved = section.code
+                most_improved.save()
 
         score_differences = (
             PlanScore.objects.filter(
@@ -313,6 +347,7 @@ class Command(BaseCommand):
             )
             .annotate(difference=(F("weighted_total") - F("previous_score")))
             .filter(difference__lt=F("weighted_total"))
+            .exclude(Q(previous_score=0) | Q(weighted_total=0))
             .order_by("-difference")
         )
 
