@@ -195,8 +195,7 @@ forEachElement('.js-comparison-council', function(link){
 
 function sortTableByColumn(columnHeader, direction) {
     var table = columnHeader.closest('table');
-    var headerCell = columnHeader.closest('th');
-    var columnIndex = siblingIndex(headerCell);
+    var sortSection = columnHeader.getAttribute('data-sort-section');
 
     // Values here are labels for what will happen
     // when you click, not the current state!
@@ -218,9 +217,10 @@ function sortTableByColumn(columnHeader, direction) {
     var tbody = table.querySelector('tbody');
     var rows = tbody.querySelectorAll('tbody tr');
     var rowsArr = Array.from(rows);
+    var selector = '[data-sort-section="' + sortSection + '"]';
     rowsArr.sort(function(rowA, rowB){
-        var valueA = parseFloat( rowA.children[columnIndex].getAttribute('data-sort-value') );
-        var valueB = parseFloat( rowB.children[columnIndex].getAttribute('data-sort-value') );
+        var valueA = parseFloat( rowA.querySelector(selector).getAttribute('data-sort-value') );
+        var valueB = parseFloat( rowB.querySelector(selector).getAttribute('data-sort-value') );
         return valueB - valueA;
     }).forEach(function(row){
         if ( direction == 'descending' ) {
