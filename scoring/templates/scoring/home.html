@@ -55,7 +55,7 @@
                             {% endif %}
                                 <div class="section-title">
                                     <span class="text-center fw-bold">Total Score</span>
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-default="descending"></button>
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-section="overall" data-sort-default="descending"></button>
                                 </div>
                             </th>
 
@@ -67,7 +67,7 @@
                                 {% endif %}
                                     <div class="section-title">
                                         {% include section_link_template with section_code=section.code section_name=section.title category_number=forloop.counter %}
-                                        <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-{{ forloop.counter }} {% if sorted_by == section.code %} is-sorted-descending{% endif %}" title="Sort highest first"></button>
+                                        <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-{{ forloop.counter }} {% if sorted_by == section.code %} is-sorted-descending{% endif %}" data-sort-section="{{ section.code }}" title="Sort highest first"></button>
                                     </div>
                                 </th>
                             {% endfor %}
@@ -120,7 +120,7 @@
                                     {% include council_link_template with plan_year=plan_year council=council %}
                                 </div>
                             </th>
-                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-value="{{ council.percentage|default:"0" }}">
+                            <th scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-section="overall" data-sort-value="{{ council.percentage|default:"0" }}">
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                             </th>
                             {% if previous_year %}
@@ -129,7 +129,7 @@
                           {% with scores=council.all_scores %}
                           {% if council.score != 0 and council.score is not None %}
                             {% for score in scores %}
-                            <td scope="row" class="council-category-score category-{{ forloop.counter }}" data-sort-value="{{ score.score|default:"0" }}">
+                            <td scope="row" class="council-category-score category-{{ forloop.counter }}" data-sort-section="{{ score.code }}" data-sort-value="{{ score.weighted|default:"0" }}">
                                     <div class="score-bar">
                                       {% if sort %}
                                         <div class="sort-icon"></div>
