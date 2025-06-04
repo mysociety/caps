@@ -15,7 +15,7 @@ import urllib3
 from django.conf import settings
 from django.core.files import File
 from django.core.management.base import BaseCommand, CommandError
-from django.db.models import F, Sum
+from django.db.models import F, OuterRef, Q, Subquery, Sum
 from django.template.defaultfilters import pluralize
 
 from caps.models import Council
@@ -38,7 +38,7 @@ NOBOLD = "\033[0m"
 class Command(BaseCommand):
     help = "Imports plan scores"
 
-    YEAR = 2023  # settings.PLAN_YEAR
+    YEAR = settings.PLAN_YEAR
     SCORECARD_DATA_DIR = Path(settings.DATA_DIR, "scorecard_data", str(YEAR))
     SECTION_SCORES_CSV = Path(SCORECARD_DATA_DIR, "raw_section_marks.csv")
     OVERALL_SCORES_CSV = Path(SCORECARD_DATA_DIR, "all_section_scores.csv")
@@ -48,6 +48,12 @@ class Command(BaseCommand):
     DEFAULT_TOP_PERFORMER_COUNT = 1
     TOP_PERFORMER_COUNT = {
         "combined": 2,
+    }
+    DEFAULT_MOST_IMPROVED_COUNT = 3
+    MOST_IMPROVED_COUNT = {
+        "county": 4,
+        "combined": 1,
+        "northern-ireland": 1,
     }
 
     SKIP_SECTION_PERFORMERS = ["s6_cb"]
@@ -76,11 +82,25 @@ class Command(BaseCommand):
         "IND": "Independent",
     }
 
+    previous_year = None
+
     def add_arguments(self, parser):
         parser.add_argument(
             "--update_questions",
             action="store_true",
             help="Updates/creates the text of questions",
+        )
+
+        parser.add_argument(
+            "--update_political_control",
+            action="store_true",
+            help="Updates poltical control",
+        )
+
+        parser.add_argument(
+            "--previous_year",
+            action="store",
+            help="Previous scorecards year, for calculating most improved, and linking",
         )
 
     def create_sections(self):
@@ -115,6 +135,16 @@ class Command(BaseCommand):
                 council=council, year=self.YEAR
             )
 
+            if self.previous_year:
+                try:
+                    prev = PlanScore.objects.get(
+                        council=council, year=self.previous_year
+                    )
+                    plan_score.previous_year = prev
+                    plan_score.save()
+                except PlanScore.DoesNotExist:
+                    pass
+
             score = 0
             if not pd.isnull(row["score"]):
                 score = integer_from_text(row["score"])
@@ -136,7 +166,7 @@ class Command(BaseCommand):
             try:
                 council = Council.objects.get(gss_code=row["gss"])
             except Council.DoesNotExist:
-                print("Did not find council in db: {}".format(row["name"]))
+                print("Did not find council in db: {}".format(row["council"]))
                 continue
 
             plan_score, created = PlanScore.objects.get_or_create(
@@ -145,7 +175,7 @@ class Command(BaseCommand):
 
             plan_score.total = round(row["raw_total"] * 100, 3)
             plan_score.weighted_total = round(row["weighted_total"] * 100, 3)
-            if not pd.isna(row["political_control"]):
+            if self.update_control and not pd.isna(row["political_control"]):
                 plan_score.political_control = self.CONTROL_MAP.get(
                     row["political_control"], row["political_control"]
                 )
@@ -167,8 +197,10 @@ class Command(BaseCommand):
         plan_sections = PlanSection.objects.filter(year=self.YEAR)
 
         # reset top performers
-        PlanScore.objects.filter(year=2023).update(top_performer="")
-        PlanSectionScore.objects.filter(plan_score__year=2023).update(top_performer="")
+        PlanScore.objects.filter(year=self.YEAR).update(top_performer="")
+        PlanSectionScore.objects.filter(plan_score__year=self.YEAR).update(
+            top_performer=""
+        )
 
         for group in Council.SCORING_GROUP_CHOICES:
             group_tag = group[0]
@@ -182,7 +214,7 @@ class Command(BaseCommand):
             group_params = Council.SCORING_GROUPS[group_tag]
 
             top_plan_scores = PlanScore.objects.filter(
-                year=2023,
+                year=self.YEAR,
                 council__authority_type__in=group_params["types"],
                 council__country__in=group_params["countries"],
                 weighted_total__gt=0,
@@ -197,7 +229,7 @@ class Command(BaseCommand):
                 continue
 
             top_section_scores = PlanSectionScore.objects.filter(
-                plan_score__year=2023,
+                plan_score__year=self.YEAR,
                 plan_section=section,
                 weighted_score__gte=80,
             )
@@ -205,6 +237,123 @@ class Command(BaseCommand):
             for section_score in top_section_scores.all():
                 section_score.top_performer = section.code
                 section_score.save()
+
+    def label_most_improved(self, previous_year):
+        if not previous_year:
+            self.stderr.write("Can't calculate most improved, need previous year")
+            return
+
+        plan_sections = PlanSection.objects.filter(year=self.YEAR)
+
+        # reset top performers
+        PlanScore.objects.filter(year=self.YEAR).update(most_improved="")
+        PlanSectionScore.objects.filter(plan_score__year=self.YEAR).update(
+            most_improved=""
+        )
+
+        for group in Council.SCORING_GROUP_CHOICES:
+            group_tag = group[0]
+            group_params = Council.SCORING_GROUPS[group_tag]
+
+            score_differences = (
+                PlanScore.objects.filter(
+                    year=self.YEAR,
+                    council__authority_type__in=group_params["types"],
+                    council__country__in=group_params["countries"],
+                    weighted_total__gt=0,
+                )
+                .annotate(
+                    previous_score=Subquery(
+                        PlanScore.objects.filter(
+                            year=previous_year, council_id=OuterRef("council_id")
+                        ).values("weighted_total")
+                    )
+                )
+                .annotate(difference=(F("weighted_total") - F("previous_score")))
+                .exclude(Q(previous_score=0) | Q(weighted_total=0))
+                .order_by("-difference")
+            )
+            count = self.MOST_IMPROVED_COUNT.get(
+                group_tag, self.DEFAULT_MOST_IMPROVED_COUNT
+            )
+            if count == 0:
+                continue
+
+            for most_improved in score_differences.all()[:count]:
+                most_improved.most_improved = group_tag
+                most_improved.save()
+
+        for country in Council.COUNTRY_CHOICES:
+            score_differences = (
+                PlanScore.objects.filter(
+                    year=self.YEAR,
+                    council__country=country[0],
+                    weighted_total__gt=0,
+                )
+                .annotate(
+                    previous_score=Subquery(
+                        PlanScore.objects.filter(
+                            year=previous_year, council_id=OuterRef("council_id")
+                        ).values("weighted_total")
+                    )
+                )
+                .annotate(difference=(F("weighted_total") - F("previous_score")))
+                .exclude(Q(previous_score=0) | Q(weighted_total=0))
+                .order_by("-difference")
+            )
+
+            most_improved = score_differences.first()
+            most_improved.most_improved = country[1]
+            most_improved.save()
+
+        for section in plan_sections.all():
+            if section.code in self.SKIP_SECTION_PERFORMERS:
+                continue
+
+            differences = (
+                PlanSectionScore.objects.filter(
+                    plan_score__year=self.YEAR,
+                    plan_section=section,
+                )
+                .annotate(
+                    previous_score=Subquery(
+                        PlanSectionScore.objects.filter(
+                            plan_score__year=previous_year,
+                            plan_section__code=section.code,
+                            plan_score__council_id=OuterRef("plan_score__council_id"),
+                        ).values("weighted_score")
+                    )
+                )
+                .annotate(difference=(F("weighted_score") - F("previous_score")))
+                .exclude(Q(previous_score=0) | Q(weighted_score=0))
+                .order_by("-difference")
+            )
+
+            for most_improved in differences.all()[: self.DEFAULT_MOST_IMPROVED_COUNT]:
+                most_improved.most_improved = section.code
+                most_improved.save()
+
+        score_differences = (
+            PlanScore.objects.filter(
+                year=self.YEAR,
+                weighted_total__gt=0,
+            )
+            .annotate(
+                previous_score=Subquery(
+                    PlanScore.objects.filter(
+                        year=previous_year, council_id=OuterRef("council_id")
+                    ).values("weighted_total")
+                )
+            )
+            .annotate(difference=(F("weighted_total") - F("previous_score")))
+            .filter(difference__lt=F("weighted_total"))
+            .exclude(Q(previous_score=0) | Q(weighted_total=0))
+            .order_by("-difference")
+        )
+
+        most_improved = score_differences.first()
+        most_improved.most_improved = "overall"
+        most_improved.save()
 
     def import_questions(self):
         df = pd.read_csv(self.QUESTIONS_CSV)
@@ -246,6 +395,18 @@ class Command(BaseCommand):
             question.topic = row["topic"]
             question.clarifications = row["clarifications"]
 
+            if not pd.isna(row["previous_year_question"]):
+                try:
+                    prev_q = PlanQuestion.objects.get(
+                        section__year=self.previous_year,
+                        code=f"{section}_q{row['previous_year_question']}",
+                    )
+                    question.previous_question = prev_q
+                except PlanQuestion.DoesNotExist:
+                    print(
+                        f"no previous question found for {code} - {row['previous_year_question']}"
+                    )
+
             if not pd.isna(row["groups"]):
                 for group in row["groups"].split(","):
                     group = group.lower()
@@ -267,6 +428,9 @@ class Command(BaseCommand):
 
         # can fix at series level rather than testing individual entries
         df["score"] = df["score"].fillna(0)
+        df["score"] = df["score"].astype("string")
+        df["score"] = df["score"].str.replace("-", "0")
+        df["score"] = df["score"].astype("float")
         to_create = []
 
         # more efficent just to delete everything and quickly reload
@@ -306,7 +470,17 @@ class Command(BaseCommand):
             to_create.append(score_obj)
         PlanQuestionScore.objects.bulk_create(to_create)
 
-    def handle(self, update_questions: bool = False, *args, **options):
+    def handle(
+        self,
+        update_questions: bool = False,
+        update_political_control: bool = False,
+        previous_year: int = None,
+        *args,
+        **options,
+    ):
+        self.update_control = update_political_control
+        self.previous_year = previous_year
+        self.stdout.write(f"Importing council action scores for {self.YEAR}")
         if not update_questions:
             self.stdout.write(
                 f"{YELLOW}Not creating or updating questions, call with --update_questions to do so{NOBOLD}"
@@ -318,3 +492,4 @@ class Command(BaseCommand):
         if update_questions:
             self.import_questions()
         self.import_question_scores()
+        self.label_most_improved(previous_year)
