@@ -32,3 +32,9 @@
       border-radius: 50%;
     }
 }
+
+.progress-ring-zero {
+    background: conic-gradient(
+      var(--ring-secondary-color, $primary-200)
+    );
+}
