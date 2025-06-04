@@ -428,11 +428,19 @@
 
                 <td data-column="score" class="score ps-5 ps-lg-2">
                   <div class="d-flex flex-row gap-2 align-items-center">
+                      {% if question.scored_max %}
                       <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio question.scored_max council_count 100 %};">
                           <div class="percentage fs-8">
                               {% widthratio question.scored_max council_count 100 %}%
                           </div>
                       </div>
+                      {% else %}
+                      <div class="progress-ring progress-ring-zero" style="--ring-size: 40px;--ring-percentage: 0};">
+                          <div class="percentage fs-8">
+                              0%
+                          </div>
+                      </div>
+                      {% endif %}
                       <span class="fs-8 mt-1 me-0 text-start">
                           {% include 'scoring/includes/scoring-group-name.html' with group=council_type plural=True %}
                           {% if question.details.question_type == "negative" %}
