@@ -59,6 +59,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s1_b_h",
                     "description": "Buildings & Heating",
                     "answers": [
@@ -116,6 +117,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_tran",
                     "answers": [],
                     "avg": 9.8,
@@ -151,6 +153,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s1_b_h",
                     "answers": [
                         {
@@ -208,6 +211,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_tran",
                     "answers": [],
                     "avg": 8.7,
@@ -243,6 +247,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s1_b_h",
                     "answers": [
                         {
@@ -300,6 +305,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_tran",
                     "answers": [],
                     "avg": 9.8,
@@ -333,6 +339,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s1_b_h",
                     "answers": [
                         {
@@ -390,6 +397,7 @@ class TestAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_tran",
                     "answers": [],
                     "avg": 8.7,
@@ -450,6 +458,7 @@ class TestTopPerormersInViews(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": "unitary",
+                    "most_improved": None,
                     "code": "s1_b_h",
                     "answers": [
                         {
@@ -507,6 +516,7 @@ class TestTopPerormersInViews(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_tran",
                     "answers": [],
                     "avg": 9.8,
@@ -542,6 +552,7 @@ class TestPreviousYearAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s1_b_h",
                     "description": "Buildings & Heating",
                     "max_score": 19,
@@ -605,6 +616,7 @@ class TestPreviousYearAnswerView(TestCase):
                     "council_name": "Borsetshire County",
                     "council_slug": "borsetshire",
                     "top_performer": None,
+                    "most_improved": None,
                     "code": "s2_tran",
                     "description": "Transport",
                     "max_score": 18,
