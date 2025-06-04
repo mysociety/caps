@@ -139,26 +139,38 @@ footer {
     .media-icons-wrapper {
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        max-width: 188px;
+        flex-wrap: wrap;
+        gap: 1rem;
 
-        a.scorecard-footer__badge {
-            display:inline-block;
+        a {
+            display: block;
             width: 32px;
             height: 0;
-            padding-top:32px;
+            padding-top: 32px;
             overflow: hidden;
             background-size: contain;
             background-repeat: no-repeat;
+            border-radius: 100%;
             @include transition(transform 0.3s ease-in-out);
             @include hover-focus {
                 transform: scale(1.1);
             }
-            &.scorecard-footer__badge--twitter {background-image: url('../img/icon-twitter-white.svg');}
-            &.scorecard-footer__badge--facebook {background-image: url('../img/icon-facebook-white.svg');}
-            &.scorecard-footer__badge--instagram {background-image: url('../img/icon-instagram-white.svg');}
-            &.scorecard-footer__badge--github {background-image: url('../img/icon-github-white.svg');}
+
+            $services: (
+                'bluesky': 'bsky.app',
+                'facebook': 'facebook.com',
+                'github': 'github.com',
+                'instagram': 'instagram.com',
+                'linkedin': 'linkedin.com',
+                'tiktok': 'tiktok.com',
+                'x': 'x.com'
+            );
+
+            @each $service, $domain in $services {
+                &[href*="#{$domain}"] {
+                    background-image: url('../img/icon-#{$service}-white.svg');
+                }
+            }
         }
     }
 }
