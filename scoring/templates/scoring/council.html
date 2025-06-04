@@ -27,6 +27,18 @@
             This council is one of the highest scoring {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %}.
         </div>
         {% endif %}
+        {% if plan_score.most_improved %}
+        <div class="d-flex align-items-center">
+            {% include 'caps/icons/scorecards-star.html' with classes='me-2' width='1rem' height='1rem' role='presentation' %}
+            {% if plan_score.most_improved == council.get_scoring_group.slug %}
+              This council is one of the most improved {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %}.
+            {% elif plan_score.most_improved == council.get_country_display %}
+              This council is the most improved in {{ council.get_country_display }}.
+            {% elif plan_score.most_improved == 'overall' %}
+              This council is the most improved in {{ plan_year }}
+            {% endif %}
+        </div>
+        {% endif %}
         <dl class="mt-4 mb-0 council-stats-grid">
             <dt>Nation</dt>
             <dd>{{ council.get_country_display }}</dd>
@@ -308,6 +320,9 @@
                           <div class="card">
                               <dt class="card-header fs-7 py-1">Difference</dt>
                               <dd class="card-body text-success py-2 mb-0 text-center">
+                                {% if section.most_improved %}
+                                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                                {% endif%}
                                 {% include "scoring/includes/integer_score_change.html" with change=section.change %}
                               </dd>
                           </div>
@@ -339,9 +354,11 @@
                     </button>
                 </td>
 
-              {% if section.top_performer %}
+              {% if section.top_performer or section.most_improved %}
                 <td  class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
+                    {% if section.top_performer %}
                     {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                    {% endif %}
                     <span>{{ section.weighted_score|floatformat:0 }}%</span>
                 </td>
 
@@ -351,6 +368,9 @@
                   <td class="js-previous-year-score display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
 
                   <td class="display-only-large-up">
+                      {% if section.most_improved %}
+                      {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                      {% endif %}
                       {% include "scoring/includes/integer_score_change.html" with change=section.change %}
                   </td>
                 {% endif %}
