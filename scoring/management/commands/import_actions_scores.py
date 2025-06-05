@@ -391,7 +391,7 @@ class Command(BaseCommand):
         # can fix at series level rather than testing individual entries
         df["score"] = df["score"].fillna(0)
         df["score"] = df["score"].astype("string")
-        df["score"] = df["score"].str.replace("-", "0")
+        df["score"] = df["score"].str.replace(r"^-$", "0")
         df["score"] = df["score"].astype("float")
         to_create = []
 
