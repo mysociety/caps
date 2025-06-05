@@ -40,6 +40,8 @@ class ChoiceInFilter(django_filters.BaseInFilter, django_filters.ChoiceFilter):
 
 
 class NationPlanScoreFilter(BaseScoreFilter):
+    pass
+    """
     council_group = ChoiceInFilter(
         field_name="council__authority_type",
         lookup_expr="in",
@@ -50,6 +52,7 @@ class NationPlanScoreFilter(BaseScoreFilter):
             (",".join(Council.SCORING_GROUPS["combined"]["types"]), "combined"),
         ),
     )
+    """
 
 
 class PlanScoreFilter(BaseScoreFilter):
