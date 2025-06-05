@@ -8,15 +8,25 @@
             <a class="btn btn-outline-primary {% if scoring_group.slug == 'northern-ireland' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='northern-ireland' %}">Northern Ireland</a>
         </div>
     {% elif current_page == 'nation-detail' and nation.slug == 'england' %}
-    {{ filter_params.council_group }}
-        <div id="filterRegion" class="col">
-            <select class="form-select form-select-sm form-select-show-modifications" id="council_group_select" name="council_group">
-                <option value="CC,LBO,MD,UA"{% if filter_params.council_group == "single" %} selected{% endif %}>Single Tier</option>
-                <option value="CTY"{% if filter_params.council_group == "CTY" %} selected{% endif %}>County</option>
-                <option value="NMD"{% if filter_params.council_group == "NMD" %} selected{% endif %}>District</option>
-                <option value="combined"{% if filter_params.council_group == "combined" %} selected{% endif %}>Combined Authority</option>
-            </select>
-        </div>
+        <fieldset class="d-flex flex-row flex-wrap align-items-center gap-2">
+            <legend class="visually-hidden">Filter by council type</legend>
+            <div>
+                <input class="btn-check" type="radio" name="council_group" id="council_group_single" value="CC,LBO,MD,UA" {% if council_group == 'CC,LBO,MD,UA' or not council_group %}checked{% endif %}>
+                <label class="btn btn-outline-primary" for="council_group_single">Single Tier</label>
+            </div>
+            <div>
+                <input class="btn-check" type="radio" name="council_group" id="council_group_county" value="CTY" {% if council_group == 'CTY' %}checked{% endif %}>
+                <label class="btn btn-outline-primary" for="council_group_county">County</label>
+            </div>
+            <div>
+                <input class="btn-check" type="radio" name="council_group" id="council_group_district" value="NMD" {% if council_group == 'NMD' %}checked{% endif %}>
+                <label class="btn btn-outline-primary" for="council_group_district">District</label>
+            </div>
+            <div>
+                <input class="btn-check" type="radio" name="council_group" id="council_group_combined" value="COMB,GLA,SRA" {% if council_group == 'COMB,GLA,SRA' %}checked{% endif %}>
+                <label class="btn btn-outline-primary" for="council_group_combined">Combined Authority</label>
+            </div>
+        </fieldset>
     {% endif %}
 
     <div class="d-flex flex-row flex-wrap align-items-center mt-3 pt-3 border-top gap-3">

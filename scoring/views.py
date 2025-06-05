@@ -1,4 +1,3 @@
-import re
 from collections import defaultdict
 from copy import deepcopy
 from datetime import date
@@ -1743,7 +1742,7 @@ class NationDetailView(BaseCouncilListView):
 
     def get_scoring_group(self):
         country = self.kwargs["nation_name"]
-        scoring_group_slug = self.kwargs.get("council_type", "")
+        scoring_group_slug = self.request.GET.get("council_group")
         group = None
 
         if country == "england":
@@ -1760,13 +1759,15 @@ class NationDetailView(BaseCouncilListView):
 
     def get_queryset(self):
         nation = self.kwargs["nation_name"]
-        scoring_group = self.get_scoring_group()
 
         filters = {
             "year": self.request.year.year,
             "council__country": Council.country_code(nation),
-            "council__authority_type__in": scoring_group["types"],
         }
+        if self.request.GET.get("council_group"):
+            filters["council__authority_type__in"] = self.request.GET[
+                "council_group"
+            ].split(",")
 
         qs = (
             PlanScore.objects.filter(**filters)
@@ -1796,11 +1797,14 @@ class NationDetailView(BaseCouncilListView):
         context = super().get_context_data(**kwargs)
 
         scoring_group = self.get_scoring_group()
+        context = self.setup_filter_context(context, context["filter"], scoring_group)
         councils = self.get_council_data(context)
         averages, section_averages = self.get_averages(context)
         context["averages"] = averages
         context["section_averages"] = section_averages
-        context = self.setup_filter_context(context, context["filter"], scoring_group)
+        context["council_group"] = context["filter"].data.get(
+            "council_group", ",".join(Council.SCORING_GROUPS["single"]["types"])
+        )
 
         form_class = ScoringSort
         form = form_class(self.request.GET)

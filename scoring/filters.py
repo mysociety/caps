@@ -25,9 +25,8 @@ class BaseScoreFilter(django_filters.FilterSet):
         choices=Council.get_county_choices(),
     )
 
-    authority_type = django_filters.ChoiceFilter(
-        field_name="council__authority_type",
-        choices=Council.get_authority_type_choices_for_scoring_group("single"),
+    region = django_filters.ChoiceFilter(
+        field_name="council__region", choices=Council.REGION_CHOICES
     )
 
     class Meta:
@@ -35,26 +34,14 @@ class BaseScoreFilter(django_filters.FilterSet):
         fields = []
 
 
-class ChoiceInFilter(django_filters.BaseInFilter, django_filters.ChoiceFilter):
+class NationPlanScoreFilter(BaseScoreFilter):
     pass
 
 
-class NationPlanScoreFilter(BaseScoreFilter):
-    council_group = ChoiceInFilter(
-        field_name="council__authority_type",
-        lookup_expr="in",
-        choices=(
-            (",".join(Council.SCORING_GROUPS["single"]["types"]), "single"),
-            (",".join(Council.SCORING_GROUPS["county"]["types"]), "county"),
-            (",".join(Council.SCORING_GROUPS["district"]["types"]), "district"),
-            (",".join(Council.SCORING_GROUPS["combined"]["types"]), "combined"),
-        ),
-    )
-
-
 class PlanScoreFilter(BaseScoreFilter):
-    region = django_filters.ChoiceFilter(
-        field_name="council__region", choices=Council.REGION_CHOICES
+    authority_type = django_filters.ChoiceFilter(
+        field_name="council__authority_type",
+        choices=Council.get_authority_type_choices_for_scoring_group("single"),
     )
 
     country = django_filters.ChoiceFilter(
