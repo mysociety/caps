@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import RedirectView
 
 import scoring.views as views
 
@@ -21,9 +22,14 @@ scoring_patterns = [
         name="council_preview",
     ),
     path(
-        "councils/<slug:slug>/preview/top-performer",
-        views.CouncilPreviewTopPerfomer.as_view(),
-        name="council_top_performer_preview",
+        "councils/most_improved/<int:previous_year>/",
+        views.OverallMostImproved.as_view(),
+        name="overall_most_improved",
+    ),
+    path(
+        "councils/<str:group>/most_improved/<int:previous_year>/",
+        views.CouncilMostImproved.as_view(),
+        name="council_most_improved",
     ),
     path("councils/<slug:slug>/", views.CouncilView.as_view(), name="council"),
     path("sections/<str:code>/", views.SectionView.as_view(), name="section"),
@@ -32,6 +38,11 @@ scoring_patterns = [
         "section/<slug:slug>/top-performer/preview/",
         views.SectionTopPerformerPreview.as_view(),
         name="section_top_preview",
+    ),
+    path(
+        "section/<str:section>/most_improved/<int:previous_year>/",
+        views.SectionMostImproved.as_view(),
+        name="section_most_improved",
     ),
     path(
         "section/<slug:slug>/top-performer/<str:council>/preview/",
@@ -50,10 +61,16 @@ scoring_patterns = [
         views.MethodologyView.as_view(),
         name="methodology",
     ),
+    path("nations/", views.NationListView.as_view(), name="nations_list"),
+    path(
+        "nations/<str:nation_name>/",
+        views.NationDetailView.as_view(),
+        name="nation_detail",
+    ),
+    path("about/", views.AboutView.as_view(), name="about"),
 ]
 
 non_scoring_patterns = [
-    path("about/", views.AboutView.as_view(), name="about"),
     path("contact/", views.ContactView.as_view(), name="contact"),
     path(
         "how-to-use-the-scorecards/",
@@ -77,6 +94,12 @@ urlpatterns = [
     ),
     path(
         "<year>/", include((scoring_patterns, "year_scoring"), namespace="year_scoring")
+    ),
+    path(
+        "favicon.ico",
+        RedirectView.as_view(
+            url=settings.STATIC_URL + "scoring/img/favicon.ico", permanent=True
+        ),
     ),
     path("admin/", admin.site.urls),
 ]
