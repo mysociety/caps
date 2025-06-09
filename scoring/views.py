@@ -1252,27 +1252,57 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
                         "count": 0,
                     }
 
-            for score in score_counts:
-                totals[score["score"]] = {
-                    "score": score["score"],
-                    "count": score["score_count"],
+                for score in score_counts:
+                    totals[score["score"]] = {
+                        "score": score["score"],
+                        "count": score["score_count"],
+                    }
+
+                if prev_counts:
+                    for score in prev_counts:
+                        if not totals.get(score["score"]):
+                            continue
+                        totals[score["score"]]["prev_count"] = score["score_count"]
+                        totals[score["score"]]["change"] = (
+                            totals[score["score"]]["count"] - score["score_count"]
+                        )
+
+                    for score in totals.keys():
+                        if not totals[score].get("prev_count"):
+                            totals[score]["prev_count"] = 0
+                            totals[score]["change"] = totals[score]["count"]
+
+                context["totals"] = [totals[k] for k in sorted(totals.keys())]
+            else:
+                totals["negative"] = {
+                    "score": -1,
+                    "count": 0,
                 }
+                for score in score_counts:
+                    if score["score"] < 0:
+                        totals["negative"]["count"] += score["score_count"]
+                    else:
+                        totals[score["score"]] = {
+                            "score": score["score"],
+                            "count": score["score_count"],
+                        }
+                if prev_counts:
+                    print(prev_counts)
+                    totals["negative"]["prev_count"] = 0
+                    totals[0]["prev_count"] = 0
 
-            if prev_counts:
-                for score in prev_counts:
-                    if not totals.get(score["score"]):
-                        continue
-                    totals[score["score"]]["prev_count"] = score["score_count"]
-                    totals[score["score"]]["change"] = (
-                        totals[score["score"]]["count"] - score["score_count"]
-                    )
+                    for score in prev_counts:
+                        if score["score"] < 0:
+                            totals["negative"]["prev_count"] += score["score_count"]
+                        else:
+                            totals[score["score"]]["prev_count"] = score["score_count"]
 
-                for score in totals.keys():
-                    if not totals[score].get("prev_count"):
-                        totals[score]["prev_count"] = 0
-                        totals[score]["change"] = totals[score]["count"]
+                    for score in totals.keys():
+                        totals[score]["change"] = (
+                            totals[score]["count"] - totals[score]["prev_count"]
+                        )
 
-            context["totals"] = [totals[k] for k in sorted(totals.keys())]
+                context["totals"] = [totals["negative"], totals[0]]
 
         if not previous_q:
             context["no_comparison"] = True
