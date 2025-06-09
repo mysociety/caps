@@ -494,7 +494,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
         """
         scores = (
             cls.objects.all()
-            .select_related("plan_section", "plan_score")
+            .select_related("plan_section", "plan_score", "plan_score__previous_year")
             .filter(plan_score__year=plan_year, plan_score__total__gt=0)
             .annotate(
                 previous_year_score=Subquery(
@@ -508,6 +508,7 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
             .annotate(change=(F("weighted_score") - F("previous_year_score")))
             .order_by("plan_score__council_id", "plan_section__code")
             .values(
+                "plan_score__previous_year__total",
                 "plan_score__total",
                 "plan_score__council_id",
                 "score",
@@ -529,6 +530,8 @@ class PlanSectionScore(ScoreFilterMixin, models.Model):
                 "max": score["max_score"],
                 "change": score["change"],
             }
+            if score["plan_score__previous_year__total"] == 0:
+                obj["change"] = None
             if as_list:
                 councils[score["plan_score__council_id"]].append(obj)
             else:
