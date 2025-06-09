@@ -85,6 +85,10 @@
                         <h3 class="fs-4 mb-0 text-center">
                             {% if question.is_negatively_marked and t.score == 0 %}
                                 Councils without penalty marks
+                            {% elif question.is_negatively_marked and t.score == -1 %}
+                                Councils with penalty marks
+                            {% elif question.is_negatively_marked %}
+                                {{ t.score }} point{{ t.score|pluralize }}
                             {% else %}
                                 {{ t.score|floatformat:0 }} point{{ t.score|pluralize }}
                             {% endif %}
