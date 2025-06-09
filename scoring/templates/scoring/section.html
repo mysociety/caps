@@ -428,6 +428,11 @@
 
                 <td data-column="score" class="score ps-5 ps-lg-2">
                   <div class="d-flex flex-row gap-2 align-items-center">
+                      {% if question.removed %}
+                          <span class="fs-8 mt-1 me-0 text-start">
+                              {{ question.removed.reason }}
+                          </span>
+                        {% else %}
                       {% if question.scored_max %}
                       <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio question.scored_max council_count 100 %};">
                           <div class="percentage fs-8">
@@ -449,6 +454,7 @@
                           got full marks for this question.
                           {% endif %}
                       </span>
+                      {% endif %}
                   </div>
                 </td>
             </tr>

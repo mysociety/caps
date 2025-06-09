@@ -922,6 +922,8 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         natsort = gen_natsort_lamda()
 
+        removed_qs = get_config("REMOVED_QUESTIONS", self.request.year.year)
+
         council = self.request.GET.get("council", None)
         if council is not None:
             try:
@@ -968,6 +970,10 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
                     "evidence_links": "CouncilTypeOnly",
                     "comparisons": [],
                 }
+                if removed_qs and removed_qs.get(question.code):
+                    comparison_questions[question.code]["removed"] = removed_qs.get(
+                        question.code
+                    )
 
             question_max_counts = PlanQuestionScore.all_question_max_score_counts(
                 council_group=council_type, plan_year=self.request.year.year
