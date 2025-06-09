@@ -192,6 +192,11 @@ class HomePageView(
                 council["percentage"] = council["score"]
             else:
                 council["percentage"] = 0
+            if (
+                council.get("previous_percentage") is None
+                or council["previous_percentage"] == 0
+            ):
+                council["change"] = None
 
         if context.get("filter_params", None) is None:
             missing_councils = self.get_missing_councils(council_ids, scoring_group)
@@ -513,7 +518,11 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         except PlanScore.DoesNotExist:
             context["original_plan_score"] = False
 
-        if plan_score.previous_year is not None:
+        if (
+            plan_score.previous_year is not None
+            and plan_score.previous_year.weighted_total is not None
+            and plan_score.previous_year.weighted_total > 0
+        ):
             prev = plan_score.previous_year
             context["previous_year"] = prev.year
             context["previous_total"] = prev.weighted_total
