@@ -1203,9 +1203,19 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
 
         question = context["question"]
         context["page_title"] = question.text
+        context["plan_year"] = self.request.year.year
 
         context["applicable_scoring_groups"] = question.questiongroup.all()
         scoring_group = None
+
+        removed = None
+        removed_qs = defaults.get_config("removed_questions", self.request.year.year)
+        if removed_qs and removed_qs.get(question.code):
+            removed = removed_qs[question.code]
+
+        if removed:
+            context["question_removed"] = removed
+            return context
 
         # If question only applies to a single authority type,
         # assume the user wants to see that.
@@ -1336,7 +1346,6 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
         elif previous_q.max_score != context["question"].max_score:
             context["max_score_changed"] = True
 
-        context["plan_year"] = self.request.year.year
         if self.request.year.previous_year:
             context["previous_year"] = self.request.year.previous_year.year
 
