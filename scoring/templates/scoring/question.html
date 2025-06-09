@@ -76,6 +76,12 @@
         </div>
     </div>
 
+    {% if question_removed %}
+        <div class="alert alert-dark mt-3 w-md-50" role="alert">
+            <h3 class="h5">Question removed</h3>
+            <p class="mb-0">{{ question_removed.reason }}</p>
+        </div>
+    {% else %}
     {% if scoring_group and totals %}
         <div class="question-summary-grid mt-5">
         {% for t in totals %}
@@ -290,6 +296,7 @@
                 {% endfor %}
             </tbody>
         </table>
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}
