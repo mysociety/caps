@@ -69,5 +69,12 @@ class AdvancedFilterMixin:
 class SearchAutocompleteMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["all_councils"] = Council.objects.exclude(start_date__gte="2023-01-01")
+        if self.request.year.year == 2023:
+            context["all_councils"] = Council.objects.exclude(
+                start_date__gte="2023-01-01"
+            )
+        else:
+            context["all_councils"] = Council.objects.exclude(
+                end_date__lte="2024-01-01"
+            )
         return context
