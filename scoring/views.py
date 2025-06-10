@@ -1230,6 +1230,10 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
             scoring_group = Council.SCORING_GROUPS[self.request.GET.get("type")]
 
         previous_q = None
+        previous_q_overriden = False
+        previous_q_overrides = defaults.get_config(
+            "previous_q_overrides", self.request.year.year, default=[]
+        )
         if scoring_group is not None:
             context["scoring_group"] = scoring_group
             context["scores"] = (
@@ -1268,6 +1272,9 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
                             context["decreased"] += 1
 
                 previous_q = context["question"].previous_question
+                if previous_q.code in previous_q_overrides:
+                    previous_q = None
+                    previous_q_overriden = True
 
                 if previous_q:
                     prev_counts = previous_q.get_scores_breakdown(
@@ -1342,6 +1349,8 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
                 context["totals"] = [totals["negative"], totals[0]]
 
         if not previous_q:
+            if previous_q_overriden:
+                context["comparison_overridden"] = True
             context["no_comparison"] = True
         elif previous_q.max_score != context["question"].max_score:
             context["max_score_changed"] = True

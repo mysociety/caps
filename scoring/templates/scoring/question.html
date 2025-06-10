@@ -136,6 +136,11 @@
                     <h3 class="h5">Score comparison unavailable</h3>
                     <p class="mb-0">There is no comparison between {{ plan_year }} and {{ previous_year }} data because this question's maximum score was modified in {{ plan_year }}.</p>
                 </div>
+            {% elif comparison_overridden %}
+                <div class="alert alert-dark mt-3 w-md-50" role="alert">
+                    <h3 class="h5">Score comparison unavailable</h3>
+                    <p class="mb-0">There is no comparison between {{ plan_year }} and {{ previous_year }} data because this question was modified in {{ plan_year }}.</p>
+                </div>
             {% elif no_comparison %}
                 <div class="alert alert-dark mt-3 w-md-50" role="alert">
                     <h3 class="h5">Score comparison unavailable</h3>
