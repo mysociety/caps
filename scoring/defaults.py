@@ -1,3 +1,5 @@
+from scoring.models import PlanYearConfig
+
 SECTION_WEIGHTINGS = {
     "Buildings & Heating": {
         "single": 20,
@@ -135,3 +137,17 @@ ORGANISATIONS = [
     {"name": "Winchester Action on Climate Change"},
     {"name": "Zap Map"},
 ]
+
+VALID = ["ORGANISATIONS", "SECTION_WEIGHTINGS"]
+
+
+def get_config(key, year):
+    conf = None
+    try:
+        conf = PlanYearConfig.objects.get(name=key, year__year=year)
+    except PlanYearConfig.DoesNotExist:
+        u_key = key.upper()
+        if u_key in VALID:
+            conf = globals()[u_key]
+
+    return conf
