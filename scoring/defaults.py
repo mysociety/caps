@@ -141,8 +141,8 @@ ORGANISATIONS = [
 VALID = ["ORGANISATIONS", "SECTION_WEIGHTINGS"]
 
 
-def get_config(key, year):
-    conf = None
+def get_config(key, year, default=None):
+    conf = default
     try:
         conf = PlanYearConfig.objects.get(name=key, year__year=year)
     except PlanYearConfig.DoesNotExist:
