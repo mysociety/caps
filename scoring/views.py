@@ -1439,9 +1439,9 @@ class MethodologyView(
                     "council_types": types,
                     "description": question.section.long_description,
                     "is_combined": is_combined,
-                    "weightings": defaults.SECTION_WEIGHTINGS[
-                        question.section.description
-                    ],
+                    "weightings": defaults.get_config(
+                        "section_weightings", self.request.year.year
+                    )[question.section.description],
                     "questions": [],
                 }
 
@@ -1465,7 +1465,9 @@ class MethodologyView(
         sections.append(deepcopy(current_section))
         context["sections"] = sections
 
-        context["organisations"] = defaults.ORGANISATIONS
+        context["organisations"] = defaults.get_config(
+            "organisations", self.request.year.year
+        )
 
         context["canonical_path"] = self.request.path
         return context
