@@ -948,7 +948,7 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
         natsort = gen_natsort_lamda()
 
-        removed_qs = get_config("REMOVED_QUESTIONS", self.request.year.year)
+        removed_qs = defaults.get_config("REMOVED_QUESTIONS", self.request.year.year)
 
         council = self.request.GET.get("council", None)
         if council is not None:
