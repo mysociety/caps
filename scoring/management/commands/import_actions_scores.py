@@ -80,6 +80,7 @@ class Command(BaseCommand):
         "LD": "Liberal Democrat",
         "PC": "Plaid Cymru",
         "IND": "Independent",
+        "REF": "Reform",
     }
 
     previous_year = None
