@@ -388,11 +388,7 @@ class Command(BaseCommand):
 
         df = pd.read_csv(self.ANSWERS_CSV)
 
-        # can fix at series level rather than testing individual entries
         df["score"] = df["score"].fillna(0)
-        df["score"] = df["score"].astype("string")
-        df["score"] = df["score"].str.replace(r"^-$", "0")
-        df["score"] = df["score"].astype("float")
         to_create = []
 
         # more efficent just to delete everything and quickly reload
@@ -421,10 +417,15 @@ class Command(BaseCommand):
             if not pd.isna(row["evidence"]):
                 links = row["evidence"]
 
+            # handle question exceptions
+            score = row["score"]
+            if score == "-":
+                score = None
+
             score_obj = PlanQuestionScore(
                 plan_score=plan_score,
                 plan_question=question,
-                score=row["score"],
+                score=score,
                 answer=row["answer"],
                 evidence_links=links,
                 max_score=row["max_score"],
