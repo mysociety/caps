@@ -21,7 +21,7 @@
             <tr>
                 <th scope="col">{{ plan_year }} score</th>
                 <th scope="col">{{ previous_year }} score</th>
-                <th scope="col">Change</th>
+                <th scope="col">Versus</th>
             </tr>
         </thead>
         <tbody>
@@ -33,7 +33,7 @@
                     <span class="open-graph-preview__score">{{ last_score|floatformat:0 }}%</span>
                 </td>
                 <td class="align-top">
-                    <span class="open-graph-preview__score">{{ change|floatformat:0 }}</span>
+                    <span class="open-graph-preview__score"><span class="open-graph-preview__score-up">&#9650;</span> {{ change|floatformat:0 }}</span>
                 </td>
             </tr>
         </tbody>
