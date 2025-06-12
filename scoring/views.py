@@ -170,7 +170,7 @@ class HomePageView(
                 year=self.request.year.previous_year.year,
             )
             for section in averages.keys():
-                if section != "total":
+                if section != "total" and previous_averages.get(section):
                     averages[section]["change"] = (
                         averages[section]["weighted"]
                         - previous_averages[section]["weighted"]
