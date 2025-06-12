@@ -1260,6 +1260,17 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
         previous_q_overrides = defaults.get_config(
             "previous_q_overrides", self.request.year.year, default=[]
         )
+
+        # this is a temporary fix for transport Q8 county councils because a number of councils
+        # were no longer eligible for this due to changed criteria
+        if (
+            self.request.year.year == 2025
+            and question.section.description == "Transport"
+            and scoring_group
+            and scoring_group["name"] == "County"
+        ):
+            previous_q_overrides.extend(["s2_tran_q5a", "s2_tran_q5b"])
+
         if scoring_group is not None:
             context["scoring_group"] = scoring_group
             context["scores"] = (
