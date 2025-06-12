@@ -333,28 +333,6 @@ class Command(BaseCommand):
                 most_improved.most_improved = section.code
                 most_improved.save()
 
-        score_differences = (
-            PlanScore.objects.filter(
-                year=self.YEAR,
-                weighted_total__gt=0,
-            )
-            .annotate(
-                previous_score=Subquery(
-                    PlanScore.objects.filter(
-                        year=previous_year, council_id=OuterRef("council_id")
-                    ).values("weighted_total")
-                )
-            )
-            .annotate(difference=(F("weighted_total") - F("previous_score")))
-            .filter(difference__lt=F("weighted_total"))
-            .exclude(Q(previous_score=0) | Q(weighted_total=0))
-            .order_by("-difference")
-        )
-
-        most_improved = score_differences.first()
-        most_improved.most_improved = "overall"
-        most_improved.save()
-
     def import_questions(self):
         df = pd.read_csv(self.QUESTIONS_CSV)
 
