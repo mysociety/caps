@@ -1270,7 +1270,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
                             context["decreased"] += 1
 
                 previous_q = context["question"].previous_question
-                if previous_q.code in previous_q_overrides:
+                if previous_q and previous_q.code in previous_q_overrides:
                     previous_q = None
                     previous_q_overriden = True
 
