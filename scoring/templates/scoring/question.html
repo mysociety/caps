@@ -146,7 +146,7 @@
                     <h3 class="h5">Score comparison unavailable</h3>
                     <p class="mb-0">This question was introduced in the {{ plan_year }} Action Scorecards and has no historical data for comparison.</p>
                 </div>
-            {% else %}
+            {% elif not question.is_negatively_marked %}
                 <h3 class="h4 mb-1 mt-5">Performance comparison between {{ previous_year }} and {{ plan_year }}</h3>
                 <p class="text-capitalize mb-3 fs-5">{% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}</p>
                 <div class="d-flex flex-row flex-wrap gap-3 mt-3">
