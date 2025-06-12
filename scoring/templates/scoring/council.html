@@ -34,8 +34,6 @@
               This council is one of the most improved {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %}.
             {% elif plan_score.most_improved == council.get_country_display %}
               This council is the most improved in {{ council.get_country_display }}.
-            {% elif plan_score.most_improved == 'overall' %}
-              This council is the most improved in {{ plan_year }}
             {% endif %}
         </div>
         {% endif %}
