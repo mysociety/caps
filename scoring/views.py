@@ -739,7 +739,14 @@ class CouncilMostImproved(MostImprovedBase):
                 year=self.request.year.year,
                 council__authority_type__in=group["types"],
                 council__country__in=group["countries"],
-                most_improved__in=[group["slug"], "overall"],
+                most_improved__in=[
+                    group["slug"],
+                    "overall",
+                    "England",
+                    "Wales",
+                    "Scotland",
+                    "Northern Ireland",
+                ],
             )
             .annotate(
                 previous_total=Subquery(
@@ -749,11 +756,10 @@ class CouncilMostImproved(MostImprovedBase):
                 )
             )
             .annotate(change=(F("weighted_total") - F("previous_total")))
-            .order_by("change")
-            .first()
+            .order_by("-change")
         )
 
-        return plan_score
+        return plan_score.first()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -764,6 +770,9 @@ class CouncilMostImproved(MostImprovedBase):
         last_score, change = self.get_changes(plan_score, previous_year)
 
         context = self.add_common_context(context, previous_year, council)
+
+        if self.kwargs["group"] == "northern-ireland":
+            context["add_nosplit_span"] = False
 
         context["current_score"] = plan_score.weighted_total
         context["scoring_group"] = council.get_scoring_group()
