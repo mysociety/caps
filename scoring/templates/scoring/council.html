@@ -238,6 +238,10 @@
                             <span class="badge bg-gray-300 text-dark">NA</span> New question (not in previous scorecards)
                         </div>
                     </div>
+                    <hr class="d-block d-md-none">
+                    <div class="d-md-none fs-7">
+                      A {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top mx-1' width='1.1em' height='1.1em' alt="star icon" %} next to the score means the council is a top performer for that section. While a {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top mx-1' width='1.1em' height='1.1em' alt="star icon" %} next to the change (versus column in the table) means the council is one of most improved councils this year.
+                    </div>
                 </div>
             </div>
         </div>
@@ -355,7 +359,9 @@
               {% if section.top_performer or section.most_improved %}
                 <td  class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up text-nowrap">
                     {% if section.top_performer %}
-                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom' width='1.1em' height='1.1em' role='presentation' %}
+                      <button type="button" class="border-0 bg-transparent p-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Top-performer council in this section">
+                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.1em' height='1.1em' role='presentation' %}
+                      </button>
                     {% endif %}
                     <span>{{ section.weighted_score|floatformat:0 }}%</span>
                 </td>
@@ -367,7 +373,9 @@
 
                   <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up text-nowrap">
                       {% if section.most_improved %}
-                      {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.1em' height='1.1rem' role='presentation' %}
+                      <button type="button" class="border-0 bg-transparent p-0" data-bs-toggle="tooltip" data-bs-placement="top" title="One of the most improved council in this section">
+                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.1em' height='1.1em' role='presentation' %}
+                      </button>
                       {% endif %}
                       {% include "scoring/includes/integer_score_change.html" with change=section.change %}
                   </td>
