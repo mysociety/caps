@@ -17,10 +17,8 @@
             <div class="d-flex flex-wrap gap-3">
                 <a class="btn btn-outline-primary" href="{% url 'year_scoring:methodology' plan_year %}"> Learn more about the methodology</a>
               {% if current_plan_year %}
-                <a href="#TODO" class="btn btn-outline-primary">Go to Nations</a>
                 <a href="{% url 'scoring:sections' %}" class="btn btn-outline-primary">Go to sections</a>
               {% else %}
-                <a href="#TODO" class="btn btn-outline-primary">Go to Nations</a>
                 <a href="{% url 'year_scoring:sections' plan_year %}" class="btn btn-outline-primary">Go to sections</a>
               {% endif %}
             </div>
