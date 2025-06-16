@@ -1364,6 +1364,10 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
 
                 context["totals"] = [totals[k] for k in sorted(totals.keys())]
             else:
+                totals[0] = {
+                    "score": 0,
+                    "count": 0,
+                }
                 totals["negative"] = {
                     "score": -1,
                     "count": 0,
