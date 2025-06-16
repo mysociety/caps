@@ -87,7 +87,8 @@ urlpatterns = [
         include(("scoring2022.urls", "scoring2022"), namespace="scoring2022"),
     ),
     path(
-        "<year>/", include((scoring_patterns, "year_scoring"), namespace="year_scoring")
+        "<int:year>/",
+        include((scoring_patterns, "year_scoring"), namespace="year_scoring"),
     ),
     path(
         "favicon.ico",
