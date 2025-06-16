@@ -353,9 +353,9 @@
                 </td>
 
               {% if section.top_performer or section.most_improved %}
-                <td  class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
+                <td  class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up text-nowrap">
                     {% if section.top_performer %}
-                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom' width='1.1em' height='1.1em' role='presentation' %}
                     {% endif %}
                     <span>{{ section.weighted_score|floatformat:0 }}%</span>
                 </td>
@@ -365,9 +365,9 @@
                 {% if plan_score.previous_year %}
                   <td class="js-previous-year-score display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
 
-                  <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
+                  <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up text-nowrap">
                       {% if section.most_improved %}
-                      {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                      {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.1em' height='1.1rem' role='presentation' %}
                       {% endif %}
                       {% include "scoring/includes/integer_score_change.html" with change=section.change %}
                   </td>
