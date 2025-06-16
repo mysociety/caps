@@ -10,7 +10,7 @@ from scoring.models import PlanSection
 class Command(BaseCommand):
     help = "Imports section descriptions"
 
-    YEAR = 2023  # settings.PLAN_YEAR
+    YEAR = settings.PLAN_YEAR
     SCORECARD_DATA_DIR = Path(settings.DATA_DIR, "scorecard_data", str(YEAR))
     SECTION_DESC_CSV = Path(SCORECARD_DATA_DIR, "section_descriptions.csv")
 
