@@ -439,8 +439,8 @@ class TestTopPerormersInViews(TestCase):
             performers,
             [
                 {"score": 25.0, "code": "BRS", "top_performer": "unitary"},
-                {"score": 24.0, "code": "WBS", "top_performer": None},
                 {"score": 24.0, "code": "SBS", "top_performer": None},
+                {"score": 24.0, "code": "WBS", "top_performer": None},
                 {"score": 19.0, "code": "EBS", "top_performer": None},
                 {"score": None, "code": "NBS", "top_performer": None},
             ],

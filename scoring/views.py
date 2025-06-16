@@ -105,7 +105,7 @@ class HomePageView(
                 slug=F("council__slug"),
                 authority_code=F("council__authority_code"),
             )
-            .order_by(F("weighted_total").desc(nulls_last=True))
+            .order_by(F("weighted_total").desc(nulls_last=True), "council__name")
         )
 
         if self.request.year.previous_year:
