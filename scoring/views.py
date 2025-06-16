@@ -618,7 +618,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             )
         )
         context["og_image_path"] = (
-            f"{settings.MEDIA_URL}scoring/og-images/councils/{council.slug}.png"
+            f"{settings.MEDIA_URL}scoring/og-images/councils/{self.request.year.year}/{council.slug}.png"
         )
         return context
 
