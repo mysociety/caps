@@ -41,6 +41,7 @@ class AddYearMiddleware:
         if request.host.name == "scoring" and request.path not in ["/down/"]:
             context = response.context_data
             if request.year is not None and isinstance(request.year, PlanYear):
+                context["plan_year"] = request.year.year
                 if request.year.is_current:
                     context["current_plan_year"] = True
 
