@@ -1,8 +1,6 @@
 .hero-section {
   &.with-version-background  {
     position: relative;
-    background: linear-gradient(90deg, $primary-200 0%, adjust-hue($primary-200, 15) 100%);
-
     .hero-version-badge {
       mix-blend-mode: overlay;
       @include responsive(right, 10, 200);
@@ -20,9 +18,18 @@
         @include responsive(font-size, 15, 50);
       }
     }
+
+    // For yearless pages
+    &.year-2025 {
+    background: linear-gradient(90deg, $primary2025-200 0%, adjust-hue($primary2025-200, -10) 100%);
+    }
   }
 
-  .year-2025 &{
+  .year-2023 & {
+    background: linear-gradient(90deg, $primary-200 0%, adjust-hue($primary-200, 15) 100%);
+  }
+
+  .year-2025 & {
     background: linear-gradient(90deg, $primary2025-200 0%, adjust-hue($primary2025-200, -10) 100%);
   }
 }
