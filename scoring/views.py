@@ -1593,7 +1593,7 @@ class HowToUseView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         return context
 
 
-class NotFoundPageView(SearchAutocompleteMixin, TemplateView):
+class NotFoundPageView(TemplateView):
     page_title = "Page not found"
     template_name = "scoring/404.html"
 
