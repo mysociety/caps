@@ -270,7 +270,7 @@
                                     <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
                                     <td>
                                         {% if council.score != 0 %}
-                                            {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
+                                            {% include 'scoring/includes/score-bar.html' with percentage=council.percentage average=1 %}
                                         {% else %}
                                             <span>--</span>
                                         {% endif %}
