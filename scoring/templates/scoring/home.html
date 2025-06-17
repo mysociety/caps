@@ -9,7 +9,9 @@
     <div class="py-5 py-md-6 hero-section with-version-background">
         <div class="container">
             <h1 class="mb-3">
+              {% if plan_year == 2025 %}
                 <span class="badge text-bg-info fs-6 mb-2">Just launched!</span>
+              {% endif %}
                 <span class="version-year d-block display-1 lh-1 fw-bold mb-0" style="mix-blend-mode: overlay">{{ plan_year }}</span>
                 Action Scorecards
             </h1>
