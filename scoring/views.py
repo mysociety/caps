@@ -212,7 +212,6 @@ class HomePageView(
                         "top_performer": None,
                     }
                 )
-        codes = PlanSection.section_codes(year=self.request.year.year)
 
         if scoring_group["slug"] == "combined":
             form_class = ScoringSortCA
@@ -225,12 +224,13 @@ class HomePageView(
             sort = form.cleaned_data["sort_by"]
             if sort != "":
                 sorted_by = sort
+                index = int(re.search(r"\d+", sort).group()) - 1
                 councils = sorted(
                     councils,
                     key=lambda council: (
                         0
                         if council["score"] == 0 or council["score"] is None
-                        else council["all_scores"][sort]["score"]
+                        else council["all_scores"][index]["score"]
                     ),
                     reverse=True,
                 )
