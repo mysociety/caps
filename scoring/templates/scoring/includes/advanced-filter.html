@@ -71,7 +71,7 @@
 
   {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
     <div id="filterPoliticalControl" class="d-flex flex-column justify-content-between">
-        <label for="control_select" class="fs-7 mb-2">Current political control (June  2025)</label>
+        <label for="control_select" class="fs-7 mb-2">Political control {% include 'scoring/includes/political_control_date.html' %}</label>
         <select class="form-select form-select-sm form-select-show-modifications" id="control_select" name="control">
             <option value=""{% if filter_params.control == "" or filter_params.control is None %} selected{% endif %}>All</option>
             <option value="Coalition/Minority"{% if filter_params.control == "Coalition/Minority" %} selected{% endif %}>Coalition/Minority</option>

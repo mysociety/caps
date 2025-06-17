@@ -61,7 +61,7 @@
             <dd>{{ plan_score.get_ruc_cluster_display }}</dd>
           {% endif %}
           {% if plan_score.political_control %}
-            <dt>Political control (Sept 2023)</dt>
+            <dt>Political control {% include 'scoring/includes/political_control_date.html' %}</dt>
             <dd>{{ plan_score.political_control }}</dd>
           {% endif %}
         </dl>
