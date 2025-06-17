@@ -1300,7 +1300,7 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
                         previous_score=Subquery(
                             PlanQuestionScore.objects.filter(
                                 plan_question__code=self.kwargs["code"],
-                                plan_score__year=2023,
+                                plan_score__year=self.request.year.previous_year.year,
                                 plan_score__council=OuterRef("plan_score__council"),
                             ).values("score")
                         )
