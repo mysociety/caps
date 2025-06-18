@@ -490,6 +490,28 @@
             <tr data-has-plan="no" class="section-row bg-purple-100 fw-bold">
                 <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
                     Total score
+                    <dl class="d-md-none mt-3 d-flex flex-row gap-3">
+                        <div class="card">
+                            <dt class="card-header fs-7 py-1">2025</dt>
+                            <dd class="card-body text-center py-2 mb-0">
+                                {{ plan_score.weighted_total|floatformat:0 }}%
+                            </dd>
+                        </div>
+                        {% if plan_score.previous_year %}
+                          <div class="card">
+                              <dt class="card-header fs-7 py-1">2023</dt>
+                              <dd class="card-body text-center py-2 mb-0">
+                                  {{ previous_total|floatformat:0 }}%
+                              </dd>
+                          </div>
+                          <div class="card">
+                              <dt class="card-header fs-7 py-1">Difference</dt>
+                              <dd class="card-body text-success py-2 mb-0 text-center">
+                                {% include "scoring/includes/integer_score_change.html" with change=previous_diff %}
+                              </dd>
+                          </div>
+                          {% endif %}
+                    </dl>
                 </td>
 
                 <td class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
