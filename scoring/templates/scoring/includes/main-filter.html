@@ -56,9 +56,10 @@
         </button>
     </div>
 
-    {% if current_page == 'home-page' %}
-    <div class="alert alert-secondary w-lg-25 py-1 px-2 mt-3 mt-md-2 mb-0 fs-7">
-        {% include 'caps/icons/info.html' with classes='me-1 mb-1' width='1em' height='1em' role='presentation' %}Checkout the new <a href="{% url 'scoring:nations_list' %}">nations' pages</a>
+    {% if current_page == 'home-page' and filter_params.country %}
+    <div class="alert alert-info py-2 mt-3">
+        {% include 'caps/icons/info.html' with classes='me-1 mb-1' width='1em' height='1em' role='presentation' %}
+        <strong>New</strong> See more detail on <a href="{% url 'scoring:nations_list' %}">our new Nation pages</a>
     </div>
     {% endif %}
 
