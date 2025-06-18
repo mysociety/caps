@@ -328,6 +328,12 @@ class HomePageView(BaseCouncilListView):
             form = form_class()
 
         context["scoring_group"] = scoring_group
+        context["show_region_filter"] = False
+        country = None
+        if context.get("filter_params"):
+            country = context["filter_params"].get("country")
+        if country == 1 or country == "" or country is None:
+            context["show_region_filter"] = True
 
         context["form"] = form
         context["sorted_by"] = sorted_by
@@ -1824,6 +1830,9 @@ class NationDetailView(BaseCouncilListView):
 
         if not nation:
             raise Http404("Page not found")
+
+        if nation["slug"] == "england":
+            context["show_region_filter"] = True
 
         context["nation"] = nation
         context["previous_year"] = self.request.year.previous_year
