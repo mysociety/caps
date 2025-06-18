@@ -1808,11 +1808,9 @@ class NationDetailView(BaseCouncilListView):
         averages, section_averages = self.get_averages(context)
         context["averages"] = averages
         context["section_averages"] = section_averages
-        context["council_group"] = ",".join(
-            context["filter"].data.get("council_group", [])
+        context["council_group"] = context["filter"].data.get(
+            "council_group", ",".join(Council.SCORING_GROUPS["single"]["types"])
         )
-        context["council_group"] = self.request.GET.get("council_group")
-        context["council_group"] = context["filter"].data.get("council_group", [])
 
         form_class = ScoringSort
         form = form_class(self.request.GET)
