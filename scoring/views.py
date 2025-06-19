@@ -80,6 +80,7 @@ class BaseCouncilListView(
         scoring_group = self.get_scoring_group()
         country = self.kwargs.get("nation_name")
         if country:
+            country = country.replace("-", " ")
             country = Council.country_code(country)
 
         averages = PlanSection.get_average_scores(
@@ -1757,7 +1758,7 @@ class NationDetailView(BaseCouncilListView):
             except:
                 group = Council.SCORING_GROUPS["single"]
         elif country == "northern-ireland":
-            group = Council.SCORING_GROUPS["northern-ireland"]["types"]
+            group = Council.SCORING_GROUPS["northern-ireland"]
         else:
             group = Council.SCORING_GROUPS["single"]
 
@@ -1765,6 +1766,7 @@ class NationDetailView(BaseCouncilListView):
 
     def get_queryset(self):
         nation = self.kwargs["nation_name"]
+        nation = nation.replace("-", " ")
 
         filters = {
             "year": self.request.year.year,
