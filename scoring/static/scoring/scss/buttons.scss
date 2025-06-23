@@ -38,7 +38,7 @@ button {
 // No need for yellow top-shadow on buttons
 .btn {
   &:focus {
-    box-shadow: 0 4px $black !important;
+    box-shadow: inset 0 0px 0 1px $black !important;
   }
 }
 

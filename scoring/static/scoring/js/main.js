@@ -219,8 +219,24 @@ function sortTableByColumn(columnHeader, direction) {
     var rowsArr = Array.from(rows);
     var selector = '[data-sort-section="' + sortSection + '"]';
     rowsArr.sort(function(rowA, rowB){
-        var valueA = parseFloat( rowA.querySelector(selector).getAttribute('data-sort-value') );
-        var valueB = parseFloat( rowB.querySelector(selector).getAttribute('data-sort-value') );
+        var rawValueA = rowA.querySelector(selector).getAttribute('data-sort-value');
+        var rawValueB = rowB.querySelector(selector).getAttribute('data-sort-value');
+
+        // Handle NA values - always put them at the bottom
+        if (rawValueA === "NA" && rawValueB === "NA") return 0;
+
+        if (direction === 'descending') {
+            if (rawValueA === "NA") return 1;
+            if (rawValueB === "NA") return -1;
+        } else {
+            // For ascending, keeps NA at the bottom. 
+            if (rawValueA === "NA") return -1;
+            if (rawValueB === "NA") return 1;
+        }
+
+        // Normal numeric comparison (your original logic)
+        var valueA = parseFloat(rawValueA);
+        var valueB = parseFloat(rawValueB);
         return valueB - valueA;
     }).forEach(function(row){
         if ( direction == 'descending' ) {

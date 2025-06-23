@@ -49,10 +49,17 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
         }
     }
 
-    th.previous-year-score-difference {
+    th.previous-year-score-difference,
+    td[data-sort-section="overall_vs"] {
         position: sticky;
         z-index: 3;
         left: $first-cell-width +  $default-cell-width;
+    }
+
+    .second-row {
+        :nth-child(3) {
+            z-index: 5;
+        }
     }
 
     &.js-previous-year-score-difference-table[has-difference="false"] {
@@ -66,6 +73,14 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
         .js-previous-year-difference-header {
             .section-title {
                 justify-content: left;
+            }
+        }
+    }
+
+    &.js-previous-year-score-difference-table[has-difference="true"] {
+        .js-previous-year-difference-header {
+            .js-sort-table {
+                display: none;
             }
         }
     }
@@ -87,7 +102,7 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
         display: none;
     }
 
-    $first-row-height: 60px;
+    $first-row-height: 50px;
     thead {
         th {
             max-height: $first-row-height;
@@ -109,14 +124,14 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
         tr {
             &:nth-child(odd) {
                 background-color: $color-scorecard-grey-100;
-                th {
+                th,td {
                     background-color: $color-scorecard-grey-100;
                 }
             }
     
             &:nth-child(even) {
                 background-color: $white;
-                th {
+                th,td {
                     background-color: $white;
                 }
             }
@@ -232,7 +247,8 @@ $score-bar-vertical-padding: 8px;
 
     &:focus {
         background-color: $yellow;
-        background-image: url("../img/chevron-down-purple.svg");
+        // It won't be overriden by .is-sorted-descending and is-sorted-ascending 
+        background-image: url("../img/chevron-down-purple.svg") !important;
     }
 
     &.is-sorted-descending {
