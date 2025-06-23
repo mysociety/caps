@@ -15,7 +15,7 @@
         </select>
     </div>
 
-  {% if filter_params.country == "1" or filter_params.country == "" or filter_params.country is None %}
+  {% if show_region_filter %}
     <div id="filterRegion" class="d-flex flex-column justify-content-between">
         <label for="region_select" class="fs-7 mb-2">Region</label>
         <select class="form-select form-select-sm form-select-show-modifications" id="region_select" name="region">
