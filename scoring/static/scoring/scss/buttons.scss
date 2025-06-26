@@ -21,9 +21,7 @@
 }
 
 a,
-.btn,
-.link-light,
-button {
+.link-light {
   text-decoration-skip-ink: none; // Prevents the underline to get cut off
   text-underline-offset: 0.2rem; // Improve readability of links
   &:focus {
@@ -36,9 +34,10 @@ button {
 }
 
 // No need for yellow top-shadow on buttons
-.btn {
+.btn, 
+button {
   &:focus {
-    box-shadow: inset 0 0px 0 1px $black !important;
+    box-shadow: 0 0px 0px 2px  $color-scorecard-yellow, 0 0px 0 4px $black !important;
   }
 }
 
