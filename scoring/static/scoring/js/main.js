@@ -211,8 +211,10 @@ function sortTableByColumn(columnHeader, direction) {
         el.setAttribute('title', strings['none']);
     });
 
-    columnHeader.classList.add('is-sorted-' + direction);
-    columnHeader.setAttribute('title', strings[direction]);
+    forEachElement(table, '[data-sort-section="' + sortSection + '"]', function(el){
+        el.classList.add('is-sorted-' + direction);
+        el.setAttribute('title', strings[direction]);
+    });
 
     var tbody = table.querySelector('tbody');
     var rows = tbody.querySelectorAll('tbody tr');
@@ -253,6 +255,7 @@ function setUpTableSorting() {
             if ( this.classList.contains('is-sorted-descending') ) {
                 sortTableByColumn(this, 'ascending');
             } else if ( this.classList.contains('is-sorted-ascending') ) {
+                // Get the *first* default sortable button, and sort by that.
                 var defaultSortColumn = this.closest('table').querySelector('[data-sort-default]');
                 var defaultSortDirection = defaultSortColumn.getAttribute('data-sort-default');
                 sortTableByColumn(defaultSortColumn, defaultSortDirection);

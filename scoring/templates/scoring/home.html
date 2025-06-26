@@ -78,23 +78,31 @@
                         {% if previous_year %}
                         <tr class="js-previous-year-score-difference">
                             <th class="h-auto pb-2 pt-0 bg-white position-sticky z-index-5"></th>
-                            <th scope="col" class="h-auto pb-2 pt-0 fs-8 text-center total-score position-sticky z-index-5">
-                                <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-section="overall" data-sort-default="descending"></button>
-                                {{ plan_year }}
+                            <th scope="col" class="h-auto pb-2 pt-0 text-center total-score position-sticky z-index-5">
+                                <button class="js-sort-table sort-button {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-section="overall" data-sort-default="descending">
+                                    {% include 'caps/icons/chevron-down.html' %}
+                                    {{ plan_year }}
+                                </button>
                             </th>
-                            <th scope="col" class="h-auto pb-2 pt-0 fs-8 previous-year-score-difference text-center position-sticky text-nowrap">
-                                <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start" data-sort-section="overall_vs" title="Sort highest first"></button>
-                                versus {{ previous_year.year }}
+                            <th scope="col" class="h-auto pb-2 pt-0 previous-year-score-difference text-center position-sticky text-nowrap">
+                                <button class="js-sort-table sort-button" data-sort-section="overall_vs" title="Sort highest first">
+                                    {% include 'caps/icons/chevron-down.html' %}
+                                    versus {{ previous_year.year }}
+                                </button>
                             </th>
 
                             {% for x in section_averages %}
-                                <th scope="col" class="h-auto pb-2 pt-0 fs-8 text-center total-score">
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-{{ forloop.counter }} {% if sorted_by == x.code %} is-sorted-descending{% endif %}" data-sort-section="{{ x.code }}" title="Sort highest first"></button>
-                                    {{ plan_year }}
+                                <th scope="col" class="h-auto pb-2 pt-0 text-center total-score">
+                                    <button class="js-sort-table sort-button is--category-{{ forloop.counter }} {% if sorted_by == x.code %} is-sorted-descending{% endif %}" data-sort-section="{{ x.code }}" title="Sort highest first">
+                                        {% include 'caps/icons/chevron-down.html' %}
+                                        {{ plan_year }}
+                                    </button>
                                 </th>
-                                <th scope="col" class="h-auto pb-2 pt-0 fs-8 previous-year-score-difference text-center position-static text-nowrap">
-                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-{{ forloop.counter }}" data-sort-section="{{ x.code }}_vs" title="Sort highest first"></button>
-                                    versus {{ previous_year.year }}
+                                <th scope="col" class="h-auto pb-2 pt-0 previous-year-score-difference text-center position-static text-nowrap">
+                                    <button class="js-sort-table js-sort-table sort-button is--category-{{ forloop.counter }}" data-sort-section="{{ x.code }}_vs" title="Sort highest first">
+                                        {% include 'caps/icons/chevron-down.html' %}
+                                        versus {{ previous_year.year }}
+                                    </button>
                                 </th>
                             {% endfor %}
                         </tr>

@@ -6,7 +6,6 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
     width: 100%;
     max-height: 97vh;
     overflow: auto;
-    position: relative;
 
     @media only screen and (max-width: $table-desktop-breakpoint) {
         width: fit-content; // So it doesn;t use extra space on tablet
@@ -102,7 +101,7 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
         display: none;
     }
 
-    $first-row-height: 50px;
+    $first-row-height: 40px;
     thead {
         th {
             max-height: $first-row-height;
@@ -270,6 +269,59 @@ $score-bar-vertical-padding: 8px;
             &.is--#{$name} {
                 background-color: $colour;
             }
+        }
+    }
+}
+
+// This version includes text
+.sort-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    font-size: 0.75rem;
+    border: 0;
+    background: transparent;
+    border-radius: $border-radius;
+    @include transition(background-color, color 0.3s ease-in-out);
+
+    @each $name, $colour in $theme-colors {
+        &.is--#{$name} {
+            color: $colour;
+        }
+    }
+
+    &:hover {
+        background-color: $primary-100;
+        color: $primary;
+        @each $name, $colour in $theme-colors {
+            &.is--#{$name} {
+                background-color: mix($colour,$white,25%);
+                color: $colour;
+            }
+        }
+    }
+
+    &:focus {
+        box-shadow: inset 0 0px 0px 2px  $color-scorecard-yellow, inset 0 0px 0 4px $black !important;
+        outline: 0;
+    }
+
+    &.is-sorted-descending,
+    &.is-sorted-ascending {
+        background-color: $primary;
+        color: $white;
+        @each $name, $colour in $theme-colors {
+            &.is--#{$name} {
+                background-color: $colour;
+                color: $white;
+            }
+        }
+    }
+
+    &.is-sorted-ascending {
+        svg {
+            transform: rotate(180deg);
         }
     }
 }
