@@ -164,13 +164,13 @@
                                 </td>
                                 {% if previous_year %}
                                     {% if score.change < 0 %}
-                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning" data-sort-section="{{ score.code }}_vs" data-sort-value="{{ score.change|floatformat:"0" }}">&#9660; {{ score.change|floatformat:"0" }}</td>
+                                        <td scope="row" class="js-previous-year-score-difference previous-year-score-difference text-warning" data-sort-section="{{ score.code }}_vs" data-sort-value="{{ score.change|floatformat:"0" }}">&#9660; {{ score.change|floatformat:"0" }}</td>
                                     {% elif score.change > 0 %}
-                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success" data-sort-section="{{ score.code }}_vs" data-sort-value="{{ score.change|floatformat:"0" }}">&#9650; {{ score.change|floatformat:"0" }}</td>
+                                        <td scope="row" class="js-previous-year-score-difference previous-year-score-difference text-success" data-sort-section="{{ score.code }}_vs" data-sort-value="{{ score.change|floatformat:"0" }}">&#9650; {{ score.change|floatformat:"0" }}</td>
                                     {% elif score.change == 0 %}
-                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference" data-sort-section="{{ score.code }}_vs" data-sort-value="0">--</td>
+                                        <td scope="row" class="js-previous-year-score-difference previous-year-score-difference" data-sort-section="{{ score.code }}_vs" data-sort-value="0">--</td>
                                     {% else %}
-                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference" data-sort-section="{{ score.code }}_vs" data-sort-value="NA">NA</td>
+                                        <td scope="row" class="js-previous-year-score-difference previous-year-score-difference" data-sort-section="{{ score.code }}_vs" data-sort-value="NA">NA</td>
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}
