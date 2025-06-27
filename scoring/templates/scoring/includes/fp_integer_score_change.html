@@ -1,9 +1,31 @@
-{% if change < 0 %}
-    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning" data-sort-section="overall_vs" data-sort-value="{{ change|floatformat:"0" }}">&#9660; {{ change|floatformat:"0" }}</td>
-{% elif change > 0 %}
-    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success" data-sort-section="overall_vs" data-sort-value="{{ change|floatformat:"0" }}">&#9650; {{ change|floatformat:"0" }}</td>
-{% elif change == 0 %}
-    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference" data-sort-section="overall_vs" data-sort-value="0">--</td>
-{% else %}
-    <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference" data-sort-section="overall_vs" data-sort-value="NA">NA</td>
-{% endif %}
+<td class="
+    scorecard-table__year-difference-column
+    js-previous-year-score-difference
+  {% if change < 0 %}
+    text-warning
+  {% elif change > 0 %}
+    text-success
+  {% endif %}
+    "
+  {% if section %}
+    data-section="{{ section }}"
+  {% endif %}
+  {% if sortsection %}
+    data-sort-section="{{ sortsection }}_vs"
+  {% endif %}
+  {% if change < 0 or change == 0 or change > 0 %}
+    data-sort-value="{{ change|floatformat:"0" }}"
+  {% else %}
+    data-sort-value="NA"
+  {% endif %}
+>
+  {% if change < 0 %}
+    <span class="fs-8">&#9660;</span> {{ change|floatformat:"0" }}
+  {% elif change > 0 %}
+    <span class="fs-8">&#9650;</span> {{ change|floatformat:"0" }}
+  {% elif change == 0 %}
+    <span class="fs-8">--</span>
+  {% else %}
+    <span class="fs-8">NA</span>
+  {% endif %}
+</td>

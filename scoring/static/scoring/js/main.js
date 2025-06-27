@@ -221,22 +221,34 @@ function sortTableByColumn(columnHeader, direction) {
     var rowsArr = Array.from(rows);
     var selector = '[data-sort-section="' + sortSection + '"]';
     rowsArr.sort(function(rowA, rowB){
-        var rawValueA = rowA.querySelector(selector).getAttribute('data-sort-value');
-        var rawValueB = rowB.querySelector(selector).getAttribute('data-sort-value');
+        var sortingCellA = rowA.querySelector(selector);
+        var sortingCellB = rowB.querySelector(selector);
 
-        // Handle NA values - always put them at the bottom
+        // Sort rows without a relevant cell to the bottom.
+        if (direction === 'descending') {
+            if (sortingCellA === null) return 1;
+            if (sortingCellB === null) return -1;
+        } else { 
+            if (sortingCellA === null) return -1;
+            if (sortingCellB === null) return 1;
+        }
+
+        var rawValueA = sortingCellA.getAttribute('data-sort-value');
+        var rawValueB = sortingCellB.getAttribute('data-sort-value');
+
+        // Sort NA rows together.
         if (rawValueA === "NA" && rawValueB === "NA") return 0;
 
+        // Sort NA rows to the bottom.
         if (direction === 'descending') {
             if (rawValueA === "NA") return 1;
             if (rawValueB === "NA") return -1;
         } else {
-            // For ascending, keeps NA at the bottom. 
             if (rawValueA === "NA") return -1;
             if (rawValueB === "NA") return 1;
         }
 
-        // Normal numeric comparison (your original logic)
+        // Normal numeric comparison
         var valueA = parseFloat(rawValueA);
         var valueB = parseFloat(rawValueB);
         return valueB - valueA;
@@ -416,7 +428,7 @@ forEachElement('.js-section-council-autocomplete', function(input){
     });
 });
 
-// Previous year comparison toggle
+// Previous year comparison toggle on council page
 forEachElement('#js-toggle-previous-year-score', function(el) {
     el.addEventListener('change', function() {
         document.querySelector('table.js-table-year-comparison').classList.toggle('js-previous-year-score-display', el.checked);
@@ -424,66 +436,67 @@ forEachElement('#js-toggle-previous-year-score', function(el) {
     });
 });
 
-var toggleCheckbox = document.getElementById('js-toggle-previous-year-difference');
-if (toggleCheckbox) {
-    toggleCheckbox.addEventListener('change', function() {
-      var isChecked = this.checked;
-      
-      forEachElement('.js-previous-year-difference-header', function(header) {
-        header.setAttribute('colspan', isChecked ? '2' : '1');
-      });
-      
-      forEachElement('.js-previous-year-score-difference', function(element) {
-        element.style.display = isChecked ? 'revert' : 'none';
-      });
-
-      forEachElement('.js-previous-year-score-difference-table', function(table) {
-        table.setAttribute('has-difference', isChecked ? 'true' : 'false');
-      });
-
-      this.setAttribute('aria-checked', isChecked);
+// Previous year comparison toggle on home page
+var yearDifferenceToggle = document.getElementById('js-toggle-previous-year-difference');
+if (yearDifferenceToggle) {
+    yearDifferenceToggle.addEventListener('change', function() {
+        yearDifferenceToggle.setAttribute('aria-checked', yearDifferenceToggle.checked);
+        showOrHideYearDifference();
     });
+}
+function showOrHideYearDifference() {
+    var yearDifferenceToggle = document.getElementById('js-toggle-previous-year-difference');
+    if (yearDifferenceToggle) {
+        forEachElement('.scorecard-table__sections-header .scorecard-table__score-column', function(header) {
+            header.setAttribute('colspan', yearDifferenceToggle.checked ? '2' : '1');
+        });
+
+        document.querySelector('.scorecard-table__sections-header th')
+            .setAttribute('rowspan', yearDifferenceToggle.checked ? '2' : '1' );
+
+        forEachElement('.scorecard-table-wrapper', function(element){
+            element.classList[ yearDifferenceToggle.checked ? 'add' : 'remove' ]('with-year-difference');
+        });
+    }
 }
 
 // Mobile category selector for Homepage table
-forEachElement('.js-category-select', function(categorySelect) {
-    const announcementElement = document.querySelector('.js-category-select-announcement');
+function setUpMobileCategorySelect() {
+    forEachElement('.js-category-select', function(categorySelect) {
+        const announcementElement = document.querySelector('.js-category-select-announcement');
+        const tableElement = document.querySelector('.scorecard-table');
 
-    categorySelect.addEventListener('change', function() {
-      const selectedValue = this.value;
-      const selectedText = this.options[this.selectedIndex].text;
+        categorySelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            const selectedText = this.options[this.selectedIndex].text;
 
-      if (announcementElement) {
-        announcementElement.textContent = 'Now showing: ' + selectedText;
-      }
+            tableElement.setAttribute('data-section', selectedValue);
 
-      forEachElement('.js-score-row', function(element) {
-        element.style.display = 'none';
-      });
-
-      forEachElement('.' + selectedValue, function(element) {
-        element.style.display = 'revert';
-      });
+            if (announcementElement) {
+                announcementElement.textContent = 'Now showing: ' + selectedText;
+            }
+        });
     });
-});
+}
+setUpMobileCategorySelect();
 
 function ajaxLoadCouncilTypeScorecard(url) {
     const selectors = [
       '#home-page-main-filter',
       '.scorecard-table',
-      '.scorecard-table-mobile'
+      '.js-category-select-form'
     ];
-    
+
     selectors.forEach(selector => {
       document.querySelector(selector)?.classList.add('loading-shimmer');
     });
-  
+
     fetch(url)
       .then(response => response.text())
       .then(html => {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, "text/html");
-        
+
         selectors.forEach(selector => {
           const newElement = doc.querySelector(selector);
           const currentElement = document.querySelector(selector);
@@ -493,6 +506,8 @@ function ajaxLoadCouncilTypeScorecard(url) {
         });
 
         setUpTableSorting();
+        showOrHideYearDifference();
+        setUpMobileCategorySelect();
 
         const advancedFilter = document.querySelector('#advancedFilter');
         if (advancedFilter) {

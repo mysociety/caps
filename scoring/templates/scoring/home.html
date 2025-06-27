@@ -36,358 +36,171 @@
         </div>
 
         <div class="my-3 my-lg-5 mx-lg-auto position-relative">
-            <div class="bg-gray-200 px-3 py-2 border d-none d-lg-block">
+            <div class="bg-gray-200 px-3 py-2 border">
                 {% include 'scoring/includes/jump-to-council.html' %}
             </div>
 
-            <div class="scorecard-table-wrapper border border-top-0 mw-95 mw-sm-75 mw-md-50 mw-lg-none mx-auto">
-                {% block "score_table" %}
-                <table class="scorecard-table js-previous-year-score-difference-table" {% if previous_year %}has-difference="true" {% endif %}>
-                    <thead class="position-sticky top-0 z-index-4">
-                        <tr class="first-row position-sticky bg-white z-index-5">
-                            <th scope="col" class="bg-light position-sticky z-index-4 py-1">
-                                <div class="ms-4">
-                                    <h2 class="mb-1 fs-5 lh-1">{{ authority_type_label }}</h2>
-                                    <p class="mb-0 fs-8">Council Climate Action Scorecard</p>
-                                </div>
+            <div class="scorecard-table-wrapper border border-top-0 {% if previous_year %}with-year-difference{% endif %}">
+
+                <form role="search" class="scorecard-table__mobile-category-select js-category-select-form">
+                    <label class="fs-7 text-nowrap" for="mobile-category-select">Show section:</label>
+                    <select id="mobile-category-select" name="category" aria-label="Select category" class="form-select form-select-sm fw-bold js-category-select">
+                        <option value="overall" selected>Total Score</option>
+                      {% for section in section_averages %}
+                        <option value="{{ section.code }}">{{ section.title }}</option>
+                      {% endfor %}
+                    </select>
+                </form>
+                <div class="visually-hidden js-category-select-announcement" aria-live="polite">Now showing Total Score</div>
+
+                <table class="scorecard-table" data-section="overall">
+                    <thead class="position-sticky z-index-4">
+                        <tr class="scorecard-table__sections-header bg-white z-index-5">
+                            <th scope="col" {% if previous_year %}rowspan="2"{% endif %} class="scorecard-table__label-column bg-light">
+                                <h2 class="mb-1 fs-5 lh-1">{{ scoring_group.name }}</h2>
+                                <p class="mb-0 fs-8">Council Climate Action Scorecard</p>
                             </th>
-                            {% if previous_year %}
-                            <th scope="col" colspan="2" class="total-score js-previous-year-difference-header position-sticky py-1 z-index-2">
-                            {% else %}
-                            <th scope="col" colspan="1" class="total-score js-previous-year-difference-header position-sticky py-1 z-index-2">
-                            {% endif %}
+                          {% if previous_year %}
+                            <th scope="col" colspan="2" class="scorecard-table__score-column js-previous-year-difference-header py-1" data-section="overall">
+                          {% else %}
+                            <th scope="col" colspan="1" class="scorecard-table__score-column js-previous-year-difference-header py-1" data-section="overall">
+                          {% endif %}
                                 <div class="section-title">
-                                    <span class="text-center fw-bold">Total Score</span>
                                     <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-section="overall" data-sort-default="descending"></button>
+                                    <span class="text-center fw-bold">Total Score</span>
                                 </div>
                             </th>
 
-                            {% for section in section_averages %}
-                                {% if previous_year %}
-                                    <th scope="col" colspan="2" class="py-1 js-previous-year-difference-header">
-                                {% else %}
-                                    <th scope="col" colspan="1" class="py-1 js-previous-year-difference-header">
-                                {% endif %}
-                                    <div class="section-title">
-                                        {% include section_link_template with section_code=section.code section_name=section.title category_number=forloop.counter %}
-                                        <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-{{ forloop.counter }} {% if sorted_by == section.code %} is-sorted-descending{% endif %}" data-sort-section="{{ section.code }}" title="Sort highest first"></button>
-                                    </div>
-                                </th>
-                            {% endfor %}
+                        {% for section in section_averages %}
+                          {% if previous_year %}
+                            <th scope="col" colspan="2" class="scorecard-table__score-column py-1 js-previous-year-difference-header" data-section="{{ section.code }}">
+                          {% else %}
+                            <th scope="col" colspan="1" class="scorecard-table__score-column py-1 js-previous-year-difference-header" data-section="{{ section.code }}">
+                          {% endif %}
+                                <div class="section-title">
+                                    <button class="js-sort-table btn btn-outline-primary sort-icon align-items-start is--category-{{ forloop.counter }} {% if sorted_by == section.code %} is-sorted-descending{% endif %}" data-sort-section="{{ section.code }}" title="Sort highest first"></button>
+                                    {% include section_link_template with section_code=section.code section_name=section.title category_number=forloop.counter %}
+                                </div>
+                            </th>
+                        {% endfor %}
                         </tr>
-                        {% if previous_year %}
-                        <tr class="js-previous-year-score-difference">
-                            <th class="h-auto pb-2 pt-0 bg-white position-sticky z-index-5"></th>
-                            <th scope="col" class="h-auto pb-2 pt-0 text-center total-score position-sticky z-index-5">
+
+                      {% if previous_year %}
+                        <tr class="scorecard-table__years-header">
+                            {% comment %} NOTE: rowspan from first cell fills the space of the first cell here! {% endcomment %}
+                            <th scope="col" class="scorecard-table__score-column h-auto pb-2 pt-0" data-section="overall">
                                 <button class="js-sort-table sort-button {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-section="overall" data-sort-default="descending">
                                     {% include 'caps/icons/chevron-down.html' %}
                                     {{ plan_year }}
                                 </button>
                             </th>
-                            <th scope="col" class="h-auto pb-2 pt-0 previous-year-score-difference text-center position-sticky text-nowrap">
+                            <th scope="col" class="scorecard-table__year-difference-column h-auto pb-2 pt-0 text-nowrap" data-section="overall">
                                 <button class="js-sort-table sort-button" data-sort-section="overall_vs" title="Sort highest first">
                                     {% include 'caps/icons/chevron-down.html' %}
                                     versus {{ previous_year.year }}
                                 </button>
                             </th>
-
-                            {% for x in section_averages %}
-                                <th scope="col" class="h-auto pb-2 pt-0 text-center total-score">
-                                    <button class="js-sort-table sort-button is--category-{{ forloop.counter }} {% if sorted_by == x.code %} is-sorted-descending{% endif %}" data-sort-section="{{ x.code }}" title="Sort highest first">
-                                        {% include 'caps/icons/chevron-down.html' %}
-                                        {{ plan_year }}
-                                    </button>
-                                </th>
-                                <th scope="col" class="h-auto pb-2 pt-0 previous-year-score-difference text-center position-static text-nowrap">
-                                    <button class="js-sort-table js-sort-table sort-button is--category-{{ forloop.counter }}" data-sort-section="{{ x.code }}_vs" title="Sort highest first">
-                                        {% include 'caps/icons/chevron-down.html' %}
-                                        versus {{ previous_year.year }}
-                                    </button>
-                                </th>
-                            {% endfor %}
-                        </tr>
-                        {% endif %}
-                        <tr class="second-row position-sticky z-index-4">
-                            <th scope="col" class="bg-primary-100 position-sticky z-index-4">
-                                <span class="ms-4 fs-6 fw-bold d-block">{{ scoring_group.name }} average</span>
+                          {% for x in section_averages %}
+                            <th scope="col" class="scorecard-table__score-column h-auto pb-2 pt-0" data-section="{{ x.code }}">
+                                <button class="js-sort-table sort-button is--category-{{ forloop.counter }} {% if sorted_by == x.code %} is-sorted-descending{% endif %}" data-sort-section="{{ x.code }}" title="Sort highest first">
+                                    {% include 'caps/icons/chevron-down.html' %}
+                                    {{ plan_year }}
+                                </button>
                             </th>
-                            <th scope="col" class="bg-primary-100 total-score position-sticky z-index-4">
+                            <th scope="col" class="scorecard-table__year-difference-column h-auto pb-2 pt-0 text-nowrap" data-section="{{ x.code }}">
+                                <button class="js-sort-table sort-button is--category-{{ forloop.counter }}" data-sort-section="{{ x.code }}_vs" title="Sort highest first">
+                                    {% include 'caps/icons/chevron-down.html' %}
+                                    versus {{ previous_year.year }}
+                                </button>
+                            </th>
+                          {% endfor %}
+                        </tr>
+                      {% endif %}
+
+                        <tr class="scorecard-table__average-row position-sticky z-index-4">
+                            <th scope="col" class="scorecard-table__label-column bg-primary-100">
+                                <span class="fs-6 fw-bold d-block lh-sm">{{ scoring_group.name }} average</span>
+                            </th>
+                            <th scope="col" class="scorecard-table__score-column bg-primary-100" data-section="overall">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                             </th>
-                            {% if previous_year %}
-                                {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.total.change %}
-                            {% endif %}
+                          {% if previous_year %}
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.total.change section="overall" %}
+                          {% endif %}
 
-                            {% for section in section_averages %}
-                                <th scope="col" class="bg-primary-100 category-{{ forloop.counter }} second-row z-index-3 position-relative">
-                                    {% include 'scoring/includes/score-bar.html' with percentage=section.weighted average=1 %}
-                                </th>
-                                {% if previous_year %}
-                                    {% include 'scoring/includes/fp_header_integer_score_change.html' with change=section.change %}
-                                {% endif %}
-                            {% endfor %}
+                          {% for section in section_averages %}
+                            <th scope="col" class="scorecard-table__score-column category-{{ forloop.counter }} bg-primary-100 z-index-3 position-relative" data-section="{{ section.code }}">
+                                {% include 'scoring/includes/score-bar.html' with percentage=section.weighted average=1 %}
+                            </th>
+                          {% if previous_year %}
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=section.change section=section.code %}
+                          {% endif %}
+                          {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
                       {% for council in council_data %}
                         <tr data-jump-slug="{{ council.slug }}">
-                            <th scope="row" class="first-column position-sticky z-index-3 align-middle">
-                                <div class="d-flex flex-row align-items-center">
+                            <th scope="row" class="scorecard-table__label-column align-middle">
+                                <div class="d-flex flex-nowrap flex-row align-items-center gap-1">
                                     {% if council.top_performer %}
-                                        <button class="bg-transparent border-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Top performer council">
+                                        <button class="p-0 bg-transparent border-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Top performer council">
                                             {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.2em' height='1.2em' %}
                                         </button>
-                                    {% else %}
-                                        <div class="pe-4"></div>
                                     {% endif %}
                                     {% include council_link_template with plan_year=plan_year council=council %}
                                 </div>
                             </th>
-                            <td scope="row" class="council-category-score total-score fw-bold position-sticky z-index-3 align-middle" data-sort-section="overall" 
-                            {% if council.score == 0 %} data-sort-value="NA" {% else %} data-sort-value="{{ council.percentage|default:"0" }}" {% endif %}>
+
+                        {% if council.score != 0 and council.score is not None %}
+                            <td class="scorecard-table__score-column fw-bold" data-section="overall" data-sort-section="overall" {% if council.score == 0 %} data-sort-value="NA" {% else %} data-sort-value="{{ council.percentage|default:"0" }}" {% endif %}>
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                             </td>
-                            {% if previous_year %}
-                                {% include 'scoring/includes/fp_integer_score_change.html' with change=council.change %}
-                            {% endif %}
-                          {% with scores=council.all_scores %}
-                          {% if council.score != 0 and council.score is not None %}
-                            {% for score in scores %}
-                            <td scope="row" class="council-category-score category-{{ forloop.counter }}" data-sort-section="{{ score.code }}" data-sort-value="{{ score.weighted|default:"0" }}">
-                                    <div class="score-bar">
-                                      {% if sort %}
-                                        <div class="sort-icon"></div>
-                                      {% endif %}
-                                      <span class="score-percentage">{{ score.weighted|floatformat:"0" }}%</span>
-                                      <div class="progress-bar" style="width: {{ score.weighted }}%;"></div>
-                                    </div>
-                                </td>
-                                {% if previous_year %}
-                                    {% if score.change < 0 %}
-                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning" data-sort-section="{{ score.code }}_vs" data-sort-value="{{ score.change|floatformat:"0" }}">&#9660; {{ score.change|floatformat:"0" }}</td>
-                                    {% elif score.change > 0 %}
-                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success" data-sort-section="{{ score.code }}_vs" data-sort-value="{{ score.change|floatformat:"0" }}">&#9650; {{ score.change|floatformat:"0" }}</td>
-                                    {% elif score.change == 0 %}
-                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference" data-sort-section="{{ score.code }}_vs" data-sort-value="0">--</td>
-                                    {% else %}
-                                        <td scope="row" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference" data-sort-section="{{ score.code }}_vs" data-sort-value="NA">NA</td>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                          {% elif council.score == 0 %}
-                            <td class="has-no-plan" colspan="7" data-sort-value="NA">
-                                Not scored: newly formed council since April 2023. This council will be assessed in future Scorecard editions.
-                            </td>
-                          {% for x in "123456" %}
-                            <td scope="row" data-sort-value="NA" hidden></td>
-                          {% endfor %}
-                          {% elif council.score is None %}
-                            <td class="has-no-plan" colspan="7" data-sort-value="NA">
-                                We do not currently have a Scorecard for this {{ council.council_or_combined_authority }}
-                            </td>
-                          {% for x in "123456" %}
-                            <td scope="row" data-sort-value="NA" hidden></td>
-                          {% endfor %}
+                          {% if previous_year %}
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=council.change sortsection="overall" section="overall" %}
                           {% endif %}
-                          {% endwith %}
+
+                          {% for score in council.all_scores %}
+                            <td class="scorecard-table__score-column category-{{ forloop.counter }}" data-section="{{ score.code }}" data-sort-section="{{ score.code }}" data-sort-value="{{ score.weighted|default:"0" }}">
+                                {% include 'scoring/includes/score-bar.html' with percentage=score.weighted %}
+                            </td>
+                          {% if previous_year %}
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=score.change section=score.code sortsection=score.code %}
+                          {% endif %}
+                          {% endfor %}
+
+                        {% elif council.score == 0 %}
+                            <td colspan="2" class="scorecard-table__score-column" data-sort-value="NA">
+                                Not scored: newly formed since April 2023. This
+                              {% if scoring_group.slug == "combined" %}
+                                Combined Authority
+                              {% else %}
+                                council
+                              {% endif %}
+                                will be assessed in future Scorecard editions.
+                            </td>
+                        {% elif council.score is None %}
+                            <td colspan="2" class="scorecard-table__score-column" data-sort-value="NA">
+                                We do not currently have a Scorecard for this
+                              {% if scoring_group.slug == "combined" %}
+                                Combined Authority
+                              {% else %}
+                                council
+                              {% endif %}
+                            </td>
+                        {% endif %}
+
                         </tr>
                       {% endfor %}
                     </tbody>
                 </table>
 
-                {% comment %} Council Jump mobile {% endcomment %}
-                <div class="bg-gray-200 px-3 py-2 d-lg-none border-top">
-                    {% include 'scoring/includes/jump-to-council.html' %}
-                </div>
-
-                {% comment %} Category select for mobile {% endcomment %}
-                <form role="search" class="d-lg-none position-sticky top-0 z-index-3 pt-3 px-3">
-                    <label class="visually-hidden" for="mobile-category-select">Select category</label>
-                    <select id="mobile-category-select" name="category" aria-label="Select category" class="form-select fw-bold js-category-select">
-                        <option value="js-total" selected>Total Score</option>
-                        {% for section in section_averages %}
-                        <option value="js-{{ section.code }}">{{ section.title }}</option>
-                        {% endfor %}
-                    </select>
-                </form>
-
-                <div class="visually-hidden js-category-select-announcement" aria-live="polite">Now showing Total Score</div>
-
-                <div class="overflow-auto" style="max-height: 70dvh">
-                    <table class="scorecard-table-mobile js-category-select-table w-100">
-                        <thead class="border-bottom border-dark border-opacity-25">
-                            <tr class="name-row">
-                                <th class="fw-bold" scope="row" colspan="4">{{ scoring_group.name }} average</th>
-                            </tr>
-                            {% if previous_year %}
-                            <tr class="legend-row fs-8">
-                                <th></th>
-                                <th scope="col" class="fw-normal">{{ plan_year }}</th>
-                                <th scope="col" class="fw-normal">versus {{ previous_year.year }}</th>
-                                <th></th>
-                            </tr>
-                            {% endif %}
-                            <tr class="score-row js-score-row js-total">
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
-                                </td>
-                                {% if previous_year %}
-                                <td>
-                                    {% if averages.total.change < 0 %}
-                                        <span class="badge bg-red-100 text-warning">&#9660; {{ averages.total.change }}</span>
-                                    {% elif averages.total.change > 0 %}
-                                        <span class="badge bg-green-100 text-success">&#9650; {{ averages.total.change }}</span>
-                                    {% elif averages.total.change == 0 %}
-                                        <span class="badge bg-gray-100">-- 0</span>
-                                    {% else %}
-                                        <span class="badge bg-gray-100">NA</span>
-                                    {% endif %}
-                                </td>
-                                {% endif %}
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                            </tr>
-                            {% for section in section_averages %}
-                            <tr class="score-row js-score-row js-score-row-initial-hidden js-{{ section.code }} category-{{ forloop.counter }}">
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                <td>
-                                    {% include 'scoring/includes/score-bar.html' with percentage=section.weighted average=1 %}
-                                </td>
-                                {% if previous_year %}
-                                <td>
-                                {% if section.change < 0 %}
-                                    <span class="badge bg-red-100 text-warning">&#9660; {{ section.change }}</span>
-                                {% elif section.change > 0 %}
-                                    <span class="badge bg-green-100 text-success">&#9650; {{ section.change }}</span>
-                                {% elif section.change == 0 %}
-                                    <span class="badge bg-gray-100">-- 0</span>
-                                {% else %}
-                                    <span class="badge bg-gray-100">NA</span>
-                                {% endif %}
-                                </td>
-                                {% endif %}
-                                </td>
-                                <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                            </tr>
-                            {% endfor %}
-                        </thead>
-
-                        <tbody>
-                            {% for council in council_data %}
-                                <tr class="name-row" data-jump-slug="{{ council.slug }}">
-                                    <th class="fw-normal" scope="row" colspan="4">
-                                        {% if council.top_performer %}
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <button class="bg-transparent border-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Top performer council">
-                                                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.2em' height='1.2em' %}
-                                            </button>
-                                            {% endif %}
-                                            <a class="lh-base council-link d-flex align-items-center justify-content-center" href="{% url 'scoring:council' council.slug %}">
-                                                <span>{{ council.name }}</span>
-                                                {% include 'caps/icons/link.html' with classes='align-text-top ms-1' width='1em' height='auto' role='presentation' %}
-                                            </a>
-                                        </div>
-                                    </th>
-                                </tr>
-                                <tr class="score-row js-score-row js-total">
-                                    <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                    <td>
-                                        {% if council.score != 0 %}
-                                            {% include 'scoring/includes/score-bar.html' with percentage=council.percentage average=1 %}
-                                        {% else %}
-                                            <span>--</span>
-                                        {% endif %}
-                                    </td>
-                                    {% if previous_year %}
-                                    <td>
-                                        {% if council.change < 0 %}
-                                        <span class="badge bg-red-100 text-warning">&#9660; {{ council.change }}</span>
-                                        {% elif council.change > 0 %}
-                                            <span class="badge bg-green-100 text-success">&#9650; {{ council.change }}</span>
-                                        {% elif council.change == 0 %}
-                                            <span class="badge bg-gray-100">-- 0</span>
-                                        {% else %}
-                                            <span class="badge bg-gray-100">NA</span>
-                                        {% endif %}
-                                    </td>
-                                    {% endif %}
-                                    <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                </tr>
-
-                                {% if council.score == 0 %}
-                                <tr class="message-row">
-                                    {% comment %} TODO update current year message {% endcomment %}
-                                    <td colspan="4"><span class="small" style="white-space:normal">This council did not have an action plan when all plans were assessed on 20th September 2021.</span></td>
-                                </tr>
-                                {% endif %}
-
-                                {% comment %} TODO message for previous year {% endcomment %}
-                                {% if council.score == 0 %}
-                                <tr class="message-row">
-                                    <td colspan="4"><span class="small" style="white-space:normal">This council did not have an action plan when all plans were assessed on 20th September 2021.</span></td>
-                                </tr>
-                                {% endif %}
-
-                                {% with scores=council.all_scores %}
-                                    {% if council.score != 0 and council.score is not None %}
-                                        {% for score in scores %}
-                                        <tr class="score-row js-score-row js-score-row-initial-hidden js-{{ score.code }}">
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                            <td class="council-category-score category-{{ forloop.counter }}">
-                                                <div class="score-bar">
-                                                  {% if sort %}
-                                                    <div class="sort-icon"></div>
-                                                  {% endif %}
-                                                  <span class="score-percentage">{{ score.weighted|floatformat:"0" }}%</span>
-                                                  <div class="progress-bar" style="width: {{ score.weighted }}%;"></div>
-                                                </div>
-                                            </td>
-                                            {% if previous_year %}
-                                            <td>
-                                                {% if score.change < 0 %}
-                                                <span class="badge bg-red-100 text-warning">&#9660; {{ score.change }}</span>
-                                                {% elif score.change > 0 %}
-                                                    <span class="badge bg-green-100 text-success">&#9650; {{ score.change }}</span>
-                                                {% elif score.change == 0 %}
-                                                    <span class="badge bg-gray-100">-- 0</span>
-                                                {% else %}
-                                                    <span class="badge bg-gray-100">NA</span>
-                                                {% endif %}
-                                            </td>
-                                            {% endif %}
-                                            <td class="spacer-cell" aria-hidden="true"><span class="d-none"></span></td>
-                                        </tr>
-                                        {% endfor %}
-                                    {% elif council.score == 0 %}
-                                        <tr class="message-row">
-                                            {% comment %} TODO update current year message {% endcomment %}
-                                            <td colspan="4"><span class="small" style="white-space:normal">Not scored: newly formed council since April 2023. This council will be assessed in future Scorecard editions.</span></td>
-                                            {% for x in "123456" %}
-                                                <td scope="row" data-sort-value="NA" hidden></td>
-                                            {% endfor %}
-                                        </tr>
-                                    {% elif council.score is None %}
-                                        <tr class="message-row">
-                                            {% comment %} TODO update current year message {% endcomment %}
-                                            <td colspan="4"><span class="small" style="white-space:normal">Due to technical issues, this council’s results are not yet available. They will be published soon.</span></td>
-                                            {% for x in "123456" %}
-                                                <td scope="row" data-sort-value="NA" hidden></td>
-                                            {% endfor %}
-                                        </tr>
-                                    {% endif %}
-                                {% endwith %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-                {% endblock %}
             </div>
 
             <p class="mt-4 mt-lg-5 mb-0">
                 <a href="https://climateemergency.uk/action-scorecards/#data-packages" class="cta mx-auto">Click here</a> to buy the data that is available on this website in spreadsheet (.csv) format.
             </p>
-        </div>    
+        </div>
     </div>
 
 {% endblock %}

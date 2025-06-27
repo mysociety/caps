@@ -1,1 +1,1 @@
-<a class="text-decoration-none fw-bold link-category-1" href="{% url 'year_scoring:section' plan_year section_code %}">{{ section_name }}</a>
+<a class="text-decoration-none fw-bold link-category-{{ category_number|default:1 }}" href="{% url 'year_scoring:section' plan_year section_code %}">{{ section_name }}</a>

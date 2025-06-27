@@ -1,15 +1,30 @@
-$table-desktop-breakpoint: map-get($grid-breakpoints, lg);
 $border-table: 1px solid transparentize($color: $black, $amount: 1);
+
+$first-cell-width: 250px;
+$default-cell-width: 165px;
+$small-cell-width: 95px;
+
+$sections: (
+    "overall",
+    "s1_b_h",
+    "s2_tran",
+    "s3_p_lu",
+    "s4_g_f",
+    "s5_bio",
+    "s6_c_e",
+    "s7_wr_f",
+    "s1_b_h_gs_ca",
+    "s2_tran_ca",
+    "s3_p_b_ca",
+    "s4_g_f_ca",
+    "s5_c_e_ca"
+);
 
 // Table scorecard Desktop
 .scorecard-table-wrapper {
     width: 100%;
     max-height: 97vh;
     overflow: auto;
-
-    @media only screen and (max-width: $table-desktop-breakpoint) {
-        width: fit-content; // So it doesn;t use extra space on tablet
-    }
 
     .highlight {
         th, td {
@@ -19,107 +34,46 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
 }
 
 .scorecard-table {
-    $first-cell-width: 250px;
-    $default-cell-width: 165px;
-    $small-cell-width: 85px;
-    $xsmall-cell-width: 65px;
+    width: 100%;
 
     th, td {
         vertical-align: middle;
-        z-index: 0;
-        min-width: $default-cell-width;
-        max-width: $default-cell-width;
         font-size: 0.85rem;
         font-weight: 400;
-        padding: 1rem 0.25rem 1rem 0.75rem;
-
-        &.previous-year-score,
-        &.previous-year-score-difference {
-            min-width: $small-cell-width;
-            text-align: center;
-            padding-left: 0;
-            padding-right: 1rem;
-        }
+        padding: 1rem 0.75rem;
+        text-align: center;
     }
 
-    th {
-        &:first-child {
-            min-width: $first-cell-width !important;
-        }
-    }
-
-    th.previous-year-score-difference,
-    td[data-sort-section="overall_vs"] {
-        position: sticky;
-        z-index: 3;
-        left: $first-cell-width +  $default-cell-width;
-    }
-
-    .second-row {
-        :nth-child(3) {
-            z-index: 5;
-        }
-    }
-
-    &.js-previous-year-score-difference-table[has-difference="false"] {
-        $default-cell-width: 200px;
-
-        th,td {
-            max-width: $default-cell-width;
-            min-width: $default-cell-width;
-        }
-
-        .js-previous-year-difference-header {
-            .section-title {
-                justify-content: left;
-            }
-        }
-    }
-
-    &.js-previous-year-score-difference-table[has-difference="true"] {
-        .js-previous-year-difference-header {
-            .js-sort-table {
-                display: none;
-            }
+    // Hide top row sorting buttons when year difference mode is active.
+    .scorecard-table__sections-header .js-sort-table {
+        .with-year-difference & {
+            display: none;
         }
     }
 
     th {
         background-color: $white;
-        vertical-align: middle;
 
         .section-title {
             display: flex;
-            flex-direction: row-reverse;
             justify-content: center;
             align-items: center;
             gap: 0.5rem;
+            text-wrap: balance;
+            line-height: 1.3;
         }
-    }
-
-    @media only screen and (max-width: $table-desktop-breakpoint) {
-        display: none;
     }
 
     $first-row-height: 40px;
     thead {
+        top: 64px; // Height of scorecard-table__mobile-category-select
         th {
             max-height: $first-row-height;
             height: $first-row-height;
         }
     }
 
-    thead th:first-child {
-        left: 0;
-    }
-
     tbody {
-
-        th {
-            position: relative;
-            left: 0px;
-        }
-
         tr {
             &:nth-child(odd) {
                 background-color: $color-scorecard-grey-100;
@@ -137,12 +91,137 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
         }
     }
 
-    .total-score {
-        left: $first-cell-width;
+    .scorecard-table__label-column {
+        text-align: left;
     }
 
-    .has-no-plan {
-        padding-left: 32.5px; // match the `margin: auto` on .score-bar
+    .scorecard-table__score-column {
+        .with-year-difference & {
+            padding: 1rem 0 1rem 0.75rem;
+        }
+    }
+
+    .scorecard-table__year-difference-column {
+        .with-year-difference & {
+            padding: 1rem 0.75rem 1rem 0;
+        }
+    }
+
+    .council-link {
+        display: block;
+        white-space: break-spaces;
+        text-decoration: none;
+        font-weight: normal;
+        text-wrap: balance;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    // On mobile, show columns only when selected via the mobile selector.
+    [data-section] {
+        display: none;
+    }
+    @each $section-code in $sections {
+        &[data-section="#{$section-code}"] [data-section="#{$section-code}"] {
+            display: revert;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        th, td {
+            min-width: $default-cell-width;
+            max-width: $default-cell-width;
+        }
+
+        .scorecard-table__year-difference-column {
+            min-width: $small-cell-width;
+            max-width: $small-cell-width;
+        }
+
+        .scorecard-table__label-column,
+        .scorecard-table__score-column[data-section="overall"],
+        .scorecard-table__year-difference-column[data-section="overall"] {
+            position: sticky;
+            z-index: 3;
+        }
+
+        th .section-title {
+            text-align: left;
+            justify-content: left;
+
+            .with-year-difference & {
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        thead {
+            top: 0;
+            .scorecard-table__label-column,
+            .scorecard-table__score-column[data-section="overall"],
+            .scorecard-table__year-difference-column[data-section="overall"] {
+                z-index: 5;
+            }
+        }
+
+        .scorecard-table__label-column {
+            left: 0;
+            min-width: $first-cell-width !important; // override `.scorecard-table th`
+        }
+
+        .scorecard-table__score-column[data-section="overall"] {
+            left: $first-cell-width;
+        }
+
+        .scorecard-table__year-difference-column[data-section="overall"] {
+            left: $first-cell-width + $default-cell-width;
+        }
+
+        // Undo mobile column hiding.
+        [data-section] {
+            display: revert;
+        }
+
+        // Always show all score columns on wide screens.
+        .scorecard-table__score-column {
+            display: revert !important;
+        }
+
+        // Show all year difference columns, but only if year difference mode is active.
+        .scorecard-table__year-difference-column {
+            display: none !important; // override mobile selection
+
+            .with-year-difference & {
+                display: revert !important;
+            }
+        }
+
+        // Only show years header row if year difference mode is active.
+        .scorecard-table__years-header {
+            display: none !important;
+
+            .with-year-difference & {
+                display: revert !important;
+            }
+        }
+    }
+}
+
+.scorecard-table__mobile-category-select {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    padding: 1rem;
+    border-bottom: $border-width solid $border-color;
+    background: $color-scorecard-grey-100;
+
+    @include media-breakpoint-up(lg) {
+        display: none;
     }
 }
 
@@ -154,10 +233,12 @@ $score-bar-vertical-padding: 8px;
     background: $white;
     border: 1px solid $primary;
     border-radius: $score-bar-border-radius;
-    width: 150px;
+    width: 100%;
+    min-width: 100px;
     padding: $score-bar-vertical-padding 0;
     position: relative;
     overflow: hidden;
+    margin: 0 auto;
 
     .progress-bar {
         width: 0;
@@ -178,6 +259,7 @@ $score-bar-vertical-padding: 8px;
         padding: 0.2rem;
         width: fit-content;
         border-radius: 4px;
+        font-size: 0.8rem;
     }
 
     span.average {
@@ -187,12 +269,6 @@ $score-bar-vertical-padding: 8px;
         transform: translateY(-50%);
         font-size: 0.75rem;
         font-weight: 300;
-    }
-}
-
-.second-row .total-score {
-    @media only screen and (max-width: $table-desktop-breakpoint) {
-        background-color: $white;
     }
 }
 
@@ -324,132 +400,4 @@ $score-bar-vertical-padding: 8px;
             transform: rotate(180deg);
         }
     }
-}
-
-.council-link {
-    display: block;
-    white-space: break-spaces;
-    text-decoration: none;
-    font-weight: normal;
-
-    &:hover {
-        text-decoration: underline;
-    }
-}
-
-// Mobile table
-$padding-left: 1rem;
-
-.scorecard-table-mobile {
-    width: auto;
-    white-space: nowrap;
-    margin: 0;
-    border-collapse: separate;
-    border-spacing: 0;
-
-    @media only screen and (min-width: $table-desktop-breakpoint) {
-        display: none;
-    }
-
-    thead {
-        position: sticky;
-        z-index: 2;
-        // Size of the category select element
-        top: 0;
-        background: $white;
-
-        .name-row {
-            th, td {
-                padding-top: 1rem;
-            }
-        }
-
-        .score-row {
-            th, td {
-                padding-bottom: 1.25rem;
-            }
-        }
-    }
-
-    th,td {
-        padding: 1rem 0.5rem;
-    }
-
-    .name-row {
-        th,td {
-            padding-top: 2rem;
-            padding-bottom: 0.5rem;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            text-align: center;
-        }
-    }
-
-    .legend-row {
-        th,td {
-            padding-top: 0.25rem;
-            padding-bottom: 0;
-            text-align: center;
-        }
-    }
-
-    .score-row {
-        box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2);
-        th,td {
-            padding-top: 0.25rem;
-            padding-bottom: 2rem;
-            width: 10rem;
-            text-align: center;
-            width: 30%;
-        }
-
-        th.spacer-cell, td.spacer-cell {
-            width: 20%;
-        }
-    }
-
-    .message-row {
-        box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2);
-        background-color: #f2efef;
-        text-align: center;
-        + tr {
-            td,th {
-              padding-top: 3rem;
-            }
-
-            &.message-row {
-                td, th {
-                    padding-top: 0;
-                }
-            }
-        }
-    }
-
-    .score-bar {
-        width: 120px;
-        padding: 4px 0;
-        font-size: 0.8rem;
-        margin:0 auto;
-
-        span.average {
-            display: none;
-        }
-    }
-}
-
-$js-classes: (
-  'building',
-  'transport',
-  'planning',
-  'governance',
-  'biodiversity',
-  'collaboration',
-  'waste',
-  'score-row-initial-hidden'
-);
-
-@each $class in $js-classes {
-  .js-#{$class} {
-    display: none;
-  }
 }
