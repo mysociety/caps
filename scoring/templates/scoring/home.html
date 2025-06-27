@@ -36,11 +36,11 @@
         </div>
 
         <div class="my-3 my-lg-5 mx-lg-auto position-relative">
-            <div class="bg-gray-200 px-3 py-2 border d-none d-lg-block">
+            <div class="bg-gray-200 px-3 py-2 border">
                 {% include 'scoring/includes/jump-to-council.html' %}
             </div>
 
-            <div class="scorecard-table-wrapper border border-top-0 mw-95 mw-sm-75 mw-md-50 mw-lg-none mx-auto">
+            <div class="scorecard-table-wrapper border border-top-0">
                 {% block "score_table" %}
                 <table class="scorecard-table js-previous-year-score-difference-table" {% if previous_year %}has-difference="true" {% endif %}>
                     <thead class="position-sticky top-0 z-index-4">
