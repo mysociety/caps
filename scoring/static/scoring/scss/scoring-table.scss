@@ -20,6 +20,12 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
     $small-cell-width: 85px;
     $xsmall-cell-width: 65px;
 
+    display: none;
+
+    @media only screen and (min-width: $table-desktop-breakpoint) {
+        display: table;
+    }
+
     th, td {
         vertical-align: middle;
         z-index: 0;
@@ -91,10 +97,6 @@ $border-table: 1px solid transparentize($color: $black, $amount: 1);
             align-items: center;
             gap: 0.5rem;
         }
-    }
-
-    @media only screen and (max-width: $table-desktop-breakpoint) {
-        display: none;
     }
 
     $first-row-height: 40px;
