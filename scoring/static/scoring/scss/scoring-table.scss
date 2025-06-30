@@ -66,6 +66,7 @@ $sections: (
 
     $first-row-height: 40px;
     thead {
+        top: 64px; // Height of scorecard-table__mobile-category-select
         th {
             max-height: $first-row-height;
             height: $first-row-height;
@@ -157,6 +158,7 @@ $sections: (
         }
 
         thead {
+            top: 0;
             .scorecard-table__label-column,
             .scorecard-table__score-column[data-section="overall"],
             .scorecard-table__year-difference-column[data-section="overall"] {

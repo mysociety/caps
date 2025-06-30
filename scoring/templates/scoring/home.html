@@ -54,7 +54,7 @@
                 <div class="visually-hidden js-category-select-announcement" aria-live="polite">Now showing Total Score</div>
 
                 <table class="scorecard-table" data-section="overall">
-                    <thead class="position-sticky top-0 z-index-4">
+                    <thead class="position-sticky z-index-4">
                         <tr class="scorecard-table__sections-header bg-white z-index-5">
                             <th scope="col" {% if previous_year %}rowspan="2"{% endif %} class="scorecard-table__label-column bg-light">
                                 <h2 class="mb-1 fs-5 lh-1">{{ scoring_group.name }}</h2>
@@ -119,7 +119,7 @@
 
                         <tr class="scorecard-table__average-row position-sticky z-index-4">
                             <th scope="col" class="scorecard-table__label-column bg-primary-100">
-                                <span class="fs-6 fw-bold d-block">{{ scoring_group.name }} average</span>
+                                <span class="fs-6 fw-bold d-block lh-sm">{{ scoring_group.name }} average</span>
                             </th>
                             <th scope="col" class="scorecard-table__score-column bg-primary-100" data-section="overall">
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
