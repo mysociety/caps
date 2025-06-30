@@ -142,7 +142,7 @@
                       {% for council in council_data %}
                         <tr data-jump-slug="{{ council.slug }}">
                             <th scope="row" class="scorecard-table__label-column align-middle">
-                                <div class="d-flex flex-nowrap flex-row align-items-center gap-2">
+                                <div class="d-flex flex-nowrap flex-row align-items-center gap-1">
                                     {% if council.top_performer %}
                                         <button class="p-0 bg-transparent border-0" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Top performer council">
                                             {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.2em' height='1.2em' %}
