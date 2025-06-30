@@ -1,9 +1,23 @@
-{% if change < 0 %}
-    <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-warning bg-primary-100"><span class="fs-8">&#9660;</span> {{ change|floatformat:"0" }}</th>
-{% elif change > 0 %}
-    <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference text-success bg-primary-100"><span class="fs-8">&#9650;</span> {{ change|floatformat:"0" }}</th>
-{% elif change == 0 %}
-    <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference bg-primary-100"><span class="fs-8">--</span> {{ change }}</th>
-{% else %}
-    <th scope="col" class="display-only-large-up js-previous-year-score-difference previous-year-score-difference bg-primary-100"><span class="fs-8">NA</span></th>
-{% endif %}
+<th scope="col" class="
+    scorecard-table__year-difference-column
+    js-previous-year-score-difference
+  {% if change < 0 %}
+    text-warning
+  {% elif change > 0 %}
+    text-success
+  {% endif %}
+    bg-primary-100"
+  {% if section %}
+    data-section="{{ section }}"
+  {% endif %}
+>
+  {% if change < 0 %}
+    <span class="fs-8">&#9660;</span> {{ change|floatformat:"0" }}
+  {% elif change > 0 %}
+    <span class="fs-8">&#9650;</span> {{ change|floatformat:"0" }}
+  {% elif change == 0 %}
+    <span class="fs-8">--</span>
+  {% else %}
+    <span class="fs-8">NA</span>
+  {% endif %}
+</th>
