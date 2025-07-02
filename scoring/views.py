@@ -1836,6 +1836,20 @@ class NationDetailView(BaseCouncilListView):
         if nation["slug"] == "england":
             context["show_region_filter"] = True
 
+        context["council_link_template"] = (
+            "scoring/includes/council_link_with_year.html"
+        )
+        context["section_link_template"] = (
+            "scoring/includes/section_link_with_year.html"
+        )
+        if self.request.year.is_current:
+            context["council_link_template"] = (
+                "scoring/includes/council_link_current.html"
+            )
+            context["section_link_template"] = (
+                "scoring/includes/section_link_current.html"
+            )
+
         context["nation"] = nation
         context["previous_year"] = self.request.year.previous_year
         context["social_graphics"] = defaults.get_config(
