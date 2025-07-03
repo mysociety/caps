@@ -1,3 +1,4 @@
+import re
 from collections import defaultdict
 from copy import deepcopy
 from datetime import date
