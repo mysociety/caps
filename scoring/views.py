@@ -99,10 +99,11 @@ class BaseCouncilListView(
             )
             for section in averages.keys():
                 if section != "total":
-                    averages[section]["change"] = (
-                        averages[section]["weighted"]
-                        - previous_averages[section]["weighted"]
-                    )
+                    if previous_averages.get(section):
+                        averages[section]["change"] = (
+                            averages[section]["weighted"]
+                            - previous_averages[section]["weighted"]
+                        )
 
         section_averages = []
         for code in sorted(averages.keys()):
