@@ -443,6 +443,9 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         comparisons = None
         comparison_answers = defaultdict(dict)
         comparison_sections = {}
+        previous_q_overrides = defaults.get_config(
+            "previous_q_overrides", self.request.year.year, default=[]
+        )
         if comparison_slugs:
             comparisons = (
                 PlanScore.objects.select_related("council")
@@ -493,9 +496,15 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
 
                 for code in comparison_answers.keys():
                     for council, answer in comparison_answers[code].items():
-                        prev_code = answer.get("previous_question_code")
-                        if prev_code and previous_answers[prev_code].get(council):
-                            answer = {**answer, **previous_answers[prev_code][council]}
+                        prev_code = answer.get("previous_q_code")
+                        if (
+                            not code in previous_q_overrides
+                            and prev_code
+                            and previous_answers[prev_code].get(council)
+                        ):
+                            answer["previous_score"] = previous_answers[prev_code][
+                                council
+                            ]["previous_score"]
                             answer["change"] = int(
                                 answer["score"] - answer["previous_score"]
                             )
@@ -542,6 +551,10 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             council_group=group, plan_year=self.request.year.year
         )
 
+        previous_q_overrides = defaults.get_config(
+            "previous_q_overrides", self.request.year.year, default=[]
+        )
+
         previous_questions = defaultdict(dict)
         if plan_score.previous_year is not None:
             prev_answers = plan_score.previous_year.questions_answered()
@@ -552,8 +565,10 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             section = question.section_code
 
             q = self.make_question_obj(question)
-            if q.get("previous_q_code") and previous_questions[section].get(
-                q["previous_q_code"]
+            if (
+                not q["code"] in previous_q_overrides
+                and q.get("previous_q_code")
+                and previous_questions[section].get(q["previous_q_code"])
             ):
                 pq = previous_questions[section][q["previous_q_code"]]
                 q["previous_score"] = pq.score
@@ -1479,7 +1494,6 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
                             "count": score["score_count"],
                         }
                 if prev_counts:
-                    print(prev_counts)
                     totals["negative"]["prev_count"] = 0
                     totals[0]["prev_count"] = 0
 
