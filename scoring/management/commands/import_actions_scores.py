@@ -4,6 +4,8 @@ import re
 import shutil
 import tempfile
 import zipfile
+from collections.abc import Generator
+from contextlib import contextmanager
 from datetime import date
 from os.path import join
 from pathlib import Path
@@ -16,6 +18,7 @@ from django.conf import settings
 from django.core.files import File
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import F, OuterRef, Q, Subquery, Sum
+from django.db.transaction import atomic
 from django.template.defaultfilters import pluralize
 
 from caps.models import Council
@@ -32,18 +35,29 @@ from scoring.models import (
 YELLOW = "\033[33m"
 RED = "\033[31m"
 GREEN = "\033[32m"
+BLUE = "\033[36;4m"
 NOBOLD = "\033[0m"
+
+
+# from https://adamj.eu/tech/2022/10/13/dry-run-mode-for-data-imports-in-django/
+class DoRollback(Exception):
+    pass
+
+
+@contextmanager
+def rollback_atomic() -> Generator[None, None, None]:
+    try:
+        with atomic():
+            yield
+            raise DoRollback()
+    except DoRollback:
+        pass
 
 
 class Command(BaseCommand):
     help = "Imports plan scores"
 
     YEAR = settings.PLAN_YEAR
-    SCORECARD_DATA_DIR = Path(settings.DATA_DIR, "scorecard_data", str(YEAR))
-    SECTION_SCORES_CSV = Path(SCORECARD_DATA_DIR, "raw_section_marks.csv")
-    OVERALL_SCORES_CSV = Path(SCORECARD_DATA_DIR, "all_section_scores.csv")
-    QUESTIONS_CSV = Path(SCORECARD_DATA_DIR, "question_data.csv")
-    ANSWERS_CSV = Path(SCORECARD_DATA_DIR, "all_answer_data.csv")
 
     DEFAULT_TOP_PERFORMER_COUNT = 1
     TOP_PERFORMER_COUNT = {
@@ -103,6 +117,37 @@ class Command(BaseCommand):
             action="store",
             help="Previous scorecards year, for calculating most improved, and linking",
         )
+
+        parser.add_argument(
+            "--import_year",
+            action="store",
+            help=f"Override default year ({self.YEAR}) to import plans from",
+        )
+
+        parser.add_argument(
+            "--commit",
+            action="store_true",
+            help="Make changes to database",
+        )
+
+    def get_atomic_context(self, commit):
+        if commit:
+            atomic_context = atomic()
+        else:
+            atomic_context = rollback_atomic()
+
+        return atomic_context
+
+    def set_paths(self):
+        self.SCORECARD_DATA_DIR = Path(
+            settings.DATA_DIR, "scorecard_data", str(self.YEAR)
+        )
+        self.SECTION_SCORES_CSV = Path(self.SCORECARD_DATA_DIR, "raw_section_marks.csv")
+        self.OVERALL_SCORES_CSV = Path(
+            self.SCORECARD_DATA_DIR, "all_section_scores.csv"
+        )
+        self.QUESTIONS_CSV = Path(self.SCORECARD_DATA_DIR, "question_data.csv")
+        self.ANSWERS_CSV = Path(self.SCORECARD_DATA_DIR, "all_answer_data.csv")
 
     def create_sections(self):
         for code, desc in self.SECTIONS.items():
@@ -454,22 +499,34 @@ class Command(BaseCommand):
         self,
         update_questions: bool = False,
         update_political_control: bool = False,
+        commit: bool = False,
         previous_year: int = None,
+        import_year: int = None,
         *args,
         **options,
     ):
         self.update_control = update_political_control
         self.previous_year = previous_year
-        self.stdout.write(f"Importing council action scores for {self.YEAR}")
+        if import_year:
+            self.YEAR = import_year
+        self.set_paths()
+        self.stdout.write(
+            f"Importing council action scores for {BLUE}{self.YEAR}{NOBOLD}"
+        )
         if not update_questions:
             self.stdout.write(
                 f"{YELLOW}Not creating or updating questions, call with --update_questions to do so{NOBOLD}"
             )
-        self.create_sections()
-        self.import_section_scores()
-        self.import_overall_scores()
-        self.label_top_performers()
-        if update_questions:
-            self.import_questions()
-        self.import_question_scores()
-        self.label_most_improved(previous_year)
+        if not commit:
+            self.stdout.write(
+                f"{YELLOW}Not updating database, call with --commit to do so{NOBOLD}"
+            )
+        with self.get_atomic_context(commit):
+            self.create_sections()
+            self.import_section_scores()
+            self.import_overall_scores()
+            self.label_top_performers()
+            if update_questions:
+                self.import_questions()
+            self.import_question_scores()
+            self.label_most_improved(previous_year)
