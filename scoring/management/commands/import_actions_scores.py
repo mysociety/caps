@@ -530,3 +530,6 @@ class Command(BaseCommand):
                 self.import_questions()
             self.import_question_scores()
             self.label_most_improved(previous_year)
+
+        if commit:
+            self.stdout.write(f"{GREEN}Scores updated{NOBOLD}")
