@@ -4,8 +4,6 @@ import re
 import shutil
 import tempfile
 import zipfile
-from collections.abc import Generator
-from contextlib import contextmanager
 from datetime import date
 from os.path import join
 from pathlib import Path
@@ -18,9 +16,9 @@ from django.conf import settings
 from django.core.files import File
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import F, OuterRef, Q, Subquery, Sum
-from django.db.transaction import atomic
 from django.template.defaultfilters import pluralize
 
+from caps.import_utils import BaseImportCommand
 from caps.models import Council
 from caps.utils import char_from_text, integer_from_text
 from scoring.models import (
@@ -39,22 +37,7 @@ BLUE = "\033[36;4m"
 NOBOLD = "\033[0m"
 
 
-# from https://adamj.eu/tech/2022/10/13/dry-run-mode-for-data-imports-in-django/
-class DoRollback(Exception):
-    pass
-
-
-@contextmanager
-def rollback_atomic() -> Generator[None, None, None]:
-    try:
-        with atomic():
-            yield
-            raise DoRollback()
-    except DoRollback:
-        pass
-
-
-class Command(BaseCommand):
+class Command(BaseImportCommand):
     help = "Imports plan scores"
 
     YEAR = settings.PLAN_YEAR
@@ -129,14 +112,6 @@ class Command(BaseCommand):
             action="store_true",
             help="Make changes to database",
         )
-
-    def get_atomic_context(self, commit):
-        if commit:
-            atomic_context = atomic()
-        else:
-            atomic_context = rollback_atomic()
-
-        return atomic_context
 
     def set_paths(self):
         self.SCORECARD_DATA_DIR = Path(

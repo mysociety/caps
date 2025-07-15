@@ -1,16 +1,19 @@
+import ssl
+from collections.abc import Generator
+from contextlib import contextmanager
+from functools import lru_cache
 from os.path import join
+from pathlib import Path
+from typing import Optional, Union
 
+import numpy as np
+import pandas as pd
 import requests
 import urllib3
-
-import pandas as pd
-import numpy as np
-from mysoc_dataset import get_dataset_url
-from functools import lru_cache
 from django.conf import settings
-from pathlib import Path
-from typing import Union, Optional
-import ssl
+from django.core.management.base import BaseCommand
+from django.db.transaction import atomic
+from mysoc_dataset import get_dataset_url
 
 ssl._create_default_https_context = ssl._create_unverified_context
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -18,6 +21,21 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 PathLike = Union[str, Path]
 
 as_of_date = settings.COUNCILS_AS_OF_DATE
+
+
+# from https://adamj.eu/tech/2022/10/13/dry-run-mode-for-data-imports-in-django/
+class DoRollback(Exception):
+    pass
+
+
+@contextmanager
+def rollback_atomic() -> Generator[None, None, None]:
+    try:
+        with atomic():
+            yield
+            raise DoRollback()
+    except DoRollback:
+        pass
 
 
 @lru_cache
@@ -217,3 +235,13 @@ def add_extra_authority_info(filename: PathLike):
     df.loc[is_non_english, "authority_type"] = "UA"
 
     df.to_csv(filename, index=False, header=True)
+
+
+class BaseImportCommand(BaseCommand):
+    def get_atomic_context(self, commit):
+        if commit:
+            atomic_context = atomic()
+        else:
+            atomic_context = rollback_atomic()
+
+        return atomic_context
