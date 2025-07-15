@@ -87,7 +87,9 @@ runs:
     if: ${{ inputs.push_to_registry == 'true' }}
     shell: bash
     run: |
-      docker push "$REGISTRY/$IMAGE_NAME:base_$BRANCH"
+      if grep -q " as base" "./Dockerfile"; then
+        docker push "$REGISTRY/$IMAGE_NAME:base_$BRANCH"
+      fi
       docker push --all-tags "$REGISTRY/$IMAGE_NAME"
     env:
       BRANCH: ${{ inputs.branch }}
