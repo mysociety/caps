@@ -444,11 +444,10 @@
                   {% endif %}
 
               {% for comparison in answer.comparisons %}
-                <td data-column="score" class="display-only-large-up score border-bottom">
-                    {{ comparison.score|format_mark }}/{{ comparison.max }}
-                </td>
-
                 {% if plan_score.previous_year %}
+                  <td data-column="score" class="display-only-large-up score border-bottom">
+                      {{ comparison.score|format_mark }}/{{ comparison.max }}
+                  </td>
                   <td class="js-previous-year-score display-only-large-up border-bottom">
                       {% if comparison.previous_score %}
                         {{ comparison.previous_score|format_mark }}/{{ comparison.previous_max }}
@@ -460,6 +459,11 @@
                   <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
                       {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
                   </td>
+
+                  {% else %}
+                    <td data-column="score" class="display-only-large-up score border-bottom" colspan="2">
+                        {{ comparison.score|format_mark }}/{{ comparison.max }}
+                    </td>
                 {% endif %}
               {% endfor %}
 
