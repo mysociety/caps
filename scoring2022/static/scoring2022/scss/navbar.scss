@@ -111,6 +111,7 @@ nav.subheader {
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
     padding: 10px;
     border: 0.5px solid transparentize($color: $blue, $amount: 0.8);
 
