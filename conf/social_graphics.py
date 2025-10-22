@@ -3,7 +3,7 @@ social_graphics = {
         "s4_g_f": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/governance-and-finance/scorecards-governance.pdf",
-                "src_jpg": "scoring/img/social-graphics/governance-and-finance/governance-graphic.jpg",
+                "src_jpg": "scoring/img/social-graphics/governance-and-finance/governance-graphic.png",
                 "height": 1159,
                 "width": 2100,
             },
@@ -39,7 +39,7 @@ social_graphics = {
         "s2_tran": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/transport/scorecards-transport.pdf",
-                "src_jpg": "scoring/img/social-graphics/transport/transport-graphic.jpg",
+                "src_jpg": "scoring/img/social-graphics/transport/transport-graphic.png",
                 "height": 1158,
                 "width": 2100,
             },
@@ -80,7 +80,7 @@ social_graphics = {
         "s2_tran_ca": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/ca-transport/scorecards-ca-transport.pdf",
-                "src_jpg": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.jpg",
+                "src_jpg": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -110,8 +110,8 @@ social_graphics = {
         },
         "s1_b_h": {
             "pdf": {
-                "src_pdf": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.jpg",
+                "src_pdf": "scoring/img/social-graphics/buildings-and-heating/buildings-and-heating-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/buildings-and-heating/buildings-and-heating-graphic.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -151,7 +151,7 @@ social_graphics = {
         "s3_p_lu": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.jpg",
+                "src_jpg": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -187,7 +187,7 @@ social_graphics = {
         "s6_c_e": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.pdf",
-                "src_jpg": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.jpg",
+                "src_jpg": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.png",
                 "height": 1158,
                 "width": 2100,
             },
@@ -223,7 +223,7 @@ social_graphics = {
         "s5_bio": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/biodiversity/biodiversity-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/biodiversity/biodiversity-graphic@2x.jpg",
+                "src_jpg": "scoring/img/social-graphics/biodiversity/biodiversity-graphic@2x.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -259,7 +259,7 @@ social_graphics = {
         "s7_wr_f": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic@2x.jpg",
+                "src_jpg": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic@2x.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -287,5 +287,337 @@ social_graphics = {
                 },
             ],
         },
-    }
+    },
+    2025: {
+        "s1_b_h": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/buildings-and-heating.pdf",
+                "src_jpg": "scoring/img/social-graphics-2025/buildings-and-heating.png",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics-2025/buildings-and-heating.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/buildings-and-heating-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/buildings-and-heating-1.png",
+                    "alt": "Buildings and Heating 2025. 72% have at least 1 part-time retrofit staff member, up 13 versus 2023. 77% owned social housing is energy efficient, EPC band C or higher, up 6 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/buildings-and-heating-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/buildings-and-heating-2.png",
+                    "alt": "Buildings and Heating 2025. 52% of local authorities support residents to collectively purchase renewable energy, up 4 versus 2023. 52% of UK homes are energy efficient, rated EPC C or higher, up 9 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/buildings-and-heating-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/buildings-and-heating-3.png",
+                    "alt": "Buildings and Heating 2025. 37% of responsible councils are conducting investigations or enforcing Minimum Energy Efficiency Standards for privately rented homes in 2023/24.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/buildings-and-heating-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/buildings-and-heating-4.png",
+                    "alt": "Buildings and Heating 2025. 51% of councils have a renewable energy tariff or generate renewable energy equal to 20% of their own energy use than in 2023, down 8 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/buildings-and-heating-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/buildings-and-heating-5.png",
+                    "alt": "Buildings and Heating 2025. 29% of local authorities provide support for local community renewable energy creation, up 5 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/buildings-and-heating-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/buildings-and-heating-6.png",
+                    "alt": "Buildings and Heating 2025 and 2023 average score comparison. 54% Single Tier, up 5. 48% District, up 6. 69% County, down 1. 29% Northern Ireland, down 4. 75% Combined Authority, up 15.",
+                },
+            ],
+        },
+        "s2_tran": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/transport.pdf",
+                "src_jpg": "scoring/img/social-graphics-2025/transport.png",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics-2025/transport.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/transport-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/transport-1.png",
+                    "alt": "Transport 2025. 72% of councils have 60 or more public EV chargers across their area, up 40 versus 2023. 66% of transport authorities have low-emission buses in their area, up 7 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/transport-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/transport-2.png",
+                    "alt": "Transport 2025. 4 mayoral authorities have 10% of their bus fleet as electric.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/transport-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/transport-3.png",
+                    "alt": "Transport 2025. 27% of local authorities have 10% or more of their council fleet as electric vehicles but only 3% have 50% or more, up 7 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/transport-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/transport-4.png",
+                    "alt": "Transport 2025. 56% of transport authorities have 20mph as the default speed limit.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/transport-5.png",
+                    "src_instagram": "Transport 2025. 0 English transport authorities received the highest capability rating by Active Travel England, no change versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/transport-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/transport-6.png",
+                    "alt": "Transport 2025. 23% of local authorities have expanded airports or their road networks, down 2 versus 2023. 12 English transport authorities outside of London have high bus ridership, up 1 councils compared to 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/transport-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/transport-7.png",
+                    "alt": "Transport 2025. 90% of local authorities in Britain have high PM2.5 levels in 25% or more of their area. 52% of local authorities in Britain have high NO2 levels in 25% or more of their area.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/transport-8.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/transport-8.png",
+                    "alt": "Buildings and Heating 2025 and 2023 average score comparison. 54% Single Tier, up 5. 48% District, up 6. 69% County, down 1. 29% Northern Ireland, down 4. 75% Combined Authority, up 15.",
+                },
+            ],
+        },
+        "s3_p_lu": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/planning.pdf",
+                "src_jpg": "scoring/img/social-graphics-2025/planning.png",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics-2025/planning.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/planning-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/planning-1.png",
+                    "alt": "Planning and Land Use 2025. 53% of authorities that own or manage housing have committed to building new housing to a high energy efficiency or operationally net zero standard.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/planning-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/planning-2.png",
+                    "alt": "Planning and Land Use 2025. 52% of planning authorities require onsite renewable energy in new developments, up 6 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/planning-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/planning-3.png",
+                    "alt": "Planning and Land Use 2025. 21% of planning authorities require the measurement of a development's embodied emissions, up 2 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/planning-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/planning-4.png",
+                    "alt": "Planning and Land Use 2025. 18% of planning authorities have set net zero standards for building new housing, up 4 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/planning-5.png",
+                    "src_instagram": "Planning and Land Use 2025. 65% of planning authorities have mapped where new solar, wind or district heating infrastructure can be built, up 7 versus 2023, but only 11% have mapped for all three.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/planning-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/planning-6.png",
+                    "alt": "Planning and Land Use 2025. 57% of British local authorities have approved 3 or more renewable energy projects, up 24 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/planning-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/planning-7.png",
+                    "alt": "Planning and Land Use 2025. 8 mineral planning authorities have approved new, or the expansion, of fossil fuel infrastructure.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/planning-8.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/planning-8.png",
+                    "alt": "Planning and Land Use 2025 and 2023 Comparison. 43% Single Tier, up 8. 28% District, up 5. Negative 33% County, down 8. 12% Northern Ireland, down 2",
+                },
+            ],
+        },
+        "s4_g_f": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/governance-and-finance.pdf",
+                "src_jpg": "scoring/img/social-graphics-2025/governance-and-finance.png",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics-2025/governance-and-finance.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/governance-and-finance-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/governance-and-finance-1.png",
+                    "alt": "Governance and Finance 2025. 88% of local authorities have raised funds for climate action, up 20 versus 2023. 86% of councils have a named climate portfolio holder, up 2 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/governance-and-finance-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/governance-and-finance-2.png",
+                    "alt": "Governance and Finance 2025. 10% of local authorities have direct investments in airports, no change versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/governance-and-finance-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/governance-and-finance-3.png",
+                    "alt": "Governance and Finance 2025. 2% have committed to divesting their pension fund from fossil fuels by 2030 while 13% of councils have passed a motion supporting divestment.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/governance-and-finance-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/governance-and-finance-4.png",
+                    "alt": "Governance and Finance 2025. 40% of councils included climate as a priority in their Corporate Plan, down 5 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/governance-and-finance-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/governance-and-finance-5.png",
+                    "alt": "Governance and Finance 2025. 61% of councils list climate implications on full council decisions, up 14 versus 2023. 14% adopting a detailed climate impact assessment tool for decisions.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/governance-and-finance-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/governance-and-finance-6.png",
+                    "alt": "Governance and Finance 2025. 10% of councils have trained all their senior staff and cabinet or committee chair in climate awareness, down 4 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/governance-and-finance-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/governance-and-finance-7.png",
+                    "alt": "Governance and Finance 2025. 19% of councils have reduced their own emissions by 20% or more, up 12 versus 2023. 50% of councils have had area wide emission reductions by 10% or more.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/governance-and-finance-8.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/governance-and-finance-8.png",
+                    "alt": "Governance and Finance 2025 and 2023 Comparison. 34% Single Tier, up 7. 31% District, up 7. 38% County, up 4. 19% Northern Ireland, up 8. 33% Combined Authority, up 4.",
+                },
+            ],
+        },
+        "s5_bio": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/biodiversity.pdf",
+                "src_jpg": "scoring/img/social-graphics-2025/biodiversity.png",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics-2025/biodiversity.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/biodiversity-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/biodiversity-1.png",
+                    "alt": "Biodiversity 2025. 90% of local authorities have reduced mowing or created wildflower habitat in their area, up 10 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/biodiversity-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/biodiversity-2.png",
+                    "alt": "Biodiversity 2025. 57% of local authorities turn off or dim their street lighting, including 81% of county council, up 8 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/biodiversity-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/biodiversity-3.png",
+                    "alt": "Biodiversity 2025. 6 combined authorities provide significant funding for biodiversity, no change versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/biodiversity-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/biodiversity-4.png",
+                    "alt": "Biodiversity 2025. 54% of local authorities employ a planning ecologist to enforce Biodiversity Net Gain to new developments, up 22 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/biodiversity-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/biodiversity-5.png",
+                    "alt": "Biodiversity 2025. 5% of planning authorities have set a higher minimum standard than the 10% Biodiversity Net Gain for new developments, no change versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/biodiversity-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/biodiversity-6.png",
+                    "alt": "Biodiversity 2025. 12% of councils are pesticide free, up 6 versus 2023. 24% of councils have a tree cover target and a tree management plan, up 7 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/biodiversity-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/biodiversity-7.png",
+                    "alt": "Biodiversity 2025 and 2023 Comparison. 32% Single Tier, up 5. 28% District, up 6. 43% County, up 13. 28% Northern Ireland, down 10.",
+                },
+            ],
+        },
+        "s6_c_e": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/collaboration-and-engagement.pdf",
+                "src_jpg": "scoring/img/social-graphics-2025/collaboration-and-engagement.png",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics-2025/collaboration-and-engagement.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/collaboration-and-engagement-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/collaboration-and-engagement-1.png",
+                    "alt": "Collaboration and Engagement 2025. 87% of councils have a Climate Action Plan with SMART targets, up 8 versus 2023. 64% of local authorities provide funding for community climate action, up 8 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/collaboration-and-engagement-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/collaboration-and-engagement-2.png",
+                    "alt": "Collaboration and Engagement 2025. 10 councils have passed a motion to ban high carbon advertising and sponsorship.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/collaboration-and-engagement-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/collaboration-and-engagement-3.png",
+                    "alt": "Collaboration and Engagement 2025. 8 out of 9 Mayoral authorities have three or more active schemes providing support or tailored advice to businesses in the local area to help them decarbonise.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/collaboration-and-engagement-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/collaboration-and-engagement-4.png",
+                    "alt": "Collaboration and Engagement 2025. 5 out of 9 Mayoral authorities have published a study of different decarbonisation pathways and scenarios to reach net zero.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/collaboration-and-engagement-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/collaboration-and-engagement-5.png",
+                    "alt": "Collaboration and Engagement 2025. 70% published an annual Climate Action Update report, up 7 versus 2023. 50% have an ongoing way for residents to influence the implementation of the council's Climate Action Plan, down 3 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/collaboration-and-engagement-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/collaboration-and-engagement-6.png",
+                    "alt": "Collaboration and Engagement 2025. 35% of local authorities have lobbied the UK government or devolved administrations for further climate action. Down from 43% in 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/collaboration-and-engagement-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/collaboration-and-engagement-7.png",
+                    "alt": "Collaboration and Engagement 2025 and 2023 Comparison. 54% Single Tier, up 1. 56% District, up 3. 63% County, up 3. 27% Northern Ireland, up 4. 55% Combined Authority, 0.",
+                },
+            ],
+        },
+        "s7_wr_f": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/waste-reduction-and-food.pdf",
+                "src_jpg": "scoring/img/social-graphics-2025/waste-reduction-and-food.png",
+                "height": 1125,
+                "width": 2000,
+            },
+            "zip": "scoring/img/social-graphics-2025/waste-reduction-and-food.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/waste-reduction-and-food-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/waste-reduction-and-food-1.png",
+                    "alt": "Waste Reduction and Food 2025. 82% support community food growing initiatives, up 25 versus 2023. 62% support food surplus redistributions initiatives, up 19 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/waste-reduction-and-food-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/waste-reduction-and-food-2.png",
+                    "alt": "Waste Reduction and Food 2025. 64% of local authorities support circular economy initiatives, up 26 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/waste-reduction-and-food-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/waste-reduction-and-food-3.png",
+                    "alt": "Waste Reduction and Food 2025. 48% single tier and county councils provide at least one complete vegetarian day in schools each week, up 24 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/waste-reduction-and-food-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/waste-reduction-and-food-4.png",
+                    "alt": "Waste Reduction and Food 2025. 60% of local authorities provide kerbside food waste recycling to most homes. Same as 2023 despite the April 2026 legal deadline for all councils in the UK to recycle food waste.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/waste-reduction-and-food-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/waste-reduction-and-food-5.png",
+                    "alt": "Waste Reduction and Food 2025. 27% recycle more than half of their waste from residents, down 3 versus 2023. 28% have a sustainable food strategy, up 16 versus 2023.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/waste-reduction-and-food-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/waste-reduction-and-food-6.png",
+                    "alt": "Waste Reduction and Food 2025. 93% send to landfill or incinerate over 300kg of waste per household each year.",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/waste-reduction-and-food-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/waste-reduction-and-food-7.png",
+                    "alt": "Waste Reduction and Food 2025 and 2023 Comparison. 49% Single Tier, up 12. 34% District, up 11. 50% County, up 20. 51% Northern Ireland, up 16.",
+                },
+            ],
+        },
+    },
 }
