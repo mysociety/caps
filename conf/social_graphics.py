@@ -3,7 +3,7 @@ social_graphics = {
         "s4_g_f": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/governance-and-finance/scorecards-governance.pdf",
-                "src_jpg": "scoring/img/social-graphics/governance-and-finance/governance-graphic.png",
+                "src_jpg": "scoring/img/social-graphics/governance-and-finance/governance-graphic.jpg",
                 "height": 1159,
                 "width": 2100,
             },
@@ -39,7 +39,7 @@ social_graphics = {
         "s2_tran": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/transport/scorecards-transport.pdf",
-                "src_jpg": "scoring/img/social-graphics/transport/transport-graphic.png",
+                "src_jpg": "scoring/img/social-graphics/transport/transport-graphic.jpg",
                 "height": 1158,
                 "width": 2100,
             },
@@ -80,7 +80,7 @@ social_graphics = {
         "s2_tran_ca": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/ca-transport/scorecards-ca-transport.pdf",
-                "src_jpg": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.png",
+                "src_jpg": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.jpg",
                 "height": 1125,
                 "width": 2000,
             },
@@ -110,8 +110,8 @@ social_graphics = {
         },
         "s1_b_h": {
             "pdf": {
-                "src_pdf": "scoring/img/social-graphics/buildings-and-heating/buildings-and-heating-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/buildings-and-heating/buildings-and-heating-graphic.png",
+                "src_pdf": "scoring/img/social-graphics/buildings-and-heating/building-and-heating-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/buildings-and-heating/building-and-heating-graphic.jpg",
                 "height": 1125,
                 "width": 2000,
             },
@@ -151,7 +151,7 @@ social_graphics = {
         "s3_p_lu": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.png",
+                "src_jpg": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.jpg",
                 "height": 1125,
                 "width": 2000,
             },
@@ -187,7 +187,7 @@ social_graphics = {
         "s6_c_e": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.pdf",
-                "src_jpg": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.png",
+                "src_jpg": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.jpg",
                 "height": 1158,
                 "width": 2100,
             },
@@ -223,7 +223,7 @@ social_graphics = {
         "s5_bio": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/biodiversity/biodiversity-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/biodiversity/biodiversity-graphic@2x.png",
+                "src_jpg": "scoring/img/social-graphics/biodiversity/biodiversity-graphic@2x.jpg",
                 "height": 1125,
                 "width": 2000,
             },
@@ -259,7 +259,7 @@ social_graphics = {
         "s7_wr_f": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic@2x.png",
+                "src_jpg": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic@2x.jpg",
                 "height": 1125,
                 "width": 2000,
             },
@@ -361,7 +361,8 @@ social_graphics = {
                 },
                 {
                     "src_facebook": "scoring/img/social-graphics-2025/rectangular/transport-5.png",
-                    "src_instagram": "Transport 2025. 0 English transport authorities received the highest capability rating by Active Travel England, no change versus 2023",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/transport-5.png",
+                    "alt": "Transport 2025. 0 English transport authorities received the highest capability rating by Active Travel England, no change versus 2023",
                 },
                 {
                     "src_facebook": "scoring/img/social-graphics-2025/rectangular/transport-6.png",
@@ -411,7 +412,8 @@ social_graphics = {
                 },
                 {
                     "src_facebook": "scoring/img/social-graphics-2025/rectangular/planning-5.png",
-                    "src_instagram": "Planning and Land Use 2025. 65% of planning authorities have mapped where new solar, wind or district heating infrastructure can be built, up 7 versus 2023, but only 11% have mapped for all three.",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/planning-5.png",
+                    "alt": "Planning and Land Use 2025. 65% of planning authorities have mapped where new solar, wind or district heating infrastructure can be built, up 7 versus 2023, but only 11% have mapped for all three.",
                 },
                 {
                     "src_facebook": "scoring/img/social-graphics-2025/rectangular/planning-6.png",
