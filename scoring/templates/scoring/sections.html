@@ -41,7 +41,7 @@
                     {{ section.name }}
                 </h3>
                 {{ section.description|linebreaks }}
-                <a href="{{ section.url }}" class="stretched-link d-flex align-items-center fw-bold link-category-{{ forloop.counter }}">
+                <a href="{% if current_plan_year %}{% url 'scoring:section' section.code %}{% else %}{% url 'year_scoring:section' plan_year section.code %}{% endif %}" class="stretched-link d-flex align-items-center fw-bold link-category-{{ forloop.counter }}">
                     View section
                     {% include 'caps/icons/chevron-right.html' with classes='ms-2' %}
                 </a>
@@ -58,7 +58,7 @@
                     {{ section.name }}
                 </h3>
                 {{ section.description|linebreaks }}
-                <a href="{{ section.url }}" class="stretched-link d-flex align-items-center fw-bold link-category-{{ forloop.counter }}">
+                <a href="{% if current_plan_year %}{% url 'scoring:section' section.code %}{% else %}{% url 'year_scoring:section' plan_year section.code %}{% endif %}" class="stretched-link d-flex align-items-center fw-bold link-category-{{ forloop.counter }}">
                     View section
                     {% include 'caps/icons/chevron-right.html' with classes='ms-2' %}
                 </a>

@@ -1221,19 +1221,9 @@ class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
             .order_by("code")
             .all()
         ):
-            if self.request.year.is_current:
-                url = reverse("scoring:section", args=(section.code,))
-            else:
-                url = reverse(
-                    "year_scoring:section",
-                    args=(
-                        self.request.year.year,
-                        section.code,
-                    ),
-                )
             details = {
                 "name": section.description,
-                "url": url,
+                "code": section.code,
                 "description": section.long_description,
             }
             if section.code in self.sections:
