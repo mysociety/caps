@@ -110,8 +110,8 @@ social_graphics = {
         },
         "s1_b_h": {
             "pdf": {
-                "src_pdf": "scoring/img/social-graphics/buildings-and-heating/building-and-heating-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/buildings-and-heating/building-and-heating-graphic.jpg",
+                "src_pdf": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.pdf",
+                "src_jpg": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.jpg",
                 "height": 1125,
                 "width": 2000,
             },
