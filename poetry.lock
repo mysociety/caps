@@ -240,7 +240,7 @@ profile = ["gprof2dot (>=2022.7.29)"]
 
 [[package]]
 name = "django"
-version = "4.2.25"
+version = "4.2.26"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 category = "main"
 optional = false
@@ -1270,7 +1270,7 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "b6328c8467ac751a9c1da7a715c1442e16f32f41cb2efbc58fcbe95d6acb8f9b"
+content-hash = "71dbe20fde7a169bfddfcf94f5f225dbfc618eb61077c4240769fe4f487f5d5b"
 
 [metadata.files]
 altair = [
@@ -1549,8 +1549,8 @@ dill = [
     {file = "dill-0.4.0.tar.gz", hash = "sha256:0633f1d2df477324f53a895b02c901fb961bdbf65a17122586ea7019292cbcf0"},
 ]
 django = [
-    {file = "django-4.2.25-py3-none-any.whl", hash = "sha256:9584cf26b174b35620e53c2558b09d7eb180a655a3470474f513ff9acb494f8c"},
-    {file = "django-4.2.25.tar.gz", hash = "sha256:2391ab3d78191caaae2c963c19fd70b99e9751008da22a0adcc667c5a4f8d311"},
+    {file = "django-4.2.26-py3-none-any.whl", hash = "sha256:c96e64fc3c359d051a6306871bd26243db1bd02317472a62ffdbe6c3cae14280"},
+    {file = "django-4.2.26.tar.gz", hash = "sha256:9398e487bcb55e3f142cb56d19fbd9a83e15bb03a97edc31f408361ee76d9d7a"},
 ]
 django-appconf = [
     {file = "django-appconf-1.1.0.tar.gz", hash = "sha256:9fcead372f82a0f21ee189434e7ae9c007cbb29af1118c18251720f3d06243e4"},
