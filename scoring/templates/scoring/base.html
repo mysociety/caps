@@ -120,9 +120,12 @@
         </div>
     </nav>
 
-    <nav class="navbar navbar-expand-lg py-2 justify-content-center bg-orange-100 border-top gap-2 gap-md-3">
-        <span class="text-center">We’re part of the Big Give Christmas Challenge, 2nd–9th December only. Double the donation, double the difference, now.</span>
-        <a href="https://donate.biggive.org/campaign/a05WS000006MBm9YAG" class="btn btn-sm btn-primary rounded-pill px-3">Donate</a>
+    <nav class="navbar navbar-expand-lg py-2 donation-banner justify-content-center gap-2 gap-md-3">
+        <span class="text-center">We’re part of the Big Give Christmas Challenge, 2nd–9th December only. Double the donation, double the difference.</span>
+        <a href="https://donate.biggive.org/campaign/a05WS000006MBm9YAG" class="btn btn-sm btn-light rounded-pill px-3 d-inline-flex align-items-center gap-2" target="_blank">
+            Donate now
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 20 20" role="presentation"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 10H3M11 4l6 6-6 6"/></svg>
+        </a>
     </nav>
 
 {% block content %}{% endblock %}
@@ -200,11 +203,51 @@
         </div>
     </footer>
 
+  {% if request.path != '/' %}
+    <aside class="modal donation-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header">
+                    <h2 class="modal-title h3 lh-sm fw-bold me-3">
+                        This week only: all donations made to Climate Emergency UK via the Big Give are DOUBLED!
+                    </h2>
+                    <button type="button" class="close" data-bs-dismiss="modal">Skip</button>
+                </div>
+                <div class="modal-body">
+                    <p>We’re taking part in this year’s Big Give. So, if you believe there should be better data on council climate action, now’s the time to help us deliver the Scorecards.</p>
+                    <p>
+                        <a href="https://donate.biggive.org/campaign/a05WS000006MBm9YAG" class="btn btn-lg btn-primary d-inline-flex align-items-center gap-2" target="_blank">
+                            Donate now
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 20 20" role="presentation"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 10H3M11 4l6 6-6 6"/></svg>
+                        </a>
+                    </p>
+                    <p>Donate now, and <strong>double your impact</strong> to catalyse, track and improve local climate action.</p>
+                    <p>Thanks, from the Climate Emergency UK team</p>
+                    <div class="team-avatars mb-0">
+                        <div class="team-avatars__person" title="Annie">
+                            <img src="{% static 'scoring/img/avatar-annie.jpg' %}" width="100" height="100" alt="Annie">
+                        </div>
+                        <div class="team-avatars__person" title="Don">
+                            <img src="{% static 'scoring/img/avatar-don.jpg' %}" width="100" height="100" alt="Don">
+                        </div>
+                        <div class="team-avatars__person" title="Isaac">
+                            <img src="{% static 'scoring/img/avatar-isaac.jpg' %}" width="100" height="100" alt="Isaac">
+                        </div>
+                        <div class="team-avatars__person" title="Samantha">
+                            <img src="{% static 'scoring/img/avatar-samantha.jpg' %}" width="100" height="100" alt="Samantha">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+  {% endif %}
+
     <script src="{% static 'awesomplete/awesomplete.min.js' %}"></script>
     {% include 'scoring/includes/location-search-autocomplete.html' %}
-    <script src="{% static 'scoring/js/main.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <script src="{% static 'scoring/js/main.js' %}"></script>
 
     <script>
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
