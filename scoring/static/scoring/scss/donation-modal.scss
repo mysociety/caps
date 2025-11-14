@@ -1,0 +1,75 @@
+.donation-modal {
+    --#{$prefix}modal-padding: 2rem;
+    --#{$prefix}modal-width: 550px;
+    --#{$prefix}modal-title-line-height: 1;
+    --paragraph-vertical-spacing: 1rem;
+
+    backdrop-filter: blur(5px);
+
+    @include media-breakpoint-up('lg') {
+        --#{$prefix}modal-padding: 2.5rem;
+        --#{$prefix}modal-width: 600px;
+        --paragraph-vertical-spacing: 1.25rem;
+        @include font-size(1.125rem);
+    }
+
+    .modal-header {
+        border-bottom: none;
+        align-items: center;
+        padding: var(--#{$prefix}modal-padding) var(--#{$prefix}modal-padding) 0 var(--#{$prefix}modal-padding);
+    }
+
+    .modal-body {
+        padding-top: 1rem;
+    }
+
+    .close {
+        position: relative;
+        z-index: 1;
+        padding: 1rem 1rem;
+        margin: -1rem -1rem -1rem auto;
+        background: transparent;
+        border: none;
+        color: $text-muted;
+        font-size: 1rem;
+    }
+
+    .team-avatars {
+        display: flex;
+        margin: 0 -4px var(--paragraph-vertical-spacing) -4px;
+    }
+
+    .team-avatars__person {
+        display: flex;
+        align-items: center;
+        margin-right: -10px;
+
+        img {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            border: 4px solid #fff;
+        }
+    }
+
+    p {
+        margin-bottom: var(--paragraph-vertical-spacing);
+    }
+
+    .x2-donation {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        span {
+            font-size: 1.5em;
+            line-height: 1;
+            font-weight: bold;
+            color: $color-scorecard-grey-600;
+            border: 2px solid mix($color-scorecard-grey-600, #fff, 50%);
+            border-radius: 0.25rem;
+            padding: 0.25em 0.5em;
+            transform: rotate(-1deg);
+        }
+    }
+}
