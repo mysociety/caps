@@ -30,7 +30,7 @@
                         <span class="fs-1 lh-1">{{ nation.statistic_value }}</span>
                         <span class="text-muted">{{ nation.statistic_label }}</span>
                         <p class="my-3">{{ nation.description }}</p>
-                        <a href="{% url 'scoring:nation_detail' nation.slug %}" class="stretched-link d-flex align-items-center fw-bold mt-auto">
+                        <a href="{% if current_plan_year %}{% url 'scoring:nation_detail' nation.slug %}{% else %}{% url 'year_scoring:nation_detail' plan_year nation.slug %}{% endif %}" class="stretched-link d-flex align-items-center fw-bold mt-auto">
                             {{ nation.cta_label }}
                             {% include 'caps/icons/chevron-right.html' with classes='ms-2' %}
                         </a>
