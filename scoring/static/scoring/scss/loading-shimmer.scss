@@ -1,4 +1,13 @@
-.loading-shimmer {
+@keyframes shimmer {
+    0% {
+        background-position: right;
+    }
+    100% {
+        background-position: left;
+    }
+}
+
+%loading-shimmer {
     position: relative;
     filter: grayscale(50%);
     opacity: 0.5;
@@ -15,13 +24,15 @@
         background-size: 300% 100%;
         animation: shimmer 2s infinite;
     }
+}
 
-    @keyframes shimmer {
-        0% {
-            background-position: right;
-        }
-        100% {
-            background-position: left;
-        }
+.loading-shimmer {
+    #main-filter,
+    .scorecard-table,
+    .js-category-select-form,
+    .question-performance > h3 .text-muted,
+    .question-performance .card,
+    .table-council-question-performance {
+        @extend %loading-shimmer;
     }
 }

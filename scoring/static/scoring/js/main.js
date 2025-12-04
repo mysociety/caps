@@ -73,82 +73,126 @@ updateUIFromHashState();
 // Monitor for future changes of the hash state
 window.addEventListener('hashchange', updateUIFromHashState);
 
-forEachElement('.js-location-search-autocomplete', function(input){
-    var ac = new Awesomplete(
-        input,
-        {
-            list: councils.map(function(council){
-                return council.name;
-            }),
-            minChars: 3,
-            autoFirst: true
-        }
-    );
-    input.parentNode.addEventListener('awesomplete-select', function(data){
-        data.preventDefault();
-        var council = findItem(councils, {'name': data.text });
-        window.location.href = council['council_url'];
+function setUpAutocompletes() {
+    forEachElement('.js-location-search-autocomplete', function(input){
+        var ac = new Awesomplete(
+            input,
+            {
+                list: councils.map(function(council){
+                    return council.name;
+                }),
+                minChars: 3,
+                autoFirst: true
+            }
+        );
+        input.parentNode.addEventListener('awesomplete-select', function(data){
+            data.preventDefault();
+            var council = findItem(councils, {'name': data.text });
+            window.location.href = council['council_url'];
+        });
+        input.placeholder = 'Council name or postcode';
     });
-    input.placeholder = 'Council name or postcode';
-});
 
-forEachElement('.js-location-jump-autocomplete', function(input){
-    var ac = new Awesomplete(
-        input,
-        {
-            list: councils.map(function(council){
-                return council.name;
-            }),
-            minChars: 3,
-            autoFirst: true
-        }
-    );
-    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
-        var council = findItem(councils, {'name': data.text });
-        window.location.href = council.scoring_url + '#' + serialiseObject({
-            'jump': council.slug
+    forEachElement('.js-location-jump-autocomplete', function(input){
+        var ac = new Awesomplete(
+            input,
+            {
+                list: councils.map(function(council){
+                    return council.name;
+                }),
+                minChars: 3,
+                autoFirst: true
+            }
+        );
+        input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
+            var council = findItem(councils, {'name': data.text });
+            window.location.href = council.scoring_url + '#' + serialiseObject({
+                'jump': council.slug
+            });
         });
     });
-});
 
-forEachElement('.js-question-jump-autocomplete', function(input){
-    var ac = new Awesomplete(
-        input,
-        {
-            list: councils.map(function(council){
-                return council.name;
-            }),
-            minChars: 3,
-            autoFirst: true
-        }
-    );
-    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
-        var council = findItem(councils, {'name': data.text });
-        window.location.href = window.location.pathname + '?type=' + council.council_type + '#' + serialiseObject({
-            'jump': council.slug
+    forEachElement('.js-question-jump-autocomplete', function(input){
+        var ac = new Awesomplete(
+            input,
+            {
+                list: councils.map(function(council){
+                    return council.name;
+                }),
+                minChars: 3,
+                autoFirst: true
+            }
+        );
+        input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
+            var council = findItem(councils, {'name': data.text });
+            window.location.href = window.location.pathname + '?type=' + council.council_type + '#' + serialiseObject({
+                'jump': council.slug
+            });
         });
     });
-});
 
-forEachElement('.js-location-compare-autocomplete', function(input){
-    var council_type = input.dataset.council_type;
-    var ac = new Awesomplete(
-        input,
-        {
-            list: councils.filter(function(council){
-                if (typeof council_type === "undefined") { return true; }
-                if (council.council_type === council_type) { return true; }
-                return false;
-            }).map(function(council) { return council.name; }),
-            minChars: 3,
-            autoFirst: true
-        }
-    );
+    forEachElement('.js-location-compare-autocomplete', function(input){
+        var council_type = input.dataset.council_type;
+        var ac = new Awesomplete(
+            input,
+            {
+                list: councils.filter(function(council){
+                    if (typeof council_type === "undefined") { return true; }
+                    if (council.council_type === council_type) { return true; }
+                    return false;
+                }).map(function(council) { return council.name; }),
+                minChars: 3,
+                autoFirst: true
+            }
+        );
 
-    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
-        handleCouncilSelection(data.text);
+        input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
+            handleCouncilSelection(data.text);
+        });
     });
-});
+
+    forEachElement('.js-methodology-council-autocomplete', function(input){
+        var ac = new Awesomplete(
+            input,
+            {
+                list: councils.map(function(council){
+                    return council.name;
+                }),
+                minChars: 3,
+                autoFirst: true
+            }
+        );
+        input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
+            var council = findItem(councils, {'name': data.text });
+            console.log(council);
+            var container = document.querySelector('.js-dynamic-content');
+            container.setAttribute('data-methodology-active-council-type', council.council_type);
+        });
+    });
+
+    forEachElement('.js-section-council-autocomplete', function(input){
+        var ac = new Awesomplete(
+            input,
+            {
+                list: councils.map(function(council){
+                    return council.name;
+                }),
+                minChars: 3,
+                autoFirst: true
+            }
+        );
+        input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
+            var council = findItem(councils, {'name': data.text });
+            var sp = new URLSearchParams(window.location.search)
+            sp.delete('type');
+            sp.delete('council');
+            sp.append('council', council.slug);
+            window.location.href = window.location.pathname + '?' + sp.toString() + '#questions';
+        });
+    });
+}
+
+setUpAutocompletes();
 
 // Function to handle selection from both autocomplete and suggestions
 function handleCouncilSelection(councilName) {
@@ -388,46 +432,6 @@ forEachElement('[data-methodology-switch-council-type]', function(trigger){
     });
 });
 
-forEachElement('.js-methodology-council-autocomplete', function(input){
-    var ac = new Awesomplete(
-        input,
-        {
-            list: councils.map(function(council){
-                return council.name;
-            }),
-            minChars: 3,
-            autoFirst: true
-        }
-    );
-    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
-        var council = findItem(councils, {'name': data.text });
-        console.log(council);
-        var container = document.querySelector('.js-dynamic-content');
-        container.setAttribute('data-methodology-active-council-type', council.council_type);
-    });
-});
-
-forEachElement('.js-section-council-autocomplete', function(input){
-    var ac = new Awesomplete(
-        input,
-        {
-            list: councils.map(function(council){
-                return council.name;
-            }),
-            minChars: 3,
-            autoFirst: true
-        }
-    );
-    input.parentNode.addEventListener('awesomplete-selectcomplete', function(data){
-        var council = findItem(councils, {'name': data.text });
-        var sp = new URLSearchParams(window.location.search)
-        sp.delete('type');
-        sp.delete('council');
-        sp.append('council', council.slug);
-        window.location.href = window.location.pathname + '?' + sp.toString() + '#questions';
-    });
-});
-
 // Previous year comparison toggle on council page
 forEachElement('#js-toggle-previous-year-score', function(el) {
     el.addEventListener('change', function() {
@@ -480,16 +484,15 @@ function setUpMobileCategorySelect() {
 }
 setUpMobileCategorySelect();
 
-function ajaxLoadCouncilTypeScorecard(url) {
+function ajaxLoadPageFragments(url) {
     const selectors = [
-      '#home-page-main-filter',
+      '#main-filter',
       '.scorecard-table',
-      '.js-category-select-form'
+      '.js-category-select-form',
+      '.question-performance'
     ];
 
-    selectors.forEach(selector => {
-      document.querySelector(selector)?.classList.add('loading-shimmer');
-    });
+    document.documentElement.classList.add('loading-shimmer');
 
     fetch(url)
       .then(response => response.text())
@@ -505,9 +508,13 @@ function ajaxLoadCouncilTypeScorecard(url) {
           }
         });
 
+        document.documentElement.classList.remove('loading-shimmer');
+
         setUpTableSorting();
         showOrHideYearDifference();
         setUpMobileCategorySelect();
+        setUpAutocompletes();
+        setUpImprovedWorsenedCouncilCheckboxes();
 
         const advancedFilter = document.querySelector('#advancedFilter');
         if (advancedFilter) {
@@ -524,7 +531,7 @@ function ajaxLoadCouncilTypeScorecard(url) {
 function handleFilterChange(e) {
     e.preventDefault();
     
-    const mainForm = document.getElementById('home-page-main-filter');
+    const mainForm = document.getElementById('main-filter');
     if (!mainForm) return;
     const formData = new FormData(mainForm);
     
@@ -536,7 +543,7 @@ function handleFilterChange(e) {
     const url = `${baseUrl}?${params.toString()}`;
     history.pushState({}, '', url);
 
-    ajaxLoadCouncilTypeScorecard(url);
+    ajaxLoadPageFragments(url);
 }
 
 if (typeof window.fetch !== 'undefined') {
@@ -545,21 +552,21 @@ if (typeof window.fetch !== 'undefined') {
         e.preventDefault();
         const href = e.target.href;
         history.pushState({}, '', href);
-        ajaxLoadCouncilTypeScorecard(href);
+        ajaxLoadPageFragments(href);
       }
     });
 
     // Handle form submission (Apply filters button)
     document.addEventListener('submit', e => {
-      if (e.target.matches('#home-page-main-filter')) {
+      if (e.target.matches('#main-filter')) {
         handleFilterChange(e);
       }
     });
 
     // Handle radio buttons and select changes
     document.addEventListener('change', e => {
-      if (e.target.matches('#home-page-main-filter input[type="radio"]') ||
-          e.target.matches('#home-page-main-filter select')) {
+      if (e.target.matches('#main-filter input[type="radio"]') ||
+          e.target.matches('#main-filter select')) {
         handleFilterChange(new Event('submit'));
       }
     });
@@ -569,7 +576,7 @@ if (typeof window.fetch !== 'undefined') {
       if (e.target.matches('#resetButton')) {
         e.preventDefault();
 
-        const mainForm = document.getElementById('home-page-main-filter');
+        const mainForm = document.getElementById('main-filter');
         if (mainForm) {
           // Reset radio buttons
           mainForm.querySelectorAll('input[type="radio"]').forEach(radio => {
@@ -597,7 +604,7 @@ if (typeof window.fetch !== 'undefined') {
     window.addEventListener('popstate', e => {
       const url = new URL(window.location.href);
       if (councilTypePaths.includes(url.pathname)) {
-        ajaxLoadCouncilTypeScorecard(window.location.href);
+        ajaxLoadPageFragments(window.location.href);
       }
     });
 }
@@ -651,26 +658,30 @@ function updateTableVisibility() {
     });
 }
 
-forEachElement('.js-checkbox-improved-councils', function(checkbox) {
-    checkbox.addEventListener('change', function() {
-        // If this checkbox is checked, uncheck the other one
-        if (this.checked) {
-            forEachElement('.js-checkbox-worsened-councils', function(otherCheckbox) {
-                otherCheckbox.checked = false;
-            });
-        }
-        updateTableVisibility();
+function setUpImprovedWorsenedCouncilCheckboxes() {
+    forEachElement('.js-checkbox-improved-councils', function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            // If this checkbox is checked, uncheck the other one
+            if (this.checked) {
+                forEachElement('.js-checkbox-worsened-councils', function(otherCheckbox) {
+                    otherCheckbox.checked = false;
+                });
+            }
+            updateTableVisibility();
+        });
     });
-});
 
-forEachElement('.js-checkbox-worsened-councils', function(checkbox) {
-    checkbox.addEventListener('change', function() {
-        // If this checkbox is checked, uncheck the other one
-        if (this.checked) {
-            forEachElement('.js-checkbox-improved-councils', function(otherCheckbox) {
-                otherCheckbox.checked = false;
-            });
-        }
-        updateTableVisibility();
+    forEachElement('.js-checkbox-worsened-councils', function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            // If this checkbox is checked, uncheck the other one
+            if (this.checked) {
+                forEachElement('.js-checkbox-improved-councils', function(otherCheckbox) {
+                    otherCheckbox.checked = false;
+                });
+            }
+            updateTableVisibility();
+        });
     });
-});
+}
+
+setUpImprovedWorsenedCouncilCheckboxes();

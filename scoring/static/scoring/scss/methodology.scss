@@ -84,6 +84,16 @@ $council-types: (
     .radio-btn {
         margin: 0 !important;
     }
+
+    .btn:last-of-type {
+        margin-right: auto; // push searchbar/autocomplete to the right
+    }
+
+    .searchbar {
+        width: 100%;
+        max-width: 20em;
+        border-color: #999;
+    }
 }
 
 .question-card--removed {

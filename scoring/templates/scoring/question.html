@@ -45,47 +45,34 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-              <h2 class="h3 mt-5 mb-4" id="performance">Question performance</h2>
+  {% if question_removed %}
 
-              {% if applicable_scoring_groups|length > 1 %}
-              <div class="bg-primary-100 p-3 border rounded">
-                    <label for="questions-council-name" class="fs-6 d-block mb-2">Show scores for a specific council</label>
-                    <input class="form-control searchbar js-question-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name" id="questions-council-name">
-                    <p class="mt-3 mb-2 fs-6">Or show scores by type of council</p>
-                    <div class="d-flex flex-wrap gap-1">
-                        {% for t in applicable_scoring_groups %}
-                            <a href="?type={{ t.description }}#performance" class="btn btn-outline-primary btn-sm is--with-label {% if t.description == scoring_group.slug %}active{% endif %}">
-                              {% if t.description == "single" %}
-                                Single Tier
-                              {% elif t.description == "district" %}
-                                District
-                              {% elif t.description == "county" %}
-                                County
-                              {% elif t.description == "northern-ireland" %}
-                                Northern Ireland
-                              {% elif t.description == "combined" %}
-                                Combined Authority
-                              {% endif %}
-                            </a>
-                        {% endfor %}
-                    </div>
-              </div>
-              {% endif %}
-        </div>
+    <div class="alert alert-dark mt-5 w-md-50" role="alert">
+        <h3 class="h5">Question removed</h3>
+        <p class="mb-0">{{ question_removed.reason }}</p>
     </div>
 
-    {% if question_removed %}
-        <div class="alert alert-dark mt-3 w-md-50" role="alert">
-            <h3 class="h5">Question removed</h3>
-            <p class="mb-0">{{ question_removed.reason }}</p>
-        </div>
+  {% else %}
+
+    {% if applicable_scoring_groups|length > 1 %}
+        <h2 class="h3 mt-5 mb-4" id="performance">Question performance by council type</h2>
+        {% include 'scoring/includes/main-filter.html' %}
     {% else %}
+        <h2 class="h3 mt-5 mb-4" id="performance">Question performance</h2>
+    {% endif %}
+
+    <div class="question-performance">
+
     {% if scoring_group and totals %}
-        <div class="question-summary-grid mt-5">
+        <h3 class="h4 mb-1 mt-4">
+            Points distribution
+            <span class="text-capitalize text-muted fs-7 ms-2">
+                {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}
+            </span>
+        </h3>
+        <div class="question-summary-grid">
         {% for t in totals %}
-            <div class="question-summary-grid__item">
+            <div class="question-summary-grid__item mt-3">
                 <div class="card">
                     <div class="card-header bg-primary text-light">
                         <h3 class="fs-4 mb-0 text-center">
@@ -130,25 +117,20 @@
         {% endfor %}
         </div>
 
-        {% if previous_year %} 
+        {% if previous_year %}
             {% if max_score_changed %}
-                <div class="alert alert-dark mt-3 w-md-50" role="alert">
-                    <h3 class="h5">Score comparison unavailable</h3>
-                    <p class="mb-0">There is no comparison between {{ plan_year }} and {{ previous_year }} data because this question's maximum score was modified in {{ plan_year }}.</p>
-                </div>
+                <p>There is no comparison between {{ plan_year }} and {{ previous_year }} data because this question's maximum score was modified in {{ plan_year }}.</p>
             {% elif comparison_overridden %}
-                <div class="alert alert-dark mt-3 w-md-50" role="alert">
-                    <h3 class="h5">Score comparison unavailable</h3>
-                    <p class="mb-0">There is no comparison between {{ plan_year }} and {{ previous_year }} data because this question was modified in {{ plan_year }}.</p>
-                </div>
+                <p>There is no comparison between {{ plan_year }} and {{ previous_year }} data because this question was modified in {{ plan_year }}.</p>
             {% elif no_comparison %}
-                <div class="alert alert-dark mt-3 w-md-50" role="alert">
-                    <h3 class="h5">Score comparison unavailable</h3>
-                    <p class="mb-0">This question was introduced in the {{ plan_year }} Action Scorecards and has no historical data for comparison.</p>
-                </div>
+                <p>This question was introduced in the {{ plan_year }} Action Scorecards and has no historical data for comparison.</p>
             {% elif not question.is_negatively_marked %}
-                <h3 class="h4 mb-1 mt-5">Performance comparison between {{ previous_year }} and {{ plan_year }}</h3>
-                <p class="text-capitalize mb-3 fs-5">{% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}</p>
+                <h3 class="h4 mb-1 mt-5">
+                    Rising and falling
+                    <span class="text-capitalize text-muted fs-7 ms-2">
+                        {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}
+                    </span>
+                </h3>
                 <div class="d-flex flex-row flex-wrap gap-3 mt-3">
                     <div class="card overflow-hidden">
                         <div class="card-body bg-green-600 text-light d-flex flew-row flex-nowrap gap-1">
@@ -197,27 +179,16 @@
                     </div>
                 </div>
             {% endif %}
-
-            <div class="d-flex flex-row flex-wrap gap-3 mt-3 display-only-large-up">
-                <div class="card display-only-large-up">
-                    <div class="card-body">
-                        <div class="d-none d-md-flex flex-row gap-3 mt-3">
-                            <h4 class="visually-hidden">Legends for difference column</h4>
-                            <div>
-                                <span class="badge bg-gray-300 text-dark">--</span> No change
-                            </div>
-                            <div>
-                                <span class="badge bg-gray-300 text-dark">NA</span> New question (not in previous scorecards)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         {% endif %}
-
     {% endif %}
 
     {% if scores %}
+        <h3 class="h4 mb-1 mt-5">
+            Scores and evidence
+            <span class="text-capitalize text-muted fs-7 ms-2">
+                {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}
+            </span>
+        </h3>
         <table class="table-council-question-performance w-100 mt-4">
             <thead class="text-bg-primary position-sticky z-index-3 top-0">
                 <tr>
@@ -264,7 +235,7 @@
                                 </dl>
                                 {% if score.score != 0 %}
                                     <p class="fs-8 text-uppercase text-muted mb-0 fw-bold">Evidence</p>
-                                    <ul class="ps-3">
+                                    <ul class="ps-3 mb-0">
                                         {% for evidence_link in score.evidence_links_cleaned %}
                                             <li>
                                                 {% if evidence_link|slice:":4" == "http" %}
@@ -302,7 +273,7 @@
                         {% endif %}
                         <td class="d-none d-md-table-cell text-start border-bottom border-end border-opacity-25 border-primary">
                             {% if score.score != 0 %}
-                            <ul class="ps-3">
+                            <ul class="ps-3 mb-0">
                                 {% for evidence_link in score.evidence_links_cleaned %}
                                     <li>
                                         {% if evidence_link|slice:":4" == "http" %}
@@ -322,6 +293,9 @@
             </tbody>
         </table>
     {% endif %}
-    {% endif %}
+
+    </div>
+
+  {% endif %}
 </div>
 {% endblock %}
