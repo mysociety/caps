@@ -717,6 +717,19 @@ class PlanQuestion(models.Model):
 
         return counts
 
+    def get_score_breakdown_for_councils(self, council_ids, year):
+        counts = (
+            PlanQuestionScore.objects.filter(
+                plan_score__year=year,
+                plan_question=self,
+                plan_score__council_id__in=council_ids,
+            )
+            .values("score")
+            .annotate(score_count=Count("id"))
+        )
+
+        return counts
+
 
 class PlanQuestionScore(ScoreFilterMixin, models.Model):
     """

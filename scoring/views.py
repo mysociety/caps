@@ -1433,6 +1433,13 @@ class QuestionView(
                     .annotate(change=(F("score") - F("previous_score")))
                 )
 
+            # Save the queryset before we iterate (iteration evaluates it)
+            scores_for_breakdown = context["scores"]
+            filtered_ids = list(
+                scores_for_breakdown.values_list("plan_score__council_id", flat=True)
+            )
+
+            if self.request.year.previous_year:
                 context["increased"] = 0
                 context["decreased"] = 0
                 for score in context["scores"]:
@@ -1448,9 +1455,10 @@ class QuestionView(
                     previous_q_overriden = True
 
                 if previous_q:
-                    prev_counts = previous_q.get_scores_breakdown(
-                        year=self.request.year.previous_year.year,
-                        scoring_group=scoring_group,
+                    prev_counts = list(
+                        previous_q.get_score_breakdown_for_councils(
+                            filtered_ids, self.request.year.previous_year.year
+                        )
                     )
 
             # Setup filter UI context
@@ -1463,8 +1471,11 @@ class QuestionView(
                 if country == "1" or country == "" or country is None:
                     context["show_region_filter"] = True
 
-            score_counts = question.get_scores_breakdown(
-                year=self.request.year.year, scoring_group=scoring_group
+            # Calculate score breakdown from filtered queryset
+            score_counts = list(
+                context["question"].get_score_breakdown_for_councils(
+                    filtered_ids, self.request.year.year
+                )
             )
 
             totals = {}

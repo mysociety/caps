@@ -119,12 +119,16 @@
 
         {% if previous_year %}
             {% if max_score_changed %}
-                <p>There is no comparison between {{ plan_year }} and {{ previous_year }} data because this question's maximum score was modified in {{ plan_year }}.</p>
+                <p class="mt-3 fs-7 text-muted" style="max-width: 50em; text-wrap: balance;">It is not possible to compare performance on this question between {{ plan_year }} and {{ previous_year }} because this question’s maximum score was modified in {{ plan_year }}.</p>
             {% elif comparison_overridden %}
-                <p>There is no comparison between {{ plan_year }} and {{ previous_year }} data because this question was modified in {{ plan_year }}.</p>
+                <p class="mt-3 fs-7 text-muted" style="max-width: 50em; text-wrap: balance;">It is not possible to compare performance on this question between {{ plan_year }} and {{ previous_year }} data because this question was modified in {{ plan_year }}.</p>
             {% elif no_comparison %}
-                <p>This question was introduced in the {{ plan_year }} Action Scorecards and has no historical data for comparison.</p>
-            {% elif not question.is_negatively_marked %}
+                <p class="mt-3 fs-7 text-muted" style="max-width: 50em; text-wrap: balance;">This question was introduced in the {{ plan_year }} Action Scorecards and has no historical data for comparison.</p>
+            {% else %}
+                <p class="mt-3 fs-7 text-muted" style="max-width: 50em;">Note: “in {{ previous_year }}” counts show how the councils listed below were marked on this question in {{ previous_year }}. This list of councils may be slightly different to the list of councils originally assessed on this question in {{ previous_year }}, due to the creation and abolition of councils{% if filter_params.ruc_cluser or filter_params.population or filter_params.imdq or filter_params.control %}, or changes in your filtered properties{% endif %} between Scorecard years.</p>
+            {% endif %}
+
+            {% if not max_score_changed and not comparison_overridden and not no_comparison and not question.is_negatively_marked %}
                 <h3 class="h4 mb-1 mt-5">
                     Rising and falling
                     <span class="text-capitalize text-muted fs-7 ms-2">
