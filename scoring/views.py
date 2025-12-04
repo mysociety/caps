@@ -1324,7 +1324,12 @@ class SectionCouncilTopPerformerPreview(PrivateScorecardsAccessMixin, TemplateVi
 
 
 @method_decorator(cache_control(**cache_settings), name="dispatch")
-class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailView):
+class QuestionView(
+    PrivateScorecardsAccessMixin,
+    SearchAutocompleteMixin,
+    AdvancedFilterMixin,
+    DetailView,
+):
     model = PlanQuestion
     context_object_name = "question"
     template_name = "scoring/question.html"
@@ -1334,6 +1339,24 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
             PlanQuestion.objects.select_related("section"),
             code=self.kwargs["code"],
             section__year=self.request.year.year,
+        )
+
+    def get_filter_queryset(self, question, scoring_group):
+        """Build the base queryset for scores that will be filtered."""
+        return (
+            PlanQuestionScore.objects.filter(
+                plan_score__year=self.request.year.year,
+                plan_question=question,
+                plan_score__council__authority_type__in=scoring_group["types"],
+            )
+            .select_related("plan_score", "plan_score__council")
+            .order_by("-score", "plan_score__council__name")
+        )
+
+    def get_filterset(self, queryset):
+        """Instantiate and return the filterset for filtering scores."""
+        return QuestionScoreFilter(
+            data=self.request.GET or None, queryset=queryset, request=self.request
         )
 
     def get_context_data(self, **kwargs):
@@ -1387,15 +1410,12 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
 
         if scoring_group is not None:
             context["scoring_group"] = scoring_group
-            context["scores"] = (
-                PlanQuestionScore.objects.filter(
-                    plan_score__year=self.request.year.year,
-                    plan_question=question,
-                    plan_score__council__authority_type__in=scoring_group["types"],
-                )
-                .select_related("plan_score", "plan_score__council")
-                .order_by("-score", "plan_score__council__name")
-            )
+
+            # Build base queryset and apply filters
+            base_queryset = self.get_filter_queryset(question, scoring_group)
+            filterset = self.get_filterset(base_queryset)
+            context["filter"] = filterset
+            context["scores"] = filterset.qs
 
             prev_counts = None
             if self.request.year.previous_year:
@@ -1432,6 +1452,16 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
                         year=self.request.year.previous_year.year,
                         scoring_group=scoring_group,
                     )
+
+            # Setup filter UI context
+            context = self.setup_filter_context(context, filterset, scoring_group)
+
+            # Show region filter only for England
+            context["show_region_filter"] = False
+            if context.get("filter_params"):
+                country = context["filter_params"].get("country")
+                if country == "1" or country == "" or country is None:
+                    context["show_region_filter"] = True
 
             score_counts = question.get_scores_breakdown(
                 year=self.request.year.year, scoring_group=scoring_group

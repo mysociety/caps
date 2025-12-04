@@ -1,5 +1,3 @@
-<h3 class="mb-3 h6">Advanced filters</h3>
-
 <div class="row row-cols-2 row-cols-lg-auto g-3 mb-3">
     {% if filter_auth_type %}
         <input type="hidden" name="council_type" value="{{ authority_type }}">
@@ -33,7 +31,7 @@
     </div>
   {% endif %}
 
-  {% if authority_type == 'district' %}
+  {% if authority_type == 'district' or scoring_group.slug == 'district' %}
     <div id="filterCounty" class="d-flex flex-column justify-content-between">
         <label for="county_select" class="fs-7 mb-2">County</label>
         <select class="form-select form-select-sm form-select-show-modifications" id="county_select" name="county">
@@ -55,7 +53,7 @@
         </select>
     </div>
 
-  {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
+  {% if authority_type != 'combined' and authority_type != 'northern-ireland' or scoring_group.slug != 'combined' and scoring_group.slug != 'northern-ireland' %}
     <div id="filterDeprivationIndex" class="d-flex flex-column justify-content-between">
         <label for="imd_select" class="fs-7 mb-2">Index of multiple deprivation</label>
         <select class="form-select form-select-sm form-select-show-modifications" id="imd_select" name="imdq">
@@ -69,7 +67,7 @@
     </div>
   {% endif %}
 
-  {% if authority_type != 'combined' and authority_type != 'northern-ireland' %}
+  {% if authority_type != 'combined' and authority_type != 'northern-ireland' or scoring_group.slug != 'combined' and scoring_group.slug != 'northern-ireland' %}
     <div id="filterPoliticalControl" class="d-flex flex-column justify-content-between">
         <label for="control_select" class="fs-7 mb-2">Political control {% include 'scoring/includes/political_control_date.html' %}</label>
         <select class="form-select form-select-sm form-select-show-modifications" id="control_select" name="control">

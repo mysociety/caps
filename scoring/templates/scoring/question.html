@@ -64,7 +64,7 @@
     <div class="question-performance">
 
     {% if scoring_group and totals %}
-        <h3 class="h4 mb-1 mt-4">
+        <h3 class="h4 mb-1 mt-5">
             Points distribution
             <span class="text-capitalize text-muted fs-7 ms-2">
                 {% include 'scoring/includes/scoring-group-name.html' with group=scoring_group.slug plural=1 %}
@@ -180,6 +180,15 @@
                 </div>
             {% endif %}
         {% endif %}
+    {% endif %}
+
+    {% if scoring_group and not scores %}
+    <div class="alert alert-warning mt-5">
+        <h3 class="h5">No councils match your filters</h3>
+        <p class="mb-0">Try adjusting your filter criteria or
+           <a href="?{% if request.GET.type %}type={{ request.GET.type }}{% endif %}">
+           clear all filters</a>.</p>
+    </div>
     {% endif %}
 
     {% if scores %}

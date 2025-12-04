@@ -63,7 +63,7 @@ class QuestionScoreFilter(django_filters.FilterSet):
     )
 
     population = django_filters.ChoiceFilter(
-        field_name="plans_core__population",
+        field_name="plan_score__population",
         choices=PlanScore.POPULATION_ALL_FILTER_CHOICES,
     )
 
@@ -72,6 +72,15 @@ class QuestionScoreFilter(django_filters.FilterSet):
     )
 
     control = django_filters.CharFilter(field_name="plan_score__political_control")
+
+    region = django_filters.ChoiceFilter(
+        field_name="plan_score__council__region", choices=Council.REGION_CHOICES
+    )
+
+    county = django_filters.ChoiceFilter(
+        field_name="plan_score__council__county",
+        choices=Council.get_county_choices(),
+    )
 
     class Meta:
         model = PlanQuestionScore
