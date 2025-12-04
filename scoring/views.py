@@ -1339,6 +1339,8 @@ class QuestionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Detail
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        context["current_page"] = "question-detail"
+
         question = context["question"]
         context["page_title"] = question.text
         context["plan_year"] = self.request.year.year
