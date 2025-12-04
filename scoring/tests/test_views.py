@@ -633,3 +633,84 @@ class TestPreviousYearAnswerView(TestCase):
                 },
             ],
         )
+
+
+@override_settings(PLAN_YEAR="2023")
+class TestQuestionViewFilters(TestCase):
+    """Test filtering functionality on QuestionView"""
+
+    fixtures = ["test_answers.json"]
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_question_view_without_filters(self):
+        """Test question view loads without filters applied"""
+        url = reverse("scoring:question", urlconf="scoring.urls", args=["s1_b_h_q1"])
+        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+
+        self.assertEqual(response.status_code, 200)
+        # Note: test fixture doesn't have scoring groups, so no scores context
+
+    def test_question_view_with_country_filter(self):
+        """Test filtering by country parameter"""
+        url = reverse("scoring:question", urlconf="scoring.urls", args=["s1_b_h_q1"])
+        response = self.client.get(
+            url, {"country": "1"}, HTTP_HOST="councilclimatescorecards.com"  # England
+        )
+
+        # Verify page loads successfully with filter parameter
+        self.assertEqual(response.status_code, 200)
+
+    def test_question_view_with_population_filter(self):
+        """Test filtering by population parameter"""
+        url = reverse("scoring:question", urlconf="scoring.urls", args=["s1_b_h_q1"])
+        response = self.client.get(
+            url, {"population": "50k-80k"}, HTTP_HOST="councilclimatescorecards.com"
+        )
+
+        # Verify page loads successfully with filter parameter
+        self.assertEqual(response.status_code, 200)
+
+    def test_question_view_with_multiple_filters(self):
+        """Test applying multiple filters simultaneously"""
+        url = reverse("scoring:question", urlconf="scoring.urls", args=["s1_b_h_q1"])
+        response = self.client.get(
+            url,
+            {"country": "1", "ruc_cluster": "urban"},
+            HTTP_HOST="councilclimatescorecards.com",
+        )
+
+        # Verify page loads successfully with multiple filter parameters
+        self.assertEqual(response.status_code, 200)
+
+    def test_question_view_filter_with_type_parameter(self):
+        """Test that filters work alongside authority type parameter"""
+        url = reverse("scoring:question", urlconf="scoring.urls", args=["s1_b_h_q1"])
+        response = self.client.get(
+            url,
+            {"type": "single", "country": "1"},
+            HTTP_HOST="councilclimatescorecards.com",
+        )
+
+        # Verify page loads successfully with type and filter parameters
+        self.assertEqual(response.status_code, 200)
+
+    def test_question_view_accepts_all_filter_parameters(self):
+        """Test that all filter parameters are accepted without errors"""
+        url = reverse("scoring:question", urlconf="scoring.urls", args=["s1_b_h_q1"])
+        response = self.client.get(
+            url,
+            {
+                "country": "1",
+                "ruc_cluster": "urban",
+                "population": "50k-80k",
+                "imdq": "1",
+                "control": "Labour",
+                "region": "London",
+            },
+            HTTP_HOST="councilclimatescorecards.com",
+        )
+
+        # Verify page loads successfully with all filter parameters
+        self.assertEqual(response.status_code, 200)

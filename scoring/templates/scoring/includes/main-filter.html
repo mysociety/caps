@@ -28,9 +28,13 @@
             </div>
         </fieldset>
     {% elif current_page == 'question-detail' %}
+        <!-- Preserve the type parameter when the filter form is submitted -->
+        {% if request.GET.type %}
+        <input type="hidden" name="type" value="{{ request.GET.type }}">
+        {% endif %}
         <div class="type-council-option-wrapper" id="council-type-filter">
             {% for t in applicable_scoring_groups %}
-                <a href="?type={{ t.description }}#performance" class="btn btn-outline-primary {% if t.description == scoring_group.slug %}active{% endif %}">
+                <a href="?type={{ t.description }}{% for key, value in request.GET.items %}{% if key != 'type' %}&{{ key }}={{ value }}{% endif %}{% endfor %}#performance" class="btn btn-outline-primary {% if t.description == scoring_group.slug %}active{% endif %}">
                     {% if t.description == "single" %}
                         Single Tier
                     {% elif t.description == "district" %}
@@ -49,7 +53,8 @@
     {% endif %}
 
     <div class="d-flex flex-row flex-wrap align-items-center mt-3 pt-3 border-top gap-3">
-        {% if current_page == 'home-page' and scoring_group.slug == 'single' %}
+        {% if current_page == 'home-page' or current_page == 'question-detail' %}
+          {% if scoring_group.slug == 'single' %}
             <fieldset class="d-flex flex-row flex-wrap align-items-center gap-2">
                 <legend class="visually-hidden">Filter by nation</legend>
                 <div>
@@ -69,12 +74,11 @@
                     <label class="btn btn-sm btn-outline-primary" for="countryWales">Wales</label>
                 </div>
             </fieldset>
+          {% endif %}
         {% endif %}
-        {% if current_page != 'question-detail' %}
-            <button type="button" class="btn btn-link btn-sm p-0 rounded-0" data-bs-toggle="collapse" data-bs-target="#advancedFilter" {% if filter_descs %}aria-expanded="true"{% endif %}>
-                Filter by region, population, and more…
-            </button>
-        {% endif %}
+        <button type="button" class="btn btn-link btn-sm p-0 rounded-0" data-bs-toggle="collapse" data-bs-target="#advancedFilter" {% if filter_descs %}aria-expanded="true"{% endif %}>
+            Filter by region, population, and more…
+        </button>
     </div>
 
     {% if current_page == 'home-page' and filter_params.country %}
@@ -84,9 +88,7 @@
     </div>
     {% endif %}
 
-    {% if current_page != 'question-detail' %}
     <div class="collapse mt-3 pt-3 border-top {% if filter_descs %}show{% endif %}" id="advancedFilter">
         {% include 'scoring/includes/advanced-filter.html' %}
     </div>
-    {% endif %}
 </form>
