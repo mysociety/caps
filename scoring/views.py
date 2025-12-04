@@ -1430,6 +1430,10 @@ class QuestionView(
                     .annotate(change=(F("score") - F("previous_score")))
                 )
 
+            # Save the queryset before we iterate (iteration evaluates it)
+            scores_for_breakdown = context["scores"]
+
+            if self.request.year.previous_year:
                 context["increased"] = 0
                 context["decreased"] = 0
                 for score in context["scores"]:
@@ -1445,9 +1449,20 @@ class QuestionView(
                     previous_q_overriden = True
 
                 if previous_q:
-                    prev_counts = previous_q.get_scores_breakdown(
-                        year=self.request.year.previous_year.year,
-                        scoring_group=scoring_group,
+                    # Get counts for the same filtered councils from previous year
+                    filtered_council_ids = list(
+                        context["scores"].values_list(
+                            "plan_score__council_id", flat=True
+                        )
+                    )
+                    prev_counts = list(
+                        PlanQuestionScore.objects.filter(
+                            plan_score__year=self.request.year.previous_year.year,
+                            plan_question=previous_q,
+                            plan_score__council_id__in=filtered_council_ids,
+                        )
+                        .values("score")
+                        .annotate(score_count=Count("id"))
                     )
 
             # Setup filter UI context
@@ -1460,8 +1475,14 @@ class QuestionView(
                 if country == "1" or country == "" or country is None:
                     context["show_region_filter"] = True
 
-            score_counts = question.get_scores_breakdown(
-                year=self.request.year.year, scoring_group=scoring_group
+            # Calculate score breakdown from filtered queryset
+            # We need to get just the IDs and do a fresh query, because scores_for_breakdown
+            # has annotations that interfere with the grouping
+            filtered_ids = list(scores_for_breakdown.values_list("id", flat=True))
+            score_counts = list(
+                PlanQuestionScore.objects.filter(id__in=filtered_ids)
+                .values("score")
+                .annotate(score_count=Count("id"))
             )
 
             totals = {}
