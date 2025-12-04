@@ -1,4 +1,4 @@
-<form class="form" id="home-page-main-filter">
+<form class="form" id="main-filter">
     {% if current_page == 'home-page' %}
         <div class="type-council-option-wrapper" id="council-type-filter">
             <a class="btn btn-outline-primary {% if scoring_group.slug == 'single' %} active{% endif %}" href="{% include 'scoring/includes/scoring_url.html' with slug='single' %}">Single Tier</a>
@@ -27,29 +27,54 @@
                 <label class="btn btn-outline-primary" for="council_group_combined">Combined Authority</label>
             </div>
         </fieldset>
+    {% elif current_page == 'question-detail' %}
+        <!-- Preserve the type parameter when the filter form is submitted -->
+        {% if request.GET.type %}
+        <input type="hidden" name="type" value="{{ request.GET.type }}">
+        {% endif %}
+        <div class="type-council-option-wrapper" id="council-type-filter">
+            {% for t in applicable_scoring_groups %}
+                <a href="?type={{ t.description }}{% for key, value in request.GET.items %}{% if key != 'type' %}&{{ key }}={{ value }}{% endif %}{% endfor %}#performance" class="btn btn-outline-primary {% if t.description == scoring_group.slug %}active{% endif %}">
+                    {% if t.description == "single" %}
+                        Single Tier
+                    {% elif t.description == "district" %}
+                        District
+                    {% elif t.description == "county" %}
+                        County
+                    {% elif t.description == "northern-ireland" %}
+                        Northern Ireland
+                    {% elif t.description == "combined" %}
+                        Combined Authority
+                    {% endif %}
+                </a>
+            {% endfor %}
+            <input class="form-control searchbar js-question-jump-autocomplete" type="search" placeholder="Search by council name" aria-label="Search by council name">
+        </div>
     {% endif %}
 
     <div class="d-flex flex-row flex-wrap align-items-center mt-3 pt-3 border-top gap-3">
-        {% if current_page == 'home-page' and scoring_group.slug == 'single' %}
-        <fieldset class="d-flex flex-row flex-wrap align-items-center gap-2">
-            <legend class="visually-hidden">Filter by nation</legend>
-            <div>
-                <input class="btn-check" type="radio" name="country" id="countryAny" value=""{% if filter_params.country == "" or filter_params.country is None %} checked{% endif %}>
-                <label class="btn btn-sm btn-outline-primary" for="countryAny">Great Britain</label>
-            </div>
-            <div>
-                <input class="btn-check" type="radio" name="country" id="countryEngland" value="1"{% if filter_params.country == "1" %} checked{% endif %}>
-                <label class="btn btn-sm btn-outline-primary" for="countryEngland">England</label>
-            </div>
-            <div>
-                <input class="btn-check" type="radio" name="country" id="countryScotland" value="2"{% if filter_params.country == "2" %} checked{% endif %}>
-                <label class="btn btn-sm btn-outline-primary" for="countryScotland">Scotland</label>
-            </div>
-            <div>
-                <input class="btn-check" type="radio" name="country" id="countryWales" value="3"{% if filter_params.country == "3" %} checked{% endif %}>
-                <label class="btn btn-sm btn-outline-primary" for="countryWales">Wales</label>
-            </div>
-        </fieldset>
+        {% if current_page == 'home-page' or current_page == 'question-detail' %}
+          {% if scoring_group.slug == 'single' %}
+            <fieldset class="d-flex flex-row flex-wrap align-items-center gap-2">
+                <legend class="visually-hidden">Filter by nation</legend>
+                <div>
+                    <input class="btn-check" type="radio" name="country" id="countryAny" value=""{% if filter_params.country == "" or filter_params.country is None %} checked{% endif %}>
+                    <label class="btn btn-sm btn-outline-primary" for="countryAny">Great Britain</label>
+                </div>
+                <div>
+                    <input class="btn-check" type="radio" name="country" id="countryEngland" value="1"{% if filter_params.country == "1" %} checked{% endif %}>
+                    <label class="btn btn-sm btn-outline-primary" for="countryEngland">England</label>
+                </div>
+                <div>
+                    <input class="btn-check" type="radio" name="country" id="countryScotland" value="2"{% if filter_params.country == "2" %} checked{% endif %}>
+                    <label class="btn btn-sm btn-outline-primary" for="countryScotland">Scotland</label>
+                </div>
+                <div>
+                    <input class="btn-check" type="radio" name="country" id="countryWales" value="3"{% if filter_params.country == "3" %} checked{% endif %}>
+                    <label class="btn btn-sm btn-outline-primary" for="countryWales">Wales</label>
+                </div>
+            </fieldset>
+          {% endif %}
         {% endif %}
         <button type="button" class="btn btn-link btn-sm p-0 rounded-0" data-bs-toggle="collapse" data-bs-target="#advancedFilter" {% if filter_descs %}aria-expanded="true"{% endif %}>
             Filter by region, population, and more…
