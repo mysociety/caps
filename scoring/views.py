@@ -1901,11 +1901,16 @@ class NationDetailView(BaseCouncilListView):
 
         context["nation"] = nation
         context["previous_year"] = self.request.year.previous_year
-        context["social_graphics"] = defaults.get_config(
-            "nations_social_graphics", self.request.year.year
-        ).get(nation["slug"])
         context["plan_year"] = self.request.year
         context["page_title"] = nation["name"]
         context["current_page"] = "nation-detail"
+
+        sg = social_graphics.get(self.request.year.year, {}).get(nation["slug"])
+        if sg:
+            context["social_graphics"] = sg
+            context["og_image_path"] = f"{settings.STATIC_URL}{sg['pdf']['src_jpg']}"
+            context["og_image_type"] = "image/jpeg"
+            context["og_image_height"] = sg["pdf"]["height"]
+            context["og_image_width"] = sg["pdf"]["width"]
 
         return context

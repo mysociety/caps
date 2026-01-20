@@ -621,5 +621,117 @@ social_graphics = {
                 },
             ],
         },
+        "northern-ireland": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/northern-ireland.pdf",
+                "src_jpg": "scoring/img/social-graphics-2025/northern-ireland.jpg",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics-2025/nothern-ireland.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/northern-ireland-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/northern-ireland-1.png",
+                    "alt": "Northern Ireland 2025; 9 out of 11 councils have committed to mowing their green spaces less for wildlife",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/northern-ireland-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/northern-ireland-2.png",
+                    "alt": "Northern Ireland 2025; 100% Northern Irish councils support local food growing; up 5 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/northern-ireland-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/northern-ireland-3.png",
+                    "alt": "Northern Ireland 2025; 3 out of 11 councils have published an up to date and easy-to-read annual report on their Climate Action Plan; up 3 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/northern-ireland-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/northern-ireland-4.png",
+                    "alt": "Northern Ireland 2025; 4 councils have a staff member working on retrofit; up 4 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/northern-ireland-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/northern-ireland-5.png",
+                    "alt": "Northern Ireland 2025; 6 out of 11 councils have a named Cabinet member or Portfolio holder lead for climate action",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/northern-ireland-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/northern-ireland-6.png",
+                    "alt": "Northern Ireland 2025; Antrim and Newtownabbey is the only council to have lobbied the UK government or the NI Executive for further climate action; down 4 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/northern-ireland-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/northern-ireland-7.png",
+                    "alt": "Northern Ireland 2025; 7 out of 11 councils have committed to no new building developments on functional flood plains; down 2 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/northern-ireland-8.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/northern-ireland-8.png",
+                    "alt": "Northern Ireland 2025; 0 Northern Irish council requires new homes to be built to operationally net zero standards by 2030",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/northern-ireland-9.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/northern-ireland-9.png",
+                    "alt": "Northern Ireland 2025; Average scores by nation: 24% Northern Ireland up 3, 42% England Single Tier councils only up 7, 37% Wales up 7, 39% Scotland up 5",
+                },
+            ],
+        },
+        "scotland": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/scotland.pdf",
+                "src_jpg": "scoring/img/social-graphics-2025/scotland.jpg",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics-2025/scotland.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/scotland-1.png",
+                    "alt": "Scotland 2025; 100% Scottish councils avoid building new development on land that is most at risk of flooding; up 13 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/scotland-2.png",
+                    "alt": "Scotland 2025; 30 out of 32 of Scottish councils support community food growing initiatives; up 5 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/scotland-3.png",
+                    "alt": "Scotland 2025; 5 out of 32 of councils set the highest water efficiency standards for new builds; down 2 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/scotland-4.png",
+                    "alt": "Scotland 2025; 1 out of 32 councils have banned the use of pesticides on all council owned and managed land; down 2 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/scotland-5.png",
+                    "alt": "Scotland 2025; 1 out of 32 Scottish councils are powered by renewable energy; down 3 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/scotland-6.png",
+                    "alt": "Scotland 2025; 15 out of 32 of local authorities have 10% or more of their council fleet as electric vehicles but only 3% have 50% or more; up 4 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/scotland-7.png",
+                    "alt": "Scotland 2025; 17 out of 32 Scottish councils provide at least one complete vegetarian meal in schools each week; up 9 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-8.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/scotland-8.png",
+                    "alt": "Scotland 2025; 19 out of 32 councils have an ongoing way for residents to influence the implementation of the council's Climate Action Plan; up 9 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-9.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/scotland-9.png",
+                    "alt": "Scotland 2025 and 2023 Comparison; 39% Scotland up 5 with lowest council score 25% and highest council score 65%; 42% England Single Tier councils only up 7; 37% Wales up 7; 24% Northern Ireland up 3",
+                },
+            ],
+        },
     },
 }
