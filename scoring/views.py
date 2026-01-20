@@ -1216,6 +1216,7 @@ class SectionsView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, Templa
         context["page_title"] = "Sections"
         context["sections"] = []
         context["ca_sections"] = []
+        context["themes"] = defaults.get_config("themes", self.request.year.year)
         for section in (
             PlanSection.objects.filter(year=self.request.year.year)
             .order_by("code")
@@ -1906,6 +1907,48 @@ class NationDetailView(BaseCouncilListView):
         context["current_page"] = "nation-detail"
 
         sg = social_graphics.get(self.request.year.year, {}).get(nation["slug"])
+        if sg:
+            context["social_graphics"] = sg
+            context["og_image_path"] = f"{settings.STATIC_URL}{sg['pdf']['src_jpg']}"
+            context["og_image_type"] = "image/jpeg"
+            context["og_image_height"] = sg["pdf"]["height"]
+            context["og_image_width"] = sg["pdf"]["width"]
+
+        return context
+
+
+class ThemesView(TemplateView):
+    template_name = "scoring/themes.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["themes"] = defaults.get_config("themes", self.request.year.year)
+        context["page_title"] = "Themes"
+        context["plan_year"] = self.request.year
+        return context
+
+
+class ThemeDetailView(TemplateView):
+    template_name = "scoring/theme_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        themes = {}
+        for theme in defaults.get_config("themes", self.request.year.year):
+            themes[theme["slug"]] = theme
+
+        theme = themes.get(self.kwargs["slug"])
+
+        if not theme:
+            raise Http404("Theme not found")
+
+        context["theme"] = theme
+        context["page_title"] = theme["name"]
+        context["plan_year"] = self.request.year
+        context["current_year"] = self.request.year.is_current
+
+        sg = social_graphics.get(self.request.year.year, {}).get(theme["slug"])
         if sg:
             context["social_graphics"] = sg
             context["og_image_path"] = f"{settings.STATIC_URL}{sg['pdf']['src_jpg']}"
