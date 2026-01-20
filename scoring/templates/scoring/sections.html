@@ -50,22 +50,27 @@
       {% endfor %}
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 g-xl-5 mt-0 js-combined">
-      {% for section in ca_sections %}
-        <div class="col">
-            <div class="position-relative border rounded p-3 p-lg-4 h-100">
-                <h3 class="fw-bold mb-lg-3 text-category-{{ forloop.counter }}">
-                    {{ section.name }}
-                </h3>
-                {{ section.description|linebreaks }}
-                <a href="{% if current_plan_year %}{% url 'scoring:section' section.code %}{% else %}{% url 'year_scoring:section' plan_year section.code %}{% endif %}" class="stretched-link d-flex align-items-center fw-bold link-category-{{ forloop.counter }}">
-                    View section
-                    {% include 'caps/icons/chevron-right.html' with classes='ms-2' %}
-                </a>
+    <section class="pt-5">
+        <h2 class="mt-2">Themes</h2>
+        <p class="mb-0">The following themes group relevant questions from some of the sections listed above; however, they are not scoring sections.</p>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 g-xl-5 mt-n2">
+          {% for theme in themes %}
+            <div class="col">
+                <div class="position-relative border rounded p-3 p-lg-4 h-100">
+                    <h3 class="fw-bold mb-lg-3">
+                        {{ theme.name }}
+                    </h3>
+                    <p>{{ theme.description }}</p>
+                    <a href="{% if current_plan_year %}{% url 'scoring:theme_detail' theme.slug %}{% else %}{% url 'year_scoring:theme_detail' plan_year theme.slug %}{% endif %}" class="stretched-link d-flex align-items-center fw-bold">
+                        {{ theme.cta_label }}
+                        {% include 'caps/icons/chevron-right.html' with classes='ms-2' %}
+                    </a>
+                </div>
             </div>
+          {% endfor %}
         </div>
-      {% endfor %}
-    </div>
+    </section>
 </div>
 
 {% endblock %}
