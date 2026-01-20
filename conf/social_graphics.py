@@ -287,6 +287,74 @@ social_graphics = {
                 },
             ],
         },
+        "england": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/england/england.pdf",
+                "src_jpg": "scoring/img/social-graphics/england/england.jpg",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics/england/england.zip",
+            "images": [
+                {
+                    "src_facebook": f"scoring/img/social-graphics/england/facebook-{i}.png",
+                    "src_instagram": f"scoring/img/social-graphics/england/instagram-{i}.png",
+                    "alt": f"England graphic {i}",
+                }
+                for i in range(1, 9)
+            ],
+        },
+        "northern-ireland": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/northern-ireland/northern-ireland.pdf",
+                "src_jpg": "scoring/img/social-graphics/northern-ireland/northern-ireland.jpg",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics/northern-ireland/northern-ireland.zip",
+            "images": [
+                {
+                    "src_facebook": f"scoring/img/social-graphics/northern-ireland/facebook-{i}.png",
+                    "src_instagram": f"scoring/img/social-graphics/northern-ireland/instagram-{i}.png",
+                    "alt": f"Northern Ireland graphic {i}",
+                }
+                for i in range(1, 9)
+            ],
+        },
+        "scotland": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/scotland/scotland.pdf",
+                "src_jpg": "scoring/img/social-graphics/scotland/scotland.jpg",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics/scotland/scotland.zip",
+            "images": [
+                {
+                    "src_facebook": f"scoring/img/social-graphics/scotland/facebook-{i}.png",
+                    "src_instagram": f"scoring/img/social-graphics/scotland/instagram-{i}.png",
+                    "alt": f"Scotland graphic {i}",
+                }
+                for i in range(1, 8)
+            ],
+        },
+        "wales": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics/wales/wales.pdf",
+                "src_jpg": "scoring/img/social-graphics/wales/wales.jpg",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics/wales/wales.zip",
+            "images": [
+                {
+                    "src_facebook": f"scoring/img/social-graphics/wales/facebook-{i}.png",
+                    "src_instagram": f"scoring/img/social-graphics/wales/instagram-{i}.png",
+                    "alt": f"Wales graphic {i}",
+                }
+                for i in range(1, 6)
+            ],
+        },
     },
     2025: {
         "s1_b_h": {

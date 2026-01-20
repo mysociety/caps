@@ -190,78 +190,7 @@ NATIONS = [
     },
 ]
 
-NATIONS_SOCIAL_GRAPHICS = {
-    "england": {
-        "pdf": {
-            "src_pdf": "scoring/img/social-graphics/england/scorecards-england.pdf",
-            "src_jpg": "scoring/img/social-graphics/england/england-graphic.jpg",
-            "height": 1159,
-            "width": 2100,
-        },
-        "zip": "scoring/img/social-graphics/england/england-graphics.zip",
-        "images": [
-            {
-                "src_facebook": "scoring/img/social-graphics/england/facebook-1@2x.png",
-                "src_instagram": "scoring/img/social-graphics/england/instagram-1@2x.png",
-                "alt": "England Leading the Way; 79% of councils have reduced mowing or created wildflower habitat in their area; 85% of councils, including all county councils, have a named climate Portfolio Holder",
-            },
-            {
-                "src_facebook": "scoring/img/social-graphics/england/facebook-2@2x.png",
-                "src_instagram": "scoring/img/social-graphics/england/instagram-2@2x.png",
-                "alt": "England Leading the Way; 83% of councils help residents retrofit their homes; 81% of councils have a Climate Action Plan with SMART targets",
-            },
-            {
-                "src_facebook": "scoring/img/social-graphics/england/facebook-3@2x.png",
-                "src_instagram": "scoring/img/social-graphics/england/instagram-3@2x.png",
-                "alt": "England Room for Improvement; 60% of English planning authorities have set the highest water efficiency standards for new builds",
-            },
-            {
-                "src_facebook": "scoring/img/social-graphics/england/facebook-4@2x.png",
-                "src_instagram": "scoring/img/social-graphics/england/instagram-4@2x.png",
-                "alt": "England Room for Improvement; 62% of transport authorities have low-emission buses used on routes; 62% of councils produced an annual Climate Action Plan update report",
-            },
-            {
-                "src_facebook": "scoring/img/social-graphics/england/facebook-5@2x.png",
-                "src_instagram": "scoring/img/social-graphics/england/instagram-5@2x.png",
-                "alt": "England Falling Behind; 17% of English planning authorities have set net zero standards for building new housing; 7% of councils have adopted a detailed decision making process that puts the climate crisis at the heart of all council decisions",
-            },
-            {
-                "src_facebook": "scoring/img/social-graphics/england/facebook-6@2x.png",
-                "src_instagram": "scoring/img/social-graphics/england/instagram-6@2x.png",
-                "alt": "England Falling Behind; Only 7 English councils recycle more than 60% of their waste; No councils are above 70% waste recycling",
-            },
-            {
-                "src_facebook": "scoring/img/social-graphics/england/facebook-7@2x.png",
-                "src_instagram": "scoring/img/social-graphics/england/instagram-7@2x.png",
-                "alt": "England Falling Behind; East Devon is the only English council that produces less than 300kg of residual waste per household",
-            },
-            {
-                "src_facebook": "scoring/img/social-graphics/england/facebook-8@2x.png",
-                "src_instagram": "scoring/img/social-graphics/england/instagram-8@2x.png",
-                "alt": "England Average Score by Council Type; 35% for Single Tier, 29% for District, 35% for County, 45% for Mayoral Authority",
-            },
-        ],
-    },
-    "wales": {
-        "pdf": {
-            "src_pdf": "scoring/img/social-graphics/wales/scorecards-wales.pdf",
-            "src_jpg": "scoring/img/social-graphics/wales/wales-graphic.jpg",
-            "height": 1159,
-            "width": 2100,
-        },
-        "zip": "scoring/img/social-graphics/wales/wales-graphics.zip",
-        "images": [
-            {
-                "src_facebook": f"scoring/img/social-graphics/wales/facebook-{i}@2x.png",
-                "src_instagram": f"scoring/img/social-graphics/wales/instagram-{i}@2x.png",
-                "alt": f"Wales Overview Graphic {i}",
-            }
-            for i in range(1, 6)  # Assuming 5 graphics
-        ],
-    },
-}
-
-VALID = ["NATIONS_SOCIAL_GRAPHICS", "NATIONS", "ORGANISATIONS", "SECTION_WEIGHTINGS"]
+VALID = ["NATIONS", "ORGANISATIONS", "SECTION_WEIGHTINGS"]
 
 
 def get_config(key, year, default=None):
