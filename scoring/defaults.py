@@ -190,7 +190,36 @@ NATIONS = [
     },
 ]
 
-VALID = ["NATIONS", "ORGANISATIONS", "SECTION_WEIGHTINGS"]
+THEMES = [
+    {
+        "slug": "adaptation",
+        "name": "Adaptation",
+        "description": "Councils play a vital role in mitigating climate change by reducing emissions, but with increasingly frequent and more intense heatwaves, floods and wildfires, they must also lead on climate adaptation.",
+        "description_long": """
+            Councils play a vital role in mitigating climate change by reducing emissions, but with increasingly frequent and more intense heatwaves, floods and wildfires, they must also lead on climate adaptation. Councils can build climate resilient communities by supporting local food production, planting trees, and ensuring that both new and existing homes are climate-resilient. Embedding resilience into council policies, strategies, and engagement is essential to making adaptation a core part of council operations.
+
+            The Scorecards include 93 questions, almost all of which contribute both to reducing emissions and increasing resilience in councils and communities. For this adaptation theme, we have grouped and highlighted the questions that are more relevant to climate adaptation, which do not feature as key questions on each of the sections infographics and summaries.
+        """,
+        "cta_label": "View Adaptation",
+    },
+    {
+        "slug": "cost-saving",
+        "name": "Cost Saving",
+        "description": "Climate action is sometimes misperceived as a less urgent priority when money is tight, yet so many climate actions save residents and councils money, pay for themselves in the long term, or even generate income.",
+        "description_long": """
+            Councils have responsibility for a wide range of services, including schools, primary care, roads, bins and housing but since 2010 in particular, the budgets available for vital services have not been keeping up with the need. Sometimes climate action is misperceived as a less urgent priority against other work at a time when money is tight, both for councils and residents.
+
+            Yet so many climate actions save residents and councils money, or pay for themselves in the long term or even generate income.
+
+            According to a recent study commissioned by CE UK, for every £200 per capita increase in a council's spending power, a 0.8% improvement in its Scorecards performance is observed. This shows that when given the appropriate resources, councils are able to deliver more climate action. The study also shows that local community support and political will are equally important.
+
+            For this Cost Saving theme, we have grouped and highlighted the questions that cover actions councils can reduce bills, save costs to the councils and generate income, all whilst taking action towards net zero.
+        """,
+        "cta_label": "View Cost Saving",
+    },
+]
+
+VALID = ["NATIONS", "ORGANISATIONS", "SECTION_WEIGHTINGS", "THEMES"]
 
 
 def get_config(key, year, default=None):

@@ -1,0 +1,101 @@
+{% extends "scoring/base.html" %}
+
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+    <div class="py-5 py-md-6 hero-section with-version-background">
+        <div class="container">
+            <div class="mb-4">
+                <a href="{% url 'scoring:home' %}">
+                    Home
+                </a>
+                {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+                <a href="{% url 'scoring:themes' %}">Themes</a>
+                {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+                <span>{{ theme.name }}</span>
+            </div>
+            <h1 class="display-1 mb-2">
+                <p class="fs-3 gradient-text version-year d-block lh-1 fw-bold mb-0">Action Scorecards {{ plan_year }}</p>
+                {{ theme.name }}
+            </h1>
+            <div class="w-lg-50">{{ theme.description_long | linebreaks }}</div>
+        </div>
+    </div>
+
+    {% if social_graphics %}
+    <div class="container py-5">
+        <div class="mb-2 d-flex align-items-center justify-content-between">
+            <h3 class="mb-0">Key takeaways</h3>
+        {% if social_graphics.zip %}
+            <a class="btn btn-sm btn-outline-primary js-social-graphic-download" href="{% static social_graphics.zip %}">Download all (.zip)</a>
+        {% endif %}
+        </div>
+
+        <p class="mb-4">{{ social_graphics.images|length|add:"1" }} infographics for you to download and share.</p>
+
+        <div class="overflow-gallery gap-3">
+        {% for image in social_graphics.images %}
+            <div class="d-flex flex-column gap-3">
+            {% if image.src_instagram %}
+                <a href="{% static image.src_instagram %}" class="d-block d-md-none js-social-graphic-download" title="Opens in a new window" target="_blank">
+                    <img loading="lazy" src="{% static image.src_instagram %}" alt="{{ image.alt }}">
+                </a>
+            {% endif %}
+            {% if image.src_facebook %}
+                <a href="{% static image.src_facebook %}" class="d-none d-md-block js-social-graphic-download" title="Opens in a new window" target="_blank">
+                    <img loading="lazy" src="{% static image.src_facebook %}" alt="{{ image.alt }}">
+                </a>
+            {% endif %}
+
+                <div class="d-flex gap-2 justify-content-center align-items-center">
+                    <span class="text-muted fs-7">Download:</span>
+                {% if image.src_facebook %}
+                    <a href="{% static image.src_facebook %}" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2 js-social-graphic-download" download>
+                        <span style="background: currentColor; width: 1.5em; height: 0.75em; display: inline-block;"></span>
+                        Wide
+                    </a>
+                {% endif %}
+                {% if image.src_instagram %}
+                    <a href="{% static image.src_instagram %}" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2 js-social-graphic-download" download>
+                        <span style="background: currentColor; width: 0.75em; height: 0.75em; display: inline-block;"></span>
+                        Square
+                    </a>
+                {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        {% if social_graphics.pdf %}
+            <div class="d-flex flex-column gap-3 order-md-first">
+                <a class="d-block" href="{% static social_graphics.pdf.src_pdf %}" title="Opens in a new window" target="_blank">
+                    <img loading="lazy" src="{% static social_graphics.pdf.src_jpg %}" alt="{{ theme.name }} summary infographic">
+                </a>
+                <div class="d-flex gap-2 justify-content-center align-items-center">
+                    <span class="text-muted fs-7">Download:</span>
+                    <a href="{% static social_graphics.pdf.src_pdf %}" class="btn btn-sm btn-outline-primary js-social-graphic-download" download>PDF</a>
+                    <a href="{% static social_graphics.pdf.src_jpg %}" class="btn btn-sm btn-outline-primary js-social-graphic-download" download>JPG</a>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+    {% elif current_year %}
+    <section class="py-5">
+        <div class="container">
+            <div class="alert alert-info" role="alert" style="width: fit-content;">
+                <h2 class="alert-heading h4 mb-0">{% include 'caps/icons/info.html' with classes='me-1' width='1em' height='1em' role='presentation' %}Infographics coming soon!</h2>
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <section class="py-5">
+        <div class="container">
+            <div class="alert alert-info" role="alert" style="width: fit-content;">
+                <h2 class="alert-heading h4 mb-0">{% include 'caps/icons/info.html' with classes='me-1' width='1em' height='1em' role='presentation' %}No infographics found for {{ theme.name }} in Action Scorecards {{ plan_year }}</h2>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+{% endblock %}

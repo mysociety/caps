@@ -68,6 +68,8 @@ scoring_patterns = [
         name="nation_detail",
     ),
     path("about/", views.AboutView.as_view(), name="about"),
+    path("themes/", views.ThemesView.as_view(), name="themes"),
+    path("themes/<slug:slug>/", views.ThemeDetailView.as_view(), name="theme_detail"),
 ]
 
 non_scoring_patterns = [
