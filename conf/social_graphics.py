@@ -852,5 +852,56 @@ social_graphics = {
                 },
             ],
         },
+        "cost-saving": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/cost-saving.pdf",
+                "src_jpg": "scoring/img/social-graphics-2025/cost-saving.png",
+                "height": 1159,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics-2025/cost-saving.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/cost-saving-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/cost-saving-1.png",
+                    "alt": "Cost-Saving Climate Action 2025; 62% of local authorities support initiatives to redistribute surplus food; up 19 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/cost-saving-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/cost-saving-2.png",
+                    "alt": "Cost-Saving Climate Action 2025; 52% of local authorities have a Solar Together or similar scheme to allow residents to purchase renewable energy cheaply, through collective buying; up 4 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/cost-saving-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/cost-saving-3.png",
+                    "alt": "Cost-Saving Climate Action 2025; 79% of local authorities have set up or support at least one shared transport scheme that can be used across their whole area such as car clubs, bike hire or e-bike and e-scooter shared hire schemes",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/cost-saving-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/cost-saving-4.png",
+                    "alt": "Cost-Saving Climate Action 2025; 16 local authorities have launched a Climate Bond, Community Municipal Investment or equivalent which raises money for specific projects to benefit residents and the climate; up 1 council versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/cost-saving-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/cost-saving-5.png",
+                    "alt": "Cost-Saving Climate Action 2025; 27% of local authorities have 10% or more of their council fleet as electric vehicles but only 3% have 50% or more; up 7 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/cost-saving-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/cost-saving-6.png",
+                    "alt": "Cost-Saving Climate Action 2025; 57% of local authorities turn off or dim their street lighting, including 81% of county councils; up 8 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/cost-saving-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/cost-saving-7.png",
+                    "alt": "Cost-Saving Climate Action 2025; 66% of local authorities have completed extensive retrofit work on any of its significant buildings to cut costs and carbon; down 5 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/cost-saving-8.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/cost-saving-8.png",
+                    "alt": "Cost-Saving Climate Action 2025; 88% of local authorities have raised income for climate action from external sources; up 20 versus 2023",
+                },
+            ],
+        },
     },
 }
