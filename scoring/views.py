@@ -1179,9 +1179,9 @@ class SectionView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             if sg:
                 context["social_graphics"] = sg
                 context["og_image_path"] = (
-                    f"{settings.STATIC_URL}{sg['pdf']['src_jpg']}"
+                    f"{settings.STATIC_URL}{sg['pdf']['src_png']}"
                 )
-                context["og_image_type"] = "image/jpeg"
+                context["og_image_type"] = "image/png"
                 context["og_image_height"] = sg["pdf"]["height"]
                 context["og_image_width"] = sg["pdf"]["width"]
 
@@ -1909,8 +1909,8 @@ class NationDetailView(BaseCouncilListView):
         sg = social_graphics.get(self.request.year.year, {}).get(nation["slug"])
         if sg:
             context["social_graphics"] = sg
-            context["og_image_path"] = f"{settings.STATIC_URL}{sg['pdf']['src_jpg']}"
-            context["og_image_type"] = "image/jpeg"
+            context["og_image_path"] = f"{settings.STATIC_URL}{sg['pdf']['src_png']}"
+            context["og_image_type"] = "image/png"
             context["og_image_height"] = sg["pdf"]["height"]
             context["og_image_width"] = sg["pdf"]["width"]
 
@@ -1951,8 +1951,8 @@ class ThemeDetailView(TemplateView):
         sg = social_graphics.get(self.request.year.year, {}).get(theme["slug"])
         if sg:
             context["social_graphics"] = sg
-            context["og_image_path"] = f"{settings.STATIC_URL}{sg['pdf']['src_jpg']}"
-            context["og_image_type"] = "image/jpeg"
+            context["og_image_path"] = f"{settings.STATIC_URL}{sg['pdf']['src_png']}"
+            context["og_image_type"] = "image/png"
             context["og_image_height"] = sg["pdf"]["height"]
             context["og_image_width"] = sg["pdf"]["width"]
 

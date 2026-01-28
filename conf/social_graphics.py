@@ -3,7 +3,7 @@ social_graphics = {
         "s4_g_f": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/governance-and-finance/scorecards-governance.pdf",
-                "src_jpg": "scoring/img/social-graphics/governance-and-finance/governance-graphic.jpg",
+                "src_png": "scoring/img/social-graphics/governance-and-finance/governance-graphic.png",
                 "height": 1159,
                 "width": 2100,
             },
@@ -39,7 +39,7 @@ social_graphics = {
         "s2_tran": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/transport/scorecards-transport.pdf",
-                "src_jpg": "scoring/img/social-graphics/transport/transport-graphic.jpg",
+                "src_png": "scoring/img/social-graphics/transport/transport-graphic.png",
                 "height": 1158,
                 "width": 2100,
             },
@@ -80,7 +80,7 @@ social_graphics = {
         "s2_tran_ca": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/ca-transport/scorecards-ca-transport.pdf",
-                "src_jpg": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.jpg",
+                "src_png": "scoring/img/social-graphics/ca-transport/ca-transport-graphic.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -111,7 +111,7 @@ social_graphics = {
         "s1_b_h": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.jpg",
+                "src_png": "scoring/img/social-graphics/building-and-heating/building-and-heating-graphic.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -151,7 +151,7 @@ social_graphics = {
         "s3_p_lu": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.jpg",
+                "src_png": "scoring/img/social-graphics/planning-and-land-use/planning-and-land-use-graphic.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -187,7 +187,7 @@ social_graphics = {
         "s6_c_e": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.pdf",
-                "src_jpg": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.jpg",
+                "src_png": "scoring/img/social-graphics/collaboration-and-engagement/collaboration-and-engagement.png",
                 "height": 1158,
                 "width": 2100,
             },
@@ -223,7 +223,7 @@ social_graphics = {
         "s5_bio": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/biodiversity/biodiversity-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/biodiversity/biodiversity-graphic@2x.jpg",
+                "src_png": "scoring/img/social-graphics/biodiversity/biodiversity-graphic.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -259,7 +259,7 @@ social_graphics = {
         "s7_wr_f": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic.pdf",
-                "src_jpg": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic@2x.jpg",
+                "src_png": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic@2x.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -290,7 +290,7 @@ social_graphics = {
         "england": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/england/england.pdf",
-                "src_jpg": "scoring/img/social-graphics/england/england.jpg",
+                "src_png": "scoring/img/social-graphics/england/england-graphic.png",
                 "height": 1158,
                 "width": 2100,
             },
@@ -307,7 +307,7 @@ social_graphics = {
         "northern-ireland": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/northern-ireland/northern-ireland.pdf",
-                "src_jpg": "scoring/img/social-graphics/northern-ireland/northern-ireland.jpg",
+                "src_png": "scoring/img/social-graphics/northern-ireland/northern-ireland-graphic.png",
                 "height": 1158,
                 "width": 2100,
             },
@@ -324,7 +324,7 @@ social_graphics = {
         "scotland": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/scotland/scotland.pdf",
-                "src_jpg": "scoring/img/social-graphics/scotland/scotland.jpg",
+                "src_png": "scoring/img/social-graphics/scotland/scotland-graphic.png",
                 "height": 1158,
                 "width": 2100,
             },
@@ -341,7 +341,7 @@ social_graphics = {
         "wales": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/wales/wales.pdf",
-                "src_jpg": "scoring/img/social-graphics/wales/wales.jpg",
+                "src_png": "scoring/img/social-graphics/wales/wales-graphic.png",
                 "height": 1158,
                 "width": 2100,
             },
@@ -360,7 +360,7 @@ social_graphics = {
         "s1_b_h": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/buildings-and-heating.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/buildings-and-heating.png",
+                "src_png": "scoring/img/social-graphics-2025/buildings-and-heating.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -401,7 +401,7 @@ social_graphics = {
         "s2_tran": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/transport.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/transport.png",
+                "src_png": "scoring/img/social-graphics-2025/transport.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -452,7 +452,7 @@ social_graphics = {
         "s3_p_lu": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/planning.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/planning.png",
+                "src_png": "scoring/img/social-graphics-2025/planning.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -503,7 +503,7 @@ social_graphics = {
         "s4_g_f": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/governance-and-finance.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/governance-and-finance.png",
+                "src_png": "scoring/img/social-graphics-2025/governance-and-finance.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -554,7 +554,7 @@ social_graphics = {
         "s5_bio": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/biodiversity.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/biodiversity.png",
+                "src_png": "scoring/img/social-graphics-2025/biodiversity.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -600,7 +600,7 @@ social_graphics = {
         "s6_c_e": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/collaboration-and-engagement.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/collaboration-and-engagement.png",
+                "src_png": "scoring/img/social-graphics-2025/collaboration-and-engagement.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -646,7 +646,7 @@ social_graphics = {
         "s7_wr_f": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/waste-reduction-and-food.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/waste-reduction-and-food.png",
+                "src_png": "scoring/img/social-graphics-2025/waste-reduction-and-food.png",
                 "height": 1125,
                 "width": 2000,
             },
@@ -692,7 +692,7 @@ social_graphics = {
         "northern-ireland": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/northern-ireland.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/northern-ireland.jpg",
+                "src_png": "scoring/img/social-graphics-2025/northern-ireland.png",
                 "height": 1158,
                 "width": 2100,
             },
@@ -748,7 +748,7 @@ social_graphics = {
         "scotland": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/scotland.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/scotland.jpg",
+                "src_png": "scoring/img/social-graphics-2025/scotland.png",
                 "height": 1158,
                 "width": 2100,
             },
@@ -804,7 +804,7 @@ social_graphics = {
         "adaptation": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/adaptation.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/adaptation.png",
+                "src_png": "scoring/img/social-graphics-2025/adaptation.png",
                 "height": 1159,
                 "width": 2100,
             },
@@ -855,7 +855,7 @@ social_graphics = {
         "cost-saving": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/cost-saving.pdf",
-                "src_jpg": "scoring/img/social-graphics-2025/cost-saving.png",
+                "src_png": "scoring/img/social-graphics-2025/cost-saving.png",
                 "height": 1159,
                 "width": 2100,
             },

@@ -178,12 +178,12 @@
       {% if social_graphics.pdf %}
         <div class="d-flex flex-column gap-3 order-md-first">
             <a class="d-block" href="{% static social_graphics.pdf.src_pdf %}" title="Opens in a new window" target="_blank">
-                <img loading="lazy" src="{% static social_graphics.pdf.src_jpg %}" alt="{{ section.description }} summary infographic">
+                <img loading="lazy" src="{% static social_graphics.pdf.src_png %}" alt="{{ section.description }} summary infographic">
             </a>
             <div class="d-flex gap-2 justify-content-center align-items-center">
                 <span class="text-muted fs-7">Download:</span>
                 <a href="{% static social_graphics.pdf.src_pdf %}" class="btn btn-sm btn-outline-primary js-social-graphic-download" download>PDF</a>
-                <a href="{% static social_graphics.pdf.src_jpg %}" class="btn btn-sm btn-outline-primary js-social-graphic-download" download>JPG</a>
+                <a href="{% static social_graphics.pdf.src_png %}" class="btn btn-sm btn-outline-primary js-social-graphic-download" download>PNG</a>
             </div>
         </div>
       {% endif %}
