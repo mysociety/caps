@@ -792,7 +792,7 @@ social_graphics = {
                 {
                     "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-8.png",
                     "src_instagram": "scoring/img/social-graphics-2025/square/scotland-8.png",
-                    "alt": "Scotland 2025; 19 out of 32 councils have an ongoing way for residents to influence the implementation of the council's Climate Action Plan; up 9 councils versus 2023",
+                    "alt": "Scotland 2025; 19 out of 32 councils have an ongoing way for residents to influence the implementation of the council's Climate Action Plan; up 3 councils versus 2023",
                 },
                 {
                     "src_facebook": "scoring/img/social-graphics-2025/rectangular/scotland-9.png",
