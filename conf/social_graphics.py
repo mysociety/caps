@@ -801,6 +801,67 @@ social_graphics = {
                 },
             ],
         },
+        "wales": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/wales.pdf",
+                "src_png": "scoring/img/social-graphics-2025/wales.png",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics-2025/wales.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/wales-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/wales-1.png",
+                    "alt": "Wales 2025; 15 out of 22 councils have 100% green tariff; up 1 council versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/wales-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/wales-2.png",
+                    "alt": "Wales 2025; 100% of councils have committed to mowing their green spaces less for wildlife; up 4 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/wales-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/wales-3.png",
+                    "alt": "Wales 2025; 100% of Welsh councils sends less than 300kg of waste per household to landfill; no change versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/wales-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/wales-4.png",
+                    "alt": "Wales 2025; 5 councils in the UK recycle more than 70% of their waste and they are all Welsh: Bridgend, Conwy Council, Pembrokeshire, Vale of Glamorgan and Swansea; up 1 council versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/wales-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/wales-5.png",
+                    "alt": "Wales 2025; 7 out of 22 councils have 10% or more of their council fleet as electric vehicles; up 3 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/wales-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/wales-6.png",
+                    "alt": "Wales 2025; 12 out of 22 councils have published an annual report on their Climate Action Plan; no change versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/wales-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/wales-7.png",
+                    "alt": "Wales 2025; 14 out of 22 councils list climate implications on council decisions; up 10 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/wales-8.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/wales-8.png",
+                    "alt": "Wales 2025; 2 out of 22 of councils have trained all their senior staff and councillors who are cabinet or committee chairs in climate awareness; no change versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/wales-9.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/wales-9.png",
+                    "alt": "Wales 2025; 1 council, Bridgend, requires new homes to be built to operationally net zero standards by 2030; no change versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/wales-10.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/wales-10.png",
+                    "alt": "Wales 2025 and 2023 Comparison; 37% Wales up 7 with lowest council score 23% and highest council score 48%; 42% England Single(Tier councils only) up 7; 39% Scotland up 5; 24% Northern Ireland up 3",
+                },
+            ],
+        },
         "adaptation": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/adaptation.pdf",
