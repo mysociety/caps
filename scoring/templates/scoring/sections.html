@@ -67,11 +67,13 @@
       {% endfor %}
     </div>
 
-    <section class="pt-5">
+    {% comment %} Adaptation and CS themes should only be displayed for every option except Combined authorities. {% endcomment %}
+    {% comment %} TODO The only theme to be displayed for CA are the "Mayoral Authority theme" {% endcomment %}
+    <section class="pt-5 js-default js-single js-district js-county js-northern-ireland">
         <div class="row">
             <div class="col-lg-6">
                 <h2 class="mt-2">Themes</h2>
-                <p class="mb-0">We have grouped relevant Scorecard questions from each of the different seven sections into specific themes. These themes are important and cut across all sections.</p>
+                <p class="mb-0 js-default js-single js-district js-county js-northern-ireland">We have grouped relevant Scorecard questions from each of the different seven sections into specific themes. These themes are important and cut across all sections.</p>
             </div>
         </div>
 
