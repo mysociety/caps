@@ -259,7 +259,7 @@ social_graphics = {
         "s7_wr_f": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic.pdf",
-                "src_png": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic@2x.png",
+                "src_png": "scoring/img/social-graphics/waste-reduction-and-food/waste-reduction-and-food-graphic.png",
                 "height": 1125,
                 "width": 2000,
             },
