@@ -1,11 +1,11 @@
-FROM python:3.9
+FROM python:3.11
 ENV INSIDE_DOCKER=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VERSION=1.2.2 \
+    POETRY_VERSION=2.2.1 \
     POETRY_VIRTUALENVS_CREATE=false \
     PYSETUP_PATH="/opt/pysetup"
 RUN apt-get update && apt-get install -y \
