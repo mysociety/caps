@@ -964,5 +964,56 @@ social_graphics = {
                 },
             ],
         },
+        "mayoral-authorities": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/mayoral-authorities.pdf",
+                "src_png": "scoring/img/social-graphics-2025/mayoral-authorities.png",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics-2025/mayoral-authorities.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/mayoral-authorities-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/mayoral-authorities-1.png",
+                    "alt": "Mayoral Authorities 2025; 7 out of 9 mayoral authorities have trained over 1,000 people in green skills; up 2 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/mayoral-authorities-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/mayoral-authorities-2.png",
+                    "alt": "Mayoral Authorities 2025; 7 out of 9 mayoral authorities include the region's net zero target in their Transport Plan; no change versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/mayoral-authorities-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/mayoral-authorities-3.png",
+                    "alt": "Mayoral Authorities 2025; 8 out of 9 mayoral authorities include climate in their decision making process; up 1 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/mayoral-authorities-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/mayoral-authorities-4.png",
+                    "alt": "Mayoral Authorities 2025; 4 out of 9 have supported community energy; down 1 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/mayoral-authorities-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/mayoral-authorities-5.png",
+                    "alt": "Mayoral Authorities 2025; 5 out of 9 mayoral authorities produced an annual climate update report; down 2 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/mayoral-authorities-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/mayoral-authorities-6.png",
+                    "alt": "Mayoral Authorities 2025; 6 out of 9 provided funding for community action to tackle the nature crisis; no change versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/mayoral-authorities-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/mayoral-authorities-7.png",
+                    "alt": "Mayoral Authorities 2025; 27% of local authorities have 10% or more of their council fleet as electric vehicles but only 3% have 50% or more; up 7 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/mayoral-authorities-8.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/mayoral-authorities-8.png",
+                    "alt": "Mayoral Authorities 2025; 4 out of 9 mayoral authorities have electric buses as 10% or more of their regions bus fleet, despite 8 authorities having fully targets for completely zero emission fleets by 2040 or sooner",
+                },
+            ],
+        },
     },
 }

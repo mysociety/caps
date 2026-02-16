@@ -217,6 +217,19 @@ THEMES = [
         """,
         "cta_label": "View Cost Saving",
     },
+    {
+        "slug": "mayoral-authorities",
+        "name": "Mayoral Authorities",
+        "description": "Devolution is a top priority in England with more powers and funding transferred to mayoral authorities and more Mayors being created across England. So what are the mayoral authorities doing on climate action?",
+        "description_long": """
+            Devolution is one of the top agenda points for the Labour government, with more powers and funding transferred to mayoral authorities and more Mayors being created across England. So, what are the mayoral authorities1 doing on climate action?
+
+            The Scorecards show the current powers the mayoral authorities have and the climate action they are taking2 - with the average score at 51% and the scores ranging from 21% to 66%. Actions include clean energy planning, green skills training, better public transport, walking and cycling infrastructure and funding for community climate and nature action. The Scorecards methodology that assesses Mayors and their combined authorities is distinct because the powers are so different compared to the other types of English local authority.
+
+            The role of the Mayors will become more important especially as integrated settlements (large sums of money) are awarded with more flexibility on how this is spent. Although limited, fundraising powers, like the ability to levy “Tourist Taxes”, could also be used to support local business decarbonisation or safer, cleaner and greener high streets.
+        """,
+        "cta_label": "View Mayoral Authorities",
+    },
 ]
 
 VALID = ["NATIONS", "ORGANISATIONS", "SECTION_WEIGHTINGS", "THEMES"]
