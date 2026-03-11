@@ -1701,8 +1701,9 @@ class MethodologyView(
 
             current_section["questions"].append(deepcopy(q))
 
-        current_section["questions"] = sorted(current_section["questions"], key=natsort)
-        sections.append(deepcopy(current_section))
+        if current_section is not None:
+            current_section["questions"] = sorted(current_section["questions"], key=natsort)
+            sections.append(deepcopy(current_section))
         context["sections"] = sections
 
         context["organisations"] = defaults.get_config(

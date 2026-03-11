@@ -19,7 +19,7 @@ env_file = os.path.join(BASE_DIR, ".env")
 
 env = environ.Env(
     PLAN_YEAR=(str, "2023"),
-    METHODOLOGY_YEAR=(str, "2025"),
+    METHODOLOGY_YEAR=(str, "2027"),
 )
 environ.Env.read_env(env_file)
 
