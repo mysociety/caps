@@ -85,7 +85,7 @@
                         <a class="nav-link link-primary" href="{% url 'scoring:nations_list' %}">Nations</a>
                     </li>
                     <li id="methodology-page" class="nav-item">
-                        <a class="nav-link link-primary" href="{% url 'scoring:methodology' %}">{{ plan_year }} Methodology</a>
+                        <a class="nav-link link-primary" href="{% url 'scoring:methodology' %}">2027 Draft Methodology</a>
                     </li>
                     <li id="how-to-page" class="nav-item">
                         <a class="nav-link link-primary" href="{% url 'generic:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
@@ -104,7 +104,7 @@
                         <a class="nav-link link-primary" href="{% url 'year_scoring:nations_list' plan_year %}">Nations</a>
                     </li>
                     <li id="methodology-page" class="nav-item">
-                        <a class="nav-link link-primary" href="{% url 'year_scoring:methodology' plan_year %}">{{ plan_year }} Methodology</a>
+                        <a class="nav-link link-primary" href="{% url 'year_scoring:methodology' plan_year %}">{{ plan_year }} Draft Methodology</a>
                     </li>
                     <li id="how-to-page" class="nav-item">
                         <a class="nav-link link-primary" href="{% url 'generic:how-to-use-the-scorecards' %}">How to use the Scorecards</a>
@@ -121,8 +121,8 @@
     </nav>
 
     <nav class="navbar navbar-expand-lg py-2 justify-content-center bg-orange-100 border-top gap-2 gap-md-3">
-        <span class="text-center">Please help Climate Emergency UK by donating as a Scorecard Sustainer. We rely on donations to remain independent.</span>
-        <a href="https://validaid.org/fundraiser/161" class="btn btn-sm btn-primary rounded-pill px-3">Donate</a>
+        <span class="text-center">Our draft methodology for the 2027 Council Climate Action Scorecards is now available! Thank you to everyone who contributed to our Methodology Review.</span>
+        <a href="{% url 'scoring:methodology' %}" class="btn btn-sm btn-primary rounded-pill px-3">Find out more</a>
     </nav>
 
 {% block content %}{% endblock %}
