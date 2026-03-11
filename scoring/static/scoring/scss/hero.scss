@@ -25,6 +25,10 @@
     &.year-2025 {
     background: linear-gradient(90deg, $primary2025-200 0%, adjust-hue($primary2025-200, -10) 100%);
     }
+
+    &.year-2027 {
+    background: linear-gradient(90deg, lighten($primary2027, 50%) 0%, lighten($primary2027, 30%) 100%);
+    }
   }
 
   .year-2023 & {
