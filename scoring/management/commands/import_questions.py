@@ -53,6 +53,19 @@ class Command(BaseCommand):
         "s5_c_e_ca": "Collaboration & Engagement (CA)",
     }
 
+    MA_SECTIONS = {
+        "s1_b_h_gs_ca": "Buildings & Heating (MA)",
+        "s2_tran_ca": "Transport (MA)",
+        "s3_p_b_ca": "Planning & Biodiversity (MA)",
+        "s4_g_f_ca": "Governance & Finance (MA)",
+        "s5_c_e_ca": "Collaboration & Engagement (MA)",
+    }
+
+    def setup_sections(self):
+        if int(self.YEAR) >= 2027:
+            for key, item in self.MA_SECTIONS.items():
+                self.SECTIONS[key] = item
+
     def add_arguments(self, parser):
         parser.add_argument(
             "--year",
@@ -62,10 +75,12 @@ class Command(BaseCommand):
 
     def create_sections(self):
         for code, desc in self.SECTIONS.items():
-            section, created = PlanSection.objects.get_or_create(
+            section, created = PlanSection.objects.update_or_create(
                 code=code,
-                description=desc,
                 year=self.YEAR,
+                defaults={
+                    "description": desc,
+                },
             )
 
     def import_questions(self):
@@ -123,5 +138,6 @@ class Command(BaseCommand):
         self.SCORECARD_DATA_DIR = Path(settings.DATA_DIR, "scorecard_data", str(year))
         self.QUESTIONS_CSV = Path(self.SCORECARD_DATA_DIR, "question_data.csv")
 
+        self.setup_sections()
         self.create_sections()
         self.import_questions()

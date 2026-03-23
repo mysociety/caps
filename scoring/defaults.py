@@ -58,6 +58,21 @@ SECTION_WEIGHTINGS = {
     "Collaboration & Engagement (CA)": {
         "combined": 20,
     },
+    "Transport (MA)": {
+        "combined": 25,
+    },
+    "Buildings & Heating (MA)": {
+        "combined": 25,
+    },
+    "Governance & Finance (MA)": {
+        "combined": 20,
+    },
+    "Planning & Biodiversity (MA)": {
+        "combined": 10,
+    },
+    "Collaboration & Engagement (MA)": {
+        "combined": 20,
+    },
 }
 
 
