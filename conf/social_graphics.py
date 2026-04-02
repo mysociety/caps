@@ -862,6 +862,67 @@ social_graphics = {
                 },
             ],
         },
+        "england": {
+            "pdf": {
+                "src_pdf": "scoring/img/social-graphics-2025/england.pdf",
+                "src_png": "scoring/img/social-graphics-2025/england.png",
+                "height": 1158,
+                "width": 2100,
+            },
+            "zip": "scoring/img/social-graphics-2025/england.zip",
+            "images": [
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/england-1.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/england-1.png",
+                    "alt": "England 2025; 90% of English councils have a Climate Action Plan with SMART targets; up 9 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/england-2.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/england-2.png",
+                    "alt": "England 2025; 90% of English councils have a named climate Portfolio Holder; up 5 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/england-3.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/england-3.png",
+                    "alt": "England 2025; 89% of English local authorities have reduced mowing or created wildflower habitat in their area; up 10 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/england-4.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/england-4.png",
+                    "alt": "England 2025; 64% of English planning authorities have set the highest water efficiency standards for new builds; up 4 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/england-5.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/england-5.png",
+                    "alt": "England 2025; 67% of English transport authorities have low-emission buses used on routes; up 5 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/england-6.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/england-6.png",
+                    "alt": "England 2025; 70% of English councils produced an annual Climate Action Plan update report; up 8 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/england-7.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/england-7.png",
+                    "alt": "England 2025; 13% have adopted a detailed decision making process that puts the climate crisis at the heart of all council decisions; up 6 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/england-8.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/england-8.png",
+                    "alt": "England 2025; 22% of English planning authorities have set net zero standards for building new housing; up 5 versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/england-9.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/england-9.png",
+                    "alt": "England 2025; 5 English local authorities recycle more than 60% of their waste and no councils recycle more than 70%; down 2 councils versus 2023",
+                },
+                {
+                    "src_facebook": "scoring/img/social-graphics-2025/rectangular/england-10.png",
+                    "src_instagram": "scoring/img/social-graphics-2025/square/england-10.png",
+                    "alt": "England 2025; 42% Single Tier up 7; 36% District councils up 7; 40% County councils up 5; 51% Mayoral Authority up 1; 37% Wales up 7; 39% Scotland up 5; 24% Northern Ireland up 3",
+                },
+            ],
+        },
         "adaptation": {
             "pdf": {
                 "src_pdf": "scoring/img/social-graphics-2025/adaptation.pdf",
