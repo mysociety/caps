@@ -1,0 +1,23 @@
+{% load static %}
+
+<div class="py-5 bg-yellow-100">
+    <div class="container">
+        <p class="fw-bold mb-2">Now available:</p>
+        <div class="row">
+            <div class="col-lg-5">
+                <h1 class="h2 mb-3">
+                    <a href="{% url 'scoring:methodology' %}">Scorecards Updated Methodology (2027)</a>
+                </h1>
+                <p class="mx-auto">The majority of questions in the draft methodology for the next round of the Council Climate Action Scorecards remain the same, with one new question, one removal, and a number of amendments for clarity and accuracy.</p>
+                <p class="mb-0">
+                    <a class="btn btn-outline-primary" href="{% url 'scoring:methodology' %}">Read the draft methodology</a>
+                </p>
+            </div>
+            <div class="col-lg-6 offset-lg-1 mt-4 mt-lg-0">
+                <a href="{% url 'scoring:methodology' %}">
+                    <img alt="Timeline showing: January to March 2026, Methodology review; Spring 2026, Publish updated metrics for 2027 Scorecards; April to June 2026, First marking with volunteers; July to August 2026, Seven week Right of Reply period; Autumn 2026, Scoring audit; Spring 2027, scorecards launch" class="d-block mx-auto" height="150" src="{% static 'scoring/img/2027-timeline-06@2x.png' %}" style="max-width: 100%; height: auto;" width="700">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
