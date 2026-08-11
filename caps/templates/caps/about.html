@@ -37,6 +37,32 @@
             {% include 'caps/icons/chevron-right.html' with classes='ml-1' role='presentation' %}
         </a>
 
+        <div class="mysoc-newsletter mt-4 p-3 rounded" style="background-color: #d3ebfd; border: 1px solid #b5dcfb;">
+            <h3 class="h6">Subscribe to hear from CAPE, and mySociety</h3>
+            <div id="mc_embed_signup">
+                <form action="https://mysociety.us9.list-manage.com/subscribe/post?u=53d0d2026dea615ed488a8834&amp;id=287dc28511&amp;f_id=002a44e1f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form">
+
+                    <div class="mysoc-newsletter--input-wrapper">
+                        <div class="d-flex flex-column">
+                        <label for="mce-EMAIL">Email Address</label>
+                        <input class="form-control mb-2 mb-sm-0" type="email" name="EMAIL" id="mce-EMAIL" required value="">
+                        </div>
+                        <input class="btn btn-primary font-weight-bold" type="submit" name="subscribe" id="mc-embedded-subscribe" value="Subscribe">
+                    </div>
+
+                    <!-- mySociety newsletter -->
+                    <input type="checkbox" name="group[11745][32]" value="" hidden checked>
+                    <!-- Climate action -->
+                    <input type="checkbox" name="group[11745][68719476736]" value="" hidden checked>
+
+                    <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                    <input type="text" name="b_53d0d2026dea615ed488a8834_287dc28511" tabindex="-1" value="">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
         <h2 class="mt-5 mb-2 d-flex flex-wrap" id="ceuk">
             <a class="mr-3 mb-3" href="https://climateemergency.uk">
                 <img src="{% static 'caps/img/logo-ceuk.svg' %}" width="1698" height="533" alt="Climate Emergency UK" class="rounded shadow-sm" style="height: 100px; width: auto; background: #fff; padding: 20px;">
@@ -51,6 +77,12 @@
             Read more about Climate Emergency UK’s work
             {% include 'caps/icons/chevron-right.html' with classes='ml-1' role='presentation' %}
         </a>
+
+        <div class="ceuk-newsletter p-3 rounded mt-4" style="background-color: #d3ebfd; border: 1px solid #b5dcfb;">
+            <link href="https://actionnetwork.org/css/style-embed-v3.css" rel="stylesheet" type="text/css" />
+            <script src="//actionnetwork.org/widgets/v5/form/sign-up-to-our-newsletter-9?format=js&amp;source=widget"></script>
+            <div id="can-form-area-sign-up-to-our-newsletter-9"></div>
+        </div>
 
         <h2 class="mt-5 mb-4" id="feedback">Got feedback? Want to contribute?</h2>
 
