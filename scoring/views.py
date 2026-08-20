@@ -4,6 +4,7 @@ from copy import deepcopy
 from datetime import date
 from operator import itemgetter
 
+
 from django.conf import settings
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Avg, Count, F, Max, Min, OuterRef, Subquery, Sum
@@ -17,6 +18,7 @@ from django.views.generic import DetailView, TemplateView
 from django_filters.views import FilterView
 
 import scoring.defaults as defaults
+import random
 from caps.models import Council, PlanDocument, Promise
 from caps.utils import gen_natsort_lamda
 from caps.views import BaseLocationResultsView
@@ -237,6 +239,30 @@ class HomePageView(BaseCouncilListView):
 
         return missing_councils
 
+    def apply_2027_mockup(self, context):
+        """Fake 2027 data for the client mockup (issue #823) — throwaway.
+
+        Bumps each real 2025 score by a stable -7..+7 to invent a 2027 round,
+        so the delta column reads as "2027 versus 2025".
+        """
+        def bump(row, score_key, change_key, seed):
+            value = row.get(score_key)
+            if not value:  # leaves 0 / not-scored / missing rows untouched
+                return
+            shift = random.Random(str(seed)).randint(-7, 7)
+            row[score_key] = max(0, min(100, value + shift))
+            row[change_key] = shift  # 2027 vs 2025
+
+        for council in context["council_data"]:
+            cid = council.get("council_id")
+            bump(council, "percentage", "change", ("council", cid))
+            for section in council.get("all_scores") or []:
+                bump(section, "weighted", "change", (cid, section["code"]))
+
+        bump(context["averages"]["total"], "percentage", "change", "avg-total")
+        for section in context["section_averages"]:
+            bump(section, "weighted", "change", ("avg", section["code"]))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -380,6 +406,7 @@ class HomePageView(BaseCouncilListView):
         context["current_page"] = "home-page"
         context["canonical_path"] = self.request.path
 
+        self.apply_2027_mockup(context)
         return context
 
 

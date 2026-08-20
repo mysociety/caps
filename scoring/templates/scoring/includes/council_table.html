@@ -1,13 +1,22 @@
             <div class="scorecard-table-wrapper border border-top-0 {% if previous_year %}with-year-difference{% endif %}">
 
-                <form role="search" class="scorecard-table__mobile-category-select js-category-select-form">
+                <form role="search" class="scorecard-table__mobile-category-select js-category-select-form gap-3">
+                  <div class="d-flex flex-column gap-2">
                     <label class="fs-7 text-nowrap" for="mobile-category-select">Show section:</label>
-                    <select id="mobile-category-select" name="category" aria-label="Select category" class="form-select form-select-sm fw-bold js-category-select">
+                    <select id="mobile-category-select" name="category" aria-label="Select category" class="form-select form-select-sm fw-bold js-category-select w-sm-25">
                         <option value="overall" selected>Total Score</option>
                       {% for section in section_averages %}
                         <option value="{{ section.code }}">{{ section.title }}</option>
                       {% endfor %}
                     </select>
+                  </div>
+                    <div class="d-flex flex-column gap-2">
+                      <label class="fs-7 mb-0 text-nowrap" for="js-comparison-year-select">Versus:</label>
+                      <select id="js-comparison-year-select" class="form-select form-select-sm w-auto" aria-label="Comparison year">
+                          <option value="2025" selected>2025</option>
+                          <option value="2023">2023</option>
+                      </select>
+                  </div>
                 </form>
                 <div class="visually-hidden js-category-select-announcement" aria-live="polite">Now showing Total Score</div>
 
@@ -49,26 +58,26 @@
                             <th scope="col" class="scorecard-table__score-column h-auto pb-2 pt-0" data-section="overall">
                                 <button class="js-sort-table sort-button {% if sorted_by is None %} is-sorted-descending{% endif %}" title="Sort lowest first" data-sort-section="overall" data-sort-default="descending">
                                     {% include 'caps/icons/chevron-down.html' %}
-                                    {{ plan_year }}
+                                    2027
                                 </button>
                             </th>
                             <th scope="col" class="scorecard-table__year-difference-column h-auto pb-2 pt-0 text-nowrap" data-section="overall">
                                 <button class="js-sort-table sort-button" data-sort-section="overall_vs" title="Sort highest first">
                                     {% include 'caps/icons/chevron-down.html' %}
-                                    versus {{ previous_year.year }}
+                                    versus 2025
                                 </button>
                             </th>
                           {% for x in section_averages %}
                             <th scope="col" class="scorecard-table__score-column h-auto pb-2 pt-0" data-section="{{ x.code }}">
                                 <button class="js-sort-table sort-button is--category-{{ forloop.counter }} {% if sorted_by == x.code %} is-sorted-descending{% endif %}" data-sort-section="{{ x.code }}" title="Sort highest first">
                                     {% include 'caps/icons/chevron-down.html' %}
-                                    {{ plan_year }}
+                                    2027
                                 </button>
                             </th>
                             <th scope="col" class="scorecard-table__year-difference-column h-auto pb-2 pt-0 text-nowrap" data-section="{{ x.code }}">
                                 <button class="js-sort-table sort-button is--category-{{ forloop.counter }}" data-sort-section="{{ x.code }}_vs" title="Sort highest first">
                                     {% include 'caps/icons/chevron-down.html' %}
-                                    versus {{ previous_year.year }}
+                                    versus 2025
                                 </button>
                             </th>
                           {% endfor %}
