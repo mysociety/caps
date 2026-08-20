@@ -19,6 +19,9 @@ $color-bluesky-blue: #1083fe;
 $color-linkedin-blue: #0a66c2;
 
 // Color system
+$primary2025: #d77b12;
+$primary2027: #1e7bb0;
+
 
 $white: #FDFDFD;
 $black: #1C2624;
@@ -32,7 +35,7 @@ $green: $color-scorecard-green;
 $cyan: $color-scorecard-cyan;
 
 $light: $white;
-$primary: $color-scorecard-purple;
+$primary: $primary2027;
 $secondary: $color-scorecard-grey-800;
 $success: $color-scorecard-green;
 $warning: $color-scorecard-red;
@@ -40,8 +43,6 @@ $danger: $color-scorecard-red;
 $info: $color-scorecard-yellow;
 $dark: $black;
 
-$primary2025: #d77b12;
-$primary2027: #1e7bb0;
 
 $color-total-score:$primary;
 $color-category-1:#098995;
@@ -178,6 +179,7 @@ $primaries2027: (
   "primary2027-900": $primary2027-900
 );
 
+$primary: $primary2027-600;
 $min-contrast-ratio: 2.5;
 
 // Options
