@@ -683,3 +683,18 @@ function setUpImprovedWorsenedCouncilCheckboxes() {
 }
 
 setUpImprovedWorsenedCouncilCheckboxes();
+
+// Council page: Table / Graph view toggle
+function setCouncilViewClass() {
+    var checked = document.querySelector('.js-council-view-toggle:checked');
+    if ( !checked ) { return; }
+    var view = checked.getAttribute('data-view');
+    document.body.classList.toggle('council-table-view', view === 'table');
+    document.body.classList.toggle('council-graph-view', view === 'graph');
+}
+
+forEachElement('.js-council-view-toggle', function(el) {
+    el.addEventListener('change', setCouncilViewClass);
+});
+
+setCouncilViewClass();

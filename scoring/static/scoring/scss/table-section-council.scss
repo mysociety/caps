@@ -17,3 +17,11 @@
         }
     }
 }
+
+.council-graph-view {
+    .js-filter-question-council-table,
+    .js-add-councils-to-compare,
+    .table-question-council {
+        display: none;
+    }
+}
