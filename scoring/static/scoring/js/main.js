@@ -458,9 +458,7 @@ function showOrHideYearDifference() {
         document.querySelector('.scorecard-table__sections-header th')
             .setAttribute('rowspan', yearDifferenceToggle.checked ? '2' : '1' );
 
-        forEachElement('.scorecard-table-wrapper', function(element){
-            element.classList[ yearDifferenceToggle.checked ? 'add' : 'remove' ]('with-year-difference');
-        });
+        document.body.classList[ yearDifferenceToggle.checked ? 'add' : 'remove' ]('with-year-difference');
     }
 }
 

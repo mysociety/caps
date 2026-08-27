@@ -3,6 +3,8 @@
 {% load static %}
 {% load django_bootstrap5 %}
 
+{% block bodyclass %}{% if previous_year %}with-year-difference{% endif %}{% endblock %}
+
 {% block content %}
 
     <div class="py-5 py-md-6 hero-section with-version-background">

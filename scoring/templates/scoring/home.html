@@ -3,6 +3,8 @@
 {% load static %}
 {% load django_bootstrap5 %}
 
+{% block bodyclass %}{% if previous_year %}with-year-difference{% endif %}{% endblock %}
+
 {% block content %}
     {% include 'scoring/includes/home-announcement.html' %}
 

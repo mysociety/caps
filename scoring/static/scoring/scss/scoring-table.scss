@@ -401,3 +401,11 @@ $score-bar-vertical-padding: 8px;
         }
     }
 }
+
+#versus-year-dropdown--desktop {
+    display: none !important;;
+
+    .with-year-difference & {
+        display: flex !important;
+    }
+}
