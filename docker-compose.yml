@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   app:
     image: mysociety/caps:${TAG:-latest}
@@ -45,9 +43,9 @@ services:
       - 25:25
 
   postgres:
-    image: postgres:13
+    image: postgres:15
     volumes:
-      - postgres_data_13:/var/lib/postgresql/data/
+      - postgres_data_15:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=${REPOSITORY_DB_USER:-caps}
       - POSTGRES_PASSWORD=${REPOSITORY_DB_PASS:-caps}
@@ -68,5 +66,5 @@ services:
       - 8983:8983
       
 volumes:
-  postgres_data_13:
+  postgres_data_15:
   solr_data:
