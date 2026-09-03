@@ -1608,7 +1608,7 @@ class MethodologyView(
         return ""
 
     def get_question_exceptions(self, question):
-        if question.section.year == 2025:
+        if question.section.year == 2025 or question.section.year == 2027:
             if question.code == "s2_tran_q6":
                 return "This question doesn’t apply to London Boroughs, the GLA, or councils in Scotland or Wales"
             elif question.code == "s2_tran_8b":
@@ -1619,6 +1619,9 @@ class MethodologyView(
                 return "This question only applies to councils in England and Wales"
             elif question.code == "s7_w_f_q1b":
                 return "This question does not apply to County councils"
+        if question.section.year == 2027:
+            if question.code == "s2_tran_12a" or question.code == "s2_tran_12a":
+                return "This question only applies to councils in England and Wales"
         return ""
 
     def get_context_data(self, **kwargs):
