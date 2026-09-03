@@ -65,7 +65,7 @@ urlpatterns = [
     path("404/", views.NotFoundPageView.as_view(), name="404"),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG and settings.HIDE_DEBUG_TOOLBAR == False:
     import debug_toolbar
 
     urlpatterns += [

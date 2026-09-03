@@ -107,7 +107,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG and settings.HIDE_DEBUG_TOOLBAR == False:
     import debug_toolbar
 
     urlpatterns += [
