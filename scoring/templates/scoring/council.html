@@ -601,52 +601,43 @@
             </div>
         </div>
         <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-            <div class="mt-4">
+            <div class="row mt-4">
+                <div class="col-sm-2">
+                    <button type="button" id="download-all-graphs" class="btn btn-primary">
+                        Download all graphs
+                    </button>
+                </div>
             </div>
             <div class="row mt-4">
                 <div class="col-sm-6">
-                    <h3>All sections</h3>
-                    <img src="{% static '/scoring/img/2027-mockup-graph/all.png' %}" width="460" height="150" alt="mySociety" class="rounded shadow-lg" style="max-width: 800px; height: auto; width: 100%;">
+                    <canvas id="chart-total"></canvas>
                 </div>
                 <div class="col-sm-6">
-                    <h3>Total Score</h3>
-                    <img src="{% static '/scoring/img/2027-mockup-graph/total.png' %}" width="460" height="150" alt="mySociety" class="rounded shadow-lg" style="max-width: 800px; height: auto; width: 100%;">
+                    <canvas id="chart-collaboration"></canvas>
                 </div>
             </div>
             <div class="row mt-5">
                 <div class="col-sm-6">
-                    <h3>Building and Heating</h3>
-                    <img src="{% static '/scoring/img/2027-mockup-graph/building.png' %}" width="460" height="150" alt="mySociety" class="rounded shadow-lg" style="max-width: 800px; height: auto; width: 100%;">
+                    <canvas id="chart-building"></canvas>
                 </div>
                 <div class="col-sm-6">
-                    <h3>Waste Reduction and Food</h3>
-                    <img src="{% static '/scoring/img/2027-mockup-graph/waste.png' %}" width="460" height="150" alt="mySociety" class="rounded shadow-lg" style="max-width: 800px; height: auto; width: 100%;">
+                    <canvas id="chart-waste"></canvas>
                 </div>
             </div>
             <div class="row mt-5">
                 <div class="col-sm-6">
-                    <h3>Transport</h3>
-                    <img src="{% static '/scoring/img/2027-mockup-graph/transport.png' %}" width="460" height="150" alt="Transport section score, 2023 to 2027" class="rounded shadow-lg" style="max-width: 800px; height: auto; width: 100%;">
+                    <canvas id="chart-transport"></canvas>
                 </div>
                 <div class="col-sm-6">
-                    <h3>Planning and Land Use</h3>
-                    <img src="{% static '/scoring/img/2027-mockup-graph/planning.png' %}" width="460" height="150" alt="Planning and Land Use section score, 2023 to 2027" class="rounded shadow-lg" style="max-width: 800px; height: auto; width: 100%;">
+                    <canvas id="chart-planning"></canvas>
                 </div>
             </div>
             <div class="row mt-5">
                 <div class="col-sm-6">
-                    <h3>Governance and Finance</h3>
-                    <img src="{% static '/scoring/img/2027-mockup-graph/governance.png' %}" width="460" height="150" alt="Governance and Finance section score, 2023 to 2027" class="rounded shadow-lg" style="max-width: 800px; height: auto; width: 100%;">
+                    <canvas id="chart-governance"></canvas>
                 </div>
                 <div class="col-sm-6">
-                    <h3>Biodiversity</h3>
-                    <img src="{% static '/scoring/img/2027-mockup-graph/biodiversity.png' %}" width="460" height="150" alt="Biodiversity section score, 2023 to 2027" class="rounded shadow-lg" style="max-width: 800px; height: auto; width: 100%;">
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col-sm-6">
-                    <h3>Collaboration and Engagement</h3>
-                    <img src="{% static '/scoring/img/2027-mockup-graph/collaboration.png' %}" width="460" height="150" alt="Collaboration and Engagement section score, 2023 to 2027" class="rounded shadow-lg" style="max-width: 800px; height: auto; width: 100%;">
+                    <canvas id="chart-biodiversity"></canvas>
                 </div>
             </div>
         </div>
@@ -673,5 +664,160 @@
     </div>
 </div>
 {% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    var labels = ['2023', '2025', '2027'];
+    var councilName = '{{ council.name|escapejs }}';
+
+    var whiteBackground = {
+        id: 'whiteBackground',
+        beforeDraw: function(chart) {
+            var ctx = chart.ctx;
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, chart.width, chart.height);
+            ctx.restore();
+        }
+    };
+
+    var headerText = {
+        id: 'headerText',
+        afterDraw: function(chart) {
+            var opts = chart.options.plugins.headerText;
+            if (!opts) { return; }
+            var ctx = chart.ctx;
+            var left = 16;
+            ctx.save();
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+
+            // preheading
+            ctx.fillStyle = '#3d4145';
+            ctx.font = '14px sans-serif';
+            ctx.fillText(opts.preheading, left, 14);
+
+            // title
+            ctx.fillStyle = '#1C2624';
+            ctx.font = 'bold 24px sans-serif';
+            ctx.fillText(opts.title, left, 34);
+
+            // subtitle (council name)
+            ctx.fillStyle = '#1C2624';
+            ctx.font = '16px sans-serif';
+            ctx.fillText(opts.subtitle, left, 62);
+
+            ctx.restore();
+        }
+    };
+
+    var sections = [
+        { canvas: 'chart-total',         title: 'Total Score',                  color: 'rgb(33, 37, 41)',    data: [38, 43, 40], high: [72, 76, 80], low: [12, 15, 14] },
+        { canvas: 'chart-building',      title: 'Buildings & Heating',          color: 'rgb(75, 192, 192)',  data: [27, 33, 41], high: [68, 72, 78], low: [6, 9, 11] },
+        { canvas: 'chart-waste',         title: 'Waste Reduction & Food',       color: 'rgb(255, 205, 86)',  data: [42, 46, 38], high: [74, 78, 80], low: [14, 16, 15] },
+        { canvas: 'chart-transport',     title: 'Transport',                    color: 'rgb(255, 99, 132)',  data: [29, 35, 44], high: [66, 70, 75], low: [8, 10, 13] },
+        { canvas: 'chart-planning',      title: 'Planning & Land Use',          color: 'rgb(54, 162, 235)',  data: [45, 52, 58], high: [78, 82, 86], low: [18, 22, 24] },
+        { canvas: 'chart-governance',    title: 'Governance & Finance',         color: 'rgb(255, 159, 64)',  data: [40, 48, 55], high: [76, 80, 84], low: [16, 20, 22] },
+        { canvas: 'chart-biodiversity',  title: 'Biodiversity',                 color: 'rgb(75, 192, 75)',   data: [25, 30, 28], high: [60, 64, 66], low: [5, 7, 8] },
+        { canvas: 'chart-collaboration', title: 'Collaboration & Engagement',   color: 'rgb(153, 102, 255)', data: [55, 60, 66], high: [82, 86, 88], low: [22, 26, 28] }
+    ];
+
+    sections.forEach(function(section) {
+        var canvas = document.getElementById(section.canvas);
+        if (!canvas) { return; }
+        new Chart(canvas, {
+            type: 'line',
+            plugins: [whiteBackground, headerText],
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        // upper bound of the context band
+                        label: 'Range across all Single Tier councils',
+                        data: section.high,
+                        borderColor: 'rgba(0, 0, 0, 0.35)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: 1,               // fill down to dataset index 1 (the lower bound)
+                        tension: 0.1
+                    },
+                    {
+                        // lower bound of the context band
+                        label: 'Lowest scoring council',
+                        data: section.low,
+                        borderColor: 'rgba(0, 0, 0, 0.35)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
+                        borderWidth: 1,
+                        pointRadius: 0,
+                        fill: false,
+                        tension: 0.1
+                    },
+                    {
+                        // the council itself, drawn on top
+                        label: section.title,
+                        data: section.data,
+                        borderColor: section.color,
+                        backgroundColor: section.color,
+                        fill: false,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                layout: { padding: { top: 96, right: 16, bottom: 16, left: 16 } },
+                aspectRatio: 1.2,
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 100,
+                        ticks: { stepSize: 10, autoSkip: false }
+                    }
+                },
+                plugins: {
+                    headerText: {
+                        preheading: 'Council Climate Action Scorecards',
+                        title: section.title,
+                        subtitle: councilName
+                    },
+                    legend: {
+                        labels: {
+                            filter: function(item) {
+                                return item.datasetIndex === 0 || item.datasetIndex === 2;
+                            }
+                        }
+                    },
+                    tooltip: {
+                        filter: function(item) {
+                            return item.datasetIndex === 2;
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    document.getElementById('download-all-graphs').addEventListener('click', function() {
+        var zip = new JSZip();
+
+        sections.forEach(function(section) {
+            var canvas = document.getElementById(section.canvas);
+            if (!canvas) { return; }
+            // strip the "data:image/png;base64," prefix, keep the raw base64
+            var base64 = canvas.toDataURL('image/png').split(',')[1];
+            zip.file(section.canvas + '.png', base64, { base64: true });
+        });
+
+        zip.generateAsync({ type: 'blob' }).then(function(blob) {
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '{{ council.slug }}-2027-graphs.zip';
+            link.click();
+            URL.revokeObjectURL(link.href);
+        });
+    });
+</script>
 
 {% endblock %}
