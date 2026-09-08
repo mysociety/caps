@@ -440,25 +440,19 @@ forEachElement('#js-toggle-previous-year-score', function(el) {
     });
 });
 
-// Previous year comparison toggle on home page
-var yearDifferenceToggle = document.getElementById('js-toggle-previous-year-difference');
-if (yearDifferenceToggle) {
-    yearDifferenceToggle.addEventListener('change', function() {
-        yearDifferenceToggle.setAttribute('aria-checked', yearDifferenceToggle.checked);
-        showOrHideYearDifference();
-    });
-}
 function showOrHideYearDifference() {
-    var yearDifferenceToggle = document.getElementById('js-toggle-previous-year-difference');
-    if (yearDifferenceToggle) {
+    var comparisonYearSelect = document.getElementById('js-comparison-year-select');
+    if (comparisonYearSelect) {
+        var showDifference = comparisonYearSelect.value !== 'hide-point-percentage';
+
         forEachElement('.scorecard-table__sections-header .scorecard-table__score-column', function(header) {
-            header.setAttribute('colspan', yearDifferenceToggle.checked ? '2' : '1');
+            header.setAttribute('colspan', showDifference ? '2' : '1');
         });
 
         document.querySelector('.scorecard-table__sections-header th')
-            .setAttribute('rowspan', yearDifferenceToggle.checked ? '2' : '1' );
+            .setAttribute('rowspan', showDifference ? '2' : '1' );
 
-        document.body.classList[ yearDifferenceToggle.checked ? 'add' : 'remove' ]('with-year-difference');
+        document.body.classList[ showDifference ? 'add' : 'remove' ]('with-year-difference');
     }
 }
 
@@ -683,18 +677,3 @@ function setUpImprovedWorsenedCouncilCheckboxes() {
 }
 
 setUpImprovedWorsenedCouncilCheckboxes();
-
-// Council page: Table / Graph view toggle
-function setCouncilViewClass() {
-    var checked = document.querySelector('.js-council-view-toggle:checked');
-    if ( !checked ) { return; }
-    var view = checked.getAttribute('data-view');
-    document.body.classList.toggle('council-table-view', view === 'table');
-    document.body.classList.toggle('council-graph-view', view === 'graph');
-}
-
-forEachElement('.js-council-view-toggle', function(el) {
-    el.addEventListener('change', setCouncilViewClass);
-});
-
-setCouncilViewClass();
