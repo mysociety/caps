@@ -149,481 +149,423 @@
 
 {% if not new_council and not old_council and not no_plan %}
 <div class="container council-page py-5 js-dynamic-content" data-active-question-type="all" id="questions">
-
-    <h3>Action Scorecard: {{ council.short_name }}</h3>
-    <div class="row">
-        <div class="col-md-6">
+    <div class="row align-items-center">
+        <div class="col-lg-5">
+            <h3>Action Scorecard: {{ council.short_name }}</h3>
             <p>Councils have been scored across seven sections, each covering the important actions that councils can be taking towards net zero. The marks within these sections add up to make up the council’s overall score. Here you can see where a council performs well and not so well in each section — and compare it to other councils at this granular level.</p>
+        </div>
+        <div class="col-sm-6 offset-lg-1">
+            <canvas id="chart-radar"></canvas>
         </div>
     </div>
 
-    <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 2C0 1.46957 0.210714 0.960859 0.585786 0.585786C0.960859 0.210714 1.46957 0 2 0L14 0C14.5304 0 15.0391 0.210714 15.4142 0.585786C15.7893 0.960859 16 1.46957 16 2V14C16 14.5304 15.7893 15.0391 15.4142 15.4142C15.0391 15.7893 14.5304 16 14 16H2C1.46957 16 0.960859 15.7893 0.585786 15.4142C0.210714 15.0391 0 14.5304 0 14V2ZM15 4H11V7H15V4ZM15 8H11V11H15V8ZM15 12H11V15H14C14.2652 15 14.5196 14.8946 14.7071 14.7071C14.8946 14.5196 15 14.2652 15 14V12ZM10 15V12H6V15H10ZM5 15V12H1V14C1 14.2652 1.10536 14.5196 1.29289 14.7071C1.48043 14.8946 1.73478 15 2 15H5ZM1 11H5V8H1V11ZM1 7H5V4H1V7ZM6 4V7H10V4H6ZM10 8H6V11H10V8Z" fill="currentColor"/>
-                </svg>
-                Table
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
-                <div class="badge bg-warning rounded me-1">New</div>
-                <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.5 1C1.63261 1 1.75979 1.05268 1.85355 1.14645C1.94732 1.24021 2 1.36739 2 1.5V14H14.5C14.6326 14 14.7598 14.0527 14.8536 14.1464C14.9473 14.2402 15 14.3674 15 14.5C15 14.6326 14.9473 14.7598 14.8536 14.8536C14.7598 14.9473 14.6326 15 14.5 15H1.5C1.36739 15 1.24021 14.9473 1.14645 14.8536C1.05268 14.7598 1 14.6326 1 14.5V1.5C1 1.36739 1.05268 1.24021 1.14645 1.14645C1.24021 1.05268 1.36739 1 1.5 1Z" fill="currentColor"/>
-                    <path d="M13.081 1.60591C13.1315 1.48338 13.2058 1.37211 13.2997 1.27855C13.3936 1.185 13.5051 1.11104 13.6278 1.06096C13.7505 1.01088 13.8819 0.985694 14.0144 0.986855C14.1469 0.988016 14.2779 1.0155 14.3997 1.06772C14.5215 1.11994 14.6317 1.19585 14.7239 1.29103C14.8161 1.38621 14.8885 1.49878 14.9368 1.62217C14.9851 1.74557 15.0084 1.87734 15.0054 2.00982C15.0023 2.14231 14.973 2.27287 14.919 2.39391L11.919 9.39391C11.8628 9.52511 11.779 9.64273 11.6735 9.73888C11.568 9.83503 11.4431 9.90747 11.3073 9.95133C11.1714 9.9952 11.0278 10.0095 10.8859 9.99318C10.7441 9.97689 10.6074 9.93043 10.485 9.85691L6.55404 7.49791L4.94804 12.3159C4.91037 12.445 4.84704 12.5653 4.76183 12.6693C4.67663 12.7734 4.5713 12.8593 4.45214 12.9217C4.33299 12.9841 4.20247 13.0219 4.06839 13.0327C3.93431 13.0435 3.79942 13.0271 3.67181 12.9846C3.5442 12.9421 3.42648 12.8742 3.3257 12.7851C3.22492 12.696 3.14315 12.5875 3.08528 12.4661C3.02742 12.3446 2.99465 12.2128 2.98894 12.0784C2.98323 11.944 3.00469 11.8098 3.05204 11.6839L5.05204 5.68391L5.09204 5.57891C5.1511 5.45155 5.23632 5.33805 5.34215 5.2458C5.44798 5.15355 5.57205 5.08462 5.70628 5.04349C5.84051 5.00236 5.9819 4.98996 6.12124 5.00709C6.26059 5.02422 6.39476 5.0705 6.51504 5.14291L10.532 7.55291L13.081 1.60591Z" fill="currentColor"/>
-                </svg>
-                Graph
-            </button>
-        </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-
-            <div class="row my-4 my-lg-5">
-                <div class="col-lg-5 d-none d-md-block mb-3">
-                    <div class="card js-add-councils-to-compare">
-                        <div class="card-header">
-                            <h3 class="fs-6 mb-0">Choose {% include "scoring/includes/scoring-group-name.html" with group=council.get_scoring_group.slug plural=1 %} to compare</h3>
-                        </div>
-                        <div class="card-body">
-                            <form id="advancedFilterForm" action=".">
-                              {% if comparisons|length > 1 %}
-                                <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
-                              {% else %}
-                                <input class="form-control searchbar js-location-compare-autocomplete mb-3" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name" data-council_type="{{ council.get_scoring_group.slug }}">
-                                  {% if similar_councils %}
-                                    <p class="mb-1 fs-7">
-                                        <button type="button" class="d-inline-flex align-items-center p-0 me-1 border-0 bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Overall similarity based on emissions profile, deprivation, rural/urban population density, and geographical proximity">
-                                            <span>Similar councils:</span>
-                                            {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1rem' height='1rem' role='presentation' %}
-                                        </button>
-                                    </p>
-                                    <div class="d-flex flex-wrap lh-sm mt-2" style="column-gap: 1rem; row-gap: 0.5rem;">
-                                      {% for similar_council in similar_councils %}
-                                        <a class="d-inline-block js-council-compare-suggestions" href="#" data-slug="{{ similar_council.slug }}">{{ similar_council.name }}</a>
-                                      {% endfor %}
-                                    </div>
-                                  {% endif %}
-                              {% endif %}
-                              {% if comparisons %}
-                                <hr class="mx-n3">
-                                <div class="selected-council-wrapper mt-4 mb-3">
-                                  {% for comparison in comparisons %}
-                                    <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
-                                  {% endfor %}
+        <div class="row my-4 my-lg-5">
+            <div class="col-lg-5 d-none d-md-block mb-3">
+                <div class="card js-add-councils-to-compare">
+                    <div class="card-header">
+                        <h3 class="fs-6 mb-0">Choose {% include "scoring/includes/scoring-group-name.html" with group=council.get_scoring_group.slug plural=1 %} to compare</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="advancedFilterForm" action=".">
+                            {% if comparisons|length > 1 %}
+                            <p class="warning-message">You have reached the maximum number of councils that can be compared.</p>
+                            {% else %}
+                            <input class="form-control searchbar js-location-compare-autocomplete mb-3" name="search" id="compare-search" type="search" placeholder="Council name" aria-label="Council name" data-council_type="{{ council.get_scoring_group.slug }}">
+                                {% if similar_councils %}
+                                <p class="mb-1 fs-7">
+                                    <button type="button" class="d-inline-flex align-items-center p-0 me-1 border-0 bg-transparent" data-bs-toggle="tooltip" data-bs-placement="top" title="Overall similarity based on emissions profile, deprivation, rural/urban population density, and geographical proximity">
+                                        <span>Similar councils:</span>
+                                        {% include 'caps/icons/question-circle.html' with classes='ms-1 align-text-top' width='1rem' height='1rem' role='presentation' %}
+                                    </button>
+                                </p>
+                                <div class="d-flex flex-wrap lh-sm mt-2" style="column-gap: 1rem; row-gap: 0.5rem;">
+                                    {% for similar_council in similar_councils %}
+                                    <a class="d-inline-block js-council-compare-suggestions" href="#" data-slug="{{ similar_council.slug }}">{{ similar_council.name }}</a>
+                                    {% endfor %}
                                 </div>
-                                <a href="{% url 'scoring:council' council.slug %}">Clear all</a>
-                              {% endif %}
-                            </form>
+                                {% endif %}
+                            {% endif %}
+                            {% if comparisons %}
+                            <hr class="mx-n3">
+                            <div class="selected-council-wrapper mt-4 mb-3">
+                                {% for comparison in comparisons %}
+                                <a href="#" class="radio-btn is--with-label is--with-closed-icon mr-1 js-comparison-council" data-slug="{{ comparison.council.slug }}">{{ comparison.council.name }}</a>
+                                {% endfor %}
+                            </div>
+                            <a href="{% url 'scoring:council' council.slug %}">Clear all</a>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="card js-filter-question-council-table">
+                    <div class="card-header">
+                        <h3 class="fs-6 mb-0">Filter questions in the table</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-row flex-wrap gap-2">
+                            <button class="btn btn-sm btn-outline-primary active" data-question-type="all">All questions</button>
+                            <button class="btn btn-sm btn-outline-primary" data-question-type="council-only">Scope: Council operations only</button>
+                            <button class="btn btn-sm btn-outline-primary" data-question-type="volunteer">Source: Volunteer Research</button>
+                            <button class="btn btn-sm btn-outline-primary" data-question-type="foi">Source: FOI</button>
+                            <button class="btn btn-sm btn-outline-primary" data-question-type="national-data">Source: National Data</button>
+                            <button class="btn btn-sm btn-outline-primary" data-question-type="national-data-and-volunteer">Source: National Data and Volunteer Research</button>
+                        </div>
+                        <div class="d-flex flex-row flex-wrap gap-3 gap-lg-4 mt-3">
+                            <div class="form-check-flex">
+                                <input class="form-check-input" type="checkbox" id="display-complete-content">
+                                <label class="form-check-label" for="display-complete-content">Expand “How is this marked?” by default</label>
+                            </div>
+                            <div class="form-check-flex">
+                                <input class="form-check-input" type="checkbox" id="expand-all-sections">
+                                <label class="form-check-label" for="expand-all-sections">Expand all sections</label>
+                            </div>
+                        </div>
+    
+                        {% comment %} On mobile previous year score will be display by default {% endcomment %}
+                        <hr class="d-none d-md-block">
+    
+                        {% if plan_score.previous_year %}
+                        <div id="versus-year-dropdown--desktop" class="d-flex flex-row align-items-center gap-2">
+                            <label class="fs-7 mb-0 text-nowrap" for="js-comparison-year-select"><span class="badge bg-warning rounded me-2">New</span>Versus:</label>
+                            <select id="js-comparison-year-select" class="form-select border border-primary bg-primary-100 form-select-sm w-auto" aria-label="Comparison year">
+                                <option value="2025" selected>Action Scorecards 2025</option>
+                                <option value="2023">Action Scorecards 2023</option>
+                                <option value="hide-point-percentage">Hide percentage point change</option>
+                            </select>
+                        </div>
+                        {% endif %}
+                        <div class="d-none d-md-flex flex-row gap-3 mt-3">
+                            <h4 class="visually-hidden">Legends for difference column</h4>
+                            <div>
+                                <span class="badge bg-gray-300 text-dark">--</span> No change
+                            </div>
+                            <div>
+                                <span class="badge bg-gray-300 text-dark">NA</span> New question (not in previous scorecards)
+                            </div>
+                        </div>
+                        <hr class="d-block d-md-none">
+                        <div class="d-md-none fs-7">
+                            A {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top mx-1' width='1.1em' height='1.1em' alt="star icon" %} next to the score means the council is a top performer for that section. While a {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top mx-1' width='1.1em' height='1.1em' alt="star icon" %} next to the change (versus column in the table) means the council is one of most improved councils this year.
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-7">
-                    <div class="card js-filter-question-council-table">
-                        <div class="card-header">
-                            <h3 class="fs-6 mb-0">Filter questions in the table</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex flex-row flex-wrap gap-2">
-                                <button class="btn btn-sm btn-outline-primary active" data-question-type="all">All questions</button>
-                                <button class="btn btn-sm btn-outline-primary" data-question-type="council-only">Scope: Council operations only</button>
-                                <button class="btn btn-sm btn-outline-primary" data-question-type="volunteer">Source: Volunteer Research</button>
-                                <button class="btn btn-sm btn-outline-primary" data-question-type="foi">Source: FOI</button>
-                                <button class="btn btn-sm btn-outline-primary" data-question-type="national-data">Source: National Data</button>
-                                <button class="btn btn-sm btn-outline-primary" data-question-type="national-data-and-volunteer">Source: National Data and Volunteer Research</button>
+            </div>
+        </div>
+    
+        <div class="d-md-none bg-secondary p-3">
+            <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
+            <p class="text-white mb-3">You'll find more options, like the ability to compare your council's Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
+        </div>
+    
+        <table class="table-question-council js-table-year-comparison my-4 w-lg-75 {% if comparisons %}w-lg-100{% endif %}">
+            <thead class="position-sticky z-index-3 top-0">
+                {% comment %} Desktop version {% endcomment %}
+                <tr class="text-bg-primary display-only-large-up">
+                    <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
+                    <th scope="col"  colspan="3" class="js-previous-year-score current-council-score border-end border-opacity-25 border-primary">{{ council.name }}</th>
+                    <th scope="col"  colspan="2" class="js-current-year-score current-council-score border-end border-opacity-25 border-primary" style="width:170px">{{ council.name }}</th>
+                    {% for comparison in comparisons %}
+                    <th scope="col" colspan="3" class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary comparison-council">{{ comparison.council.name }}</th>
+                    <th scope="col" colspan="2" class="js-current-year-score display-only-large-up comparison-council" style="width:170px">{{ comparison.council.name }}</th>
+                    {% endfor %}
+                    <th scope="col" class="display-only-large-up text-start">
+                        Councils with full marks per question
+                    </th>
+                </tr>
+    
+    
+                {% if plan_score.previous_year %}
+                <tr class="bg-primary-100 display-only-large-up fs-7 text-primary">
+                    <th scope="col" class="py-2 border-start"></th>
+                    <th scope="col" class="py-2 border-start border-light">{{ plan_score.year }}</th>
+                        <th scope="col" class="py-2 js-previous-year-score">{{ previous_year }}</th>
+                        <th scope="col" class="js-current-year-score py-2 border-end border-light text-center">Versus {{ previous_year }}</th>
+                        <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
+                    {% for comparison in comparisons %}
+                        <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 border-start border-light">{{ plan_score.year }}</th>
+                        <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 js-previous-year-score">{{ previous_year }}</th>
+                        <th scope="col" class="js-current-year-score display-only-large-up comparison-council fs-7 py-2 border-end border-light text-center">Versus {{ previous_year }}</th>
+                        <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
+                    {% endfor %}
+                    <th class="py-2 border-end">{{ plan_score.year }} results</th>
+                </tr>
+                {% endif %}
+    
+                {% comment %} Mobile version {% endcomment %}
+                <tr class="text-bg-primary d-lg-none">
+                    <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">
+                        Questions: {{ council.name }}
+                    </th>
+                </tr>
+            </thead>
+    
+            {% for section in sections %}
+            <tbody class="table-question-council__section">
+    
+                <tr data-has-plan="no" class="section-row fw-bold">
+                    <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
+                        {{ section.description }}
+    
+                        {% comment %} Mobile {% endcomment %}
+                        <dl class="d-md-none mt-3 d-flex flex-row gap-3">
+                            <div class="card">
+                                <dt class="card-header fs-7 py-1">2025</dt>
+                                <dd class="card-body text-center py-2 mb-0">
+                                    {% if section.top_performer %}
+                                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                                    {% endif%}
+                                    {{ section.weighted_score|floatformat:0 }}%
+                                </dd>
                             </div>
-                            <div class="d-flex flex-row flex-wrap gap-3 gap-lg-4 mt-3">
-                                <div class="form-check-flex">
-                                    <input class="form-check-input" type="checkbox" id="display-complete-content">
-                                    <label class="form-check-label" for="display-complete-content">Expand “How is this marked?” by default</label>
-                                </div>
-                                <div class="form-check-flex">
-                                    <input class="form-check-input" type="checkbox" id="expand-all-sections">
-                                    <label class="form-check-label" for="expand-all-sections">Expand all sections</label>
-                                </div>
-                            </div>
-        
-                            {% comment %} On mobile previous year score will be display by default {% endcomment %}
-                            <hr class="d-none d-md-block">
-        
                             {% if plan_score.previous_year %}
-                            <div class="form-check-flex d-none d-md-flex">
-                                <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-score" aria-checked="false" role="switch">
-                                <label class="form-check-label" for="js-toggle-previous-year-score">Display {{ previous_year }} scores<span class="badge bg-primary-100 text-primary ms-1">NEW</span></label>
-                            </div>
-                            {% endif %}
-                            <div class="d-none d-md-flex flex-row gap-3 mt-3">
-                                <h4 class="visually-hidden">Legends for difference column</h4>
-                                <div>
-                                    <span class="badge bg-gray-300 text-dark">--</span> No change
+                                <div class="card">
+                                    <dt class="card-header fs-7 py-1">2023</dt>
+                                    <dd class="card-body text-center py-2 mb-0">
+                                        {{ section.previous_score|floatformat:0 }}%
+                                    </dd>
                                 </div>
-                                <div>
-                                    <span class="badge bg-gray-300 text-dark">NA</span> New question (not in previous scorecards)
+                                <div class="card">
+                                    <dt class="card-header fs-7 py-1">Difference</dt>
+                                    <dd class="card-body text-success py-2 mb-0 text-center">
+                                    {% if section.most_improved %}
+                                    {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
+                                    {% endif%}
+                                    {% include "scoring/includes/integer_score_change.html" with change=section.change %}
+                                    </dd>
                                 </div>
-                            </div>
-                            <hr class="d-block d-md-none">
-                            <div class="d-md-none fs-7">
-                              A {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top mx-1' width='1.1em' height='1.1em' alt="star icon" %} next to the score means the council is a top performer for that section. While a {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top mx-1' width='1.1em' height='1.1em' alt="star icon" %} next to the change (versus column in the table) means the council is one of most improved councils this year.
-                            </div>
+                                {% endif %}
+                        </dl>
+    
+                        {% if section.has_negative_points %}
+                        <div class="d-flex flex-column mb-0 mt-2 fs-7 rounded p-2 bg-red-100 text-warning">
+                            <p class="mb-1">
+                                {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
+                                <strong class="me-2">Penalty marks</strong>
+                            </p>
+                            <p class="fw-normal mb-1">
+                                {% if section.only_negative %}
+                                    {{ council.name }} was only awarded penalty marks in this section
+                                {% else %}
+                                    {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
+                                {% endif %}
+                            </p>
+                            <p class="fw-normal mt-1 mb-0">
+                                {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
+                            </p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        
-            <div class="d-md-none bg-secondary p-3">
-              <h3 class="exclamation text-white">Visit us again on a bigger screen</h3>
-              <p class="text-white mb-3">You'll find more options, like the ability to compare your council's Scorecard with other councils, and see a more granular breakdown of how they did on each question of the Scorecards.</p>
-            </div>
-        
-            <table class="table-question-council js-table-year-comparison my-4 w-lg-75 {% if comparisons %}w-lg-100{% endif %}">
-                <thead class="position-sticky z-index-3 top-0">
-                    {% comment %} Desktop version {% endcomment %}
-                    <tr class="text-bg-primary display-only-large-up">
-                        <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
-                        <th scope="col"  colspan="3" class="js-previous-year-score current-council-score border-end border-opacity-25 border-primary">{{ council.name }}</th>
-                        <th scope="col"  colspan="2" class="js-current-year-score current-council-score border-end border-opacity-25 border-primary" style="width:170px">{{ council.name }}</th>
-                      {% for comparison in comparisons %}
-                        <th scope="col" colspan="3" class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary comparison-council">{{ comparison.council.name }}</th>
-                        <th scope="col" colspan="2" class="js-current-year-score display-only-large-up comparison-council" style="width:170px">{{ comparison.council.name }}</th>
-                      {% endfor %}
-                        <th scope="col" class="display-only-large-up text-start">
-                            Councils with full marks per question
-                        </th>
-                    </tr>
-        
-        
+                        {% endif %}
+    
+                        <button type="button" class="d-block mt-2 d-lg-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
+                            {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
+                            Show questions list
+                        </button>
+                    </td>
+    
+                    {% if section.top_performer or section.most_improved %}
+                    <td  class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up text-nowrap">
+                        {% if section.top_performer %}
+                            <button type="button" class="border-0 bg-transparent p-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Top-performer council in this section">
+                            {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.1em' height='1.1em' role='presentation' %}
+                            </button>
+                        {% endif %}
+                        <span>{{ section.weighted_score|floatformat:0 }}%</span>
+                    </td>
+    
+                    </td>
+    
                     {% if plan_score.previous_year %}
-                    <tr class="bg-primary-100 display-only-large-up fs-7 text-primary">
-                        <th scope="col" class="py-2 border-start"></th>
-                        <th scope="col" class="py-2 border-start border-light">{{ plan_score.year }}</th>
-                          <th scope="col" class="py-2 js-previous-year-score">{{ previous_year }}</th>
-                          <th scope="col" class="js-current-year-score py-2 border-end border-light text-center">Versus {{ previous_year }}</th>
-                          <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
-                        {% for comparison in comparisons %}
-                          <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 border-start border-light">{{ plan_score.year }}</th>
-                          <th scope="col" class="display-only-large-up comparison-council fs-7 py-2 js-previous-year-score">{{ previous_year }}</th>
-                          <th scope="col" class="js-current-year-score display-only-large-up comparison-council fs-7 py-2 border-end border-light text-center">Versus {{ previous_year }}</th>
-                          <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
-                        {% endfor %}
-                        <th class="py-2 border-end">{{ plan_score.year }} results</th>
-                    </tr>
+                        <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">{{ section.previous_score|floatformat:0 }}%</td>
+    
+                        <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up text-nowrap">
+                            {% if section.most_improved %}
+                            <button type="button" class="border-0 bg-transparent p-0" data-bs-toggle="tooltip" data-bs-placement="top" title="One of the most improved council in this section">
+                            {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.1em' height='1.1em' role='presentation' %}
+                            </button>
+                            {% endif %}
+                            {% include "scoring/includes/integer_score_change.html" with change=section.change %}
+                        </td>
                     {% endif %}
-        
-                    {% comment %} Mobile version {% endcomment %}
-                    <tr class="text-bg-primary d-lg-none">
-                        <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">
-                            Questions: {{ council.name }}
-                        </th>
-                    </tr>
-                </thead>
-        
-              {% for section in sections %}
-                <tbody class="table-question-council__section">
-        
-                    <tr data-has-plan="no" class="section-row fw-bold">
-                        <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
-                            {{ section.description }}
-        
-                            {% comment %} Mobile {% endcomment %}
-                            <dl class="d-md-none mt-3 d-flex flex-row gap-3">
-                                <div class="card">
-                                    <dt class="card-header fs-7 py-1">2025</dt>
-                                    <dd class="card-body text-center py-2 mb-0">
-                                        {% if section.top_performer %}
-                                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
-                                        {% endif%}
-                                        {{ section.weighted_score|floatformat:0 }}%
-                                    </dd>
-                                </div>
-                                {% if plan_score.previous_year %}
-                                  <div class="card">
-                                      <dt class="card-header fs-7 py-1">2023</dt>
-                                      <dd class="card-body text-center py-2 mb-0">
-                                          {{ section.previous_score|floatformat:0 }}%
-                                      </dd>
-                                  </div>
-                                  <div class="card">
-                                      <dt class="card-header fs-7 py-1">Difference</dt>
-                                      <dd class="card-body text-success py-2 mb-0 text-center">
-                                        {% if section.most_improved %}
-                                        {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-bottom me-1' width='1.2em' height='1.2rem' role='presentation' %}
-                                        {% endif%}
-                                        {% include "scoring/includes/integer_score_change.html" with change=section.change %}
-                                      </dd>
-                                  </div>
-                                  {% endif %}
-                            </dl>
-        
-                            {% if section.has_negative_points %}
-                            <div class="d-flex flex-column mb-0 mt-2 fs-7 rounded p-2 bg-red-100 text-warning">
-                                <p class="mb-1">
-                                  {% include 'caps/icons/warning.html' with classes='me-1 mb-1' width='1.1em' height='1.1em' role='presentation' %}
-                                  <strong class="me-2">Penalty marks</strong>
-                                </p>
-                                <p class="fw-normal mb-1">
-                                    {% if section.only_negative %}
-                                      {{ council.name }} was only awarded penalty marks in this section
-                                    {% else %}
-                                      {{ council.name }} incurred a penalty of {{ section.negative_percent|floatformat:0 }}% in this section
-                                    {% endif %}
-                                </p>
-                                <p class="fw-normal mt-1 mb-0">
-                                    {{ section.score }} &equals; Total score ({{ section.non_negative_max|floatformat:"-2" }}) &minus; Penalty points ({{ section.negative_points }})
-                                </p>
-                            </div>
-                            {% endif %}
-        
-                            <button type="button" class="d-block mt-2 d-lg-none btn btn-outline-primary btn-sm js-toggle-council-question-table-section rounded-0" aria-label="Expand this section" title="Expand this section">
-                                {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
-                                Show questions list
-                            </button>
+                    {% else %}
+                    <td class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
+                        <span>{{section.weighted_score|floatformat:0 }}%</span>
+                    </td>
+                    {% if plan_score.previous_year %}
+                        <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
+                        <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
+                            {% include "scoring/includes/integer_score_change.html" with change=section.change %}
                         </td>
-        
-                      {% if section.top_performer or section.most_improved %}
-                        <td  class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up text-nowrap">
-                            {% if section.top_performer %}
-                              <button type="button" class="border-0 bg-transparent p-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Top-performer council in this section">
-                                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.1em' height='1.1em' role='presentation' %}
-                              </button>
-                            {% endif %}
-                            <span>{{ section.weighted_score|floatformat:0 }}%</span>
+                    {% else %}
+                        <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
                         </td>
-        
+                    {% endif %}
+                    {% endif %}
+    
+                    {% for comparison in section.comparisons %}
+                    <td class="display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
+                        {{ comparison.weighted_score|floatformat:0 }}%
+                    </td>
+                    {% if plan_score.previous_year %}
+                        <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">{{ comparison.previous_score|floatformat:0 }}%</td>
+                        <td class="display-only-large-up border-end border-bottom border-opacity-25 border-primary text-center">
+                            {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
                         </td>
-        
-                        {% if plan_score.previous_year %}
-                          <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">{{ section.previous_score|floatformat:0 }}%</td>
-        
-                          <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up text-nowrap">
-                              {% if section.most_improved %}
-                              <button type="button" class="border-0 bg-transparent p-0" data-bs-toggle="tooltip" data-bs-placement="top" title="One of the most improved council in this section">
-                                {% include 'caps/icons/scorecards-star.html' with classes='text-info align-text-top' width='1.1em' height='1.1em' role='presentation' %}
-                              </button>
-                              {% endif %}
-                              {% include "scoring/includes/integer_score_change.html" with change=section.change %}
-                          </td>
                         {% endif %}
-                      {% else %}
-                        <td class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
-                            <span>{{section.weighted_score|floatformat:0 }}%</span>
+                    {% endfor %}
+    
+                    <td class="display-only-large-up top-tier-score border-bottom border-end border-opacity-25 border-primary"></td>
+    
+                    <td class="button-wrapper p-0 bg-white display-only-large-up text-start">
+                        <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
+                            {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
+                        </button>
+                    </td>
+                </tr>
+    
+                {% for answer in section.answers %}
+                <tr class="question-row js-question-type-all js-question-type-{{ answer.how_marked }} {% if answer.is_council_operations_only %}js-question-type-council-only{% endif %}">
+                    <td data-column="answer" class="border-start border-bottom border-end">
+                        {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.code pretty_code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria council_type_slug=council.get_scoring_group.slug %}
+                    </td>
+    
+                    <td data-column="score" class="score border-bottom display-only-large-up">
+                        {{ answer.score|format_mark }}/{{ answer.max }}
+                    </td>
+    
+                    {% if plan_score.previous_year %}
+                        <td class="js-previous-year-score display-only-large-up border-bottom">
+                            {% if answer.previous_score is not None %}
+                            {{ answer.previous_score|format_mark }}/{{ answer.previous_max }}
+                            {% else %}
+                            NA
+                            {% endif %}
                         </td>
-                        {% if plan_score.previous_year %}
-                          <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary display-only-large-up">{{ section.previous_score|floatformat:0 }}%</td>
-                          <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
-                              {% include "scoring/includes/integer_score_change.html" with change=section.change %}
-                          </td>
+    
+                        <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
+                            {% include "scoring/includes/integer_score_change.html" with change=answer.change %}
+                        </td>
                         {% else %}
-                          <td class="border-end border-bottom border-opacity-25 border-primary text-center display-only-large-up">
-                          </td>
+                        <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
+                        </td>
                         {% endif %}
-                      {% endif %}
-        
-                      {% for comparison in section.comparisons %}
-                        <td class="display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score {% if comparison.top_performer %}top-performer{% endif %}">
-                            {{ comparison.weighted_score|floatformat:0 }}%
+    
+                    {% for comparison in answer.comparisons %}
+                    {% if plan_score.previous_year %}
+                        <td data-column="score" class="display-only-large-up score border-bottom">
+                            {{ comparison.score|format_mark }}/{{ comparison.max }}
                         </td>
-                        {% if plan_score.previous_year %}
-                          <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">{{ comparison.previous_score|floatformat:0 }}%</td>
-                          <td class="display-only-large-up border-end border-bottom border-opacity-25 border-primary text-center">
-                              {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
-                          </td>
-                          {% endif %}
-                      {% endfor %}
-        
-                        <td class="display-only-large-up top-tier-score border-bottom border-end border-opacity-25 border-primary"></td>
-        
-                        <td class="button-wrapper p-0 bg-white display-only-large-up text-start">
-                            <button type="button" class="btn btn-outline-primary js-toggle-council-question-table-section border-start-0 rounded-0" aria-label="Expand this section" title="Expand this section">
-                                {% include 'caps/icons/chevron-down.html' with classes='align-text-bottom' width='1.2em' height='1.2em' role='presentation' %}
-                            </button>
+                        <td class="js-previous-year-score display-only-large-up border-bottom">
+                            {% if comparison.previous_score %}
+                            {{ comparison.previous_score|format_mark }}/{{ comparison.previous_max }}
+                            {% else %}
+                            NA
+                            {% endif %}
                         </td>
-                    </tr>
-        
-                  {% for answer in section.answers %}
-                    <tr class="question-row js-question-type-all js-question-type-{{ answer.how_marked }} {% if answer.is_council_operations_only %}js-question-type-council-only{% endif %}">
-                        <td data-column="answer" class="border-start border-bottom border-end">
-                            {% include "scoring/includes/question-content-table-cell.html" with foorloop=forloop code=answer.code pretty_code=answer.pretty_code question_text=answer.question question_type=answer.type how_marked=answer.how_marked_display weighting=answer.weighting evidence_links=answer.evidence_links criteria=answer.criteria council_type_slug=council.get_scoring_group.slug %}
+    
+                        <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
+                            {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
                         </td>
-        
-                        <td data-column="score" class="score border-bottom display-only-large-up">
-                            {{ answer.score|format_mark }}/{{ answer.max }}
+    
+                        {% else %}
+                        <td data-column="score" class="display-only-large-up score border-bottom" colspan="2">
+                            {{ comparison.score|format_mark }}/{{ comparison.max }}
                         </td>
-        
-                        {% if plan_score.previous_year %}
-                          <td class="js-previous-year-score display-only-large-up border-bottom">
-                              {% if answer.previous_score is not None %}
-                                {{ answer.previous_score|format_mark }}/{{ answer.previous_max }}
-                              {% else %}
-                                NA
-                              {% endif %}
-                          </td>
-        
-                          <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
-                              {% include "scoring/includes/integer_score_change.html" with change=answer.change %}
-                          </td>
-                          {% else %}
-                          <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
-                          </td>
-                          {% endif %}
-        
-                      {% for comparison in answer.comparisons %}
-                        {% if plan_score.previous_year %}
-                          <td data-column="score" class="display-only-large-up score border-bottom">
-                              {{ comparison.score|format_mark }}/{{ comparison.max }}
-                          </td>
-                          <td class="js-previous-year-score display-only-large-up border-bottom">
-                              {% if comparison.previous_score %}
-                                {{ comparison.previous_score|format_mark }}/{{ comparison.previous_max }}
-                              {% else %}
-                                NA
-                              {% endif %}
-                          </td>
-        
-                          <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
-                              {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
-                          </td>
-        
-                          {% else %}
-                            <td data-column="score" class="display-only-large-up score border-bottom" colspan="2">
-                                {{ comparison.score|format_mark }}/{{ comparison.max }}
-                            </td>
-                        {% endif %}
-                      {% endfor %}
-        
-                        <td class="display-only-large-up top-tier-score border-bottom border-end">
-                            <div class="d-flex flex-row gap-2 justify-content-center flex-wrap flex-md-nowrap">
-                                <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
-                                    <div class="percentage fs-8">
-                                    {% widthratio answer.council_count council_count 100%}%
-                                    </div>
+                    {% endif %}
+                    {% endfor %}
+    
+                    <td class="display-only-large-up top-tier-score border-bottom border-end">
+                        <div class="d-flex flex-row gap-2 justify-content-center flex-wrap flex-md-nowrap">
+                            <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio answer.council_count council_count 100%};">
+                                <div class="percentage fs-8">
+                                {% widthratio answer.council_count council_count 100%}%
                                 </div>
-                                <span class="fs-8 mt-1 me-0 text-start">
-                                    {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %}
-                                    {% if answer.type == "negative" %}
-                                    got <strong>no penalty marks</strong> for this question.
-                                    {% else %}
-                                    got full marks for this question.
-                                    {% endif %}
-                                </span>
                             </div>
-                        </td>
-                    </tr>
-                  {% endfor %}
-        
-                </tbody>
-              {% endfor %}
-        
-                <tbody class="table-question-council__section">
-                    <tr data-has-plan="no" class="section-row bg-purple-100 fw-bold">
-                        <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
-                            Total score
-                            <dl class="d-md-none mt-3 d-flex flex-row gap-3">
+                            <span class="fs-8 mt-1 me-0 text-start">
+                                {% include 'scoring/includes/scoring-group-name.html' with group=council.get_scoring_group.slug plural=True %}
+                                {% if answer.type == "negative" %}
+                                got <strong>no penalty marks</strong> for this question.
+                                {% else %}
+                                got full marks for this question.
+                                {% endif %}
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+    
+            </tbody>
+            {% endfor %}
+    
+            <tbody class="table-question-council__section">
+                <tr data-has-plan="no" class="section-row bg-purple-100 fw-bold">
+                    <td colspan="1" class="section-cell border-bottom border-start border-end border-opacity-25 border-primary text-start">
+                        Total score
+                        <dl class="d-md-none mt-3 d-flex flex-row gap-3">
+                            <div class="card">
+                                <dt class="card-header fs-7 py-1">2025</dt>
+                                <dd class="card-body text-center py-2 mb-0">
+                                    {{ plan_score.weighted_total|floatformat:0 }}%
+                                </dd>
+                            </div>
+                            {% if plan_score.previous_year %}
                                 <div class="card">
-                                    <dt class="card-header fs-7 py-1">2025</dt>
+                                    <dt class="card-header fs-7 py-1">2023</dt>
                                     <dd class="card-body text-center py-2 mb-0">
-                                        {{ plan_score.weighted_total|floatformat:0 }}%
+                                        {{ previous_total|floatformat:0 }}%
                                     </dd>
                                 </div>
-                                {% if plan_score.previous_year %}
-                                  <div class="card">
-                                      <dt class="card-header fs-7 py-1">2023</dt>
-                                      <dd class="card-body text-center py-2 mb-0">
-                                          {{ previous_total|floatformat:0 }}%
-                                      </dd>
-                                  </div>
-                                  <div class="card">
-                                      <dt class="card-header fs-7 py-1">Difference</dt>
-                                      <dd class="card-body text-success py-2 mb-0 text-center">
-                                        {% include "scoring/includes/integer_score_change.html" with change=previous_diff %}
-                                      </dd>
-                                  </div>
-                                  {% endif %}
-                            </dl>
+                                <div class="card">
+                                    <dt class="card-header fs-7 py-1">Difference</dt>
+                                    <dd class="card-body text-success py-2 mb-0 text-center">
+                                    {% include "scoring/includes/integer_score_change.html" with change=previous_diff %}
+                                    </dd>
+                                </div>
+                                {% endif %}
+                        </dl>
+                    </td>
+    
+                    <td class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
+                        {{ plan_score.weighted_total|floatformat:0 }}%
+                    </td>
+    
+                    {% if plan_score.previous_year %}
+                        <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">
+                            {{ previous_total|floatformat:0 }}%
                         </td>
-        
-                        <td class="score border-bottom border-opacity-25 border-primary is--section-score display-only-large-up">
-                            {{ plan_score.weighted_total|floatformat:0 }}%
+    
+                        <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
+                            {% include "scoring/includes/integer_score_change.html" with change=previous_diff %}
                         </td>
-        
-                        {% if plan_score.previous_year %}
-                          <td class="js-previous-year-score display-only-large-up border-bottom border-opacity-25 border-primary">
-                              {{ previous_total|floatformat:0 }}%
-                          </td>
-        
-                          <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
-                              {% include "scoring/includes/integer_score_change.html" with change=previous_diff %}
-                          </td>
-                          {% else %}
-                          <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
-                          </td>
-                          {% endif %}
-        
-                      {% for comparison in comparisons %}
-                        <td class="display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score">
-                            {{ comparison.weighted_total|floatformat:0 }}%
+                        {% else %}
+                        <td class="text-center border-bottom border-opacity-25 border-primary display-only-large-up">
                         </td>
-        
-                        {% if plan_score.previous_year %}
-                          <td class="js-previous-year-score display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score">
-                              {{ comparison.previous_total|floatformat:0 }}%
-                          </td>
-        
-                          <td class="display-only-large-up text-center border-bottom border-opacity-25 border-primary">
-                              {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
-                          </td>
-                          {% endif %}
-                      {% endfor %}
-        
-                        <td class="display-only-large-up top-tier-score border-end border-bottom border-opacity-25 border-primary"></td>
-                        <td class="button-wrapper p-0 bg-white display-only-large-up"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-            <div class="row mt-4">
-                <div class="col-sm-2">
-                    <button type="button" id="download-all-graphs" class="btn btn-primary">
-                        Download all graphs
-                    </button>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-sm-6">
-                    <canvas id="chart-total"></canvas>
-                </div>
-                <div class="col-sm-6">
-                    <canvas id="chart-collaboration"></canvas>
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col-sm-6">
-                    <canvas id="chart-building"></canvas>
-                </div>
-                <div class="col-sm-6">
-                    <canvas id="chart-waste"></canvas>
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col-sm-6">
-                    <canvas id="chart-transport"></canvas>
-                </div>
-                <div class="col-sm-6">
-                    <canvas id="chart-planning"></canvas>
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col-sm-6">
-                    <canvas id="chart-governance"></canvas>
-                </div>
-                <div class="col-sm-6">
-                    <canvas id="chart-biodiversity"></canvas>
-                </div>
-            </div>
-        </div>
+                        {% endif %}
+    
+                    {% for comparison in comparisons %}
+                    <td class="display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score">
+                        {{ comparison.weighted_total|floatformat:0 }}%
+                    </td>
+    
+                    {% if plan_score.previous_year %}
+                        <td class="js-previous-year-score display-only-large-up score border-bottom border-opacity-25 border-primary is--section-score">
+                            {{ comparison.previous_total|floatformat:0 }}%
+                        </td>
+    
+                        <td class="display-only-large-up text-center border-bottom border-opacity-25 border-primary">
+                            {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
+                        </td>
+                        {% endif %}
+                    {% endfor %}
+    
+                    <td class="display-only-large-up top-tier-score border-end border-bottom border-opacity-25 border-primary"></td>
+                    <td class="button-wrapper p-0 bg-white display-only-large-up"></td>
+                </tr>
+            </tbody>
+        </table>
 
-        <div class="d-flex gap-3 flex-wrap">
+
+        <div class="d-flex gap-3 flex-wrap mt-4">
             <a href="https://bsky.app/intent/compose?text={{ request.build_absolute_uri|urlencode }}" target="_blank" class="btn btn-bluesky rounded-pill px-3 d-flex align-items-center gap-2" title="Share on Bluesky">
                 {% include "scoring/icons/bluesky.html" %}
                 Share <span class="visually-hidden">on Bluesky</span>
@@ -641,7 +583,7 @@
                 Share <span class="visually-hidden">on X (Twitter)</span>
             </a>
         </div>
-    </div>
+    
 
 </div>
 {% else %}
@@ -667,8 +609,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
 <script>
-    var labels = ['2023', '2025', '2027'];
     var councilName = '{{ council.name|escapejs }}';
 
     var whiteBackground = {
@@ -701,20 +643,15 @@
 
             // title
             ctx.fillStyle = '#1C2624';
-            ctx.font = 'bold 24px sans-serif';
+            ctx.font = 'bold 18px sans-serif';
             ctx.fillText(opts.title, left, 34);
-
-            // subtitle (council name)
-            ctx.fillStyle = '#1C2624';
-            ctx.font = '16px sans-serif';
-            ctx.fillText(opts.subtitle, left, 62);
 
             ctx.restore();
         }
     };
 
     var sections = [
-        { canvas: 'chart-total',         title: 'Total Score',                  color: 'rgb(33, 37, 41)',    data: [38, 43, 40], high: [72, 76, 80], low: [12, 15, 25] },
+        { canvas: 'chart-total',         title: 'Total Score',                  color: 'rgb(3, 69, 135)',    data: [38, 43, 40], high: [72, 76, 80], low: [12, 15, 25] },
         { canvas: 'chart-building',      title: 'Buildings & Heating',          color: 'rgb(75, 192, 192)',  data: [27, 33, 41], high: [68, 72, 78], low: [6, 9, 11] },
         { canvas: 'chart-waste',         title: 'Waste Reduction & Food',       color: 'rgb(255, 205, 86)',  data: [42, 46, 38], high: [74, 78, 80], low: [14, 16, 15] },
         { canvas: 'chart-transport',     title: 'Transport',                    color: 'rgb(255, 99, 132)',  data: [29, 35, 44], high: [66, 70, 75], low: [8, 10, 13] },
@@ -724,100 +661,80 @@
         { canvas: 'chart-collaboration', title: 'Collaboration & Engagement',   color: 'rgb(153, 102, 255)', data: [55, 60, 66], high: [82, 86, 88], low: [22, 26, 28] }
     ];
 
+    // Section scores per year, skipping the composite Total Score
+    var starLabels = [];
+    var star2023 = [];
+    var star2025 = [];
+    var star2027 = [];
+
     sections.forEach(function(section) {
-        var canvas = document.getElementById(section.canvas);
-        if (!canvas) { return; }
-        new Chart(canvas, {
-            type: 'line',
+        if (section.canvas === 'chart-total') { return; }
+        starLabels.push(section.title);
+        star2023.push(section.data[0]);
+        star2025.push(section.data[1]);
+        star2027.push(section.data[2]);
+    });
+
+    var radarCanvas = document.getElementById('chart-radar');
+    if (radarCanvas) {
+        new Chart(radarCanvas, {
+            type: 'bar',
             plugins: [whiteBackground, headerText],
             data: {
-                labels: labels,
+                labels: starLabels,
                 datasets: [
                     {
-                        // upper bound of the context band
-                        label: 'Range across all Single Tier councils',
-                        data: section.high,
-                        borderColor: 'rgba(0, 0, 0, 0.35)',
-                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                        borderWidth: 1,
-                        pointRadius: 0,
-                        fill: 1,               // fill down to dataset index 1 (the lower bound)
-                        tension: 0.1
+                        label: '2023',
+                        data: star2023,
+                        backgroundColor: '#c5c3c3'
                     },
                     {
-                        // lower bound of the context band
-                        label: 'Lowest scoring council',
-                        data: section.low,
-                        borderColor: 'rgba(0, 0, 0, 0.35)',
-                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                        borderWidth: 1,
-                        pointRadius: 0,
-                        fill: false,
-                        tension: 0.1
+                        label: '2025',
+                        data: star2025,
+                        backgroundColor: '#a0a0a0'
                     },
                     {
-                        // the council itself, drawn on top
-                        label: section.title,
-                        data: section.data,
-                        borderColor: section.color,
-                        backgroundColor: section.color,
-                        fill: false,
-                        tension: 0.1
+                        label: '2027',
+                        data: star2027,
+                        backgroundColor: '#1e7bb0'
                     }
                 ]
             },
             options: {
-                layout: { padding: { top: 96, right: 16, bottom: 16, left: 16 } },
-                aspectRatio: 1.2,
+                indexAxis: 'y',
+                layout: { padding: { top: 84, right: 24, bottom: 16, left: 16 } },
+                aspectRatio: 1.7,
+                interaction: { mode: 'index', intersect: false },
                 scales: {
-                    y: {
+                    x: {
                         min: 0,
                         max: 100,
-                        ticks: { stepSize: 10, autoSkip: false }
+                        ticks: { stepSize: 20 }
+                    },
+                    y: {
+                        grid: { display: false }
                     }
                 },
                 plugins: {
                     headerText: {
-                        preheading: 'Council Climate Action Scorecards',
-                        title: section.title,
-                        subtitle: councilName
+                        preheading: 'Council Climate Action Scorecards 2027',
+                        title: councilName,
                     },
-                    legend: {
-                        labels: {
-                            filter: function(item) {
-                                return item.datasetIndex === 0 || item.datasetIndex === 2;
-                            }
-                        }
-                    },
-                    tooltip: {
-                        filter: function(item) {
-                            return item.datasetIndex === 2;
-                        }
-                    }
+                    legend: { position: 'bottom' }
                 }
             }
         });
-    });
+    }
 
     document.getElementById('download-all-graphs').addEventListener('click', function() {
-        var zip = new JSZip();
-
-        sections.forEach(function(section) {
-            var canvas = document.getElementById(section.canvas);
-            if (!canvas) { return; }
-            // strip the "data:image/png;base64," prefix, keep the raw base64
-            var base64 = canvas.toDataURL('image/png').split(',')[1];
-            zip.file(section.canvas + '.png', base64, { base64: true });
-        });
-
-        zip.generateAsync({ type: 'blob' }).then(function(blob) {
-            var link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = '{{ council.slug }}-2027-graphs.zip';
-            link.click();
-            URL.revokeObjectURL(link.href);
-        });
+        var link = document.createElement('a');
+        link.href = radarCanvas.toDataURL('image/png');
+        link.download = '{{ council.slug }}-2027-scores-per-section.png';
+        link.click();
     });
 </script>
+
+<style>canvas {box-shadow: 0 0rem 3rem rgba(28, 38, 36, 0.175)}
+</style>
 
 {% endblock %}
