@@ -6,4 +6,4 @@ set -e
 # check that we are in the expected directory
 cd `dirname $0`/..
 
-python3 manage.py shell "$@"
+script/manage shell "$@"

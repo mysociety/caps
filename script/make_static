@@ -6,6 +6,4 @@ set -e
 # check that we are in the expected directory
 cd "$(dirname $BASH_SOURCE)"/..
 
-[ -f .venv/bin/activate ] && source .venv/bin/activate
-
-poetry run ./manage.py collectstatic --noinput
+script/manage collectstatic --noinput
