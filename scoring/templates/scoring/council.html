@@ -153,9 +153,28 @@
         <div class="col-lg-5">
             <h3>Action Scorecard: {{ council.short_name }}</h3>
             <p>Councils have been scored across seven sections, each covering the important actions that councils can be taking towards net zero. The marks within these sections add up to make up the council’s overall score. Here you can see where a council performs well and not so well in each section — and compare it to other councils at this granular level.</p>
-        </div>
-        <div class="col-sm-6 offset-lg-1">
-            <canvas id="chart-radar"></canvas>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#radar-modal">
+                <span class="badge bg-white text-primary me-1">New</span>
+                View graph scores per section
+            </button>
+
+            <div class="modal fade" id="radar-modal" tabindex="-1" aria-labelledby="radar-modal-title" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title fs-5" id="radar-modal-title">Scores per section</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <canvas id="chart-radar"></canvas>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="download-radar">Download image</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -609,7 +628,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
 <script>
     var councilName = '{{ council.name|escapejs }}';
 
@@ -646,19 +664,26 @@
             ctx.font = 'bold 18px sans-serif';
             ctx.fillText(opts.title, left, 34);
 
+            // subtitle (optional)
+            if (opts.subtitle) {
+                ctx.fillStyle = '#1C2624';
+                ctx.font = '16px sans-serif';
+                ctx.fillText(opts.subtitle, left, 58);
+            }
+
             ctx.restore();
         }
     };
 
     var sections = [
-        { canvas: 'chart-total',         title: 'Total Score',                  color: 'rgb(3, 69, 135)',    data: [38, 43, 40], high: [72, 76, 80], low: [12, 15, 25] },
-        { canvas: 'chart-building',      title: 'Buildings & Heating',          color: 'rgb(75, 192, 192)',  data: [27, 33, 41], high: [68, 72, 78], low: [6, 9, 11] },
-        { canvas: 'chart-waste',         title: 'Waste Reduction & Food',       color: 'rgb(255, 205, 86)',  data: [42, 46, 38], high: [74, 78, 80], low: [14, 16, 15] },
-        { canvas: 'chart-transport',     title: 'Transport',                    color: 'rgb(255, 99, 132)',  data: [29, 35, 44], high: [66, 70, 75], low: [8, 10, 13] },
-        { canvas: 'chart-planning',      title: 'Planning & Land Use',          color: 'rgb(54, 162, 235)',  data: [45, 52, 58], high: [78, 82, 86], low: [18, 22, 24] },
-        { canvas: 'chart-governance',    title: 'Governance & Finance',         color: 'rgb(255, 159, 64)',  data: [40, 48, 55], high: [76, 80, 84], low: [16, 20, 22] },
-        { canvas: 'chart-biodiversity',  title: 'Biodiversity',                 color: 'rgb(75, 192, 75)',   data: [25, 30, 28], high: [60, 64, 66], low: [5, 7, 8] },
-        { canvas: 'chart-collaboration', title: 'Collaboration & Engagement',   color: 'rgb(153, 102, 255)', data: [55, 60, 66], high: [82, 86, 88], low: [22, 26, 28] }
+        { canvas: 'chart-total',         title: 'Total Score',                data: [38, 43, 40] },
+        { canvas: 'chart-building',      title: 'Buildings & Heating',        data: [27, 33, 41] },
+        { canvas: 'chart-waste',         title: 'Waste Reduction & Food',     data: [42, 46, 38] },
+        { canvas: 'chart-transport',     title: 'Transport',                  data: [29, 35, 44] },
+        { canvas: 'chart-planning',      title: 'Planning & Land Use',        data: [45, 52, 58] },
+        { canvas: 'chart-governance',    title: 'Governance & Finance',       data: [40, 48, 55] },
+        { canvas: 'chart-biodiversity',  title: 'Biodiversity',               data: [25, 30, 28] },
+        { canvas: 'chart-collaboration', title: 'Collaboration & Engagement', data: [55, 60, 66] }
     ];
 
     // Section scores per year, skipping the composite Total Score
@@ -675,10 +700,9 @@
         star2027.push(section.data[2]);
     });
 
-    var radarCanvas = document.getElementById('chart-radar');
-    if (radarCanvas) {
-        new Chart(radarCanvas, {
-            type: 'bar',
+    function createRadarChart(canvas) {
+        return new Chart(canvas, {
+            type: 'radar',
             plugins: [whiteBackground, headerText],
             data: {
                 labels: starLabels,
@@ -686,39 +710,59 @@
                     {
                         label: '2023',
                         data: star2023,
-                        backgroundColor: '#6958d6'
+                        borderColor: 'rgba(46, 26, 196, 0.35)',
+                        backgroundColor: 'rgba(3, 69, 135, 0)',
+                        borderWidth: 1,
+                        borderDash: [4, 3],
+                        pointRadius: 2,
+                        pointBackgroundColor: 'rgba(3, 69, 135, 0.35)'
                     },
                     {
                         label: '2025',
                         data: star2025,
-                        backgroundColor: '#db7b44'
+                        borderColor: 'rgba(3, 117, 135, 0.65)',
+                        backgroundColor: 'rgba(3, 69, 135, 0)',
+                        borderWidth: 1,
+                        borderDash: [4, 3],
+                        pointRadius: 2,
+                        pointBackgroundColor: 'rgba(3, 69, 135, 0.65)'
                     },
                     {
                         label: '2027',
                         data: star2027,
-                        backgroundColor: '#1e7bb0'
+                        borderColor: 'rgb(3, 69, 135)',
+                        backgroundColor: 'rgba(3, 69, 135, 0.2)',
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointBackgroundColor: 'rgb(3, 69, 135)',
+                        fill: true
                     }
                 ]
             },
             options: {
-                indexAxis: 'y',
-                layout: { padding: { top: 84, right: 24, bottom: 16, left: 16 } },
-                aspectRatio: 1.7,
-                interaction: { mode: 'index', intersect: false },
+                layout: { padding: { top: 64, right: 24, bottom: 16, left: 24 } },
+                aspectRatio: 16 / 9,
                 scales: {
-                    x: {
+                    r: {
                         min: 0,
                         max: 100,
-                        ticks: { stepSize: 20 }
-                    },
-                    y: {
-                        grid: { display: false }
+                        ticks: { stepSize: 20, backdropColor: 'transparent' },
+                        pointLabels: {
+                            font: { size: 12 },
+                            callback: function(label) {
+                                if (label.length > 20 && label.indexOf(' & ') !== -1) {
+                                    var parts = label.split(' & ');
+                                    return [parts[0] + ' &', parts[1]];
+                                }
+                                return label;
+                            }
+                        }
                     }
                 },
                 plugins: {
                     headerText: {
-                        preheading: 'Council Climate Action Scorecards 2027',
-                        title: councilName,
+                        preheading: 'Council Climate Action Scorecards',
+                        title: '2027 Scores per section: ' + councilName
                     },
                     legend: { position: 'bottom' }
                 }
@@ -726,15 +770,30 @@
         });
     }
 
-    document.getElementById('download-all-graphs').addEventListener('click', function() {
-        var link = document.createElement('a');
-        link.href = radarCanvas.toDataURL('image/png');
-        link.download = '{{ council.slug }}-2027-scores-per-section.png';
-        link.click();
-    });
-</script>
+    var radarModal = document.getElementById('radar-modal');
+    var radarCanvas = document.getElementById('chart-radar');
+    var radarChart = null;
 
-<style>canvas {box-shadow: 0 0rem 3rem rgba(28, 38, 36, 0.175)}
-</style>
+    if (radarModal && radarCanvas) {
+        // Build the chart the first time the modal is fully open,
+        // so Chart.js measures the real modal width rather than a hidden 0px box
+        radarModal.addEventListener('shown.bs.modal', function() {
+            if (!radarChart) {
+                radarChart = createRadarChart(radarCanvas);
+            }
+        });
+    }
+
+    var downloadButton = document.getElementById('download-radar');
+    if (downloadButton) {
+        downloadButton.addEventListener('click', function() {
+            if (!radarChart) { return; }
+            var link = document.createElement('a');
+            link.href = radarCanvas.toDataURL('image/png');
+            link.download = '{{ council.slug }}-2027-scores-per-section.png';
+            link.click();
+        });
+    }
+</script>
 
 {% endblock %}
