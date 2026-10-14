@@ -3,12 +3,11 @@
 # Run this inside the Docker container, eg:
 # docker-compose exec app script/install-dev-requirements
 
-cd "$(dirname $0)/.."
+# abort on any errors
+set -e
 
-[ -f .venv/bin/activate ] && . .venv/bin/activate
-
-pip3 install --requirement requirements.dev.txt
-find . -name '*.pyc' -delete
+# check that we are in the expected directory
+cd `dirname $0`/..
 
 # https://shot-scraper.datasette.io
 shot-scraper install

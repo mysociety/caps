@@ -1,6 +1,4 @@
 #!/bin/sh
 
-[ -f "$(dirname $0)"/../.venv/bin/activate ] && . "$(dirname $0)"/../.venv/bin/activate
-
 managepy="$(dirname "$0")/../manage.py"
-poetry run "$managepy" "$@"
+python3 "$managepy" "$@"
