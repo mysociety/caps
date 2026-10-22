@@ -34,6 +34,20 @@ class Command(BaseCommand):
                 "month": 1,
                 "day": 1,
             },
+            "is_current": False,
+        },
+        2027: {
+            "previous_year": 2025,
+            "new": {
+                "year": 2026,
+                "month": 4,
+                "day": 1,
+            },
+            "old": {
+                "year": 2024,
+                "month": 4,
+                "day": 1,
+            },
             "is_current": True,
         },
     }
