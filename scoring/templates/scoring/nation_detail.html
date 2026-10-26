@@ -16,9 +16,9 @@
                 {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
                 <span>{{ nation.name }}</span>
             </div>
+            <p class="fs-3 mb-1">{{ plan_year }} Action Scorecards</p>
             <h1 class="display-1 mb-2">
-                <p class="fs-3 gradient-text version-year d-block lh-1 fw-bold mb-0">Action Scorecards {{ plan_year }}</p>
-                {{ nation.name }}
+            {{ nation.name }}
             </h1>
             <div class="w-lg-50">{{ nation.description_long | linebreaks }}</div>
         </div>
