@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="hero-section with-version-background py-5 py-lg-6">
-    {% include 'scoring/includes/scorecards_year.html' %}
     <div class="container">
         <nav class="d-flex align-items-center flex-wrap mb-n2">
             <a href="{% include 'scoring/includes/scoring_url.html' with slug=council.get_scoring_group.slug %}" class="btn btn-sm btn-outline-primary d-flex align-items-center mb-2 me-3">

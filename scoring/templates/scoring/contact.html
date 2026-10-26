@@ -4,12 +4,16 @@
 {% block content %}
 <div class="contact-page">
     <div class="pt-5 pb-6 pt-lg-8 pb-lg-8 hero-section with-version-background">
-        <div class="d-flex flex-column align-items-end align-items-lg-start hero-version-badge position-absolute">
-            <span class="version-year d-block fw-bold lh-1">{{ plan_year }}</span>
-            <span class="version-name d-block fw-bold lh-1">Action Scorecards</span>
-        </div>
         <div class="container">
-            <h1 class="mb-3">Contact us</h1>
+            <div class="mb-3">
+                <a href="{% url 'scoring:home' %}">
+                    Home
+                </a>
+                {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+                <span>Contact us</span>
+            </div>
+            <p class="fs-4 mb-1">{{ plan_year }} Action Scorecards</p>
+            <h1 class="display-3">Contact us</h1>
         </div>
     </div>
 

@@ -4,15 +4,15 @@
 {% block content %}
     <div class="methodology-2023-content js-dynamic-content ">
         <div class="pt-5 pb-6 pt-lg-8 pb-lg-8 hero-section with-version-background year-{{ methodology_year }}">
-            <div class="d-flex flex-column align-items-end align-items-lg-start hero-version-badge position-absolute">
-                <span class="version-year d-block fw-bold lh-1">{{ methodology_year }}</span>
-                <span class="version-name d-block fw-bold lh-1">Action Scorecards</span>
-            </div>
             <div class="container">
-                <a href="{% url 'scoring:home' %}" class="btn btn-sm btn-outline-primary mb-2">
-                    {% include 'caps/icons/chevron-left.html' with classes='me-1 mb-1' %}
-                    Back to home page
-                </a>
+                <div class="mb-3">
+                    <a href="{% url 'scoring:home' %}">
+                        Home
+                    </a>
+                    {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+                    <span>Methodology</span>
+                </div>
+                <p class="fs-4">Action Scorecards {{ plan_year }}</p>
                 <h1 class="mb-3" style="max-width: 20em">
                   {% if methodology_year == 2025 %}
                     Council Climate Action Scorecards Updated Methodology (2025)
