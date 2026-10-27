@@ -224,10 +224,7 @@
                     <hr class="d-none d-md-block">
 
                     {% if plan_score.previous_year %}
-                    <div class="form-check-flex d-none d-md-flex">
-                        <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-score" aria-checked="false" role="switch">
-                        <label class="form-check-label" for="js-toggle-previous-year-score">Display {{ previous_year }} scores<span class="badge bg-primary-100 text-primary ms-1">NEW</span></label>
-                    </div>
+                    {% include 'scoring/includes/comparison-year-select.html' with comparison_year=previous_year %}
                     {% endif %}
                     <div class="d-none d-md-flex flex-row gap-3 mt-3">
                         <h4 class="visually-hidden">Legends for difference column</h4>
