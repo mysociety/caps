@@ -10,6 +10,9 @@
   {% if section %}
     data-section="{{ section }}"
   {% endif %}
+  {% if year %}
+    data-comparison-year="{{ year }}"
+  {% endif %}
 >
   {% if change < 0 %}
     <span class="fs-8">&#9660;</span> {{ change|floatformat:"0" }}

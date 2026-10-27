@@ -432,34 +432,33 @@ forEachElement('[data-methodology-switch-council-type]', function(trigger){
     });
 });
 
-// Previous year comparison toggle on council page
-forEachElement('#js-toggle-previous-year-score', function(el) {
-    el.addEventListener('change', function() {
-        document.querySelector('table.js-table-year-comparison').classList.toggle('js-previous-year-score-display', el.checked);
-        el.setAttribute('aria-checked', el.checked);
-    });
-});
-
-// Previous year comparison toggle on home page
-var yearDifferenceToggle = document.getElementById('js-toggle-previous-year-difference');
-if (yearDifferenceToggle) {
-    yearDifferenceToggle.addEventListener('change', function() {
-        yearDifferenceToggle.setAttribute('aria-checked', yearDifferenceToggle.checked);
-        showOrHideYearDifference();
-    });
+// Previous year comparison dropdown on home page
+var comparisonYearSelect = document.getElementById('js-comparison-year-select');
+if (comparisonYearSelect) {
+    comparisonYearSelect.addEventListener('change', showOrHideYearDifference);
+    showOrHideYearDifference();
 }
+
 function showOrHideYearDifference() {
-    var yearDifferenceToggle = document.getElementById('js-toggle-previous-year-difference');
-    if (yearDifferenceToggle) {
-        forEachElement('.scorecard-table__sections-header .scorecard-table__score-column', function(header) {
-            header.setAttribute('colspan', yearDifferenceToggle.checked ? '2' : '1');
+    var comparisonYearSelect = document.getElementById('js-comparison-year-select');
+    if (comparisonYearSelect) {
+        var showDifference = comparisonYearSelect.value !== 'hide-year-difference';
+
+        forEachElement('[data-comparison-year]', function(cell) {
+            cell.classList.toggle('is-comparison-hidden', cell.getAttribute('data-comparison-year') !== comparisonYearSelect.value);
         });
 
-        document.querySelector('.scorecard-table__sections-header th')
-            .setAttribute('rowspan', yearDifferenceToggle.checked ? '2' : '1' );
+        forEachElement('.js-previous-year-difference-header', function(header) {
+            header.setAttribute('colspan', showDifference ? '2' : '1');
+        });
+
+        var sectionsHeaderLabel = document.querySelector('.scorecard-table__sections-header th');
+        if (sectionsHeaderLabel) {
+            sectionsHeaderLabel.setAttribute('rowspan', showDifference ? '2' : '1');
+        }
 
         forEachElement('.scorecard-table-wrapper', function(element){
-            element.classList[ yearDifferenceToggle.checked ? 'add' : 'remove' ]('with-year-difference');
+            element.classList[ showDifference ? 'add' : 'remove' ]('with-year-difference');
         });
     }
 }
