@@ -4,11 +4,19 @@
         <input id="location-jump" class="form-control searchbar js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
     </div>
     {% if previous_year %}
-    <div class="d-none d-lg-flex flex-row gap-3 align-items-center">
-        <div class="form-check-flex d-none d-md-flex">
-            <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-difference" aria-checked="true" role="switch" checked>
-            <label class="form-check-label fs-7" for="js-toggle-previous-year-difference">Display percentage point change</label>
+    <div class="d-flex flex-row gap-3 align-items-center mt-3 mt-lg-0">
+        <div class="d-flex flex-row gap-2 align-items-center">
+            <span Class="badge bg-primary text-white">New</span>
+            <select id="js-comparison-year-select" class="form-select form-select-sm w-auto" aria-label="Comparison year">
+                <!-- TODO This should probably be a loop that displays all the previous years -->
+                <option value="{{ previous_year.year }}" selected>Action Scorecards {{ previous_year.year }}</option>
+            {% if plan_year == 2027 %}
+                <option value="2023">Action Scorecards 2023</option>
+            {% endif %}
+                <option value="hide-year-difference">Hide change</option>
+            </select>
         </div>
+
         <div class="d-none d-md-flex flex-row gap-3">
             <h4 class="visually-hidden">Legends for difference column</h4>
             <div class="fs-8">

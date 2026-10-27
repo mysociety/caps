@@ -207,6 +207,11 @@ $sections: (
             }
         }
     }
+
+    // Only show the year comparison column for the year selected in the dropdown.
+    .scorecard-table__year-difference-column.is-comparison-hidden {
+        display: none !important;
+    }
 }
 
 .scorecard-table__mobile-category-select {
