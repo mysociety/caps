@@ -7,6 +7,15 @@
 <div class="pt-5 pb-6 pt-lg-8 pb-lg-8 hero-section with-version-background">
     {% include 'scoring/includes/scorecards_year.html' %}
     <div class="container">
+        <div class="mb-4">
+            <a href="{% url 'scoring:home' %}">
+                Home
+            </a>
+            {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+            <a href="{% url 'scoring:sections' %}">Sections</a>
+            {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+            <span>{{ section.description }}</span>
+        </div>
         <h2 class="fs-4">Action Scorecards {{ plan_year }}</h2>
         <h1 class="mb-2">{{ section.description }}</h1>
         <div class="row mt-3">
