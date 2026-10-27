@@ -460,8 +460,10 @@ function showOrHideYearDifference() {
             header.setAttribute('colspan', showDifference ? '2' : '1');
         });
 
-        document.querySelector('.scorecard-table__sections-header th')
-            .setAttribute('rowspan', showDifference ? '2' : '1' );
+        var sectionsHeaderLabel = document.querySelector('.scorecard-table__sections-header th');
+        if (sectionsHeaderLabel) {
+            sectionsHeaderLabel.setAttribute('rowspan', showDifference ? '2' : '1');
+        }
 
         forEachElement('.scorecard-table-wrapper', function(element){
             element.classList[ showDifference ? 'add' : 'remove' ]('with-year-difference');
