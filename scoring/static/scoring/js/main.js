@@ -684,3 +684,151 @@ function setUpImprovedWorsenedCouncilCheckboxes() {
 }
 
 setUpImprovedWorsenedCouncilCheckboxes();
+
+// GRAPHS
+
+// Helper so the graphs inside a modal don't break
+function wrapChartLabel(label) {
+    var maxLength = 28;
+    if (label.length <= maxLength) { return label; }
+    var lines = [];
+    var line = '';
+    label.split(' ').forEach(function(word) {
+        if (line && (line + ' ' + word).length > maxLength) {
+            lines.push(line);
+            line = word;
+        } else {
+            line = line ? line + ' ' + word : word;
+        }
+    });
+    lines.push(line);
+    return lines;
+}
+
+/*
+Turn any <table class="js-chart"> into a Chart.js bar chart.
+When no JS is a table instead.
+//
+Table attributes:
+  data-chart-direction="y"  horizontal bars (default), "x" for vertical
+  data-chart-preheading     small line above the title
+  data-row-height           height per bar in px (default 60)
+Title comes from the <caption>, labels from each row's <th>,
+values from the first <td>, colour from each row's data-color.
+*/
+
+function makeChart(table) {
+    var labels = [];
+    var datasets = [];
+    var rowColors = [];
+
+    // One dataset per <thead>
+    var headers = table.querySelectorAll('thead th');
+    for (var i = 1; i < headers.length; i++) {
+        datasets.push({
+            label: headers[i].textContent.trim(),
+            data: [],
+            backgroundColor: headers[i].getAttribute('data-color') || '#1e7bb0'
+        });
+    }
+
+    forEachElement(table, 'tbody tr', function(row) {
+        labels.push(wrapChartLabel(row.querySelector('th').textContent.trim()));
+        forEachElement(row, 'td', function(cell, index) {
+            var value = parseFloat(cell.textContent);
+            datasets[index].data.push(isNaN(value) ? null : value);
+        });
+        rowColors.push(row.getAttribute('data-color'));
+    });
+
+    if (datasets.length === 1) {
+        datasets[0].backgroundColor = rowColors.map(function(color) {
+            return color || datasets[0].backgroundColor;
+        });
+    }
+
+    var caption = table.querySelector('caption');
+    var title = caption ? caption.textContent.trim() : '';
+    var preheading = table.getAttribute('data-chart-preheading') || '';
+    var direction = table.getAttribute('data-chart-direction') || 'y';
+    var valueAxis = (direction === 'y') ? 'x' : 'y';
+    var rowHeight = parseInt(table.getAttribute('data-row-height') || 60, 10);
+
+    var wrapper = document.createElement('div');
+    wrapper.className = 'chart-wrapper';
+    wrapper.style.position = 'relative';
+    wrapper.style.height = (rowHeight * labels.length + 120) + 'px';
+
+    var canvas = document.createElement('canvas');
+    canvas.setAttribute('role', 'img');
+    canvas.setAttribute('aria-label', title + ' bar chart');
+    wrapper.appendChild(canvas);
+
+    table.parentNode.insertBefore(wrapper, table);
+    table.classList.add('visually-hidden');
+
+    var scales = {};
+    scales[valueAxis] = {
+        min: 0,
+        max: 100,
+        ticks: {
+            callback: function(value) { return value + '%'; }
+        }
+    };
+    scales[direction] = {
+        grid: { display: false }
+    };
+
+    new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            indexAxis: direction,
+            maintainAspectRatio: false,
+            animation: false,
+            scales: scales,
+            plugins: {
+                legend: { display: datasets.length > 1, position: 'bottom' },
+                title: {
+                    display: preheading !== '',
+                    text: preheading,
+                    align: 'start',
+                    font: { size: 14, weight: 'normal' },
+                    padding: { bottom: 2 }
+                },
+                subtitle: {
+                    display: title !== '',
+                    text: title,
+                    align: 'start',
+                    font: { size: 18, weight: 'bold' },
+                    padding: { bottom: 16 }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) { return context.dataset.label + ': ' + Math.round(context.raw) + '%'; }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function setUpCharts() {
+    if (typeof Chart === 'undefined') { return; }
+    forEachElement('.js-chart', function(table) {
+        // Charts in a modal are built when it opens, as hidden elements have no size
+        var modal = table.closest('.modal');
+        if (modal) {
+            modal.addEventListener('shown.bs.modal', function() {
+                makeChart(table);
+            }, { once: true });
+        } else {
+            makeChart(table);
+        }
+    });
+}
+
+setUpCharts();

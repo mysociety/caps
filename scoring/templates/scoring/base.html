@@ -200,6 +200,10 @@
         </div>
     </footer>
 
+    {% if current_plan_year %}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    {% endif %}
+
     <script src="{% static 'awesomplete/awesomplete.min.js' %}"></script>
     {% include 'scoring/includes/location-search-autocomplete.html' %}
     <script src="{% static 'scoring/js/main.js' %}"></script>
