@@ -333,15 +333,18 @@
         </div>
       {% endif %}
 
-        {% if comparison_councils and previous_year %}
-        {% comment %} On mobile previous year score will be display by default {% endcomment %}
+        {% if previous_year or plan_year == 2027 or plan_year == 2025 %}
         <div class="col-lg-6 display-only-large-up">
             <div class="card">
                 <div class="card-body">
-                    <div class="form-check-flex d-none d-md-flex">
-                        <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-score" aria-checked="false" role="switch">
-                        <label class="form-check-label" for="js-toggle-previous-year-score">Display {{ previous_year.year }} scores<span class="badge bg-primary-100 text-primary ms-1">NEW</span></label>
-                    </div>
+                    {% comment %} TODO (developer): previous_year is only set when comparison councils are selected, so the mockup falls back to a hardcoded year {% endcomment %}
+                    {% if previous_year %}
+                    {% include 'scoring/includes/comparison-year-select.html' with comparison_year=previous_year.year %}
+                    {% elif plan_year == 2027 %}
+                    {% include 'scoring/includes/comparison-year-select.html' with comparison_year=2025 %}
+                    {% else %}
+                    {% include 'scoring/includes/comparison-year-select.html' with comparison_year=2023 %}
+                    {% endif %}
                     <div class="d-none d-md-flex flex-row gap-3 mt-3">
                         <h4 class="visually-hidden">Legends for difference column</h4>
                         <div>
@@ -363,7 +366,7 @@
                 <th scope="col" class="text-start question-header-cell border-end border-opacity-25 border-primary">Questions</th>
 
               {% for comparison in comparison_councils %}
-                <th scope="col" colspan="2" class="js-current-year-score">
+                <th scope="col" colspan="2" class="js-current-year-score js-previous-year-difference-header">
                     <p class="mb-1">{{ comparison.council.name }}</p>
                     {% if current_plan_year %}
                     <a class="fs-7 link-light fw-normal" href="{% url 'scoring:council' comparison.council.slug %}">Go to council Scorecard</a>
@@ -392,11 +395,15 @@
                 {% for comparison in comparison_councils %}
                     <th scope="col" class="py-2 border-start border-light">{{ plan_year }}</th>
                     <th scope="col" class="py-2 js-previous-year-score">{{ previous_year.year }}</th>
-                    <th scope="col" class="js-current-year-score py-2 border-end border-light text-center">Versus {{ previous_year.year }}</th>
+                    <th scope="col" class="js-current-year-score py-2 border-end border-light text-center" data-comparison-year="{{ previous_year.year }}">Versus {{ previous_year.year }}</th>
+                    {% comment %} TODO: Replace this with a loop that displays previous years' scores when available {% endcomment %}
+                    {% if plan_year == 2027 %}
+                    <th scope="col" class="js-current-year-score py-2 border-end border-light text-center" data-comparison-year="2023">Versus 2023</th>
+                    {% endif %}
                     <th scope="col" class="js-previous-year-score py-2 border-end border-light text-center">Difference</th>
                 {% endfor %}
 
-                <th class="py-2 border-end">{{ plan_year }} results</th>
+                <th class="py-2 border-start border-light border-end">{{ plan_year }} results</th>
             </tr>
             {% endif %}
 
@@ -426,44 +433,45 @@
                         <span class="badge bg-secondary d-md-none">{{ comparison.council_name }}</span>
                     </td>
 
-                    <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up">
+                    <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up" data-comparison-year="{{ previous_year.year }}">
                         {% include "scoring/includes/integer_score_change.html" with change=comparison.change %}
                     </td>
+                    {% comment %} TODO should be replaced by a loop that display the previous years scores when available {% endcomment %}
+                    {% if plan_year == 2027 %}
+                    <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up" data-comparison-year="2023">
+                        {% include "scoring/includes/integer_score_change.html" with change=1 %}
+                    </td>
+                    {% endif %}
                 {% else %}
                     <td class="border-end border-bottom border-opacity-25 text-center display-only-large-up"></td>
                 {% endif %}
               {% endfor %}
 
-                <td data-column="score" class="score ps-5 ps-lg-2">
-                  <div class="d-flex flex-row gap-2 align-items-center">
-                      {% if question.removed %}
-                          <span class="fs-8 mt-1 me-0 text-start">
-                              {{ question.removed.reason }}
-                          </span>
-                        {% else %}
-                      {% if question.scored_max %}
-                      <div class="progress-ring" style="--ring-size: 40px;--ring-percentage: {% widthratio question.scored_max council_count 100 %};">
-                          <div class="percentage fs-8">
-                              {% widthratio question.scored_max council_count 100 %}%
-                          </div>
-                      </div>
-                      {% else %}
-                      <div class="progress-ring progress-ring-zero" style="--ring-size: 40px;--ring-percentage: 0};">
-                          <div class="percentage fs-8">
-                              0%
-                          </div>
-                      </div>
-                      {% endif %}
+                <td data-column="score" class="score border-start ps-5 ps-lg-2">
+                  {% if question.removed %}
                       <span class="fs-8 mt-1 me-0 text-start">
-                          {% include 'scoring/includes/scoring-group-name.html' with group=council_type plural=True %}
-                          {% if question.details.question_type == "negative" %}
-                          got <strong>no penalty marks</strong> for this question.
-                          {% else %}
-                          got full marks for this question.
-                          {% endif %}
+                          {{ question.removed.reason }}
                       </span>
-                      {% endif %}
-                  </div>
+                  {% else %}
+                      <div class="d-flex flex-column gap-1">
+                          <span class="mt-1 me-0 text-start">
+                              <strong>{% if question.scored_max %}{% widthratio question.scored_max council_count 100 %}{% else %}0{% endif %}%</strong>
+                              of {% include 'scoring/includes/scoring-group-name.html' with group=council_type plural=True %}
+                              {% if question.details.question_type == "negative" %}
+                              got <strong>no penalty marks</strong> for this question.
+                              {% else %}
+                              got full marks for this question.
+                              {% endif %}
+                          </span>
+                          {% comment %} TODO (developer): replace these placeholders with the real change in % of councils with full marks versus each previous year {% endcomment %}
+                          {% if plan_year == 2027 %}
+                          <span class="fs-8 text-success" data-comparison-year="2025">&#9650; 10 versus 2025</span>
+                          <span class="fs-8 text-warning" data-comparison-year="2023">&#9660; 4 versus 2023</span>
+                          {% elif plan_year == 2025 %}
+                          <span class="fs-8 text-success" data-comparison-year="2023">&#9650; 6 versus 2023</span>
+                          {% endif %}
+                      </div>
+                  {% endif %}
                 </td>
             </tr>
           {% endfor %}
