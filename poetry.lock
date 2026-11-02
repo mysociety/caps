@@ -1760,6 +1760,18 @@ tests = ["coverage (>=7.4.2)", "defusedxml", "markdown2", "olefile", "packaging"
 xmp = ["defusedxml"]
 
 [[package]]
+name = "pip"
+version = "26.2.2"
+description = "The PyPA recommended tool for installing Python packages."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "pip-26.2.2-py3-none-any.whl", hash = "sha256:fd7f4dfa8190e014013b9f08f3e973f4e4c26ffd179a204895533a7254813a70"},
+    {file = "pip-26.2.2.tar.gz", hash = "sha256:3a8e5c800492787f33a4114ef54444546c340df428974ebba17e0fd47e11af2f"},
+]
+
+[[package]]
 name = "platformdirs"
 version = "4.14.3"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a `user data dir`."
@@ -2940,4 +2952,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<4"
-content-hash = "959b1ccd372b449e03998536338839eaff091ac655588dce43412aefe75d6428"
+content-hash = "f47d250f5d2e4bd73d510bd48e649966247d5ae9cfb8d899551c92d5330d39ff"

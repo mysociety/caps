@@ -68,6 +68,7 @@ mailchimp-marketing = {git = "https://github.com/mailchimp/mailchimp-marketing-p
 django-libsass = "^0.9"
 django-environ = "0.13"
 pygments = "2.20.0"
+pip = "26.2.2"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "4.0.9"
