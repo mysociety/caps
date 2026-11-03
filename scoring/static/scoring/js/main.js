@@ -488,7 +488,8 @@ function ajaxLoadPageFragments(url) {
       '#main-filter',
       '.scorecard-table',
       '.js-category-select-form',
-      '.question-performance'
+      '.question-performance',
+      '.js-nation-charts'
     ];
 
     document.documentElement.classList.add('loading-shimmer');
@@ -514,6 +515,7 @@ function ajaxLoadPageFragments(url) {
         setUpMobileCategorySelect();
         setUpAutocompletes();
         setUpImprovedWorsenedCouncilCheckboxes();
+        setUpCharts();
 
         const advancedFilter = document.querySelector('#advancedFilter');
         if (advancedFilter) {
@@ -553,6 +555,17 @@ if (typeof window.fetch !== 'undefined') {
         history.pushState({}, '', href);
         ajaxLoadPageFragments(href);
       }
+    });
+
+    // Council type buttons under the nation charts
+    document.addEventListener('click', e => {
+      var link = e.target.closest('.js-council-group-link');
+      if (!link) { return; }
+      var radio = document.querySelector('#main-filter input[name="council_group"][value="' + link.getAttribute('data-council-group') + '"]');
+      if (!radio) { return; }
+      e.preventDefault();
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change', { bubbles: true }));
     });
 
     // Handle form submission (Apply filters button)
@@ -721,6 +734,9 @@ function makeChart(table) {
     var labels = [];
     var datasets = [];
     var rowColors = [];
+
+    if (table.getAttribute('data-chart-ready')) { return; }
+    table.setAttribute('data-chart-ready', 'true');
 
     // One dataset per <thead>
     var headers = table.querySelectorAll('thead th');
