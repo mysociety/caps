@@ -4,11 +4,9 @@
         <input id="location-jump" class="form-control searchbar js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
     </div>
     {% if previous_year %}
-    <div class="d-none d-lg-flex flex-row gap-3 align-items-center">
-        <div class="form-check-flex d-none d-md-flex">
-            <input class="form-check-input" type="checkbox" id="js-toggle-previous-year-difference" aria-checked="true" role="switch" checked>
-            <label class="form-check-label fs-7" for="js-toggle-previous-year-difference">Display percentage point change</label>
-        </div>
+    <div class="d-flex flex-row gap-3 align-items-center mt-3 mt-lg-0">
+        {% include 'scoring/includes/comparison-year-select.html' with comparison_year=previous_year.year %}
+
         <div class="d-none d-md-flex flex-row gap-3">
             <h4 class="visually-hidden">Legends for difference column</h4>
             <div class="fs-8">

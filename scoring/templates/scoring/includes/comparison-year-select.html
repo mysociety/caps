@@ -1,0 +1,11 @@
+<div class="d-flex flex-row gap-2 align-items-center">
+    <span class="badge bg-primary text-white">New</span>
+    <select id="js-comparison-year-select" class="form-select form-select-sm w-auto" aria-label="Comparison year">
+        <!-- TODO This should probably be a loop that displays all the previous years -->
+        <option value="{{ comparison_year }}" selected>Action Scorecards {{ comparison_year }}</option>
+    {% if plan_year == 2027 %}
+        <option value="2023">Action Scorecards 2023</option>
+    {% endif %}
+        <option value="hide-year-difference">Hide change</option>
+    </select>
+</div>

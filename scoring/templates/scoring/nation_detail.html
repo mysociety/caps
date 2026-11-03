@@ -7,20 +7,113 @@
 
     <div class="py-5 py-md-6 hero-section with-version-background">
         <div class="container">
-            <div class="mb-4">
-                <a href="{% url 'scoring:home' %}">
-                    Home
-                </a>
-                {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
-                <a href="{% url 'scoring:nations_list' %}">Nations</a>
-                {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
-                <span>{{ nation.name }}</span>
+            <div class="row align-items-end">
+                <div class="col-lg-5">
+                    <div class="mb-4">
+                        <a href="{% url 'scoring:home' %}">
+                            Home
+                        </a>
+                        {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+                        <a href="{% url 'scoring:nations_list' %}">Nations</a>
+                        {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+                        <span>{{ nation.name }}</span>
+                    </div>
+                    <p class="fs-3 mb-1">{{ plan_year }} Action Scorecards</p>
+                    <h1 class="display-1 mb-2">
+                    {{ nation.name }}
+                    </h1>
+                    <div>{{ nation.description_long | linebreaks }}</div>
+                </div>
+
+                {% if current_plan_year %}
+                <div class="col-lg-6 offset-lg-1 js-nation-charts">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <table class="table js-chart mb-0" data-chart-direction="y" data-chart-preheading="Council Climate Action Scorecards" data-row-height="40">
+                                <caption class="caption-top">
+                                    Average total score: {{ nation.name }}{% if nation.slug == 'england' %} ({% if council_group == 'CTY' %}County{% elif council_group == 'NMD' %}District{% elif council_group == 'COMB,GLA,SRA' %}Combined Authority{% else %}Single Tier{% endif %}){% endif %}
+                                </caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Year</th>
+                                        <th scope="col">Average total score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  {% comment %} TODO: replace the 2023 and 2025 rows with the real averages {% endcomment %}
+                                    <tr data-color="#c4c4c4">
+                                        <th scope="row">2023</th>
+                                        <td>{{ averages.total.percentage|add:"-8" }}%</td>
+                                    </tr>
+                                    <tr data-color="#a0a0a0">
+                                        <th scope="row">{{ previous_year.year }}</th>
+                                        <td>{{ averages.total.percentage|add:"-3" }}%</td>
+                                    </tr>
+                                    <tr data-color="#3d7ab3">
+                                        <th scope="row">{{ plan_year }}</th>
+                                        <td>{{ averages.total.percentage }}%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        {% if nation.slug == 'england' %}
+                          <div class="d-flex flex-wrap gap-2 mt-3" role="group" aria-label="Show results for a council type">
+                              <a href="?council_group=CC,LBO,MD,UA" data-council-group="CC,LBO,MD,UA" class="btn btn-sm btn-outline-primary js-council-group-link{% if council_group == 'CC,LBO,MD,UA' %} active{% endif %}">Single Tier</a>
+                              <a href="?council_group=CTY" data-council-group="CTY" class="btn btn-sm btn-outline-primary js-council-group-link{% if council_group == 'CTY' %} active{% endif %}">County</a>
+                              <a href="?council_group=NMD" data-council-group="NMD" class="btn btn-sm btn-outline-primary js-council-group-link{% if council_group == 'NMD' %} active{% endif %}">District</a>
+                              <a href="?council_group=COMB,GLA,SRA" data-council-group="COMB,GLA,SRA" class="btn btn-sm btn-outline-primary js-council-group-link{% if council_group == 'COMB,GLA,SRA' %} active{% endif %}">Combined Authority</a>
+                          </div>
+                        {% endif %}
+
+                        <button type="button" class="btn btn-sm btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#section-scores-modal">
+                            View scores per section
+                        </button>
+
+                        <div class="modal fade" id="section-scores-modal" tabindex="-1" aria-labelledby="section-scores-modal-title" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title fs-5" id="section-scores-modal-title">Average scores per section</h2>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table js-chart mb-0" data-chart-direction="y" data-row-height="50" data-chart-preheading="Council Climate Action Scorecards {{ plan_year }}">
+                                            <caption class="caption-top">
+                                                {{ nation.name }}{% if nation.slug == 'england' %} ({% if council_group == 'CTY' %}County{% elif council_group == 'NMD' %}District{% elif council_group == 'COMB,GLA,SRA' %}Combined Authority{% else %}Single Tier{% endif %}){% endif %}
+                                            </caption>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Section</th>
+                                                    <th scope="col" data-color="#c4c4c4">2023</th>
+                                                    <th scope="col" data-color="#a0a0a0">{{ previous_year.year }}</th>
+                                                    <th scope="col" data-color="#1e7bb0">{{ plan_year }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for section in section_averages %}
+                                                <tr>
+                                                    <th scope="row">{{ section.title }}</th>
+                                                {% comment %} TODO: replace the 2023 and 2025 values with the real averages {% endcomment %}
+                                                    <td>{{ section.weighted|add:"-8" }}%</td>
+                                                    <td>{{ section.weighted|add:"-3" }}%</td>
+                                                    <td>{{ section.weighted }}%</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {% endif %}
+
             </div>
-            <h1 class="display-1 mb-2">
-                <p class="fs-3 gradient-text version-year d-block lh-1 fw-bold mb-0">Action Scorecards {{ plan_year }}</p>
-                {{ nation.name }}
-            </h1>
-            <div class="w-lg-50">{{ nation.description_long | linebreaks }}</div>
         </div>
     </div>
 
