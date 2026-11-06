@@ -111,6 +111,24 @@ def get_google_sheet_as_csv(
         outfile.write(r.content)
 
 
+def get_google_sheet_export_as_csv(key: str, outfile: PathLike, gid: str):
+    """
+    Fetch a google sheet tab as csv, keeping every cell as text.
+
+    Unlike get_google_sheet_as_csv this uses the export endpoint, which needs
+    the tab's gid rather than its name, but doesn't blank out cells that don't
+    match the type gviz has guessed for their column.
+    """
+    sheet_url = (
+        f"https://docs.google.com/spreadsheets/d/{key}/export?format=csv&gid={gid}"
+    )
+    r = requests.get(sheet_url)
+    r.raise_for_status()
+
+    with open(outfile, "wb") as outfile:
+        outfile.write(r.content)
+
+
 def replace_csv_headers(
     csv_file: PathLike,
     new_headers: list[str],
