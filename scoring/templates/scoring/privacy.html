@@ -4,11 +4,14 @@
 {% block content %}
 
 <div class="pt-5 pb-6 pt-lg-8 pb-lg-8 hero-section with-version-background">
-  <div class="d-flex flex-column align-items-end align-items-lg-start hero-version-badge position-absolute">
-      <span class="version-year d-block fw-bold lh-1"></span>
-      <span class="version-name d-block fw-bold lh-1">Action Scorecards</span>
-  </div>
-  <div class="container">
+<div class="container">
+      <div class="mb-3">
+          <a href="{% url 'scoring:home' %}">
+              Home
+          </a>
+          {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+          <span>Privacy policy</span>
+      </div>
       <h1 class="mb-3">Privacy policy</h1>
   </div>
 </div>
