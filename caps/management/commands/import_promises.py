@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from django.db import transaction
 
-from caps.models import Council, PlanDocument, Promise
+from caps.models import Council, Promise
 from caps.import_utils import add_authority_codes, add_gss_codes
 from caps.utils import char_from_text
 
@@ -39,10 +39,6 @@ def import_promises():
             continue
 
         if not pd.isnull(row["source_url"]):
-
-            if scope == "Council operations":
-                scope = "Council only"
-
             target_year = None
             non_numbers = re.compile(r"^(\d{4}).*$")
             # needs to be a string for the regexp to work
@@ -56,7 +52,7 @@ def import_promises():
 
             promise = Promise.objects.create(
                 council=council,
-                scope=PlanDocument.scope_code(scope),
+                domain=Promise.domain_code(scope),
                 source=char_from_text(row["source_url"]),
                 source_name=char_from_text(row["source_name"]),
                 target_year=target_year,
@@ -67,7 +63,7 @@ def import_promises():
 
         elif scope == "No promise":
             promise = Promise.objects.create(
-                council=council, scope=PlanDocument.scope_code(scope), has_promise=False
+                council=council, domain=Promise.domain_code(scope), has_promise=False
             )
 
 

@@ -55,6 +55,7 @@ from caps.models import (
     DataType,
     PlanDocument,
     ProjectFilter,
+    Promise,
     SavedSearch,
     Tag,
 )
@@ -431,7 +432,7 @@ class CouncilListView(FilterView):
                 has_promise_area=Count(
                     Case(
                         When(
-                            promise__scope=PlanDocument.WHOLE_AREA,
+                            promise__domain=Promise.WHOLE_AREA,
                             then="promise__target_year",
                         ),
                         default=Value(None),
@@ -441,7 +442,7 @@ class CouncilListView(FilterView):
                 has_promise_council=Count(
                     Case(
                         When(
-                            promise__scope=PlanDocument.COUNCIL_ONLY,
+                            promise__domain=Promise.COUNCIL_OPERATIONS,
                             then="promise__target_year",
                         ),
                         default=Value(None),
@@ -452,7 +453,7 @@ class CouncilListView(FilterView):
                 earliest_promise_area=Min(
                     Case(
                         When(
-                            promise__scope=PlanDocument.WHOLE_AREA,
+                            promise__domain=Promise.WHOLE_AREA,
                             then="promise__target_year",
                         ),
                         default=Value(None),
@@ -462,7 +463,7 @@ class CouncilListView(FilterView):
                 earliest_promise_council=Min(
                     Case(
                         When(
-                            promise__scope=PlanDocument.COUNCIL_ONLY,
+                            promise__domain=Promise.COUNCIL_OPERATIONS,
                             then="promise__target_year",
                         ),
                         default=Value(None),

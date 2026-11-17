@@ -149,7 +149,8 @@ class CommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     * council - link to the council making the promise
     * has_promise - if the promise includes a commitment to net zero
     * target_year - the year the commitment is targeting
-    * scope - if the commitment is limited to council operations or the whole council area
+    * domain - if the commitment is limited to council operations or the whole council area
+    * scope - which emissions scopes the commitment covers, if specified
     * text - the text of the commitment
     * source - URL of the document the commitment comes from
     * source_name - name of the document the commitment comes from
@@ -175,7 +176,8 @@ class CouncilCommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     * council - link to the council making the promise
     * has_promise - if the promise includes a commitment to net zero
     * target_year - the year the commitment is targeting
-    * scope - if the commitment is limited to council operations or the whole council area
+    * domain - if the commitment is limited to council operations or the whole council area
+    * scope - which emissions scopes the commitment covers, if specified
     * text - the text of the commitment
     * source - URL of the document the commitment comes from
     * source_name - name of the document the commitment comes from

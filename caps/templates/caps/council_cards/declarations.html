@@ -22,8 +22,8 @@
     {% if promises %}
         {% for promise in promises %}
             <h3 class="h6 mt-4">
-                {% if promise.get_scope %}
-                    {{ promise.get_scope|capfirst }} pledge
+                {% if promise.get_domain %}
+                    {{ promise.get_domain|capfirst }} pledge
                 {% else %}
                     Climate pledge
                 {% endif %}

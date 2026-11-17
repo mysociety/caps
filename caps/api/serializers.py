@@ -53,6 +53,7 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
 
 class PromiseSerializer(serializers.HyperlinkedModelSerializer):
     council = serializers.SerializerMethodField()
+    domain = serializers.CharField(source="get_domain_display")
     scope = serializers.CharField(source="get_scope_display")
 
     class Meta:
@@ -61,6 +62,7 @@ class PromiseSerializer(serializers.HyperlinkedModelSerializer):
             "council",
             "has_promise",
             "target_year",
+            "domain",
             "scope",
             "text",
             "source",
