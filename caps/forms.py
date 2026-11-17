@@ -38,8 +38,10 @@ class HighlightedSearchForm(SearchForm):
         (MATCH_EXACT, "Search for the provided phrase exactly"),
     )
 
-    DOCUMENT_TYPE_CHOICES = PlanDocument.DOCUMENT_TYPE_CHOICES
-    DOCUMENT_TYPE_CHOICES.insert(0, ("-1", "All document types"))
+    DOCUMENT_TYPE_CHOICES = [
+        ("-1", "All document types"),
+        *PlanDocument.DOCUMENT_TYPE_CHOICES,
+    ]
 
     match_method = ChoiceField(
         widget=RadioSelect, choices=MATCH_CHOICES, required=False
