@@ -300,7 +300,7 @@ class ImportPromisesTestCase(ImportTestCase):
             promise = Promise.objects.get(council=council)
             self.assertEqual(promise.target_year, 2035)
             self.assertEqual(promise.text, "carbon neutral by 2035!")
-            self.assertEqual(promise.scope, PlanDocument.COUNCIL_ONLY)
+            self.assertEqual(promise.domain, Promise.COUNCIL_OPERATIONS)
             self.assertEqual(promise.source, "http://borsetshire.gov.uk/promise.html")
             self.assertEqual(promise.source_name, "Borsetshire website")
             self.assertTrue(promise.has_promise)

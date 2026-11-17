@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from caps.models import Council, PlanDocument, SavedSearch
+from caps.models import Council, PlanDocument, Promise, SavedSearch
 from caps.utils import boolean_from_text
 
 
@@ -65,6 +65,27 @@ class PlanDocumentScopeCodeTestCase(TestCase):
         expected = PlanDocument.ACTION_PLAN
         actual = PlanDocument.scope_code("Council only ")
         self.assertEqual(expected, actual)
+
+
+class PromiseDomainCodeTestCase(TestCase):
+    def test_simple_case(self):
+        expected = Promise.COUNCIL_OPERATIONS
+        actual = Promise.domain_code("Council operations")
+        self.assertEqual(expected, actual)
+
+    def test_old_council_only_name(self):
+        expected = Promise.COUNCIL_OPERATIONS
+        actual = Promise.domain_code("Council only")
+        self.assertEqual(expected, actual)
+
+    def test_capitalisation_and_whitespace_normalised(self):
+        expected = Promise.WHOLE_AREA
+        actual = Promise.domain_code(" WhOle AreA ")
+        self.assertEqual(expected, actual)
+
+    def test_invalid_entry(self):
+        self.assertIsNone(Promise.domain_code("No promise"))
+        self.assertIsNone(Promise.domain_code(float("nan")))
 
 
 class PlanDocumentStatusCodeTestCase(TestCase):

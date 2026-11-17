@@ -322,13 +322,13 @@ class Council(models.Model):
     @property
     def net_zero_target_council_operations(self):
         return Promise.objects.filter(
-            council=self, has_promise=True, scope=PlanDocument.COUNCIL_ONLY
+            council=self, has_promise=True, domain=Promise.COUNCIL_OPERATIONS
         ).first()
 
     @property
     def net_zero_target_whole_area(self):
         return Promise.objects.filter(
-            council=self, has_promise=True, scope=PlanDocument.WHOLE_AREA
+            council=self, has_promise=True, domain=Promise.WHOLE_AREA
         ).first()
 
     @property
@@ -1136,26 +1136,82 @@ class Promise(models.Model):
         ("unknown", "Unknown"),
     ]
 
+    PROMISE = 1
+    WITHDRAWAL = 2
+    TYPE_CHOICES = [
+        (PROMISE, "Promise"),
+        (WITHDRAWAL, "Withdrawal"),
+    ]
+
+    LATEST = 1
+    SUPERSEDED = 2
+    WITHDRAWN = 3
+    STATUS_CHOICES = [
+        (LATEST, "Latest"),
+        (SUPERSEDED, "Superseded"),
+        (WITHDRAWN, "Withdrawn"),
+    ]
+
+    COUNCIL_OPERATIONS = 1
+    WHOLE_AREA = 2
+    UNCLEAR = 3
+    DOMAIN_CHOICES = [
+        (COUNCIL_OPERATIONS, "Council operations"),
+        (WHOLE_AREA, "Whole area"),
+        (UNCLEAR, "Unclear"),
+    ]
+
+    SCOPE_NOT_SPECIFIED = 1
+    SCOPES_1_2 = 2
+    SCOPE_3 = 3
+    SCOPE_CHOICES = [
+        (SCOPE_NOT_SPECIFIED, "Not specified"),
+        (SCOPES_1_2, "Scopes 1 & 2"),
+        (SCOPE_3, "Scope 3"),
+    ]
+
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
+    # False for "checked, no promise found"
     has_promise = models.BooleanField(blank=True, null=True)
-    target_year = models.IntegerField(blank=True, null=True)
-    scope = models.PositiveSmallIntegerField(
-        choices=PlanDocument.SCOPE_CHOICES, null=True, blank=True
+    type = models.PositiveSmallIntegerField(choices=TYPE_CHOICES, default=PROMISE)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=LATEST)
+    domain = models.PositiveSmallIntegerField(
+        choices=DOMAIN_CHOICES, null=True, blank=True
     )
+    scope = models.PositiveSmallIntegerField(
+        choices=SCOPE_CHOICES, default=SCOPE_NOT_SPECIFIED
+    )
+    target_year = models.IntegerField(blank=True, null=True)
+    target_text = models.CharField(max_length=200, blank=True)
     text = models.TextField(blank=True)
     source = models.URLField(max_length=600)
     source_name = models.CharField(max_length=200, blank=True)
-    notes = models.CharField(max_length=800, blank=True, null=True)
+    # free text dates, YYYY[-MM[-DD]] where possible
+    source_date = models.CharField(max_length=20, blank=True)
+    last_checked = models.CharField(max_length=20, blank=True)
+    notes = models.TextField(blank=True, null=True)
     history = HistoricalRecords()
 
+    @classmethod
+    def domain_code(cls, domain_entry):
+        """
+        Return a domain code given a text description, or None if the
+        description isn't in the domain choices
+        """
+        if pd.isnull(domain_entry):
+            return None
+        descriptions_to_codes = {
+            description.lower(): code for code, description in cls.DOMAIN_CHOICES
+        }
+        # the old name for council operations
+        descriptions_to_codes["council only"] = cls.COUNCIL_OPERATIONS
+        return descriptions_to_codes.get(domain_entry.lower().strip())
+
     @property
-    def get_scope(self):
-        for choice in PlanDocument.SCOPE_CHOICES:
-            if choice[0] == self.scope:
-                return choice[1].lower()
-        return ""
+    def get_domain(self):
+        return self.get_domain_display().lower() if self.domain else ""
 
 
 class EmergencyDeclaration(models.Model):

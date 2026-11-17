@@ -17,7 +17,7 @@ from django.views.generic import DetailView, TemplateView
 from django_filters.views import FilterView
 
 import scoring.defaults as defaults
-from caps.models import Council, PlanDocument, Promise
+from caps.models import Council, Promise
 from caps.utils import gen_natsort_lamda
 from caps.views import BaseLocationResultsView
 from conf.social_graphics import social_graphics
@@ -665,7 +665,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
         for promise in promises:
             if target is None:
                 target = promise
-            elif target is not None and promise.scope == PlanDocument.WHOLE_AREA:
+            elif target is not None and promise.domain == Promise.WHOLE_AREA:
                 target = promise
         context["target"] = target
 

@@ -352,7 +352,7 @@ class PromisesAPITest(APITestCase):
             source="https://example.com/promise.pdf",
             source_name="Borsetshire Climate Plan",
             text="Carbon Neutral by 2035",
-            scope=1,
+            domain=Promise.COUNCIL_OPERATIONS,
             has_promise=True,
         )
 
@@ -406,7 +406,8 @@ class PromisesAPITest(APITestCase):
                     "council": "http://testserver/api/councils/BOS/",
                     "has_promise": True,
                     "target_year": 2035,
-                    "scope": "Council only",
+                    "domain": "Council operations",
+                    "scope": "Not specified",
                     "text": "Carbon Neutral by 2035",
                     "source": "https://example.com/promise.pdf",
                     "source_name": "Borsetshire Climate Plan",
