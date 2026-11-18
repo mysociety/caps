@@ -2,7 +2,7 @@ import operator
 from datetime import datetime
 from functools import reduce
 
-from django.db.models import Count, Exists, Max, Min, OuterRef, Q, Subquery
+from django.db.models import Count, Exists, F, Max, Min, OuterRef, Q, Subquery
 from django.forms import ValidationError
 from django.utils.timezone import make_aware
 from rest_framework import generics, routers, viewsets
@@ -64,7 +64,7 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
     * document_count - number of documents we have details for.
     * plans_last_update - the date of the most recent update to a plan (null if no plans)
     * carbon_reduction_commitment - True if the council has public commitments to reduce emissions
-    * carbon_neutral_date - the earliest date for a carbon neutral target (null if no date)
+    * carbon_neutral_date - the earliest year the council has promised to be fully carbon neutral by, for either its own operations or its whole area (null if no date). If the council has separate Scope 1 & 2 and Scope 3 targets, the later of the two is used
     * carbon_neutral_commitments - link to list of commitments made by council
     * declared_emergency - date, if any, council declared a climate emergency
 
@@ -106,16 +106,18 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
         promised = Promise.objects.current().filter(
             council=OuterRef("pk"), has_promise=True
         )
-        queryset = Council.objects.annotate(
-            plan_count=Subquery(plans),
-            document_count=Subquery(documents),
-            carbon_reduction_commitment=Exists(promised),
-            carbon_neutral_date=Min(
-                "promise__target_year", filter=Promise.current_q("promise__")
-            ),
-            declared_emergency=Min("emergencydeclaration__date_declared"),
-            plans_last_update=Max("plandocument__updated_at"),
-        ).order_by("name")
+        queryset = (
+            Council.objects.with_carbon_neutral_years()
+            .annotate(
+                plan_count=Subquery(plans),
+                document_count=Subquery(documents),
+                carbon_reduction_commitment=Exists(promised),
+                carbon_neutral_date=F("carbon_neutral_year"),
+                declared_emergency=Min("emergencydeclaration__date_declared"),
+                plans_last_update=Max("plandocument__updated_at"),
+            )
+            .order_by("name")
+        )
 
         country = self.request.query_params.get("country")
         authority_type = self.request.query_params.get("authority_type")

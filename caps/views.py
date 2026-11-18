@@ -10,19 +10,7 @@ import markdown
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.mail import send_mail
-from django.db.models import (
-    Avg,
-    Case,
-    Count,
-    IntegerField,
-    Max,
-    Min,
-    OuterRef,
-    Q,
-    Subquery,
-    Value,
-    When,
-)
+from django.db.models import Avg, Count, Max, Min, OuterRef, Q, Subquery
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import Context, Template
@@ -55,7 +43,6 @@ from caps.models import (
     DataType,
     PlanDocument,
     ProjectFilter,
-    Promise,
     SavedSearch,
     Tag,
 )
@@ -418,9 +405,9 @@ class CouncilListView(FilterView):
     ]
 
     def get_queryset(self):
-        current_promise = Promise.current_q("promise__")
         return (
             Council.current_councils()
+            .with_carbon_neutral_years()
             .annotate(
                 num_plans=Subquery(
                     PlanDocument.objects.filter(
@@ -430,52 +417,6 @@ class CouncilListView(FilterView):
                     .values("council_id")
                     .annotate(num_plans=Count("id"))
                     .values("num_plans")
-                ),
-                has_promise=Count("promise", filter=current_promise),
-                has_promise_area=Count(
-                    Case(
-                        When(
-                            current_promise,
-                            promise__domain=Promise.WHOLE_AREA,
-                            then="promise__target_year",
-                        ),
-                        default=Value(None),
-                        output_field=IntegerField(),
-                    )
-                ),
-                has_promise_council=Count(
-                    Case(
-                        When(
-                            current_promise,
-                            promise__domain=Promise.COUNCIL_OPERATIONS,
-                            then="promise__target_year",
-                        ),
-                        default=Value(None),
-                        output_field=IntegerField(),
-                    )
-                ),
-                earliest_promise=Min("promise__target_year", filter=current_promise),
-                earliest_promise_area=Min(
-                    Case(
-                        When(
-                            current_promise,
-                            promise__domain=Promise.WHOLE_AREA,
-                            then="promise__target_year",
-                        ),
-                        default=Value(None),
-                        output_field=IntegerField(),
-                    )
-                ),
-                earliest_promise_council=Min(
-                    Case(
-                        When(
-                            current_promise,
-                            promise__domain=Promise.COUNCIL_OPERATIONS,
-                            then="promise__target_year",
-                        ),
-                        default=Value(None),
-                        output_field=IntegerField(),
-                    )
                 ),
                 declared_emergency=Min("emergencydeclaration__date_declared"),
                 last_plan_update=Max("plandocument__updated_at"),
@@ -695,9 +636,13 @@ class TwinsView(BaseLocationResultsView):
         council = None
 
         if "slug" in self.kwargs:
-            council = Council.objects.get(slug=self.kwargs["slug"])
+            council = Council.objects.with_carbon_neutral_years().get(
+                slug=self.kwargs["slug"]
+            )
         elif len(context.get("councils", [])) == 1:
-            council = context["councils"][0]
+            council = Council.objects.with_carbon_neutral_years().get(
+                pk=context["councils"][0].pk
+            )
 
         if council:
             context["council"] = council
@@ -737,14 +682,14 @@ class TagDetailView(DetailView):
 
         tagged = CouncilTag.objects.filter(tag=tag).values_list("council", flat=True)
 
-        councils = Council.objects.filter(id__in=list(tagged)).annotate(
-            num_plans=Count("plandocument"),
-            has_promise=Count("promise", filter=Promise.current_q("promise__")),
-            earliest_promise=Min(
-                "promise__target_year", filter=Promise.current_q("promise__")
-            ),
-            declared_emergency=Min("emergencydeclaration__date_declared"),
-            last_plan_update=Max("plandocument__updated_at"),
+        councils = (
+            Council.objects.filter(id__in=list(tagged))
+            .with_carbon_neutral_years()
+            .annotate(
+                num_plans=Count("plandocument"),
+                declared_emergency=Min("emergencydeclaration__date_declared"),
+                last_plan_update=Max("plandocument__updated_at"),
+            )
         )
         context["councils"] = councils
 
