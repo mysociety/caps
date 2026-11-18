@@ -43,6 +43,7 @@ from caps.models import (
     DataType,
     PlanDocument,
     ProjectFilter,
+    Promise,
     SavedSearch,
     Tag,
 )
@@ -359,11 +360,15 @@ class CouncilDetailView(DetailView):
 
         context["related_councils"] = council.get_related_councils()
         context["promises"] = (
-            council.promise_set.current()
-            .filter(has_promise=True)
-            .order_by("target_year")
+            council.promise_set.current().filter(has_promise=True).in_display_order()
         )
+        context["past_promises"] = council.promise_set.past().in_display_order()
         context["no_promise"] = council.promise_set.current().filter(has_promise=False)
+        context["promises_last_checked"] = (
+            council.promise_set.filter(status=Promise.LATEST)
+            .exclude(last_checked="")
+            .aggregate(Max("last_checked"))["last_checked__max"]
+        )
         context["last_updated"] = council.plandocument_set.aggregate(
             last_update=Max("updated_at"), last_found=Max("date_first_found")
         )

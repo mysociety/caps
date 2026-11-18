@@ -1,0 +1,38 @@
+{% load caps_templatetags %}
+<h3 class="h6 {% if past %}mt-3 mb-1{% else %}mt-4{% endif %}">
+    {% if promise.type == promise.WITHDRAWAL %}
+        {{ promise.label }} withdrawn
+    {% else %}
+        {{ promise.label }}
+        {% if promise.target_year %}
+            for {{ promise.target_year }}
+        {% endif %}
+        {% if promise.status == promise.SUPERSEDED %}
+            (replaced)
+        {% elif promise.status == promise.WITHDRAWN %}
+            (withdrawn)
+        {% endif %}
+    {% endif %}
+</h3>
+{% if promise.target_text %}
+    <p class="{% if past %}small mb-1{% else %}mb-2{% endif %}">
+        Target: {{ promise.target_text }}
+    </p>
+{% endif %}
+<blockquote class="{% if past %}small mb-0{% else %}blockquote{% endif %}">
+    {% if promise.text %}
+        <p class="mb-0">
+            “{{ promise.text }}”
+        </p>
+    {% endif %}
+    {% if promise.source or promise.source_date %}
+        <footer class="blockquote-footer">
+            {% if promise.source %}
+                <cite title="{{ promise.source_name|default:promise.source }}"><a href="{{ promise.source }}">{{ promise.source_name|default:promise.source|domain_human }}</a></cite>{% if promise.source_date %},{% endif %}
+            {% endif %}
+            {% if promise.source_date %}
+                {{ promise.source_date|partial_date }}
+            {% endif %}
+        </footer>
+    {% endif %}
+</blockquote>
