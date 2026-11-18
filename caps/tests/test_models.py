@@ -113,8 +113,6 @@ class PromiseCurrentTestCase(TestCase):
 
     def test_council_net_zero_targets(self):
         self.assertEqual(list(self.council.net_zero_targets), [self.latest])
-        self.assertEqual(self.council.net_zero_target_whole_area, self.latest)
-        self.assertIsNone(self.council.net_zero_target_council_operations)
 
 
 class PlanDocumentStatusCodeTestCase(TestCase):

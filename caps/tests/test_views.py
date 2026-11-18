@@ -1,9 +1,17 @@
+import re
 from unittest.mock import patch
 
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from caps.models import Council, EmergencyDeclaration, PlanDocument, Promise
+from caps.models import (
+    Council,
+    CouncilTag,
+    EmergencyDeclaration,
+    PlanDocument,
+    Promise,
+    Tag,
+)
 from scoring.models import PlanYear
 
 
@@ -218,81 +226,90 @@ class TestCouncilDetailPage(TestCase):
 
 
 class TestCouncilListPage(TestCase):
-    def setUp(self):
-        plan_council = Council.objects.create(
-            name="Borsetshire",
-            slug="borsetshire",
-            authority_code="BORS",
-            gss_code="E00000001",
+    def create_council(self, name, *promises):
+        council = Council.objects.create(
+            name=name,
+            slug=name.lower().replace(" ", "-"),
+            authority_code=name[:4].upper(),
+            gss_code=f"E0000{Council.objects.count():04}",
             country=Council.ENGLAND,
         )
-        plan = PlanDocument.objects.create(
+        for promise in promises:
+            Promise.objects.create(council=council, has_promise=True, **promise)
+        return council
+
+    def setUp(self):
+        council_ops = {"domain": Promise.COUNCIL_OPERATIONS}
+        whole_area = {"domain": Promise.WHOLE_AREA}
+
+        plan_council = self.create_council("Borsetshire")
+        PlanDocument.objects.create(
             document_type=PlanDocument.ACTION_PLAN,
             council=plan_council,
             url="http://example.com",
             url_hash="xxxxxxx",
             file_type="PDF",
         )
-        not_plan_for_plan_council = PlanDocument.objects.create(
+        PlanDocument.objects.create(
             document_type=PlanDocument.CLIMATE_STRATEGY,
             council=plan_council,
             url="http://example.org",
             url_hash="xxxxxxy",
             file_type="PDF",
         )
-        no_plan_council = Council.objects.create(
-            name="Setborshire",
-            slug="Setborshire",
-            gss_code="E00000002",
-            authority_code="SBOR",
-            country=Council.ENGLAND,
-        )
-        promise_first = Promise.objects.create(
-            council=no_plan_council,
-            target_year=2030,
-        )
-        promise_second = Promise.objects.create(
-            council=no_plan_council,
-            target_year=2050,
-        )
-        # past promises, which shouldn't count
-        Promise.objects.create(
-            council=no_plan_council,
-            domain=Promise.WHOLE_AREA,
-            target_year=2025,
-            status=Promise.SUPERSEDED,
-        )
-        Promise.objects.create(
-            council=no_plan_council,
-            domain=Promise.COUNCIL_OPERATIONS,
-            target_year=2025,
-            status=Promise.WITHDRAWN,
-        )
-        Promise.objects.create(
-            council=no_plan_council,
-            domain=Promise.COUNCIL_OPERATIONS,
-            type=Promise.WITHDRAWAL,
+
+        self.create_council(
+            "Setborshire",
+            {**council_ops, "target_year": 2030},
+            {**whole_area, "target_year": 2050},
+            # past promises, which shouldn't count
+            {**whole_area, "target_year": 2025, "status": Promise.SUPERSEDED},
+            {**council_ops, "target_year": 2025, "status": Promise.WITHDRAWN},
+            {**council_ops, "type": Promise.WITHDRAWAL},
         )
 
-        non_plan_doc_council = Council.objects.create(
-            name="West Borsetshire",
-            slug="west_borsetshire",
-            gss_code="E00000003",
-            authority_code="WBOR",
-            country=Council.ENGLAND,
-        )
-
-        not_plan = PlanDocument.objects.create(
+        non_plan_doc_council = self.create_council("West Borsetshire")
+        PlanDocument.objects.create(
             document_type=PlanDocument.CLIMATE_STRATEGY,
             council=non_plan_doc_council,
             url="http://example.net",
             url_hash="xxxxxxz",
             file_type="PDF",
         )
-        declaration = EmergencyDeclaration.objects.create(
+        EmergencyDeclaration.objects.create(
             council=non_plan_doc_council,
             date_declared="2020-04-20",
         )
+
+        # fully carbon neutral once both scope targets are met
+        self.create_council(
+            "Scopeshire",
+            {**council_ops, "scope": Promise.SCOPES_1_2, "target_year": 2030},
+            {**council_ops, "scope": Promise.SCOPE_3, "target_year": 2040},
+            # an unspecified scope target wins over split ones
+            {**whole_area, "target_year": 2045},
+            {**whole_area, "scope": Promise.SCOPES_1_2, "target_year": 2030},
+            {**whole_area, "scope": Promise.SCOPE_3, "target_year": 2035},
+        )
+        self.create_council("Areashire", {**whole_area, "target_year": 2035})
+        # only a scope 1 & 2 target, so not fully carbon neutral
+        self.create_council(
+            "Halfshire",
+            {**council_ops, "scope": Promise.SCOPES_1_2, "target_year": 2030},
+        )
+        # every promise withdrawn
+        self.create_council(
+            "Withdrawnshire",
+            {**council_ops, "target_year": 2030, "status": Promise.WITHDRAWN},
+            {**council_ops, "type": Promise.WITHDRAWAL},
+        )
+        # checked, and no promise found
+        council = self.create_council("Nopromiseshire")
+        Promise.objects.create(council=council, has_promise=False)
+
+    def get_names(self, **params):
+        response = self.client.get(reverse("council_list"), params)
+        return sorted(c.name for c in response.context["filter"].qs)
 
     def test_council_list(self):
         url = reverse("council_list")
@@ -300,73 +317,167 @@ class TestCouncilListPage(TestCase):
         context = response.context
         councils = context["filter"].qs
 
-        self.assertEqual(councils.count(), 3)
-        councils = councils.values(
-            "num_plans", "name", "has_promise", "earliest_promise", "declared_emergency"
-        )
+        self.assertEqual(councils.count(), 8)
+        councils = {
+            council["name"]: council
+            for council in councils.values("num_plans", "name", "declared_emergency")
+        }
 
-        self.assertEqual(councils[0]["name"], "Borsetshire")
-        self.assertEqual(councils[0]["num_plans"], 1)
-        self.assertEqual(councils[0]["has_promise"], 0)
-        self.assertEqual(councils[0]["earliest_promise"], None)
-        self.assertEqual(councils[0]["declared_emergency"], None)
-
-        self.assertEqual(councils[1]["name"], "Setborshire")
-        self.assertEqual(councils[1]["num_plans"], None)
-        self.assertEqual(councils[1]["has_promise"], 2)
-        self.assertEqual(councils[1]["earliest_promise"], 2030)
-        self.assertEqual(councils[1]["declared_emergency"], None)
-
-        self.assertEqual(councils[2]["name"], "West Borsetshire")
-        self.assertEqual(councils[2]["num_plans"], None)
-        self.assertEqual(councils[2]["has_promise"], 0)
-        self.assertEqual(councils[2]["earliest_promise"], None)
+        self.assertEqual(councils["Borsetshire"]["num_plans"], 1)
+        self.assertEqual(councils["Borsetshire"]["declared_emergency"], None)
+        self.assertEqual(councils["Setborshire"]["num_plans"], None)
+        self.assertEqual(councils["West Borsetshire"]["num_plans"], None)
         self.assertEqual(
-            councils[2]["declared_emergency"].strftime("%Y-%m-%d"), "2020-04-20"
+            councils["West Borsetshire"]["declared_emergency"].strftime("%Y-%m-%d"),
+            "2020-04-20",
         )
 
-    def test_council_list_ignores_past_promises_by_domain(self):
+    def test_carbon_neutral_years(self):
         response = self.client.get(reverse("council_list"))
-        council = (
-            response.context["filter"]
-            .qs.values(
-                "has_promise_area",
-                "has_promise_council",
-                "earliest_promise_area",
-                "earliest_promise_council",
+        councils = {
+            council["name"]: (
+                council["carbon_neutral_year_council"],
+                council["carbon_neutral_year_area"],
+                council["carbon_neutral_year"],
+                council["promises_checked"],
             )
-            .get(name="Setborshire")
-        )
+            for council in response.context["filter"].qs.values(
+                "name",
+                "carbon_neutral_year_council",
+                "carbon_neutral_year_area",
+                "carbon_neutral_year",
+                "promises_checked",
+            )
+        }
         self.assertEqual(
-            council,
+            councils,
             {
-                "has_promise_area": 0,
-                "has_promise_council": 0,
-                "earliest_promise_area": None,
-                "earliest_promise_council": None,
+                "Areashire": (None, 2035, 2035, True),
+                "Borsetshire": (None, None, None, False),
+                "Halfshire": (None, None, None, True),
+                "Nopromiseshire": (None, None, None, True),
+                "Scopeshire": (2040, 2045, 2040, True),
+                "Setborshire": (2030, 2050, 2030, True),
+                "West Borsetshire": (None, None, None, False),
+                "Withdrawnshire": (None, None, None, True),
             },
         )
 
     def test_council_list_promise_filter(self):
-        response = self.client.get(
-            reverse("council_list"), {"promise_combined": "2025"}
+        self.assertEqual(self.get_names(promise_combined="2025"), [])
+        self.assertEqual(self.get_names(promise_combined="2030"), ["Setborshire"])
+        self.assertEqual(
+            self.get_names(promise_combined="2040"),
+            ["Areashire", "Scopeshire", "Setborshire"],
         )
-        self.assertEqual(response.context["filter"].qs.count(), 0)
+        self.assertEqual(
+            self.get_names(promise_combined="any_promise"),
+            ["Areashire", "Scopeshire", "Setborshire"],
+        )
+        self.assertEqual(
+            self.get_names(promise_combined="no_target"),
+            ["Halfshire", "Nopromiseshire", "Withdrawnshire"],
+        )
+        self.assertEqual(
+            self.get_names(promise_combined="unknown"),
+            ["Borsetshire", "West Borsetshire"],
+        )
 
-        response = self.client.get(
-            reverse("council_list"), {"promise_combined": "2030"}
+    def test_council_list_promise_filter_by_domain(self):
+        self.assertEqual(
+            self.get_names(promise_area="2045"),
+            ["Areashire", "Scopeshire"],
         )
-        names = [c.name for c in response.context["filter"].qs]
-        self.assertEqual(names, ["Setborshire"])
+        self.assertEqual(
+            self.get_names(promise_council="2040"),
+            ["Scopeshire", "Setborshire"],
+        )
+        self.assertEqual(
+            self.get_names(promise_area="no_target"),
+            ["Halfshire", "Nopromiseshire", "Withdrawnshire"],
+        )
+        self.assertEqual(
+            self.get_names(promise_council="no_target"),
+            ["Areashire", "Halfshire", "Nopromiseshire", "Withdrawnshire"],
+        )
+        self.assertEqual(
+            self.get_names(promise_council="unknown"),
+            ["Borsetshire", "West Borsetshire"],
+        )
+
+    def test_council_list_shows_unknown_and_no_target(self):
+        response = self.client.get(reverse("council_list"))
+        cells = re.findall(
+            rb'<a href="/councils/([a-z-]+)/">.*?data-column="promise"[^>]*>\s*([^<]*?)\s*</td>',
+            response.content,
+            re.DOTALL,
+        )
+        self.assertEqual(
+            dict(cells),
+            {
+                b"areashire": b"2035",
+                b"borsetshire": b"Unknown",
+                b"halfshire": b"No target",
+                b"nopromiseshire": b"No target",
+                b"scopeshire": b"2040",
+                b"setborshire": b"2030",
+                b"west-borsetshire": b"Unknown",
+                b"withdrawnshire": b"No target",
+            },
+        )
 
     def test_council_list_sort_by_promise_year(self):
         # sorting by a promise join used to list councils once per promise
         response = self.client.get(reverse("council_list"), {"sort": "promise_year"})
         names = [c.name for c in response.context["filter"].qs]
-        self.assertEqual(names[0], "Setborshire")
-        self.assertEqual(
-            sorted(names), ["Borsetshire", "Setborshire", "West Borsetshire"]
+        self.assertEqual(names[:3], ["Setborshire", "Areashire", "Scopeshire"])
+        self.assertEqual(len(names), 8)
+
+
+class TestTagDetailPage(TestCase):
+    def test_tag_page_shows_carbon_neutral_years(self):
+        tag = Tag.objects.create(
+            name="Tagged",
+            slug="tagged",
+            description_singular="tagged",
+            description_plural="tagged",
+            colour="red",
         )
+        for name, scope, year in [
+            ("Borsetshire", Promise.SCOPES_1_2, 2030),
+            ("Setborshire", Promise.SCOPE_NOT_SPECIFIED, 2035),
+        ]:
+            council = Council.objects.create(
+                name=name,
+                slug=name.lower(),
+                authority_code=name[:4].upper(),
+                gss_code=f"E0000000{Council.objects.count()}",
+                country=Council.ENGLAND,
+            )
+            CouncilTag.objects.create(council=council, tag=tag)
+            Promise.objects.create(
+                council=council,
+                has_promise=True,
+                domain=Promise.COUNCIL_OPERATIONS,
+                scope=scope,
+                target_year=year,
+            )
+        Council.objects.create(
+            name="Untagged",
+            slug="untagged",
+            authority_code="UNTA",
+            gss_code="E00000099",
+            country=Council.ENGLAND,
+        )
+
+        response = self.client.get(reverse("tag", args=["tagged"]))
+        self.assertEqual(response.status_code, 200)
+        years = {
+            council.name: council.carbon_neutral_year
+            for council in response.context["councils"]
+        }
+        self.assertEqual(years, {"Borsetshire": None, "Setborshire": 2035})
+        self.assertRegex(response.content, rb">\s*No target\s*<")
 
 
 class TestSearchPage(TestCase):

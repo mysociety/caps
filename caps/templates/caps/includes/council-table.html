@@ -6,13 +6,13 @@
             <th scope="col">Has plan</th>
             {% if filter.request.GET.sort != 'last_update' and filter.request.GET.sort != '-last_update' %}
             {% if filter.request.GET.promise_area %}
-            <th scope="col" data-sortable="promise_year_area">Carbon Neutral by (Area)</th>
+            <th scope="col" data-sortable="promise_year_area">Fully carbon neutral by (whole area)</th>
             {% endif %}
             {% if filter.request.GET.promise_council %}
-            <th scope="col" data-sortable="promise_year_council">Carbon Neutral by (Council)</th>
+            <th scope="col" data-sortable="promise_year_council">Fully carbon neutral by (council operations)</th>
             {% endif %}
             {% if not filter.request.GET.promise_area and not filter.request.GET.promise_council %}
-            <th scope="col" data-sortable="promise_year">Carbon Neutral by (any)</th>
+            <th scope="col" data-sortable="promise_year">Fully carbon neutral by</th>
             {% endif %}
             <th scope="col" data-sortable="declaration_date">Declared emergency</th>
             {% else %}
@@ -39,13 +39,13 @@
             </td>
             {% if filter.request.GET.sort != 'last_update' and filter.request.GET.sort != '-last_update' %}
             {% if filter.request.GET.promise_area %}
-              {% include "caps/includes/promise-table-cell.html" with has_promise=council.has_promise_area earliest_promise=council.earliest_promise_area %}
+              {% include "caps/includes/promise-table-cell.html" with checked=council.promises_checked year=council.carbon_neutral_year_area %}
             {% endif %}
             {% if filter.request.GET.promise_council %}
-              {% include "caps/includes/promise-table-cell.html" with has_promise=council.has_promise_council earliest_promise=council.earliest_promise_council %}
+              {% include "caps/includes/promise-table-cell.html" with checked=council.promises_checked year=council.carbon_neutral_year_council %}
             {% endif %}
             {% if not filter.request.GET.promise_area and not filter.request.GET.promise_council %}
-              {% include "caps/includes/promise-table-cell.html" with has_promise=council.has_promise earliest_promise=council.earliest_promise %}
+              {% include "caps/includes/promise-table-cell.html" with checked=council.promises_checked year=council.carbon_neutral_year %}
             {% endif %}
               {% if council.declared_emergency %}
             <td data-column="declared-emergency" data-sortvalue="{{  council.declared_emergency.isoformat }}">
