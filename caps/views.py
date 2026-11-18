@@ -371,10 +371,12 @@ class CouncilDetailView(DetailView):
         context["feedback_form_url"] = settings.FEEDBACK_FORM
 
         context["related_councils"] = council.get_related_councils()
-        context["promises"] = council.promise_set.filter(has_promise=True).order_by(
-            "target_year"
+        context["promises"] = (
+            council.promise_set.current()
+            .filter(has_promise=True)
+            .order_by("target_year")
         )
-        context["no_promise"] = council.promise_set.filter(has_promise=False)
+        context["no_promise"] = council.promise_set.current().filter(has_promise=False)
         context["last_updated"] = council.plandocument_set.aggregate(
             last_update=Max("updated_at"), last_found=Max("date_first_found")
         )
@@ -416,6 +418,7 @@ class CouncilListView(FilterView):
     ]
 
     def get_queryset(self):
+        current_promise = Promise.current_q("promise__")
         return (
             Council.current_councils()
             .annotate(
@@ -428,10 +431,11 @@ class CouncilListView(FilterView):
                     .annotate(num_plans=Count("id"))
                     .values("num_plans")
                 ),
-                has_promise=Count("promise"),
+                has_promise=Count("promise", filter=current_promise),
                 has_promise_area=Count(
                     Case(
                         When(
+                            current_promise,
                             promise__domain=Promise.WHOLE_AREA,
                             then="promise__target_year",
                         ),
@@ -442,6 +446,7 @@ class CouncilListView(FilterView):
                 has_promise_council=Count(
                     Case(
                         When(
+                            current_promise,
                             promise__domain=Promise.COUNCIL_OPERATIONS,
                             then="promise__target_year",
                         ),
@@ -449,10 +454,11 @@ class CouncilListView(FilterView):
                         output_field=IntegerField(),
                     )
                 ),
-                earliest_promise=Min("promise__target_year"),
+                earliest_promise=Min("promise__target_year", filter=current_promise),
                 earliest_promise_area=Min(
                     Case(
                         When(
+                            current_promise,
                             promise__domain=Promise.WHOLE_AREA,
                             then="promise__target_year",
                         ),
@@ -463,6 +469,7 @@ class CouncilListView(FilterView):
                 earliest_promise_council=Min(
                     Case(
                         When(
+                            current_promise,
                             promise__domain=Promise.COUNCIL_OPERATIONS,
                             then="promise__target_year",
                         ),
@@ -732,8 +739,10 @@ class TagDetailView(DetailView):
 
         councils = Council.objects.filter(id__in=list(tagged)).annotate(
             num_plans=Count("plandocument"),
-            has_promise=Count("promise"),
-            earliest_promise=Min("promise__target_year"),
+            has_promise=Count("promise", filter=Promise.current_q("promise__")),
+            earliest_promise=Min(
+                "promise__target_year", filter=Promise.current_q("promise__")
+            ),
             declared_emergency=Min("emergencydeclaration__date_declared"),
             last_plan_update=Max("plandocument__updated_at"),
         )

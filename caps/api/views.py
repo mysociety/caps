@@ -103,12 +103,16 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
             .annotate(plan_count=Count("council"))
             .values("plan_count")
         )
-        promised = Promise.objects.filter(council=OuterRef("pk"), has_promise=True)
+        promised = Promise.objects.current().filter(
+            council=OuterRef("pk"), has_promise=True
+        )
         queryset = Council.objects.annotate(
             plan_count=Subquery(plans),
             document_count=Subquery(documents),
             carbon_reduction_commitment=Exists(promised),
-            carbon_neutral_date=Min("promise__target_year"),
+            carbon_neutral_date=Min(
+                "promise__target_year", filter=Promise.current_q("promise__")
+            ),
             declared_emergency=Min("emergencydeclaration__date_declared"),
             plans_last_update=Max("plandocument__updated_at"),
         ).order_by("name")
@@ -157,7 +161,8 @@ class CommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     queryset = (
-        Promise.objects.order_by("council__name", "target_year")
+        Promise.objects.current()
+        .order_by("council__name", "target_year")
         .select_related("council")
         .order_by("target_year")
         .all()
@@ -183,15 +188,14 @@ class CouncilCommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     * source_name - name of the document the commitment comes from
     """
 
-    queryset = Promise.objects.order_by("target_year").all()
+    queryset = Promise.objects.current().order_by("target_year").all()
     serializer_class = PromiseSerializer
     pagination_class = None
 
     def get_queryset(self):
         return (
-            Promise.objects.filter(
-                council__authority_code=self.kwargs["authority_code"]
-            )
+            Promise.objects.current()
+            .filter(council__authority_code=self.kwargs["authority_code"])
             .select_related("council")
             .order_by("target_year")
             .all()

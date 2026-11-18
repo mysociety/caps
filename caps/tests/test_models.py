@@ -88,6 +88,56 @@ class PromiseDomainCodeTestCase(TestCase):
         self.assertIsNone(Promise.domain_code(float("nan")))
 
 
+class PromiseCurrentTestCase(TestCase):
+    def setUp(self):
+        self.council = Council.objects.create(
+            name="Borsetshire",
+            slug="borsetshire",
+            gss_code="E00000001",
+            country=Council.ENGLAND,
+        )
+        self.latest = Promise.objects.create(
+            council=self.council,
+            has_promise=True,
+            domain=Promise.WHOLE_AREA,
+            target_year=2040,
+        )
+        # an earlier promise that the latest one replaced
+        Promise.objects.create(
+            council=self.council,
+            has_promise=True,
+            domain=Promise.WHOLE_AREA,
+            target_year=2030,
+            status=Promise.SUPERSEDED,
+        )
+        # a council operations promise that was withdrawn, and the withdrawal
+        Promise.objects.create(
+            council=self.council,
+            has_promise=True,
+            domain=Promise.COUNCIL_OPERATIONS,
+            target_year=2030,
+            status=Promise.WITHDRAWN,
+        )
+        Promise.objects.create(
+            council=self.council,
+            has_promise=True,
+            domain=Promise.COUNCIL_OPERATIONS,
+            type=Promise.WITHDRAWAL,
+        )
+
+    def test_current_promises(self):
+        self.assertEqual(list(Promise.objects.current()), [self.latest])
+
+    def test_current_q_through_relation(self):
+        councils = Council.objects.filter(Promise.current_q("promise__"))
+        self.assertEqual(list(councils), [self.council])
+
+    def test_council_net_zero_targets(self):
+        self.assertEqual(list(self.council.net_zero_targets), [self.latest])
+        self.assertEqual(self.council.net_zero_target_whole_area, self.latest)
+        self.assertIsNone(self.council.net_zero_target_council_operations)
+
+
 class PlanDocumentStatusCodeTestCase(TestCase):
     def test_simple_case(self):
         expected = PlanDocument.DRAFT
