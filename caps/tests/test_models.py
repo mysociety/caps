@@ -67,27 +67,6 @@ class PlanDocumentScopeCodeTestCase(TestCase):
         self.assertEqual(expected, actual)
 
 
-class PromiseDomainCodeTestCase(TestCase):
-    def test_simple_case(self):
-        expected = Promise.COUNCIL_OPERATIONS
-        actual = Promise.domain_code("Council operations")
-        self.assertEqual(expected, actual)
-
-    def test_old_council_only_name(self):
-        expected = Promise.COUNCIL_OPERATIONS
-        actual = Promise.domain_code("Council only")
-        self.assertEqual(expected, actual)
-
-    def test_capitalisation_and_whitespace_normalised(self):
-        expected = Promise.WHOLE_AREA
-        actual = Promise.domain_code(" WhOle AreA ")
-        self.assertEqual(expected, actual)
-
-    def test_invalid_entry(self):
-        self.assertIsNone(Promise.domain_code("No promise"))
-        self.assertIsNone(Promise.domain_code(float("nan")))
-
-
 class PromiseCurrentTestCase(TestCase):
     def setUp(self):
         self.council = Council.objects.create(

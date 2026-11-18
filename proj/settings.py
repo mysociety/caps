@@ -151,7 +151,7 @@ COUNCILS_AS_OF_DATE = date(2024, 2, 2)
 RECENTLY_ADDED_COUNCILS = date(2022, 1, 1)
 
 PROMISES_CSV_KEY = "1dWd8kOT4foXTvju386r1bfvf8jd5MrMaek-4DPNHs-8"
-PROMISES_CSV_SHEET_NAME = "Sheet1"
+PROMISES_CSV_GID = "230455170"  # ID of the sheet with one promise per row
 PROMISES_CSV_NAME = "promises.csv"
 PROMISES_CSV = os.path.join(DATA_DIR, PROMISES_CSV_NAME)
 
