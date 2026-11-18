@@ -53,6 +53,8 @@ class CouncilSerializer(serializers.HyperlinkedModelSerializer):
 
 class PromiseSerializer(serializers.HyperlinkedModelSerializer):
     council = serializers.SerializerMethodField()
+    type = serializers.CharField(source="get_type_display")
+    status = serializers.CharField(source="get_status_display")
     domain = serializers.CharField(source="get_domain_display")
     scope = serializers.CharField(source="get_scope_display")
 
@@ -61,12 +63,17 @@ class PromiseSerializer(serializers.HyperlinkedModelSerializer):
         fields = [
             "council",
             "has_promise",
+            "type",
+            "status",
             "target_year",
+            "target_text",
             "domain",
             "scope",
             "text",
             "source",
             "source_name",
+            "source_date",
+            "last_checked",
         ]
 
     def get_council(self, obj):

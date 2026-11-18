@@ -149,25 +149,28 @@ class CommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Information about the climate commitments made by councils.
 
-    Includes both carbon reduction commitments and net zero ones. If the commitment
-    is for net zero then has_promise will be `true` otherwise `false'
+    Includes both carbon reduction commitments and net zero ones.
 
     * council - link to the council making the promise
-    * has_promise - if the promise includes a commitment to net zero
+    * has_promise - `false` if we checked the council and found no promise
+    * type - "Promise", or "Withdrawal" for a decision that withdrew a promise
+    * status - "Latest", "Superseded" (replaced by a later promise) or "Withdrawn"
     * target_year - the year the commitment is targeting
+    * target_text - any other description of the target, eg "as soon as possible"
     * domain - if the commitment is limited to council operations or the whole council area
     * scope - which emissions scopes the commitment covers, if specified
     * text - the text of the commitment
     * source - URL of the document the commitment comes from
     * source_name - name of the document the commitment comes from
+    * source_date - date of the document the commitment comes from, as YYYY, YYYY-MM or YYYY-MM-DD where known
+    * last_checked - when we last checked the council's commitments, as YYYY-MM
+
+    Includes superseded and withdrawn commitments, and withdrawals, so use
+    `type` and `status` to find a council's latest commitments.
     """
 
-    queryset = (
-        Promise.objects.current()
-        .order_by("council__name", "target_year")
-        .select_related("council")
-        .order_by("target_year")
-        .all()
+    queryset = Promise.objects.select_related("council").in_display_order(
+        "council__name", "council_id"
     )
     serializer_class = PromiseSerializer
     pagination_class = BiggerPageSize
@@ -177,30 +180,37 @@ class CouncilCommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Information about a council's climate commitments.
 
-    Includes both carbon reduction commitments and net zero ones. If the commitment
-    is for net zero then has_promise will be `true` otherwise `false'
+    Includes both carbon reduction commitments and net zero ones.
 
     * council - link to the council making the promise
-    * has_promise - if the promise includes a commitment to net zero
+    * has_promise - `false` if we checked the council and found no promise
+    * type - "Promise", or "Withdrawal" for a decision that withdrew a promise
+    * status - "Latest", "Superseded" (replaced by a later promise) or "Withdrawn"
     * target_year - the year the commitment is targeting
+    * target_text - any other description of the target, eg "as soon as possible"
     * domain - if the commitment is limited to council operations or the whole council area
     * scope - which emissions scopes the commitment covers, if specified
     * text - the text of the commitment
     * source - URL of the document the commitment comes from
     * source_name - name of the document the commitment comes from
+    * source_date - date of the document the commitment comes from, as YYYY, YYYY-MM or YYYY-MM-DD where known
+    * last_checked - when we last checked the council's commitments, as YYYY-MM
+
+    Includes superseded and withdrawn commitments, and withdrawals, so use
+    `type` and `status` to find a council's latest commitments.
     """
 
-    queryset = Promise.objects.current().order_by("target_year").all()
+    queryset = Promise.objects.all()
     serializer_class = PromiseSerializer
     pagination_class = None
 
     def get_queryset(self):
         return (
-            Promise.objects.current()
-            .filter(council__authority_code=self.kwargs["authority_code"])
+            Promise.objects.filter(
+                council__authority_code=self.kwargs["authority_code"]
+            )
             .select_related("council")
-            .order_by("target_year")
-            .all()
+            .in_display_order()
         )
 
 
