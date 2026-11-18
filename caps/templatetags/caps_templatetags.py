@@ -1,6 +1,7 @@
 import re
 import markdown
 import random
+from datetime import datetime
 from string import capwords
 
 from django import template
@@ -19,6 +20,27 @@ register = template.Library()
 def prevent_widow(s):
     # Replace final space in string with &nbsp;
     return mark_safe("&nbsp;".join(s.rsplit(" ", 1)))
+
+
+@register.filter
+@stringfilter
+def partial_date(value):
+    """
+    Format a "YYYY", "YYYY-MM" or "YYYY-MM-DD" date, eg "December 2024", or
+    return anything else unchanged
+    """
+    value = value.strip()
+    try:
+        if re.fullmatch(r"\d{4}", value):
+            return value
+        if re.fullmatch(r"\d{4}-\d{2}", value):
+            return datetime.strptime(value, "%Y-%m").strftime("%B %Y")
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+            date = datetime.strptime(value, "%Y-%m-%d")
+            return f"{date.day} {date:%B %Y}"
+    except ValueError:
+        pass
+    return value
 
 
 @register.filter

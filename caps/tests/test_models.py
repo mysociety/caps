@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 from caps.models import Council, PlanDocument, Promise, SavedSearch
+from caps.templatetags.caps_templatetags import partial_date
 from caps.utils import boolean_from_text
 
 
@@ -113,6 +114,74 @@ class PromiseCurrentTestCase(TestCase):
 
     def test_council_net_zero_targets(self):
         self.assertEqual(list(self.council.net_zero_targets), [self.latest])
+
+
+class PromiseLabelTestCase(TestCase):
+    def test_label(self):
+        for domain, scope, expected in [
+            (
+                Promise.COUNCIL_OPERATIONS,
+                Promise.SCOPE_NOT_SPECIFIED,
+                "Council operations pledge",
+            ),
+            (Promise.WHOLE_AREA, Promise.SCOPE_3, "Whole area (Scope 3) pledge"),
+            (Promise.UNCLEAR, Promise.SCOPES_1_2, "Climate (Scopes 1 & 2) pledge"),
+            (None, Promise.SCOPE_NOT_SPECIFIED, "Climate pledge"),
+        ]:
+            with self.subTest(expected):
+                promise = Promise(domain=domain, scope=scope)
+                self.assertEqual(promise.label, expected)
+
+
+class PromiseDisplayOrderTestCase(TestCase):
+    def test_in_display_order(self):
+        council = Council.objects.create(
+            name="Borsetshire",
+            slug="borsetshire",
+            gss_code="E00000001",
+            country=Council.ENGLAND,
+        )
+
+        def create(**kwargs):
+            return Promise.objects.create(council=council, has_promise=True, **kwargs)
+
+        area_2030 = create(domain=Promise.WHOLE_AREA, target_year=2030)
+        council_scope_3 = create(
+            domain=Promise.COUNCIL_OPERATIONS, scope=Promise.SCOPE_3, target_year=2040
+        )
+        council_no_year = create(domain=Promise.COUNCIL_OPERATIONS)
+        council_2035 = create(domain=Promise.COUNCIL_OPERATIONS, target_year=2035)
+        superseded = create(
+            domain=Promise.WHOLE_AREA, target_year=2050, status=Promise.SUPERSEDED
+        )
+        unclear = create(domain=Promise.UNCLEAR, target_year=2025)
+
+        self.assertEqual(
+            list(Promise.objects.in_display_order()),
+            [
+                superseded,
+                council_2035,
+                council_no_year,
+                council_scope_3,
+                area_2030,
+                unclear,
+            ],
+        )
+
+
+class PartialDateFilterTestCase(TestCase):
+    def test_partial_date(self):
+        for value, expected in [
+            ("2024", "2024"),
+            ("2024-12", "December 2024"),
+            ("2020-06-01", "1 June 2020"),
+            (" 2024-12 ", "December 2024"),
+            ("2024-13", "2024-13"),
+            ("spring 2024", "spring 2024"),
+            ("", ""),
+        ]:
+            with self.subTest(value):
+                self.assertEqual(partial_date(value), expected)
 
 
 class PlanDocumentStatusCodeTestCase(TestCase):

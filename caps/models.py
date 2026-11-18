@@ -397,7 +397,11 @@ class Council(models.Model):
 
     @property
     def net_zero_targets(self):
-        return Promise.objects.current().filter(council=self, has_promise=True)
+        return (
+            Promise.objects.current()
+            .filter(council=self, has_promise=True)
+            .in_display_order()
+        )
 
     @property
     def last_updated_plan(self):
@@ -1202,6 +1206,28 @@ class PromiseQuerySet(models.QuerySet):
         """
         return self.filter(self.model.current_q())
 
+    def past(self):
+        """
+        Superseded and withdrawn promises, and the motions that withdrew them
+        """
+        return self.filter(
+            Q(status__in=[self.model.SUPERSEDED, self.model.WITHDRAWN])
+            | Q(type=self.model.WITHDRAWAL)
+        )
+
+    def in_display_order(self):
+        """
+        Past promises before latest ones, then by domain, scope, target year,
+        and import order
+        """
+        return self.order_by(
+            Case(When(status=self.model.LATEST, then=1), default=0),
+            F("domain").asc(nulls_last=True),
+            "scope",
+            F("target_year").asc(nulls_last=True),
+            "id",
+        )
+
 
 class Promise(models.Model):
     PROMISE_FILTER_CHOICES = [
@@ -1291,8 +1317,19 @@ class Promise(models.Model):
         )
 
     @property
-    def get_domain(self):
-        return self.get_domain_display().lower() if self.domain else ""
+    def label(self):
+        """
+        eg "Council operations (Scopes 1 & 2) pledge", or "Climate pledge" if
+        the domain is unclear. Promises that don't specify their scope don't
+        mention it, rather than implying they cover all scopes.
+        """
+        if self.domain in [self.COUNCIL_OPERATIONS, self.WHOLE_AREA]:
+            label = self.get_domain_display()
+        else:
+            label = "Climate"
+        if self.scope != self.SCOPE_NOT_SPECIFIED:
+            label += f" ({self.get_scope_display()})"
+        return label + " pledge"
 
 
 class EmergencyDeclaration(models.Model):

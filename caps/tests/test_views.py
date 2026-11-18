@@ -178,30 +178,93 @@ class TestCouncilDetailPage(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertRegex(response.content, rb"this is a promise")
 
-    def test_council_past_promises_not_shown(self):
+    def get_page(self):
+        response = self.client.get(reverse("council", args=["borsetshire"]))
+        self.assertEqual(response.status_code, 200)
+        # collapse whitespace, so we can match text across template lines
+        return response, re.sub(rb"\s+", b" ", response.content)
+
+    def test_council_promise_labels(self):
+        self.promise.domain = Promise.COUNCIL_OPERATIONS
+        self.promise.scope = Promise.SCOPES_1_2
+        self.promise.target_year = 2030
+        self.promise.source_date = "2024-12"
+        self.promise.save()
         Promise.objects.create(
             council=self.promise.council,
             has_promise=True,
+            domain=Promise.WHOLE_AREA,
+            text="this is an area promise",
+            source="http://borsetshire.gov.uk/area-promise/",
+            target_text="as soon as possible",
+        )
+        response, content = self.get_page()
+        self.assertIn(b"Council operations (Scopes 1 &amp; 2) pledge for 2030", content)
+        self.assertIn(b"December 2024", content)
+        self.assertIn(b"Whole area pledge </h3>", content)
+        self.assertIn(b"Target: as soon as possible", content)
+        self.assertNotIn(b"Past pledges", content)
+
+    def test_council_past_promises(self):
+        council = self.promise.council
+        superseded = Promise.objects.create(
+            council=council,
+            has_promise=True,
+            domain=Promise.COUNCIL_OPERATIONS,
             text="this is a superseded promise",
             source="http://borsetshire.gov.uk/old-promise/",
             target_year="2050",
             status=Promise.SUPERSEDED,
         )
-        Promise.objects.create(
-            council=self.promise.council,
+        withdrawn = Promise.objects.create(
+            council=council,
             has_promise=True,
+            domain=Promise.WHOLE_AREA,
             text="this is a withdrawn promise",
             source="http://borsetshire.gov.uk/withdrawn-promise/",
             target_year="2030",
             status=Promise.WITHDRAWN,
         )
-        url = reverse("council", args=["borsetshire"])
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
+        withdrawal = Promise.objects.create(
+            council=council,
+            has_promise=True,
+            domain=Promise.WHOLE_AREA,
+            type=Promise.WITHDRAWAL,
+            text="this is a withdrawal",
+            source="http://borsetshire.gov.uk/minutes/",
+        )
+        response, content = self.get_page()
         self.assertEqual(list(response.context["promises"]), [self.promise])
-        self.assertRegex(response.content, rb"this is a promise")
-        self.assertNotRegex(response.content, rb"superseded promise")
-        self.assertNotRegex(response.content, rb"withdrawn promise")
+        self.assertEqual(
+            list(response.context["past_promises"]),
+            [superseded, withdrawn, withdrawal],
+        )
+        self.assertIn(b"this is a promise", content)
+        self.assertIn(b'<details class="details mt-3" >', content)
+        self.assertIn(b"Past pledges (3)", content)
+        self.assertIn(b"Council operations pledge for 2050 (replaced)", content)
+        self.assertIn(b"Whole area pledge for 2030 (withdrawn)", content)
+        self.assertIn(b"Whole area pledge withdrawn", content)
+        self.assertNotIn(b"current net zero target", content)
+
+    def test_council_all_promises_withdrawn(self):
+        self.promise.status = Promise.WITHDRAWN
+        self.promise.save()
+        Promise.objects.create(
+            council=self.promise.council,
+            has_promise=True,
+            type=Promise.WITHDRAWAL,
+            text="this is a withdrawal",
+            source="http://borsetshire.gov.uk/minutes/",
+            last_checked="2026-11",
+        )
+        response, content = self.get_page()
+        self.assertIn(b"doesn\xe2\x80\x99t have a current net zero target", content)
+        # past pledges are shown expanded, since there's nothing else
+        self.assertIn(b'<details class="details mt-3" open>', content)
+        self.assertIn(b"this is a promise", content)
+        self.assertIn(b"pledges in November 2026", content)
+        self.assertNotIn(b"checked whether this council", content)
 
     def test_council_has_no_promise(self):
         self.promise.has_promise = False
