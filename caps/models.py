@@ -1227,21 +1227,6 @@ class Promise(models.Model):
             }
         )
 
-    @classmethod
-    def domain_code(cls, domain_entry):
-        """
-        Return a domain code given a text description, or None if the
-        description isn't in the domain choices
-        """
-        if pd.isnull(domain_entry):
-            return None
-        descriptions_to_codes = {
-            description.lower(): code for code, description in cls.DOMAIN_CHOICES
-        }
-        # the old name for council operations
-        descriptions_to_codes["council only"] = cls.COUNCIL_OPERATIONS
-        return descriptions_to_codes.get(domain_entry.lower().strip())
-
     @property
     def get_domain(self):
         return self.get_domain_display().lower() if self.domain else ""

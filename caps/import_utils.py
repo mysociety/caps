@@ -172,6 +172,7 @@ def add_authority_codes(filename: PathLike):
             council,
             council.replace("council", "").strip(),
             council.replace("- unitary", "").replace("(unitary)", "").strip(),
+            council.replace(" combined authority", " mayoral combined authority"),
         ]
         for version in name_versions:
             if version in names_to_codes:

@@ -6,6 +6,7 @@ import unittest
 from django.core.management import call_command
 from caps.models import Council, PlanDocument, Promise, Tag, CouncilTag
 
+from caps.management.commands.import_promises import import_promises
 from caps.management.commands.import_council_tags import (
     create_tags,
     create_council_tags,
@@ -271,50 +272,125 @@ class ImportPromisesTestCase(ImportTestCase):
 
     command = "import_promises"
 
-    def test_import(self):
+    def setUp(self):
+        super().setUp()
+        Council.objects.get_or_create(
+            name="East Borsetshire",
+            slug="east-borsetshire",
+            authority_code="EBRS",
+            authority_type="UA",
+            gss_code="E00000003",
+            country=Council.ENGLAND,
+            whatdotheyknow_id=81,
+        )
+        Council.objects.get_or_create(
+            name="West Borsetshire",
+            slug="west-borsetshire",
+            authority_code="WBRS",
+            authority_type="UA",
+            gss_code="E00000002",
+            country=Council.ENGLAND,
+            whatdotheyknow_id=82,
+        )
+
+    def import_promises(self):
         with self.settings(PROMISES_CSV="caps/tests/test_promises.csv"):
-            Council.objects.get_or_create(
-                name="East Borsetshire",
-                slug="east-borsetshire",
-                authority_code="EBRS",
-                authority_type="UA",
-                gss_code="E00000003",
-                country=Council.ENGLAND,
-                whatdotheyknow_id=81,
-            )
+            return import_promises()
 
-            Council.objects.get_or_create(
-                name="West Borsetshire",
-                slug="west-borsetshire",
-                authority_code="WBRS",
-                authority_type="UA",
-                gss_code="E00000002",
-                country=Council.ENGLAND,
-                whatdotheyknow_id=82,
-            )
+    def test_import_promises(self):
+        self.import_promises()
+        council = Council.objects.get(authority_code="BORS")
+
+        promise = Promise.objects.get(council=council, text="carbon neutral by 2035!")
+        self.assertTrue(promise.has_promise)
+        self.assertEqual(promise.type, Promise.PROMISE)
+        self.assertEqual(promise.status, Promise.LATEST)
+        self.assertEqual(promise.domain, Promise.COUNCIL_OPERATIONS)
+        self.assertEqual(promise.scope, Promise.SCOPES_1_2)
+        self.assertEqual(promise.target_year, 2035)
+        self.assertEqual(promise.target_text, "")
+        self.assertEqual(promise.source, "http://borsetshire.gov.uk/promise.html")
+        self.assertEqual(promise.source_name, "Borsetshire website")
+        self.assertEqual(promise.source_date, "2024-12")
+        self.assertEqual(promise.last_checked, "2026-11")
+        self.assertEqual(promise.notes, "brought forward from 2040")
+
+        promise = Promise.objects.get(council=council, scope=Promise.SCOPE_3)
+        self.assertIsNone(promise.target_year)
+        self.assertEqual(promise.target_text, "as soon as possible")
+
+    def test_import_past_promises_and_withdrawals(self):
+        self.import_promises()
+        council = Council.objects.get(authority_code="BORS")
+
+        self.assertEqual(
+            sorted(
+                Promise.objects.filter(council=council).values_list(
+                    "type", "status", "domain", "target_year"
+                )
+            ),
+            sorted(
+                [
+                    (Promise.PROMISE, Promise.LATEST, Promise.COUNCIL_OPERATIONS, 2035),
+                    (
+                        Promise.PROMISE,
+                        Promise.SUPERSEDED,
+                        Promise.COUNCIL_OPERATIONS,
+                        2040,
+                    ),
+                    (Promise.PROMISE, Promise.WITHDRAWN, Promise.WHOLE_AREA, 2050),
+                    (Promise.WITHDRAWAL, Promise.LATEST, Promise.WHOLE_AREA, None),
+                    (Promise.PROMISE, Promise.LATEST, Promise.WHOLE_AREA, None),
+                ]
+            ),
+        )
+
+    def test_import_no_promise_found(self):
+        self.import_promises()
+        council = Council.objects.get(authority_code="WBRS")
+
+        promise = Promise.objects.get(council=council)
+        self.assertFalse(promise.has_promise)
+        self.assertIsNone(promise.domain)
+        self.assertEqual(promise.last_checked, "2026-11")
+        self.assertEqual(promise.notes, "nothing found")
+
+    def test_import_skips_and_warnings(self):
+        counts, warnings = self.import_promises()
+
+        # East Borsetshire's rows are both skipped, so it stays unknown
+        council = Council.objects.get(authority_code="EBRS")
+        self.assertEqual(Promise.objects.filter(council=council).count(), 0)
+
+        self.assertEqual(
+            warnings,
+            [
+                "Row 7 (Borsetshire): unrecognised status 'Met'",
+                "Row 8 (Borsetshire): has a blank domain, but the council also "
+                "has promises",
+                "Row 10 (East Borsetshire): has a blank domain and no last "
+                "checked date",
+                "Row 11 (East Borsetshire): has a blank domain, but also has "
+                "promise details",
+                "Row 12 (Ambridge Parish Council): could not match council name "
+                "to a GSS code",
+                "Row 13 (Felpersham): no council with GSS code E00000099",
+            ],
+        )
+        self.assertEqual(counts["skipped"], 6)
+        self.assertEqual(Promise.objects.count(), 6)
+
+    def test_import_replaces_existing_promises(self):
+        council = Council.objects.get(authority_code="BORS")
+        Promise.objects.create(council=council, has_promise=True, text="old")
+        self.import_promises()
+        self.assertFalse(Promise.objects.filter(text="old").exists())
+
+    def test_command_output(self):
+        with self.settings(PROMISES_CSV="caps/tests/test_promises.csv"):
             out = self.call_command()
-
-            council = Council.objects.get(authority_code="BORS")
-            self.assertEqual(council.name, "Borsetshire")
-
-            promise = Promise.objects.get(council=council)
-            self.assertEqual(promise.target_year, 2035)
-            self.assertEqual(promise.text, "carbon neutral by 2035!")
-            self.assertEqual(promise.domain, Promise.COUNCIL_OPERATIONS)
-            self.assertEqual(promise.source, "http://borsetshire.gov.uk/promise.html")
-            self.assertEqual(promise.source_name, "Borsetshire website")
-            self.assertTrue(promise.has_promise)
-
-            council = Council.objects.get(authority_code="WBRS")
-            self.assertEqual(council.name, "West Borsetshire")
-
-            promise = Promise.objects.get(council=council)
-            self.assertFalse(promise.has_promise)
-
-            council = Council.objects.get(authority_code="EBRS")
-            self.assertEqual(council.name, "East Borsetshire")
-
-            self.assertEqual(Promise.objects.filter(council=council).count(), 0)
+        self.assertIn("promise (latest): 2", out)
+        self.assertIn("skipped: 6", out)
 
 
 class ImportTagsTestCase(TestCase):
