@@ -355,7 +355,7 @@ class PromisesAPITest(APITestCase):
             domain=Promise.COUNCIL_OPERATIONS,
             has_promise=True,
         )
-        # a past promise, which shouldn't appear anywhere
+        # a past promise, which shouldn't count towards carbon_neutral_date
         Promise.objects.create(
             council=self.council_bors,
             target_year=2030,
@@ -410,25 +410,106 @@ class PromisesAPITest(APITestCase):
         )
 
         response = self.client.get("/api/councils/BOS/commitments")
+        results = json.loads(response.content)
+        self.assertEqual(
+            [(r["status"], r["target_year"]) for r in results],
+            [("Superseded", 2030), ("Latest", 2035)],
+        )
         self.assertEquals(
-            json.loads(response.content),
-            [
-                {
-                    "council": "http://testserver/api/councils/BOS/",
-                    "has_promise": True,
-                    "target_year": 2035,
-                    "domain": "Council operations",
-                    "scope": "Not specified",
-                    "text": "Carbon Neutral by 2035",
-                    "source": "https://example.com/promise.pdf",
-                    "source_name": "Borsetshire Climate Plan",
-                }
-            ],
+            results[1],
+            {
+                "council": "http://testserver/api/councils/BOS/",
+                "has_promise": True,
+                "type": "Promise",
+                "status": "Latest",
+                "target_year": 2035,
+                "target_text": "",
+                "domain": "Council operations",
+                "scope": "Not specified",
+                "text": "Carbon Neutral by 2035",
+                "source": "https://example.com/promise.pdf",
+                "source_name": "Borsetshire Climate Plan",
+                "source_date": "",
+                "last_checked": "",
+            },
         )
 
         response = self.client.get("/api/commitments/")
         results = json.loads(response.content)["results"]
-        self.assertEqual([r["target_year"] for r in results], [2035])
+        self.assertEqual([r["target_year"] for r in results], [2030, 2035])
+
+    def create_past_promises(self):
+        Promise.objects.create(
+            council=self.council_bors,
+            target_year=2035,
+            source="https://example.com/promise.pdf",
+            domain=Promise.COUNCIL_OPERATIONS,
+            scope=Promise.SCOPES_1_2,
+            has_promise=True,
+            source_date="2024-12",
+            last_checked="2026-11",
+        )
+        Promise.objects.create(
+            council=self.council_bors,
+            target_year=2040,
+            source="https://example.com/old-promise.pdf",
+            domain=Promise.COUNCIL_OPERATIONS,
+            has_promise=True,
+            status=Promise.SUPERSEDED,
+        )
+        Promise.objects.create(
+            council=self.council_wbs,
+            target_year=2030,
+            source="https://example.com/area-promise.pdf",
+            domain=Promise.WHOLE_AREA,
+            has_promise=True,
+            status=Promise.WITHDRAWN,
+        )
+        Promise.objects.create(
+            council=self.council_wbs,
+            source="https://example.com/minutes.pdf",
+            target_text="no longer has a target",
+            domain=Promise.WHOLE_AREA,
+            has_promise=True,
+            type=Promise.WITHDRAWAL,
+        )
+
+    def test_council_commitments_include_past_promises(self):
+        self.create_past_promises()
+
+        response = self.client.get("/api/councils/BOS/commitments")
+        results = json.loads(response.content)
+        self.assertEqual(
+            [(r["status"], r["scope"], r["target_year"]) for r in results],
+            [("Superseded", "Not specified", 2040), ("Latest", "Scopes 1 & 2", 2035)],
+        )
+        self.assertEqual(results[1]["source_date"], "2024-12")
+        self.assertEqual(results[1]["last_checked"], "2026-11")
+
+        response = self.client.get("/api/councils/WBS/commitments")
+        results = json.loads(response.content)
+        self.assertEqual(
+            [(r["type"], r["status"], r["target_text"]) for r in results],
+            [
+                ("Promise", "Withdrawn", ""),
+                ("Withdrawal", "Latest", "no longer has a target"),
+            ],
+        )
+
+    def test_commitments_include_past_promises(self):
+        self.create_past_promises()
+
+        response = self.client.get("/api/commitments/")
+        results = json.loads(response.content)["results"]
+        self.assertEqual(
+            [(r["council"], r["status"]) for r in results],
+            [
+                ("http://testserver/api/councils/BOS/", "Superseded"),
+                ("http://testserver/api/councils/BOS/", "Latest"),
+                ("http://testserver/api/councils/WBS/", "Withdrawn"),
+                ("http://testserver/api/councils/WBS/", "Latest"),
+            ],
+        )
 
 
 class SearchTermAPITest(APITestCase):

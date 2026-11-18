@@ -1215,12 +1215,9 @@ class PromiseQuerySet(models.QuerySet):
             | Q(type=self.model.WITHDRAWAL)
         )
 
-    def in_display_order(self):
-        """
-        Past promises before latest ones, then by domain, scope, target year,
-        and import order
-        """
+    def in_display_order(self, *first):
         return self.order_by(
+            *first,
             Case(When(status=self.model.LATEST, then=1), default=0),
             F("domain").asc(nulls_last=True),
             "scope",
