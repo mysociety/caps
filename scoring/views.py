@@ -659,15 +659,31 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             context[inactive_type] = True
             return context
 
-        promises = Promise.objects.current().filter(council=council, has_promise=True)
-
-        target = None
-        for promise in promises:
-            if target is None:
-                target = promise
-            elif target is not None and promise.domain == Promise.WHOLE_AREA:
-                target = promise
-        context["target"] = target
+        # show the whole area target if there is one, otherwise the council
+        # operations one
+        years = (
+            Council.objects.with_carbon_neutral_years()
+            .filter(pk=council.pk)
+            .values(
+                "carbon_neutral_year_area",
+                "carbon_neutral_year_council",
+                "promises_checked",
+            )
+            .get()
+        )
+        domains = dict(Promise.DOMAIN_CHOICES)
+        context["target"] = None
+        if years["carbon_neutral_year_area"]:
+            context["target"] = {
+                "domain": domains[Promise.WHOLE_AREA],
+                "year": years["carbon_neutral_year_area"],
+            }
+        elif years["carbon_neutral_year_council"]:
+            context["target"] = {
+                "domain": domains[Promise.COUNCIL_OPERATIONS],
+                "year": years["carbon_neutral_year_council"],
+            }
+        context["promises_checked"] = years["promises_checked"]
 
         try:
             plan_score = PlanScore.objects.get(

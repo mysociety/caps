@@ -42,9 +42,11 @@
             <dd>{{ council.get_country_display }}</dd>
             <dt>Net Zero target date</dt>
             {% if target %}
-            <dd>{{ target.get_domain_display }}: {{ target.target_year }}</dd>
-            {% else %}
+            <dd>{{ target.domain }}: {{ target.year }}</dd>
+            {% elif promises_checked %}
             <dd>No target</dd>
+            {% else %}
+            <dd>Unknown</dd>
             {% endif %}
           {% if plan_score.deprivation_quintile %}
             <dt>Index of multiple deprivation</dt>
