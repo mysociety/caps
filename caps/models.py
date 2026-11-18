@@ -317,19 +317,23 @@ class Council(models.Model):
 
     @property
     def net_zero_targets(self):
-        return Promise.objects.filter(council=self, has_promise=True)
+        return Promise.objects.current().filter(council=self, has_promise=True)
 
     @property
     def net_zero_target_council_operations(self):
-        return Promise.objects.filter(
-            council=self, has_promise=True, domain=Promise.COUNCIL_OPERATIONS
-        ).first()
+        return (
+            Promise.objects.current()
+            .filter(council=self, has_promise=True, domain=Promise.COUNCIL_OPERATIONS)
+            .first()
+        )
 
     @property
     def net_zero_target_whole_area(self):
-        return Promise.objects.filter(
-            council=self, has_promise=True, domain=Promise.WHOLE_AREA
-        ).first()
+        return (
+            Promise.objects.current()
+            .filter(council=self, has_promise=True, domain=Promise.WHOLE_AREA)
+            .first()
+        )
 
     @property
     def last_updated_plan(self):
@@ -394,8 +398,10 @@ class Council(models.Model):
                 .annotate(num_plans=Count("id"))
                 .values("num_plans")
             ),
-            has_promise=Count("promise"),
-            earliest_promise=Min("promise__target_year"),
+            has_promise=Count("promise", filter=Promise.current_q("promise__")),
+            earliest_promise=Min(
+                "promise__target_year", filter=Promise.current_q("promise__")
+            ),
             declared_emergency=Min("emergencydeclaration__date_declared"),
         )
 
@@ -1123,6 +1129,17 @@ class SavedSearch(models.Model):
         return "'%s...%s" % (self.user_query[:50], self.search_key)
 
 
+class PromiseQuerySet(models.QuerySet):
+    def current(self):
+        """
+        A shorthand to get only the promises that are currently in force
+        (ie: "latest", not superseded or withdrawn). Ideally this method would
+        be named `latest()`, but there's already a latest() method on Django
+        QuerySets, so it seemed sensible to pick something else.
+        """
+        return self.filter(self.model.current_q())
+
+
 class Promise(models.Model):
     PROMISE_FILTER_CHOICES = [
         (2025, "2025"),
@@ -1193,6 +1210,22 @@ class Promise(models.Model):
     last_checked = models.CharField(max_length=20, blank=True)
     notes = models.TextField(blank=True, null=True)
     history = HistoricalRecords()
+
+    objects = PromiseQuerySet.as_manager()
+
+    @classmethod
+    def current_q(cls, prefix: str = "") -> Q:
+        """
+        A Q object for promises that are currently in force (ie: "latest").
+        Use a prefix (eg: "promise__") when querying through a relation, since
+        annotations and filters across joins don't use PromiseQuerySet.
+        """
+        return Q(
+            **{
+                f"{prefix}type": cls.PROMISE,
+                f"{prefix}status": cls.LATEST,
+            }
+        )
 
     @classmethod
     def domain_code(cls, domain_entry):
@@ -1311,13 +1344,13 @@ class CouncilFilter(django_filters.FilterSet):
         empty_label=None,
         fields=(
             ("name", "name"),
-            ("promise__target_year", "promise_year"),
+            ("earliest_promise", "promise_year"),
             ("emergencydeclaration__date_declared", "declaration_date"),
             ("plandocument__updated_at", "last_update"),
         ),
         field_labels={
             "name": "Council name",
-            "promise__target_year": "Carbon neutral target",
+            "earliest_promise": "Carbon neutral target",
             "emergencydeclaration__date_declared": "Declaration date",
             "last_update": "Last update",
         },

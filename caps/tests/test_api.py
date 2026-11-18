@@ -355,6 +355,17 @@ class PromisesAPITest(APITestCase):
             domain=Promise.COUNCIL_OPERATIONS,
             has_promise=True,
         )
+        # a past promise, which shouldn't appear anywhere
+        Promise.objects.create(
+            council=self.council_bors,
+            target_year=2030,
+            source="https://example.com/old-promise.pdf",
+            source_name="Old Borsetshire Climate Plan",
+            text="Carbon Neutral by 2030",
+            domain=Promise.COUNCIL_OPERATIONS,
+            has_promise=True,
+            status=Promise.SUPERSEDED,
+        )
 
         response = self.client.get("/api/councils/")
 
@@ -414,6 +425,10 @@ class PromisesAPITest(APITestCase):
                 }
             ],
         )
+
+        response = self.client.get("/api/commitments/")
+        results = json.loads(response.content)["results"]
+        self.assertEqual([r["target_year"] for r in results], [2035])
 
 
 class SearchTermAPITest(APITestCase):

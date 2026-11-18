@@ -659,7 +659,7 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             context[inactive_type] = True
             return context
 
-        promises = Promise.objects.filter(council=council).all()
+        promises = Promise.objects.current().filter(council=council, has_promise=True)
 
         target = None
         for promise in promises:

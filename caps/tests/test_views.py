@@ -170,6 +170,31 @@ class TestCouncilDetailPage(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertRegex(response.content, rb"this is a promise")
 
+    def test_council_past_promises_not_shown(self):
+        Promise.objects.create(
+            council=self.promise.council,
+            has_promise=True,
+            text="this is a superseded promise",
+            source="http://borsetshire.gov.uk/old-promise/",
+            target_year="2050",
+            status=Promise.SUPERSEDED,
+        )
+        Promise.objects.create(
+            council=self.promise.council,
+            has_promise=True,
+            text="this is a withdrawn promise",
+            source="http://borsetshire.gov.uk/withdrawn-promise/",
+            target_year="2030",
+            status=Promise.WITHDRAWN,
+        )
+        url = reverse("council", args=["borsetshire"])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context["promises"]), [self.promise])
+        self.assertRegex(response.content, rb"this is a promise")
+        self.assertNotRegex(response.content, rb"superseded promise")
+        self.assertNotRegex(response.content, rb"withdrawn promise")
+
     def test_council_has_no_promise(self):
         self.promise.has_promise = False
         self.promise.save()
@@ -230,6 +255,24 @@ class TestCouncilListPage(TestCase):
             council=no_plan_council,
             target_year=2050,
         )
+        # past promises, which shouldn't count
+        Promise.objects.create(
+            council=no_plan_council,
+            domain=Promise.WHOLE_AREA,
+            target_year=2025,
+            status=Promise.SUPERSEDED,
+        )
+        Promise.objects.create(
+            council=no_plan_council,
+            domain=Promise.COUNCIL_OPERATIONS,
+            target_year=2025,
+            status=Promise.WITHDRAWN,
+        )
+        Promise.objects.create(
+            council=no_plan_council,
+            domain=Promise.COUNCIL_OPERATIONS,
+            type=Promise.WITHDRAWAL,
+        )
 
         non_plan_doc_council = Council.objects.create(
             name="West Borsetshire",
@@ -280,6 +323,49 @@ class TestCouncilListPage(TestCase):
         self.assertEqual(councils[2]["earliest_promise"], None)
         self.assertEqual(
             councils[2]["declared_emergency"].strftime("%Y-%m-%d"), "2020-04-20"
+        )
+
+    def test_council_list_ignores_past_promises_by_domain(self):
+        response = self.client.get(reverse("council_list"))
+        council = (
+            response.context["filter"]
+            .qs.values(
+                "has_promise_area",
+                "has_promise_council",
+                "earliest_promise_area",
+                "earliest_promise_council",
+            )
+            .get(name="Setborshire")
+        )
+        self.assertEqual(
+            council,
+            {
+                "has_promise_area": 0,
+                "has_promise_council": 0,
+                "earliest_promise_area": None,
+                "earliest_promise_council": None,
+            },
+        )
+
+    def test_council_list_promise_filter(self):
+        response = self.client.get(
+            reverse("council_list"), {"promise_combined": "2025"}
+        )
+        self.assertEqual(response.context["filter"].qs.count(), 0)
+
+        response = self.client.get(
+            reverse("council_list"), {"promise_combined": "2030"}
+        )
+        names = [c.name for c in response.context["filter"].qs]
+        self.assertEqual(names, ["Setborshire"])
+
+    def test_council_list_sort_by_promise_year(self):
+        # sorting by a promise join used to list councils once per promise
+        response = self.client.get(reverse("council_list"), {"sort": "promise_year"})
+        names = [c.name for c in response.context["filter"].qs]
+        self.assertEqual(names[0], "Setborshire")
+        self.assertEqual(
+            sorted(names), ["Borsetshire", "Setborshire", "West Borsetshire"]
         )
 
 
