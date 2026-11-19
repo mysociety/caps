@@ -1,5 +1,4 @@
-from os.path import join, basename, splitext, isfile
-from shutil import copy
+from os.path import join, splitext, isfile
 import os
 import sys
 
@@ -51,12 +50,11 @@ def add_last_update():
 
 
 def copy_files_to_media():
-    files = [settings.PROMISES_CSV]
-
-    for file in files:
-        file_name = basename(file)
-        dst = join(settings.MEDIA_ROOT, "data", file_name)
-        copy(file, dst)
+    # CE UK's review outcomes are only for the targets page, so don't publish
+    out_csv = join(settings.MEDIA_ROOT, "data", settings.PROMISES_CSV_NAME)
+    df = pd.read_csv(settings.PROMISES_CSV, dtype=str, keep_default_na=False)
+    df = df.drop(columns=["ceuk review outcome"], errors="ignore")
+    df.to_csv(open(out_csv, "w"), index=False, header=True)
 
 
 class Command(BaseCommand):

@@ -154,6 +154,8 @@ PROMISES_CSV_KEY = "1dWd8kOT4foXTvju386r1bfvf8jd5MrMaek-4DPNHs-8"
 PROMISES_CSV_GID = "230455170"  # ID of the sheet with one promise per row
 PROMISES_CSV_NAME = "promises.csv"
 PROMISES_CSV = os.path.join(DATA_DIR, PROMISES_CSV_NAME)
+# CE UK's review outcome for each promise, written by import_promises
+PROMISE_REVIEWS_JSON = os.path.join(DATA_DIR, "promise_reviews.json")
 
 DECLARATIONS_CSV_KEY = "1fKyDs0TUwjVurpFNNR3-0IkJE-BxS1S7hT0Np8RhVFw"
 DECLARATIONS_CSV_SHEET_NAME = "Council Adaptation + Ecological Emergency Data"

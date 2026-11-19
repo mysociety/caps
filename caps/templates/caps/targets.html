@@ -1,0 +1,113 @@
+{% extends "caps/base.html" %}
+{% load caps_templatetags %}
+
+{% block bodyclass %}page-targets{% endblock %}
+
+{% block before_content %}
+
+<div class="site-hero">
+    <div class="container-fluid">
+        <h1 class="my-0">Net zero targets</h1>
+        <p class="mt-2 mb-0 lead" style="max-width: 42em">We’ve been tracking councils’ net zero target dates since 2021. In 2026, Climate Emergency UK performed a systematic review of all councils’ targets. Here’s how the targets have changed over time – some getting stronger, some getting weaker, and some disappearing entirely.</p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+{% if categories is None %}
+    <p class="text-muted">We don’t have the results of the 2026 review yet. Please check back soon.</p>
+{% else %}
+
+<div class="row">
+    <div class="col-md-4 pr-md-4 pr-lg-6">
+
+        <div class="card ceuk-card mb-gutter position-sticky" style="top: 1rem;">
+          <div class="card-header">
+              <h2>2026 review results</h2>
+          </div>
+          <div class="card-body">
+                <ul class="list-unstyled my-n2">
+                  {% for category in categories %}
+                    <li class="{% if not forloop.first %}border-top{% endif %}">
+                        <a href="#{{ category.slug }}" class="d-flex align-items-center py-2">
+                            <span class="h3 mb-0 mr-3 text-right" style="min-width: 2em;">{{ category.entries|length }}</span>
+                            {{ category.title }}
+                        </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-8 mt-n3">
+
+      {% for category in categories %}
+        <section id="{{ category.slug }}" class="mb-5 pt-3">
+            <h2>
+                {{ category.title }}
+                <span class="font-weight-normal">({{ category.entries|length }})</span>
+            </h2>
+            <p class="mb-3">{{ category.description }}</p>
+
+              {% if category.slug == "unchanged" %}
+                {% if category.entries %}
+                <details class="details">
+                    <summary>Show all {{ category.entries|length }} councils</summary>
+                    <ul class="list-unstyled mt-3 mb-0" style="columns: 16em;">
+                      {% for entry in category.entries %}
+                        <li><a href="{% url 'council' entry.council.slug %}">{{ entry.council.name }}</a> <span class="text-muted">{{ entry.summary }}</span></li>
+                      {% endfor %}
+                    </ul>
+                </details>
+                {% endif %}
+              {% else %}
+                {% for entry in category.entries %}
+                <details class="details border-top pt-3 mb-3">
+                    <summary>
+                        {{ entry.council.name }}
+                        <span class="text-muted ml-2">{{ entry.summary }}</span>
+                    </summary>
+                    <div class="row mt-2">
+                      {% if category.has_before_and_after %}
+                        <div class="col-lg-6">
+                            <h3 class="h6 text-muted text-uppercase small mt-2">Before</h3>
+                          {% for promise in entry.before %}
+                            {% include "caps/includes/promise.html" with promise=promise past=True %}
+                          {% empty %}
+                            <p class="small text-muted">No previous target.</p>
+                          {% endfor %}
+                        </div>
+                        <div class="col-lg-6">
+                            <h3 class="h6 text-muted text-uppercase small mt-2">After</h3>
+                          {% for promise in entry.after %}
+                            {% include "caps/includes/promise.html" with promise=promise past=True %}
+                          {% empty %}
+                            <p class="small text-muted">No current target.</p>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        <div class="col">
+                          {% for promise in entry.after %}
+                            {% include "caps/includes/promise.html" with promise=promise past=True %}
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                    </div>
+                    <p class="mt-3 mb-0">
+                        <a class="btn btn-purple btn-sm" href="{% url 'council' entry.council.slug %}">See {{ entry.council.short_name }}’s page</a>
+                    </p>
+                </details>
+                {% endfor %}
+              {% endif %}
+        </section>
+      {% endfor %}
+
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

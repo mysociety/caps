@@ -9,9 +9,9 @@ from caps.import_utils import (
 )
 
 # columns that are only for CE UK, or left over from the one-off conversion
-# to one promise per row, so we don't import or publish them
+# to one promise per row, so we don't import or publish them. (We keep "ceuk
+# review outcome" for import_promises, but postprocess doesn't publish it.)
 UNUSED_COLUMNS = [
-    "ceuk review outcome",
     "ceuk checked",
     "conversion source rows",
     "conversion flags",

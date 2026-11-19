@@ -8,6 +8,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from caps.models import Council, Promise
+from caps.promise_reviews import write_review_outcomes
 
 """
 Wrap this in a transaction and delete all the things, as the sheet holds the
@@ -16,6 +17,9 @@ remove and replace everything rather than try and work out what's changed.
 
 Each row is one promise, one withdrawal of a promise, or (with a blank domain)
 a council that was checked and found to have no promise.
+
+CE UK's "ceuk review outcome" for each promise isn't stored on the model, but
+written to settings.PROMISE_REVIEWS_JSON (see caps.promise_reviews).
 """
 
 PROMISE_FIELDS = [
@@ -57,6 +61,7 @@ def import_promises() -> tuple[Counter, list[str]]:
 
     counts = Counter()
     warnings = []
+    review_outcomes = {}
 
     df = pd.read_csv(settings.PROMISES_CSV, dtype=str, keep_default_na=False)
     rows = [
@@ -132,7 +137,7 @@ def import_promises() -> tuple[Counter, list[str]]:
         if not row["source url"]:
             warnings.append(f"Row {row_number} ({row['council']}): no source url")
 
-        Promise.objects.create(
+        promise = Promise.objects.create(
             council=council,
             has_promise=True,
             type=codes["type"],
@@ -149,6 +154,11 @@ def import_promises() -> tuple[Counter, list[str]]:
             notes=row["notes"],
         )
         counts[f"{row['type'].lower()} ({row['status'].lower()})"] += 1
+        if row.get("ceuk review outcome"):
+            review_outcomes[promise.pk] = row["ceuk review outcome"]
+
+    # only once the promises (and so their ids) are definitely saved
+    transaction.on_commit(lambda: write_review_outcomes(review_outcomes))
 
     return counts, warnings
 

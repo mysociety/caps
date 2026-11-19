@@ -47,6 +47,7 @@ from caps.models import (
     SavedSearch,
     Tag,
 )
+from caps.promise_reviews import review_categories
 from caps.search_funcs import condense_highlights
 from caps.utils import file_size, is_valid_postcode
 from charting import ChartCollection
@@ -698,6 +699,19 @@ class TagDetailView(DetailView):
         )
         context["councils"] = councils
 
+        return context
+
+
+class TargetsView(TemplateView):
+    template_name = "caps/targets.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Net zero targets"
+        context["page_description"] = (
+            "See how UK councils’ net zero targets changed in 2026."
+        )
+        context["categories"] = review_categories()
         return context
 
 

@@ -1,4 +1,7 @@
+import json
+import tempfile
 from io import StringIO
+from pathlib import Path
 
 from django.test import TestCase
 
@@ -296,6 +299,25 @@ class ImportPromisesTestCase(ImportTestCase):
     def import_promises(self):
         with self.settings(PROMISES_CSV="caps/tests/test_promises.csv"):
             return import_promises()
+
+    def test_import_writes_review_outcomes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            reviews_json = Path(tmp, "promise_reviews.json")
+            with self.settings(PROMISE_REVIEWS_JSON=str(reviews_json)):
+                with self.captureOnCommitCallbacks(execute=True):
+                    self.import_promises()
+
+            outcomes = {
+                Promise.objects.get(pk=pk).text: outcome
+                for pk, outcome in json.loads(reviews_json.read_text()).items()
+            }
+        self.assertEqual(
+            outcomes,
+            {
+                "carbon neutral by 2035!": "Updated target - stronger",
+                "the whole of Borsetshire will be net zero by 2050": "Withdrawn",
+            },
+        )
 
     def test_import_promises(self):
         self.import_promises()
