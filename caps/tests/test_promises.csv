@@ -1,4 +1,13 @@
-council,scope,target,wording,source_url,source_name,notes,authority_code,gss_code
-Borsetshire,Council operations,2035.0,"carbon neutral by 2035!",http://borsetshire.gov.uk/promise.html,Borsetshire website,,BORS,E00000001
-West Borsetshire,No promise,,,,,,WBRS,E00000002
-East Borsetshire,,,,,,,EBRS,E00000003
+council,last checked,type,status,domain,scopes,target date year,target date text,wording,source url,source name,source date,notes,ceuk review outcome,authority_code,gss_code
+Borsetshire,2026-11,Promise,Latest,Council operations,Scopes 1 & 2,2035.0,,carbon neutral by 2035!,http://borsetshire.gov.uk/promise.html,Borsetshire website,2024-12,brought forward from 2040,Updated target - stronger,BORS,E00000001
+Borsetshire,2026-11,Promise,Superseded,Council operations,Not specified,2040.0,,carbon neutral by 2040,http://borsetshire.gov.uk/old-promise.html,Old Borsetshire website,2021,,,BORS,E00000001
+Borsetshire,2026-11,Promise,Withdrawn,Whole area,Not specified,2050.0,,the whole of Borsetshire will be net zero by 2050,http://borsetshire.gov.uk/area-promise.html,Borsetshire area plan,2020-06-01,,Withdrawn,BORS,E00000001
+Borsetshire,2026-11,Withdrawal,Latest,Whole area,Not specified,,,the area net zero target is withdrawn,http://borsetshire.gov.uk/minutes.html,Council minutes,2025-03,,,BORS,E00000001
+Borsetshire,2026-11,Promise,Latest,Whole area,Scope 3,,as soon as possible,scope 3 emissions will be net zero as soon as possible,http://borsetshire.gov.uk/scope-3.html,Scope 3 plan,,,,BORS,E00000001
+Borsetshire,2026-11,Promise,Met,Whole area,Not specified,2025,,an unrecognised status,http://borsetshire.gov.uk/met.html,,,,,BORS,E00000001
+Borsetshire,2026-11,,,,,,,,,,,a blank domain for a council with promises,,BORS,E00000001
+West Borsetshire,2026-11,,,,,,,,,,,nothing found,,WBRS,E00000002
+East Borsetshire,,,,,,,,,,,,,,EBRS,E00000003
+East Borsetshire,2026-11,,,,,2030,,a blank domain with promise details,http://eastborsetshire.gov.uk/promise.html,,,,,EBRS,E00000003
+Ambridge Parish Council,2026-11,Promise,Latest,Whole area,Not specified,2030,,an unmatched council name,http://ambridge.gov.uk/promise.html,,,,,,
+Felpersham,2026-11,Promise,Latest,Whole area,Not specified,2030,,a GSS code with no council,http://felpersham.gov.uk/promise.html,,,,,FEL,E00000099

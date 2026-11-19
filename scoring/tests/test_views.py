@@ -1,7 +1,7 @@
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from caps.models import Council
+from caps.models import Council, Promise
 from scoring.models import PlanScore, PlanSectionScore
 
 
@@ -415,6 +415,66 @@ class TestAnswerView(TestCase):
 
 
 @override_settings(PLAN_YEAR="2023")
+@override_settings(PLAN_YEAR="2023")
+class TestCouncilViewTarget(TestCase):
+    fixtures = ["test_answers.json"]
+
+    def setUp(self):
+        self.client = Client()
+        self.council = Council.objects.get(slug="borsetshire")
+
+    def get_target(self):
+        url = reverse("scoring:council", urlconf="scoring.urls", args=["borsetshire"])
+        response = self.client.get(url, HTTP_HOST="councilclimatescorecards.com")
+        return response, response.context["target"]
+
+    def create_promise(self, **kwargs):
+        Promise.objects.create(council=self.council, has_promise=True, **kwargs)
+
+    def test_unknown(self):
+        response, target = self.get_target()
+        self.assertIsNone(target)
+        self.assertContains(response, "<dd>Unknown</dd>")
+
+    def test_no_target(self):
+        Promise.objects.create(council=self.council, has_promise=False)
+        response, target = self.get_target()
+        self.assertIsNone(target)
+        self.assertContains(response, "<dd>No target</dd>")
+
+    def test_scope_1_2_only_is_no_target(self):
+        self.create_promise(
+            domain=Promise.COUNCIL_OPERATIONS,
+            scope=Promise.SCOPES_1_2,
+            target_year=2030,
+        )
+        response, target = self.get_target()
+        self.assertIsNone(target)
+        self.assertContains(response, "<dd>No target</dd>")
+
+    def test_council_operations_target(self):
+        self.create_promise(
+            domain=Promise.COUNCIL_OPERATIONS,
+            scope=Promise.SCOPES_1_2,
+            target_year=2030,
+        )
+        self.create_promise(
+            domain=Promise.COUNCIL_OPERATIONS, scope=Promise.SCOPE_3, target_year=2040
+        )
+        response, target = self.get_target()
+        self.assertEqual(target, {"domain": "Council operations", "year": 2040})
+        self.assertContains(response, "<dd>Council operations: 2040</dd>")
+
+    def test_whole_area_target_preferred(self):
+        self.create_promise(domain=Promise.COUNCIL_OPERATIONS, target_year=2030)
+        self.create_promise(domain=Promise.WHOLE_AREA, target_year=2045)
+        self.create_promise(
+            domain=Promise.WHOLE_AREA, target_year=2035, status=Promise.SUPERSEDED
+        )
+        response, target = self.get_target()
+        self.assertEqual(target, {"domain": "Whole area", "year": 2045})
+
+
 class TestTopPerormersInViews(TestCase):
     fixtures = ["test_top_performers.json"]
 

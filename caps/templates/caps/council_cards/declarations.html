@@ -21,25 +21,15 @@
     {% endif %}
     {% if promises %}
         {% for promise in promises %}
-            <h3 class="h6 mt-4">
-                {% if promise.get_scope %}
-                    {{ promise.get_scope|capfirst }} pledge
-                {% else %}
-                    Climate pledge
-                {% endif %}
-                {% if promise.target_year %}
-                    for {{ promise.target_year }}
-                {% endif %}
-            </h3>
-            <blockquote class="blockquote">
-                <p class="mb-0">
-                    “{{ promise.text }}”
-                </p>
-                <footer class="blockquote-footer">
-                    <cite title="{{ promise.source_name }}"><a href="{{ promise.source }}">{{ promise.source_name }}</a></cite>
-                </footer>
-            </blockquote>
+            {% include "caps/includes/promise.html" with promise=promise %}
         {% endfor %}
+    {% elif past_promises %}
+        <h3 class="h6 mt-4">
+            Climate pledges
+        </h3>
+        <p class="mt-n1 text-muted">
+            This council doesn’t have a current net zero target. Its previous pledges have been withdrawn.
+        </p>
     {% elif no_promise %}
         <h3 class="h6 mt-4">
             Climate pledges
@@ -55,6 +45,19 @@
             We haven’t checked whether this council has made any climate pledges yet, but we will soon. If you’ve already found one, <a href="{% url 'about' %}">let us know!</a>
         </p>
     {% endif %}
+    {% if past_promises %}
+        <details class="details mt-3" {% if not promises %}open{% endif %}>
+            <summary>Past pledges ({{ past_promises|length }})</summary>
+            {% for promise in past_promises %}
+                {% include "caps/includes/promise.html" with promise=promise past=True %}
+            {% endfor %}
+        </details>
+    {% endif %}
+    {% if promises_last_checked %}
+        <p class="small text-muted mt-3 mb-0">
+            We last checked this council’s pledges in {{ promises_last_checked|partial_date }}.
+        </p>
+    {% endif %}
     <hr>
     {% infobox no_card=True %}
         <p class="mb-3">
@@ -63,11 +66,14 @@
         </p>
         <p class="mb-3">
             A whole area pledge is a commitment to reduce emissions across the geographic area, including emissions by homes and businesses.
-            <a href="{% url 'council_list' %}?promise_area=any_promise">See a list of councils which have made a whole area pledge.</a>
+            <a href="{% url 'council_list' %}?promise_area=any_promise">See a list of councils with a whole area net zero target.</a>
         </p>
         <p class="mb-3">
-            A council only pledge is a commitment to reduce emissions that the council is directly responsible for through its buildings, operations, and services.
-            <a href="{% url 'council_list' %}?promise_council=any_promise">See a list of councils which have made a council-only pledge.</a>
+            A council operations pledge is a commitment to reduce emissions that the council is directly responsible for through its buildings, operations, and services.
+            <a href="{% url 'council_list' %}?promise_council=any_promise">See a list of councils with a council operations net zero target.</a>
+        </p>
+        <p class="mb-3">
+            Some councils have separate pledges for different “scopes” of emissions. Scope 1 and 2 emissions are produced directly by the council, or through the generation of the energy the council uses. Scope 3 covers all other indirect emissions, such as those from goods and services that are bought in. We only consider a council “fully carbon neutral” once it has reached net zero across all three scopes.
         </p>
     {% endinfobox %}
 {% endblock content %}

@@ -20,7 +20,10 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.db.models import (
+    Case,
     Count,
+    Exists,
+    F,
     Max,
     Min,
     OuterRef,
@@ -29,9 +32,10 @@ from django.db.models import (
     QuerySet,
     Subquery,
     Sum,
+    When,
 )
 from django.db.models.expressions import RawSQL
-from django.db.models.functions import Length
+from django.db.models.functions import Coalesce, Greatest, Least, Length
 from django.forms import Select, TextInput
 from django.utils.http import urlencode
 from django.utils.text import slugify
@@ -107,6 +111,80 @@ class CapsModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class CouncilQuerySet(models.QuerySet):
+    def with_carbon_neutral_years(self):
+        """
+        Annotate each council with the year it has promised to be fully
+        carbon neutral by, for each promise domain, and overall:
+
+        - carbon_neutral_year_council
+        - carbon_neutral_year_area
+        - carbon_neutral_year (the earliest, across all domains)
+
+        and promises_checked, which is False if we've never checked the
+        council for promises (so its target is "unknown" rather than "no
+        target").
+
+        Only current promises count. Within each domain, a promise that doesn't
+        specify its scopes covers everything, so use the earliest of those.
+        Otherwise, the council is only fully carbon neutral once it's met both
+        its Scope 1 & 2 and Scope 3 targets, so use the later of those two.
+        A council with only one of the two has no date.
+        """
+        current = Promise.current_q("promise__")
+
+        def earliest(domain, scope):
+            return Min(
+                "promise__target_year",
+                filter=current & Q(promise__domain=domain, promise__scope=scope),
+            )
+
+        aliases = {}
+        years = {}
+        for domain, name in [
+            (Promise.COUNCIL_OPERATIONS, "council"),
+            (Promise.WHOLE_AREA, "area"),
+            (Promise.UNCLEAR, "unclear"),
+        ]:
+            aliases[f"_not_specified_{name}"] = earliest(
+                domain, Promise.SCOPE_NOT_SPECIFIED
+            )
+            aliases[f"_scopes_1_2_{name}"] = earliest(domain, Promise.SCOPES_1_2)
+            aliases[f"_scope_3_{name}"] = earliest(domain, Promise.SCOPE_3)
+            years[f"carbon_neutral_year_{name}"] = Coalesce(
+                f"_not_specified_{name}",
+                Case(
+                    When(
+                        **{
+                            f"_scopes_1_2_{name}__isnull": False,
+                            f"_scope_3_{name}__isnull": False,
+                        },
+                        then=Greatest(f"_scopes_1_2_{name}", f"_scope_3_{name}"),
+                    )
+                ),
+            )
+
+        return (
+            self.alias(**aliases)
+            .annotate(**years)
+            .annotate(
+                # Least ignores nulls in PostgreSQL
+                carbon_neutral_year=Least(
+                    "carbon_neutral_year_council",
+                    "carbon_neutral_year_area",
+                    "carbon_neutral_year_unclear",
+                ),
+                # any latest row counts, including withdrawals and "checked,
+                # no promise found"
+                promises_checked=Exists(
+                    Promise.objects.filter(
+                        council=OuterRef("pk"), status=Promise.LATEST
+                    )
+                ),
+            )
+        )
 
 
 class Council(models.Model):
@@ -254,6 +332,8 @@ class Council(models.Model):
     def __lt__(self, other):
         return self.id < other.id
 
+    objects = CouncilQuerySet.as_manager()
+
     def __str__(self):
         return "%s" % self.name
 
@@ -317,19 +397,11 @@ class Council(models.Model):
 
     @property
     def net_zero_targets(self):
-        return Promise.objects.filter(council=self, has_promise=True)
-
-    @property
-    def net_zero_target_council_operations(self):
-        return Promise.objects.filter(
-            council=self, has_promise=True, scope=PlanDocument.COUNCIL_ONLY
-        ).first()
-
-    @property
-    def net_zero_target_whole_area(self):
-        return Promise.objects.filter(
-            council=self, has_promise=True, scope=PlanDocument.WHOLE_AREA
-        ).first()
+        return (
+            Promise.objects.current()
+            .filter(council=self, has_promise=True)
+            .in_display_order()
+        )
 
     @property
     def last_updated_plan(self):
@@ -383,20 +455,21 @@ class Council(models.Model):
         """
         get all related councils
         """
-        councils = self.related_authorities.filter(
-            distances__position__lte=cut_off + 2
-        ).annotate(
-            num_plans=Subquery(
-                PlanDocument.objects.filter(
-                    council_id=OuterRef("id"), document_type=PlanDocument.ACTION_PLAN
-                )
-                .values("council_id")
-                .annotate(num_plans=Count("id"))
-                .values("num_plans")
-            ),
-            has_promise=Count("promise"),
-            earliest_promise=Min("promise__target_year"),
-            declared_emergency=Min("emergencydeclaration__date_declared"),
+        councils = (
+            self.related_authorities.filter(distances__position__lte=cut_off + 2)
+            .with_carbon_neutral_years()
+            .annotate(
+                num_plans=Subquery(
+                    PlanDocument.objects.filter(
+                        council_id=OuterRef("id"),
+                        document_type=PlanDocument.ACTION_PLAN,
+                    )
+                    .values("council_id")
+                    .annotate(num_plans=Count("id"))
+                    .values("num_plans")
+                ),
+                declared_emergency=Min("emergencydeclaration__date_declared"),
+            )
         )
 
         if scoring_group is not None:
@@ -1123,6 +1196,36 @@ class SavedSearch(models.Model):
         return "'%s...%s" % (self.user_query[:50], self.search_key)
 
 
+class PromiseQuerySet(models.QuerySet):
+    def current(self):
+        """
+        A shorthand to get only the promises that are currently in force
+        (ie: "latest", not superseded or withdrawn). Ideally this method would
+        be named `latest()`, but there's already a latest() method on Django
+        QuerySets, so it seemed sensible to pick something else.
+        """
+        return self.filter(self.model.current_q())
+
+    def past(self):
+        """
+        Superseded and withdrawn promises, and the motions that withdrew them
+        """
+        return self.filter(
+            Q(status__in=[self.model.SUPERSEDED, self.model.WITHDRAWN])
+            | Q(type=self.model.WITHDRAWAL)
+        )
+
+    def in_display_order(self, *first):
+        return self.order_by(
+            *first,
+            Case(When(status=self.model.LATEST, then=1), default=0),
+            F("domain").asc(nulls_last=True),
+            "scope",
+            F("target_year").asc(nulls_last=True),
+            "id",
+        )
+
+
 class Promise(models.Model):
     PROMISE_FILTER_CHOICES = [
         (2025, "2025"),
@@ -1136,26 +1239,94 @@ class Promise(models.Model):
         ("unknown", "Unknown"),
     ]
 
+    PROMISE = 1
+    WITHDRAWAL = 2
+    TYPE_CHOICES = [
+        (PROMISE, "Promise"),
+        (WITHDRAWAL, "Withdrawal"),
+    ]
+
+    LATEST = 1
+    SUPERSEDED = 2
+    WITHDRAWN = 3
+    STATUS_CHOICES = [
+        (LATEST, "Latest"),
+        (SUPERSEDED, "Superseded"),
+        (WITHDRAWN, "Withdrawn"),
+    ]
+
+    COUNCIL_OPERATIONS = 1
+    WHOLE_AREA = 2
+    UNCLEAR = 3
+    DOMAIN_CHOICES = [
+        (COUNCIL_OPERATIONS, "Council operations"),
+        (WHOLE_AREA, "Whole area"),
+        (UNCLEAR, "Unclear"),
+    ]
+
+    SCOPE_NOT_SPECIFIED = 1
+    SCOPES_1_2 = 2
+    SCOPE_3 = 3
+    SCOPE_CHOICES = [
+        (SCOPE_NOT_SPECIFIED, "Not specified"),
+        (SCOPES_1_2, "Scopes 1 & 2"),
+        (SCOPE_3, "Scope 3"),
+    ]
+
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
+    # False for "checked, no promise found"
     has_promise = models.BooleanField(blank=True, null=True)
-    target_year = models.IntegerField(blank=True, null=True)
-    scope = models.PositiveSmallIntegerField(
-        choices=PlanDocument.SCOPE_CHOICES, null=True, blank=True
+    type = models.PositiveSmallIntegerField(choices=TYPE_CHOICES, default=PROMISE)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, default=LATEST)
+    domain = models.PositiveSmallIntegerField(
+        choices=DOMAIN_CHOICES, null=True, blank=True
     )
+    scope = models.PositiveSmallIntegerField(
+        choices=SCOPE_CHOICES, default=SCOPE_NOT_SPECIFIED
+    )
+    target_year = models.IntegerField(blank=True, null=True)
+    target_text = models.CharField(max_length=200, blank=True)
     text = models.TextField(blank=True)
     source = models.URLField(max_length=600)
     source_name = models.CharField(max_length=200, blank=True)
-    notes = models.CharField(max_length=800, blank=True, null=True)
+    # free text dates, YYYY[-MM[-DD]] where possible
+    source_date = models.CharField(max_length=20, blank=True)
+    last_checked = models.CharField(max_length=20, blank=True)
+    notes = models.TextField(blank=True, null=True)
     history = HistoricalRecords()
 
+    objects = PromiseQuerySet.as_manager()
+
+    @classmethod
+    def current_q(cls, prefix: str = "") -> Q:
+        """
+        A Q object for promises that are currently in force (ie: "latest").
+        Use a prefix (eg: "promise__") when querying through a relation, since
+        annotations and filters across joins don't use PromiseQuerySet.
+        """
+        return Q(
+            **{
+                f"{prefix}type": cls.PROMISE,
+                f"{prefix}status": cls.LATEST,
+            }
+        )
+
     @property
-    def get_scope(self):
-        for choice in PlanDocument.SCOPE_CHOICES:
-            if choice[0] == self.scope:
-                return choice[1].lower()
-        return ""
+    def label(self):
+        """
+        eg "Council operations (Scopes 1 & 2) pledge", or "Climate pledge" if
+        the domain is unclear. Promises that don't specify their scope don't
+        mention it, rather than implying they cover all scopes.
+        """
+        if self.domain in [self.COUNCIL_OPERATIONS, self.WHOLE_AREA]:
+            label = self.get_domain_display()
+        else:
+            label = "Climate"
+        if self.scope != self.SCOPE_NOT_SPECIFIED:
+            label += f" ({self.get_scope_display()})"
+        return label + " pledge"
 
 
 class EmergencyDeclaration(models.Model):
@@ -1194,21 +1365,21 @@ class CouncilFilter(django_filters.FilterSet):
 
     promise_council = django_filters.ChoiceFilter(
         method="filter_promise_council",
-        label="Carbon neutral by (Council)",
+        label="Fully carbon neutral by (council operations)",
         empty_label="All",
         choices=Promise.PROMISE_FILTER_CHOICES,
     )
 
     promise_area = django_filters.ChoiceFilter(
         method="filter_promise_area",
-        label="Carbon neutral by (Area)",
+        label="Fully carbon neutral by (whole area)",
         empty_label="All",
         choices=Promise.PROMISE_FILTER_CHOICES,
     )
 
     promise_combined = django_filters.ChoiceFilter(
         method="filter_promise",
-        label="Carbon neutral by (Any)",
+        label="Fully carbon neutral by (any)",
         empty_label="All",
         choices=Promise.PROMISE_FILTER_CHOICES,
     )
@@ -1255,13 +1426,13 @@ class CouncilFilter(django_filters.FilterSet):
         empty_label=None,
         fields=(
             ("name", "name"),
-            ("promise__target_year", "promise_year"),
+            ("carbon_neutral_year", "promise_year"),
             ("emergencydeclaration__date_declared", "declaration_date"),
             ("plandocument__updated_at", "last_update"),
         ),
         field_labels={
             "name": "Council name",
-            "promise__target_year": "Carbon neutral target",
+            "carbon_neutral_year": "Fully carbon neutral by",
             "emergencydeclaration__date_declared": "Declaration date",
             "last_update": "Last update",
         },
@@ -1315,28 +1486,32 @@ class CouncilFilter(django_filters.FilterSet):
             return queryset.filter(**{name: value})
 
     def filter_promise_area(self, queryset, name, value):
-        return self.filter_promise(queryset, name, value, scope="area")
+        return self.filter_promise(queryset, name, value, domain="area")
 
     def filter_promise_council(self, queryset, name, value):
-        return self.filter_promise(queryset, name, value, scope="council")
+        return self.filter_promise(queryset, name, value, domain="council")
 
-    def filter_promise(self, queryset, name, value, scope=""):
-        promise_field = "has_promise"
-        earliest_field = "earliest_promise"
-        if scope:
-            promise_field += "_" + scope
-            earliest_field += "_" + scope
+    def filter_promise(self, queryset, name, value, domain=""):
+        """
+        Filter on the annotations from
+        CouncilQuerySet.with_carbon_neutral_years
+        """
+        year_field = "carbon_neutral_year"
+        if domain:
+            year_field += "_" + domain
 
-        if value is None:
+        if not value:
             return queryset
         elif value == "any_promise":
-            return queryset.filter(**{promise_field: 1})
+            return queryset.filter(**{f"{year_field}__isnull": False})
         elif value == "unknown":
-            return queryset.filter(**{promise_field: 0})
+            return queryset.filter(promises_checked=False)
         elif value == "no_target":
-            return queryset.filter(**{f"{promise_field}__gte": 1, earliest_field: None})
+            return queryset.filter(
+                promises_checked=True, **{f"{year_field}__isnull": True}
+            )
         else:
-            return queryset.filter(**{f"{earliest_field}__lte": value})
+            return queryset.filter(**{f"{year_field}__lte": value})
 
     def filter_emissions(self, queryset, name, value):
         if value is None:

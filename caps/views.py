@@ -10,19 +10,7 @@ import markdown
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.mail import send_mail
-from django.db.models import (
-    Avg,
-    Case,
-    Count,
-    IntegerField,
-    Max,
-    Min,
-    OuterRef,
-    Q,
-    Subquery,
-    Value,
-    When,
-)
+from django.db.models import Avg, Count, Max, Min, OuterRef, Q, Subquery
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import Context, Template
@@ -55,9 +43,11 @@ from caps.models import (
     DataType,
     PlanDocument,
     ProjectFilter,
+    Promise,
     SavedSearch,
     Tag,
 )
+from caps.promise_reviews import review_categories
 from caps.search_funcs import condense_highlights
 from caps.utils import file_size, is_valid_postcode
 from charting import ChartCollection
@@ -370,10 +360,16 @@ class CouncilDetailView(DetailView):
         context["feedback_form_url"] = settings.FEEDBACK_FORM
 
         context["related_councils"] = council.get_related_councils()
-        context["promises"] = council.promise_set.filter(has_promise=True).order_by(
-            "target_year"
+        context["promises"] = (
+            council.promise_set.current().filter(has_promise=True).in_display_order()
         )
-        context["no_promise"] = council.promise_set.filter(has_promise=False)
+        context["past_promises"] = council.promise_set.past().in_display_order()
+        context["no_promise"] = council.promise_set.current().filter(has_promise=False)
+        context["promises_last_checked"] = (
+            council.promise_set.filter(status=Promise.LATEST)
+            .exclude(last_checked="")
+            .aggregate(Max("last_checked"))["last_checked__max"]
+        )
         context["last_updated"] = council.plandocument_set.aggregate(
             last_update=Max("updated_at"), last_found=Max("date_first_found")
         )
@@ -417,6 +413,7 @@ class CouncilListView(FilterView):
     def get_queryset(self):
         return (
             Council.current_councils()
+            .with_carbon_neutral_years()
             .annotate(
                 num_plans=Subquery(
                     PlanDocument.objects.filter(
@@ -426,48 +423,6 @@ class CouncilListView(FilterView):
                     .values("council_id")
                     .annotate(num_plans=Count("id"))
                     .values("num_plans")
-                ),
-                has_promise=Count("promise"),
-                has_promise_area=Count(
-                    Case(
-                        When(
-                            promise__scope=PlanDocument.WHOLE_AREA,
-                            then="promise__target_year",
-                        ),
-                        default=Value(None),
-                        output_field=IntegerField(),
-                    )
-                ),
-                has_promise_council=Count(
-                    Case(
-                        When(
-                            promise__scope=PlanDocument.COUNCIL_ONLY,
-                            then="promise__target_year",
-                        ),
-                        default=Value(None),
-                        output_field=IntegerField(),
-                    )
-                ),
-                earliest_promise=Min("promise__target_year"),
-                earliest_promise_area=Min(
-                    Case(
-                        When(
-                            promise__scope=PlanDocument.WHOLE_AREA,
-                            then="promise__target_year",
-                        ),
-                        default=Value(None),
-                        output_field=IntegerField(),
-                    )
-                ),
-                earliest_promise_council=Min(
-                    Case(
-                        When(
-                            promise__scope=PlanDocument.COUNCIL_ONLY,
-                            then="promise__target_year",
-                        ),
-                        default=Value(None),
-                        output_field=IntegerField(),
-                    )
                 ),
                 declared_emergency=Min("emergencydeclaration__date_declared"),
                 last_plan_update=Max("plandocument__updated_at"),
@@ -687,9 +642,13 @@ class TwinsView(BaseLocationResultsView):
         council = None
 
         if "slug" in self.kwargs:
-            council = Council.objects.get(slug=self.kwargs["slug"])
+            council = Council.objects.with_carbon_neutral_years().get(
+                slug=self.kwargs["slug"]
+            )
         elif len(context.get("councils", [])) == 1:
-            council = context["councils"][0]
+            council = Council.objects.with_carbon_neutral_years().get(
+                pk=context["councils"][0].pk
+            )
 
         if council:
             context["council"] = council
@@ -729,15 +688,30 @@ class TagDetailView(DetailView):
 
         tagged = CouncilTag.objects.filter(tag=tag).values_list("council", flat=True)
 
-        councils = Council.objects.filter(id__in=list(tagged)).annotate(
-            num_plans=Count("plandocument"),
-            has_promise=Count("promise"),
-            earliest_promise=Min("promise__target_year"),
-            declared_emergency=Min("emergencydeclaration__date_declared"),
-            last_plan_update=Max("plandocument__updated_at"),
+        councils = (
+            Council.objects.filter(id__in=list(tagged))
+            .with_carbon_neutral_years()
+            .annotate(
+                num_plans=Count("plandocument"),
+                declared_emergency=Min("emergencydeclaration__date_declared"),
+                last_plan_update=Max("plandocument__updated_at"),
+            )
         )
         context["councils"] = councils
 
+        return context
+
+
+class TargetsView(TemplateView):
+    template_name = "caps/targets.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["page_title"] = "Net zero targets"
+        context["page_description"] = (
+            "See how UK councils’ net zero targets changed in 2026."
+        )
+        context["categories"] = review_categories()
         return context
 
 

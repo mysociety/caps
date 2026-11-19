@@ -45,10 +45,10 @@
                     <div class="label-wrapper">
                         <p class="label pl-0">Net-zero target date</p>
                       {% for target in targets %}
-                      {% if target.scope is None %}
+                      {% if target.domain is None %}
                         <p>No target</p>
                       {% else %}
-                        <p>{{ target.get_scope_display }}: {{ target.target_year }}</p>
+                        <p>{{ target.get_domain_display }}: {{ target.target_year }}</p>
                       {% endif %}
                       {% endfor %}
                     </div>

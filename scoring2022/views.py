@@ -233,7 +233,7 @@ class CouncilView(PrivateScorecardsAccessMixin, DetailView):
             context["no_plan"] = True
             return context
 
-        promises = Promise.objects.filter(council=council).all()
+        promises = Promise.objects.current().filter(council=council)
         plan_urls = PlanScoreDocument.objects.filter(plan_score=plan_score)
         sections = PlanSectionScore.sections_for_council(
             council=council, plan_year=2021

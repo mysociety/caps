@@ -17,7 +17,7 @@ from django.views.generic import DetailView, TemplateView
 from django_filters.views import FilterView
 
 import scoring.defaults as defaults
-from caps.models import Council, PlanDocument, Promise
+from caps.models import Council, Promise
 from caps.utils import gen_natsort_lamda
 from caps.views import BaseLocationResultsView
 from conf.social_graphics import social_graphics
@@ -659,15 +659,31 @@ class CouncilView(PrivateScorecardsAccessMixin, SearchAutocompleteMixin, DetailV
             context[inactive_type] = True
             return context
 
-        promises = Promise.objects.filter(council=council).all()
-
-        target = None
-        for promise in promises:
-            if target is None:
-                target = promise
-            elif target is not None and promise.scope == PlanDocument.WHOLE_AREA:
-                target = promise
-        context["target"] = target
+        # show the whole area target if there is one, otherwise the council
+        # operations one
+        years = (
+            Council.objects.with_carbon_neutral_years()
+            .filter(pk=council.pk)
+            .values(
+                "carbon_neutral_year_area",
+                "carbon_neutral_year_council",
+                "promises_checked",
+            )
+            .get()
+        )
+        domains = dict(Promise.DOMAIN_CHOICES)
+        context["target"] = None
+        if years["carbon_neutral_year_area"]:
+            context["target"] = {
+                "domain": domains[Promise.WHOLE_AREA],
+                "year": years["carbon_neutral_year_area"],
+            }
+        elif years["carbon_neutral_year_council"]:
+            context["target"] = {
+                "domain": domains[Promise.COUNCIL_OPERATIONS],
+                "year": years["carbon_neutral_year_council"],
+            }
+        context["promises_checked"] = years["promises_checked"]
 
         try:
             plan_score = PlanScore.objects.get(

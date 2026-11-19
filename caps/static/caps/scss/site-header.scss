@@ -43,7 +43,8 @@
         }
     }
 
-    .page-green & {
+    .page-green &,
+    .page-targets & {
         background-color: $color-ceuk-green;
     }
 

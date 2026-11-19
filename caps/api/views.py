@@ -2,7 +2,7 @@ import operator
 from datetime import datetime
 from functools import reduce
 
-from django.db.models import Count, Exists, Max, Min, OuterRef, Q, Subquery
+from django.db.models import Count, Exists, F, Max, Min, OuterRef, Q, Subquery
 from django.forms import ValidationError
 from django.utils.timezone import make_aware
 from rest_framework import generics, routers, viewsets
@@ -64,7 +64,7 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
     * document_count - number of documents we have details for.
     * plans_last_update - the date of the most recent update to a plan (null if no plans)
     * carbon_reduction_commitment - True if the council has public commitments to reduce emissions
-    * carbon_neutral_date - the earliest date for a carbon neutral target (null if no date)
+    * carbon_neutral_date - the earliest year the council has promised to be fully carbon neutral by, for either its own operations or its whole area (null if no date). If the council has separate Scope 1 & 2 and Scope 3 targets, the later of the two is used
     * carbon_neutral_commitments - link to list of commitments made by council
     * declared_emergency - date, if any, council declared a climate emergency
 
@@ -103,15 +103,21 @@ class CouncilViewSet(viewsets.ReadOnlyModelViewSet):
             .annotate(plan_count=Count("council"))
             .values("plan_count")
         )
-        promised = Promise.objects.filter(council=OuterRef("pk"), has_promise=True)
-        queryset = Council.objects.annotate(
-            plan_count=Subquery(plans),
-            document_count=Subquery(documents),
-            carbon_reduction_commitment=Exists(promised),
-            carbon_neutral_date=Min("promise__target_year"),
-            declared_emergency=Min("emergencydeclaration__date_declared"),
-            plans_last_update=Max("plandocument__updated_at"),
-        ).order_by("name")
+        promised = Promise.objects.current().filter(
+            council=OuterRef("pk"), has_promise=True
+        )
+        queryset = (
+            Council.objects.with_carbon_neutral_years()
+            .annotate(
+                plan_count=Subquery(plans),
+                document_count=Subquery(documents),
+                carbon_reduction_commitment=Exists(promised),
+                carbon_neutral_date=F("carbon_neutral_year"),
+                declared_emergency=Min("emergencydeclaration__date_declared"),
+                plans_last_update=Max("plandocument__updated_at"),
+            )
+            .order_by("name")
+        )
 
         country = self.request.query_params.get("country")
         authority_type = self.request.query_params.get("authority_type")
@@ -143,23 +149,28 @@ class CommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Information about the climate commitments made by councils.
 
-    Includes both carbon reduction commitments and net zero ones. If the commitment
-    is for net zero then has_promise will be `true` otherwise `false'
+    Includes both carbon reduction commitments and net zero ones.
 
     * council - link to the council making the promise
-    * has_promise - if the promise includes a commitment to net zero
+    * has_promise - `false` if we checked the council and found no promise
+    * type - "Promise", or "Withdrawal" for a decision that withdrew a promise
+    * status - "Latest", "Superseded" (replaced by a later promise) or "Withdrawn"
     * target_year - the year the commitment is targeting
-    * scope - if the commitment is limited to council operations or the whole council area
+    * target_text - any other description of the target, eg "as soon as possible"
+    * domain - if the commitment is limited to council operations or the whole council area
+    * scope - which emissions scopes the commitment covers, if specified
     * text - the text of the commitment
     * source - URL of the document the commitment comes from
     * source_name - name of the document the commitment comes from
+    * source_date - date of the document the commitment comes from, as YYYY, YYYY-MM or YYYY-MM-DD where known
+    * last_checked - when we last checked the council's commitments, as YYYY-MM
+
+    Includes superseded and withdrawn commitments, and withdrawals, so use
+    `type` and `status` to find a council's latest commitments.
     """
 
-    queryset = (
-        Promise.objects.order_by("council__name", "target_year")
-        .select_related("council")
-        .order_by("target_year")
-        .all()
+    queryset = Promise.objects.select_related("council").in_display_order(
+        "council__name", "council_id"
     )
     serializer_class = PromiseSerializer
     pagination_class = BiggerPageSize
@@ -169,19 +180,27 @@ class CouncilCommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Information about a council's climate commitments.
 
-    Includes both carbon reduction commitments and net zero ones. If the commitment
-    is for net zero then has_promise will be `true` otherwise `false'
+    Includes both carbon reduction commitments and net zero ones.
 
     * council - link to the council making the promise
-    * has_promise - if the promise includes a commitment to net zero
+    * has_promise - `false` if we checked the council and found no promise
+    * type - "Promise", or "Withdrawal" for a decision that withdrew a promise
+    * status - "Latest", "Superseded" (replaced by a later promise) or "Withdrawn"
     * target_year - the year the commitment is targeting
-    * scope - if the commitment is limited to council operations or the whole council area
+    * target_text - any other description of the target, eg "as soon as possible"
+    * domain - if the commitment is limited to council operations or the whole council area
+    * scope - which emissions scopes the commitment covers, if specified
     * text - the text of the commitment
     * source - URL of the document the commitment comes from
     * source_name - name of the document the commitment comes from
+    * source_date - date of the document the commitment comes from, as YYYY, YYYY-MM or YYYY-MM-DD where known
+    * last_checked - when we last checked the council's commitments, as YYYY-MM
+
+    Includes superseded and withdrawn commitments, and withdrawals, so use
+    `type` and `status` to find a council's latest commitments.
     """
 
-    queryset = Promise.objects.order_by("target_year").all()
+    queryset = Promise.objects.all()
     serializer_class = PromiseSerializer
     pagination_class = None
 
@@ -191,8 +210,7 @@ class CouncilCommitmentsViewSet(viewsets.ReadOnlyModelViewSet):
                 council__authority_code=self.kwargs["authority_code"]
             )
             .select_related("council")
-            .order_by("target_year")
-            .all()
+            .in_display_order()
         )
 
 

@@ -31,10 +31,12 @@
 
     .col-lg {
         min-width: 20%;
+        align-self: flex-end;
     }
 
     label {
         font-size: $font-size-sm;
+        text-wrap: balance;
     }
 }
 

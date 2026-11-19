@@ -199,11 +199,7 @@
                   {% endif %}
                   {% for promise in council.net_zero_targets %}
                     <h3 class="h6 mt-4">
-                      {% if promise.get_scope %}
-                        {{ promise.get_scope|capfirst }} pledge
-                      {% else %}
-                        Climate pledge
-                      {% endif %}
+                      {{ promise.label }}
                       {% if promise.target_year %}
                         for {{ promise.target_year }}
                       {% endif %}
@@ -234,11 +230,7 @@
                   {% endif %}
                   {% for promise in twin.net_zero_targets %}
                     <h3 class="h6 mt-4">
-                      {% if promise.get_scope %}
-                        {{ promise.get_scope|capfirst }} pledge
-                      {% else %}
-                        Climate pledge
-                      {% endif %}
+                      {{ promise.label }}
                       {% if promise.target_year %}
                         for {{ promise.target_year }}
                       {% endif %}
@@ -366,18 +358,18 @@
                       {% endfor %}
                     </tr>
                     <tr>
-                        <td>Net Zero target (whole area)</td>
+                        <td>Fully carbon neutral by (whole area)</td>
                         <td>
-                          {% if council.net_zero_target_whole_area %}
-                            {{ council.net_zero_target_whole_area.target_year }}
+                          {% if council.carbon_neutral_year_area %}
+                            {{ council.carbon_neutral_year_area }}
                           {% else %}
                             <span class="text-muted">–</span>
                           {% endif %}
                         </td>
                       {% for relative in group.councils|slice:":5" %}
                         <td>
-                          {% if relative.net_zero_target_whole_area %}
-                            {{ relative.net_zero_target_whole_area.target_year }}
+                          {% if relative.carbon_neutral_year_area %}
+                            {{ relative.carbon_neutral_year_area }}
                           {% else %}
                             <span class="text-muted">–</span>
                           {% endif %}
@@ -385,18 +377,18 @@
                       {% endfor %}
                     </tr>
                     <tr>
-                        <td>Net Zero target (council operations)</td>
+                        <td>Fully carbon neutral by (council operations)</td>
                         <td>
-                          {% if council.net_zero_target_council_operations %}
-                            {{ council.net_zero_target_council_operations.target_year }}
+                          {% if council.carbon_neutral_year_council %}
+                            {{ council.carbon_neutral_year_council }}
                           {% else %}
                             <span class="text-muted">–</span>
                           {% endif %}
                         </td>
                       {% for relative in group.councils|slice:":5" %}
                         <td>
-                          {% if relative.net_zero_target_council_operations %}
-                            {{ relative.net_zero_target_council_operations.target_year }}
+                          {% if relative.carbon_neutral_year_council %}
+                            {{ relative.carbon_neutral_year_council }}
                           {% else %}
                             <span class="text-muted">–</span>
                           {% endif %}
