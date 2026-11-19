@@ -39,6 +39,30 @@ def choice_code(choices, label: str) -> Optional[int]:
     return labels_to_codes.get(label.strip().lower())
 
 
+def review_outcome_2026_code(outcome: str) -> Optional[int]:
+    """
+    Return the Promise.review_outcome_2026 code for one of CE UK's "ceuk review
+    outcome" labels, or None
+    """
+    outcome = outcome.strip().lower()
+    if "stronger" in outcome:
+        return Promise.REVIEW_2026_STRONGER
+    if "weaker" in outcome:
+        return Promise.REVIEW_2026_WEAKER
+    # "New target", "New authority - new target"
+    if "new target" in outcome:
+        return Promise.REVIEW_2026_NEW
+    if outcome == "withdrawn":
+        return Promise.REVIEW_2026_WITHDRAWN
+    # "Target missed - no further target set", "Target met; Target missed..."
+    if "missed" in outcome:
+        return Promise.REVIEW_2026_MISSED
+    # "Target still current", "Wrong initially - target still current"
+    if "still current" in outcome:
+        return Promise.REVIEW_2026_UNCHANGED
+    return None
+
+
 def parse_year(value: str) -> Optional[int]:
     # years can come back from pandas as eg "2030.0"
     match = re.fullmatch(r"(\d{4})(\.0+)?", value.strip())
@@ -132,6 +156,14 @@ def import_promises() -> tuple[Counter, list[str]]:
         if not row["source url"]:
             warnings.append(f"Row {row_number} ({row['council']}): no source url")
 
+        review_outcome_2026 = row.get("ceuk review outcome", "")
+        review_outcome_value = review_outcome_2026_code(review_outcome_2026)
+        if review_outcome_2026 and review_outcome_value is None:
+            warnings.append(
+                f"Row {row_number} ({row['council']}): ignored unrecognised "
+                f"ceuk review outcome '{review_outcome_2026}'"
+            )
+
         Promise.objects.create(
             council=council,
             has_promise=True,
@@ -146,6 +178,7 @@ def import_promises() -> tuple[Counter, list[str]]:
             source_name=row["source name"],
             source_date=row["source date"],
             last_checked=row["last checked"],
+            review_outcome_2026=review_outcome_value,
             notes=row["notes"],
         )
         counts[f"{row['type'].lower()} ({row['status'].lower()})"] += 1

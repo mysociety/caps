@@ -297,6 +297,22 @@ class ImportPromisesTestCase(ImportTestCase):
         with self.settings(PROMISES_CSV="caps/tests/test_promises.csv"):
             return import_promises()
 
+    def test_import_review_outcomes(self):
+        self.import_promises()
+        self.assertEqual(
+            dict(
+                Promise.objects.exclude(review_outcome_2026=None).values_list(
+                    "text", "review_outcome_2026"
+                )
+            ),
+            {
+                "carbon neutral by 2035!": Promise.REVIEW_2026_STRONGER,
+                "the whole of Borsetshire will be net zero by 2050": (
+                    Promise.REVIEW_2026_WITHDRAWN
+                ),
+            },
+        )
+
     def test_import_promises(self):
         self.import_promises()
         council = Council.objects.get(authority_code="BORS")
@@ -365,6 +381,8 @@ class ImportPromisesTestCase(ImportTestCase):
         self.assertEqual(
             warnings,
             [
+                "Row 6 (Borsetshire): ignored unrecognised ceuk review outcome "
+                "'Better, probably'",
                 "Row 7 (Borsetshire): unrecognised status 'Met'",
                 "Row 8 (Borsetshire): has a blank domain, but the council also "
                 "has promises",

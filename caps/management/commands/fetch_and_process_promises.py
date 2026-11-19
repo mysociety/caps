@@ -11,7 +11,6 @@ from caps.import_utils import (
 # columns that are only for CE UK, or left over from the one-off conversion
 # to one promise per row, so we don't import or publish them
 UNUSED_COLUMNS = [
-    "ceuk review outcome",
     "ceuk checked",
     "conversion source rows",
     "conversion flags",

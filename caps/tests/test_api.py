@@ -431,6 +431,7 @@ class PromisesAPITest(APITestCase):
                 "source_name": "Borsetshire Climate Plan",
                 "source_date": "",
                 "last_checked": "",
+                "review_outcome_2026": None,
             },
         )
 

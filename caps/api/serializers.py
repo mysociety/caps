@@ -57,6 +57,9 @@ class PromiseSerializer(serializers.HyperlinkedModelSerializer):
     status = serializers.CharField(source="get_status_display")
     domain = serializers.CharField(source="get_domain_display")
     scope = serializers.CharField(source="get_scope_display")
+    review_outcome_2026 = serializers.CharField(
+        source="get_review_outcome_2026_display"
+    )
 
     class Meta:
         model = Promise
@@ -74,6 +77,7 @@ class PromiseSerializer(serializers.HyperlinkedModelSerializer):
             "source_name",
             "source_date",
             "last_checked",
+            "review_outcome_2026",
         ]
 
     def get_council(self, obj):

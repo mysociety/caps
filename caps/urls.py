@@ -36,6 +36,7 @@ urlpatterns = [
         name="council_projects",
     ),
     path("location/", views.LocationResultsView.as_view(), name="location_results"),
+    path("targets/", views.TargetsView.as_view(), name="targets"),
     path("twins/", views.TwinsView.as_view(), name="twins"),
     path("twins/<slug:slug>/", views.TwinsView.as_view(), name="twins"),
     path("about/", views.AboutView.as_view(), name="about"),

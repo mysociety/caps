@@ -1273,6 +1273,27 @@ class Promise(models.Model):
         (SCOPE_3, "Scope 3"),
     ]
 
+    # TEMPORARY: how CE UK's 2026 review judged this promise, compared to the
+    # council's earlier ones, for the targets page. A snapshot of that one
+    # review, so it won't make sense after future updates (eg "new" just means
+    # new to CE UK's data in 2026). Remove once promises have real dates for
+    # when they were set. Set on the promise CE UK reviewed: the latest
+    # promise, or for REVIEW_2026_WITHDRAWN, the withdrawn one.
+    REVIEW_2026_STRONGER = 1
+    REVIEW_2026_WEAKER = 2
+    REVIEW_2026_NEW = 3
+    REVIEW_2026_WITHDRAWN = 4
+    REVIEW_2026_MISSED = 5
+    REVIEW_2026_UNCHANGED = 6
+    REVIEW_2026_OUTCOME_CHOICES = [
+        (REVIEW_2026_STRONGER, "Stronger"),
+        (REVIEW_2026_WEAKER, "Weaker"),
+        (REVIEW_2026_NEW, "New"),
+        (REVIEW_2026_WITHDRAWN, "Withdrawn"),
+        (REVIEW_2026_MISSED, "Missed"),
+        (REVIEW_2026_UNCHANGED, "Unchanged"),
+    ]
+
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     council = models.ForeignKey(Council, on_delete=models.CASCADE)
@@ -1294,6 +1315,9 @@ class Promise(models.Model):
     # free text dates, YYYY[-MM[-DD]] where possible
     source_date = models.CharField(max_length=20, blank=True)
     last_checked = models.CharField(max_length=20, blank=True)
+    review_outcome_2026 = models.PositiveSmallIntegerField(
+        choices=REVIEW_2026_OUTCOME_CHOICES, null=True, blank=True
+    )
     notes = models.TextField(blank=True, null=True)
     history = HistoricalRecords()
 
