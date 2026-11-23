@@ -1721,7 +1721,9 @@ class MethodologyView(
             current_section["questions"].append(deepcopy(q))
 
         if current_section is not None:
-            current_section["questions"] = sorted(current_section["questions"], key=natsort)
+            current_section["questions"] = sorted(
+                current_section["questions"], key=natsort
+            )
             sections.append(deepcopy(current_section))
         context["sections"] = sections
 
