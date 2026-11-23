@@ -407,7 +407,7 @@
         </div>
       {% endif %}
 
-    {% if previous_year or plan_year == 2027 or plan_year == 2025 %}
+        {% if previous_year or plan_year == 2027 or plan_year == 2025 %}
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
@@ -415,22 +415,26 @@
                 </div>
                 <div class="card-body">
                     {% comment %} TODO: They are hardcoded, but there might be a more elegant way of doing this: {% endcomment %}
-                    {% if previous_year %}
-                        {% include 'scoring/includes/comparison-year-select.html' with comparison_year=previous_year.year %}
-                        {% elif plan_year == 2027 %}
-                        {% include 'scoring/includes/comparison-year-select.html' with comparison_year=2025 %}
-                        {% else %}
-                        {% include 'scoring/includes/comparison-year-select.html' with comparison_year=2023 %}
+                    {% if council_type.slug == 'district' %}
+                        {% include 'scoring/includes/district-year-comparison-unavailable.html' %}
+                    {% else %}
+                        {% if previous_year %}
+                            {% include 'scoring/includes/comparison-year-select.html' with comparison_year=previous_year.year %}
+                            {% elif plan_year == 2027 %}
+                            {% include 'scoring/includes/comparison-year-select.html' with comparison_year=2025 %}
+                            {% else %}
+                            {% include 'scoring/includes/comparison-year-select.html' with comparison_year=2023 %}
+                        {% endif %}
+                        <div class="d-md-flex flex-row gap-3 mt-3">
+                            <h4 class="visually-hidden">Legends for difference column</h4>
+                            <div>
+                                <span class="badge bg-gray-300 text-dark">--</span> No change
+                            </div>
+                            <div>
+                                <span class="badge bg-gray-300 text-dark">NA</span> New question (not in previous scorecards)
+                            </div>
+                        </div>
                     {% endif %}
-                    <div class="d-md-flex flex-row gap-3 mt-3">
-                        <h4 class="visually-hidden">Legends for difference column</h4>
-                        <div>
-                            <span class="badge bg-gray-300 text-dark">--</span> No change
-                        </div>
-                        <div>
-                            <span class="badge bg-gray-300 text-dark">NA</span> New question (not in previous scorecards)
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -465,7 +469,7 @@
                     <span class="mb-1 d-block">Councils with full marks per question</span>
                 </th>
             </tr>
-            {% if previous_year %}
+            {% if previous_year and council_type.slug != 'district' %}
             <tr class="bg-primary-100 display-only-large-up fs-7 text-primary">
                 <th scope="col" class="py-2 border-start"></th>
 
@@ -504,7 +508,7 @@
                     <span class="me-2">{{ comparison.score|format_mark }}/{{ question.details.max_score }}</span>
                     <span class="badge bg-secondary d-md-none">{{ comparison.council_name }}</span>
                 </td>
-                {% if previous_year %}
+                {% if previous_year and council_type.slug != 'district' %}
                     <td data-column="score" class="js-previous-year-score display-only-large-up text-start flex-row score">
                         <span class="me-2">{{ comparison.previous_score|format_mark }}/{{ question.details.max_score }}</span>
                         <span class="badge bg-secondary d-md-none">{{ comparison.council_name }}</span>
@@ -542,11 +546,14 @@
                           </span>
                           {% comment %} TODO: replace these placeholders with the real change in % of councils with full marks versus each previous year {% endcomment %}
                           {% comment %} I would probably leave this one as a nice to have if it is too hard to do {% endcomment %}
-                          {% if plan_year == 2027 %}
-                          <span class="fs-8 text-success" data-comparison-year="2025">&#9650; 10 versus 2025</span>
-                          <span class="fs-8 text-warning" data-comparison-year="2023">&#9660; 4 versus 2023</span>
-                          {% elif plan_year == 2025 %}
-                          <span class="fs-8 text-success" data-comparison-year="2023">&#9650; 6 versus 2023</span>
+                          {% comment %} TODO Don't display differences with District councils {% endcomment %}
+                          {% if council_type.slug != 'district' %}
+                            {% if plan_year == 2027 %}
+                            <span class="fs-8 text-success" data-comparison-year="2025">&#9650; 10 versus 2025</span>
+                            <span class="fs-8 text-warning" data-comparison-year="2023">&#9660; 4 versus 2023</span>
+                            {% elif plan_year == 2025 %}
+                            <span class="fs-8 text-success" data-comparison-year="2023">&#9650; 6 versus 2023</span>
+                            {% endif %}
                           {% endif %}
                       </div>
                   {% endif %}

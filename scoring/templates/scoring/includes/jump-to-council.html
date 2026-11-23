@@ -3,7 +3,11 @@
         <label class="ms-lg-3 fs-7" for="location-jump">Find a council:</label>
         <input id="location-jump" class="form-control searchbar js-location-jump-autocomplete" type="search" placeholder="Council name" aria-label="Council name">
     </div>
-    {% if previous_year %}
+    {% if scoring_group.slug == 'district' or council_group == 'NMD' %}
+    <div class="d-flex align-items-center mt-3 mt-lg-0">
+        {% include 'scoring/includes/district-year-comparison-unavailable.html' %}
+    </div>
+    {% elif previous_year %}
     <div class="d-flex flex-row gap-3 align-items-center mt-3 mt-lg-0">
         {% include 'scoring/includes/comparison-year-select.html' with comparison_year=previous_year.year %}
 

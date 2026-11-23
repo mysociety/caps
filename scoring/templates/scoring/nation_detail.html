@@ -195,11 +195,15 @@
         </div>
 
         <div class="my-3 my-lg-5 mx-lg-auto position-relative">
-            <div class="bg-gray-200 px-3 py-2 border">
+            <div class="bg-gray-200 px-3 py-2 border js-jump-to-council">
                 {% include 'scoring/includes/jump-to-council.html' %}
             </div>
 
-            {% include 'scoring/includes/council_table.html' %}
+            {% if scoring_group.slug == 'district' or council_group == 'NMD' %}
+                {% include 'scoring/includes/council_table.html' with previous_year=None %}
+            {% else %}
+                {% include 'scoring/includes/council_table.html' %}
+            {% endif %}
 
             <p class="mt-4 mt-lg-5 mb-0">
                 <a href="https://climateemergency.uk/action-scorecards/#data-packages" class="cta mx-auto">Click here</a> to buy the data that is available on this website in spreadsheet (.csv) format.

@@ -433,11 +433,12 @@ forEachElement('[data-methodology-switch-council-type]', function(trigger){
 });
 
 // Previous year comparison dropdown on home page
-var comparisonYearSelect = document.getElementById('js-comparison-year-select');
-if (comparisonYearSelect) {
-    comparisonYearSelect.addEventListener('change', showOrHideYearDifference);
-    showOrHideYearDifference();
-}
+document.addEventListener('change', function(e) {
+    if (e.target.id === 'js-comparison-year-select') {
+        showOrHideYearDifference();
+    }
+});
+showOrHideYearDifference();
 
 function showOrHideYearDifference() {
     var comparisonYearSelect = document.getElementById('js-comparison-year-select');
@@ -486,7 +487,8 @@ setUpMobileCategorySelect();
 function ajaxLoadPageFragments(url) {
     const selectors = [
       '#main-filter',
-      '.scorecard-table',
+      '.scorecard-table-wrapper',
+      '.js-jump-to-council',
       '.js-category-select-form',
       '.question-performance',
       '.js-nation-charts'
