@@ -71,9 +71,10 @@
                                     <td>{{ averages.single.weighted_average|floatformat:0 }}%</td>
                                 </tr>
                                 <tr>
+                                    {% comment %} TODO we either could remove District or leave 0 for previous year, this would still allow people to compare this type of council with other type of councils {% endcomment %}
                                     <th scope="row">District</th>
-                                    <td>{{ averages.district.weighted_average|add:"-8" }}%</td>
-                                    <td>{{ averages.district.weighted_average|add:"-3" }}%</td>
+                                    <td>0</td>
+                                    <td>0</td>
                                     <td>{{ averages.district.weighted_average|floatformat:0 }}%</td>
                                 </tr>
                                 <tr>
@@ -91,6 +92,9 @@
                             </tbody>
                         </table>
                       {% endif %}
+                    </div>
+                    <div class="card-footer">
+                        {% include 'scoring/includes/district-year-comparison-unavailable.html' %}
                     </div>
                 </div>
             </div>
