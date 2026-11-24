@@ -3,9 +3,24 @@
 
 {% block content %}
 <div class="pt-5 pb-6 pt-lg-8 pb-lg-8 hero-section with-version-background">
-    {% include 'scoring/includes/scorecards_year.html' %}
+
     <div class="container">
-        <p class="fs-4">Question · Action Scorecards {{ plan_year }}</p>
+        <div class="mb-4">
+            <a href="{% url 'scoring:home' %}">
+                Home
+            </a>
+            {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+            <a href="{% url 'scoring:sections' %}">Sections</a>
+            {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+            {% if current_plan_year %}
+            <a href="{% url 'scoring:section' question.section.code %}">{{ question.section.description }}</a>
+            {% else %}
+            <a href="{% url 'year_scoring:section' plan_year question.section.code %}">{{ question.section.description }}</a>
+            {% endif %}
+            {% include 'caps/icons/chevron-right.html' with classes='me-1' width='0.75rem' height='0.75rem' %}
+            <span>Question {{ question.pretty_code }}</span>
+        </div>
+        <p class="fs-4">Action Scorecards {{ plan_year }}</p>
         <h1 class="mb-2 w-lg-75 h2">{{ question.text }}</h1>
         <dl class="row mt-4 mb-0" style="max-width: 30em">
             <dt class="col-sm-4">Question code</dt>

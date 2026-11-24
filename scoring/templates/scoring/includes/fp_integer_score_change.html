@@ -10,8 +10,11 @@
   {% if section %}
     data-section="{{ section }}"
   {% endif %}
+  {% if year %}
+    data-comparison-year="{{ year }}"
+  {% endif %}
   {% if sortsection %}
-    data-sort-section="{{ sortsection }}_vs"
+    data-sort-section="{{ sortsection }}_vs{% if year %}_{{ year }}{% endif %}"
   {% endif %}
   {% if change < 0 or change == 0 or change > 0 %}
     data-sort-value="{{ change|floatformat:"0" }}"

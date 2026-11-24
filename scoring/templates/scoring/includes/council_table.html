@@ -52,12 +52,21 @@
                                     {{ plan_year }}
                                 </button>
                             </th>
-                            <th scope="col" class="scorecard-table__year-difference-column h-auto pb-2 pt-0 text-nowrap" data-section="overall">
-                                <button class="js-sort-table sort-button" data-sort-section="overall_vs" title="Sort highest first">
+                            <th scope="col" class="scorecard-table__year-difference-column h-auto pb-2 pt-0 text-nowrap" data-section="overall" data-comparison-year="{{ previous_year.year }}">
+                                <button class="js-sort-table sort-button" data-sort-section="overall_vs_{{ previous_year.year }}" title="Sort highest first">
                                     {% include 'caps/icons/chevron-down.html' %}
                                     versus {{ previous_year.year }}
                                 </button>
                             </th>
+                            <!--TODO: This are hardcoded numbers, but we want to display previous year's data when available. Probably a loop that checks all the previous years -->
+                            {% if plan_year == 2027 %}
+                              <th scope="col" class="scorecard-table__year-difference-column h-auto pb-2 pt-0 text-nowrap" data-section="overall" data-comparison-year="2023">
+                                  <button class="js-sort-table sort-button" data-sort-section="overall_vs_2023" title="Sort highest first">
+                                      {% include 'caps/icons/chevron-down.html' %}
+                                      versus 2023
+                                  </button>
+                              </th>
+                            {% endif %}
                           {% for x in section_averages %}
                             <th scope="col" class="scorecard-table__score-column h-auto pb-2 pt-0" data-section="{{ x.code }}">
                                 <button class="js-sort-table sort-button is--category-{{ forloop.counter }} {% if sorted_by == x.code %} is-sorted-descending{% endif %}" data-sort-section="{{ x.code }}" title="Sort highest first">
@@ -65,12 +74,21 @@
                                     {{ plan_year }}
                                 </button>
                             </th>
-                            <th scope="col" class="scorecard-table__year-difference-column h-auto pb-2 pt-0 text-nowrap" data-section="{{ x.code }}">
-                                <button class="js-sort-table sort-button is--category-{{ forloop.counter }}" data-sort-section="{{ x.code }}_vs" title="Sort highest first">
+                            <th scope="col" class="scorecard-table__year-difference-column h-auto pb-2 pt-0 text-nowrap" data-section="{{ x.code }}" data-comparison-year="{{ previous_year.year }}">
+                                <button class="js-sort-table sort-button is--category-{{ forloop.counter }}" data-sort-section="{{ x.code }}_vs_{{ previous_year.year }}" title="Sort highest first">
                                     {% include 'caps/icons/chevron-down.html' %}
                                     versus {{ previous_year.year }}
                                 </button>
                             </th>
+                            <!--TODO: This are hardcoded numbers, but we want to display previous year's data when available. Probably a loop that checks all the previous years -->
+                            {% if plan_year == 2027 %}
+                              <th scope="col" class="scorecard-table__year-difference-column h-auto pb-2 pt-0 text-nowrap" data-section="{{ x.code }}" data-comparison-year="2023">
+                                  <button class="js-sort-table sort-button is--category-{{ forloop.counter }}" data-sort-section="{{ x.code }}_vs_2023" title="Sort highest first">
+                                      {% include 'caps/icons/chevron-down.html' %}
+                                      versus 2023
+                                  </button>
+                              </th>
+                            {% endif %}
                           {% endfor %}
                         </tr>
                       {% endif %}
@@ -83,7 +101,12 @@
                                 {% include 'scoring/includes/score-bar.html' with percentage=averages.total.percentage average=1 %}
                             </th>
                           {% if previous_year %}
-                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.total.change section="overall" %}
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=averages.total.change section="overall" year=previous_year.year %}
+                          {% endif %}
+
+                          <!--TODO: This are hardcoded numbers, but we want to display previous year's data when available. Probably a loop that checks all the previous years -->
+                          {% if plan_year == 2027 %}
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=4 section="overall" year=2023 %}
                           {% endif %}
 
                           {% for section in section_averages %}
@@ -91,7 +114,11 @@
                                 {% include 'scoring/includes/score-bar.html' with percentage=section.weighted average=1 %}
                             </th>
                           {% if previous_year %}
-                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=section.change section=section.code %}
+                            {% include 'scoring/includes/fp_header_integer_score_change.html' with change=section.change section=section.code year=previous_year.year %}
+                            <!--TODO: This are hardcoded numbers, but we want to display previous year's data when available -->
+                            {% if plan_year == 2027 %}
+                              {% include 'scoring/includes/fp_header_integer_score_change.html' with change=3 section=section.code year=2023 %}
+                            {% endif %}
                           {% endif %}
                           {% endfor %}
                         </tr>
@@ -115,7 +142,11 @@
                                 {% include 'scoring/includes/score-bar.html' with percentage=council.percentage %}
                             </td>
                           {% if previous_year %}
-                            {% include 'scoring/includes/fp_integer_score_change.html' with change=council.change sortsection="overall" section="overall" %}
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=council.change sortsection="overall" section="overall" year=previous_year.year %}
+                            <!--TODO: This are hardcoded numbers, but we want to display previous year's data when available. Probably a loop that checks all the previous years -->
+                            {% if plan_year == 2027 %}
+                              {% include 'scoring/includes/fp_integer_score_change.html' with change=6 sortsection="overall" section="overall" year=2023 %}
+                            {% endif %}
                           {% endif %}
 
                           {% for score in council.all_scores %}
@@ -123,7 +154,11 @@
                                 {% include 'scoring/includes/score-bar.html' with percentage=score.weighted %}
                             </td>
                           {% if previous_year %}
-                            {% include 'scoring/includes/fp_integer_score_change.html' with change=score.change section=score.code sortsection=score.code %}
+                            {% include 'scoring/includes/fp_integer_score_change.html' with change=score.change section=score.code sortsection=score.code year=previous_year.year %}
+                            <!--TODO: This are hardcoded numbers, but we want to display previous year's data when available. Probably a loop that checks all the previous years -->
+                            {% if plan_year == 2027 %}
+                              {% include 'scoring/includes/fp_integer_score_change.html' with change=5 section=score.code sortsection=score.code year=2023 %}
+                            {% endif %}
                           {% endif %}
                           {% endfor %}
 
