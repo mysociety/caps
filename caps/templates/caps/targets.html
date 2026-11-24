@@ -25,25 +25,37 @@
 <div class="row">
     <div class="col-md-4 pr-md-4 pr-lg-6">
 
-        <div class="card ceuk-card mb-gutter position-sticky" style="top: 1rem;">
-            <div class="card-header">
-                <h2>2026 review results</h2>
+        <div class="position-sticky mb-gutter" style="top: 1rem;">
+
+            <div class="card ceuk-card">
+                <div class="card-header">
+                    <h2>2026 review results</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled my-n2">
+                      {% for category in categories %}
+                        <li class="{% if not forloop.first %}border-top{% endif %}">
+                            <a href="#{{ category.slug }}" class="d-flex align-items-center py-2">
+                                <span class="h3 mb-0 mr-3 text-right" style="min-width: 2em;">{{ category.entries|length }}</span>
+                                {{ category.title }}
+                            </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <p class="text-muted text-small my-0" style="font-size: 0.8em;">Councils may appear in multiple categories. This is because they may have weakened or strengthened an original target they set, while setting a new target.</p>
+                </div>
             </div>
-            <div class="card-body">
-                <ul class="list-unstyled my-n2">
-                  {% for category in categories %}
-                    <li class="{% if not forloop.first %}border-top{% endif %}">
-                        <a href="#{{ category.slug }}" class="d-flex align-items-center py-2">
-                            <span class="h3 mb-0 mr-3 text-right" style="min-width: 2em;">{{ category.entries|length }}</span>
-                            {{ category.title }}
-                        </a>
-                    </li>
-                  {% endfor %}
-                </ul>
+
+            <div class="card ceuk-card ceuk-card--green mt-gutter">
+                <div class="card-body">
+                    <h2 class="h5" style="text-wrap: balance;">Climate action is becoming a postcode lottery.</h2>
+                    <p>Sign Climate Emergency UK’s new petition calling for <strong>a fully-funded legal duty</strong> for councils to take climate action.</p>
+                    <a class="btn btn-green" href="https://actionnetwork.org/petitions/make-climate-action-a-legal-and-funded-action-for-local-government">Sign the petition</a>
+                </div>
             </div>
-            <div class="card-footer">
-                <p class="text-muted text-small my-0" style="font-size: 0.8em;">Councils may appear in multiple categories. This is because they may have weakened or strengthened an original target they set, while setting a new target.</p>
-            </div>
+
         </div>
 
     </div>
