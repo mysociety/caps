@@ -432,6 +432,20 @@ forEachElement('[data-methodology-switch-council-type]', function(trigger){
     });
 });
 
+// Trigger council type filter from URL parameter
+// Example: /sections/?type=combined would make the filter above to select "Combined Authorities"
+(function(){
+    var urlParams = new URLSearchParams(window.location.search);
+    var typeParam = urlParams.get('type');
+
+    if (typeParam) {
+        var trigger = document.querySelector('[data-methodology-switch-council-type="' + typeParam + '"]');
+        if (trigger) {
+            trigger.click();
+        }
+    }
+})();
+
 // Previous year comparison toggle on council page
 forEachElement('#js-toggle-previous-year-score', function(el) {
     el.addEventListener('change', function() {
